@@ -77,6 +77,9 @@ nav .link{
 
 .menu li a:hover::after{width: 100%;}
 
+
+/* Side menu bar */
+
 @media(max-width: 640px){
 
     .menu{
@@ -98,6 +101,10 @@ nav .link{
 @media only screen and (max-width: 1025px) {
     .coffee-bean {
        display: none;
+     }
+
+     .splash {
+      display: none;
      }
    }
 
@@ -207,7 +214,5 @@ nav .link{
   }
   
 
-
-
-
+  /* Review Cards */
 
