@@ -29,7 +29,26 @@
           </span>
         
         <div class="flex items-center">
-            <button class="burger lg:hidden mr-3"id="burger-btn"><img src="/public/image/menu.png" alt=""></button>
+            <!-- drawer Burger and show -->
+            <button class="burger lg:hidden mr-3" id="burger-btn" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" type="button"><img src="/public/image/menu.png" alt=""></button>
+
+                <!-- Dropdown menu -->
+                <div id="dropdownHover" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="burger-btn">
+                      <li>
+                        <a href="/public/index.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Home</a>
+                      </li>
+                      <li>
+                        <a href="#Menu" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Menu</a>
+                      </li>
+                      <li>
+                        <a href="#about" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">About Us</a>
+                      </li>
+                      <li>
+                        <a href="#footer" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Contact Us</a>
+                      </li>
+                    </ul>
+                </div>
             <a href="/public/index.html">
                 <button class="btn mr-3 w-48 h-14 bg-footer text-gray-100 text-lg font-medium tracking-widest">Order Now!</button>
             </a>
@@ -79,7 +98,7 @@
         <!-- or sign in with -->
         <div class="flex items-center mb-4">
             <hr class="w-full border-t border-gray-300">
-            <span class="px-10 text-gray-400 w-full text-center">or sign in with</span>
+            <span class="px-10 text-gray-400 w-full">or sign in with</span>
             <hr class="w-full border-t border-gray-300">
         </div>  
 
@@ -177,6 +196,7 @@
             }
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
 </body>
 </html>
 

@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css" rel="stylesheet" />
     
     <title>JoeExpress Milktea</title>
 </head>
@@ -26,7 +27,28 @@
         </span>
         
         <div class="flex items-center">
-            <button class="burger lg:hidden mr-3"id="burger-btn"><img src="image/menu.png" alt=""></button>
+            <!-- drawer Burger and show -->
+            <button class="burger lg:hidden mr-3" id="burger-btn" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" type="button"><img src="image/menu.png" alt=""></button>
+
+                <!-- Dropdown menu -->
+                <div id="dropdownHover" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="burger-btn">
+                      <li>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Home</a>
+                      </li>
+                      <li>
+                        <a href="#Menu" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Menu</a>
+                      </li>
+                      <li>
+                        <a href="#about" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">About Us</a>
+                      </li>
+                      <li>
+                        <a href="#footer" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Contact Us</a>
+                      </li>
+                    </ul>
+                </div>
+                
+            
             <a href="html/login.html">
                 <button class="btn mr-3 w-48 h-14 bg-slate-900 text-gray-100 text-base tracking-widest lg:bg-green-600 md:bg-yellow-500 sm:bg-blue-600">Login/Sign Up</button>
             </a>
@@ -304,6 +326,8 @@
           <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">Copyright © 2024. Capstone Inc.</span>
         </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
 </body>
 
 <script>

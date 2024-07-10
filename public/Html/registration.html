@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,7 +28,26 @@
           </span>
         
         <div class="flex items-center">
-            <button class="burger lg:hidden mr-3"id="burger-btn"><img src="/public/image/menu.png" alt=""></button>
+            <!-- drawer Burger and show -->
+            <button class="burger lg:hidden mr-3" id="burger-btn" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" type="button"><img src="/public/image/menu.png" alt=""></button>
+
+                <!-- Dropdown menu -->
+                <div id="dropdownHover" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="burger-btn">
+                      <li>
+                        <a href="/public/index.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Home</a>
+                      </li>
+                      <li>
+                        <a href="#Menu" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Menu</a>
+                      </li>
+                      <li>
+                        <a href="#about" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">About Us</a>
+                      </li>
+                      <li>
+                        <a href="#footer" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Contact Us</a>
+                      </li>
+                    </ul>
+                </div>
             <a href="/public/index.html">
                 <button class="btn mr-3 w-48 h-14 bg-footer text-gray-100 text-lg font-medium tracking-widest">Order Now!</button>
             </a>
@@ -77,9 +95,10 @@
             </label>
         </div>
 
-        <button class="bg-amber-950 hover:bg-amber-900 text-white font-bold py-2 px-4 rounded-lg w-full leading-10 mb-12"  type="submit">Sign In</button>
-        
+        <button class="bg-amber-950 hover:bg-amber-900 text-white font-bold py-2 px-4 rounded-lg w-full leading-10 mb-10"  type="submit">Register Account</button>
 
+        <p class="mb-10">I already have an account <span class="text-blue-500 cursor-pointer font-semibold"><a href="/public/Html/login.html">Log In now</a></span></p>
+        
         <!-- or sign in with -->
         <div class="flex items-center mb-4">
             <hr class="w-full border-t border-gray-300">
@@ -181,6 +200,8 @@
             }
         }
     </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
 </body>
 </html>
 
