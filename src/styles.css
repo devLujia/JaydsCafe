@@ -19,6 +19,7 @@ nav .link{
     align-items: center;
     display: flex;
 }
+
 .burger{margin-right: 20px;}
 
 .logo{ flex: 1;}
@@ -126,6 +127,7 @@ nav .link{
     rotate: 100deg;
     width: 150px;
     height: 150px;
+    animation: rotate-animation 10s infinite linear;
   }
   
   .coffee-bean:nth-child(2) {
@@ -144,11 +146,12 @@ nav .link{
   }
   
   .coffee-bean:nth-child(4) {
-    top: 150%;
-    left: 10%;
+    top: 200%;
+    left: 15%;
     rotate: 120deg;
     width: 120px;
     height: 120px;
+    animation: rotate-animation2 10s infinite linear;
   }
 
   .coffee-bean:nth-child(5) {
@@ -157,6 +160,7 @@ nav .link{
     rotate: -90deg;
     width: 120px;
     height: 120px;
+    animation: rotate-animation 10s infinite linear;
   }
   
   .coffee-bean:nth-child(6) {
@@ -174,14 +178,16 @@ nav .link{
     rotate: 200deg;
     width: 150px;
     height: 150px;
+    animation: rotate-animation2 10s infinite linear;
   } 
   
   .coffee-bean:nth-child(8) {
     top: 50%;
-    right: 6%;
+    right: 2%;
     rotate: 100deg;
     width: 120px;
     height: 120px;
+    animation: rotate-animation2 10s infinite linear;
   }
   
   .coffee-bean:nth-child(9) {
@@ -190,10 +196,11 @@ nav .link{
     rotate: 90deg;
     width: 150px;
     height: 150px;
+    animation: rotate-animation 10s infinite linear;
   }
   
   .coffee-bean:nth-child(10) {
-    top: 180%;
+    top: 100%;
     right: 20%;
     rotate: 45deg;
     width: 120px;
@@ -202,7 +209,7 @@ nav .link{
 
   .coffee-bean:nth-child(11) {
     top: 240%;
-    right: 10%;
+    right: 15%;
     rotate: 45deg;
     width: 100px;
     height: 100px;
@@ -216,6 +223,66 @@ nav .link{
     height: 120px;
   }
   
+  @keyframes rotate-animation {
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes rotate-animation2 {
+    0% {
+      transform: rotate(360deg);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
 
   /* Review Cards */
+  .gallery{
+    width: 90%;
+    display: flex;
+    overflow-x: scroll;
+  }
+
+  .gallery div{
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-gap: 25px;
+    padding: 20px;
+    flex: none;
+  }
+
+  .gallery div img{
+    width: 100%;
+  }
+
+  /* para mawala yung scrollbar */
+  .gallery::-webkit-scrollbar{
+    display: none;
+  }
+
+  .gallery-wrap{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10% auto;
+  }
+
+  #backBtn, #nextBtn{
+    cursor: pointer;
+    margin: 10px;
+  }
+
+
+
 
