@@ -7,7 +7,8 @@ module.exports = {
       colors:{
         exportColor: '#ECE8DD',
         cards: '#D9D9D9',
-        background: '#F5F2EB'
+        background: '#F5F2EB',
+        footer: '#333335',
       }
     },
   },

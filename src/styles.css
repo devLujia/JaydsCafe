@@ -80,7 +80,7 @@ nav .link{
 
 /* Side menu bar */
 
-@media(max-width: 640px){
+/* @media(max-width: 640px){
 
     .menu{
         flex-direction: column;
@@ -95,7 +95,10 @@ nav .link{
         background-color: beige;
         transition: all 0.2s ease-in-out;
     }
-}
+} */
+ @media (max-width: 1024px){
+    
+ }
 
 /* coffee Beans */
 @media only screen and (max-width: 1025px) {

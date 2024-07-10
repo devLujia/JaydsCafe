@@ -26,9 +26,18 @@ nav .link{
 }
 
 .nav_links{
-    display: flex;
-    align-items: center;
+    display: none;
 }
+
+/* ayaw sa tailwind amp! */
+/* this will make the ul hidden */  
+@media (min-width: 1024px){
+    .nav_links {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+   }
 
 .nav_links li{
     padding: 15px 10px;
@@ -89,6 +98,5 @@ nav .link{
         transition: all 0.2s ease-in-out;
     }
 }
-
 
 

@@ -1,247 +1,101 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/output.css">
+    <link rel="stylesheet" href="/public/login.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     
-    <title>JoeExpress Milktea</title>
+    <title>Registration</title>
 </head>
 
-<body>
+<body class="bg-background">
     <nav class="sticky top-0 bg-white z-20">
         <div class="font-extrabold text-3xl flex items-center">
-            <a href="#" class="flex items-center"><img src="image/LOGO.png" alt="logo" class="logo">JoeExpress</a>
+            <a href="#" class="flex items-center"><img src="/public/image/LOGO.png" alt="logo" class="logo">JoeExpress</a>
         </div>
         <span class="menu">
-            <ul class="nav_links md:hidden sm:hidden lg:flex lg:flex-row lg:justify-between">
-                <li class="link"><a href="#">Home</a></li>
-                <li class="link"><a id="menu-link" href="#">Menu</a></li>
-                <li class="link"><a href="#about">About Us</a></li>
-                <li class="link"><a href="#footer">Contact Us</a></li>
+            <ul class="nav_links md:hidden lg:flex lg:flex-row lg:justify-between">
+              <li class="link"><a href="/public/index.html">Home</a></li>
+              <li class="link"><a id="menu-link" href="#">Menu</a></li>
+              <li class="link"><a href="#about">About Us</a></li>
+              <li class="link"><a href="#footer">Contact Us</a></li>
             </ul>
-        </span>
+          </span>
         
         <div class="flex items-center">
-            <button class="burger lg:hidden mr-3"id="burger-btn"><img src="image/menu.png" alt=""></button>
-            <a href="html/login.html">
-                <button class="btn mr-3 w-48 h-14 bg-slate-900 text-gray-100 text-base tracking-widest lg:bg-green-600 md:bg-yellow-500 sm:bg-blue-600">Login/Sign Up</button>
+            <button class="burger lg:hidden mr-3"id="burger-btn"><img src="/public/image/menu.png" alt=""></button>
+            <a href="/public/index.html">
+                <button class="btn mr-3 w-48 h-14 bg-footer text-gray-100 text-lg font-medium tracking-widest">Order Now!</button>
             </a>
             <div class="flex space-x-2 mr-2">
-                <a href="#"><img src="image/UserAcc.png" alt="user" class="mr-3"></a>
-                <a href="#"><img src="image/bag.png" alt="bag"></a>
+                <a href="#"><img src="/public/image/UserAcc.png" alt="user" class="mr-3"></a>
+                <a href="#"><img src="/public/image/bag.png" alt="bag"></a>
             </div>
         </div>
     </nav>
-    
-    <!-- Land upper -->
-     <div class="pt-10 pb-52" id="Landing1">
 
-        <!-- Background Coffee -->
-        <div class="relative">
-            <!-- Left beans -->
-        <img src="image/coffe_bean.png" alt="Coffee Bean" class="coffee-bean"> <!--1-->
-        <img src="image/coffe_bean.png" alt="Coffee Bean" class="coffee-bean"> <!--2-->
-        <img src="image/coffe_bean.png" alt="Coffee Bean" class="coffee-bean"> <!--3-->
-        <img src="image/coffe_bean.png" alt="Coffee Bean" class="coffee-bean"> <!--4-->
-        <img src="image/coffe_bean.png" alt="Coffee Bean" class="coffee-bean"> <!--5-->
-        <img src="image/coffe_bean.png" alt="Coffee Bean" class="coffee-bean"> <!--6-->
+    <!-- Form container -->
+    <div class="max-w-md mx-auto p-4 mt-2 mb-4 bg-white rounded-xl shadow-md md:max-w-lg md:p-6 md:pt-4 md:mb-6 lg:max-w-xl lg:p-8 lg:pt-6 lg:mb-8">
 
-            <!-- Right beans -->
+
+        <h2 class="text-3xl font-extrabold mb-6 text-black tracking-wider">Register</h2>
+  
+        <!-- Form fields -->
+        <form>
+        <div class="mb-4"> <!-- Phone Input-->
+            <label for="Phone" class="text-gray-600 text-lg font-bold tracking-wider">Phone Number</label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" id="Phone" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="0912-345-6789">
+        </div>
+        <div class="mb-4"> <!-- Fullname Input-->
+            <label for="name" class="text-gray-600 text-lg font-bold tracking-wider">Fullname</label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Ex. Juan Dela Cruz">
+        </div>
+        <div class="mb-4"> <!-- Email Input-->
+            <label for="email" class="text-gray-600 text-lg font-bold tracking-wider">Email</label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Ex. JuanDelaCruz@gmail.com">
+        </div>
+
+        <div class="bg-white w-full max-w-full rounded-md mx-auto flex items-center"> <!-- password Input-->
+            <div class="relative w-full">
+            <label for="password" class="text-gray-600 text-lg font-bold tracking-wider">Create Password</label>
+            <input type="password" placeholder="Password" class="w-full outline-0 text-gray-600 shadow appearance-none border rounded py-2 px-3 mb-10 leading-10 focus:outline-none focus:shadow-outline" id="password">
+
+            <img src="/public/image/hidden.png" alt="Eye" class="absolute right-3 top-10 w-8 cursor-pointer" id="hide"> 
+            </div>
+        </div>
+
+        <div class="mb-6"> <!-- Checkbox Input-->
+            <label for="TAC" class="flex items-center text-gray-500 text-md font-bold tracking-wider">
+                <input type="checkbox" id="TAC" class="w-5 h-5 mr-5">
+                I Agree To Terms & conditions
+            </label>
+        </div>
+
+        <button class="bg-amber-950 hover:bg-amber-900 text-white font-bold py-2 px-4 rounded-lg w-full leading-10 mb-12"  type="submit">Sign In</button>
         
-        <img src="image/coffe_bean.png" alt="Coffee Bean" class="coffee-bean"> <!--7-->
-        <img src="image/coffe_bean.png" alt="Coffee Bean" class="coffee-bean"> <!--8-->
-        <img src="image/coffe_bean.png" alt="Coffee Bean" class="coffee-bean"> <!--9-->
-        <img src="image/coffe_bean.png" alt="Coffee Bean" class="coffee-bean"> <!--10-->
-        <img src="image/coffe_bean.png" alt="Coffee Bean" class="coffee-bean"> <!--11-->
-        <img src="image/coffe_bean.png" alt="Coffee Bean" class="coffee-bean"> <!--12-->
 
-            <div class="beans object-center">
-                <img src="image/bg_bean.png" alt="bean" class="w-60 h-56 block">
-                <img src="image/bg_bean2.png" alt="bean" class="w-60 h-56 block">
-            </div>
+        <!-- or sign in with -->
+        <div class="flex items-center mb-4">
+            <hr class="w-full border-t border-gray-300">
+            <span class="px-10 text-gray-400 text-center">or</span>
+            <hr class="w-full border-t border-gray-300">
+          </div>
 
-            <div class=" pt-11 absolute bottom-0 m-auto top-0 left-0 right-0">
-                <p class="text-center font-semibold text-2xl">WELCOME TO <br>
-                <span class="text-yellow-950 font-bold text-8xl">POURING JOE</span> <br>
-                <span class="font-light text-xl">Embrace The Harmony Of Milk Tea And Pure Bliss.</span></p>
-            </div>
-        </div>
-
-        <div class="flex flex-row w-full top-[700px] lg:absolute md:mt-10 mb-10">
-            
-            <!-- Info in Left part -->
-            <div class="pl-40">
-              <p class="text-2xl absolute left-0 pl-20">
-                <span class="font-semibold ">OPERATION HOURS</span><br>
-                MONDAY-SATURDAY <br>
-                2:00 PM - 9:00 PM
-              </p>
-            </div>
-
-            <!-- Info in right part -->
-            <div class="p-4">
-              <p class="text-2xl absolute right-0 pr-20">
-                <span class="font-semibold">LOCATED AT</span><br>
-                AURORA HOME SALINAS 1 <br>
-                BACOOR, CAVITE
-              </p>
-            </div>
-        </div>
-
-        <div class="relative w-full h-auto">
-            <div class=" object-center flex justify-center items-center pt-12 ">
-                <img src="image/milktea.png" alt="display1">
-            </div>
-            <div class="flex flex-col justify-center items-center top-[550px] absolute bottom-0 right-0 w-[100%]">        
-                <button type="button" class="text-yellow-950 bg-orange-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 tracking-wide font-bold rounded-full italic text-3xl px-5 py-2.5 me-2 mb-2 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 w-[258px] h-80 shadow-xl items-center z-10">Order Now!</button>
-            </div>
-        </div>
+        <a href="https://www.google.com/"><button class="flex items-center justify-center p-2 mt-10 w-full leading-10 border-2 border-gray-300 rounded-lg hover:bg-gray-200 font-semibold focus:outline-none focus:shadow-outline"><img src="/public/image/google.png" alt="Google Icon" class="w-16 px-5">Register with Google</button></a>
+        
+        </form>
     </div>
 
-    <!-- Best Sellers -->
-    <div id="Menu">
-        <h1 class="font-bold text-stone-800 text-7xl text-center pb-10">Best Sellers</h1>
-        <h2 class="font-bold text-orange-900 text-center text-3xl tracking-wider pb-10">Enjoy a new blend of Milk Tea and Coffee style!</h2>
-        <h3 class="text-center text-xl tracking-wider pb-10">Explore all flavours of coffee with us. There is always a new cup worth experiencing</h3>
-
-        <!-- Background Coffee -->
-        <div class="relative bg-cover">
-            <img src="image/bg_bean.png" alt="beans" class="absolute top-20 right-0 p-14 rotate--90 z-0">
-        </div>
-
-        <!-- Background Coffee -->
-        <div class="relative bg-cover">
-            <img src="image/bg_bean.png" alt="beans" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-14 z-0">
-        </div>
-
-        <!-- cards --> <!-- mga static pa tong cards -->
-        <div class="container mx-auto p-4">
-            <h1 class="text-3xl font-bold text-center mb-8">Our Coffee Menu</h1>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-cards rounded-3xl p-4 z-10">
-                    <img src="image/expresso.png" alt="Espresso" class="w-full h-48 object-cover rounded-md mb-4">
-                    <h2 class="text-4xl font-semibold text-center mb-2 text-yellow-950">Espresso</h2>
-                    <p class="text-black mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-gray-500">20ML</span>
-                        <span class="font-bold text-black">P50.00</span>
-                    </div>
-                </div>
-                
-                <div class="bg-cards rounded-3xl p-4 z-10">
-                    <img src="image/caramel.png" alt="Caramel Coffee" class="w-full h-48 object-cover rounded-md mb-4">
-                    <h2 class="text-xl font-bold mb-2">Caramel Coffee</h2>
-                    <p class="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-gray-500">35ml</span>
-                        <span class="font-bold">P59.00</span>
-                    </div>
-                </div>
-                <div class="bg-brown-500 shadow-md rounded-3xl p-4 text-white bg-gray-300 z-10">
-                    <img src="image/americano.png" alt="Americano" class="w-full h-48 object-cover rounded-md mb-4">
-                    <h2 class="text-xl font-bold mb-2">Americano</h2>
-                    <p class="text-black mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-gray-300">20ML</span>
-                        <span class="font-bold">P120.00</span>
-                    </div>
-                    <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-md mt-4">BUY NOW</button>
-                </div>
-                <div class="bg-cards shadow-md rounded-3xl p-4 z-10">
-                    <img src="image/fruit.png" alt="Fruit Fresh" class="w-full h-48 object-cover rounded-md mb-4">
-                    <h2 class="text-xl font-bold mb-2">Fruit Fresh</h2>
-                    <p class="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-gray-500">35ml</span>
-                        <span class="font-bold">P59.00</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Background Coffee -->
-        <div class="relative bg-cover">
-            <img src="image/bg_bean.png" alt="beans" class="absolute bottom-0 left-0 p-14 z-0">
-        </div>
-    </div>
-
-    <!-- Menu offering -->
-    <div class="bg-exportColor h-screen w-full mb-10 relative" id="offer"> 
-        <h2 class="text-4xl font-semibold text-center mb-20 pt-10 text-yellow-950">Menu Offering</h2>
-
-        <div class="splash">
-            <img src="image/splash.png" alt="splash" class="absolute top-0 right-0 rotate-180 z--0"> <!-- splash on top right -->
-            <img src="image/splash.png" alt="splash" class="absolute bottom-0 left-0 z-0"> <!-- splash on bottom left -->
-        </div>
-
-        <div class="flex flex-col justify-center items-center">
-
-            <div class="flex flex-row text-right pr-64"> <!-- milktea -->
-                <img src="image/milktea_offer.png" alt="Milktea" class="w-36 h-36">
-                <h1 class="font-extrabold text-left self-center">MILK TEA <br>
-                    <span class="font-normal">29 Pesos to 39 Pesos</span>
-                </h1>
-            </div>
-            <div class="flex flex-row text-left pl-96"> <!-- Coffee -->
-                <h1 class="font-extrabold text-left self-center">COFFEE <br>
-                    <span class="font-normal"> 29 Pesos to 59 Pesos</span>
-                </h1>
-                <img src="image/coffee.png" alt="Coffee" class="w-36 h-36">
-            </div>
-            <div class="flex flex-row text-right pr-56 mb-11"> <!-- Snacks -->
-                <img src="image/snacks.png" alt="Snacks" class="w-36 h-36">
-                <h1 class="font-extrabold text-left self-center">SNACKS <br>
-                    <span class="font-normal">49 Pesos to 59 Pesos</span>
-                </h1>
-            </div>
-        </div>
-
-        <button class="py-3 px-6 bg-orange-950 hover:bg-orange-900 text-white font-bold rounded-full shadow-md transition duration-300 ease-in-out flex justify-center mx-auto">
-            View All Products
-            <svg class="rtl:rotate-180 text-lg w-6 h-6 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-            </svg>
-            <!-- <img src="image/arrow right.png" alt="ArrowRight" class="w-6 h-6 ml-2"> -->
-        </button>
-
-    </div>
-
-    <!-- About Us -->
-    <div class="flex lg:flex-row md:flex-col" id="about">
-        <div class="p-32 md:text-center lg:text-left">
-            <h3 class="font-extrabold text-6xl mb-10">Our Story</h3>
-            <h2 class="font-extrabold text-4xl mb-10">Let Us Introduce Ourselves</h2>
-            <p class="max-w-lg md:m-auto">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non porro rem, quod corrupti eius iure sit nihil similique, et voluptatem possimus tenetur! Eum obcaecati sed odio velit labore quas in!</p>
-            <button type="button" class="mt-12 text-orange-950 hover:text-white border border-orange-950 hover:bg-orange-950 focus:ring-4 focus:outline-none focus:ring-orange-950 font-medium rounded-lg text-lg px-5 py-2.5 text-center me-2 mb-2 dark:border-orange-950 dark:text-orange-950 dark:hover:text-white dark:hover:bg-orange-950 dark:focus:ring-orange-950">Order Now!</button>
-        </div>
-        <img src="image/AboutUs.png" alt="About Us" id="aboutUsPic" class="w-[550px] h-[591px] md:m-auto">
-    </div>
-
-     <!-- Reviews -->
-    <div class="mt-20 h-screen">
-        <h2 class="font-extrabold text-4xl mb-10 text-yellow-950 text-center">Reviews</h2>
-
-        <!-- Background Coffee -->
-        <div class="relative bg-cover">
-            <img src="image/bg_bean.png" alt="beans" class="absolute top-20 right-96 p-14 rotate--90 z-[-1]">
-        </div>
-
-    </div>
-
-    <!-- FAQ -->
-    <div>
-    
-    </div>
-
-    <!-- Contact Us -->
     <footer class="bg-footer w-full h-1/4 py-7 flex flex-col justify-center items-center" id="footer">
         <div class="border-y-2 border-gray-400 w-4/5 p-10 flex justify-between"> <!-- container footer-->
-            <div class="flex"> <!-- logo / soc med-->
-                <svg width="149" height="149" viewBox="0 0 149 149" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <div class="md:flex"> <!-- logo / soc med-->
+                <svg class="" width="149" height="149" viewBox="0 0 149 149" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <rect width="149" height="149" fill="url(#pattern0_283_1439)"/>
                     <defs>
                     <pattern id="pattern0_283_1439" patternContentUnits="objectBoundingBox" width="1" height="1">
@@ -251,7 +105,7 @@
                     </defs>
                 </svg>
                     
-                <div class="flex w-full items-center flex-wrap"> <!-- Div for informations-->
+                <div class="md:flex w-full md:items-center md:flex-wrap" > <!-- Div for informations-->
                     <div class="flex items-center w-full flex-wrap mt-4 justify-end"> <!-- location-->
                         <svg width="27" height="22" viewBox="0 0 27 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M5.49609 8.17421C5.49609 4.65925 8.93668 1.81641 13.1907 1.81641C17.4447 1.81641 20.8853 4.65925 20.8853 8.17421C20.8853 11.9616 16.0267 17.1841 14.0371 19.1732C13.5974 19.6092 12.795 19.6092 12.3553 19.1732C10.3547 17.1841 5.49609 11.9616 5.49609 8.17421ZM10.4426 8.17421C10.4426 9.42761 11.6738 10.4449 13.1907 10.4449C14.7076 10.4449 15.9388 9.42761 15.9388 8.17421C15.9388 6.92081 14.7076 5.90357 13.1907 5.90357C11.6738 5.90357 10.4426 6.92081 10.4426 8.17421Z" fill="white"/>
@@ -304,43 +158,29 @@
           <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">Copyright © 2024. Capstone Inc.</span>
         </div>
     </footer>
+
+
+    <script>
+        //burger
+        const burgerBtn = document.getElementById('burger-btn');
+        const navLinks = document.querySelector('.nav_links');
+    
+        burgerBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('hidden');
+        });
+
+        // for hide password
+        let hide = document.getElementById("hide");
+        let password = document.getElementById("password");
+
+        hide.onclick = function(){
+            if(password.type == "password"){
+                password.type = "text";
+            }else{
+                password.type = "password";
+            }
+        }
+    </script>
 </body>
-
-<script>
-
-//  Script for Menu burger
-    //burger nav
-    const burgerBtn = document.getElementById('burger-btn');
-    const navLinks = document.querySelector('.nav_links');
-  
-    burgerBtn.addEventListener('click', () => {
-      navLinks.classList.toggle('hidden');
-    });
-
-    // double click
-    let clickCount = 0;
-    let lastClickTime = 0;
-
-    document.getElementById('menu-link').addEventListener('click', function(event) {
-        event.preventDefault();
-        const currentTime = new Date().getTime();
-        const timeDiff = currentTime - lastClickTime;
-
-        if (timeDiff < 500) { // 500ms threshold for double click
-        clickCount++;
-        } else {
-        clickCount = 1;
-        }
-
-        lastClickTime = currentTime;
-
-        if (clickCount % 2 === 1) {
-        window.location.href = '#Menu';
-        } else {
-        window.location.href = '#offer';
-        }
-    });
-
-</script>
 </html>
 
