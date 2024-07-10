@@ -68,21 +68,21 @@
         <form>
         <div class="mb-4"> <!-- Phone Input-->
             <label for="Phone" class="text-gray-600 text-lg font-bold tracking-wider">Phone Number</label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" id="Phone" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="0912-345-6789">
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" id="Phone" type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" placeholder="0912-345-6789" required>
         </div>
         <div class="mb-4"> <!-- Fullname Input-->
             <label for="name" class="text-gray-600 text-lg font-bold tracking-wider">Fullname</label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Ex. Juan Dela Cruz">
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Ex. Juan Dela Cruz" required>
         </div>
         <div class="mb-4"> <!-- Email Input-->
             <label for="email" class="text-gray-600 text-lg font-bold tracking-wider">Email</label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Ex. JuanDelaCruz@gmail.com">
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Ex. JuanDelaCruz@gmail.com" required>
         </div>
 
         <div class="bg-white w-full max-w-full rounded-md mx-auto flex items-center"> <!-- password Input-->
             <div class="relative w-full">
             <label for="password" class="text-gray-600 text-lg font-bold tracking-wider">Create Password</label>
-            <input type="password" placeholder="Password" class="w-full outline-0 text-gray-600 shadow appearance-none border rounded py-2 px-3 mb-10 leading-10 focus:outline-none focus:shadow-outline" id="password">
+            <input type="password" placeholder="Password" class="w-full outline-0 text-gray-600 shadow appearance-none border rounded py-2 px-3 mb-10 leading-10 focus:outline-none focus:shadow-outline" id="password" required>
 
             <img src="/public/image/hidden.png" alt="Eye" class="absolute right-3 top-10 w-8 cursor-pointer" id="hide"> 
             </div>
@@ -90,7 +90,7 @@
 
         <div class="mb-6"> <!-- Checkbox Input-->
             <label for="TAC" class="flex items-center text-gray-500 text-md font-bold tracking-wider">
-                <input type="checkbox" id="TAC" class="w-5 h-5 mr-5">
+                <input type="checkbox" id="TAC" class="w-5 h-5 mr-5" required>
                 I Agree To Terms & conditions
             </label>
         </div>
