@@ -10,6 +10,7 @@ module.exports = {
         cards: '#D9D9D9',
         background: '#F5F2EB',
         footer: '#333335',
+        cards2: '#F0F0F0',
       }
     },
   },
