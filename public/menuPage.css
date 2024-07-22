@@ -1,6 +1,7 @@
 *{
     font-family: "Poppins", sans-serif;
     scroll-behavior: smooth;
+    box-sizing: border-box;
 }
 
 nav{
