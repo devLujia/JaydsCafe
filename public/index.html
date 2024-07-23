@@ -556,11 +556,16 @@
             //dito mag rereply yung chat bot
             function respondToUser(userMessage) {
                 // Replace this with your chatbot logic
-                setTimeout(() => {
-                    addBotMessage("Burat!");
-                }, 500);
+                if (userMessage.toLowerCase().includes("where to find")) {
+                    setTimeout(() => {
+                        addBotMessage("You can find it in Bacoor.");
+                    }, 500);
+                } else {
+                    setTimeout(() => {
+                        addBotMessage("I can't understand you.");
+                    }, 500);
+                }
             }
-
             // Automatically open the chatbox on page load
             toggleChatbox();
         
