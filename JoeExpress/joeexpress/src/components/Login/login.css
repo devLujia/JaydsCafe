@@ -1,0 +1,94 @@
+*{
+    font-family: "Poppins", sans-serif;
+    scroll-behavior: smooth;
+}
+
+nav{
+    display: flex;
+    align-items: center;
+    padding: 5px 22px;
+    justify-content: space-between;
+}
+
+nav .link{
+    color: black;
+    align-items: center;
+    display: flex;
+}
+.burger{margin-right: 20px;}
+
+.logo{ flex: 1;}
+
+.logo a{
+    display: flex;
+    align-items: center;
+    
+}
+
+.nav_links{
+    display: flex;
+    align-items: center;
+}
+
+.nav_links li{
+    padding: 15px 10px;
+    font-size: larger;
+    font-weight: 500;
+}
+
+.btn{border-radius: 0px 40px 0px 40px;}
+
+.beans{
+    width: auto;
+    rotate: 180deg;
+    height: 200px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.menu{display: flex;}
+
+.menu li{padding-left: 30px;}
+
+.menu li a{
+    transition: 0.15s ease-in-out;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    position: relative;
+}
+
+.menu li a::after{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 5px;
+    background-color: rgb(148, 66, 66);
+    transition: 0.3s ease-in-out;
+    border-radius: 10px;
+}
+
+.menu li a:hover::after{width: 100%;}
+
+@media(max-width: 640px){
+
+    .menu{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 80%;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 100;
+        background-color: beige;
+        transition: all 0.2s ease-in-out;
+    }
+}
+
+
+
