@@ -20,7 +20,7 @@ function App() {
       <Route path='/dashboard' element={<AdminDashboard/>}></Route>
       <Route path='/ordering/:id' element={<Ordering/>}></Route>
       <Route path='/menu' element={<Menu/>}></Route>
-      <Route path='/item/:id' element = {<Item/>}> </Route>
+      <Route path='/items/:foodId' element = {<Item/>}> </Route>
       <Route path='/cart' element = {<Cart/>}> </Route>
       
     </Routes>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import logo from '../image/logo.png';
@@ -6,9 +6,45 @@ import useracc from '../image/UserAcc.png';
 import bag from '../image/bag.png';
 import orderpage from '../image/orderPage(Image).png';
 import small from '../image/smallCup.png';
+import './orderpage.css'
+import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function OrderPage() {
+    const [authenticated, setAuthenticated] = useState(false);
+    const [userId, setUserId] = useState(null);
+    const navigate = useNavigate();
+    const {foodId} = useParams();
+    const [food, setFood] = useState(null);
 
+    useEffect( ()  => {
+        axios.get(`http://localhost:5051/items/${foodId}`)
+            .then(res => {
+
+            setFood(res.data.data);
+            })
+            .catch(err => console.log(err));
+        
+      }, [foodId]);
+
+    useEffect(() => {
+        axios.get('http://localhost:5051/')
+          .then(res => {
+            if (res.data.valid) {
+              setAuthenticated(true);
+              setUserId(res.data.userId);
+            } else {
+              navigate('/');
+            }
+          })
+          .catch(err => console.log(err));
+      }, [navigate]);
+
+      if (!food) {
+        return <div>Loading...</div>;
+    }
+      
+      
     AOS.init();
 
   return (
@@ -28,13 +64,14 @@ function OrderPage() {
     </nav>
         
     {/* <!-- Image and Title of the product--> */}
-    <section class="bg-background w-full flex lg:flex-row md:flex-col justify-center md: items-center"> 
-        <img src={orderpage} alt="Img preview" class="max-w-screen-sm"/>
+        <section class="bg-background w-full flex lg:flex-row md:flex-col justify-center md: items-center"> 
+        <img src={`/${food.image_url}`} alt={food.name} class="max-w-screen-sm"/>
         <div class="p-20 flex-col items-center flex justify-center">
-            <h1 class="text-5xl font-bold text-center lg:text-left md:text-center">Iced Caramel Makyato</h1>
-            <p class="text-2xl font-semibold text-center lg:text-left md:text-center pt-10">Iced Coffee</p>
+            <h1 class="text-5xl font-bold text-center lg:text-left md:text-center">{food.name}</h1>
+            <p class="text-2xl font-semibold text-center lg:text-left md:text-center pt-10">{food.description}</p>
         </div>
     </section>
+    
     {/* <!-- bg-white w-full p-20 flex md:flex-row sm:flex-col justify-evenly md: items-center lg:grid-cols-2 md:grid --> */}
     
     <section class="bg-white w-full p-20 grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4 justify-items-center">
@@ -49,7 +86,7 @@ function OrderPage() {
                         <label class="flex flex-col p-4 border-2 border-gray-400 cursor-pointer rounded-xl" for="radio_2">
                             <img src={small} alt="Small Cup" class="w-10 mb-2 ml-1"/>
                             <span class="text-xs font-semibold uppercase text-center">Medium</span>
-                            <span class="text-xl font-bold mt-2">16 oz</span>
+                            <span class="text-lg font-bold mt-2">₱{food.Medium}.00</span>
                         </label>
                     </div>
                     <div class="flex justify-center mb-3">
@@ -57,7 +94,7 @@ function OrderPage() {
                         <label class="flex flex-col p-4 border-2 border-gray-400 cursor-pointer rounded-xl" for="radio_3">
                             <img src={small} alt="Small Cup" class="w-10 mb-2 ml-1"/>
                             <span class="text-xs font-semibold uppercase ml-1">Large</span>
-                            <span class="text-lg font-bold mt-2">20 oz</span>
+                            <span class="text-lg font-bold mt-2">₱{food.Large}.00</span>
                         </label>
                     </div>
                 </fieldset>

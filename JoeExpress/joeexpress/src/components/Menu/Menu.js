@@ -16,8 +16,8 @@ function Menu() {
 const [authenticated, setAuthenticated] = useState(false);
 const navigate = useNavigate();
 const [foods, setFoods] = useState([]);
-const [getSize,setSize] = useState('medium_price');
 const [cart,setCart] = useState([]);
+const [userId, setUserId] = useState(null);
 
  axios.defaults.withCredentials = true;
 
@@ -36,6 +36,7 @@ const [cart,setCart] = useState([]);
       .then(res => {
         if (res.data.valid) {
           setAuthenticated(true);
+          setUserId(res.data.userId);
         } else {
           navigate('/');
         }
@@ -52,16 +53,17 @@ const [cart,setCart] = useState([]);
     }));
   };
 
-  const handleNav = () =>{
-    navigate('/item/:id')
+  const handleNav = (foodId) =>{
+    navigate(`/items/${foodId}`);
   }
 
-  const addToCartApi = async (food) => {
+  const addToCartApi = async (food, userId) => {
     try {
       const response = await axios.post('http://localhost:5051/cart_items', {
+        userId,
         foodId: food.id,
         size: food.getSize,
-        price: food.getSize === 'medium_price' ? food.medium_price : food.large_price,
+        price: food.getSize === 'Medium' ? food.Medium: food.Large,
       });
       return response.data;
     } catch (error) {
@@ -70,18 +72,18 @@ const [cart,setCart] = useState([]);
     }
   };
 
-  const handleAddToCart = async (food) =>{
-    try{
-      await addToCartApi(food);
+  const handleAddToCart = async (food) => {
+    try {
+      await addToCartApi(food, userId);
       setCart(prevCart => [...prevCart, food]);
       alert('Item added to cart!');
-    }
-    catch (error) {
-      // Handle error
+    } catch (error) {
+
       alert('Failed to add item to cart. Please try again.');
     }
-    
-  }
+  };
+
+  
         //burger
         useEffect(() => {
             const burgerBtn = document.getElementById('burger-btn');
@@ -136,9 +138,9 @@ const [cart,setCart] = useState([]);
               </div>
               
           
-          <a href="html/login.html">
+          <Link to="/cart">
               <button class="btn mr-3 w-48 h-14 text-gray-100 text-base tracking-widest bg-footer">Order Now</button>
-          </a>
+          </Link>
           <div class="flex space-x-2 mr-2">
               <a href="#"><img src={user} alt="user" class="mr-3"/></a>
               <a href="#"><img src={bag} alt="bag"/></a>
@@ -241,7 +243,7 @@ const [cart,setCart] = useState([]);
                           </div>
                       </div>
                       <a href="#">
-                          <img class="rounded-t-lg w-60 h-60" src={food.image_url} onClick={handleNav} alt="product image"/>
+                          <img class="rounded-t-lg w-60 h-60" src={food.image_url} onClick={() => handleNav(food.id)} alt="product image"/>
                       </a>
                   </div>
                   <div class="px-5 pb-5 ">
@@ -251,14 +253,16 @@ const [cart,setCart] = useState([]);
                       <div class="flex items-center justify-between ">
                         <select className='mx-2' name="option" id="option" 
                         value={food.getSize} onChange={(e) => handleSizeChange(food.id, e.target.value)
-                        }>
-                          <option value="medium_price">Medium</option>
-                          <option value="large_price">Large</option>
+                        }
+                        required
+                        >
+                          <option value=""></option>
+                          <option value="Large">Large</option>
+                          <option value="Medium">Medium</option>
+                          
                         </select> 
-                        <span className= "text-gray-500 mx-2">
-                          
-                          {food.getSize === 'medium_price' ? food.medium_price : food.large_price} php
-                          
+                        <span className="text-gray-500 mx-2">
+                           {food.getSize === 'Medium' ? food.Medium : (food.getSize === 'Large' ? food.Large : 0)} php
                           </span>
                           
                           <button
@@ -272,9 +276,6 @@ const [cart,setCart] = useState([]);
                   </div>
 
               </div>
-
-
-
                         
                   ))}
               {/* container */}

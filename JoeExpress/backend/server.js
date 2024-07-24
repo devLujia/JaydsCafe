@@ -44,7 +44,7 @@ function generateToken() {
 app.get('/',(req,res)=>{
     
     if(req.session.name){
-        return res.json({valid:true, name: req.session.name})
+        return res.json({valid:true, name: req.session.name, userId: req.session.userId})
     }
     
     else{
@@ -266,8 +266,9 @@ app.get('/menu', (req,res)=>{
             f.name,
             f.description,
             f.image_url,
-            MAX(CASE WHEN fs.size = 'medium' THEN fs.price END) AS medium_price,
-            MAX(CASE WHEN fs.size = 'large' THEN fs.price END) AS large_price
+            MAX(CASE WHEN fs.size = 'large' THEN fs.price END) AS Large,
+            MAX(CASE WHEN fs.size = 'medium' THEN fs.price END) AS Medium
+            
         FROM
             foods f
         JOIN
@@ -283,24 +284,81 @@ app.get('/menu', (req,res)=>{
         });
 });
 
+
+app.post('/itemGetter',(req,res)=>{
+    
+    const userId = req.body.userId;
+
+    const query = `
+    SELECT
+    c.food_id,
+    f.name,
+    f.image_url,
+    c.size,
+    c.price
+    
+        FROM
+            cart_items c 
+        JOIN foods f ON
+            f.id = c.food_id
+        WHERE user_id = ?
+        `
+    db.query(query, [userId], (err,result)=>{
+        if(err){
+            return res.status(500).json({ success: false, message: 'Failed to get item to cart' });
+        }
+        res.json({ success: true, items: result });
+    })
+
+})
+
+
+
+app.get('/items/:foodId', (req, res) => {
+    const { foodId } = req.params;
+  
+    const query = `
+      SELECT
+        f.id,
+        f.name,
+        f.description,
+        f.image_url,
+        MAX(CASE WHEN fs.size = 'large' THEN fs.price END) AS Large,
+        MAX(CASE WHEN fs.size = 'medium' THEN fs.price END) AS Medium
+      FROM
+        foods f
+      JOIN
+        food_sizes fs ON f.id = fs.food_id
+      WHERE
+        f.id = ?
+      GROUP BY
+        f.id, f.name, f.description, f.image_url
+    `;
+  
+    db.query(query, [foodId], (err, results) => {
+      if (err) {
+        console.error('Error fetching food data:', err);
+        return res.status(500).json({ success: false, message: 'Server error' });
+      }
+  
+      if (results.length === 0) {
+        return res.status(404).json({ success: false, message: 'Food not found' });
+      }
+  
+      res.status(200).json({ success: true, data: results[0] });
+    });
+  });
+
 app.post('/cart_items', (req, res) => {
     const { foodId, size, price } = req.body;
-    const query = 'INSERT INTO cart_items (food_id, size, price) VALUES (?, ?, ?)';
+    const userId = req.session.userId;
+    const query = 'INSERT INTO cart_items (user_id, food_id, size, price) VALUES (?, ?, ?, ?)';
   
-    db.query(query, [foodId, size, price], (err, results) => {
+    db.query(query, [userId, foodId, size, price], (err, results) => {
       if (err) {
         return res.status(500).json({ success: false, message: 'Failed to add item to cart' });
       }
-      res.status(201).json({
-        success: true,
-        message: 'Item added to cart',
-        cartItem: {
-          id: results.insertId,
-          foodId,
-          size,
-          price
-        }
-      });
+      res.status(200).json({ success: true, message: 'Item added to cart', results });
     });
   });
 
@@ -349,6 +407,7 @@ app.post('/login',async (req, res) => {
         }
         
         if (isMatch){
+            req.session.userId = userData.id;
             const name = data[0].name;
             req.session.name = name;          
             return res.json({ Login: true });
