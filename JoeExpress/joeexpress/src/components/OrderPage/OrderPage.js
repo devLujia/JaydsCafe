@@ -18,7 +18,7 @@ function OrderPage() {
     const [food, setFood] = useState(null);
 
     useEffect( ()  => {
-        axios.get(`http://localhost:5051/items/${foodId}`)
+        axios.get(`http://localhost:8081/items/${foodId}`)
             .then(res => {
 
             setFood(res.data.data);
@@ -28,7 +28,7 @@ function OrderPage() {
       }, [foodId]);
 
     useEffect(() => {
-        axios.get('http://localhost:5051/')
+        axios.get('http://localhost:8081/')
           .then(res => {
             if (res.data.valid) {
               setAuthenticated(true);

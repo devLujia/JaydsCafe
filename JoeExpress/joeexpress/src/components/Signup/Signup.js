@@ -30,7 +30,7 @@ function Signup() {
         setErrors(err);
 
         if (!err.name && !err.email && !err.password && !err.address) {
-            axios.post('http://localhost:5051/signup', values)
+            axios.post('http://localhost:8081/signup', values)
                 .then(res => {
                     navigate('/login');
                 })

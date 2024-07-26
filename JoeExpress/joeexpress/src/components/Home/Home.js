@@ -236,7 +236,7 @@ function Home() {
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
-    axios.get('http://localhost:5051/foods')
+    axios.get('http://localhost:8081/foods')
       .then(response => {
         setFoods(response.data);
       })
@@ -246,7 +246,7 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    axios.get('http://localhost:5051/')
+    axios.get('http://localhost:8081/')
       .then(res => {
         if (res.data.valid) {
           setAuthenticated(true);
@@ -259,7 +259,7 @@ function Home() {
 
   const handleLogout = async () => {
     try {
-      const res = await axios.post('http://localhost:5051/logout');
+      const res = await axios.post('http://localhost:8081/logout');
       if (res.data.success) {
         // eslint-disable-next-line no-restricted-globals
         location.reload();

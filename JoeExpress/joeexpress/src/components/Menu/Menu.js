@@ -22,7 +22,7 @@ const [userId, setUserId] = useState(null);
  axios.defaults.withCredentials = true;
 
  useEffect(() => {
-    axios.get('http://localhost:5051/menu')
+    axios.get('http://localhost:8081/menu')
       .then(response => {
         setFoods(response.data);
       })
@@ -32,7 +32,7 @@ const [userId, setUserId] = useState(null);
   }, []);
 
   useEffect(() => {
-    axios.get('http://localhost:5051/')
+    axios.get('http://localhost:8081/')
       .then(res => {
         if (res.data.valid) {
           setAuthenticated(true);
@@ -59,7 +59,7 @@ const [userId, setUserId] = useState(null);
 
   const addToCartApi = async (food, userId) => {
     try {
-      const response = await axios.post('http://localhost:5051/cart_items', {
+      const response = await axios.post('http://localhost:8081/cart_items', {
         userId,
         foodId: food.id,
         size: food.getSize,

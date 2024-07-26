@@ -38,7 +38,7 @@ const Login = () => {
     axios.defaults.withCredentials = true;
 
     useEffect(() => {
-        axios.get('http://localhost:5051/')
+        axios.get('http://localhost:8081/')
             .then(res => {
                 if (res.data.valid) {
                     navigation('/');
@@ -54,7 +54,7 @@ const Login = () => {
         const err = Validation(values);
         setErrors(err);
         if (err.email === "" && err.password === "") {
-            axios.post('http://localhost:5051/login', values)
+            axios.post('http://localhost:8081/login', values)
                 .then(res => {
                     if (res.data.Login) {
                         navigation('/');

@@ -14,7 +14,7 @@ function Cart() {
     const [totalBill, setTotalBill] = useState(0);
 
     useEffect(() => {
-        axios.get('http://localhost:5051/')
+        axios.get('http://localhost:8081/')
           .then(res => {
             if (res.data.valid) {
               setAuthenticated(true);
@@ -28,7 +28,7 @@ function Cart() {
       }, [navigate]);
 
       useEffect(() => {
-          axios.post('http://localhost:5051/itemGetter',  {userId} )
+          axios.post('http://localhost:8081/itemGetter',  {userId} )
             .then(res => {
               setItems(res.data.items);
               const total = res.data.items.reduce((sum, item) => sum + item.price, 0);
@@ -38,6 +38,15 @@ function Cart() {
               console.error('Error fetching item details:', error);
             });
       });
+
+      const handleCheckout = async () =>{
+        await axios.post('http://localhost:8081/order',{userId})
+        .then(res=>{
+          navigate('/')
+        }).catch(error => {
+          console.error('Error handling checkout:', error);
+        });
+      } 
 
   return (
     
@@ -126,7 +135,10 @@ function Cart() {
         ))}
             {/* <!-- button --> */}
             <div class="w-80 py-10 mx-auto">
-                <a class="bg-yellow-900 text-white font-medium rounded-full py-3 flex items-center justify-center hover:bg-yellow-600 transition duration-300 ease-in-out shadow-lg" href="/public/Html/cart.html">Checkout</a>
+                <button 
+                onClick={handleCheckout} 
+                class="w-80 bg-yellow-900 text-white font-medium rounded-full py-3 flex items-center justify-center hover:bg-yellow-600 transition duration-300 ease-in-out shadow-lg">
+                  Checkout</button>
             </div>
         </div>
 

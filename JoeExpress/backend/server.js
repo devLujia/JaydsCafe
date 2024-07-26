@@ -33,7 +33,8 @@ const db = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
-    database: "testreact"
+    database: "testreact",
+    multipleStatements: true
 })
 
 function generateToken() {
@@ -50,7 +51,47 @@ app.get('/',(req,res)=>{
     else{
         return res.json({valid: false})
     }
-})  
+}) 
+
+app.post('/order', (req,res)=>{
+    const {userId} = req.body;
+
+    const query = 
+    `INSERT INTO orders (customer_id, status) VALUES (?, 'pending');
+    SELECT LAST_INSERT_ID() as lastOrderId`
+
+    db.query(query,[userId],(err,resInInserting)=>{
+        if(err) {
+            res.json({err: "Error on inserting order"});
+        }
+        
+        const lastOrderId = resInInserting[1][0].lastOrderId;
+        console.log(lastOrderId);
+
+        const gettingOrder = 
+        ` INSERT INTO orders_food (order_id, food_id, quantity)
+          SELECT ? , food_id, quantity
+          FROM cart_items
+          WHERE user_id = ?;
+        `
+        db.query(gettingOrder,[lastOrderId,userId],(err,resInGettingOrder)=>{
+            if(err){
+                res.json({err: "Error on getting order"})
+            }
+
+            const remove = `Delete from cart_items WHERE user_id = ? `
+                db.query(remove,[userId],(errInRemove,resInRemove)=>{
+                    if(errInRemove){
+                        res.json({err:"Error in Removing from cart"})
+                    }
+                })
+        })
+
+        
+
+    })
+
+})
 
 app.get('/foods', (req,res)=>{
     const query = `SELECT f.id, f.name, f.description, f.image_url, fs.size, fs.price 
@@ -219,7 +260,7 @@ app.post('/recentorder', async (req,res)=>{
                                     button: {
                                         color: '#22BC66', // Optional action button color
                                         text: 'Verify your account',
-                                        link: `http://localhost:5051/verify/${verificationToken}` // Verification link
+                                        link: `http://localhost:8081/verify/${verificationToken}` // Verification link
                                     }
                                 }
 
@@ -462,6 +503,6 @@ app.get('/verify/:token', (req, res) => {
 
 
 
-app.listen(5051,()=>{
+app.listen(8081,()=>{
     console.log("Connected");
 })
