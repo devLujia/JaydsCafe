@@ -6,6 +6,7 @@ module.exports = {
   theme: {
     extend: {
       colors:{
+        btnBgColor: '#3D1A08',
         exportColor: '#ECE8DD',
         cards: '#D9D9D9',
         background: '#F5F2EB',

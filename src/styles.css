@@ -41,7 +41,10 @@ nav .link{
     font-weight: 500;
 }
 
-.btn{border-radius: 0px 40px 0px 40px;}
+.btn{border-radius: 0px 40px 0px 40px;
+ 
+}
+
 
 .beans{
     width: auto;
