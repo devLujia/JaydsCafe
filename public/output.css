@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.4.4 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.7 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -1111,10 +1111,6 @@ input:checked + .toggle-bg {
   bottom: 60px;
 }
 
-.end-2 {
-  inset-inline-end: 0.5rem;
-}
-
 .end-2\.5 {
   inset-inline-end: 0.625rem;
 }
@@ -2129,11 +2125,6 @@ input:checked + .toggle-bg {
   background-color: rgb(67 20 7 / var(--tw-bg-opacity));
 }
 
-.bg-slate-900 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(15 23 42 / var(--tw-bg-opacity));
-}
-
 .bg-stone-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(214 211 209 / var(--tw-bg-opacity));
@@ -2743,6 +2734,8 @@ nav{
   align-items: center;
   padding: 5px 22px;
   justify-content: space-between;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 70px;
 }
 
 nav .link{
@@ -2802,6 +2795,8 @@ nav .link{
   text-decoration: none;
   text-align: center;
   position: relative;
+  font-size: medium;
+  font-weight: 400;
 }
 
 .menu li a::after{
@@ -3601,11 +3596,6 @@ nav .link{
     margin-bottom: calc(0px * var(--tw-space-y-reverse));
   }
 
-  .sm\:bg-blue-600 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(28 100 242 / var(--tw-bg-opacity));
-  }
-
   .sm\:p-8 {
     padding: 2rem;
   }
@@ -3688,11 +3678,6 @@ nav .link{
 
   .md\:justify-between {
     justify-content: space-between;
-  }
-
-  .md\:bg-yellow-500 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(194 120 3 / var(--tw-bg-opacity));
   }
 
   .md\:p-5 {
@@ -3790,11 +3775,6 @@ nav .link{
 
   .lg\:justify-between {
     justify-content: space-between;
-  }
-
-  .lg\:bg-green-600 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(5 122 85 / var(--tw-bg-opacity));
   }
 
   .lg\:p-8 {
