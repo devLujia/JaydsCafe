@@ -65,7 +65,6 @@ nav .link{
     text-align: center;
     position: relative;
     font-size: medium;
-    font-weight: 400;
 }
 
 .menu li a::after{
