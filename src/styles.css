@@ -12,6 +12,7 @@ nav{
     align-items: center;
     padding: 5px 22px;
     justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 nav .link{
