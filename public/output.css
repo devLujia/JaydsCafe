@@ -2378,11 +2378,11 @@ input:checked + .toggle-bg {
 }
 
 .pt-11 {
-  padding-top: 2.75rem;
+  padding-top: 1rem;
 }
 
 .pt-12 {
-  padding-top: 3rem;
+  padding-top: 0rem;
 }
 
 .pt-2 {
