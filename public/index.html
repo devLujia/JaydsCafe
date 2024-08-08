@@ -24,9 +24,8 @@
     <!-- nav -->
     <nav class="sticky top-0 bg-white z-20">
       <div class="font-extrabold text-2xl flex items-center">
-        <a href="#" class="flex items-center"
-          ><img src="image/LOGO.png" alt="logo" class="logo" />JoeExpress</a
-        >
+        <!-- Logo/Title in Navbar -->
+        <a href="index.html" class="flex items-center">JoeExpress</a>
       </div>
       <span class="menu">
         <ul
@@ -1032,7 +1031,8 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script> <!-- AOS Animation-->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- AOS Animation-->
   </body>
 
   <script>
@@ -1086,104 +1086,83 @@
       scrollContainer.scrollLeft += 900;
     });
 
-            //dito mag rereply yung chat bot
-            function respondToUser(userMessage) {
-                // Replace this with your chatbot logic
-                if (userMessage.toLowerCase().includes("where to find")) {
-                    setTimeout(() => {
-                        addBotMessage("You can find it in Bacoor.");
-                    }, 500);
-                } else if(userMessage.toLowerCase().includes("burat")) {
-                    setTimeout(() => {
-                        addBotMessage("Hahaha Bas2s mo! Bilat");
-                    }, 500);
-                } else {
-                    setTimeout(() => {
-                        addBotMessage("I can't understand you.");
-                    }, 500);
-                }
-                
-            }
-            // Automatically open the chatbox on page load
-            toggleChatbox();
-        
-            backBtn.addEventListener("click", () => {
-              scrollContainer.scrollLeft -= 900;
-            });
+    backBtn.addEventListener("click", () => {
+      scrollContainer.scrollLeft -= 900;
+    });
 
-            //Chat bot && basta lahat tungkol sa chat
-            const chatbox = document.getElementById("chatbox");
-            const chatContainer = document.getElementById("chat-container");
-            const userInput = document.getElementById("user-input");
-            const sendButton = document.getElementById("send-button");
-            const openChatButton = document.getElementById("open-chat");
-            const closeChatButton = document.getElementById("close-chat");
+    //Chat bot && basta lahat tungkol sa chat
+    const chatbox = document.getElementById("chatbox");
+    const chatContainer = document.getElementById("chat-container");
+    const userInput = document.getElementById("user-input");
+    const sendButton = document.getElementById("send-button");
+    const openChatButton = document.getElementById("open-chat");
+    const closeChatButton = document.getElementById("close-chat");
 
-            let isChatboxOpen = true; // Set the initial state to open
+    let isChatboxOpen = true; // Set the initial state to open
 
-            // Function to toggle the chatbox visibility
-            function toggleChatbox() {
-              chatContainer.classList.toggle("hidden");
-              isChatboxOpen = !isChatboxOpen; // Toggle the state
-            }
+    // Function to toggle the chatbox visibility
+    function toggleChatbox() {
+      chatContainer.classList.toggle("hidden");
+      isChatboxOpen = !isChatboxOpen; // Toggle the state
+    }
 
-            // Add an event listener to the open chat button
-            openChatButton.addEventListener("click", toggleChatbox);
+    // Add an event listener to the open chat button
+    openChatButton.addEventListener("click", toggleChatbox);
 
-            // Add an event listener to the close chat button
-            closeChatButton.addEventListener("click", toggleChatbox);
+    // Add an event listener to the close chat button
+    closeChatButton.addEventListener("click", toggleChatbox);
 
-            // Add an event listener to the send button
-            sendButton.addEventListener("click", function () {
-              const userMessage = userInput.value;
-              if (userMessage.trim() !== "") {
-                addUserMessage(userMessage);
-                respondToUser(userMessage);
-                userInput.value = "";
-              }
-            });
+    // Add an event listener to the send button
+    sendButton.addEventListener("click", function () {
+      const userMessage = userInput.value;
+      if (userMessage.trim() !== "") {
+        addUserMessage(userMessage);
+        respondToUser(userMessage);
+        userInput.value = "";
+      }
+    });
 
-            userInput.addEventListener("keyup", function (event) {
-              if (event.key === "Enter") {
-                const userMessage = userInput.value;
-                addUserMessage(userMessage);
-                respondToUser(userMessage);
-                userInput.value = "";
-              }
-            });
+    userInput.addEventListener("keyup", function (event) {
+      if (event.key === "Enter") {
+        const userMessage = userInput.value;
+        addUserMessage(userMessage);
+        respondToUser(userMessage);
+        userInput.value = "";
+      }
+    });
 
-            function addUserMessage(message) {
-              const messageElement = document.createElement("div");
-              messageElement.classList.add("mb-2", "text-right");
-              messageElement.innerHTML = `<p class="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">${message}</p>`;
-              chatbox.appendChild(messageElement);
-              chatbox.scrollTop = chatbox.scrollHeight;
-            }
+    function addUserMessage(message) {
+      const messageElement = document.createElement("div");
+      messageElement.classList.add("mb-2", "text-right");
+      messageElement.innerHTML = `<p class="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">${message}</p>`;
+      chatbox.appendChild(messageElement);
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
 
-            function addBotMessage(message) {
-              const messageElement = document.createElement("div");
-              messageElement.classList.add("mb-2");
-              messageElement.innerHTML = `<p class="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">${message}</p>`;
-              chatbox.appendChild(messageElement);
-              chatbox.scrollTop = chatbox.scrollHeight;
-            }
+    function addBotMessage(message) {
+      const messageElement = document.createElement("div");
+      messageElement.classList.add("mb-2");
+      messageElement.innerHTML = `<p class="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">${message}</p>`;
+      chatbox.appendChild(messageElement);
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
 
-            //dito mag rereply yung chat bot
-            function respondToUser(userMessage) {
-              // Replace this with your chatbot logic
-              if (userMessage.toLowerCase().includes("where to find")) {
-                setTimeout(() => {
-                  addBotMessage("You can find it in Bacoor.");
-                }, 500);
-              } else {
-                setTimeout(() => {
-                  addBotMessage("I can't understand you.");
-                }, 500);
-              }
-            }
-            // Automatically open the chatbox on page load
-            toggleChatbox();
+    //dito mag rereply yung chat bot
+    function respondToUser(userMessage) {
+      // Replace this with your chatbot logic
+      if (userMessage.toLowerCase().includes("where to find")) {
+        setTimeout(() => {
+          addBotMessage("You can find it in Bacoor.");
+        }, 500);
+      } else {
+        setTimeout(() => {
+          addBotMessage("I can't understand you.");
+        }, 500);
+      }
+    }
+    // Automatically open the chatbox on page load
+    toggleChatbox();
 
-            AOS.init();
+    AOS.init();
   </script>
 </html>
