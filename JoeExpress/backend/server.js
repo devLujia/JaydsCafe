@@ -7,7 +7,8 @@ const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 const bcrypt = require('bcrypt');
 const MailGen = require('mailgen');
-const {EMAIL,PASSWORD} = require('./env.js')
+const axios = require('axios');
+const {EMAIL,PASSWORD,PAYMONGO_SECRET_KEY} = require('./env.js')
 
 const app = express();
 app.use(cors({
@@ -53,20 +54,20 @@ app.get('/',(req,res)=>{
     }
 }) 
 
+
 app.post('/order', (req,res)=>{
-    const {userId} = req.body;
+    const {userId, totalBill} = req.body;
 
     const query = 
-    `INSERT INTO orders (customer_id, status) VALUES (?, 'pending');
+    `INSERT INTO orders (customer_id, totalPrice ,status) VALUES (?, ${totalBill} ,'pending');
     SELECT LAST_INSERT_ID() as lastOrderId`
 
     db.query(query,[userId],(err,resInInserting)=>{
         if(err) {
-            res.json({err: "Error on inserting order"});
+            res.json({success: false, err: "Error on inserting order"});
         }
         
         const lastOrderId = resInInserting[1][0].lastOrderId;
-        console.log(lastOrderId);
 
         const gettingOrder = 
         ` INSERT INTO orders_food (order_id, food_id, quantity)
@@ -78,16 +79,16 @@ app.post('/order', (req,res)=>{
             if(err){
                 res.json({err: "Error on getting order"})
             }
-
             const remove = `Delete from cart_items WHERE user_id = ? `
-                db.query(remove,[userId],(errInRemove,resInRemove)=>{
+                db.query(remove,[userId],(errInRemove, resInRemove)=>{
                     if(errInRemove){
                         res.json({err:"Error in Removing from cart"})
                     }
                 })
+
         })
 
-        
+        return res.json({ success: true });
 
     })
 
@@ -98,85 +99,26 @@ app.get('/foods', (req,res)=>{
     FROM foods f JOIN food_sizes fs ON f.id = fs.food_id 
     GROUP BY f.id, f.name, f.description, f.image_url LIMIT 4;`;
 
-    db.query(query,(err,results)=>{
+    const order = `
+                   SELECT count(o.order_id) as totalOrder , f.name, f.description, f.image_url, fs.price 
+                   FROM foods f 
+                   JOIN food_sizes fs on f.id = fs.id 
+                   JOIN orders_food of on of.food_id = fs.id 
+                   JOIN orders o on o.order_id = of.order_id 
+                   GROUP BY f.name, f.description, f.image_url, fs.price 
+                   order by totalOrder desc limit 4;
+                `
+    db.query(order,(err,results)=>{
         if(err) {
         res.json({err: "error"});
-    }
+        }
         res.json(results);
+        
     });
+
+    
       
     });
-
-
-
-app.post('/users', async (req, res) => {
-    const query = `SELECT COUNT(*) AS user_count FROM user;`;
-    
-    try {
-        db.query(query, (err, result) => {
-            if (err) {
-                res.json({err: "error"});
-            }
-            const userCount = result[0].user_count;
-            res.json({ user_count: userCount });
-        });
-    } catch (error) {
-        res.json({ error: 'Failed to fetch user count' });
-    }
-});
-
-app.post('/totalRevenue', async(req,res) =>{
-    const query = 'SELECT SUM(total_price) AS total_revenue FROM orders';
-
-    try{
-        db.query(query,(err,result)=>{
-            if(err){
-                res.json({err: "error"});
-            }
-            const totalRevenue = result[0].total_revenue;
-            res.json({total_revenue: totalRevenue});
-        })
-    }catch(error){
-        res.json({ error: 'Failed to fetch Total Revenue' });
-    }
-
-});
-
-
-app.post('/totalOrder', async (req,res)=>{
-    const query = 'SELECT Count(*) AS total_order FROM orders';
-    try{
-        db.query(query,(err,result)=>{
-            if(err){
-                res.json({err: "error"});
-            }
-            const totalOrder = result[0].total_order;
-            res.json({total_order:totalOrder});
-        })
-    }
-    
-    catch(error){
-        res.json({error: 'Failed to fetch Total Orders'});
-    }
-
-    });
-
-app.post('/recentorder', async (req,res)=>{
-    const query = 'SELECT id, user_id, food_id, quantity, total_price, order_date FROM orders ORDER BY order_date DESC LIMIT 10;';
-        
-        try{
-            db.query(query,(err,result)=>{
-                if(err){
-                    res.json({err: "error"});
-                }
-                const recentOrder = result.totalOrder;
-                res.json({recentOrder});
-            })
-        }catch(error){
-            res.json({error: "Failed to fetch Recent Orders"});
-        }
-    });
-
     
     app.post('/signup', async (req, res) => {
         const { name, email, password, address } = req.body;
@@ -300,7 +242,7 @@ app.post('/recentorder', async (req,res)=>{
         }
     });
 
-app.get('/menu', (req,res)=>{
+app.get('/menu', (req ,res )=>{
         const query = 
         `SELECT
             f.id,
@@ -352,8 +294,6 @@ app.post('/itemGetter',(req,res)=>{
     })
 
 })
-
-
 
 app.get('/items/:foodId', (req, res) => {
     const { foodId } = req.params;
@@ -447,7 +387,7 @@ app.post('/login',async (req, res) => {
             return res.status(401).json({ error: 'Account not verified. Please check your email for verification instructions.' });
         }
         
-        if (isMatch){
+        if (isMatch && data[0].role === 'user'){
             req.session.userId = userData.id;
             const name = data[0].name;
             req.session.name = name;          
@@ -469,6 +409,9 @@ app.post('/logout', (req, res) => {
         return res.json({ success: true, message: 'Logout successful!' });
     });
 });
+
+
+
 
 
 app.get('/verify/:token', (req, res) => {
@@ -500,6 +443,316 @@ app.get('/verify/:token', (req, res) => {
         });
     });
 });
+
+app.post('/create-payment-intent', async (req, res) => {
+    const { amount } = req.body;
+
+    try {
+        const response = await axios.post('https://api.paymongo.com/v1/payment_intents', {
+            data: {
+                attributes: {
+                    amount,
+                    currency: 'PHP',
+                    payment_method_types: ['gcash'],
+                },
+            },
+        }, {
+            headers: {
+                'Authorization': `Basic ${Buffer.from(`${PAYMONGO_SECRET_KEY}:`).toString('base64')}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error creating payment intent:', error);
+        res.status(500).json({ error: 'Failed to create payment intent' });
+    }
+});
+
+app.post('/verify-payment', async (req, res) => {
+    const { paymentIntentId } = req.body;
+
+    try {
+        const response = await axios.get(`https://api.paymongo.com/v1/payment_intents/${paymentIntentId}`, {
+            headers: {
+                'Authorization': `Basic ${Buffer.from(`${PAYMONGO_SECRET_KEY}:`).toString('base64')}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error verifying payment:', error);
+        res.status(500).json({ error: 'Failed to verify payment' });
+    }
+});
+
+// dashboard
+
+app.post('/adminlogin',async (req, res) => {
+
+    const sql = 'SELECT * FROM admin WHERE email = ?';
+
+    db.query(sql, [req.body.email, req.body.password], (err, data) => {
+        const isMatch = bcrypt.compare(req.body.password,data[0].password);
+        if (err) {
+            return res.json("Error");
+        }
+        
+        if (data.length == 0) {
+            return res.json({ Login: false, Message: "NO RECORD EXISTED" });
+        } 
+        const userData = data[0];
+        
+        if (isMatch){
+            req.session.userId = userData.id;
+            const name = data[0].name;
+            req.session.name = name;          
+            return res.json({ Login: true });
+        }
+        else{
+            res.send("Wrong Password");
+            return
+        }
+    });
+});
+
+app.post('/adminTable', async (req,res) => {
+
+    const query = 
+            `SELECT 
+            f.image_url, 
+            f.id, 
+            f.name,
+            c.title, 
+            f.description, 
+            fs.price,
+            COUNT(DISTINCT of.id) AS sold, 
+            (fs.price * COUNT(DISTINCT of.id)) AS profit
+                FROM 
+                    foods f 
+                JOIN 
+                    food_sizes fs ON f.id = fs.food_id
+                JOIN
+                    category c on f.category_id = c.id
+                JOIN
+                    orders_food of ON f.id = of.food_id
+                JOIN
+                    orders o ON of.order_id = o.order_id
+                GROUP BY 
+                    f.id, f.name, f.description, f.image_url;`
+
+      db.query(query,(error, result) => {
+        if(error){
+            console.error('Database error:', error);
+            return res.status(500).json({ error: 'Database error' });
+        }
+        res.json(result)
+
+      })
+})
+
+app.post('/adminsignup', async (req, res) => {
+    
+    const { fullname, email, password } = req.body;
+
+    try {
+        // Check if email already exists
+        const checkQuery = `SELECT * FROM admin WHERE email = ? `;
+        
+        db.query(checkQuery, [email], async (error, resultFromDb) => {
+            
+            if (error) {
+                console.error('Database error:', error);
+                return res.status(500).json({ error: 'Database error' });
+            }
+
+            if (resultFromDb.length > 0) {
+                return res.status(400).json({ error: 'Email Already Taken' });
+            }
+
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const insertQuery = 'INSERT INTO admin (fullname, email, password) VALUES (?, ?, ?)';
+            const values = [fullname, email, hashedPassword];
+
+            db.query(insertQuery, values, (insertError, result) => {
+                if (insertError) {
+                    console.error('Error signing up:', insertError);
+                    return res.status(500).json({ error: 'Failed to sign up' });
+                }
+                console.log('Admin signed up successfully:', result); 
+
+        });
+    });
+
+    } catch (error) {
+        console.error('Signup Error:', error);
+        res.status(500).json({ error: 'Failed to sign up' });
+    }
+});
+
+app.post('/addProduct', (req, res) =>{
+    const {name,description,image_url,category_id, size, medprice, lgprice} = req.body;
+    const query = `INSERT INTO foods (name, description, image_url, category_id) 
+                    VALUES (?,?,?,?);
+                    SELECT LAST_INSERT_ID() as lastfoodsId`
+
+    db.query(query, [name,description,image_url,category_id], (err,result) =>{
+        if(err){
+            res.json({err: "Unable to add into foods"})
+        }
+
+        const lastfoodsId = result[1][0].lastfoodsId;
+        const medSizeQuery = `INSERT INTO food_sizes(food_id, size , price) 
+                            VALUES (?,'medium',?)`
+
+        db.query(medSizeQuery, [lastfoodsId,medprice], (sizeErr, sizeResult)=> {
+            if(sizeErr){
+                res.json({sizeErr: "Unable to add into food_sizes"})
+            }
+            
+        })
+
+        const lgSizeQuery = `INSERT INTO food_sizes(food_id, size , price) 
+                            VALUES (?,'large',?)`
+
+        db.query(lgSizeQuery, [lastfoodsId,lgprice], (sizeErr, sizeResult)=> {
+            if(sizeErr){
+                res.json({sizeErr: "Unable to add into food_sizes"})
+            }
+            
+        })
+
+    })
+
+})
+
+app.post('/removeProduct',  async (req, res) =>{
+
+    const {name} = req.body;
+    let foodId;
+
+    const rows = db.query(`Select id from foods where name = ?;`, [name], (error,result)=>{
+        if(error){
+            res.json({error: "Unable to Select Id into foods"})
+        }
+
+        foodId = rows[0];
+
+        if (rows.length === 0) {
+            return res.json({ error: 'Food item not found' });
+        }
+    
+        
+    });
+    
+    try{
+        const query = `Delete from foods where name = ? `
+        await db.query (query,[name], (err,result) =>{
+            if(err){
+                res.json({err: "Unable to delete into foods"})
+            }
+    
+            const sizeQuery = `Delete from food_sizes where id = ?`
+    
+            db.query(sizeQuery, [foodId], (sizeDelErr, sizeResult)=> {
+                if(sizeDelErr){
+                    res.json({sizeDelErr: "Unable to delete into food_sizes"})
+                }
+                
+            })
+    
+        })
+    }catch(error){
+        res.json(error)
+    }
+
+
+
+    })
+
+    app.post('/updateProduct', (req,res)=>{
+        
+        const {name ,description ,image_url ,category_id , foodID} = req.body;
+
+        const query = 
+        `Update foods, food_sizes
+        SET name= ?, description= ? , image_url= ? ,category_id = ?
+        WHERE food_sizes.food_id = foods.id
+        AND foods.id = ?
+            `
+
+        db.query (query,[name ,description ,image_url ,category_id , foodID], (err,result) => {
+            if (err){
+                res.json({err: "Unable to update into food and food_sizes"})
+            }
+            res.json('yahoo');
+        })
+ 
+    })
+
+    app.post('/users', (req, res) => {
+        const query = `SELECT COUNT(DISTINCT customer_id) AS customer_count FROM orders;`;
+        
+        try {
+            db.query(query, (err, result) => {
+                if (err) {
+                    res.json({err: "error"});
+                }
+                
+                res.json(result[0]);
+            });
+        } catch (error) {
+            res.json({ error: 'Failed to fetch user count' });
+        }
+    });
+    
+    app.post('/totalRevenue', (req,res) =>{
+        const query = `SELECT SUM(totalPrice) AS total_revenue FROM orders`;
+    
+        db.query(query,(err,result)=>{
+            if(err){
+                res.json({err: "error"});
+            }
+            res.json(result[0]);
+        })
+        
+    
+    });
+    
+    
+    app.post('/totalOrder', async (req,res)=>{
+        const query = `SELECT Count(*) as totalOrders FROM orders`;
+
+        db.query(query,(err,result)=>{
+            if(err){
+                res.json({err: "error"});
+            }
+
+            res.json(result[0]);
+            
+        })
+    });
+    
+    app.post('/recentorder', async (req,res)=>{
+        const query = 'SELECT id, user_id, food_id, quantity, total_price, order_date FROM orders ORDER BY order_date DESC LIMIT 10;';
+            
+            try{
+                db.query(query,(err,result)=>{
+                    if(err){
+                        res.json({err: "error"});
+                    }
+                    const recentOrder = result.totalOrder;
+                    res.json({recentOrder});
+                })
+            }catch(error){
+                res.json({error: "Failed to fetch Recent Orders"});
+            }
+        });
+
+
+    
 
 
 

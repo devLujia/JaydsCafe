@@ -40,12 +40,17 @@ function Cart() {
       });
 
       const handleCheckout = async () =>{
-        await axios.post('http://localhost:8081/order',{userId})
-        .then(res=>{
-          navigate('/')
-        }).catch(error => {
-          console.error('Error handling checkout:', error);
-        });
+         try{
+          const res = await axios.post('http://localhost:8081/order',{userId,totalBill});
+          if (res.data.success){
+            navigate('/tracking');
+          }
+          else{
+            console.log('Checkout Failed')
+          }
+         } catch (error) {
+          console.error('Error during checkout:', error);
+        }
       } 
 
   return (

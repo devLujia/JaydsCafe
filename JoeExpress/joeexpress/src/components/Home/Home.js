@@ -18,8 +18,6 @@ import chat from '../image/live-chat.png';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-
-
 function Home() {
 
 
@@ -402,7 +400,7 @@ function Home() {
             <img src={image3} alt="display1" data-aos="fade-up" data-aos-duration="1500" />
           </div>
           <div className="flex flex-col justify-center items-center top-[550px] absolute bottom-0 right-0 w-[100%]">
-            <button type="button" className="text-yellow-950 bg-orange-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 tracking-wide font-bold rounded-full italic text-3xl px-5 py-2.5 me-2 mb-2 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 w-[258px] h-80 shadow-xl items-center">Order Now!</button>
+            <button onClick={handleNavigate} type="button" className="text-yellow-950 bg-orange-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 tracking-wide font-bold rounded-full italic text-3xl px-5 py-2.5 me-2 mb-2 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 w-[258px] h-80 shadow-xl items-center">Order Now!</button>
           </div>
         </div>
       </div>
