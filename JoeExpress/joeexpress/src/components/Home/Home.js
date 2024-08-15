@@ -309,7 +309,7 @@ function Home() {
               </button>
             </>
           ) : (
-            <button onClick={navLogin} className="btn mr-3 w-48 h-14 bg-slate-900 text-gray-100 text-base tracking-widest lg:bg-green-600 md:bg-yellow-500 sm:bg-blue-600">
+            <button onClick={navLogin} className="btn mr-3 w-48 h-14 bg-footer text-gray-100 text-base tracking-widest">
               Login/Sign Up
             </button>
           )}
