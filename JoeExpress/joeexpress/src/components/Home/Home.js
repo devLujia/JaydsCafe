@@ -277,8 +277,7 @@ function Home() {
   return (
     <div>
       {/* Navbar */}
-
-      <nav className="sticky top-0 bg-white z-20">
+      <nav className="sticky top-0 bg-gradient-to-tr from-white via-orange-100 to-amber-200 z-20 shadow-md">
         <div className="font-extrabold text-3xl flex items-center">
           <a href="#" className="flex items-center"><img src={image8} alt="logo" className="logo" />JoeExpress</a>
         </div>
@@ -309,7 +308,7 @@ function Home() {
               </button>
             </>
           ) : (
-            <button onClick={navLogin} className="btn mr-3 w-48 h-14 bg-footer text-gray-100 text-base tracking-widest">
+            <button onClick={navLogin} className="btn mr-3 w-48 h-14 bg-gradient-to-tr from-orange-500 via-orange-400 to-amber-200 hover:bg-gradient-to-bl hover:from-orange-500 hover:via-orange-400 hover:to-amber-200 text-gray-100 text-base tracking-widest">
               Login/Sign Up
             </button>
           )}
@@ -520,11 +519,7 @@ function Home() {
 
       {/* <!-- FAQ --> */}
     <div class="h-screen pt-10">
-      <h2
-        class="text-3xl font-extrabold text-black mb-10 flex flex-col justify-center items-center"
-      >
-        Frequently Asked Questions
-      </h2>
+      <h2 class="text-4xl font-extrabold text-white mb-10 flex flex-col justify-center items-center tracking-widest"> Frequently Asked Questions </h2>
 
       <div class="flex justify-center items-center">
         <div
@@ -536,14 +531,12 @@ function Home() {
           <h2 id="accordion-color-heading-1">
             <button
               type="button"
-              class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+              class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-white border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 hover:text-gray-600 gap-3"
               data-accordion-target="#accordion-color-body-1"
               aria-expanded="true"
               aria-controls="accordion-color-body-1"
             >
-              <span class="text-lg"
-                >How do I place an order on JoeExpress?</span
-              >
+              <span class="text-lg">How do I place an order on JoeExpress?</span>
               <svg
                 data-accordion-icon
                 class="w-3 h-3 rotate-180 shrink-0"
@@ -582,7 +575,7 @@ function Home() {
           <h2 id="accordion-color-heading-2">
             <button
               type="button"
-              class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+              class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-white border border-b-0 border-gray-200 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 hover:text-gray-600 gap-3"
               data-accordion-target="#accordion-color-body-2"
               aria-expanded="false"
               aria-controls="accordion-color-body-2"
@@ -622,7 +615,7 @@ function Home() {
           <h2 id="accordion-color-heading-3">
             <button
               type="button"
-              class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+              class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-white border border-gray-200 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 hover:text-gray-600 gap-3"
               data-accordion-target="#accordion-color-body-3"
               aria-expanded="false"
               aria-controls="accordion-color-body-3"
@@ -783,7 +776,7 @@ function Home() {
           
           <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">Copyright © 2024. Capstone Inc.</span>
         </div>
-    </footer> 
+      </footer> 
       
     </div>
   );
