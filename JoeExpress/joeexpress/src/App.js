@@ -12,6 +12,9 @@ import AdminDashboard from './components/AdminModule/Dashboard/AdminDashboard'
 import AdminLogin from './components/AdminModule/Auth/AdminLogin'
 import AdminRegistration from './components/AdminModule/Auth/AdminRegistration'
 
+import Forgot from './components/AdminModule/ForgotPass/AdminForgotPass'
+import OrderHistory from './components/AdminModule/Order/OrderHistory'
+import OrderTracking from './components/AdminModule/Order/OrderTracking'
 
 function App() {
 
@@ -26,10 +29,13 @@ function App() {
       <Route path='/items/:foodId' element = {<Item/>}> </Route>
       <Route path='/cart' element = {<Cart/>}> </Route>
       <Route path='/tracking' element = {<Tracking/>}> </Route>
-
       <Route path='/dashboard' element={<AdminDashboard/>}></Route>
       <Route path='/admin' element={<AdminLogin/>}></Route>
-      <Route path='/adminregistration' element={<AdminRegistration/>}></Route>
+      <Route path='/adminregistration' element={<AdminRegistration/>}></Route>.
+
+      <Route path='/forgot' element = {<Forgot/>}> </Route>
+      <Route path='/OrderHistory' element = {<OrderHistory/>}> </Route>
+      <Route path='/OrderTracking' element = {<OrderTracking/>}> </Route>
 
     </Routes>
     </BrowserRouter>

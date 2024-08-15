@@ -376,7 +376,7 @@ function Home() {
           </div>
         </div>
 
-        <div className="flex flex-row w-full top-[700px] lg:absolute md:mt-10 mb-10">
+        <div className="flex flex-row w-full top-[700px] lg:absolute md:mt-10 mb-10 overflow-hidden h-full">
           <div class="pl-40 w-full" data-aos="fade-down-left" data-aos-duration="1500">
             <p className="text-2xl absolute left-0 pl-20">
               <span className="font-semibold">OPERATION HOURS</span><br />
@@ -419,7 +419,7 @@ function Home() {
           <img src={image1} alt="beans" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-14 z-[-1]" />
         </div>
 
-        <div className="container mx-auto p-6">
+        <div className="container mx-auto py-6">
           <h1 className="text-3xl font-bold text-center mb-8">Our Coffee Menu</h1>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -517,6 +517,153 @@ function Home() {
         <link href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css" rel="stylesheet" />
         <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"></link>
       </div>
+
+      {/* <!-- FAQ --> */}
+    <div class="h-screen pt-10">
+      <h2
+        class="text-3xl font-extrabold text-black mb-10 flex flex-col justify-center items-center"
+      >
+        Frequently Asked Questions
+      </h2>
+
+      <div class="flex justify-center items-center">
+        <div
+          id="accordion-color"
+          data-accordion="collapse"
+          data-active-classes="bg-blue-100 dark:bg-gray-800 text-blue-600 dark:text-white"
+          class="w-4/5"
+        >
+          <h2 id="accordion-color-heading-1">
+            <button
+              type="button"
+              class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+              data-accordion-target="#accordion-color-body-1"
+              aria-expanded="true"
+              aria-controls="accordion-color-body-1"
+            >
+              <span class="text-lg"
+                >How do I place an order on JoeExpress?</span
+              >
+              <svg
+                data-accordion-icon
+                class="w-3 h-3 rotate-180 shrink-0"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 10 6"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5 5 1 1 5"
+                />
+              </svg>
+            </button>
+          </h2>
+          <div
+            id="accordion-color-body-1"
+            class="hidden"
+            aria-labelledby="accordion-color-heading-1"
+          >
+            <div
+              class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+            >
+              <p class="mb-2 text-gray-500 dark:text-gray-400">
+                To place an order, simply browse our menu, select your favorite
+                items, and add them to your cart. Once you're ready, proceed to
+                checkout, where you can review your order and provide your
+                delivery details. Finally, choose your preferred payment method
+                and confirm your order.
+              </p>
+            </div>
+          </div>
+          <h2 id="accordion-color-heading-2">
+            <button
+              type="button"
+              class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+              data-accordion-target="#accordion-color-body-2"
+              aria-expanded="false"
+              aria-controls="accordion-color-body-2"
+            >
+              <span class="text-lg">What payment methods do you accept?</span>
+              <svg
+                data-accordion-icon
+                class="w-3 h-3 rotate-180 shrink-0"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 10 6"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5 5 1 1 5"
+                />
+              </svg>
+            </button>
+          </h2>
+          <div
+            id="accordion-color-body-2"
+            class="hidden"
+            aria-labelledby="accordion-color-heading-2"
+          >
+            <div
+              class="p-5 border border-b-0 border-gray-200 dark:border-gray-700"
+            >
+              <p class="mb-2 text-gray-500 dark:text-gray-400">
+                We accept only Cash on delivery or Gcash payment method.
+              </p>
+            </div>
+          </div>
+          <h2 id="accordion-color-heading-3">
+            <button
+              type="button"
+              class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+              data-accordion-target="#accordion-color-body-3"
+              aria-expanded="false"
+              aria-controls="accordion-color-body-3"
+            >
+              <span class="text-lg">Do you charge for delivery?</span>
+              <svg
+                data-accordion-icon
+                class="w-3 h-3 rotate-180 shrink-0"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 10 6"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5 5 1 1 5"
+                />
+              </svg>
+            </button>
+          </h2>
+          <div
+            id="accordion-color-body-3"
+            class="hidden"
+            aria-labelledby="accordion-color-heading-3"
+          >
+            <div
+              class="p-5 border border-t-0 border-gray-200 dark:border-gray-700"
+            >
+              <p class="mb-2 text-gray-500 dark:text-gray-400">
+                We offer free delivery for orders over a certain amount. For
+                orders below this amount, a small delivery fee may apply.
+                Details will be provided during checkout.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
       {/* Footer */}
       <footer class="bg-footer w-full h-1/4 py-7 flex flex-col justify-center items-center" id="footer">

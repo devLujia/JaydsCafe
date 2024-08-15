@@ -3,6 +3,9 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import axios from 'axios';
 
+import arrowUP from '../../image/arrowUp.svg'
+import arrowDOWN from '../../image/arrowdown.svg'
+
 function AdminDashboard() {
 
    const [totalOrder,setTotalOrder] = useState(0);
@@ -100,9 +103,6 @@ function AdminDashboard() {
             <li>
             <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
             </li>
-            <li>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Messages</a>
-            </li>
          </ul>
          <div class="py-1">
             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
@@ -187,17 +187,6 @@ function AdminDashboard() {
 
         <ul class="pt-5 mt-10 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
         <h1 class="font-bold text-gray-500">SUPPORT</h1>
-         <li>
-            <a href="#" class="flex items-center p-2 text-white transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group hover:text-gray-900">
-               <svg class="flex-shrink-0 w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                  <path fill-rule="evenodd" d="M5.024 3.783A1 1 0 0 1 6 3h12a1 1 0 0 1 .976.783L20.802 12h-4.244a1.99 1.99 0 0 0-1.824 1.205 2.978 2.978 0 0 1-5.468 0A1.991 1.991 0 0 0 7.442 12H3.198l1.826-8.217ZM3 14v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5h-4.43a4.978 4.978 0 0 1-9.14 0H3Zm5-7a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1Zm0 2a1 1 0 0 0 0 2h8a1 1 0 1 0 0-2H8Z" clip-rule="evenodd"/>
-                </svg>
-                
-                
-               <span class="ms-3">Messages</span>
-               <span class="inline-flex items-center justify-center w-3 h-3 p-3 ms-28 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span>
-            </a>
-         </li>
          <li> 
             <a href="#" class="flex items-center p-2 text-white transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group hover:text-gray-900">
                <svg class="flex-shrink-0 w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -280,7 +269,7 @@ function AdminDashboard() {
               <h1 class="font-bold text-2xl text-gray-700 ps-2">134</h1>
             <div class="inline-flex justify-between ps-2 font-semibold text-gray-400">
                <p>Total Visits</p>
-               <p class="inline-flex text-green-500 ">0.43% <img src="/public/image/arrow up.png" alt="Arrow_Up" class="w-4 h-4 my-auto pl-1"/></p>
+               <p class="inline-flex text-green-500 ">0.43% <img src={arrowUP} alt="Arrow Up" class="w-4 h-4 my-auto pl-1"/></p>
             </div>
               
            </div>
@@ -296,7 +285,7 @@ function AdminDashboard() {
               <h1 class="font-bold text-2xl text-gray-700 ps-2">₱ {totalRevenue}</h1>
             <div class="inline-flex justify-between ps-2 font-semibold text-gray-400">
                <p>Total Revenue</p> 
-               <p class="inline-flex text-green-500 ">4.35% <img src="/public/image/arrow up.png" alt="Arrow_Up" class="w-4 h-4 my-auto pl-1"/></p>
+               <p class="inline-flex text-green-500 ">4.35% <img src={arrowUP} alt="Arrow Up" class="w-4 h-4 my-auto pl-1"/></p>
             </div>
               
            </div>
@@ -310,7 +299,7 @@ function AdminDashboard() {
               <h1 class="font-bold text-2xl text-gray-700 ps-2">{totalOrder}</h1>
             <div class="inline-flex justify-between ps-2 font-semibold text-gray-400">
                <p>Total Order(s)</p> 
-               <p class="inline-flex text-green-500 ">2.59% <img src="/public/image/arrow up.png" alt="Arrow_Up" class="w-4 h-4 my-auto pl-1"/></p>
+               <p class="inline-flex text-green-500 ">2.59% <img src={arrowUP} alt="Arrow Up" class="w-4 h-4 my-auto pl-1"/></p>
             </div>
               
            </div>
@@ -325,7 +314,7 @@ function AdminDashboard() {
               <h1 class="font-bold text-2xl text-gray-700 ps-2">{totalCustomer}</h1>
             <div class="inline-flex justify-between ps-2 font-semibold text-gray-400">
                <p>Total Customers</p> 
-               <p class="inline-flex text-red-500 ">0.43% <img src="/public/image/arrow down.png" alt="Arrow_Up" class="w-4 h-4 my-auto pl-1"/></p>
+               <p class="inline-flex text-red-500 ">0.43% <img src={arrowDOWN} alt="Arrow Down" class="w-4 h-4 my-auto pl-1"/></p>
             </div>
               
            </div>
