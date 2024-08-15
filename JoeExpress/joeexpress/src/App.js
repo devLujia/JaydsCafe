@@ -16,6 +16,9 @@ import Forgot from './components/AdminModule/ForgotPass/AdminForgotPass'
 import OrderHistory from './components/AdminModule/Order/OrderHistory'
 import OrderTracking from './components/AdminModule/Order/OrderTracking'
 import ProductManagement from './components/AdminModule/ProductManagement/ProductManagement'
+import CustomerAccount from './components/AdminModule/CustomerAccount/CustomerAccount'
+import PaymentManagement from './components/AdminModule/PaymentManagement/PaymentManagement'
+import ContentManagement from './components/AdminModule/ContentManagement/ContentManagement'
 
 function App() {
 
@@ -38,6 +41,9 @@ function App() {
       <Route path='/OrderHistory' element = {<OrderHistory/>}> </Route>
       <Route path='/OrderTracking' element = {<OrderTracking/>}> </Route>
       <Route path='/ProductManagement' element = {<ProductManagement/>}> </Route>
+      <Route path='/CustomerAccount' element = {<CustomerAccount/>}> </Route>
+      <Route path='/PaymentManagement' element = {<PaymentManagement/>}> </Route>
+      <Route path='/ContentManagement' element = {<ContentManagement/>}> </Route>
 
     </Routes>
     </BrowserRouter>

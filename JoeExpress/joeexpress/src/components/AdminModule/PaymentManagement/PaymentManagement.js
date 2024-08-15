@@ -1,19 +1,20 @@
-import React, { useEffect } from 'react'
-import '../Order/history.css'
+import React from 'react'
+import eye from '../../image/eye(2).svg'
+import trashbin from '../../image/trashbin.svg'
+import check from '../../image/check.svg'
+import gcash from '../../image/gcash.svg'
 
-export default function OrderHistory() {
+export default function PaymentManagement() {
   return (
-
     <div>
-        <body className='body'>
-            <nav class="z-20 bg-white border-gray-200 dark:bg-gray-900 top-0 sticky flex justify-end shadow-md">
+        <nav class="z-20 bg-white border-gray-200 dark:bg-gray-900 top-0 sticky flex justify-end shadow-md">
             <div class="px-4 py-3 text-sm text-gray-900 dark:text-white flex flex-col items-center">
                 <div class="font-bold">Migz Gomez Go</div>
                 <div class="items-center justify-center">Admin</div>
             </div>
             <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src="/public/image/UserAcc.png" alt="User dropdown"/>
 
-            {/*  Dropdown menu */}
+            {/* <!-- Dropdown menu --> */}
             <div id="userDropdown" class="top-16 absolute z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                 
                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
@@ -23,15 +24,12 @@ export default function OrderHistory() {
                     <li>
                     <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
                     </li>
-                    <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Messages</a>
-                    </li>
                 </ul>
                 <div class="py-1">
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                    <a href="/public/Html_Admin/adminLogin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
                 </div>
             </div>
-            </nav>
+        </nav>
 
             <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-72 h-screen pt-5 transition-transform -translate-x-full bg-footer border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
                 <div class="h-full px-3 pb-4 overflow-y-auto bg-footer dark:bg-gray-800">
@@ -44,7 +42,7 @@ export default function OrderHistory() {
                 </a>
                     <h1 class="font-bold text-gray-500">MENU</h1>
                     <ul class="space-y-2 font-medium">
-                    <li> {/* Dashboard  */}
+                    <li> {/* <!-- Dashboard --> */}
                         <a href="/Dashboard" class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:text-gray-900">
                             <svg class="flex-shrink-0 w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                                 <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z"/>
@@ -52,7 +50,7 @@ export default function OrderHistory() {
                             <span class="ms-3">Dashboard</span>
                         </a>
                     </li>
-                    <li> {/* Order Management */}
+                    <li> {/* <!-- Order Management --> */}
                         <button type="button" class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 hover:text-gray-900" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
                             <svg class="flex-shrink-0 w-5 h-5 text-white transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 21">
                                 <path d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z"/>
@@ -64,14 +62,14 @@ export default function OrderHistory() {
                         </button>
                         <ul id="dropdown-example" class="hidden py-2 space-y-2">
                             <li>
-                                <a href="/OrderTracking" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 hover:text-gray-900">Order Tracking</a>
+                                <a href="/public/Html_Admin/orderTracking.html" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 hover:text-gray-900">Order Tracking</a>
                             </li>
                             <li>
-                                <a href="#" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 hover:text-gray-900">Order History</a>
+                                <a href="/public/Html_Admin/orderHistory.html" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 hover:text-gray-900">Order History</a>
                             </li>
                         </ul>
                     </li>
-                    <li>{/* Product Management */}
+                    <li> {/* <!-- Product Management --> */}
                         <a href="/ProductManagement" class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:text-gray-900">
                             <svg class="flex-shrink-0 w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
                                 <path d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z"/>
@@ -79,7 +77,7 @@ export default function OrderHistory() {
                             <span class="flex-1 ms-3 whitespace-nowrap">Product Management</span>
                             </a>
                     </li>
-                    <li> {/* Customer Account */}
+                    <li> {/* <!-- Customer Account --> */}
                         <a href="/CustomerAccount" class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:text-gray-900">
                             <svg class="flex-shrink-0 w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                                 <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
@@ -87,8 +85,8 @@ export default function OrderHistory() {
                             <span class="flex-1 ms-3 whitespace-nowrap">Customer Account</span>
                             </a>
                     </li>
-                    <li> {/* Payment Management */}
-                        <a href="/PaymentManagement" class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:text-gray-900">
+                    <li> {/* <!-- Payment Management --> */}
+                        <a href="#" class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:text-gray-900">
                         <svg class="flex-shrink-0 w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z"/>
                             <path d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z"/>
@@ -97,7 +95,7 @@ export default function OrderHistory() {
                         <span class="flex-1 ms-3 whitespace-nowrap">Payment Management</span>
                         </a>
                     </li>
-                    <li> {/* Content Management */}
+                    <li>{/* <!-- Content Management --> */}
                         <a href="/ContentManagement" class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:text-gray-900">
                             <svg class="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
                                 <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z"/>
@@ -110,7 +108,7 @@ export default function OrderHistory() {
 
                     <ul class="pt-5 mt-10 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
                     <h1 class="font-bold text-gray-500">SUPPORT</h1>
-                    <li> {/* Settings */}
+                    <li> {/* <!-- Settings --> */}
                         <a href="#" class="flex items-center p-2 text-white transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group hover:text-gray-900">
                         <svg class="flex-shrink-0 w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd" d="M9.586 2.586A2 2 0 0 1 11 2h2a2 2 0 0 1 2 2v.089l.473.196.063-.063a2.002 2.002 0 0 1 2.828 0l1.414 1.414a2 2 0 0 1 0 2.827l-.063.064.196.473H20a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-.089l-.196.473.063.063a2.002 2.002 0 0 1 0 2.828l-1.414 1.414a2 2 0 0 1-2.828 0l-.063-.063-.473.196V20a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-.089l-.473-.196-.063.063a2.002 2.002 0 0 1-2.828 0l-1.414-1.414a2 2 0 0 1 0-2.827l.063-.064L4.089 15H4a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h.09l.195-.473-.063-.063a2 2 0 0 1 0-2.828l1.414-1.414a2 2 0 0 1 2.827 0l.064.063L9 4.089V4a2 2 0 0 1 .586-1.414ZM8 12a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z" clip-rule="evenodd"/>
@@ -119,7 +117,7 @@ export default function OrderHistory() {
                         <span class="ms-3">Settings</span>
                         </a>
                     </li>
-                    <li> {/* Help */}
+                    <li> {/* <!-- Help --> */}
                         <a href="#" class="flex items-center p-2 text-white transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group hover:text-gray-900">
                         <svg class="flex-shrink-0 w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.008-3.018a1.502 1.502 0 0 1 2.522 1.159v.024a1.44 1.44 0 0 1-1.493 1.418 1 1 0 0 0-1.037.999V14a1 1 0 1 0 2 0v-.539a3.44 3.44 0 0 0 2.529-3.256 3.502 3.502 0 0 0-7-.255 1 1 0 0 0 2 .076c.014-.398.187-.774.48-1.044Zm.982 7.026a1 1 0 1 0 0 2H12a1 1 0 1 0 0-2h-.01Z" clip-rule="evenodd"/>
@@ -133,117 +131,128 @@ export default function OrderHistory() {
             </aside>
         
             <div class="p-4 sm:ml-72 bg-slate-100">
+            
                 <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
-                    <div class="flex items-center justify-start flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900">
-                        <h1 class="font-bold text-2xl ps-3 tracking-wider">Order History</h1>
-                    </div>
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr class="text-center">
+                                        <th scope="col" class="px-6 py-3 ">
+                                            TRANSACTION
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            PAYMENT METHOD
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            DATE / TIME
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            STATUS
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            ACTIONS
+                                        </th>
+                                    </tr>
+                                </thead>
 
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" class="px-6 py-3">
-                                TRANSACTION
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                ORDER ID
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                DATE & TIME
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                AMOUNT
-                            </th>
-                            <th scope="col" class="px-6 ps-10">
-                                STATUS
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                <div class="ps-3">
-                                    <div class="text-base font-semibold">Bronny James <span class="font-bold">- Milk Tea</span></div> {/* transaction */}
-                                </div>  
-                            </th>
-                            <td class="px-6 py-4 text-black font-semibold"> {/* order id */}
-                                    #0100
-                            </td>
-                            <td class="px-6 py-4"> {/* date / time */}
-                                    Jan 13,2023/1:00:00pm
-                            </td>
-                            <td class="px-6 py-4">
-                                    ₱39.00
-                            </td>
-                            <td class="px-6 py-4"> {/* status */}
-                                <div class="bg-green-100 text-green-500 font-semibold w-fit py-2 px-4 rounded-3xl ">Completed</div>
-                                <div class="bg-red-100 text-red-500 font-semibold w-fit py-2 px-4 rounded-3xl hidden">Cancelled</div>
-                            </td>
-                        </tr>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                <div class="ps-3">
-                                    <div class="text-base font-semibold">John Ellic Bauyon <span class="font-bold">- Fruit Juice</span></div> {/* transaction */}
-                                </div>  
-                            </th>
-                            <td class="px-6 py-4 text-black font-semibold"> {/* order id */}
-                                #0101
-                            </td>
-                            <td class="px-6 py-4"> {/* date / time */}
-                                Jan 13,2023/1:30:23pm
-                            </td>
-                            <td class="px-6 py-4">
-                                ₱39.00
-                            </td>
-                            <td class="px-6 py-4"> {/* status */}
-                            <div class="bg-green-100 text-green-500 font-semibold w-fit py-2 px-4 rounded-3xl hidden">Completed</div>
-                            <div class="bg-red-100 text-red-500 font-semibold w-fit py-2 px-4 rounded-3xl ">Cancelled</div>
-                            </td>
-                        </tr>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                <div class="ps-3">
-                                    <div class="text-base font-semibold">Gab Pago <span class="font-bold">- Espresso</span></div> {/* transaction */}
-                                </div>  
-                            </th>
-                            <td class="px-6 py-4 text-black font-semibold"> {/* order id */}
-                                #0102
-                            </td>
-                            <td class="px-6 py-4"> {/* date / time */}
-                                Jan 13,2023/1:35:34pm
-                            </td>
-                            <td class="px-6 py-4">
-                                ₱40000.00
-                            </td>
-                            <td class="px-6 py-4"> {/* status */}
-                            <div class="bg-green-100 text-green-500 font-semibold w-fit py-2 px-4 rounded-3xl ">Completed</div>
-                            <div class="bg-red-100 text-red-500 font-semibold w-fit py-2 px-4 rounded-3xl hidden">Cancelled</div>
-                            </td>
-                        </tr>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                <div class="ps-3">
-                                    <div class="text-base font-semibold">Charge Yulo <span class="font-bold">- Matcha latte</span></div> {/* transaction */}
-                                </div>  
-                            </th>
-                            <td class="px-6 py-4 text-black font-semibold"> {/* order id */}
-                                #0103
-                            </td>
-                            <td class="px-6 py-4"> {/* date / time */}
-                                Jan 13,2023/2:01:23pm
-                            </td>
-                            <td class="px-6 py-4">
-                                ₱49.00
-                            </td>
-                            <td class="px-6 py-4"> {/* status */}
-                            <div class="bg-green-100 text-green-500 font-semibold w-fit py-2 px-4 rounded-3xl ">Completed</div>
-                            <div class="bg-red-100 text-red-500 font-semibold w-fit py-2 px-4 rounded-3xl hidden">Cancelled</div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                <tbody>
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white ">
+                                            <div class="ps-3 mx-auto">
+                                                <div class="text-base font-semibold">#Order-12</div>
+                                                <div class="font-normal text-gray-500">₱39.00</div>
+                                            </div>  
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            <img src={gcash} alt="Image" class="w-10 h-10 rounded-md mx-auto"/>
+                                        </td>
+                                        <td class="px-6 py-4 text-center">
+                                            Jan 13,2023/12:00:00pm
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="bg-green-100 text-green-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">Paid</div>
+                                        </td>
+                                        <td class="flex items-center px-6 py-4 space-x-2">
+                                            <div class="h-fit items-center justify-center flex space-x-5 ps-4 mx-auto pt-4">
+                                                <button>
+                                                    <img src={eye} alt="eye" class="w-6 h-6"/>
+                                                </button>
+                                                <button class="hover:underline hover:decoration-blue-500">
+                                                    <img src={trashbin} alt="trash"/>
+                                                </button>
+                                                <button>
+                                                <img src={check} alt="check"/>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white ">
+                                            <div class="ps-3 mx-auto">
+                                                <div class="text-base font-semibold">#Order-13</div>
+                                                <div class="font-normal text-gray-500">₱59.00</div>
+                                            </div>  
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            <img src={gcash} alt="Image" class="w-10 h-10 rounded-md mx-auto"/>
+                                        </td>
+                                        <td class="px-6 py-4 text-center">
+                                            Jan 13,2023/13:39:10pm
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="bg-red-100 text-red-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">Unpaid</div>
+                                        </td>
+                                        <td class="flex items-center px-6 py-4 space-x-2">
+                                            <div class="h-fit items-center justify-center flex space-x-5 ps-4 mx-auto pt-4">
+                                            <button>
+                                                    <img src={eye} alt="eye" class="w-6 h-6"/>
+                                                </button>
+                                                <button class="hover:underline hover:decoration-blue-500">
+                                                    <img src={trashbin} alt="trash"/>
+                                                </button>
+                                                <button>
+                                                    <img src={check} alt="check"/>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white ">
+                                        <div class="ps-3 mx-auto">
+                                            <div class="text-base font-semibold">#Order-14</div>
+                                            <div class="font-normal text-gray-500">₱39.00</div>
+                                        </div>  
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        <img src={gcash} alt="Image" class="w-10 h-10 rounded-md mx-auto"/>
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        Jan 13,2023/01:02:20pm
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="bg-yellow-100 text-yellow-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">Pending</div>
+                                    </td>
+                                    <td class="flex items-center px-6 py-4 space-x-2">
+                                        <div class="h-fit items-center justify-center flex space-x-5 ps-4 mx-auto pt-4">
+                                            <button>
+                                                <img src={eye} alt="eye" class="w-6 h-6"/>
+                                            </button>
+                                            <button class="hover:underline hover:decoration-blue-500">
+                                                <img src={trashbin} alt="trash"/>
+                                            </button>
+                                            <button>
+                                            <img src={check} alt="check"/>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </body>
     </div>
   )
 }
