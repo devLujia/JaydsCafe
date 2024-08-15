@@ -15,6 +15,7 @@ import AdminRegistration from './components/AdminModule/Auth/AdminRegistration'
 import Forgot from './components/AdminModule/ForgotPass/AdminForgotPass'
 import OrderHistory from './components/AdminModule/Order/OrderHistory'
 import OrderTracking from './components/AdminModule/Order/OrderTracking'
+import ProductManagement from './components/AdminModule/ProductManagement/ProductManagement'
 
 function App() {
 
@@ -36,6 +37,7 @@ function App() {
       <Route path='/forgot' element = {<Forgot/>}> </Route>
       <Route path='/OrderHistory' element = {<OrderHistory/>}> </Route>
       <Route path='/OrderTracking' element = {<OrderTracking/>}> </Route>
+      <Route path='/ProductManagement' element = {<ProductManagement/>}> </Route>
 
     </Routes>
     </BrowserRouter>
