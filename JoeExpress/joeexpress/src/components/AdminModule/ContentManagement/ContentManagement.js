@@ -1,9 +1,37 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import arrowUP from '../../image/arrowUp.svg'
 import arrowDOWN from '../../image/arrowdown.svg'
 import picture from '../../image/UserAcc.svg'
 
 export default function ContentManagement() {
+
+     
+    useEffect(()=>{
+            const shortBy = document.getElementById('shortBy');
+            const shortByDropDown = document.getElementById('shortByDropDown');
+
+            shortBy.addEventListener('click', () => {
+            shortByDropDown.classList.toggle('hidden');
+            });
+
+            // Dropdown sa Order Management
+            const button = document.querySelector('[data-collapse-toggle="dropdown-example"]');
+            const dropdown = document.getElementById('dropdown-example');
+
+            button.addEventListener('click', () => {
+            dropdown.classList.toggle('hidden');
+            });
+
+            // Dropdown sa Avatar
+            const avatarButton = document.getElementById('avatarButton');
+            const userDropdown = document.getElementById('userDropdown');
+
+            avatarButton.addEventListener('click', () => {
+            userDropdown.classList.toggle('hidden');
+            });
+    })
+
+
   return (
     <div>
         <nav class="z-20 bg-white border-gray-200 dark:bg-gray-900 top-0 sticky flex justify-end shadow-md">
@@ -18,14 +46,14 @@ export default function ContentManagement() {
                 
                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
                 <li>
-                <a href="/public/Html_Admin/adminDashboard.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                <a href="/dashboard" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
                 </li>
                 <li>
                 <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
                 </li>
                 </ul>
                 <div class="py-1">
-                <a href="/public/Html_Admin/adminLogin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                <a href="/admin" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
                 </div>
             </div>
         </nav>

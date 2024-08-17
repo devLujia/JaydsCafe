@@ -1,10 +1,33 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import eye from '../../image/eye(2).svg'
 import trashbin from '../../image/trashbin.svg'
 import check from '../../image/check.svg'
 import gcash from '../../image/gcash.svg'
 
 export default function PaymentManagement() {
+
+    useEffect(()=>{
+        
+            const button = document.querySelector('[data-collapse-toggle="dropdown-example"]');
+            const dropdown = document.getElementById('dropdown-example');
+
+            button.addEventListener('click', () => {
+            dropdown.classList.toggle('hidden');
+            });
+
+            // Dropdown sa Avatar
+            const avatarButton = document.getElementById('avatarButton');
+            const userDropdown = document.getElementById('userDropdown');
+
+            avatarButton.addEventListener('click', () => {
+
+            userDropdown.classList.toggle('hidden');
+
+            });
+    })
+
+
+
   return (
     <div>
         <nav class="z-20 bg-white border-gray-200 dark:bg-gray-900 top-0 sticky flex justify-end shadow-md">
@@ -19,14 +42,14 @@ export default function PaymentManagement() {
                 
                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
                     <li>
-                    <a href="/public/Html_Admin/adminDashboard.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                    <a href="/Dashboard" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
                     </li>
                     <li>
                     <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
                     </li>
                 </ul>
                 <div class="py-1">
-                    <a href="/public/Html_Admin/adminLogin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                    <a href="/admin" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
                 </div>
             </div>
         </nav>
@@ -62,10 +85,10 @@ export default function PaymentManagement() {
                         </button>
                         <ul id="dropdown-example" class="hidden py-2 space-y-2">
                             <li>
-                                <a href="/public/Html_Admin/orderTracking.html" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 hover:text-gray-900">Order Tracking</a>
+                                <a href="/OrderTracking" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 hover:text-gray-900">Order Tracking</a>
                             </li>
                             <li>
-                                <a href="/public/Html_Admin/orderHistory.html" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 hover:text-gray-900">Order History</a>
+                                <a href="/OrderHistory" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 hover:text-gray-900">Order History</a>
                             </li>
                         </ul>
                     </li>

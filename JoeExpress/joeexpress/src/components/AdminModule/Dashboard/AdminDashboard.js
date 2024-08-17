@@ -57,6 +57,7 @@ function AdminDashboard() {
     },[]);
 
     useEffect(()=>{
+
       const button = document.querySelector('[data-collapse-toggle="dropdown-example"]');
       const dropdown = document.getElementById('dropdown-example');
 
@@ -141,10 +142,10 @@ function AdminDashboard() {
             </button>
             <ul id="dropdown-example" class="hidden py-2 space-y-2">
                   <li>
-                     <a href="/public/Html_Admin/orderTracking.html" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 hover:text-gray-900">Order Tracking</a>
+                     <a href="/OrderTracking" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 hover:text-gray-900">Order Tracking</a>
                   </li>
                   <li>
-                     <a href="/public/Html_Admin/orderHistory.html" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 hover:text-gray-900">Order History</a>
+                     <a href="/OrderHistory" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 hover:text-gray-900">Order History</a>
                   </li>
             </ul>
          </li>

@@ -592,6 +592,31 @@ app.post('/adminsignup', async (req, res) => {
     }
 });
 
+app.post('/productResult', (req,res)=>{
+    
+    const query = ` SELECT f.name, c.title, f.id, fs.size,
+                    CASE 
+                        WHEN fs.size = 'medium' THEN fs.price 
+                        WHEN fs.size = 'large' THEN fs.price
+                        ELSE NULL 
+                    END AS price
+
+                    FROM foods f
+                    JOIN food_sizes fs ON f.id = fs.food_id
+                    JOIN category c ON f.category_id = c.id
+                    WHERE fs.size = ?
+                    GROUP BY f.name, c.title, f.id
+                    `
+    db.query(query,[req.body.sizedd],(err,result) =>{
+        if(err){
+            res.json({err: "Unable to fetch foods to product management"})
+        }
+        res.json(result)
+
+    })
+
+})
+
 app.post('/addProduct', (req, res) =>{
     const {name,description,image_url,category_id, size, medprice, lgprice} = req.body;
     const query = `INSERT INTO foods (name, description, image_url, category_id) 
@@ -643,8 +668,6 @@ app.post('/removeProduct',  async (req, res) =>{
         if (rows.length === 0) {
             return res.json({ error: 'Food item not found' });
         }
-    
-        
     });
     
     try{
@@ -687,7 +710,7 @@ app.post('/removeProduct',  async (req, res) =>{
             if (err){
                 res.json({err: "Unable to update into food and food_sizes"})
             }
-            res.json('yahoo');
+            
         })
  
     })

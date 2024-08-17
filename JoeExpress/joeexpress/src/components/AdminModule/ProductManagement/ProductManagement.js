@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import trashbin2 from '../../image/trashbin(2).svg'
 import trashbin3 from '../../image/trashbin(3).svg'
 import settings from '../../image/settings.svg'
@@ -8,15 +8,67 @@ import edit from '../../image/edit.svg'
 import plus from '../../image/plus.svg'
 
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
-export default function ProductManagement() {
-    function ProductManagement(){
-        const navigate = useNavigate();
+function ProductManagement() {
 
-        const navLogin = () => {
-            navigate('/ProductManagement');
-          };
+    
+    const navigate = useNavigate();
+    const [foods,setFoods] = useState([]);
+    const [sizedd, setSizedd] = useState('medium');
+    const [search, setSearch] = useState('');
+
+    const navLogin = () => {
+        navigate('/ProductManagement');
     };
+
+
+    useEffect(()=>{
+        axios.post('http://localhost:8081/productResult', {sizedd})
+        .then(response=>{
+            setFoods(response.data)
+        })
+        .catch(error => {
+            console.error('Error fetching food details:', error);
+        });
+    },[sizedd])
+
+
+    useEffect(()=>{
+                const button = document.querySelector('[data-collapse-toggle="dropdown-example"]');
+                const dropdown = document.getElementById('dropdown-example');
+
+                button.addEventListener('click', () => {
+                dropdown.classList.toggle('hidden');
+                });
+
+                // Dropdown sa Avatar
+            const avatarButton = document.getElementById('avatarButton');
+            const userDropdown = document.getElementById('userDropdown');
+
+            avatarButton.addEventListener('click', () => {
+            userDropdown.classList.toggle('hidden');
+            });
+    })
+
+    const handleAddProduct = () => {
+
+        // axios.post('http://localhost:8081/addProduct');
+
+    }
+
+    const handleRemoveProduct = (name) => {
+
+        axios.post('http://localhost:8081/removeProduct', { name });
+
+        const updatedFoods = foods.filter((food) => food.name !== name);
+        setFoods(updatedFoods);
+
+    }
+
+
+
+
   return (
 
     <div>
@@ -154,13 +206,20 @@ export default function ProductManagement() {
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                 </svg>
                             </div>
-                            <input type="text" id="table-search-users" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for Product"/>
+                            <input 
+                            type="Search"
+                            id="table-search-users" 
+                            style={{ textTransform: 'uppercase' }} 
+                            onChange={(e)=> setSearch(e.target.value)}
+                            className="searchInput block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                            
+                            placeholder="Search for Product"/>
                         </div>
                         <div class="h-fit items-center justify-center flex space-x-1 ps-4">
                             <button>
                                 <img src={settings} alt="settings"/>
                             </button>
-                            <button>
+                            <button onClick={handleRemoveProduct}>
                                 <img src={trashbin2} alt="trash"/>
                             </button>
                             <button>
@@ -170,7 +229,7 @@ export default function ProductManagement() {
                                 <img src={ellipsis} alt="ellipsis"/>
                             </button>
                         </div>
-                        <button type="button" class="ml-auto text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+                        <button onClick={handleAddProduct} type="button" class="ml-auto text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
                             <img src={plus} alt="Plus_Product" class="me-2 md:block"/>
                             <span class="md:block hidden"> Add Product </span>
                         </button>
@@ -186,7 +245,7 @@ export default function ProductManagement() {
                                             <label for="checkbox-all-search" class="sr-only">checkbox</label>
                                         </div>
                                     </th>
-                                    <th scope="col" class="px-6 py-3 w-96">
+                                    <th scope="col" class="px-6 py-3 w-66">
                                         PRODUCT NAME
                                     </th>
                                     <th scope="col" class="px-6 py-3">
@@ -195,14 +254,25 @@ export default function ProductManagement() {
                                     <th scope="col" class="px-6 py-3 text-center">
                                         ID
                                     </th>
+                                    <th scope="col" class="px-6 py-3 text-center">
+                                        Size
+                                    </th>
                                     <th scope="col" class="px-6 py-3">
                                         PRICE
                                     </th>
                                 </tr>
                             </thead>
-
+                            
                             <tbody>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"> {/* Taro Milk Tea */}
+
+                                {foods
+                                .filter((food) =>{ 
+                                    return search.toLowerCase() === '' 
+                                    ? food 
+                                    : food.name.toLowerCase().includes(search);    
+                                })
+                                .map((food) => (
+                                <tr key={food.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"> {/* Taro Milk Tea */}
                                     <td class="w-4 p-4">
                                         <div class="flex items-center">
                                             <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
@@ -210,57 +280,40 @@ export default function ProductManagement() {
                                         </div>
                                     </td>
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <div class="text-base font-semibold">Taro</div> {/* product name */}
+                                        <div class="text-base font-semibold">{food.name}</div> {/* product name */}
                                         <div class="text-base font-normal text-gray-500">Milk Tea</div>
                                     </th>
                                     <td class="px-6 py-4"> {/* Category */}
-                                        Drinks
+                                        {food.title}
                                     </td>
                                     <td class="px-6 py-4"> {/* id */}
-                                        #100001
+                                        {food.id}
+                                    </td>
+                                    <td class="px-6 py-4"> {/* id */}
+                                        <select onChange={(e)=> setSizedd(e.target.value)} className='bg-transparent border-none'>
+                                            <option value = 'medium'>Medium</option>
+                                            <option value = 'large'>Large</option>
+                                        </select>
                                     </td>
                                     <td class="px-6 py-4"> {/* price */}
-                                        ₱39.00
+                                        {food.price}
                                     </td>
                                     <td class="flex items-center px-6 py-4 space-x-2">
                                         <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                             <img src={edit} alt="edit" class="px-2"/>
                                         </button>
-                                        <button type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                            <img src={trashbin3} alt="trashbin" class="px-2"/>
+                                        <button type="button" 
+                                        onClick={() => handleRemoveProduct(food.name)}
+                                        class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                        <img src={trashbin3} alt="trashbin" class="px-2"/>
                                         </button>
                                     </td>
                                 </tr>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"> {/* Taro Milk Tea */}
-                                    <td class="w-4 p-4">
-                                        <div class="flex items-center">
-                                            <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                            <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                                        </div>
-                                    </td>
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <div class="text-base font-semibold">Siomai</div> {/* product name */}
-                                        <div class="text-base font-normal text-gray-500">Homemade</div>
-                                    </th>
-                                    <td class="px-6 py-4"> {/* Category */}
-                                        Snacks
-                                    </td>
-                                    <td class="px-6 py-4">{/* id */}
-                                        #100002
-                                    </td>
-                                    <td class="px-6 py-4">{/* price */}
-                                        ₱50.00
-                                    </td>
-                                    <td class="flex items-center px-6 py-4 space-x-2">
-                                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                            <img src={edit} alt="edit" class="px-2"/>
-                                        </button>
-                                        <button type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                            <img src={trashbin3} alt="trashbin" class="px-2"/>
-                                        </button>
-                                    </td>
-                                </tr>
+                                 ))}
+
                             </tbody> 
+                           
+                            
                         </table>
                     </div>
                 </div>
@@ -268,3 +321,4 @@ export default function ProductManagement() {
     </div>
   )
 }
+export default ProductManagement
