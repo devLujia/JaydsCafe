@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import trashbin2 from '../../image/trashbin(2).svg'
 import trashbin3 from '../../image/trashbin(3).svg'
 import settings from '../../image/settings.svg'
@@ -7,9 +7,43 @@ import link from '../../image/Link.svg'
 import edit from '../../image/edit.svg'
 import plus from '../../image/plus.svg' 
 import picture from '../../image/UserAcc.svg'
+import AddCustomerAcc from '../AdminModal/AddCustomerAcc.js'
+import Areyousure from '../AdminModal/Areyousure.js'  
+import EditCustomerAcc from '../AdminModal/EditCustomerAcc.js'
+import axios from 'axios'
 // 119 239
 
 export default function CustomerAccount() {
+
+    const [addModal,setaddModal] = useState(false);
+    const [AYSModal,setAYSModal] = useState(false);
+    const [editModal,setEditModal] = useState(false);
+    const [userData,setUserData] = useState([]);
+    const [data, setData] = useState([]);
+    const [selectedUserId, setSelectedUserId] = useState(null);
+    const [search, setSearch] = useState('');
+    
+    const toggleModal = () =>{
+        setaddModal(!addModal)
+    }
+
+    const toggleAYSModal = () =>{
+        setAYSModal(!AYSModal)
+    }
+
+    const toggleEditModal = () =>{
+        setEditModal(!editModal)
+    }
+
+    useEffect(()=>{
+        axios.post('http://localhost:8081/fetchUserData')
+        .then(result =>{
+            setUserData(result.data);
+        })
+        .catch(error=>{
+            console.log("There was an error on fetching the users details! ", error);
+        });
+    })
 
     useEffect(()=>{
         const button = document.querySelector('[data-collapse-toggle="dropdown-example"]');
@@ -29,9 +63,23 @@ export default function CustomerAccount() {
 
     })
 
+    const handleEditClick = (id) => {
+        setSelectedUserId(id);
+        setEditModal(!editModal);
+    };
+
+    
+
+    
 
   return (
     <div>
+        {addModal && <AddCustomerAcc closeModal={setaddModal}/>}
+        {editModal && selectedUserId !== null && (
+                <EditCustomerAcc closeModal={() => setEditModal(false)} id={selectedUserId} />
+            )}
+        
+        
         <nav class="z-20 bg-white border-gray-200 dark:bg-gray-900 top-0 sticky flex justify-end shadow-md">
             <div class="px-4 py-3 text-sm text-gray-900 dark:text-white flex flex-col items-center">
                 <div class="font-bold">Migz Gomez Go</div>
@@ -158,7 +206,7 @@ export default function CustomerAccount() {
             <div class="p-4 sm:ml-72 bg-slate-100">
                 <h1 class="font-extrabold text-3xl tracking-wider ms-2 p-5">All Users</h1>
                 <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
-                    <div class="flex items-center flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900">
+                    <div class="z-10 flex items-center flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900">
 
                         <label for="table-search" class="sr-only">Search</label>
                         <div class="relative">
@@ -167,7 +215,9 @@ export default function CustomerAccount() {
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                 </svg>
                             </div>
-                            <input type="text" id="table-search-users" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for Users"/>
+                            <input 
+                            onChange={(e)=> setSearch(e.target.value)}
+                            type="text" id="table-search-users" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for Users"/>
                         </div>
 
                         <div class="h-fit items-center justify-center flex space-x-1 ps-4">
@@ -184,10 +234,13 @@ export default function CustomerAccount() {
                                 <img src={ellipsis} alt="ellipsis"/>
                             </button>
                         </div>
-                        <button type="button" class="ml-auto text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+                        <button onClick={toggleModal} type="button" class="ml-auto text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
                             <img src={plus} alt="Plus_Product" class="me-2 md:block"/>
                             <span class="md:block hidden"> Add Users </span>
                         </button>
+
+
+
                     </div>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -207,7 +260,7 @@ export default function CustomerAccount() {
                                             ADDRESS
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            STATUS
+                                            ROLE
                                         </th>
                                         <th scope="col" class="px-6 py-3 justify-center flex">
                                             ACTIONS
@@ -216,7 +269,13 @@ export default function CustomerAccount() {
                                 </thead>
 
                                 <tbody>
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                {userData.filter((user)=>{
+                                    return search.toLowerCase() === '' 
+                                    ? user 
+                                    : user.name.toLowerCase().includes(search);    
+                                })
+                                .map(user => (
+                                        <tr key= {user.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                         <td class="w-4 p-4">
                                             <div class="flex items-center">
                                                 <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
@@ -226,58 +285,38 @@ export default function CustomerAccount() {
                                         <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                                             <img src={picture} alt="Jese image" class="w-10 h-10 rounded-full"/>
                                             <div class="ps-3">
-                                                <div class="text-base font-semibold">Migz Gomez Go</div>
-                                                <div class="font-normal text-gray-500">MigzCutie123.com</div>
+                                                <div class="text-base font-semibold">{user.name}</div>
+                                                <div class="font-normal text-gray-500">{user.email}</div>
                                             </div>  
                                         </th>
                                         <td class="px-6 py-4">
-                                            BLK 14 LOT 22 SALINAS HOMES 1 PHASE 3
+                                            {user.address}
                                         </td>
                                         <td class="px-6 py-4">
                                             <div class="flex items-center font-semibold text-green-600">
-                                                <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Online
+                                                <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> {user.role}
                                             </div>
                                         </td>
                                         <td class="flex items-center px-6 py-4 space-x-2">
-                                            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                            <button onClick={() => handleEditClick(user.id)} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                                 <img src={edit} alt="edit" class="px-2"/>
+                                                
                                             </button>
-                                            <button type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                            
+                                            <button onClick={toggleAYSModal} type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                                 <img src={trashbin3} alt="trashbin" class="px-2"/>
+                                                {AYSModal && <Areyousure closeModal={setAYSModal} id={user.id}/>}
                                             </button>
+                                            
+                                            
+                                            
+                                            
                                         </td>
-                                    </tr>
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <td class="w-4 p-4">
-                                            <div class="flex items-center">
-                                                <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                                <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                                            </div>
-                                        </td>
-                                        <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                            <img src={picture} alt="Jese image" class="w-10 h-10 rounded-full"/>
-                                            <div class="ps-3">
-                                                <div class="text-base font-semibold">Charge yulo</div>
-                                                <div class="font-normal text-gray-500">YuloBold.com</div>
-                                            </div>  
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            BLK 3 LOT 20 SALITRAN HOMES 2 PHASE 3
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <div class="flex items-center font-semibold text-red-600">
-                                                <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div> Offline
-                                            </div>
-                                        </td>
-                                        <td class="flex items-center px-6 py-4 space-x-2">
-                                            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                <img src={edit} alt="edit" class="px-2"/>
-                                            </button>
-                                            <button type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                <img src={trashbin3} alt="trashbin" class="px-2"/>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                        
+                                    </tr>  
+                                    
+                                    ))}
+                                    
                                 </tbody>
                             </table>
                         </div>

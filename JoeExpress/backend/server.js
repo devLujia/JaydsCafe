@@ -488,6 +488,36 @@ app.post('/verify-payment', async (req, res) => {
     }
 });
 
+app.post('/updateAcc', async (req, res) => {
+    const { id, name, email, password, address } = req.body;
+
+    const query = `
+    UPDATE user
+    SET name = ?,
+        email = ?,
+        password = ?,
+        address = ?
+    WHERE id = ?`;
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const values = [name, email, hashedPassword, address, id];
+
+        db.query(query, values, (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ error: 'Failed to update user info' });
+            }
+            res.status(200).json({ message: 'User info updated successfully' });
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+
+// ADMIN
 // dashboard
 
 app.post('/adminlogin',async (req, res) => {
@@ -591,6 +621,69 @@ app.post('/adminsignup', async (req, res) => {
         res.status(500).json({ error: 'Failed to sign up' });
     }
 });
+
+
+app.post('/fetchUserData', (req,res)=>{
+
+    const query = `SELECT id,name,email,address, role from user`
+    db.query(query,(err,result)=>{
+        
+        if(err){
+            res.json({err: "Unable to fetch user data to product management"})
+        }
+        res.json(result)
+    })
+
+})
+
+app.post('/fetchSpecificUserData', (req, res) => {
+    const { id } = req.body;
+
+    const query = 
+    `SELECT id, name, email, address 
+    FROM user
+    WHERE id = ?`;
+
+    db.query(query, [id], (err, result) => {
+        if (err) {
+            console.error("Error fetching user data:", err);
+            return res.status(500).json({ error: "Unable to fetch user data" });
+        }
+
+        if (result.length === 0) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        res.json(result[0]);
+    });
+});
+
+app.post('/deleteUserData',(req,res)=>{
+
+    const {id} = req.body;
+
+    const query = `DELETE FROM cart WHERE user_id = ?`
+
+    db.query(query,[id],(irror,result)=>{
+        if(irror){
+            result.json({irror: "Unable to delete from cart"})
+        }
+        
+        const deleteQuery = `DELETE FROM user WHERE id = ? `
+        
+        db.query(deleteQuery,[id], (deleteErr, deleteRes)=> {
+            if(deleteErr){
+                deleteRes.json({err: "Unable to delete user"})
+            }
+            res.json({Sucess:true})
+            
+        })
+
+    })
+
+
+})
+
 
 app.post('/productResult', (req,res)=>{
     
