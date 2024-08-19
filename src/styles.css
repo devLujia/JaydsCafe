@@ -7,6 +7,28 @@
     scroll-behavior: smooth;
 }
 
+/*<!-- for scroll effect sa taas --> */
+.scroll-progress{ 
+  position: fixed;
+  height: 5px;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  background-color: rgb(154, 108, 48);
+  z-index: 50;
+  animation: scroll-progress linear;
+  animation-timeline: scroll();
+}
+
+@keyframes scroll-progress {
+  from{
+    width: 0px;
+  }
+  to{
+    width: 100%;
+  }
+}
+
 nav{
     display: flex;
     align-items: center;
