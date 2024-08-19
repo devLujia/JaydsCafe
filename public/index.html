@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="/src/styles.css" />
     <link rel="stylesheet" href="/public/output.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,16 +18,15 @@
     />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
 
-    <title>JoeExpress Milktea</title>
+    <title>JoeExpress</title>
   </head>
 
   <body>
     <!-- nav -->
     <nav class="sticky top-0 bg-white z-20">
       <div class="font-extrabold text-2xl flex items-center">
-        <a href="#" class="flex items-center"
-          ><img src="image/LOGO.png" alt="logo" class="logo" />JoeExpress</a
-        >
+        <!-- Logo/Title in Navbar -->
+        <a href="index.html" class="flex items-center">JoeExpress</a>
       </div>
       <span class="menu">
         <ul
@@ -90,9 +91,10 @@
           </ul>
         </div>
 
+        <!-- Button for Login or Sign Up -->
         <a href="html/login.html">
           <button
-            class="btn mr-3 w-48 h-14 bg-footer text-gray-100 text-base tracking-widest"
+            class="btn mr-3 w-40 h-12 bg-footer text-white text-sm tracking-widest shadow-md transition-shadow duration-300 cursor-pointer hover:shadow-lg hover:shadow-gray-400"
           >
             Login/Sign Up
           </button>
@@ -110,7 +112,7 @@
     <div class="fixed bottom-0 right-0 mb-4 mr-4 z-50 w-16 h-16">
       <button
         id="open-chat"
-        class="bg-amber-600 text-white py-2 px-4 rounded-full hover:bg-amber-700 transition duration-300 flex items-center w-16 h-16"
+        class="bg-footer text-white py-2 px-4 rounded-full hover:bg-amber-700 transition duration-300 flex items-center w-16 h-16"
       >
         <img src="image/live-chat.png" alt="chat" />
       </button>
@@ -118,9 +120,9 @@
     <div id="chat-container" class="hidden fixed bottom-16 right-4 w-96 z-50">
       <div class="bg-cards2 shadow-md rounded-lg max-w-lg w-full">
         <div
-          class="p-4 border-b bg-amber-600 text-white rounded-t-lg flex justify-between items-center"
+          class="p-4 border-b bg-footer text-white rounded-t-lg flex justify-between items-center"
         >
-          <p class="text-lg font-semibold">Pouring Joe Admin</p>
+          <p class="text-lg font-semibold">JoeBot</p>
           <button
             id="close-chat"
             class="text-gray-300 hover:text-gray-400 focus:outline-none focus:text-gray-400"
@@ -147,7 +149,19 @@
             <p
               class="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block"
             >
-              Hi! Welcome to Pouring Joe. How can I help you?
+              👋 Hi there! I'm JoeBot!, your friendly virtual assistant here at
+              JoeExpress. I'm here to make your experience as smooth and
+              enjoyable as possible. Whether you need help finding your favorite
+              milk tea flavor, placing an order, or learning about our latest
+              promotions, I'm just a click away!
+            </p>
+          </div>
+          <div class="mb-2">
+            <p
+              class="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block"
+            >
+              Feel free to ask me anything, and I'll do my best to assist you.
+              Let's get started on finding your perfect drink today! 🥤
             </p>
           </div>
         </div>
@@ -160,7 +174,7 @@
           />
           <button
             id="send-button"
-            class="bg-amber-600 text-white px-4 py-2 rounded-r-md hover:bg-amber-700 transition duration-300"
+            class="bg-footer text-white px-4 py-2 rounded-r-md hover:bg-amber-700 transition duration-300"
           >
             Send
           </button>
@@ -612,7 +626,7 @@
 
     <!-- Reviews -->
     <div class="mt-20 h-screen">
-      <h2 class="font-extrabold text-4xl mb-10 text-yellow-950 text-center">
+      <h2 class="font-extrabold text-5xl mb-10 text-yellow-950 text-center">
         Reviews
       </h2>
 
@@ -728,7 +742,9 @@
               aria-expanded="true"
               aria-controls="accordion-color-body-1"
             >
-              <span class="text-lg">Where can I watch?</span>
+              <span class="text-lg"
+                >How do I place an order on JoeExpress?</span
+              >
               <svg
                 data-accordion-icon
                 class="w-3 h-3 rotate-180 shrink-0"
@@ -756,7 +772,11 @@
               class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
             >
               <p class="mb-2 text-gray-500 dark:text-gray-400">
-                Sa 9animix maganda mga anime don! solid 100%
+                To place an order, simply browse our menu, select your favorite
+                items, and add them to your cart. Once you're ready, proceed to
+                checkout, where you can review your order and provide your
+                delivery details. Finally, choose your preferred payment method
+                and confirm your order.
               </p>
             </div>
           </div>
@@ -768,7 +788,7 @@
               aria-expanded="false"
               aria-controls="accordion-color-body-2"
             >
-              <span class="text-lg">Mahal ka ba niya?</span>
+              <span class="text-lg">What payment methods do you accept?</span>
               <svg
                 data-accordion-icon
                 class="w-3 h-3 rotate-180 shrink-0"
@@ -796,8 +816,7 @@
               class="p-5 border border-b-0 border-gray-200 dark:border-gray-700"
             >
               <p class="mb-2 text-gray-500 dark:text-gray-400">
-                Hinde! Hinde! Hinde! Hinde! Hinde! Hinde! Hinde! Hinde! Hinde!
-                Hinde! Hinde! Hinde! Hinde! Hinde!
+                We accept only Cash on delivery or Gcash payment method.
               </p>
             </div>
           </div>
@@ -809,7 +828,7 @@
               aria-expanded="false"
               aria-controls="accordion-color-body-3"
             >
-              <span class="text-lg">Mag ddrop ka na ba sa college?</span>
+              <span class="text-lg">Do you charge for delivery?</span>
               <svg
                 data-accordion-icon
                 class="w-3 h-3 rotate-180 shrink-0"
@@ -837,7 +856,9 @@
               class="p-5 border border-t-0 border-gray-200 dark:border-gray-700"
             >
               <p class="mb-2 text-gray-500 dark:text-gray-400">
-                Oo! Taenang College to eh! Pasakit sa buhay ampotek!
+                We offer free delivery for orders over a certain amount. For
+                orders below this amount, a small delivery fee may apply.
+                Details will be provided during checkout.
               </p>
             </div>
           </div>
