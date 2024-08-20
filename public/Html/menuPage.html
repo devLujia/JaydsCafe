@@ -977,13 +977,13 @@
     <!-- Right drawer -->
 
     <!-- drawer component -->
-    <div id="drawer-right-example" class="fixed top-0 right-0 z-40 h-screen overflow-y-auto transition-transform translate-x-full bg-orange-50 w-[400px] dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-right-label">
-      <div class="w-full h-16 bg-yellow-950 "></div>
+    <div id="drawer-right-example" class="fixed top-0 right-0 z-40 h-screen overflow-hidden transition-transform translate-x-full bg-orange-50 w-80 dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-right-label" style="overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; overflow-x: hidden;">
+      <div class="w-full h-16 bg-orange-950"></div>
 
       <div class="p-4">
-        <button type="button" data-drawer-hide="drawer-right-example" aria-controls="drawer-right-example" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-md w-fit h-8 absolute top-[70px] start-2.5 inline-flex items-center justify-center px-2" >
+        <button type="button" data-drawer-hide="drawer-right-example" aria-controls="drawer-right-example" class="bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-md w-fit h-8 absolute top-[70px] start-2.5 inline-flex items-center justify-center px-2" >
           <span><img src="/public/image/arrow left.svg" alt="arrow" class="me-2"></span>
-          <h1>Continue Shopping</h1>
+          <h1 class="text-yellow-900">Continue Shopping</h1>
           <span class="sr-only">Close menu</span>
         </button>
 
@@ -1020,24 +1020,24 @@
           <div class="flex justify-between">
             <div class="flex text-yellow-800 ">
               <h1 class="me-5 font-semibold">Products</h1>
-              <p>(13 Items)</p>
+              <p>(3 Items)</p>
             </div>
             <button type="button" id="dropdownUsersButton" data-dropdown-toggle="dropdownUsers" data-dropdown-placement="bottom"><img src="/public/image/arrow down.svg" alt="drop down"></button>
           </div>
           
           <div id="dropdownUsers" class="z-10 hidden divide-y divide-gray-100 h-screen"> <!-- drop down menu -->
             <!-- TAKE NOTE!! Everytime na nag dadagdag ng item dapat iba yung id. ex. quantity-input1-->
-            <div>
-              <a href="#" class="flex px-4 py-3 hover:bg-gray-100"> <!-- item 1 -->
+            <div> <!-- item 1 -->
+              <a href="#" class="flex px-4 py-3 hover:bg-gray-100"> 
                 <div class="flex-shrink-0">
                   <img class="rounded-lg w-11 h-11" src="/public/image/americano.png" alt="image">
                 </div>
                 <div class="w-full ps-3">
-                    <h1 class="text-yellow-800 font-semibold">Coffee Creme Brulee Frappe</h1>
-                    <p class="font-normal text-yellow-700 text-sm">Medium</p>
-                    <h1 class="text-yellow-800 font-semibold">₱39.00</h1>
+                    <h1 class="text-yellow-800 font-semibold">Cappucino Frappe</h1>
+                    <p class="font-normal text-yellow-700 text-sm">Large</p>
+                    <h1 class="text-yellow-800 font-semibold">₱59.00</h1>
   
-                    <div class="pt-2">
+                    <div class="pt-2 flex">
                       <form class="max-w-xs mx-auto">
                         <div class="relative flex items-center max-w-[8rem]">
                             <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input1" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
@@ -1052,22 +1052,28 @@
                                 </svg>
                             </button>
                         </div>
-                    </form>
+                      </form>
+                      <button type="button" class="ms-2 hover:underline">Remove</button>
                     </div>
+                </div>
+                <div class="relative top-2 ">
+                  <button type="button" class="w-5 h-5 hover:bg-yellow-500 hover:rounded-lg focus:ring-gray-100 focus:ring-2 focus:outline-none" onclick="location.href='/public/Html/orderPage.html'">
+                    <img src="/public/image/edit.svg" alt="Edit">
+                  </button>
                 </div>
               </a>
             </div>
-            <div>
-              <a href="#" class="flex px-4 py-3 hover:bg-gray-100"> <!-- item 1 -->
+            <div> <!-- item 2 -->
+              <a href="#" class="flex px-4 py-3 hover:bg-gray-100"> 
                 <div class="flex-shrink-0">
                   <img class="rounded-lg w-11 h-11" src="/public/image/americano.png" alt="image">
                 </div>
                 <div class="w-full ps-3">
-                    <h1 class="text-yellow-800 font-semibold">Coffee Creme Brulee Frappe</h1>
+                    <h1 class="text-yellow-800 font-semibold">Cold Brew</h1>
                     <p class="font-normal text-yellow-700 text-sm">Medium</p>
                     <h1 class="text-yellow-800 font-semibold">₱39.00</h1>
   
-                    <div class="pt-2">
+                    <div class="pt-2 flex">
                       <form class="max-w-xs mx-auto">
                         <div class="relative flex items-center max-w-[8rem]">
                             <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input2" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
@@ -1076,28 +1082,34 @@
                                 </svg>
                             </button>
                             <input type="text" id="quantity-input2" data-input-counter aria-describedby="helper-text-explanation" class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5" placeholder="0" required />
-                            <button type="button" id="increment-button2" data-input-counter-increment="quantity-input2" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
+                            <button type="button" id="increment-button" data-input-counter-increment="quantity-input2" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
                                 <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
                                 </svg>
                             </button>
                         </div>
-                    </form>
+                      </form>
+                      <button type="button" class="ms-2 hover:underline">Remove</button>
                     </div>
+                </div>
+                <div class="relative top-2 ">
+                  <button type="button" class="w-5 h-5 hover:bg-yellow-500 hover:rounded-lg focus:ring-gray-100 focus:ring-2 focus:outline-none" onclick="location.href='/public/Html/orderPage.html'">
+                    <img src="/public/image/edit.svg" alt="Edit">
+                  </button>
                 </div>
               </a>
             </div>
-            <div>
-              <a href="#" class="flex px-4 py-3 hover:bg-gray-100"> <!-- item 1 -->
+            <div> <!-- item 3 -->
+              <a href="#" class="flex px-4 py-3 hover:bg-gray-100"> 
                 <div class="flex-shrink-0">
                   <img class="rounded-lg w-11 h-11" src="/public/image/americano.png" alt="image">
                 </div>
                 <div class="w-full ps-3">
-                    <h1 class="text-yellow-800 font-semibold">Coffee Creme Brulee Frappe</h1>
-                    <p class="font-normal text-yellow-700 text-sm">Medium</p>
-                    <h1 class="text-yellow-800 font-semibold">₱39.00</h1>
+                    <h1 class="text-yellow-800 font-semibold">Cappucino Frappe</h1>
+                    <p class="font-normal text-yellow-700 text-sm">Large</p>
+                    <h1 class="text-yellow-800 font-semibold">₱59.00</h1>
   
-                    <div class="pt-2">
+                    <div class="pt-2 flex">
                       <form class="max-w-xs mx-auto">
                         <div class="relative flex items-center max-w-[8rem]">
                             <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input3" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
@@ -1106,18 +1118,43 @@
                                 </svg>
                             </button>
                             <input type="text" id="quantity-input3" data-input-counter aria-describedby="helper-text-explanation" class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5" placeholder="0" required />
-                            <button type="button" id="increment-button3" data-input-counter-increment="quantity-input3" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
+                            <button type="button" id="increment-button" data-input-counter-increment="quantity-input3" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
                                 <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
                                 </svg>
                             </button>
                         </div>
-                    </form>
+                      </form>
+                      <button type="button" class="ms-2 hover:underline">Remove</button>
                     </div>
+                </div>
+                <div class="relative top-2">
+                  <button type="button" class="w-5 h-5 hover:bg-yellow-500 hover:rounded-lg focus:ring-gray-100 focus:ring-2 focus:outline-none" onclick="location.href='/public/Html/orderPage.html'">
+                    <img src="/public/image/edit.svg" alt="Edit">
+                  </button>
                 </div>
               </a>
             </div>
           </div>
+        </div>
+
+        <div><!-- You might like-->
+          <h1 class="font-bold text-lg mt-10 text-yellow-700 mb-2">You might like</h1>
+            <div>
+              <a href="#" class="flex px-4 py-3 hover:bg-gray-100"> 
+                <div class="flex-shrink-0">
+                  <img class="rounded-lg w-11 h-11" src="/public/image/americano.png" alt="image">
+                </div>
+                <div class="w-full ps-3">
+                    <h1 class="text-yellow-700 font-normal">Taro</h1>
+                    <h1 class="text-yellow-700 font-normal">₱59.00</h1>
+  
+                    <div class="pt-2 flex">
+                      <button type="button" class="w-full py-3 bg-yellow-900 rounded-lg text-white font-semibold hover:bg-yellow-700">Add to Cart</button>
+                    </div>
+                </div>
+              </a>
+            </div>
         </div>
 
       </div>
@@ -1136,6 +1173,7 @@
       burgerBtn.addEventListener("click", () => {
         navLinks.classList.toggle("hidden");
       });
+      
      AOS.init();
     </script>
   </body>
