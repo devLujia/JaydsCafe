@@ -1,9 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import eye from '../../image/eye(2).svg'
 import trashbin from '../../image/trashbin.svg'
 import download from '../../image/download.svg'
 
 export default function OrderTracking() {
+
+    useEffect(()=>{
+        
+        const button = document.querySelector('[data-collapse-toggle="dropdown-example"]');
+        const dropdown = document.getElementById('dropdown-example');
+
+        button.addEventListener('click', () => {
+        dropdown.classList.toggle('hidden');
+        });
+
+        // Dropdown sa Avatar
+        const avatarButton = document.getElementById('avatarButton');
+        const userDropdown = document.getElementById('userDropdown');
+
+            avatarButton.addEventListener('click', () => {
+            userDropdown.classList.toggle('hidden');
+        });
+
+    })
+
+
   return (
     <div>
         <nav class="z-20 bg-white border-gray-200 dark:bg-gray-900 top-0 sticky flex justify-end shadow-md">

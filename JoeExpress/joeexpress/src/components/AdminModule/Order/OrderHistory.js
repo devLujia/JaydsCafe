@@ -4,14 +4,14 @@ import '../Order/history.css'
 export default function OrderHistory() {
 
     useEffect(() => {
-            const button = document.querySelector('[data-collapse-toggle="dropdown-example"]');
-            const dropdown = document.getElementById('dropdown-example');
+        const button = document.querySelector('[data-collapse-toggle="dropdown-example"]');
+        const dropdown = document.getElementById('dropdown-example');
 
-            button.addEventListener('click', () => {
-            dropdown.classList.toggle('hidden');
-            });
+        button.addEventListener('click', () => {
+        dropdown.classList.toggle('hidden');
+        });
 
-            // Dropdown sa Avatar
+        // Dropdown sa Avatar
         const avatarButton = document.getElementById('avatarButton');
         const userDropdown = document.getElementById('userDropdown');
 

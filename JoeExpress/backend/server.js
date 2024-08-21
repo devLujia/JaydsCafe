@@ -687,20 +687,29 @@ app.post('/deleteUserData',(req,res)=>{
 
 app.post('/productResult', (req,res)=>{
     
-    const query = ` SELECT f.name, c.title, f.id, fs.size,
-                    CASE 
-                        WHEN fs.size = 'medium' THEN fs.price 
-                        WHEN fs.size = 'large' THEN fs.price
-                        ELSE NULL 
-                    END AS price
-
-                    FROM foods f
-                    JOIN food_sizes fs ON f.id = fs.food_id
-                    JOIN category c ON f.category_id = c.id
-                    WHERE fs.size = ?
-                    GROUP BY f.name, c.title, f.id
+    const query = ` SELECT 
+                    f.id,
+                    f.name,
+                    f.description,
+                    f.image_url,
+                    f.category_id,
+                    fs_medium.price AS medprice,
+                    fs_large.price AS lgprice,
+                    c.title
+                FROM 
+                    foods f
+                JOIN 
+                    category c 
+                    ON f.category_id = c.id
+                JOIN 
+                    food_sizes fs_medium 
+                    ON f.id = fs_medium.food_id AND fs_medium.size = 'medium'
+                LEFT JOIN 
+                    food_sizes fs_large 
+                    ON f.id = fs_large.food_id AND fs_large.size = 'large'
+                
                     `
-    db.query(query,[req.body.sizedd],(err,result) =>{
+    db.query(query,(err,result) =>{
         if(err){
             res.json({err: "Unable to fetch foods to product management"})
         }
@@ -710,13 +719,17 @@ app.post('/productResult', (req,res)=>{
 
 })
 
-app.post('/addProduct', (req, res) =>{
-    const {name,description,image_url,category_id, size, medprice, lgprice} = req.body;
-    const query = `INSERT INTO foods (name, description, image_url, category_id) 
-                    VALUES (?,?,?,?);
-                    SELECT LAST_INSERT_ID() as lastfoodsId`
 
-    db.query(query, [name,description,image_url,category_id], (err,result) =>{
+app.post('/addProduct', (req, res) =>{
+
+    const { name, description, image_url, category_id, medprice, lgprice } = req.body;
+
+    const query = `INSERT INTO foods (name, description, image_url, category_id) 
+                   VALUES (?,?,?,?);
+                   SELECT LAST_INSERT_ID() as lastfoodsId`
+    
+
+    db.query(query, [name, description, image_url, category_id], (err,result) =>{
         if(err){
             res.json({err: "Unable to add into foods"})
         }
@@ -784,29 +797,83 @@ app.post('/removeProduct',  async (req, res) =>{
         res.json(error)
     }
 
+    })
 
+    app.post('/fetchProduct',(req,res) =>{
+        const {id} = req.body
+
+        const query = 
+        `SELECT 
+            f.name,
+            f.description,
+            f.image_url,
+            f.category_id,
+            fs_medium.price AS medprice,
+            fs_large.price AS lgprice
+        FROM 
+            foods f
+        JOIN 
+            food_sizes fs_medium 
+            ON f.id = fs_medium.food_id AND fs_medium.size = 'medium'
+        LEFT JOIN 
+            food_sizes fs_large 
+            ON f.id = fs_large.food_id AND fs_large.size = 'large'
+        WHERE 
+            f.id = ?;
+        `
+
+        db.query(query,[id],(err,result)=>{
+            if (err){
+                res.json({err: "Unable to fetch food and food_sizes"})
+            }
+
+            if (result.length === 0) {
+                return res.status(404).json({ error: "food not found" });
+            }
+
+            res.json(result[0]);
+           
+        })
 
     })
 
-    app.post('/updateProduct', (req,res)=>{
+    app.post('/updateProduct', (req,res) => {
         
-        const {name ,description ,image_url ,category_id , foodID} = req.body;
+        const {name ,description ,image_url ,category_id , foodId ,medprice , lgprice} = req.body;
 
         const query = 
-        `Update foods, food_sizes
-        SET name= ?, description= ? , image_url= ? ,category_id = ?
-        WHERE food_sizes.food_id = foods.id
-        AND foods.id = ?
-            `
+        `
+        Update foods, food_sizes
+        SET name= ?, 
+        description= ? , 
+        image_url= ? ,
+        category_id = ?,
+        food_sizes.price = ?
 
-        db.query (query,[name ,description ,image_url ,category_id , foodID], (err,result) => {
+        WHERE 
+        food_sizes.food_id = foods.id
+        AND foods.id = ? AND food_sizes.size = 'medium'
+        `
+
+        db.query (query,[name ,description ,image_url ,category_id ,medprice , foodId], (err,result) => {
             if (err){
                 res.json({err: "Unable to update into food and food_sizes"})
             }
-            
+
+            const largeQuery = 
+            `UPDATE food_sizes
+            SET food_sizes.price = ?
+            WHERE food_sizes.food_id = ? AND food_sizes.size = 'large'
+            `
+            db.query(largeQuery,[lgprice,foodId],(lgErr,lgRes) =>{
+                if (lgErr){
+                    res.json({lgErr: "Unable to update Large price"})
+                }
+            })
+         
         })
  
-    })
+        })
 
     app.post('/users', (req, res) => {
         const query = `SELECT COUNT(DISTINCT customer_id) AS customer_count FROM orders;`;
@@ -867,8 +934,41 @@ app.post('/removeProduct',  async (req, res) =>{
             }
         });
 
+    app.post('/addCategory',(req,res)=>{
+        const {title,image_url} = req.body;
 
-    
+        const query = 
+        `INSERT INTO category (title,image_url)
+        VALUES(?,?)`
+
+        db.query(query,[title,image_url],(err,result)=>{
+            if(err){
+                res.json({err:"ERROR"});
+            } 
+        })
+
+    })
+
+    app.post('/deleteCategory',(req,res)=>{
+        const {title} = req.body;
+
+       
+            const query = 
+        `DELETE FROM category WHERE title = ? `
+        try{
+        db.query(query,[title],(err,result)=>{
+            if(err){
+                res.json({err:"ERROR"});
+            }
+             
+        })
+        }
+        catch(error){
+            res.json({error: "UNABLE TO DELETE FROM CATEGORY DUE TO CATEGORY HAS PRODUCT"})
+        }
+
+    })
+
 
 
 

@@ -6,32 +6,43 @@ import ellipsis from '../../image/ellipsis.svg'
 import link from '../../image/Link.svg'
 import edit from '../../image/edit.svg'
 import plus from '../../image/plus.svg'
+import AddProd from '../AdminModal/AddProd/AddProd'
 
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
+import EditProd from '../AdminModal/EditProd/EditProd'
 
 function ProductManagement() {
 
     
     const navigate = useNavigate();
     const [foods,setFoods] = useState([]);
-    const [sizedd, setSizedd] = useState('medium');
     const [search, setSearch] = useState('');
-
-    const navLogin = () => {
-        navigate('/ProductManagement');
+    const [addProductModal,setAddProductModal] = useState(false);
+    const [editProductModal,setEditProductModal] = useState(false);
+    const [selectedProductId, setSelectedUserId] = useState(null);
+    const [selectedSize, setSelectedSize] = useState('medium');
+    const handleSizeChange = (e) => {
+        setSelectedSize(e.target.value);
     };
 
-
+    const toggleAddProductModal = () =>{
+        setAddProductModal(!addProductModal)
+    }
+    const handleEditProduct = (id) => {
+        setSelectedUserId(id); 
+        setEditProductModal(!editProductModal);
+    };
+    
     useEffect(()=>{
-        axios.post('http://localhost:8081/productResult', {sizedd})
+        axios.post('http://localhost:8081/productResult')
         .then(response=>{
             setFoods(response.data)
         })
         .catch(error => {
             console.error('Error fetching food details:', error);
         });
-    },[sizedd])
+    })
 
 
     useEffect(()=>{
@@ -51,12 +62,6 @@ function ProductManagement() {
             });
     })
 
-    const handleAddProduct = () => {
-
-        // axios.post('http://localhost:8081/addProduct');
-
-    }
-
     const handleRemoveProduct = (name) => {
 
         axios.post('http://localhost:8081/removeProduct', { name });
@@ -66,12 +71,15 @@ function ProductManagement() {
 
     }
 
-
-
-
   return (
 
     <div>
+        
+        {addProductModal && <AddProd closeModal={setAddProductModal}/>}
+        {editProductModal && selectedProductId !== null && (
+            <EditProd closeModal={() => setEditProductModal(false)} id={selectedProductId} />
+        )}
+
         <nav class="z-20 bg-white border-gray-200 dark:bg-gray-900 top-0 sticky flex justify-end shadow-md">
             <div class="px-4 py-3 text-sm text-gray-900 dark:text-white flex flex-col items-center">
                 <div class="font-bold">Migz Gomez Go</div>
@@ -229,7 +237,7 @@ function ProductManagement() {
                                 <img src={ellipsis} alt="ellipsis"/>
                             </button>
                         </div>
-                        <button onClick={handleAddProduct} type="button" class="ml-auto text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+                        <button onClick={toggleAddProductModal} type="button" class="ml-auto text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
                             <img src={plus} alt="Plus_Product" class="me-2 md:block"/>
                             <span class="md:block hidden"> Add Product </span>
                         </button>
@@ -275,7 +283,8 @@ function ProductManagement() {
                                 <tr key={food.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"> {/* Taro Milk Tea */}
                                     <td class="w-4 p-4">
                                         <div class="flex items-center">
-                                            <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                            <input id="checkbox-table-search-1" type="checkbox" 
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
                                             <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
                                         </div>
                                     </td>
@@ -290,18 +299,30 @@ function ProductManagement() {
                                         {food.id}
                                     </td>
                                     <td class="px-6 py-4"> {/* id */}
-                                        <select onChange={(e)=> setSizedd(e.target.value)} className='bg-transparent border-none'>
+                                        <select onChange={handleSizeChange} className='bg-transparent border-none'>
                                             <option value = 'medium'>Medium</option>
                                             <option value = 'large'>Large</option>
                                         </select>
+                                        
+
                                     </td>
                                     <td class="px-6 py-4"> {/* price */}
-                                        {food.price}
+                                        <div className='price-display'>
+                                            {selectedSize === 'medium' ? (
+                                                <p>Price: ${food.medprice}</p>
+                                            ) : (
+                                                <p>Price: ${food.lgprice}</p>
+                                            )}
+                                        </div>
                                     </td>
                                     <td class="flex items-center px-6 py-4 space-x-2">
-                                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                            <img src={edit} alt="edit" class="px-2"/>
+                                        <button type="button" 
+                                        onClick={() => handleEditProduct(food.id)}
+                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                        <img src={edit} alt="edit" class="px-2"/>
                                         </button>
+                                        
+
                                         <button type="button" 
                                         onClick={() => handleRemoveProduct(food.name)}
                                         class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">

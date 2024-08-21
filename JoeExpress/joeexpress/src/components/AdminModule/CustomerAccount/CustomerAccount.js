@@ -7,9 +7,9 @@ import link from '../../image/Link.svg'
 import edit from '../../image/edit.svg'
 import plus from '../../image/plus.svg' 
 import picture from '../../image/UserAcc.svg'
-import AddCustomerAcc from '../AdminModal/AddCustomerAcc.js'
-import Areyousure from '../AdminModal/Areyousure.js'  
-import EditCustomerAcc from '../AdminModal/EditCustomerAcc.js'
+import AddCustomerAcc from '../AdminModal/AddCustomer/AddCustomerAcc.js'
+import Areyousure from '../AdminModal/AYS/Areyousure.js'  
+import EditCustomerAcc from '../AdminModal/EditCustomer/EditCustomerAcc.js'
 import axios from 'axios'
 // 119 239
 
@@ -19,7 +19,6 @@ export default function CustomerAccount() {
     const [AYSModal,setAYSModal] = useState(false);
     const [editModal,setEditModal] = useState(false);
     const [userData,setUserData] = useState([]);
-    const [data, setData] = useState([]);
     const [selectedUserId, setSelectedUserId] = useState(null);
     const [search, setSearch] = useState('');
     
@@ -31,9 +30,11 @@ export default function CustomerAccount() {
         setAYSModal(!AYSModal)
     }
 
-    const toggleEditModal = () =>{
-        setEditModal(!editModal)
-    }
+    const handleEditClick = (id) => {
+        setSelectedUserId(id);
+        setEditModal(!editModal);
+    };
+
 
     useEffect(()=>{
         axios.post('http://localhost:8081/fetchUserData')
@@ -62,15 +63,6 @@ export default function CustomerAccount() {
         });
 
     })
-
-    const handleEditClick = (id) => {
-        setSelectedUserId(id);
-        setEditModal(!editModal);
-    };
-
-    
-
-    
 
   return (
     <div>

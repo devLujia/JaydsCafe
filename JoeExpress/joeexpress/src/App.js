@@ -42,8 +42,8 @@ function App() {
       <Route path='/OrderTracking' element = {<OrderTracking/>}> </Route>
       <Route path='/ProductManagement' element = {<ProductManagement/>}> </Route>
       <Route path='/CustomerAccount' element = {<CustomerAccount/>}> </Route>
-      <Route path='/PaymentManagement' element = {<PaymentManagement/>}> </Route>
-      <Route path='/ContentManagement' element = {<ContentManagement/>}> </Route>
+      <Route path='/PaymentManagement' element = {<PaymentManagement/>}></Route>
+      <Route path='/ContentManagement' element = {<ContentManagement/>}></Route>
 
     </Routes>
     </BrowserRouter>

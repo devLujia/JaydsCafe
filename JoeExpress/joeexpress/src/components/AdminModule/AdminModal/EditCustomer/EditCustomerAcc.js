@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './editCustomerAcc.css'
 import axios from 'axios';
 
-function EditCustomerAcc( {closeModal,id} ) {
+function EditCustomerAcc( {closeModal, id} ) {
 
     const [userdata, setUserData] = useState({
         id:'',
