@@ -19,6 +19,8 @@ module.exports = {
         background: '#F5F2EB',
         footer: '#333335',
         cards2: '#F0F0F0',
+        greenColor: '#067741',
+        jaydsBg: '#e3ded6',
       }
     },
   },
