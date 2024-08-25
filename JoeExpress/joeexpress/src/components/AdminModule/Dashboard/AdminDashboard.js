@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import axios from 'axios';
-
 import arrowUP from '../../image/arrowUp.svg'
 import arrowDOWN from '../../image/arrowdown.svg'
 

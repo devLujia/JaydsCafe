@@ -90,6 +90,9 @@ function AddProd({ closeModal }) {
                 </p>
       
                 <div className="grid grid-cols-3 gap-4">
+
+                  <select ></select>
+
                   <div className="flex items-center">
                     <input className="mr-2" type="radio" onChange={handleInput}  id="Coffee" name="category_id" value= '1' />
                     <label className="text-gray-600 text-sm font-bold tracking-wider" htmlFor="Coffee">Coffee</label>

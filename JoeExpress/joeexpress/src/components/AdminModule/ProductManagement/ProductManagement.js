@@ -7,10 +7,12 @@ import link from '../../image/Link.svg'
 import edit from '../../image/edit.svg'
 import plus from '../../image/plus.svg'
 import AddProd from '../AdminModal/AddProd/AddProd'
-
+import AddCategory from '../AdminModal/AddCategory/AddCategory'
+import RemoveCategory from '../AdminModal/RemoveCategory/RemoveCategory'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import EditProd from '../AdminModal/EditProd/EditProd'
+import AddAddons from '../AdminModal/AddAddons/AddAddons'
 
 function ProductManagement() {
 
@@ -19,12 +21,22 @@ function ProductManagement() {
     const [foods,setFoods] = useState([]);
     const [search, setSearch] = useState('');
     const [addProductModal,setAddProductModal] = useState(false);
+    const [addCategoryModal,setAddCategoryModal] = useState(false);
+    const [removeCategoryModal,setRemoveCategoryModal] = useState(false);
     const [editProductModal,setEditProductModal] = useState(false);
     const [selectedProductId, setSelectedUserId] = useState(null);
-    const [selectedSize, setSelectedSize] = useState('medium');
-    const handleSizeChange = (e) => {
-        setSelectedSize(e.target.value);
-    };
+    const [addAddonsModal,setAddAddonsModal] = useState(false);
+
+    const toggleAddAddonsModal = () =>{
+        setAddAddonsModal(!addAddonsModal)
+    }
+
+    const toggleAddCategoryModal = () =>{
+        setAddCategoryModal(!addCategoryModal)
+    }
+    const toggleRemoveCategoryModal = () =>{
+        setRemoveCategoryModal(!removeCategoryModal)
+    }
 
     const toggleAddProductModal = () =>{
         setAddProductModal(!addProductModal)
@@ -74,7 +86,9 @@ function ProductManagement() {
   return (
 
     <div>
-        
+        {addAddonsModal && <AddAddons closeModal={setAddAddonsModal}/>}
+        {removeCategoryModal && <RemoveCategory closeModal={setRemoveCategoryModal}/>}
+        {addCategoryModal && <AddCategory closeModal={setAddCategoryModal}/>}
         {addProductModal && <AddProd closeModal={setAddProductModal}/>}
         {editProductModal && selectedProductId !== null && (
             <EditProd closeModal={() => setEditProductModal(false)} id={selectedProductId} />
@@ -237,7 +251,23 @@ function ProductManagement() {
                                 <img src={ellipsis} alt="ellipsis"/>
                             </button>
                         </div>
-                        <button onClick={toggleAddProductModal} type="button" class="ml-auto text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+
+                        <button onClick = {toggleAddAddonsModal} type="button" class="ml-auto text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+                            <img src={plus} alt="remove Addons" class="me-2 md:block"/>
+                            <span class="md:block hidden"> Add Addons </span>
+                        </button>
+
+                        <button onClick = {toggleRemoveCategoryModal} type="button" class="ml-5 text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+                            <img src={trashbin3} alt="remove category" class="me-2 md:block"/>
+                            <span class="md:block hidden"> Remove Category </span>
+                        </button>
+
+                        <button onClick = {toggleAddCategoryModal} type="button" class="ml-5 text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+                            <img src={plus} alt="Plus_Product" class="me-2 md:block"/>
+                            <span class="md:block hidden"> Add Category </span>
+                        </button>
+
+                        <button onClick={toggleAddProductModal} type="button" class="ml-5 text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
                             <img src={plus} alt="Plus_Product" class="me-2 md:block"/>
                             <span class="md:block hidden"> Add Product </span>
                         </button>
@@ -299,20 +329,104 @@ function ProductManagement() {
                                         {food.id}
                                     </td>
                                     <td class="px-6 py-4"> {/* id */}
-                                        <select onChange={handleSizeChange} className='bg-transparent border-none'>
-                                            <option value = 'medium'>Medium</option>
-                                            <option value = 'large'>Large</option>
-                                        </select>
+                                        {food.medsize} / {food.lgsize}
                                         
 
                                     </td>
                                     <td class="px-6 py-4"> {/* price */}
                                         <div className='price-display'>
-                                            {selectedSize === 'medium' ? (
-                                                <p>Price: ${food.medprice}</p>
-                                            ) : (
-                                                <p>Price: ${food.lgprice}</p>
-                                            )}
+                                        ₱ {food.medprice} / ₱ {food.lgprice}
+                                        </div>
+                                    </td>
+                                    <td class="flex items-center px-6 py-4 space-x-2">
+                                        <button type="button" 
+                                        onClick={() => handleEditProduct(food.id)}
+                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                        <img src={edit} alt="edit" class="px-2"/>
+                                        </button>
+                                        
+
+                                        <button type="button" 
+                                        onClick={() => handleRemoveProduct(food.name)}
+                                        class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                        <img src={trashbin3} alt="trashbin" class="px-2"/>
+                                        </button>
+                                    </td>
+                                </tr>
+                                 ))}
+
+                            </tbody> 
+                           
+                            
+                        </table>
+                    </div>
+
+
+
+
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-slate-100">
+                                <tr>
+                                    <th scope="col" class="p-4">
+                                        <div class="flex items-center">
+                                            <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                            <label for="checkbox-all-search" class="sr-only">checkbox</label>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-66">
+                                        PRODUCT NAME
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        CATEGORY
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-center">
+                                        ID
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-center">
+                                        Size
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        PRICE
+                                    </th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+
+                                {foods
+                                .filter((food) =>{ 
+                                    return search.toLowerCase() === '' 
+                                    ? food 
+                                    : food.name.toLowerCase().includes(search);    
+                                })
+                                .map((food) => (
+                                <tr key={food.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"> {/* Taro Milk Tea */}
+                                    <td class="w-4 p-4">
+                                        <div class="flex items-center">
+                                            <input id="checkbox-table-search-1" type="checkbox" 
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                            <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+                                        </div>
+                                    </td>
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        <div class="text-base font-semibold">{food.name}</div> {/* product name */}
+                                        <div class="text-base font-normal text-gray-500">Milk Tea</div>
+                                    </th>
+                                    <td class="px-6 py-4"> {/* Category */}
+                                        {food.title}
+                                    </td>
+                                    <td class="px-6 py-4"> {/* id */}
+                                        {food.id}
+                                    </td>
+                                    <td class="px-6 py-4"> {/* id */}
+                                        {food.medsize} / {food.lgsize}
+                                        
+
+                                    </td>
+                                    <td class="px-6 py-4"> {/* price */}
+                                        <div className='price-display'>
+                                        ₱ {food.medprice} / ₱ {food.lgprice}
                                         </div>
                                     </td>
                                     <td class="flex items-center px-6 py-4 space-x-2">

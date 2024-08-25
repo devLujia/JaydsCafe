@@ -341,7 +341,8 @@ app.post('/cart_items', (req, res) => {
       }
       res.status(200).json({ success: true, message: 'Item added to cart', results });
     });
-  });
+
+});
 
 app.post('/menuOption', (req, res) => {
     
@@ -625,13 +626,14 @@ app.post('/adminsignup', async (req, res) => {
 
 app.post('/fetchUserData', (req,res)=>{
 
-    const query = `SELECT id,name,email,address, role from user`
-    db.query(query,(err,result)=>{
+    const query = `SELECT id, fullname , email, role from admin`
+    db.query(query,(err,result) => {
         
         if(err){
-            res.json({err: "Unable to fetch user data to product management"})
+            res.json({err: "Unable to fetch user data to admin management"})
         }
         res.json(result)
+
     })
 
 })
@@ -639,7 +641,8 @@ app.post('/fetchUserData', (req,res)=>{
 app.post('/fetchSpecificUserData', (req, res) => {
     const { id } = req.body;
 
-    const query = 
+    const query =
+
     `SELECT id, name, email, address 
     FROM user
     WHERE id = ?`;
@@ -694,14 +697,18 @@ app.post('/productResult', (req,res)=>{
                     f.image_url,
                     f.category_id,
                     fs_medium.price AS medprice,
+                    fs_medium.size as medsize,
                     fs_large.price AS lgprice,
+                    fs_large.size as lgsize,
                     c.title
                 FROM 
                     foods f
                 JOIN 
                     category c 
                     ON f.category_id = c.id
-                JOIN 
+                
+
+                LEFT JOIN 
                     food_sizes fs_medium 
                     ON f.id = fs_medium.food_id AND fs_medium.size = 'medium'
                 LEFT JOIN 
@@ -950,22 +957,45 @@ app.post('/removeProduct',  async (req, res) =>{
     })
 
     app.post('/deleteCategory',(req,res)=>{
-        const {title} = req.body;
+        const {id} = req.body;
 
-       
-            const query = 
-        `DELETE FROM category WHERE title = ? `
-        try{
-        db.query(query,[title],(err,result)=>{
+        const query = 
+        `DELETE FROM category WHERE id = ? `
+
+        db.query(query, [id] ,(err,result)=>{
+            if(err){
+                res.json({err:"ERROR"});
+            }
+    
+        })   
+
+    })
+
+    app.post('/fetchCategory', (req,res)=>{
+        const query = "Select * from category"
+            
+            db.query(query, (err,result)=>{
+                if(err){
+                    res.json({err:"ERROR"});
+                }
+                res.json(result)
+                    
+            })
+        
+    })
+
+    app.post('/addAddons',(req,res)=>{
+
+        const {name,price} = req.body;
+        const query = `Insert into addons (name,price) VALUES
+        (?,?)`
+
+        db.query(query, [name, price] ,(err,result) => {
             if(err){
                 res.json({err:"ERROR"});
             }
              
         })
-        }
-        catch(error){
-            res.json({error: "UNABLE TO DELETE FROM CATEGORY DUE TO CATEGORY HAS PRODUCT"})
-        }
 
     })
 

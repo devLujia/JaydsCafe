@@ -196,7 +196,7 @@ export default function CustomerAccount() {
             </aside>
         
             <div class="p-4 sm:ml-72 bg-slate-100">
-                <h1 class="font-extrabold text-3xl tracking-wider ms-2 p-5">All Users</h1>
+                <h1 class="font-extrabold text-3xl tracking-wider ms-2 p-5">Admins</h1>
                 <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
                     <div class="z-10 flex items-center flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900">
 
@@ -246,10 +246,10 @@ export default function CustomerAccount() {
                                             </div>
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            NAME / EMAIL
+                                            NAME
                                         </th>
                                         <th scope="col" class="px-6 py-3 justify-center flex">
-                                            ADDRESS
+                                            Email
                                         </th>
                                         <th scope="col" class="px-6 py-3">
                                             ROLE
@@ -264,11 +264,11 @@ export default function CustomerAccount() {
                                 {userData.filter((user)=>{
                                     return search.toLowerCase() === '' 
                                     ? user 
-                                    : user.name.toLowerCase().includes(search);    
+                                    : user.fullname.toLowerCase().includes(search);    
                                 })
                                 .map(user => (
                                         <tr key= {user.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <td class="w-4 p-4">
+                                        <td class="w-5 p-5">
                                             <div class="flex items-center">
                                                 <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
                                                 <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
@@ -277,12 +277,12 @@ export default function CustomerAccount() {
                                         <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                                             <img src={picture} alt="Jese image" class="w-10 h-10 rounded-full"/>
                                             <div class="ps-3">
-                                                <div class="text-base font-semibold">{user.name}</div>
-                                                <div class="font-normal text-gray-500">{user.email}</div>
+                                                <div class="text-base font-semibold">{user.fullname}</div>
+                                                
                                             </div>  
                                         </th>
-                                        <td class="px-6 py-4">
-                                            {user.address}
+                                        <td class="px-6 py-5 ">
+                                            <div className='text-base'>{user.email}</div>
                                         </td>
                                         <td class="px-6 py-4">
                                             <div class="flex items-center font-semibold text-green-600">
@@ -292,7 +292,6 @@ export default function CustomerAccount() {
                                         <td class="flex items-center px-6 py-4 space-x-2">
                                             <button onClick={() => handleEditClick(user.id)} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                                 <img src={edit} alt="edit" class="px-2"/>
-                                                
                                             </button>
                                             
                                             <button onClick={toggleAYSModal} type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
