@@ -14,53 +14,87 @@
 </head>
 
 <body class="bg-background">
-    <nav class="sticky top-0 bg-white z-20">
-        <div class="font-extrabold text-3xl flex items-center">
-            <a href="#" class="flex items-center"><img src="/public/image/LOGO.png" alt="logo" class="logo">JoeExpress</a>
+    <!-- Navbar -->
+    <nav class="sticky top-0 bg-white z-20 shadow-lg">
+        <div class="font-extrabold text-2xl flex items-center">
+          <!-- Logo/Title in Navbar -->
+          <a href="/public/index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
         </div>
         <span class="menu">
-            <ul class="nav_links md:hidden lg:flex lg:flex-row lg:justify-between">
-              <li class="link"><a href="/public/index.html">Home</a></li>
-              <li class="link"><a id="menu-link" href="#">Menu</a></li>
-              <li class="link"><a href="#about">About Us</a></li>
-              <li class="link"><a href="#footer">Contact Us</a></li>
-            </ul>
-          </span>
-        
+          <ul
+            class="nav_links md:hidden sm:hidden lg:flex lg:flex-row lg:justify-between"
+          >
+            <li class="link"><a href="#">Home</a></li>
+            <li class="link"><a id="menu-link" href="#">Menu</a></li>
+            <li class="link"><a href="#about">About Us</a></li>
+            <li class="link"><a href="#footer">Contact Us</a></li>
+          </ul>
+        </span>
+  
         <div class="flex items-center">
-            <!-- drawer Burger and show -->
-            <button class="burger lg:hidden mr-3" id="burger-btn" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" type="button"><img src="/public/image/menu.png" alt=""></button>
-
-                <!-- Dropdown menu -->
-                <div id="dropdownHover" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="burger-btn">
-                      <li>
-                        <a href="/public/index.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Home</a>
-                      </li>
-                      <li>
-                        <a href="#Menu" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Menu</a>
-                      </li>
-                      <li>
-                        <a href="#about" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">About Us</a>
-                      </li>
-                      <li>
-                        <a href="#footer" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Contact Us</a>
-                      </li>
-                    </ul>
-                </div>
-            <a href="/public/index.html">
-                <button class="btn mr-3 w-48 h-14 bg-footer text-gray-100 text-lg font-medium tracking-widest">Order Now!</button>
-            </a>
-            <div class="flex space-x-2 mr-2">
-                <a href="#"><img src="/public/image/UserAcc.png" alt="user" class="mr-3"></a>
-                <a href="#"><img src="/public/image/bag.png" alt="bag"></a>
-            </div>
+          <!-- drawer Burger and show -->
+          <button
+            class="burger lg:hidden mr-3"
+            id="burger-btn"
+            data-dropdown-toggle="dropdownHover"
+            data-dropdown-trigger="hover"
+            type="button"
+          >
+            <img src="image/menu.png" alt="" />
+          </button>
+  
+          <!-- Dropdown menu -->
+          <div
+            id="dropdownHover"
+            class="hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+          >
+            <ul
+              class="py-2 text-sm text-gray-700 dark:text-gray-200"
+              aria-labelledby="burger-btn"
+            >
+              <li>
+                <a
+                  href="#"
+                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#Menu"
+                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >Menu</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#about"
+                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#footer"
+                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >Contact Us</a
+                >
+              </li>
+            </ul>
+          </div>
+  
+          <!-- Button for Login or Sign Up -->
+          <a href="#">
+            <button
+              class="btn mr-3 w-40 h-12 text-greenColor text-sm tracking-widest shadow-md cursor-pointer hover:shadow-lg outline  hover:shadow-gray-400 hover:bg-greenColor hover:text-white hover:outline-none ease-in-out transition background-color 0.3s, color 0.3s duration-300">
+              Order Now!
+            </button>
+          </a>
         </div>
     </nav>
 
     <!-- Form container -->
     <div class="max-w-md mx-auto p-4 mt-2 mb-4 bg-white rounded-xl shadow-md md:max-w-lg md:p-6 md:pt-4 md:mb-6 lg:max-w-xl lg:p-8 lg:pt-6 lg:mb-8">
-
 
         <h2 class="text-3xl font-extrabold mb-6 text-black tracking-wider">Register</h2>
   
@@ -132,7 +166,7 @@
             </div>
         </div>
 
-        <button class="bg-amber-950 hover:bg-amber-900 text-white font-bold py-2 px-4 rounded-lg w-full leading-10 mb-10"  type="submit">Register Account</button>
+        <button class="bg-greenColor hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-full leading-10 mb-10"  type="submit">Register Account</button>
 
         <p class="mb-10">I already have an account <span class="text-blue-500 cursor-pointer font-semibold"><a href="/public/Html/login.html">Log In now</a></span></p>
         

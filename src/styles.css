@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&display=swap');
+
 *{
     font-family: "Poppins", sans-serif;
     scroll-behavior: smooth;
@@ -15,7 +18,7 @@
   left: 0;
   width: 100%;
   background-color: #067741;
-  z-index: 50;
+  z-index: 40;
   animation: scroll-progress linear;
   animation-timeline: scroll();
 }
@@ -42,8 +45,12 @@ nav .link{
     color: black;
     align-items: center;
     display: flex;
+    z-index: 50;
 }
 
+#name{
+  font-family: "Baloo 2", sans-serif;
+}
 
 .burger{margin-right: 20px;}
 
@@ -106,7 +113,7 @@ nav .link{
     left: 0;
     width: 0;
     height: 5px;
-    background-color: rgb(148, 66, 66);
+    background-color: #067741;
     transition: 0.3s ease-in-out;
     border-radius: 10px;
 }

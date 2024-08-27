@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/public/output.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       rel="stylesheet"
@@ -21,9 +22,9 @@
     <title>Jayd's Cafe</title>
   </head>
 
-  <body>
+  <body class="bg-jaydsBg">
     <!-- nav -->
-    <nav class="sticky top-0 bg-white z-20">
+    <nav class="sticky top-0 bg-white z-20 shadow-lg">
       <div class="font-extrabold text-2xl flex items-center">
         <!-- Logo/Title in Navbar -->
         <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
@@ -54,7 +55,7 @@
         <!-- Dropdown menu -->
         <div
           id="dropdownHover"
-          class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+          class="hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
         >
           <ul
             class="py-2 text-sm text-gray-700 dark:text-gray-200"
@@ -177,184 +178,60 @@
     </div>
 
     <!-- Land upper -->
-    <div class="pt-10 pb-52" id="Landing1">
+    <div class="h-screen">
       <!-- Background Coffee -->
-      <div class="relative">
-        <!-- Left beans -->
+      <div class="relative bg-cover">
         <img
-          src="image/coffe_bean.png"
-          alt="Coffee Bean"
-          class="coffee-bean"
-          data-aos="fade-down-right"
-          data-aos-duration="1500"
+          src="image/bg_bean.png"
+          alt="beans"
+          class="absolute top-20 left-20 p-14 rotate--90 z-0"
         />
-        <!--1-->
-        <img
-          src="image/coffe_bean.png"
-          alt="Coffee Bean"
-          class="coffee-bean"
-          data-aos="fade-down-right"
-          data-aos-duration="1500"
-        />
-        <!--2-->
-        <img
-          src="image/coffe_bean.png"
-          alt="Coffee Bean"
-          class="coffee-bean"
-          data-aos="fade-down-right"
-          data-aos-duration="1500"
-        />
-        <!--3-->
-        <img
-          src="image/coffe_bean.png"
-          alt="Coffee Bean"
-          class="coffee-bean"
-          data-aos="fade-down-right"
-          data-aos-duration="1500"
-        />
-        <!--4-->
-        <img
-          src="image/coffe_bean.png"
-          alt="Coffee Bean"
-          class="coffee-bean"
-          data-aos="fade-down-right"
-          data-aos-duration="1500"
-        />
-        <!--5-->
-        <img
-          src="image/coffe_bean.png"
-          alt="Coffee Bean"
-          class="coffee-bean"
-          data-aos="fade-down-right"
-          data-aos-duration="1500"
-        />
-        <!--6-->
-
-        <!-- Right beans -->
-
-        <img
-          src="image/coffe_bean.png"
-          alt="Coffee Bean"
-          class="coffee-bean"
-          data-aos="fade-down-left"
-          data-aos-duration="1500"
-        />
-        <!--7-->
-        <img
-          src="image/coffe_bean.png"
-          alt="Coffee Bean"
-          class="coffee-bean"
-          data-aos="fade-down-left"
-          data-aos-duration="1500"
-        />
-        <!--8-->
-        <img
-          src="image/coffe_bean.png"
-          alt="Coffee Bean"
-          class="coffee-bean"
-          data-aos="fade-down-left"
-          data-aos-duration="1500"
-        />
-        <!--9-->
-        <img
-          src="image/coffe_bean.png"
-          alt="Coffee Bean"
-          class="coffee-bean"
-          data-aos="fade-down-left"
-          data-aos-duration="1500"
-        />
-        <!--10-->
-        <img src="image/coffe_bean.png" alt="Coffee Bean" class="coffee-bean" />
-        <!--11-->
-        <img src="image/coffe_bean.png" alt="Coffee Bean" class="coffee-bean" />
-        <!--12-->
-
-        <div class="beans object-center">
-          <img
-            src="image/bg_bean.png"
-            alt="bean"
-            class="w-60 h-56 block"
-            data-aos="fade-down-right"
-            data-aos-duration="1500"
-          />
-          <img
-            src="image/bg_bean2.png"
-            alt="bean"
-            class="w-60 h-56 block"
-            data-aos="fade-down-left"
-            data-aos-duration="1500"
-          />
-        </div>
-
-        <div class="pt-11 absolute bottom-0 m-auto top-0 left-0 right-0">
-          <p class="text-center font-semibold text-2xl">
-            WELCOME TO <br />
-            <span class="text-yellow-950 font-bold text-8xl">POURING JOE</span>
-            <br />
-            <span class="font-light text-xl"
-              >Embrace The Harmony Of Milk Tea And Pure Bliss.</span
-            >
-          </p>
-        </div>
       </div>
 
-      <div class="flex flex-row w-full top-[700px] lg:absolute md:mt-10 mb-10 overflow-hidden h-full">
-        <!-- Info in Left part -->
-        <div
-          class="pl-40 w-full"
-          data-aos="fade-down-left"
-          data-aos-duration="1500"
-        >
-          <p class="text-2xl absolute left-0 pl-20">
-            <span class="font-semibold">OPERATION HOURS</span><br />
-            MONDAY-SATURDAY <br />
-            2:00 PM - 9:00 PM
-          </p>
-        </div>
-
-        <!-- Info in right part -->
-        <div class="p-4">
-          <p
-            class="text-2xl absolute right-0 pr-20"
-            data-aos="fade-down-right"
-            data-aos-duration="1500"
-          >
-            <span class="font-semibold">LOCATED AT</span><br />
-            AURORA HOME SALINAS 1 <br />
-            BACOOR, CAVITE
-          </p>
-        </div>
+      <!-- Background Coffee -->
+      <div class="relative bg-cover">
+        <img
+          src="image/bg_bean.png"
+          alt="beans"
+          class="absolute top-64 right-20 p-14 rotate-90 z-0"
+        />
       </div>
 
-      <div class="relative w-full h-auto">
-        <div class="object-center flex justify-center items-center pt-12">
-          <img
-            src="image/milktea.png"
-            alt="display1"
-            data-aos="fade-up"
-            data-aos-duration="1500"
-          />
+      <div class="grid grid-cols-1 md:grid-cols-2 mx-auto p-9"><!-- Main container-->
+
+        <div class="flex flex-col justify-start mx-auto mt-28 ps-5"> <!--Left part-->
+          <div class="px-5 mb-5"> <!-- div ng texts-->
+            <p class="text-black font-semibold tracking-wider text-3xl pb-1 drop-shadow-2xl">WELCOME TO </p>
+            <h1 class="text-textgreenColor text-8xl font-extrabold pb-2 drop-shadow-lg" id="name">Jayd's Cafe</h1>
+            <p class="max-w-[28rem] text-md text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, molestias temporibus ipsam eaque quidem dicta. Asperiores nisi error delectus, earum accusantium molestias unde quod. Provident rerum laborum aliquam temporibus voluptatibus.</p>
+          </div>
+
+          <div class="flex justify-start ms-3">
+            <button class="bg-greenColor rounded-full py-3 px-5 text-white text-2xl font-light w-fit outline outline-white hover:outline-greenColor hover:bg-white hover:text-textgreenColor transition duration-300">Order Now!</button>
+          </div>
         </div>
-        <div
-          class="flex flex-col justify-center items-center top-[550px] absolute bottom-0 right-0 w-[100%]"
-        >
-          <button
-            type="button"
-            class="text-yellow-950 bg-orange-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 tracking-wide font-bold rounded-full italic text-3xl px-5 py-2.5 me-2 mb-2 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 w-[258px] h-80 shadow-xl items-center z-10"
-          >
-            Order Now!
-          </button>
+
+        <div class=""><!--right part--> <!-- Main conatiner-->
+          <div class="relative"> <!-- container of pics-->
+            <div>
+              <img src="/public/image/jaydsCoffee.svg" alt="" class="w-[420px] h-[420px] absolute top-20 left-0 z-10 drop-shadow-xl">
+            </div>
+            <div class="">
+              <img src="/public/image/jaydsCoffee2.svg" alt="" class="w-[420px] h-[420px] absolute top-32 left-40 drop-shadow-xl">
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
 
     <!-- Best Sellers -->
-    <div id="Menu">
-      <h1 class="font-bold text-greenColor text-6xl text-center pb-8">
+    <div class="bg-white" id="Menu">
+      <h1 class="font-bold text-greenColor text-6xl text-center py-8 top-10 z-auto">
         Top Picks of the Day
       </h1>
       <div class="flex justify-center mb-32">
-        <h3 class="text-center text-2xl tracking-wider  w-[950px] justify-center text-black">
+        <h3 class="text-center text-2xl tracking-wider w-[950px] justify-center text-black">
           Discover our most loved milk tea flavors, refreshed daily based on what our customers are raving about!
         </h3>
       </div>
@@ -379,12 +256,12 @@
 
       <!-- cards -->
       <div class="container mx-auto p-4 flex justify-center">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20 justify-items-center h-full px-32 py-3">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-20 gap-y-32 justify-items-center h-full px-32 py-3">
 
           <!-- Card 1.2 -->
-          <div class="z-10 relative flex flex-col p-4 rounded-xl bg-clip-border text-gray-700 shadow-md outline outline-[6px] outline-greenColor hover:bg-greenColor hover:text-white transition hover:scale-110 duration-300 overflow-visible">
+          <div class=" z-10 relative flex flex-col p-4 rounded-xl bg-clip-border text-gray-700 shadow-md outline outline-[6px] outline-greenColor hover:bg-greenColor hover:text-white transition duration-300 overflow-visible" data-aos="flip-right" data-aos-duration="1000" data-aos-easing="ease-out-cubic">
             
-            <div class="z-10 relative mx-4 mt-[-130px] h-56 rounded-xl bg-blue-gray-500 bg-clip-border">
+            <div class="z-10 relative mx-4 mt-[-130px] h-56 rounded-xl bg-blue-gray-500 bg-clip-border hover:scale-110 duration-500">
               <img src="/public/image/americano.png" alt="img-blur-shadow" layout="fill" class="object-contain w-full h-full"/>
             </div>
             <div>
@@ -403,17 +280,17 @@
               </div>
             </div>
             <div class=" flex justify-end">
-              <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-md" >
+              <button class="text-white outline hover:text-black hover:bg-jaydsBg outline-white hover:outline-greenColor font-bold py-2 px-4 rounded-md" >
               BUY NOW
               </button>
             </div>
           </div>
 
           <!-- Card 2.2 -->
-          <div class="z-10 relative flex flex-col p-4 rounded-xl bg-clip-border text-gray-700 shadow-md outline outline-[6px] outline-greenColor hover:bg-greenColor hover:text-white transition hover:scale-110 duration-300 overflow-visible">
+          <div class="z-10 relative flex flex-col p-4 rounded-xl bg-clip-border text-gray-700 shadow-md outline outline-[6px] outline-greenColor hover:bg-greenColor hover:text-white transition hover:scale-110 duration-300 overflow-visible" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="300" data-aos-easing="ease-out-cubic">
             
-            <div class="z-10 relative mx-4 mt-[-130px] h-56 rounded-xl bg-blue-gray-500 bg-clip-border">
-              <img src="/public/image/americano.png" alt="img-blur-shadow" layout="fill" class="object-contain w-full h-full"/>
+            <div class="z-10 relative mx-4 mt-[-130px] h-56 rounded-xl bg-blue-gray-500 bg-clip-border hover:scale-110 duration-500">
+              <img src="/public/image/caramel.png" alt="img-blur-shadow" layout="fill" class="object-contain w-full h-full"/>
             </div>
             <div>
               <h1 class="text-2xl font-bold mt-4 mb-2 hover:text-white">
@@ -431,17 +308,17 @@
               </div>
             </div>
             <div class=" flex justify-end">
-              <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-md" >
+              <button class="text-white outline hover:text-black hover:bg-jaydsBg outline-white hover:outline-greenColor font-bold py-2 px-4 rounded-md" >
               BUY NOW
               </button>
             </div>
           </div>
 
           <!-- Card 3.2 -->
-          <div class="z-10 relative flex flex-col p-4 rounded-xl bg-clip-border text-gray-700 shadow-md outline outline-[6px] outline-greenColor hover:bg-greenColor hover:text-white transition hover:scale-110 duration-300 overflow-visible">
+          <div class="z-10 relative flex flex-col p-4 rounded-xl bg-clip-border text-gray-700 shadow-md outline outline-[6px] outline-greenColor hover:bg-greenColor hover:text-white transition hover:scale-110 duration-300 overflow-visible" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="500" data-aos-easing="ease-out-cubic">
             
-            <div class="z-10 relative mx-4 mt-[-130px] h-56 rounded-xl bg-blue-gray-500 bg-clip-border">
-              <img src="/public/image/americano.png" alt="img-blur-shadow" layout="fill" class="object-contain w-full h-full"/>
+            <div class="z-10 relative mx-4 mt-[-130px] h-56 rounded-xl bg-blue-gray-500 bg-clip-border hover:scale-110 duration-500">
+              <img src="/public/image/fruit.png" alt="img-blur-shadow" layout="fill" class="object-contain w-full h-full"/>
             </div>
             <div>
               <h1 class="text-2xl font-bold mt-4 mb-2 hover:text-white">
@@ -459,17 +336,17 @@
               </div>
             </div>
             <div class=" flex justify-end">
-              <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-md" >
+              <button class="text-white outline hover:text-black hover:bg-jaydsBg outline-white hover:outline-greenColor font-bold py-2 px-4 rounded-md" >
               BUY NOW
               </button>
             </div>
           </div>
 
           <!-- Card 4.2 -->
-          <div class="z-10 relative flex flex-col p-4 rounded-xl bg-clip-border text-gray-700 shadow-md outline outline-[6px] outline-greenColor hover:bg-greenColor hover:text-white transition hover:scale-110 duration-300 overflow-visible">
+          <div class="z-10 relative flex flex-col p-4 rounded-xl bg-clip-border text-gray-700 shadow-md outline outline-[6px] outline-greenColor hover:bg-greenColor hover:text-white transition hover:scale-110 duration-300 overflow-visible" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="700" data-aos-easing="ease-out-cubic">
             
-            <div class="z-10 relative mx-4 mt-[-130px] h-56 rounded-xl bg-blue-gray-500 bg-clip-border">
-              <img src="/public/image/americano.png" alt="img-blur-shadow" layout="fill" class="object-contain w-full h-full"/>
+            <div class="z-10 relative mx-4 mt-[-130px] h-56 rounded-xl bg-blue-gray-500 bg-clip-border hover:scale-110 duration-500">
+              <img src="/public/image/expresso.png" alt="img-blur-shadow" layout="fill" class="object-contain w-full h-full"/>
             </div>
             <div>
               <h1 class="text-2xl font-bold mt-4 mb-2 hover:text-white">
@@ -487,7 +364,7 @@
               </div>
             </div>
             <div class=" flex justify-end">
-              <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-md" >
+              <button class="text-white outline hover:text-black hover:bg-jaydsBg outline-white hover:outline-greenColor font-bold py-2 px-4 rounded-md" >
               BUY NOW
               </button>
             </div>
@@ -507,7 +384,7 @@
     </div>
 
     <!-- Menu offering -->
-    <div class="bg-exportColor w-full mb-10 relative mt-2" id="offer">
+    <div class="bg-exportColor w-full mb-10 relative" id="offer">
       <h2
         class="text-4xl font-semibold text-center mb-4 pt-10 text-yellow-950">
         Menu Offering
@@ -606,7 +483,7 @@
     </div>
 
     <!-- About Us -->
-    <div class="flex lg:flex-row md:flex-col" id="about">
+    <div class="flex lg:flex-row md:flex-col overflow-hidden bg-greenColor text-white py-10 top-0" id="about">
       <div
         class="p-32 md:text-center lg:text-left"
         data-aos="fade-right"
@@ -623,12 +500,12 @@
           rem, quod corrupti eius iure sit nihil similique, et voluptatem
           possimus tenetur! Eum obcaecati sed odio velit labore quas in!
         </p>
-        <button
+        <!-- <button
           type="button"
           class="mt-12 text-orange-950 hover:text-white border border-orange-950 hover:bg-orange-950 focus:ring-4 focus:outline-none focus:ring-orange-950 font-medium rounded-lg text-lg px-5 py-2.5 text-center me-2 mb-2 dark:border-orange-950 dark:text-orange-950 dark:hover:text-white dark:hover:bg-orange-950 dark:focus:ring-orange-950"
         >
           Order Now!
-        </button>
+        </button> -->
       </div>
       <img
         src="image/AboutUs.png"
