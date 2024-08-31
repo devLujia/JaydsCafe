@@ -8,6 +8,8 @@ const nodemailer = require("nodemailer");
 const bcrypt = require('bcrypt');
 const MailGen = require('mailgen');
 const axios = require('axios');
+const multer = require('multer')
+const path = require('path')
 const {EMAIL,PASSWORD,PAYMONGO_SECRET_KEY} = require('./env.js')
 
 const app = express();
@@ -29,6 +31,19 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24
     }
 }));
+
+const storage = multer.diskStorage({
+    destination:(req, file, cb)=>{
+        cb(null, '../joeexpress/public/images')
+    },
+    filename:(req, file, cb)=>{
+        cb(null, file.fieldname + "_" + Date.now()+ path.extname(file.originalname));
+    }
+})
+
+const upload = multer({
+    storage: storage
+})
 
 const db = mysql.createConnection({
     host: "localhost",
@@ -94,10 +109,33 @@ app.post('/order', (req,res)=>{
 
 })
 
+app.post('/cms', (req, res) => {
+    const { title } = req.body;
+  
+    const query = 'SELECT content FROM cms_pages WHERE title = ?';
+  
+    db.query(query, [title], (err, results) => {
+      if (err) {
+        console.error('Database error:', err);
+        return res.status(500).json({ error: 'Internal server error' });
+      }
+  
+      if (results.length > 0) {
+        res.json({ content: results[0].content });
+      } else {
+        res.status(404).json({ error: 'No content found' });
+      }
+    });
+  });
+
+
+
 app.get('/foods', (req,res)=>{
     const query = `SELECT f.id, f.name, f.description, f.image_url, fs.size, fs.price 
     FROM foods f JOIN food_sizes fs ON f.id = fs.food_id 
-    GROUP BY f.id, f.name, f.description, f.image_url LIMIT 4;`;
+    GROUP BY f.id, f.name, f.description, f.image_url 
+    WHERE visible = 1
+    LIMIT 4;`;
 
     const order = `
                    SELECT count(o.order_id) as totalOrder , f.name, f.description, f.image_url, fs.price 
@@ -105,6 +143,7 @@ app.get('/foods', (req,res)=>{
                    JOIN food_sizes fs on f.id = fs.id 
                    JOIN orders_food of on of.food_id = fs.id 
                    JOIN orders o on o.order_id = of.order_id 
+                   WHERE visible = 1
                    GROUP BY f.name, f.description, f.image_url, fs.price 
                    order by totalOrder desc limit 4;
                 `
@@ -166,11 +205,7 @@ app.get('/foods', (req,res)=>{
                         console.error('Error signing up:', userError);
                         return res.status(500).json({ error: 'Failed to create cart' });
                     }
-
-                    console.log('User signed up successfully with ID:', cartResult);
                       
-    
-                    // Send registration email
                     try {
                         const transporter = nodemailer.createTransport({
                             service: 'gmail',
@@ -186,23 +221,23 @@ app.get('/foods', (req,res)=>{
                         const mailGenerator = new MailGen({
                             theme: 'default',
                             product: {
-                                name: 'POURING JOE',
+                                name: `Jayd's Cafe`,
                                 link: 'https://mailgen.js/'
                             }
                         });
     
                         const response = {
                             body: {
-                                // color: "#ffffff",
+                                
                                 name: name,
                                 intro: 'YOU REGISTERED SUCCESSFULLY',
                                 outro: 'PLEASE CLICK THE LINK TO CONTINUE',
                                 action: {
                                     instructions: 'To complete your registration, please click the following button:',
                                     button: {
-                                        color: '#22BC66', // Optional action button color
+                                        color: '#22BC66',
                                         text: 'Verify your account',
-                                        link: `http://localhost:8081/verify/${verificationToken}` // Verification link
+                                        link: `http://localhost:8081/verify/${verificationToken}`
                                     }
                                 }
 
@@ -256,8 +291,16 @@ app.get('/menu', (req ,res )=>{
             foods f
         JOIN
             food_sizes fs ON f.id = fs.food_id
+        WHERE
+            visible = 1   
         GROUP BY
-            f.id, f.name, f.description, f.image_url;`;
+            f.id, f.name, f.description, f.image_url;
+         
+            
+            `
+            
+            
+            ;
     
         db.query(query, (err,results)=>{
             if(err) {
@@ -355,6 +398,7 @@ app.post('/menuOption', (req, res) => {
       food_sizes fs ON f.id = fs.food_id 
     WHERE 
       fs.size = ?
+      f.visible = 1;
     GROUP BY 
       f.id, f.name, f.description, f.image_url;
   `;
@@ -696,6 +740,7 @@ app.post('/productResult', (req,res)=>{
                     f.description,
                     f.image_url,
                     f.category_id,
+                    f.visible,
                     fs_medium.price AS medprice,
                     fs_medium.size as medsize,
                     fs_large.price AS lgprice,
@@ -707,7 +752,6 @@ app.post('/productResult', (req,res)=>{
                     category c 
                     ON f.category_id = c.id
                 
-
                 LEFT JOIN 
                     food_sizes fs_medium 
                     ON f.id = fs_medium.food_id AND fs_medium.size = 'medium'
@@ -765,6 +809,27 @@ app.post('/addProduct', (req, res) =>{
     })
 
 })
+
+app.post('/addSize',(req,res)=>{
+    
+    const {id,size,price} = req.body;
+
+    const query = 
+    `
+    INSERT INTO food_sizes (food_id, size, price)
+    VALUES (?, ? ,?)
+
+    `
+    db.query(query, [id, size ,price], (err, result)=> {
+        if(err){
+            res.json({err: "Unable to add into food_sizes"})
+        }
+        
+    })
+
+})
+
+
 
 app.post('/removeProduct',  async (req, res) =>{
 
@@ -827,6 +892,7 @@ app.post('/removeProduct',  async (req, res) =>{
             ON f.id = fs_large.food_id AND fs_large.size = 'large'
         WHERE 
             f.id = ?;
+            
         `
 
         db.query(query,[id],(err,result)=>{
@@ -844,9 +910,10 @@ app.post('/removeProduct',  async (req, res) =>{
 
     })
 
-    app.post('/updateProduct', (req,res) => {
-        
-        const {name ,description ,image_url ,category_id , foodId ,medprice , lgprice} = req.body;
+    app.post('/updateProduct', upload.single('image_url') ,(req,res) => {
+
+        const {name ,description ,category_id , foodId ,medprice , lgprice} = req.body;
+        const image_url = req.file ? req.file.filename : null;
 
         const query = 
         `
@@ -941,8 +1008,9 @@ app.post('/removeProduct',  async (req, res) =>{
             }
         });
 
-    app.post('/addCategory',(req,res)=>{
-        const {title,image_url} = req.body;
+    app.post('/addCategory', upload.single('image_url'), (req,res)=>{
+        const {title} = req.body;
+        const image_url = req.file ? req.file.filename : null;
 
         const query = 
         `INSERT INTO category (title,image_url)
@@ -951,7 +1019,8 @@ app.post('/removeProduct',  async (req, res) =>{
         db.query(query,[title,image_url],(err,result)=>{
             if(err){
                 res.json({err:"ERROR"});
-            } 
+            }
+            res.json({success: true})
         })
 
     })
@@ -986,11 +1055,13 @@ app.post('/removeProduct',  async (req, res) =>{
 
     app.post('/addAddons',(req,res)=>{
 
-        const {name,price} = req.body;
-        const query = `Insert into addons (name,price) VALUES
-        (?,?)`
+        const {name, price} = req.body;
+        
+        const query = `Insert into addons (name, price) VALUES
+        (?, ?)`
 
-        db.query(query, [name, price] ,(err,result) => {
+        db.query(query, [name, price] ,(err, result) => {
+            
             if(err){
                 res.json({err:"ERROR"});
             }
@@ -998,6 +1069,96 @@ app.post('/removeProduct',  async (req, res) =>{
         })
 
     })
+
+    app.post('/cms_backend', (req, res) => {
+        const { title } = req.body;
+      
+        const query = 'SELECT * FROM cms_pages order by category desc';
+      
+        db.query(query, [title], (err, results) => {
+
+          if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'Internal server error' });
+          }
+
+          res.json(results);
+          
+        });
+      });
+
+      app.post('/cms_specific', (req, res) => {
+
+        const { id } = req.body;
+
+        const query =   `
+                        SELECT *
+                        FROM cms_pages
+                        WHERE id = ?
+                        `;
+
+                db.query(query, [id], (err, result) => {
+                    if (err) {
+                        console.error("Error fetching cms data:", err);
+                        return res.status(500).json({ error: "Unable to fetch cms data" });
+                    }
+
+                    if (result.length === 0) {
+                        return res.status(404).json({ error: "User not found" });
+                    }
+
+                    res.json(result[0]);
+                });
+
+      });
+
+
+    app.post('/editCms', upload.single('content'), (req, res) =>{
+
+        const { id } = req.body;
+        let content = req.body.content;
+
+        if (req.file) {
+            content = `/images/${req.file.filename}`;
+        }
+
+        const query = 
+        `
+        UPDATE cms_pages
+        SET
+        content = ?
+        WHERE id = ?
+        `
+        db.query(query, [content, id], (err, results) => {
+
+            if (err) {
+              console.error('Database error:', err);
+              return res.status(500).json({ error: 'Internal server error' });
+            }
+            
+          });
+
+    })
+
+    app.post('/hideProduct',(req, res) =>{
+        
+        const {id} = req.body;
+
+        const query = `UPDATE foods SET visible = NOT visible where id = ?`
+
+        db.query(query, [id], (err, result) => {
+            if (err) {
+                console.error('Error updating visibility:', err);
+                return res.status(500).json({ error: 'Failed to update visibility' });
+            }
+    
+            res.json({ message: 'Visibility updated successfully' });
+        });
+
+    })
+
+    
+
 
 
 

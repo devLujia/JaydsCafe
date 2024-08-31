@@ -10,12 +10,15 @@ function RemoveCategory({ closeModal }) {
         setSelectedCategoryId(e.target.value);
     };
 
-    const handleRemove = (e) => {
+    const handleRemove = async (e) => {
         e.preventDefault();
     
         axios.post('http://localhost:8081/deleteCategory', { id })
         .then(res => {
-            closeModal(false);
+            if(res.data.success === true){
+              closeModal(false);
+            }
+              
         })
         .catch(error => {
             console.log("There was an error deleting the category!", error);

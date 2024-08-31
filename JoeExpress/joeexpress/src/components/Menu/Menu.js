@@ -18,8 +18,42 @@ const navigate = useNavigate();
 const [foods, setFoods] = useState([]);
 const [cart,setCart] = useState([]);
 const [userId, setUserId] = useState(null);
+const [cmsName,setCmsName] = useState('');
+const [cmsSmallLogo,setSmallLogo] = useState(null);
 
  axios.defaults.withCredentials = true;
+
+  useEffect(()=>{
+
+    const fetchNameData = async () => {
+      try {
+        const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
+        setCmsName(response.data.content || '');
+      } 
+      catch (error) {
+        console.error('Error fetching data:', error);
+      }
+
+    };
+
+    const fetchSmallLogo = async () => {
+
+      try{
+        const response = await axios.post ('http://localhost:8081/cms', {title: 'Small Logo'});
+        setSmallLogo(response.data.content || '')
+      }
+      catch (error) {
+        console.error('Error fetching data:', error);
+      }
+
+    };
+
+    fetchSmallLogo();
+    fetchNameData();
+  },[])
+
+
+
 
  useEffect(() => {
     axios.get('http://localhost:8081/menu')
@@ -112,7 +146,16 @@ const [userId, setUserId] = useState(null);
         
     <nav class="sticky top-0 bg-white z-20">
       <div class="font-extrabold text-3xl flex items-center">
-          <Link to={'/'} class="flex items-center"><img src={logo} alt="logo" class="logo"/>JoeExpress</Link>
+      <a href="/" className="flex items-center">
+                    
+                    {/* Dynamic Image */}
+                    <div className="w-16 h-16 overflow-hidden flex justify-center items-center border border-gray-300 rounded-md">
+                    <img src={cmsSmallLogo} alt="logo" className="object-cover w-full h-full logo" />
+                    </div>
+                    
+                    {cmsName}
+                    
+                    </a>
       </div>
       
       <div class="flex items-center">
@@ -243,7 +286,7 @@ const [userId, setUserId] = useState(null);
                           </div>
                       </div>
                       <a href="#">
-                          <img class="rounded-t-lg w-60 h-60" src={food.image_url} onClick={() => handleNav(food.id)} alt="product image"/>
+                          <img class="rounded-t-lg w-60 h-60" src={`images/${food.image_url}`} onClick={() => handleNav(food.id)} alt="product image"/>
                       </a>
                   </div>
                   <div class="px-5 pb-5 ">

@@ -7,7 +7,7 @@ function EditProd({closeModal, id}) {
 
             name: '',
             description: '',
-            image_url: '',
+            image_url: null,
             category_id: '',
             foodId: '',
             medprice: '',
@@ -29,18 +29,47 @@ function EditProd({closeModal, id}) {
           }
       }, [id]);
 
-        const handleInput = (e) => {
-                setValues({ ...values, [e.target.name]: e.target.value });
-        };    
+      const handleInput = (e) => {
+        const { name, type, files, value } = e.target;
+    
+        if (type === 'file' && files.length > 0) {
+            
+            setValues((prevValues) => ({
+                ...prevValues,
+                [name]: files[0] 
+            }));
+            
+        } 
+        else {
+            
+            setValues((prevValues) => ({
+                ...prevValues,
+                [name]: value
+            }));
+        }
+        
+    };    
 
         const handleSubmit = (e) => {
                 e.preventDefault();
-                axios.post('http://localhost:8081/updateProduct', values)
+
+                const formData = new FormData();
+                formData.append('name', values.name);
+                formData.append('description', values.description);
+                formData.append('image_url', values.image_url);
+                formData.append('category_id', values.category_id);
+                formData.append('foodId', values.foodId);
+                formData.append('medprice', values.medprice);
+                formData.append('lgprice', values.lgprice);
+                
+                axios.post('http://localhost:8081/updateProduct', formData)
                 .then(res => {
+                  
                   alert('Product updated successfully');
                   closeModal(false);
                 })
-                .catch(err => console.error(err));
+                .catch(err=> console.log(err));
+           
         };
 
 
@@ -88,13 +117,13 @@ function EditProd({closeModal, id}) {
               </div>
       
               <div className='mb-4'>
-                <label htmlFor="image_url" className="flex text-gray-600 text-sm font-bold tracking-wider">Image URL</label>
+                <label for="image_url" className="flex text-gray-600 text-sm font-bold tracking-wider">Image URL</label>
                 <input 
-                  type="text" 
+                  type="file" 
                   name="image_url" 
                   id="image_url"
-                  value={values.image_url}
                   onChange={handleInput}
+                  accept="image/png, image/gif, image/jpeg"
                   className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline" 
                   placeholder="image.png" 
                   required

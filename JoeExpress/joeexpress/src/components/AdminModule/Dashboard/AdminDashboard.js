@@ -393,7 +393,7 @@ function AdminDashboard() {
 
   
    <tbody>
-   {foods.map(food => (
+      {foods.map(food => (
        <tr key={food.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
            <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                <img class="w-10 h-10 rounded-2xl" src={food.image_url} alt={food.name}/>

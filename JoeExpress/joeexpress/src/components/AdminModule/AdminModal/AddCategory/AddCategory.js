@@ -5,19 +5,40 @@ function AddCategory({closeModal}) {
 
     const [values, setValues] = useState({
         title: '',
-        image_url: ''
+        image_url: null
     });
     
     const handleInput = (e) => {
-        setValues({
-            ...values,
-            [e.target.name]: e.target.value
-        });
+      const { name, type, files, value } = e.target;
+    
+      if (type === 'file' && files.length > 0) {
+        setValues((prevValues) => ({
+          ...prevValues,
+          [name]: files[0] 
+        }));
+      } 
+      else {
+        setValues((prevValues) => ({
+          ...prevValues,
+          [name]: value 
+        }));
+      }
     };
 
-    const handleSubmit = () =>{
-        axios.post('http://localhost:8081/addCategory', values)
+    const handleSubmit = (e) =>{
+      e.preventDefault();
+
+      const formData = new FormData();
+      formData.append('title', values.title);
+      formData.append('image_url', values.image_url);
+
+      formData.forEach((value, key) => {
+        console.log(key, value);
+      });
+
+        axios.post('http://localhost:8081/addCategory', formData)
         .then(res =>{
+            alert('Category added successfully');
             closeModal(false)
         })
     }    
@@ -55,10 +76,11 @@ function AddCategory({closeModal}) {
               <div className='mb-4'>
                 <label htmlFor="image_url" className="flex text-gray-600 text-sm font-bold tracking-wider">Image URL</label>
                 <input 
-                  type="text" 
+                  type="file" 
                   name="image_url" 
                   id="image_url"
                   onChange={handleInput}
+                  accept="image/png, image/gif, image/jpeg"
                   className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline" 
                   placeholder="image.png" 
                   required

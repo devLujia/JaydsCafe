@@ -226,10 +226,10 @@ export default function CustomerAccount() {
                                 <img src={ellipsis} alt="ellipsis"/>
                             </button>
                         </div>
-                        <button onClick={toggleModal} type="button" class="ml-auto text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+                        {/* <button onClick={toggleModal} type="button" class="ml-auto text-white bg-yellow-900 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
                             <img src={plus} alt="Plus_Product" class="me-2 md:block"/>
                             <span class="md:block hidden"> Add Users </span>
-                        </button>
+                        </button> */}
 
 
 
