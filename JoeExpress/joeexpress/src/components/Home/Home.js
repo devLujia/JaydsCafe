@@ -23,13 +23,19 @@ function Home() {
   const [cmsName,setCmsName] = useState('');
   const [cmsBigLogo,setBigLogo] = useState(null);
   const [cmsSmallLogo,setSmallLogo] = useState(null);
+  const [cmsAboutUsImage,setAboutUsImage] = useState(null);
   const [cmsAboutUs,setAboutUs] = useState('');
+  const [cmsOperationHour,setOperationHour] = useState('');
+  const [cmsOperationDays,setOperationDays] = useState('');
   const [cmsLocation,setLocation] = useState('');
   const [cmsFacebook,setCmsFacebook] = useState('');
   const [cmsInstagram,setCmsInstagram] = useState('');
   const [cmsLink,setCmsLink] = useState('');
   const [cmsPhone,setCmsPhone] = useState('');
   const [cmsTel,setCmsTel] = useState('');
+  const [cmsMilkTeaPrice,setCmsMilkTeaPrice] = useState('');
+  const [cmsCoffeePrice,setCmsCoffeePrice] = useState('');
+  const [cmsSnackPrice,setCmsSnackPrice] = useState('');
  
   useEffect(()=>{
 
@@ -43,6 +49,36 @@ function Home() {
       }
 
     };
+    const fetchMilkTeaPriceData = async () => {
+      try {
+        const response = await axios.post('http://localhost:8081/cms', {title: 'Milktea Price'});
+        setCmsMilkTeaPrice(response.data.content || '');
+      } 
+      catch (error) {
+        console.error('Error fetching data:', error);
+      }
+
+    };
+    const fetchCoffeePriceData = async () => {
+      try {
+        const response = await axios.post('http://localhost:8081/cms', {title: 'Coffee Price'});
+        setCmsCoffeePrice(response.data.content || '');
+      } 
+      catch (error) {
+        console.error('Error fetching data:', error);
+      }
+
+    };
+    const fetchSnackPriceData = async () => {
+      try {
+        const response = await axios.post('http://localhost:8081/cms', {title: 'Snack Price'});
+        setCmsSnackPrice(response.data.content || '');
+      } 
+      catch (error) {
+        console.error('Error fetching data:', error);
+      }
+
+    };
     
     
     const fetchaboutusData = async () => {
@@ -50,6 +86,30 @@ function Home() {
       try{
         const response = await axios.post ('http://localhost:8081/cms', {title: 'About Us'});
         setAboutUs(response.data.content || '')
+      }
+      catch (error) {
+        console.error('Error fetching data:', error);
+      }
+
+    };
+    
+    const fetchOperationHoursData = async () => {
+
+      try{
+        const response = await axios.post ('http://localhost:8081/cms', {title: 'Operation hours'});
+        setOperationHour(response.data.content || '')
+      }
+      catch (error) {
+        console.error('Error fetching data:', error);
+      }
+
+    };
+    
+    const fetchOperationDaysData = async () => {
+
+      try{
+        const response = await axios.post ('http://localhost:8081/cms', {title: 'Operation Days'});
+        setOperationDays(response.data.content || '')
       }
       catch (error) {
         console.error('Error fetching data:', error);
@@ -73,6 +133,17 @@ function Home() {
       try {
         const response = await axios.post('http://localhost:8081/cms', {title: 'Big Logo'});
         setBigLogo(response.data.content || '');
+      } 
+      catch (error) {
+        console.error('Error fetching data:', error);
+      }
+
+    };
+    
+    const fetchAboutUsImage = async () => {
+      try {
+        const response = await axios.post('http://localhost:8081/cms', {title: 'Store Image'});
+        setAboutUsImage(response.data.content || '');
       } 
       catch (error) {
         console.error('Error fetching data:', error);
@@ -157,6 +228,13 @@ function Home() {
       fetchFacebookLinkData();
       fetchBigLogo();
       fetchSmallLogo();
+      fetchAboutUsImage();
+      fetchSnackPriceData();
+      fetchCoffeePriceData();
+      fetchMilkTeaPriceData();
+      fetchOperationHoursData();
+      fetchOperationDaysData();
+
 
   },[])
 
@@ -526,8 +604,8 @@ function Home() {
           <div class="pl-40 w-full" data-aos="fade-down-left" data-aos-duration="1500">
             <p className="text-2xl absolute left-0 pl-20">
               <span className="font-semibold">OPERATION HOURS</span><br />
-              MONDAY-SATURDAY <br />
-              2:00 PM - 9:00 PM
+              {cmsOperationDays} <br />
+              {cmsOperationHour}
             </p>
           </div>
 
@@ -611,19 +689,19 @@ function Home() {
             <div class="flex flex-row text-right pr-64">
                 <img src={milkteaoffer} alt="Milktea" class="w-36 h-36" data-aos="zoom-out-up" data-aos-duration="1500"/>
                 <h1 class="font-extrabold text-left self-center" data-aos="fade-right" data-aos-duration="1500">MILK TEA <br/>
-                    <span class="font-normal">29 Pesos to 39 Pesos</span>
+                    <span class="font-normal">{cmsMilkTeaPrice}</span>
                 </h1>
             </div>
             <div class="flex flex-row text-left pl-96">
                 <h1 class="font-extrabold text-left self-center" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="500">COFFEE <br/>
-                    <span class="font-normal"> 29 Pesos to 59 Pesos</span>
+                    <span class="font-normal">{cmsCoffeePrice}</span>
                 </h1>
                 <img src={coffee} alt="Coffee" class="w-36 h-36" data-aos="zoom-out-up" data-aos-duration="1000" data-aos-delay="500"/>
             </div>
             <div class="flex flex-row text-right pr-56 mb-11">
                 <img src={snacks} alt="Snacks" class="w-36 h-36" data-aos="zoom-out-up" data-aos-duration="1000" data-aos-delay="700"/>
                 <h1 class="font-extrabold text-left self-center" data-aos="fade-right" data-aos-duration="1500">SNACKS <br/>
-                    <span class="font-normal">49 Pesos to 59 Pesos</span>
+                    <span class="font-normal">{cmsSnackPrice}</span>
                 </h1>
             </div>
         </div>
@@ -651,7 +729,7 @@ function Home() {
           <p className="max-w-lg md:m-auto">{cmsAboutUs}</p>
           <button type="button" className="mt-12 text-orange-950 hover:text-white border border-orange-950 hover:bg-orange-950 focus:ring-4 focus:outline-none focus:ring-orange-950 font-medium rounded-lg text-lg px-5 py-2.5 text-center me-2 mb-2 dark:border-orange-950 dark:text-orange-950 dark:hover:text-white dark:hover:bg-orange-950 dark:focus:ring-orange-950">Order Now!</button>
         </div>
-        <img src={aboutUsImage} alt="About Us" id="aboutUsPic" className="w-[550px] h-[591px] md:m-auto" data-aos="fade-down-left" data-aos-duration="1500"/>
+        <img src={cmsAboutUsImage} alt="About Us" id="aboutUsPic" className="w-[550px] h-[591px] md:m-auto" data-aos="fade-down-left" data-aos-duration="1500"/>
       </div>
 
       {/* Reviews section */}

@@ -179,7 +179,11 @@ const Login = () => {
                     {/* Dynamic Image */}
                     <div className="w-16 h-16 overflow-hidden flex justify-center items-center border border-gray-300 rounded-md">
                     <img src={cmsSmallLogo} alt="logo" className="object-cover w-full h-full logo" />
-                    </div>{cmsName}</a>
+                    </div>
+                    
+                    {cmsName}
+                    
+                    </a>
                     
                     </div>
                 <span className="menu">
