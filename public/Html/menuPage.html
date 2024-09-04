@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <!-- Ayaw mag commit amputa -->
     <link rel="stylesheet" href="/public/menuPage.css" />
     <link rel="stylesheet" href="/public/output.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -22,1002 +22,990 @@
   </head>
   <body>
     <!-- Navbar -->
-    <nav class="sticky top-0 bg-white z-20 shadow-lg">
+    <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">
       <div class="font-extrabold text-2xl flex items-center">
         <!-- Logo/Title in Navbar -->
         <a href="/public/index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
       </div>
-      <span class="menu">
-        <ul
-          class="nav_links md:hidden sm:hidden lg:flex lg:flex-row lg:justify-between"
-        >
-          <li class="link"><a href="#">Home</a></li>
-          <li class="link"><a id="menu-link" href="#">Menu</a></li>
-          <li class="link"><a href="#about">About Us</a></li>
-          <li class="link"><a href="#footer">Contact Us</a></li>
-        </ul>
-      </span>
 
-      <div class="flex items-center"> <!-- drawer Burger and show -->
-        <button
-          class="burger lg:hidden mr-3"
-          id="burger-btn"
-          data-dropdown-toggle="dropdownHover"
-          data-dropdown-trigger="hover"
-          type="button"
-        >
-          <img src="image/menu.png" alt="" />
-        </button>
-
-        <!-- Dropdown menu -->
-        <div
-          id="dropdownHover"
-          class="hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-        >
-          <ul
-            class="py-2 text-sm text-gray-700 dark:text-gray-200"
-            aria-labelledby="burger-btn"
-          >
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >Home</a
-              >
-            </li>
-            <li>
-              <a
-                href="#Menu"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >Menu</a
-              >
-            </li>
-            <li>
-              <a
-                href="#about"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >About Us</a
-              >
-            </li>
-            <li>
-              <a
-                href="#footer"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >Contact Us</a
-              >
-            </li>
-          </ul>
-        </div>
-
+      <div class="inline-flex items-center justify-center me-2">
         <!-- Button for Login or Sign Up -->
-        <a href="#">
-          <button
-            class="btn mr-3 w-40 h-12 text-greenColor text-sm tracking-widest shadow-md cursor-pointer hover:shadow-lg outline  hover:shadow-gray-400 hover:bg-greenColor hover:text-white hover:outline-none ease-in-out transition background-color 0.3s, color 0.3s duration-300">
-            Order Now!
+        <button
+          class="btn mr-3 w-40 h-12 text-greenColor text-sm tracking-widest shadow-md cursor-pointer hover:shadow-lg outline  hover:shadow-gray-400 hover:bg-greenColor hover:text-white hover:outline-none ease-in-out transition background-color 0.3s, color 0.3s duration-300">
+          Order Now!
+        </button>
+  
+        <div class="inline-flex w-fit h-fit space-x-2">
+          <img src="/Images(Export)/UserAcc.svg" alt="">
+          <img src="/Images(Export)/bag.svg" alt="">
+        </div>
+      </div>
+    </nav>
+
+    <div class="w-full relative flex justify-center items-center"> <!-- Top Section -->
+      <img src="/Images(Export)/top-bg.svg" alt="" class="w-full h-full object-cover">
+        <div class="absolute top-0 left-0 w-full h-full"> <!-- buttons and title -->
+          <h1 class="text-2xl md:text-5xl font-bold mb-4 text-center mt-3"><span class="text-textgreenColor pe-3">Explore our</span>Menu</h1>
+
+          <div class="justify-center items-center mx-auto px-52 flex-wrap space-x-3 space-y-2 hidden lg:flex">
+            <!-- buttons will be hidden on medium and below screens -->
+            <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+            onclick="toggleVisibility('mt-series');">
+              MilkTea Series
+            </button>
+            <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+            onclick="toggleVisibility('fm-series');">
+              Fresh Milk Series
+            </button>
+            <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+             onclick="toggleVisibility('mc-series');">
+              Macchiato Series
+            </button>
+            <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+             onclick="toggleVisibility('cf-series');">
+              Coffee Series
+            </button>
+            <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+             onclick="toggleVisibility('fp-series');">
+              Frappe Series
+            </button>
+            <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+             onclick="toggleVisibility('ft-series');">
+              Fruity Series
+            </button>
+            <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+             onclick="toggleVisibility('ml-series');">
+              Milo Series
+            </button>
+            <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+             onclick="toggleVisibility('bt-series');">
+              Brewed Tea Series
+            </button>
+          </div>
+          
+          <!-- dropdown category button -->
+          <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="flex justify-center items-center mx-auto bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300 lg:hidden md:block">
+            Category Menu
           </button>
-        </a>
-      </div>
-  </nav>
-
-    <div class="flex flex-col w-4/5 h-screen mx-auto md:items-center">
-      <!-- Main Container-->
-
-      <div
-        class="w-full mb-12 ml-10 pt-10 md:ml-5 sm:ml-2 mt-0 space-x-8 rtl:space-x-reverse text-sm md:flex-col sm:flex-col"
-      >
-        <!-- above links -->
-        <span class="">
-          <ul
-            class="flex flex-row font-medium mt-0 space-x-8 rtl:space-x-reverse text-sm"
-          >
-            <li>
-              <a
-                href="#"
-                class="text-gray-900 dark:text-white hover:underline font-medium text-xl md:text-lg sm:text-base"
-                >Home</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="text-gray-900 dark:text-white hover:underline font-medium text-xl md:text-lg sm:text-base"
-                >Featured</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="text-gray-900 dark:text-white hover:underline font-medium text-xl md:text-lg sm:text-base"
-                >Previous</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="text-gray-900 dark:text-white hover:underline font-medium text-xl md:text-lg sm:text-base"
-                >Favorites</a
-              >
-            </li>
-          </ul>
-        </span>
-      </div>
-
-      <div class="flex flex-row"><!-- Nav & Cards Container -->
-
-        <div class="side-nav min-w-[25%]">
-          <!-- Side Nav-->
-          <h2 class="mb-5 text-lg">
-            <!-- Iced Coffee -->
-            <span class="font-semibold pr-1"> Iced Coffee </span>M - 39 L - 49
-          </h2>
-          <ul class="text-left mb-10">
-            <li><a href=""> Vanilla </a></li>
-            <li><a href=""> Caramel </a></li>
-            <li><a href=""> Hazelnut </a></li>
-            <li><a href=""> Mocha </a></li>
-            <li><a href=""> Salted Caramel </a></li>
-            <li><a href=""> White Chocolate </a></li>
-            <li><a href=""> Almond </a></li>
-          </ul>
-
-          <h2 class="mb-5 text-lg">
-            <!-- Milk Tea -->
-            <span class="font-semibold pr-1"> Milk Tea </span> M - 29 L - 39
-          </h2>
-          <ul class="text-left mb-10">
-            <li><a href=""> Classic Milktea </a></li>
-            <li><a href=""> Wintermelon </a></li>
-            <li><a href=""> okinawa </a></li>
-            <li><a href=""> Hokkaido </a></li>
-            <li><a href=""> Mocha </a></li>
-            <li><a href=""> Cookies & Cream </a></li>
-            <li><a href=""> Caramel </a></li>
-            <li><a href=""> Brown Sugar </a></li>
-            <li><a href=""> Strawberry </a></li>
-            <li><a href=""> Taro </a></li>
-            <li><a href=""> Red Velvet </a></li>
-            <li><a href=""> Dark Chocolate </a></li>
-          </ul>
-
-          <h2 class="mb-5 text-lg">
-            <!-- Non Coffee -->
-            <span class="font-semibold pr-1"> Non-Coffee </span>M - 49 L - 59
-          </h2>
-          <ul class="text-left mb-10">
-            <li><a href=""> Matcha Latte </a></li>
-            <li><a href=""> Strawberry Milk </a></li>
-            <li><a href=""> Taro Milk </a></li>
-            <li><a href=""> Melon Milk </a></li>
-            <li><a href=""> Chocolate Milk </a></li>
-            <li><a href=""> White Chocolate </a></li>
-          </ul>
-
-          <h2 class="mb-5 text-lg">
-            <!-- Snacks -->
-            <span class="font-semibold pr-1"> Snacks </span>
-          </h2>
-          <ul class="text-left mb-10">
-            <li class="pb-3 text-gray-600"><a href=""> Fries </a></li>
-            <li class="pb-3 text-gray-600"><a href=""> Burger </a></li>
-            <li class="pb-3 text-gray-600"><a href=""> Homemade Siomai </a></li>
-          </ul>
+            
+            <!-- category menu -->
+            <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                  <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('mt-series');">MilkTea Series</a>
+                  </li>
+                  <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('fm-series');">Fresh Milk Series</a>
+                  </li>
+                  <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('mc-series');">Macchiato Series</a>
+                  </li>
+                  <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('cf-series');">Coffee Series</a>
+                  </li>
+                  <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('fp-series');">Frappe Series</a>
+                  </li>
+                  <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('ft-series');">Fruity Series</a>
+                  </li>
+                  <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('ml-series');">Milo Series</a>
+                  </li>
+                  <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('bt-series');">Brewed Tea Series</a>
+                  </li>
+                </ul>
+            </div>
+         
         </div>
- 
-        <div class="flex flex-wrap" style="justify-content: space-between"><!-- Cards Section-->
-          <div
-            class="w-72 h-96 max-w-sm border border-gray-200 rounded-xl shadow-xl dark:bg-gray-800 dark:border-gray-700 mt-5"
-            data-aos="zoom-in"
-            data-aos-duration="500"
-            data-aos-delay="0"
-          >
-            <!-- Cards Container -->
-            <div class="flex justify-center bg-gray-200 m-4 rounded-xl">
-              <!-- Description -->
-              <div
-                class="flex items-center mb-5 bg-white px-1 w-fit rounded-full absolute mr-[190px]"
-              >
-                <!--Stars -->
-                <div class="flex items-center rtl:space-x-reverse">
-                  <span
-                    class="text-yellow-950 text-md font-bold py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3 me-1"
-                    >4.8</span
-                  >
-                  <svg
-                    class="w-4 h-4 text-yellow-300 mr-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path
-                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                    />
-                  </svg>
+    </div>
+
+    <div class="flex flex-col w-3/4 h-screen mx-auto md:items-center"> <!-- Main Container-->
+
+      <div id="mt-series"> <!-- milk tea series div -->
+        <div class="container mx-auto p-4 mt-4"> 
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 1 -->
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain">
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                  <button id="btn-cart" class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                    <img src="/public/image/cart.svg" alt="">
+                  </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain">
                 </div>
-              </div>
-              <a href="#">
-                <img
-                  class="rounded-t-lg w-60 h-60"
-                  src="/public/image/americano.png"
-                  alt="product image"
-                />
-                <!-- Image -->
-              </a>
-            </div>
-            <div class="px-5 pb-5">
-              <!-- Description -->
-              <a href="/public/Html/orderPage.html">
-                <h5
-                  class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white pl-2"
-                >
-                  Sandwich
-                </h5>
-              </a>
-              <div class="flex items-center justify-between">
-                <span
-                  class="text-3xl font-bold text-gray-900 dark:text-white pl-2"
-                  >$80</span
-                >
-                <!-- Price-->
-                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-bold rounded-lg text-md tracking-wider px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                  Add to Cart
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
                 </button>
-                <!-- Button-->
               </div>
-            </div>
-          </div>
-          <div
-            class="w-72 h-96 max-w-sm border border-gray-200 rounded-xl shadow-xl dark:bg-gray-800 dark:border-gray-700 mt-5"
-            data-aos="zoom-in"
-            data-aos-duration="500"
-            data-aos-delay="100"
-          >
-            <!-- Cards Container -->
-            <div class="flex justify-center bg-gray-200 m-4 rounded-xl">
-              <!-- Description -->
-              <div
-                class="flex items-center mb-5 bg-white px-1 w-fit rounded-full absolute mr-[190px]"
-              >
-                <!--Stars -->
-                <div class="flex items-center rtl:space-x-reverse">
-                  <span
-                    class="text-yellow-950 text-md font-bold py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3 me-1"
-                    >4.8</span
-                  >
-                  <svg
-                    class="w-4 h-4 text-yellow-300 mr-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path
-                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                    />
-                  </svg>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 3 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain">
                 </div>
-              </div>
-              <a href="#">
-                <img
-                  class="rounded-t-lg w-60 h-60"
-                  src="/public/image/americano.png"
-                  alt="product image"
-                />
-                <!-- Image -->
-              </a>
-            </div>
-            <div class="px-5 pb-5">
-              <!-- Description -->
-              <a href="#">
-                <h5
-                  class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white pl-2"
-                >
-                  Sandwich
-                </h5>
-              </a>
-              <div class="flex items-center justify-between">
-                <span
-                  class="text-3xl font-bold text-gray-900 dark:text-white pl-2"
-                  >$599</span
-                >
-                <!-- Price-->
-                <!-- Price-->
-                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-bold rounded-lg text-md tracking-wider px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                  Add to Cart
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
                 </button>
-                <!-- Button-->
               </div>
-            </div>
-          </div>
-          <div
-            class="w-72 h-96 max-w-sm border border-gray-200 rounded-xl shadow-xl dark:bg-gray-800 dark:border-gray-700 mt-5"
-            data-aos="zoom-in"
-            data-aos-duration="500"
-            data-aos-delay="200"
-          >
-            <!-- Cards Container -->
-            <div class="flex justify-center bg-gray-200 m-4 rounded-xl">
-              <!-- Description -->
-              <div
-                class="flex items-center mb-5 bg-white px-1 w-fit rounded-full absolute mr-[190px]"
-              >
-                <!--Stars -->
-                <div class="flex items-center rtl:space-x-reverse">
-                  <span
-                    class="text-yellow-950 text-md font-bold py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3 me-1"
-                    >4.8</span
-                  >
-                  <svg
-                    class="w-4 h-4 text-yellow-300 mr-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path
-                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                    />
-                  </svg>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 4 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain">
                 </div>
-              </div>
-              <a href="#">
-                <img
-                  class="rounded-t-lg w-60 h-60"
-                  src="/public/image/americano.png"
-                  alt="product image"
-                />
-                <!-- Image -->
-              </a>
-            </div>
-            <div class="px-5 pb-5">
-              <!-- Description -->
-              <a href="#">
-                <h5
-                  class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white pl-2"
-                >
-                  Sandwich
-                </h5>
-              </a>
-              <div class="flex items-center justify-between">
-                <span
-                  class="text-3xl font-bold text-gray-900 dark:text-white pl-2"
-                  >$599</span
-                >
-                <!-- Price-->
-                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-bold rounded-lg text-md tracking-wider px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                  Add to Cart
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
                 </button>
-                <!-- Button-->
               </div>
-            </div>
-          </div>
-          <div
-            class="w-72 h-96 max-w-sm border border-gray-200 rounded-xl shadow-xl dark:bg-gray-800 dark:border-gray-700 mt-5"
-            data-aos="zoom-in"
-            data-aos-duration="1000"
-            data-aos-delay="300"
-          >
-            <!-- Cards Container -->
-            <div class="flex justify-center bg-gray-200 m-4 rounded-xl">
-              <!-- Description -->
-              <div
-                class="flex items-center mb-5 bg-white px-1 w-fit rounded-full absolute mr-[190px]"
-              >
-                <!--Stars -->
-                <div class="flex items-center rtl:space-x-reverse">
-                  <span
-                    class="text-yellow-950 text-md font-bold py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3 me-1"
-                    >4.8</span
-                  >
-                  <svg
-                    class="w-4 h-4 text-yellow-300 mr-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path
-                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                    />
-                  </svg>
+
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 1.2 -->
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain">
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 2.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain">
                 </div>
-              </div>
-              <a href="#">
-                <img
-                  class="rounded-t-lg w-60 h-60"
-                  src="/public/image/americano.png"
-                  alt="product image"
-                />
-                <!-- Image -->
-              </a>
-            </div>
-            <div class="px-5 pb-5">
-              <!-- Description -->
-              <a href="#">
-                <h5
-                  class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white pl-2"
-                >
-                  Sandwich
-                </h5>
-              </a>
-              <div class="flex items-center justify-between">
-                <span
-                  class="text-3xl font-bold text-gray-900 dark:text-white pl-2"
-                  >$599</span
-                >
-                <!-- Price-->
-                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-bold rounded-lg text-md tracking-wider px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                  Add to Cart
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
                 </button>
-                <!-- Button-->
               </div>
-            </div>
-          </div>
-          <div
-            class="w-72 h-96 max-w-sm border border-gray-200 rounded-xl shadow-xl dark:bg-gray-800 dark:border-gray-700 mt-5"
-            data-aos="zoom-in"
-            data-aos-duration="1000"
-            data-aos-delay="400"
-          >
-            <!-- Cards Container -->
-            <div class="flex justify-center bg-gray-200 m-4 rounded-xl">
-              <!-- Description -->
-              <div
-                class="flex items-center mb-5 bg-white px-1 w-fit rounded-full absolute mr-[190px]"
-              >
-                <!--Stars -->
-                <div class="flex items-center rtl:space-x-reverse">
-                  <span
-                    class="text-yellow-950 text-md font-bold py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3 me-1"
-                    >4.8</span
-                  >
-                  <svg
-                    class="w-4 h-4 text-yellow-300 mr-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path
-                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                    />
-                  </svg>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 3.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain">
                 </div>
-              </div>
-              <a href="#">
-                <img
-                  class="rounded-t-lg w-60 h-60"
-                  src="/public/image/americano.png"
-                  alt="product image"
-                />
-                <!-- Image -->
-              </a>
-            </div>
-            <div class="px-5 pb-5">
-              <!-- Description -->
-              <a href="#">
-                <h5
-                  class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white pl-2"
-                >
-                  Sandwich
-                </h5>
-              </a>
-              <div class="flex items-center justify-between">
-                <span
-                  class="text-3xl font-bold text-gray-900 dark:text-white pl-2"
-                  >$599</span
-                >
-                <!-- Price-->
-                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-bold rounded-lg text-md tracking-wider px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                  Add to Cart
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
                 </button>
-                <!-- Button-->
               </div>
-            </div>
-          </div>
-          <div
-            class="w-72 h-96 max-w-sm border border-gray-200 rounded-xl shadow-xl dark:bg-gray-800 dark:border-gray-700 mt-5"
-            data-aos="zoom-in"
-            data-aos-duration="1000"
-            data-aos-delay="500"
-          >
-            <!-- Cards Container -->
-            <div class="flex justify-center bg-gray-200 m-4 rounded-xl">
-              <!-- Description -->
-              <div
-                class="flex items-center mb-5 bg-white px-1 w-fit rounded-full absolute mr-[190px]"
-              >
-                <!--Stars -->
-                <div class="flex items-center rtl:space-x-reverse">
-                  <span
-                    class="text-yellow-950 text-md font-bold py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3 me-1"
-                    >4.8</span
-                  >
-                  <svg
-                    class="w-4 h-4 text-yellow-300 mr-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path
-                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                    />
-                  </svg>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 4.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain">
                 </div>
-              </div>
-              <a href="#">
-                <img
-                  class="rounded-t-lg w-60 h-60"
-                  src="/public/image/americano.png"
-                  alt="product image"
-                />
-                <!-- Image -->
-              </a>
-            </div>
-            <div class="px-5 pb-5">
-              <!-- Description -->
-              <a href="#">
-                <h5
-                  class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white pl-2"
-                >
-                  Sandwich
-                </h5>
-              </a>
-              <div class="flex items-center justify-between">
-                <span
-                  class="text-3xl font-bold text-gray-900 dark:text-white pl-2"
-                  >$599</span
-                >
-                <!-- Price-->
-                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-bold rounded-lg text-md tracking-wider px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                  Add to Cart
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
                 </button>
-                <!-- Button-->
               </div>
-            </div>
-          </div>
-          <div
-            class="w-72 h-96 max-w-sm border border-gray-200 rounded-xl shadow-xl dark:bg-gray-800 dark:border-gray-700 mt-5"
-            data-aos="zoom-in"
-            data-aos-duration="1000"
-            data-aos-delay="600"
-          >
-            <!-- Cards Container -->
-            <div class="flex justify-center bg-gray-200 m-4 rounded-xl">
-              <!-- Description -->
-              <div
-                class="flex items-center mb-5 bg-white px-1 w-fit rounded-full absolute mr-[190px]"
-              >
-                <!--Stars -->
-                <div class="flex items-center rtl:space-x-reverse">
-                  <span
-                    class="text-yellow-950 text-md font-bold py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3 me-1"
-                    >4.8</span
-                  >
-                  <svg
-                    class="w-4 h-4 text-yellow-300 mr-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path
-                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <a href="#">
-                <img
-                  class="rounded-t-lg w-60 h-60"
-                  src="/public/image/americano.png"
-                  alt="product image"
-                />
-                <!-- Image -->
-              </a>
-            </div>
-            <div class="px-5 pb-5">
-              <!-- Description -->
-              <a href="#">
-                <h5
-                  class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white pl-2"
-                >
-                  Sandwich
-                </h5>
-              </a>
-              <div class="flex items-center justify-between">
-                <span
-                  class="text-3xl font-bold text-gray-900 dark:text-white pl-2"
-                  >$599</span
-                >
-                <!-- Price-->
-                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-bold rounded-lg text-md tracking-wider px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                  Add to Cart
-                </button>
-                <!-- Button-->
-              </div>
-            </div>
-          </div>
-          <div
-            class="w-72 h-96 max-w-sm border border-gray-200 rounded-xl shadow-xl dark:bg-gray-800 dark:border-gray-700 mt-5"
-            data-aos="zoom-in"
-            data-aos-duration="1000"
-            data-aos-delay="700"
-          >
-            <!-- Cards Container -->
-            <div class="flex justify-center bg-gray-200 m-4 rounded-xl">
-              <!-- Description -->
-              <div
-                class="flex items-center mb-5 bg-white px-1 w-fit rounded-full absolute mr-[190px]"
-              >
-                <!--Stars -->
-                <div class="flex items-center rtl:space-x-reverse">
-                  <span
-                    class="text-yellow-950 text-md font-bold py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3 me-1"
-                    >4.8</span
-                  >
-                  <svg
-                    class="w-4 h-4 text-yellow-300 mr-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path
-                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <a href="#">
-                <img
-                  class="rounded-t-lg w-60 h-60"
-                  src="/public/image/americano.png"
-                  alt="product image"
-                />
-                <!-- Image -->
-              </a>
-            </div>
-            <div class="px-5 pb-5">
-              <!-- Description -->
-              <a href="#">
-                <h5
-                  class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white pl-2"
-                >
-                  Sandwich
-                </h5>
-              </a>
-              <div class="flex items-center justify-between">
-                <span
-                  class="text-3xl font-bold text-gray-900 dark:text-white pl-2"
-                  >$599</span
-                >
-                <!-- Price-->
-                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-bold rounded-lg text-md tracking-wider px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                  Add to Cart
-                </button>
-                <!-- Button-->
-              </div>
-            </div>
-          </div>
-          <div
-            class="w-72 h-96 max-w-sm border border-gray-200 rounded-xl shadow-xl dark:bg-gray-800 dark:border-gray-700 mt-5"
-            data-aos="zoom-in"
-            data-aos-duration="1000"
-            data-aos-delay="800"
-          >
-            <!-- Cards Container -->
-            <div class="flex justify-center bg-gray-200 m-4 rounded-xl">
-              <!-- Description -->
-              <div
-                class="flex items-center mb-5 bg-white px-1 w-fit rounded-full absolute mr-[190px]"
-              >
-                <!--Stars -->
-                <div class="flex items-center rtl:space-x-reverse">
-                  <span
-                    class="text-yellow-950 text-md font-bold py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3 me-1"
-                    >4.8</span
-                  >
-                  <svg
-                    class="w-4 h-4 text-yellow-300 mr-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path
-                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <a href="#">
-                <img
-                  class="rounded-t-lg w-60 h-60"
-                  src="/public/image/americano.png"
-                  alt="product image"
-                />
-                <!-- Image -->
-              </a>
-            </div>
-            <div class="px-5 pb-5">
-              <!-- Description -->
-              <a href="#">
-                <h5
-                  class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white pl-2"
-                >
-                  Sandwich
-                </h5>
-              </a>
-              <div class="flex items-center justify-between">
-                <span
-                  class="text-3xl font-bold text-gray-900 dark:text-white pl-2"
-                  >$599</span
-                >
-                <!-- Price-->
-                <!-- Price-->
-                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-bold rounded-lg text-md tracking-wider px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                  Add to Cart
-                </button>
-                <!-- Button-->
-              </div>
-            </div>
-          </div>
-          <div
-            class="w-72 h-96 max-w-sm border border-gray-200 rounded-xl shadow-xl dark:bg-gray-800 dark:border-gray-700 mt-5"
-            data-aos="zoom-in"
-            data-aos-duration="1000"
-            data-aos-delay="900"
-          >
-            <!-- Cards Container -->
-            <div class="flex justify-center bg-gray-200 m-4 rounded-xl">
-              <!-- Description -->
-              <div
-                class="flex items-center mb-5 bg-white px-1 w-fit rounded-full absolute mr-[190px]"
-              >
-                <!--Stars -->
-                <div class="flex items-center rtl:space-x-reverse">
-                  <span
-                    class="text-yellow-950 text-md font-bold py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3 me-1"
-                    >4.8</span
-                  >
-                  <svg
-                    class="w-4 h-4 text-yellow-300 mr-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path
-                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <a href="#">
-                <img
-                  class="rounded-t-lg w-60 h-60"
-                  src="/public/image/americano.png"
-                  alt="product image"
-                />
-                <!-- Image -->
-              </a>
-            </div>
-            <div class="px-5 pb-5">
-              <!-- Description -->
-              <a href="#">
-                <h5
-                  class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white pl-2"
-                >
-                  Sandwich
-                </h5>
-              </a>
-              <div class="flex items-center justify-between">
-                <span
-                  class="text-3xl font-bold text-gray-900 dark:text-white pl-2"
-                  >$599</span
-                >
-                <!-- Price-->
-                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-bold rounded-lg text-md tracking-wider px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                  Add to Cart
-                </button>
-                <!-- Button-->
-              </div>
-            </div>
-          </div>
-          <div
-            class="w-72 h-96 max-w-sm border border-gray-200 rounded-xl shadow-xl dark:bg-gray-800 dark:border-gray-700 mt-5"
-            data-aos="zoom-in"
-            data-aos-duration="1000"
-            data-aos-delay="1000"
-          >
-            <!-- Cards Container -->
-            <div class="flex justify-center bg-gray-200 m-4 rounded-xl">
-              <!-- Description -->
-              <div
-                class="flex items-center mb-5 bg-white px-1 w-fit rounded-full absolute mr-[190px]"
-              >
-                <!--Stars -->
-                <div class="flex items-center rtl:space-x-reverse">
-                  <span
-                    class="text-yellow-950 text-md font-bold py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3 me-1"
-                    >4.8</span
-                  >
-                  <svg
-                    class="w-4 h-4 text-yellow-300 mr-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path
-                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <a href="#">
-                <img
-                  class="rounded-t-lg w-60 h-60"
-                  src="/public/image/americano.png"
-                  alt="product image"
-                />
-                <!-- Image -->
-              </a>
-            </div>
-            <div class="px-5 pb-5">
-              <!-- Description -->
-              <a href="#">
-                <h5
-                  class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white pl-2"
-                >
-                  Sandwich
-                </h5>
-              </a>
-              <div class="flex items-center justify-between">
-                <span
-                  class="text-3xl font-bold text-gray-900 dark:text-white pl-2"
-                  >$599</span
-                >
-                <!-- Price-->
-                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-bold rounded-lg text-md tracking-wider px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                  Add to Cart
-                </button>
-                <!-- Button-->
-              </div>
-            </div>
-          </div>
-          <div
-            class="w-72 h-96 max-w-sm border border-gray-200 rounded-xl shadow-xl dark:bg-gray-800 dark:border-gray-700 mt-5"
-            data-aos="zoom-in"
-            data-aos-duration="1000"
-            data-aos-delay="1100"
-          >
-            <!-- Cards Container -->
-            <div class="flex justify-center bg-gray-200 m-4 rounded-xl">
-              <!-- Description -->
-              <div
-                class="flex items-center mb-5 bg-white px-1 w-fit rounded-full absolute mr-[190px]"
-              >
-                <!--Stars -->
-                <div class="flex items-center rtl:space-x-reverse">
-                  <span
-                    class="text-yellow-950 text-md font-bold py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3 me-1"
-                    >4.8</span
-                  >
-                  <svg
-                    class="w-4 h-4 text-yellow-300 mr-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path
-                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <a href="#">
-                <img
-                  class="rounded-t-lg w-60 h-60"
-                  src="/public/image/americano.png"
-                  alt="product image"
-                />
-                <!-- Image -->
-              </a>
-            </div>
-            <div class="px-5 pb-5">
-              <!-- Description -->
-              <a href="#">
-                <h5
-                  class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white pl-2"
-                >
-                  Sandwich
-                </h5>
-              </a>
-              <div class="flex items-center justify-between">
-                <span
-                  class="text-3xl font-bold text-gray-900 dark:text-white pl-2"
-                  >$599</span
-                >
-                <!-- Price-->
-                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-bold rounded-lg text-md tracking-wider px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                  Add to Cart
-                </button>
-                <!-- Button-->
-              </div>
-            </div>
-          </div>
-          <div
-            class="w-72 h-96 max-w-sm border border-gray-200 rounded-xl shadow-xl dark:bg-gray-800 dark:border-gray-700 mt-5"
-            data-aos="zoom-in"
-            data-aos-duration="1000"
-            data-aos-delay="1200"
-          >
-            <!-- Cards Container -->
-            <div class="flex justify-center bg-gray-200 m-4 rounded-xl">
-              <!-- Description -->
-              <div
-                class="flex items-center mb-5 bg-white px-1 w-fit rounded-full absolute mr-[190px]"
-              >
-                <!--Stars -->
-                <div class="flex items-center rtl:space-x-reverse">
-                  <span
-                    class="text-yellow-950 text-md font-bold py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3 me-1"
-                    >4.8</span
-                  >
-                  <svg
-                    class="w-4 h-4 text-yellow-300 mr-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path
-                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <a href="#">
-                <img
-                  class="rounded-t-lg w-60 h-60"
-                  src="/public/image/americano.png"
-                  alt="product image"
-                />
-                <!-- Image -->
-              </a>
-            </div>
-            <div class="px-5 pb-5">
-              <!-- Description -->
-              <a href="#">
-                <h5
-                  class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white pl-2"
-                >
-                  Sandwich
-                </h5>
-              </a>
-              <div class="flex items-center justify-between">
-                <span
-                  class="text-3xl font-bold text-gray-900 dark:text-white pl-2"
-                  >$599</span
-                >
-                <!-- Price-->
-                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-bold rounded-lg text-md tracking-wider px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                  Add to Cart
-                </button>
-                <!-- Button-->
-              </div>
-            </div>
-          </div>
+          </div> 
         </div>
       </div>
+
+      <div id="fm-series" style="display:none;"> <!-- fresh milk series div -->
+        <div class="container mx-auto p-4 mt-4 bg-red-400"> 
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 1 -->
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain">
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 3 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 4 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 1.2 -->
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain">
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 2.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 3.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 4.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+          </div> 
+        </div>
+      </div>
+
+      <div id="mc-series" style="display:none;"> <!-- macchiato series div -->
+        <div class="container mx-auto p-4 mt-4 bg-green-400"> 
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 1 -->
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain">
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 3 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 4 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 1.2 -->
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain">
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 2.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 3.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 4.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+          </div> 
+        </div>
+      </div>
+
+      <div id="cf-series" style="display:none;"> <!-- coffe series div -->
+        <div class="container mx-auto p-4 mt-4 bg-blue-400"> 
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 1 -->
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain">
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 3 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 4 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 1.2 -->
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain">
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 2.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 3.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 4.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+          </div> 
+        </div>
+      </div>
+
+      <div id="fp-series" style="display:none;"> <!-- frappe series div -->
+        <div class="container mx-auto p-4 mt-4 bg-yellow-400"> 
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 1 -->
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain">
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 3 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 4 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 1.2 -->
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain">
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 2.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 3.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 4.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+          </div> 
+        </div>
+      </div>
+
+      <div id="ft-series" style="display:none;"> <!-- fruit series div -->
+        <div class="container mx-auto p-4 mt-4 bg-lime-400"> 
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 1 -->
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain">
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 3 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 4 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 1.2 -->
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain">
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 2.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 3.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 4.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+          </div> 
+        </div>
+      </div>
+
+      <div id="ml-series" style="display:none;"> <!-- milo series div -->
+        <div class="container mx-auto p-4 mt-4 bg-amber-700"> 
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 1 -->
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain">
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 3 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 4 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 1.2 -->
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain">
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 2.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 3.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 4.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+          </div> 
+        </div>
+      </div>
+
+      <div id="bt-series" style="display:none;"> <!-- brew tea series div -->
+        <div class="container mx-auto p-4 mt-4 bg-amber-900"> 
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 1 -->
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain">
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 3 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 4 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 1.2 -->
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain">
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 2.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 3.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+  
+              <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 4.2 -->
+                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain">
+                </div>
+                <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                <p class="text-gray-600 mt-2">Starts at</p>
+                <p class="text-2xl font-bold mt-1">P 65.00</p>
+                
+                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  <img src="/public/image/cart.svg" alt="">
+                </button>
+              </div>
+          </div> 
+        </div>
+      </div>
+
     </div>
 
     <!-- Right drawer -->
-
     <!-- drawer component -->
     <div id="drawer-right-example" class="fixed top-0 right-0 z-40 h-screen overflow-hidden transition-transform translate-x-full bg-orange-50 w-80 dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-right-label" style="overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; overflow-x: hidden;">
       <div class="w-full h-16 bg-greenColor"></div>
@@ -1202,19 +1190,36 @@
       </div>
     </div>
 
-
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
     <!-- Burger Animation-->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <!-- AOS Animation-->
     <script>
-      //burger
-      const burgerBtn = document.getElementById("burger-btn");
-      const navLinks = document.querySelector(".nav_links");
-
-      burgerBtn.addEventListener("click", () => {
-        navLinks.classList.toggle("hidden");
-      });
+    
+    //for menu page
+      var divs = ['mt-series','fm-series', 'mc-series', 'cf-series', 'fp-series', 'ft-series', 'ml-series','bt-series'];
+      var visibleDivId = null;
+      
+      function toggleVisibility(divId) {
+        if(visibleDivId === divId) {
+          //visibleDivId = null;
+        } else {
+          visibleDivId = divId;
+        }
+        hideNonVisibleDivs();
+      }
+      function hideNonVisibleDivs() {
+        var i, divId, div;
+        for(i = 0; i < divs.length; i++) {
+          divId = divs[i];
+          div = document.getElementById(divId);
+          if(visibleDivId === divId) {
+            div.style.display = "block";
+          } else {
+            div.style.display = "none";
+          }
+        }
+      }
       
      AOS.init();
     </script>

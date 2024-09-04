@@ -22,6 +22,7 @@ module.exports = {
         greenColor: '#067741',
         textgreenColor: '#017242',
         jaydsBg: '#e3ded6',
+        menuCirclebg: '#faf6e2'
       }
     },
   },
