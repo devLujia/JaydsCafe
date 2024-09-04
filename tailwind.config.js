@@ -8,7 +8,7 @@ module.exports = {
             "./components/**/*.{js,ts,jsx,tsx,mdx}",
  
             // Or if using `src` directory:
-            "./src/**/*.{js,ts,jsx,tsx,mdx}"
+            "./src/**/*.{js,ts,jsx,tsx,mdx}",
           ],
   theme: {
     extend: {
@@ -19,6 +19,9 @@ module.exports = {
         background: '#F5F2EB',
         footer: '#333335',
         cards2: '#F0F0F0',
+        greenColor: '#067741',
+        textgreenColor: '#017242',
+        jaydsBg: '#e3ded6',
       }
     },
   },
