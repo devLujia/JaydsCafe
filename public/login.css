@@ -77,7 +77,7 @@ nav .link{
     left: 0;
     width: 0;
     height: 5px;
-    background-color: #067741;
+    background-color: rgb(148, 66, 66);
     transition: 0.3s ease-in-out;
     border-radius: 10px;
 }
