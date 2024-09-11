@@ -6,6 +6,7 @@ import Home from './components/Home/Home'
 import Menu from './components/Menu/Menu'
 import Item from './components/OrderPage/OrderPage'
 import Cart from './components/Cart/Cart'
+import Editpage from './components/Edit/Editpage'
 import Tracking from './components/Tracking/OrderTracking'
 import AdminDashboard from './components/AdminModule/Dashboard/AdminDashboard'
 import AdminLogin from './components/AdminModule/Auth/AdminLogin'
@@ -42,6 +43,7 @@ function App() {
       <Route path='/CustomerAccount' element = {<CustomerAccount/>}> </Route>
       <Route path='/PaymentManagement' element = {<PaymentManagement/>}></Route>
       <Route path='/ContentManagement' element = {<ContentManagement/>}></Route>
+      <Route path='/Editpage' element = {<Editpage/>}></Route>
 
     </Routes>
     </BrowserRouter>

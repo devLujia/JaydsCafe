@@ -3,8 +3,10 @@ import {Link} from 'react-router-dom'
 import './menuPage.css'
 import logo from '../image/logo.png'
 import americano from '../image/americano.png'
-import bag from '../image/bag.png'
-import user from '../image/UserAcc.png'
+import topBG from '../image/top-bg.svg';
+import cartMenu from '../image/cart.svg';
+import userIcon from '../image/UserAcc.svg';
+import bagIcon from '../image/bag.svg';
 import axios from 'axios'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -12,6 +14,13 @@ import { useNavigate } from 'react-router-dom'
 
 
 function Menu() {
+  //styles ng right drawer
+  const rightDrawer = {
+    overflowY: 'auto',
+    scrollbarWidth: 'none',
+    msOverflowStyle: 'none',
+    overflowX: 'hidden',
+  };
 
 const [authenticated, setAuthenticated] = useState(false);
 const navigate = useNavigate();
@@ -51,9 +60,6 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
     fetchSmallLogo();
     fetchNameData();
   },[])
-
-
-
 
  useEffect(() => {
     axios.get('http://localhost:8081/menu')
@@ -117,7 +123,6 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
     }
   };
 
-  
         //burger
         useEffect(() => {
             const burgerBtn = document.getElementById('burger-btn');
@@ -143,197 +148,515 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
           
   return (
     <div>
-        
-    <nav class="sticky top-0 bg-white z-20">
-      <div class="font-extrabold text-3xl flex items-center">
-      <a href="/" className="flex items-center">
-                    
-                    {/* Dynamic Image */}
-                    <div className="w-16 h-16 overflow-hidden flex justify-center items-center border border-gray-300 rounded-md">
-                    <img src={cmsSmallLogo} alt="logo" className="object-cover w-full h-full logo" />
-                    </div>
-                    
-                    {cmsName}
-                    
-                    </a>
-      </div>
-      
-      <div class="flex items-center">
+      {/* <!-- Navbar --> */}
+      <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">
+        <div class="font-extrabold text-2xl flex items-center">
+          {/* <!-- Logo/Title in Navbar --> */}
+          <a href="/public/index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
+        </div>
 
-          <button class="burger lg:hidden mr-3" id="burger-btn" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" type="button"><img src="/public/image/menu.png" alt=""/></button>
+        <div class="inline-flex items-center justify-center me-2">
+          {/* <!-- Button for Login or Sign Up --> */}
+          <button
+            class="btn mr-3 w-40 h-12 text-greenColor text-sm tracking-widest shadow-md cursor-pointer hover:shadow-lg outline  hover:shadow-gray-400 hover:bg-greenColor hover:text-white hover:outline-none ease-in-out transition background-color 0.3s, color 0.3s duration-300">
+            Order Now!
+          </button>
+    
+          <div class="inline-flex w-fit h-fit space-x-2">
+            <img src={userIcon} alt=""/>
+            <img src={bagIcon} alt=""/>
+          </div>
+        </div>
+      </nav>
 
+      <div class="w-full relative flex justify-center items-center"> {/* <!-- Top Section --> */}
+        <img src={topBG} alt="" class="w-full h-full object-cover"/>
+          <div class="absolute top-0 left-0 w-full h-full"> {/* <!-- buttons and title -->*/}
+            <h1 class="text-2xl md:text-5xl font-bold mb-4 text-center mt-3"><span class="text-textgreenColor pe-3">Explore our</span>Menu</h1>
 
-              <div id="dropdownHover" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                  <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="burger-btn">
+            <div class="justify-center items-center mx-auto px-52 flex-wrap space-x-3 space-y-2 hidden lg:flex">
+              {/* <!-- buttons will be hidden on medium and below screens --> */}
+              <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+              onclick="toggleVisibility('mt-series');">
+                MilkTea Series
+              </button>
+              <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+              onclick="toggleVisibility('fm-series');">
+                Fresh Milk Series
+              </button>
+              <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+              onclick="toggleVisibility('mc-series');">
+                Macchiato Series
+              </button>
+              <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+              onclick="toggleVisibility('cf-series');">
+                Coffee Series
+              </button>
+              <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+              onclick="toggleVisibility('fp-series');">
+                Frappe Series
+              </button>
+              <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+              onclick="toggleVisibility('ft-series');">
+                Fruity Series
+              </button>
+              <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+              onclick="toggleVisibility('ml-series');">
+                Milo Series
+              </button>
+              <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+              onclick="toggleVisibility('bt-series');">
+                Brewed Tea Series
+              </button>
+            </div>
+            
+            {/* <!-- dropdown category button --> */}
+            <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="flex justify-center items-center mx-auto bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300 lg:hidden md:block">
+              Category Menu
+            </button>
+              
+              {/* <!-- category menu --> */}
+              <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                  <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                     <li>
-                      <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Home</a>
+                      <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('mt-series');">MilkTea Series</a>
                     </li>
                     <li>
-                      <a href="#Menu" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Menu</a>
+                      <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('fm-series');">Fresh Milk Series</a>
                     </li>
                     <li>
-                      <a href="#about" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">About Us</a>
+                      <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('mc-series');">Macchiato Series</a>
                     </li>
                     <li>
-                      <a href="#footer" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Contact Us</a>
+                      <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('cf-series');">Coffee Series</a>
+                    </li>
+                    <li>
+                      <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('fp-series');">Frappe Series</a>
+                    </li>
+                    <li>
+                      <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('ft-series');">Fruity Series</a>
+                    </li>
+                    <li>
+                      <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('ml-series');">Milo Series</a>
+                    </li>
+                    <li>
+                      <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('bt-series');">Brewed Tea Series</a>
                     </li>
                   </ul>
               </div>
-              
           
-          <Link to="/cart">
-              <button class="btn mr-3 w-48 h-14 text-gray-100 text-base tracking-widest bg-footer">Order Now</button>
-          </Link>
-          <div class="flex space-x-2 mr-2">
-              <a href="#"><img src={user} alt="user" class="mr-3"/></a>
-              <a href="#"><img src={bag} alt="bag"/></a>
           </div>
       </div>
-  </nav>
-  
-  <div class="flex flex-col w-4/5 h-screen mx-auto md:items-center">
-      
-      <div class="w-full mb-12 ml-10 pt-10 md:ml-5 sm:ml-2 mt-0 space-x-8 rtl:space-x-reverse text-sm md:flex-col sm:flex-col"> 
-          <span class="">
-              <ul class="flex flex-row font-medium mt-0 space-x-8 rtl:space-x-reverse text-sm">
-                  <li>
-                      <a href="#" class="text-gray-900 dark:text-white hover:underline font-medium text-xl md:text-lg sm:text-base">Home</a>
-                  </li>
-                  <li>
-                      <a href="#" class="text-gray-900 dark:text-white hover:underline font-medium text-xl md:text-lg sm:text-base">Featured</a>
-                  </li>
-                  <li>
-                      <a href="#" class="text-gray-900 dark:text-white hover:underline font-medium text-xl md:text-lg sm:text-base">Previous</a>
-                  </li>
-                  <li>
-                      <a href="#" class="text-gray-900 dark:text-white hover:underline font-medium text-xl md:text-lg sm:text-base">Favorites</a>
-                  </li>
-              </ul>
-          </span>
-      
+
+      <div class="flex flex-col w-3/4 h-screen mx-auto md:items-center"> {/* <!-- Main Container-->*/}
+
+        <div id="mt-series"> {/* <!-- milk tea series div -->*/}
+          <div class="container mx-auto p-4 mt-4"> 
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 1 -->*/}
+                    <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                        <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain"/>
+                    </div>
+                    <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                    <p class="text-gray-600 mt-2">Starts at</p>
+                    <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                    <button id="btn-cart" class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                      <img src={cartMenu} alt=""/>
+                    </button>
+                </div>
+    
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 2 -->*/}
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain"/>
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                  <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                    <img src={cartMenu} alt=""/>
+                  </button>
+                </div>
+    
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 3 -->*/}
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain"/>
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                  <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                     <img src={cartMenu} alt=""/>
+                  </button>
+                </div>
+    
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 4 -->*/}
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain"/>
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                  <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                    <img src={cartMenu} alt=""/>
+                  </button>
+                </div>
+
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 1.2 -->*/}
+                    <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                        <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain"/>
+                    </div>
+                    <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                    <p class="text-gray-600 mt-2">Starts at</p>
+                    <p class="text-2xl font-bold mt-1">P 65.00</p>
+                    
+                  <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                    <img src={cartMenu} alt=""/>
+                  </button>
+                </div>
+    
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 2.2 -->*/}
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain"/>
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                  <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                    <img src={cartMenu} alt=""/>
+                  </button>
+                </div>
+    
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 3.2 -->*/}
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain"/>
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                  <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                    <img src={cartMenu} alt=""/>
+                  </button>
+                </div>
+    
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 4.2 -->*/}
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain"/>
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                  <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                    <img src={cartMenu} alt=""/>
+                  </button>
+                </div>
+            </div> 
+          </div>
+        </div>
+
+        <div id="mt-series"> {/* <!-- fresh milk series div -->*/}
+          <div class="container mx-auto p-4 mt-4 bg-red-400"> 
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 1 -->*/}
+                    <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                        <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain"/>
+                    </div>
+                    <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                    <p class="text-gray-600 mt-2">Starts at</p>
+                    <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                    <button id="btn-cart" class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                      <img src="/public/image/cart.svg" alt=""/>
+                    </button>
+                </div>
+    
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 2 -->*/}
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain"/>
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                  <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                    <img src="/public/image/cart.svg" alt=""/>
+                  </button>
+                </div>
+    
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 3 -->*/}
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain"/>
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                  <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                    <img src="/public/image/cart.svg" alt=""/>
+                  </button>
+                </div>
+    
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 4 -->*/}
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain"/>
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                  <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                    <img src="/public/image/cart.svg" alt=""/>
+                  </button>
+                </div>
+
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 1.2 -->*/}
+                    <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                        <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain"/>
+                    </div>
+                    <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                    <p class="text-gray-600 mt-2">Starts at</p>
+                    <p class="text-2xl font-bold mt-1">P 65.00</p>
+                    
+                  <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                    <img src="/public/image/cart.svg" alt=""/>
+                  </button>
+                </div>
+    
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 2.2 -->*/}
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain"/>
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                  <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                    <img src="/public/image/cart.svg" alt=""/>
+                  </button>
+                </div>
+    
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 3.2 -->*/}
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain"/>
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                  <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                    <img src="/public/image/cart.svg" alt=""/>
+                  </button>
+                </div>
+    
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 4.2 -->*/}
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain"/>
+                  </div>
+                  <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                  <p class="text-gray-600 mt-2">Starts at</p>
+                  <p class="text-2xl font-bold mt-1">P 65.00</p>
+                  
+                  <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                    <img src="/public/image/cart.svg" alt=""/>
+                  </button>
+                </div>
+            </div> 
+          </div>
+        </div>
+
       </div>
 
-      <div class="flex flex-row">
-      
-          <div class="side-nav min-w-[25%]">
-              <h2 class="mb-5 text-lg"> 
-                  <span class="font-semibold pr-1"><a href=""> Iced Coffee </a> </span>
-                  M - 39 L - 49
-              </h2>
-              <ul class="text-left mb-10">
-                  <li><a href=""> Vanilla </a></li>
-                  <li><a href=""> Caramel </a></li>
-                  <li><a href=""> Hazelnut </a></li>
-                  <li><a href=""> Mocha </a></li>
-                  <li><a href=""> Salted Caramel </a></li>
-                  <li><a href=""> White Chocolate </a></li>
-                  <li><a href=""> Almond </a></li>
-              </ul>
-  
-              <h2 class="mb-5 text-lg">
-                  <span class="font-semibold pr-1"> Milk Tea </span> M - 29 L - 39
-              </h2>
-              <ul class="text-left mb-10">
-                  <li><a href=""> Classic Milktea </a></li>
-                  <li><a href=""> Wintermelon </a></li>
-                  <li><a href=""> okinawa </a></li>
-                  <li><a href=""> Hokkaido </a></li>
-                  <li><a href=""> Mocha </a></li>
-                  <li><a href=""> Cookies & Cream </a></li>
-                  <li><a href=""> Caramel </a></li>
-                  <li><a href=""> Brown Sugar </a></li>
-                  <li><a href=""> Strawberry </a></li>
-                  <li><a href=""> Taro </a></li>
-                  <li><a href=""> Red Velvet </a></li>
-                  <li><a href=""> Dark Chocolate </a></li>
-              </ul>
-  
-              <h2 class="mb-5 text-lg">
-                  <span class="font-semibold pr-1"> Non-Coffee </span>M - 49 L - 59
-              </h2>
-              <ul class="text-left mb-10">
-                  <li><a href=""> Matcha Latte </a></li>
-                  <li><a href=""> Strawberry Milk </a></li>
-                  <li><a href=""> Taro Milk </a></li>
-                  <li><a href=""> Melon Milk </a></li>
-                  <li><a href=""> Chocolate Milk </a></li>
-                  <li><a href=""> White Chocolate </a></li>
-              </ul>
-  
-              <h2 class="mb-5 text-lg">
-                  <span class="font-semibold pr-1"> Snacks </span>    
-              </h2>
-              <ul class="text-left mb-10">
-                  <li class="pb-3 text-gray-600"><a href=""> Fries </a></li>
-                  <li class="pb-3 text-gray-600"><a href=""> Burger </a></li>
-                  <li class="pb-3 text-gray-600"><a href=""> Homemade Siomai </a></li>
-              </ul>
+      {/* <!-- Right drawer --> */}
+      {/* <!-- drawer component --> */}
+      <div id="drawer-right-example" class="fixed top-0 right-0 z-40 h-screen overflow-hidden transition-transform translate-x-full bg-orange-50 w-80 dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-right-label" style={rightDrawer}>
+        <div class="w-full h-16 bg-greenColor"></div>
+
+        <div class="p-4">
+          <button type="button" data-drawer-hide="drawer-right-example" aria-controls="drawer-right-example" class="bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-md w-fit h-8 absolute top-[70px] start-2.5 inline-flex items-center justify-center px-2" >
+            <span><img src="/public/image/arrow left.svg" alt="arrow" class="me-2"/></span>
+            <h1 class="text-textgreenColor">Continue Shopping</h1>
+            <span class="sr-only">Close menu</span>
+          </button>
+
+          <div class="h-56 text-black">
+            <div class="flex justify-between items-baseline">
+              <h1 class="font-bold text-lg mt-10">Your Order(s)</h1>
+              <a href="#" class="hover:underline">View Cart</a>
+            </div>
+
+            {/* <!-- if the cart is empty--> */}
+            {/* <!-- <div> 
+              <p class="mt-12">You have no items in your cart</p>
+            </div> --> */}
+
+            <div> {/* <!-- if the cart have items --> */}
+              <div class="mt-8 flex justify-between text-black px-4">
+                <h1 class="text-lg font-semibold">Subtotal: </h1>
+                <p>₱178.00</p>
+              </div>
+              <div class="mt-7 space-y-5">
+                <button type="button" class="text-white bg-green-700 rounded-lg w-full h-10 font-bold tracking-widest hover:bg-greenColor py-1" onclick="location.href='/public/Html/cart.html'">
+                  Checkout
+                </button>
+                <button type="button" class="text-white bg-blue-600 hover:bg-blue-500 font-bold tracking-widest rounded-lg text-md px-5 py-2.5 text-center inline-flex items-center justify-center me-2 mb-2 w-full">
+                  <img src="/public/image/gcash.svg" alt="Gcash" class="me-2"/>
+                    GCash
+                </button>
+              </div>
+            </div>
           </div>
           
-          <div class=" flex flex-wrap justify-content: space-between">
-
-              {/* container */}
-              {foods.map(food =>(
-              
-              <div key={food.id} class="w-100 h-120 max-w-sm border border-gray-200 rounded-xl shadow-xl dark:bg-gray-800 dark:border-gray-700 mt-5 mx-5" data-aos="zoom-in" data-aos-duration="500" data-aos-delay="0">
-                  <div class="flex justify-center bg-gray-200 m-4 rounded-xl">
-                      <div class=" flex items-center mb-5 bg-white px-1 w-fit rounded-full absolute mr-[190px]">
-                          <div class="flex items-center rtl:space-x-reverse">
-                              <span class=" text-yellow-950 text-md font-bold py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3 me-1">4.8</span>
-                              <svg class="w-4 h-4 text-yellow-300 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                  <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-                              </svg>
+          {/* <!-- Drop down items --> */}
+          <div class="mt-16"> {/* <!-- Main container --> */}
+            <div class="flex justify-between">
+              <div class="flex text-black ">
+                <h1 class="me-5 font-semibold">Products</h1>
+                <p>(3 Items)</p>
+              </div>
+              <button type="button" id="dropdownUsersButton" data-dropdown-toggle="dropdownUsers" data-dropdown-placement="bottom"><img src="/public/image/arrow down.svg" alt="drop down"/></button>
+            </div>
+            
+            <div id="dropdownUsers" class="z-10 hidden divide-y divide-gray-100 h-screen"> {/* <!-- drop down menu --> */}
+              {/* <!-- TAKE NOTE!! Everytime na nag dadagdag ng item dapat iba yung id. ex. quantity-input1--> */}
+              <div> {/* <!-- item 1 --> */}
+                <a href="#" class="flex px-4 py-3 hover:bg-gray-100"> 
+                  <div class="flex-shrink-0">
+                    <img class="rounded-lg w-11 h-11" src="/public/image/americano.png" alt="image"/>
+                  </div>
+                  <div class="w-full ps-3">
+                      <h1 class="text-black font-semibold">Cappucino Frappe</h1>
+                      <p class="font-normal text-black text-sm">Large</p>
+                      <h1 class="text-black font-semibold">₱59.00</h1>
+    
+                      <div class="pt-2 flex">
+                        <form class="max-w-xs mx-auto">
+                          <div class="relative flex items-center max-w-[8rem]">
+                              <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input1" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
+                                  <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+                                  </svg>
+                              </button>
+                              <input type="text" id="quantity-input1" data-input-counter aria-describedby="helper-text-explanation" class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5" placeholder="0" required />
+                              <button type="button" id="increment-button" data-input-counter-increment="quantity-input1" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
+                                  <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                                  </svg>
+                              </button>
                           </div>
-                      </div>
-                      <a href="#">
-                          <img class="rounded-t-lg w-60 h-60" src={`images/${food.image_url}`} onClick={() => handleNav(food.id)} alt="product image"/>
-                      </a>
-                  </div>
-                  <div class="px-5 pb-5 ">
-                      <a href="#">
-                          <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white pl-2">{food.name}</h5>
-                      </a>
-                      <div class="flex items-center justify-between ">
-                        <select className='mx-2' name="option" id="option" 
-                        value={food.getSize} onChange={(e) => handleSizeChange(food.id, e.target.value)
-                        }
-                        required
-                        >
-                          <option value=""></option>
-                          <option value="Large">Large</option>
-                          <option value="Medium">Medium</option>
-                          
-                        </select> 
-                        <span className="text-gray-500 mx-2">
-                           {food.getSize === 'Medium' ? food.Medium : (food.getSize === 'Large' ? food.Large : 0)} php
-                          </span>
-                          
-                          <button
-                              type='button'
-                              onClick={() => handleAddToCart(food)}
-                              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            >
-                              Add to cart
-                            </button>
+                        </form>
+                        <button type="button" class="ms-2 hover:underline">Remove</button>
                       </div>
                   </div>
-
+                  <div class="relative top-2 ">
+                    <button type="button" class="w-5 h-5 hover:bg-yellow-500 hover:rounded-lg focus:ring-gray-100 focus:ring-2 focus:outline-none" onclick="location.href='/public/Html/orderPage.html'">
+                      <img src="/public/image/edit.svg" alt="Edit"/>
+                    </button>
+                  </div>
+                </a>
               </div>
-                        
-                  ))}
-              {/* container */}
-
+              <div> {/* <!-- item 2 --> */}
+                <a href="#" class="flex px-4 py-3 hover:bg-gray-100"> 
+                  <div class="flex-shrink-0">
+                    <img class="rounded-lg w-11 h-11" src="/public/image/americano.png" alt="image"/>
+                  </div>
+                  <div class="w-full ps-3">
+                      <h1 class="text-yellow-800 font-semibold">Cold Brew</h1>
+                      <p class="font-normal text-yellow-700 text-sm">Medium</p>
+                      <h1 class="text-yellow-800 font-semibold">₱39.00</h1>
+    
+                      <div class="pt-2 flex">
+                        <form class="max-w-xs mx-auto">
+                          <div class="relative flex items-center max-w-[8rem]">
+                              <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input2" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
+                                  <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+                                  </svg>
+                              </button>
+                              <input type="text" id="quantity-input2" data-input-counter aria-describedby="helper-text-explanation" class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5" placeholder="0" required />
+                              <button type="button" id="increment-button" data-input-counter-increment="quantity-input2" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
+                                  <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                                  </svg>
+                              </button>
+                          </div>
+                        </form>
+                        <button type="button" class="ms-2 hover:underline">Remove</button>
+                      </div>
+                  </div>
+                  <div class="relative top-2 ">
+                    <button type="button" class="w-5 h-5 hover:bg-yellow-500 hover:rounded-lg focus:ring-gray-100 focus:ring-2 focus:outline-none" onclick="location.href='/public/Html/orderPage.html'">
+                      <img src="/public/image/edit.svg" alt="Edit"/>
+                    </button>
+                  </div>
+                </a>
               </div>
-
+              <div> {/* <!-- item 3 --> */}
+                <a href="#" class="flex px-4 py-3 hover:bg-gray-100"> 
+                  <div class="flex-shrink-0">
+                    <img class="rounded-lg w-11 h-11" src="/public/image/americano.png" alt="image"/>
+                  </div>
+                  <div class="w-full ps-3">
+                      <h1 class="text-yellow-800 font-semibold">Cappucino Frappe</h1>
+                      <p class="font-normal text-yellow-700 text-sm">Large</p>
+                      <h1 class="text-yellow-800 font-semibold">₱59.00</h1>
+    
+                      <div class="pt-2 flex">
+                        <form class="max-w-xs mx-auto">
+                          <div class="relative flex items-center max-w-[8rem]">
+                              <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input3" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
+                                  <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+                                  </svg>
+                              </button>
+                              <input type="text" id="quantity-input3" data-input-counter aria-describedby="helper-text-explanation" class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5" placeholder="0" required />
+                              <button type="button" id="increment-button" data-input-counter-increment="quantity-input3" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
+                                  <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                                  </svg>
+                              </button>
+                          </div>
+                        </form>
+                        <button type="button" class="ms-2 hover:underline">Remove</button>
+                      </div>
+                  </div>
+                  <div class="relative top-2">
+                    <button type="button" class="w-5 h-5 hover:bg-yellow-500 hover:rounded-lg focus:ring-gray-100 focus:ring-2 focus:outline-none" onclick="location.href='/public/Html/orderPage.html'">
+                      <img src="/public/image/edit.svg" alt="Edit"/>
+                    </button>
+                  </div>
+                </a>
+              </div>
+            </div>
           </div>
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-     
+          <div> {/* <!-- You might like--> */}
+            <h1 class="font-bold text-lg mt-10 text-black mb-2">You might like</h1>
+              <div>
+                <a href="#" class="flex px-4 py-3 hover:bg-gray-100"> 
+                  <div class="flex-shrink-0">
+                    <img class="rounded-lg w-11 h-11" src="/public/image/americano.png" alt="image"/>
+                  </div>
+                  <div class="w-full ps-3 text-black">
+                      <h1 class=" font-normal">Taro</h1>
+                      <h1 class=" font-normal">₱59.00</h1>
+    
+                      <div class="pt-2 flex">
+                        <button type="button" class="w-full py-3 bg-green-600 rounded-lg text-white font-semibold hover:bg-greenColor">Add to Cart</button>
+                      </div>
+                  </div>
+                </a>
+              </div>
+          </div>
+
+        </div>
+      </div>
     </div>
-    
-    
   )
 }
 

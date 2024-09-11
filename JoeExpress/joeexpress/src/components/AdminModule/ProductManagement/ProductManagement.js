@@ -15,6 +15,8 @@ import EditProd from '../AdminModal/EditProd/EditProd'
 import AddAddons from '../AdminModal/AddAddons/AddAddons'
 import AddSize from '../AdminModal/AddSize/AddSize'
 import hiddenImage from '../../image/hidden.png';
+import user from '../../image/UserAcc.svg';
+import jaydsLogo from '../../image/jayds cafe Logo.svg';
 
 function ProductManagement() {
 
@@ -109,28 +111,34 @@ function ProductManagement() {
             <EditProd closeModal={() => setEditProductModal(false)} id={selectedProductId} />
         )}
 
-        <nav class="z-20 bg-white border-gray-200 dark:bg-gray-900 top-0 sticky flex justify-end shadow-md">
-            <div class="px-4 py-3 text-sm text-gray-900 dark:text-white flex flex-col items-center">
-                <div class="font-bold">Migz Gomez Go</div>
-                <div class="items-center justify-center">Admin</div>
+        <nav class="z-20 bg-jaydsBg top-0 sticky w-[100%] md:w-[82%] md:float-end">
+         <div class="ps-8">
+            <h1 class="text-2xl font-semibold">Dashboard</h1>
+         </div>
+         <div class="flex justify-end items-center">
+            <div class="px-4 py-3 text-sm text-gray-900 flex flex-col items-center justify-end">
+               <div class="font-bold">Migz Gomez Go</div>
+               <div class="items-center justify-center">Admin</div>
             </div>
-            <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src="/public/image/UserAcc.png" alt="User dropdown"/>
 
-            {/* Dropdown menu */}
-            <div id="userDropdown" class="top-16 absolute z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                
-                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
-                    <li>
-                    <a href="/public/Html_Admin/adminDashboard.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-                    </li>
-                    <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-                    </li>
-                </ul>
-                <div class="py-1">
-                    <a href="/public/Html_Admin/adminLogin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
-                </div>
+            <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src={user} alt="User dropdown"/>
+         </div>
+
+         {/* <!-- Dropdown menu --> */}
+         <div id="userDropdown" class="top-16 right-10 absolute z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+            
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
+               <li>
+               <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+               </li>
+               <li>
+               <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+               </li>
+            </ul>
+            <div class="py-1">
+               <a href="/public/Html_Admin/adminLogin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
             </div>
+         </div>
         </nav>
 
         <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-72 h-screen pt-5 transition-transform -translate-x-full bg-footer border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
