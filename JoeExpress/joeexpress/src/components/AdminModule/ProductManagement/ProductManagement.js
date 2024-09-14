@@ -111,7 +111,7 @@ function ProductManagement() {
             <EditProd closeModal={() => setEditProductModal(false)} id={selectedProductId} />
         )}
 
-    {/* <!-- nav --> */}
+        {/* <!-- nav --> */}
         <nav class="sticky top-0 bg-jaydsBg z-20 shadow-lg flex justify-betwee">
             <div class="font-extrabold text-2xl flex items-center">
                 {/* <!-- Logo/Title in Navbar --> */}
