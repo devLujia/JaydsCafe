@@ -584,10 +584,12 @@ function Home() {
         </div>
 
         {/* <!-- Button for Login or Sign Up --> */}
+        <Link to="/login">
           <button
             class="btn mr-3 w-40 h-12 text-greenColor text-sm tracking-widest shadow-md cursor-pointer hover:shadow-lg outline  hover:shadow-gray-400 hover:bg-greenColor hover:text-white hover:outline-none ease-in-out transition background-color 0.3s, color 0.3s duration-300">
-            Login/Sign Up
+               Login/Sign Up 
           </button>
+        </Link>
       </div>
     </nav>
     <div class="scroll-progress "></div> {/* <!-- for scroll effect sa taas --> */}

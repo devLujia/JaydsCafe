@@ -24,7 +24,7 @@ export default function Editpage() {
         <section>
             <div class="h-screen bg-jaydsBg">
                 <div class="p-6">
-                    <a href="#" class="text-2xl font-bold hover:underline"> <img src={arrowLeft} alt="" class="inline-block w-4 h-4 me-2"/>Back to Cart</a>
+                    <a href="/cart" class="text-2xl font-bold hover:underline"> <img src={arrowLeft} alt="" class="inline-block w-4 h-4 me-2"/>Back to Cart</a>
                     <div class="flex justify-center items-center flex-col space-x-10 md:flex-row mt-20">
                         <div class="rounded-lg bg-menuCirclebg aspect-square w-96 h-96 shadow-xl">
                             <img src={jaydscoffee} alt="Milk Tea" class="w-full h-full object-contain"/>

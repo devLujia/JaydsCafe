@@ -247,9 +247,11 @@ const Login = () => {
           <p class="mb-10">
             {/* <!-- Don't have an account? --> */}
             Don't have an account?
-            <span class="text-blue-500 cursor-pointer font-semibold">
-              <a href="/public/Html/registration.html"> Click Here </a>
-            </span>
+            <Link to="/Signup">
+              <span class="text-blue-500 cursor-pointer font-semibold">
+                <a href="/public/Html/registration.html"> Click Here </a>
+              </span>
+            </Link>
           </p>
 
           {/* <!-- or sign in with --> */}

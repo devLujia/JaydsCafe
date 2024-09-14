@@ -88,7 +88,7 @@ function AddCategory({closeModal}) {
                 
               </div>        
       
-              <button type="submit" className="bg-amber-950 hover:bg-amber-900 text-white font-bold py-2 px-4 rounded-lg w-full">
+              <button type="submit" className="bg-greenColor hover:bg-green-800 text-white font-bold py-2 px-4 rounded-lg w-full">
                 Add Category
               </button>
             </form>
