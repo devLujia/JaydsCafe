@@ -4,6 +4,7 @@ import cup2 from '../image/cup(large).svg'
 import arrowLeft from '../image/arrow left.svg'
 import jaydscoffee from '../image/jaydsCoffee.svg'
 import cart from '../image/cart.svg'
+import bagIcon from '../image/bag.svg';
 
 export default function Editpage() {
   return (
@@ -17,7 +18,7 @@ export default function Editpage() {
             <div></div>
             {/* <!-- Button for Login or Sign Up --> */}
             <button>
-                <img src="/Images(Export)/bag.svg" alt=""/>
+                <img src={bagIcon} alt=""/>
             </button>
         </nav>
 
