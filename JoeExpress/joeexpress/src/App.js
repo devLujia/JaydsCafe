@@ -20,6 +20,7 @@ import CustomerAccount from './components/AdminModule/CustomerAccount/CustomerAc
 import PaymentManagement from './components/AdminModule/PaymentManagement/PaymentManagement'
 import ContentManagement from './components/AdminModule/ContentManagement/ContentManagement'
 import Inbox from './components/AdminModule/Message/Message'
+import Settings from './components/AdminModule/Settings/Settings'
 
 function App() {
 
@@ -46,6 +47,7 @@ function App() {
       <Route path='/ContentManagement' element = {<ContentManagement/>}></Route>
       <Route path='/Editpage' element = {<Editpage/>}></Route>
       <Route path='/Message' element = {<Inbox/>}></Route>
+      <Route path='/Settings' element = {<Settings/>}></Route>
 
     </Routes>
     </BrowserRouter>

@@ -1,31 +1,28 @@
 import React from 'react'
-import user from '../../image/UserAcc.svg'
+import bagIcon from '../../image/bag.svg';
+import gwen from '../../image/Gwen.png';
+import camera from '../../image/camera.svg';
+import bg_pic from '../../image/36733336252.png';
+import lock from '../../image/lock.svg';
 import jaydsLogo from '../../image/jayds cafe Logo.svg';
-import send from '../../image/send.svg'
 import { Link } from 'react-router-dom';
 
-export default function Message() {
+export default function Settings() {
   return (
-    <div class="bg-jaydsBg">
-         {/* <!-- nav --> */}
-         <nav class="sticky top-0 bg-jaydsBg z-20 shadow-lg flex justify-betwee">
-               <div class="font-extrabold text-2xl flex items-center">
-                  {/* <!-- Logo/Title in Navbar --> */}
-                  <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
-               </div>
-               <div></div>
-               {/* <!-- Button for Login or Sign Up --> */}
-               <div class="flex justify-end items-center">
-                  <div class="px-4 py-3 text-sm text-gray-900 flex flex-col items-center justify-end">
-                     <div class="font-bold">Migz Gomez Go</div>
-                     <div class="items-center justify-center">Admin</div>
-                  </div>
+    <div>
+        {/* <!-- Nav --> */}
+        <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-evenly ">
+            <div class="font-extrabold text-2xl items-center">
+                {/* <!-- Logo/Title in Navbar --> */}
+                <a href="/public/index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
+            </div>
+            <div>
+                <img src={bagIcon} alt=""/>
+            </div>
+        </nav>
 
-                  <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src={user} alt="User dropdown"/>
-               </div>
-         </nav>
-        
-         <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-72 h-screen pt-5 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
+        {/* Aside */}
+        <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-72 h-screen pt-5 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
             <div class="h-full px-3 pb-4 overflow-y-auto bg-white">
             <a href="#" class="flex items-center ps-2.5 mb-5">
                <img src={jaydsLogo} alt="Logo"/>           
@@ -118,128 +115,137 @@ export default function Message() {
             </div>
          </aside>
 
-         <div class="p-4 sm:ml-64 md:pl-14 py-2 mb-0 h-fit">
-            {/* This is chat */}
-            <div class="container mx-auto shadow-lg rounded-lg">
-                  {/* <!-- headaer --> */}
-               <div class="px-5 py-3 flex justify-between items-center bg-white border-b-2 rounded-t-xl">
-                  <div class="font-semibold text-2xl">Active Conversation</div>
-                  <div class="flex flex-row">
-                     <div class="text-center me-1">
-                        <h1 class="font-semibold">Lek Ra</h1>
-                        <span class="text-sm">Reply to message</span>
-                     </div>
-                     <div class="h-12 w-12 p-2 bg-greenColor rounded-full text-white font-semibold flex items-center justify-center">
-                        <h1>LR</h1>
-                     </div>
-                  </div>
-               </div>
+        {/* <!-- Main body --> */}
+        <div class=" w-4/5 h-full mt-10 flex flex-col float-right"> 
+            <div class="h-64 rounded-t-2xl px-20 w-full relative drop-shadow-sm">
+                <div class="object-contain w-full h-full rounded-t-2xl"> {/* <!-- container ng cover photo --> */}
+                    <img src={bg_pic} alt="" class="w-full h-full object-fill max-w-full max-h-full rounded-t-2xl"/>
+                </div>
 
-               {/* <!-- Chatting --> */}
-               <div class="flex flex-row justify-between bg-white">
-                  {/* <!-- chat list --> */}
-                  <div class="flex flex-col w-2/5 border-r-2 overflow-y-auto">
-                  {/* <!-- search compt --> */}
-                  <div class="border-b-2 py-4 px-2">
-                     <input
-                        type="text"
-                        placeholder="search chatting"
-                        class="py-2 px-2 border-2 border-gray-200 rounded-2xl w-full"
-                     />
-                  </div>
-                  {/* <!-- end search compt --> */}
-                  {/* <!-- user list --> */}
-                  <div class="flex flex-row py-3 px-5 justify-center items-center hover:bg-gray-200">
-                     <div class="w-1/4">
-                        <img
-                        src={user}
-                        class="object-cover h-12 w-12 rounded-full"
-                        alt=""
-                        />
-                     </div>
-                     <div class="w-full">
-                        <div class="text-md font-semibold">Kristina</div>
-                        <span class="text-gray-500 text-sm">Asan si Kuya?</span>
-                     </div>
-                  </div>
+                <button class="rounded-full bg-greenColor hover:bg-slate-700 top-0 absolute ml-6 mt-6 p-4">
+                    <img src={camera} alt=""/>
+                </button>
 
-                  <div class="flex flex-row py-3 px-5 justify-center items-center hover:bg-gray-200">
-                     <div class="w-1/4">
-                        <img
-                        src={user}
-                        class="object-cover h-12 w-12 rounded-full"
-                        alt=""
-                        />
-                     </div>
-                     <div class="w-full">
-                        <div class="text-md font-semibold">Lek Ra</div>
-                        <span class="text-gray-500 text-sm">Tara kila migz! 9:00 pm ...</span>
-                     </div>
-                  </div>
-                  <div class="flex flex-row py-3 px-5 justify-center items-center hover:bg-gray-200">
-                     <div class="w-1/4">
-                        <img
-                        src={user}
-                        class="object-cover h-12 w-12 rounded-full"
-                        alt=""
-                        />
-                     </div>
-                     <div class="w-full">
-                        <div class="text-md font-semibold">Sir Axl</div>
-                        <span class="text-gray-500 text-sm">Available pa matcha latte?</span>
-                     </div>
-                  </div>
-                  
-                  {/* <!-- end user list --> */}
-                  </div>
-                  {/* <!-- end chat list --> */}
+                <div class="flex overflow-x-hidden mb-6 ml-16 items-center absolute bottom-0"> {/* <!-- container ng profile pic --> */}
+                    <div class="object-contain w-36 h-36 rounded-full bottom-0"data-popover-target="popover-user-profile" type="button">
+                    <img src={gwen} alt="" class="w-full h-full object-fill max-w-full max-h-full rounded-full"/>
+                    </div>
 
-                  {/* <!-- message --> */}
-                  <div class="w-full px-5 flex flex-col justify-between">
-                     <div class="flex flex-col mt-5">
-                        <div class="flex justify-start mb-4"> {/* chat niya */}
-                           <div class="ml-2 py-3 px-4 bg-blue-200 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white max-w-[50%]">
-                              Tara kila migz! 9:00 pm. sagot ko na hapunan natin!
-                           </div>
-                        </div>
-                        <div class="flex justify-end mb-4"> {/* chat mo */}
-                           <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white max-w-[50%]">
-                              Welcome to group everyone !
-                           </div>
-                        </div>
-                        <div class="flex justify-start mb-4"> {/* chat niya */}
-                           <div class="ml-2 py-3 px-4 bg-blue-200 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white max-w-[50%]">
-                              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
-                              at praesentium, aut ullam delectus odio error sit rem. Architecto
-                              nulla doloribus laborum illo rem enim dolor odio saepe,
-                              consequatur quas?
-                           </div>
-                        </div>
-                        <div class="flex justify-end mb-4">{/* chat mo */}
-                           <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white max-w-[50%]">
-                              Edi wow pukinang ngina ina ka!
-                           </div>
-                        </div>
-                        <div class="flex justify-start mb-4"> {/* chat niya */}
-                           <div class="ml-2 py-3 px-4 bg-blue-200 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white max-w-[50%]">
-                              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
-                              at praesentium.
-                           </div>
-                        </div>
-                        
-                     </div>
-
-                     <label for="search" class="text-sm font-medium text-gray-900 sr-only dark:text-white">Type Something here.</label>
-                     <div class="relative ">
-                        <input type="search" id="search" class="mb-2 block w-full p-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Type Something here"/>
-                        <button type="submit" class="text-white absolute end-2.5 bottom-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><img src={send}></img></button>
-                     </div>
-                  </div>
-                  {/* <!-- end message --> */}
-                 
-                  </div>
+                    <h1 class="text-white text-2xl ml-2 tracking-wider">AkoSiLekraAklab</h1>
+                </div>
             </div>
-         </div>
+
+        <div class="w-full px-20 "> {/* <!-- main container of tabs--> */}
+          <div class="mb-4 border-b-2  border-gray-300"> {/* <!-- Tabs below--> */}
+            <ul class="flex flex-wrap -mb-px text-md font-semibold text-center " id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
+                <li class="me-2" role="presentation">
+                    <button class="inline-block p-4 border-t-4  text-greenColor border-textgreenColor" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">My Account</button>
+                </li>
+            </ul>
+          </div>
+  
+          <div id="default-tab-content"> {/* <!-- Content of every tabs --> */}
+          <div class="p-4 px-16 rounded-lg my-7 bg-gray-50 dark:bg-gray-800" id="Account" role="tabpanel" aria-labelledby="Account-tab"> {/* <!-- Account Tab--> */}
+                  <div class="border-b-2 "> {/* <!-- Account --> */}
+                      <div class="flex justify-between items-center" >
+                        <h1 class="text-3xl py-5">Account</h1>
+                        <div class="space-y-3">
+                          <button class="me-3 outline outline-2 outline-greenColor text-textgreenColor px-6 py-2 text-md rounded-xl inline-flex justify-center items-center hover:scale-110 duration-300">
+                            Discard
+                          </button> 
+                          <button class="outline outline-2 outline-greenColor bg-greenColor text-white px-6 py-2 text-md rounded-xl inline-flex justify-center items-center hover:scale-110 duration-300">
+                            Update Info
+                          </button> 
+                        </div>
+                      </div>
+                      <p class="pb-5">View and edit your personal info below.</p>
+                  </div>
+    
+                  <div class="border-b-2 mt-3 pb-5"> {/* <!-- Display Info --> */}
+                    <div class="flex justify-between items-center" >
+                      <h1 class="text-2xl py-5">Display info</h1>
+                    </div>
+                    <p class="pb-10">This information will be visible to all members of this site.</p>
+
+                    <form action="#">
+                      <div class="grid gap-4 mb-6 grid-cols-2">
+                        <div class="col-span-2 sm:col-span-1">
+                          <label for="postal" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">Display name <span class="text-red-600">*</span></label>
+                          <input type="text" name="postal" id="postal" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-[95%] p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="4114" required=""/>
+                        </div>
+                        <div class="col-span-2 sm:col-span-1">
+                          <label for="title" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">Title</label>
+                          <input type="text" name="title" id="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-[95%] p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"/>
+                        </div>
+                      </div>
+                    </form>
+                    
+                  </div> 
+
+                  <div class="border-b-2 mt-3"> {/* <!-- Personal Info --> */}
+                    <div class="flex justify-between items-center">
+                      <h1 class="text-2xl py-5">Personal info</h1>
+                    </div>
+                    <p class="pb-10">Update your personal information.</p>
+
+                    <form action="#">
+                      <div class="grid gap-4 mb-6 grid-cols-2">
+                        <div class="col-span-2 sm:col-span-1">
+                          <label for="fname" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">First name <span class="text-red-600">*</span></label>
+                          <div class="inline-flex w-full">
+                            <input type="text" name="fname" id="fname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 me-2" placeholder="Lekra" required=""/>
+                            <img src={lock} alt=""/>
+                          </div>
+                        </div>
+                        <div class="col-span-2 sm:col-span-1">
+                          <label for="lname" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">Last name <span class="text-red-600">*</span></label>
+                          <div class="inline-flex w-full">
+                            <input type="text" name="lname" id="lname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 me-2" placeholder="Lekra" required=""/>
+                            <img src={lock} alt=""/>
+                          </div>
+                        </div>
+                        <div class="col-span-2 sm:col-span-1">
+                          <label for="phone" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">Phone <span class="text-red-600">*</span></label>
+                          <div class="inline-flex w-full">
+                            <input type="text" name="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 me-2" placeholder="Lekra" required=""/>
+                            <img src={lock} alt=""/>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="space-x-3 mb-5 grid grid-flow-col justify-end">
+                        <button class="outline outline-2 outline-greenColor text-textgreenColor px-8 py-2 text-lg rounded-xl inline-flex justify-center items-center hover:scale-110 duration-300">
+                          Discard
+                        </button> 
+                        <button class="outline outline-2 outline-greenColor bg-greenColor text-white px-8 py-2 text-lg rounded-xl inline-flex justify-center items-center hover:scale-110 duration-300">
+                          Update Info
+                        </button> 
+                      </div>
+                    </form>
+                  </div> 
+
+                  <div class="flex flex-col justify-start items-start space-y-2 border-b-2 mt-3"> {/* <!-- information details--> */}
+                    <h1 class="text-2xl py-3">Login info</h1>
+                    <p class="pb-10">View and update your login email and password.</p>
+
+                    <div>
+                      <div class="mb-4">
+                        <p class="text-md">Login Email:</p>
+                        <p class="text-md">MabangisSiMamAnna@gmail.com</p>
+                        <a href="#" class="text-md hover:underline">Change Email</a>
+                      </div>
+  
+                      <div class="pt-10 mb-4">
+                        <p class="text-md">Password:</p>
+                        <p class="text-md">● ● ● ● ● ●</p>
+                        <a href="#" class="text-md hover:underline">Change Password</a>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+        </div>
     </div>
   )
 }
