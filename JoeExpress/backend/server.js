@@ -74,7 +74,7 @@ app.post('/order', (req,res)=>{
     const {userId, totalBill} = req.body;
 
     const query = 
-    `INSERT INTO orders (customer_id, totalPrice ,status) VALUES (?, ${totalBill} ,'pending');
+    `INSERT INTO orders (customer_id, totalPrice ,status) VALUES (?, ${totalBill} ,'paid');
     SELECT LAST_INSERT_ID() as lastOrderId`
 
     db.query(query,[userId],(err,resInInserting)=>{
@@ -592,6 +592,29 @@ app.post('/adminlogin',async (req, res) => {
         }
     });
 });
+
+app.post('/updateOrders', async (req,res)=>{
+
+    const {order_id, status} = req.body
+
+    const query = 
+    `
+    Update orders 
+    SET status = ?
+    WHERE order_id = ?
+
+    `
+    db.query(query, [status, order_id], (error, result) => {
+
+        if(error){
+            return res.status(500).json({ error: 'Database error' });
+        }
+        
+      })
+
+
+})
+
 
 app.post('/adminTable', async (req,res) => {
 
@@ -1158,6 +1181,50 @@ app.post('/removeProduct',  async (req, res) =>{
             }
     
             res.json({ message: 'Visibility updated successfully' });
+        });
+
+    })
+
+    app.post('/orderTracking', (req,res) =>{
+
+        const query = 
+        `
+        SELECT 
+            o.order_id, 
+            u.name,
+            u.address,
+            o.customer_id, 
+            o.order_date, 
+            o.status,
+            o.totalPrice, 
+            GROUP_CONCAT(f.name ORDER BY f.name) AS food_name
+        FROM 
+            orders o
+        JOIN 
+            orders_food of ON of.order_id = o.order_id
+        JOIN 
+            foods f ON f.id = of.food_id
+        JOIN 
+            user u ON u.id = o.customer_id
+        WHERE 
+            o.status = 'pending' OR o.status = 'paid'
+        GROUP BY 
+            o.order_id, 
+            u.name,
+            u.address,
+            o.customer_id, 
+            o.order_date, 
+            o.status
+        ORDER BY 
+            o.order_date ASC;
+             
+        `
+
+        db.query(query, (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to get orders' });
+            }
+            res.json(result)
         });
 
     })

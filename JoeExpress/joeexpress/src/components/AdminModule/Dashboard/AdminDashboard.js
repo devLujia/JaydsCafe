@@ -22,6 +22,16 @@ function AdminDashboard() {
    const [totalRevenue,setTotalRevenue] = useState(0);
    const [totalCustomer,setTotalCustomer] = useState(0);
    const [foods,setFoods] = useState([]);
+   const [orders, setOrders] = useState([])
+   const [expandedOrderId, setExpandedOrderId] = useState(null);
+   
+   const [updateOrder, setUpdateOrder] = useState([
+      {
+         order_id:'',
+         status: '',
+      }
+
+   ]);
 
    useEffect(()=>{
       axios.post('http://localhost:8081/adminTable')
@@ -34,7 +44,7 @@ function AdminDashboard() {
          console.error('Error fetching food details:', error);
       })
       
-   })
+   },[])
 
    useEffect(() => {
       axios.post('http://localhost:8081/totalOrder')
@@ -45,7 +55,7 @@ function AdminDashboard() {
          console.error('Error fetching totalOrder details:', error);
        });
        
-    },[]);
+    });
 
     useEffect(() => {
       axios.post('http://localhost:8081/totalRevenue')
@@ -100,10 +110,56 @@ function AdminDashboard() {
    //    });
 
    //  })
+
+   useEffect(()=>{
+
+      axios.post('http://localhost:8081/orderTracking')
+      .then(res=>{
+          setOrders(res.data);
+      });
+
+  })
+
+   const toggleOrderDetails = (orderId) => {
+      setExpandedOrderId(expandedOrderId === orderId ? null : orderId);
+   };
+
+
+   const getTheOrder = (id, stats) => {
+
+      let newStatus = ''; 
+    
+      if (stats === 'paid') {
+        newStatus = 'pending';
+      } else if (stats === 'pending') {
+        newStatus = 'completed';
+      }
+
+      setUpdateOrder(prevState => 
+         prevState.map(order => ({
+           ...order,
+           order_id: id,
+           status: newStatus,
+         }))
+       );
+
+      axios.post('http://localhost:8081/updateOrders', {
+          order_id: id,
+          status: newStatus
+      })
+        .then(res => {
+          console.log('Order updated successfully:', res.data);
+        })
+        .catch(err => {
+          console.error('Error updating the order:', err);
+        });
+
+    }
+    
     
   return (
     <div class="bg-jaydsBg">
-      <nav class="z-20 bg-jaydsBg top-0 sticky w-[100%] md:w-[82%] md:float-end">
+      <nav class="z-20 bg-jaydsBg top-0 sticky w-[calc(100%-288px)] md:w-[calc(100%-288px)] md:float-end">
          <div class="ps-8">
             <h1 class="text-2xl font-semibold">Dashboard</h1>
          </div>
@@ -227,301 +283,334 @@ function AdminDashboard() {
          </div>
       </aside>
   
-      <div class="p-4 pt-16 sm:ml-72 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-         {/* Overview */}
-         <div class="p-4 bg-white rounded-xl h-fit w-fit">
-            <div class="flex relative justify-between">
-               <h1 class="font-bold text-3xl tracking-wide">Overview</h1>
-               <button class="p-2 border-2 border-gray-500 rounded-lg">View Statistics</button>
-            </div>
-            <p class="mb-10">Sales Summary</p>
+      <div class="p-4 sm:ml-64 pt-20">
+         <div class="p-4 ml-8">
 
-            <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 mb-4">
-               <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-red-200 dark:bg-gray-800 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="100">
-                  <div class= "w-10 h-10 mb-6 bg-red-400 rounded-full justify-center flex items-center flex-shrink-0">
-                     <img src={sales}></img>
-                  </div>
-                  <h1 class="font-bold text-lg text-gray-700"><span>₱</span>134</h1>
-                  <div class="inline-flex justify-between font-normal text-gray-400">
-                     <p>Total Sales</p>
-                  </div>
-               </div>
+            {/* Overview & Chats*/}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
 
-               <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-yellow-100 dark:bg-gray-800 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="200">
-                  <div class= "w-10 h-10 mb-6 bg-yellow-400 rounded-full justify-center flex items-center flex-shrink-0 ">
-                     <img src={order}></img>
+               {/* Overview */}
+               <div class="p-4 bg-white rounded-xl h-fit ">
+                  <div class="flex relative justify-between">
+                     <h1 class="font-bold text-3xl tracking-wide">Overview</h1>
+                     <button class="p-2 border-2 border-gray-500 rounded-lg">View Statistics</button>
                   </div>
-                  <h1 class="font-bold text-lg text-gray-700">{totalOrder} </h1>
-                  <div class="inline-flex justify-between font-normal text-gray-400">
-                     <p>Total Order</p>
-                  </div>
-               </div>
+                  <p class="mb-10">Sales Summary</p>
 
-               <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-green-100 dark:bg-gray-800 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="300">
-                  <div class= "w-10 h-10 mb-6 bg-green-400 rounded-full justify-center flex items-center flex-shrink-0">
-                     <img src={product}></img>
-                  </div>
-                  <h1 class="font-bold text-lg text-gray-700">{totalRevenue} </h1>
-                  <div class="font-normal text-gray-400">
-                     <p>Product Sold</p>
-                  </div>
-               </div>
-
-               <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-violet-100 dark:bg-gray-800 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="400">
-                  <div class= "w-10 h-10 mb-6 bg-violet-400 rounded-full justify-center flex items-center flex-shrink-0 ">
-                     <img src={customer}></img>
-                  </div>
-                  <h1 class="font-bold text-lg text-gray-700">{totalCustomer} </h1>
-                  <div class="inline-flex justify-between font-normal text-gray-400">
-                     <p>New Customer</p>
-                  </div>
-               </div>
-
-            </div>
-         </div>
-
-         {/* Chat */}
-         <div class="bg-white rounded-xl p-4 h-96 overflow-hidden">
-            <div class="flex justify-between sticky top-0 bg-white">
-               <h1 class="font-bold text-3xl tracking-wide">Chats</h1>
-               <button class="p-2 border-2 border-gray-500 rounded-lg">View All Messages</button>
-            </div>
-            {/* Contacts */}
-            <div class="overflow-y-auto max-h-full pb-2">
-               <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-                  <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
-                     <img src={jaydsLogo} alt="User Avatar" class="w-12 h-12 rounded-full"/>
-                  </div>
-                  <div class="flex-1">
-                     <h2 class="text-lg font-semibold">Alice</h2>
-                     <p class="text-gray-600">Domat ni lekra</p>
-                  </div>
-               </div>
-               <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-                  <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
-                     <img src={jaydsLogo} alt="User Avatar" class="w-12 h-12 rounded-full"/>
-                  </div>
-                  <div class="flex-1">
-                     <h2 class="text-lg font-semibold">Megoy</h2>
-                     <p class="text-gray-600">Isang 1 pc Chicken</p>
-                  </div>
-               </div>
-               <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-                  <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
-                     <img src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato" alt="User Avatar" class="w-12 h-12 rounded-full"/>
-                  </div>
-                  <div class="flex-1">
-                     <h2 class="text-lg font-semibold">Lekra</h2>
-                     <p class="text-gray-600">isang Duk nga po</p>
-                  </div>
-               </div>
-               <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-                  <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
-                     <img src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato" alt="User Avatar" class="w-12 h-12 rounded-full"/>
-                  </div>
-                  <div class="flex-1">
-                     <h2 class="text-lg font-semibold">Alice</h2>
-                     <p class="text-gray-600">Hoorayy!!</p>
-                  </div>
-               </div>
-               <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-                  <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
-                     <img src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato" alt="User Avatar" class="w-12 h-12 rounded-full"/>
-                  </div>
-                  <div class="flex-1">
-                     <h2 class="text-lg font-semibold">Alice</h2>
-                     <p class="text-gray-600">Hoorayy!!</p>
-                  </div>
-               </div>
-               
-            </div>
-         </div>
-         
-         {/* Order */}
-         <div class="relative overflow-x-auto shadow-xl sm:rounded-lg col-span-2">
-               <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                  
-                     <div class="flex justify-between sticky top-0 bg-white p-3">
-                        <h1 class="font-bold text-3xl tracking-wide">Pending Orders</h1>
-                        <button class="p-2 border-2 border-gray-500 rounded-lg">View All Products</button>
+                  <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 mb-4">
+                     <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-red-200 dark:bg-gray-800 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="100">
+                        <div class= "w-10 h-10 mb-6 bg-red-400 rounded-full justify-center flex items-center flex-shrink-0">
+                           <img src={sales}></img>
+                        </div>
+                        <h1 class="font-bold text-lg text-gray-700"><span>₱</span>{totalRevenue}</h1>
+                        <div class="inline-flex justify-between font-normal text-gray-400">
+                           <p>Total Sales</p>
+                        </div>
                      </div>
 
-                     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                           <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                              <tr class="text-center">
-                                 <th scope="col" class="px-6 py-3 ">
-                                       ID
-                                 </th>
-                                 <th scope="col" class="px-6 py-3">
-                                       Name
-                                 </th>
-                                 <th scope="col" class="px-6 py-3">
-                                       address
-                                 </th>
-                                 <th scope="col" class="px-6 py-3">
-                                       Contact Number
-                                 </th>
-                                 <th scope="col" class="px-6 py-3">
-                                       Date / Time
-                                 </th>
-                                 <th scope="col" class="px-6 py-3">
-                                       Price
-                                 </th>
-                                 <th scope="col" class="px-6 py-3">
-                                       Status
-                                 </th>
-                                 <th scope="col" class="px-6 py-3">
-                                       Action
-                                 </th>
+                     <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-yellow-100 dark:bg-gray-800 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="200">
+                        <div class= "w-10 h-10 mb-6 bg-yellow-400 rounded-full justify-center flex items-center flex-shrink-0 ">
+                           <img src={order}></img>
+                        </div>
+                        <h1 class="font-bold text-lg text-gray-700">{totalOrder} </h1>
+                        <div class="inline-flex justify-between font-normal text-gray-400">
+                           <p>Total Order</p>
+                        </div>
+                     </div>
+
+                     <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-green-100 dark:bg-gray-800 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="300">
+                        <div class= "w-10 h-10 mb-6 bg-green-400 rounded-full justify-center flex items-center flex-shrink-0">
+                           <img src={product}></img>
+                        </div>
+                        <h1 class="font-bold text-lg text-gray-700">Wala pa</h1>
+                        <div class="font-normal text-gray-400">
+                           <p>Product Sold</p>
+                        </div>
+                     </div>
+
+                     <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-violet-100 dark:bg-gray-800 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="400">
+                        <div class= "w-10 h-10 mb-6 bg-violet-400 rounded-full justify-center flex items-center flex-shrink-0 ">
+                           <img src={customer}></img>
+                        </div>
+                        <h1 class="font-bold text-lg text-gray-700">{totalCustomer} </h1>
+                        <div class="inline-flex justify-between font-normal text-gray-400">
+                           <p>New Customer</p>
+                        </div>
+                     </div>
+
+                  </div>
+               </div>
+
+               {/* Chat */}
+               <div class="bg-white rounded-xl p-4 h-96 overflow-hidden">
+                  <div class="flex justify-between sticky top-0 bg-white">
+                     <h1 class="font-bold text-3xl tracking-wide">Chats</h1>
+                     <button class="p-2 border-2 border-gray-500 rounded-lg">View All Messages</button>
+                  </div>
+                  {/* Contacts */}
+                  <div class="overflow-y-auto max-h-full pb-2">
+                     <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
+                           <img src={jaydsLogo} alt="User Avatar" class="w-12 h-12 rounded-full"/>
+                        </div>
+                        <div class="flex-1">
+                           <h2 class="text-lg font-semibold">Alice</h2>
+                           <p class="text-gray-600">Domat ni lekra</p>
+                        </div>
+                     </div>
+                     <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
+                           <img src={jaydsLogo} alt="User Avatar" class="w-12 h-12 rounded-full"/>
+                        </div>
+                        <div class="flex-1">
+                           <h2 class="text-lg font-semibold">Megoy</h2>
+                           <p class="text-gray-600">Isang 1 pc Chicken</p>
+                        </div>
+                     </div>
+                     <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
+                           <img src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato" alt="User Avatar" class="w-12 h-12 rounded-full"/>
+                        </div>
+                        <div class="flex-1">
+                           <h2 class="text-lg font-semibold">Lekra</h2>
+                           <p class="text-gray-600">isang Duk nga po</p>
+                        </div>
+                     </div>
+                     <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
+                           <img src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato" alt="User Avatar" class="w-12 h-12 rounded-full"/>
+                        </div>
+                        <div class="flex-1">
+                           <h2 class="text-lg font-semibold">Alice</h2>
+                           <p class="text-gray-600">Hoorayy!!</p>
+                        </div>
+                     </div>
+                     <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
+                           <img src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato" alt="User Avatar" class="w-12 h-12 rounded-full"/>
+                        </div>
+                        <div class="flex-1">
+                           <h2 class="text-lg font-semibold">Alice</h2>
+                           <p class="text-gray-600">Hoorayy!!</p>
+                        </div>
+                     </div>
+
+                  </div>
+               </div>
+            </div>
+
+            {/* Pending Orders */}
+            <div class="relative overflow-x-auto shadow-xl sm:rounded-lg col-span-2 mb-4">
+                  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+
+                        <div class="flex justify-between sticky top-0 bg-white p-3">
+                           <h1 class="font-bold text-3xl tracking-wide">Pending Orders</h1>
+                           <button class="p-2 border-2 border-gray-500 rounded-lg">View All Products</button>
+                        </div>
+
+                        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                              <tr className="text-center">
+                                 <th scope="col" className="px-6 py-3">ID</th>
+                                 <th scope="col" className="px-6 py-3">Name</th>
+                                 <th scope="col" className="px-6 py-3">Address</th>
+                                 <th scope="col" className="px-6 py-3">Contact Number</th>
+                                 <th scope="col" className="px-6 py-3">Date / Time</th>
+                                 <th scope="col" className="px-6 py-3">Price</th>
+                                 <th scope="col" className="px-6 py-3">Status</th>
+                                 <th scope="col" className="px-6 py-3">Action</th>
                               </tr>
                            </thead>
-
                            <tbody>
-                              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                 <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white ">
-                                    <div class="text-base font-semibold">#Order-12</div>
-                                 </th>
-                                 <td class="px-6 py-4 text-center">
-                                    Mikha Brony James
-                                 </td>
-                                 <td class="px-6 py-4 text-center">
-                                    Diamond Village Salawag
-                                 </td>
-                                 <td class="px-6 py-4 text-center">
-                                    09082123822
-                                 </td>
-                                 <td class="px-6 py-4 text-center">
-                                    08-21-2024 / 08:42-9:00am
-                                 </td>
-                                 <td class="px-6 py-4 text-center text-greenColor">
-                                    ₱ 49
-                                 </td>
-                                 <td class="px-6 py-4">
-                                    <div class="bg-green-100 text-green-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">Paid</div>
-                                 </td>
-                                 <td class="flex items-center px-6 py-4 space-x-2">
-                                    <div class="h-fit items-center justify-center flex space-x-3 ps-4 mx-auto">
+                              
+                                 <>
+                                 {orders.slice(0,1).map((order) => (
+                                 <tr key={order.order_id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                       <div className="text-base font-semibold">ORDR{order.order_id}</div>
+                                    </th>
+                                    <td className="px-12 py-6">
+                                       <div className="text-base font-semibold">{order.name}</div>
+                                    </td>
+                                    <td className="px-12 py-6">
+                                       <div className="text-base font-semibold">{order.address}</div>
+                                    </td>
+                                    <td className="px-12 py-6">
+                                       <div className="text-base font-semibold">WALA PA</div>
+                                    </td>
+                                    <td className="px-12 py-6">
+                                       <div className="text-base font-semibold">₱{order.totalPrice}</div>
+                                    </td>
+                                    <td className="px-12 py-6">
+                                       {new Date(order.order_date).toLocaleString('en-US', {
+                                       year: 'numeric',
+                                       month: 'long',
+                                       day: 'numeric',
+                                       hour: '2-digit',
+                                       minute: '2-digit',
+                                       second: '2-digit',
+                                       })}
+                                    </td>
+                                    <td className="px-12 py-6">
+                                       {order.status === 'paid' ? (
+                                       <div className="bg-green-100 text-green-500 font-semibold w-fit py-2 px-4 rounded-3xl">
+                                          Paid
+                                       </div>
+                                       ) : order.status === 'pending' ? (
+                                       <div className="bg-yellow-100 text-yellow-500 font-semibold w-fit py-2 px-4 rounded-3xl">
+                                          Pending
+                                       </div>
+                                       ) : (
+                                       <div className="bg-red-100 text-red-500 font-semibold w-fit py-2 px-4 rounded-3xl">
+                                          Unpaid
+                                       </div>
+                                       )}
+                                    </td>
+                                    <td className="px-12 py-4">
+                                       <div className="inline-flex space-x-4">
+                                       <button onClick={() => toggleOrderDetails(order.order_id)}>
+                                          <img src={eye} alt="eye" />
+                                       </button>
                                        <button>
-                                          <img src={eye} alt="eye" class="w-6 h-6"/>
+                                          <img src={del} alt="trashbin" />
                                        </button>
-                                       <button class="hover:underline hover:decoration-blue-500">
-                                          <img src={del} alt="trash"/>
+                                       <button onClick={() => getTheOrder(order.order_id, order.status)}>
+                                          <img src={check} alt="check" />
                                        </button>
-                                       <button>
-                                          <img src={check} alt="check"/>
-                                       </button>
-                                    </div>
-                                 </td>
-                              </tr>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 ))}
+                                 {expandedOrderId === order.order_id && (
+                                    <tr className="bg-gray-100 dark:bg-gray-700">
+                                       <td colSpan="8" className="px-6 py-4">
+                                       <div className="text-sm text-gray-600 dark:text-gray-300">
+                                          <strong>Order Items:</strong>
+                                          <ul className="mt-2">
+                                             <li className="py-1">{order.food_name}</li>
+                                          </ul>
+                                       </div>
+                                       </td>
+                                    </tr>
+                                 )}
+                              
+                                 </>
+                              
                            </tbody>
-                     </table>
-                  </div>
-               </div>
-         </div>
+                           </table>
 
-         {/* Table of products */}
-         <div class="relative overflow-x-auto shadow-xl sm:rounded-lg col-span-1">
-               <div class="flex items-center justify-end flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900">
-                  {/* <!-- <div>
-                     <button id="dropdownActionButton" data-dropdown-toggle="dropdownAction" class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
-                           <span class="sr-only">Action button</span>
-                           Action
-                           <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                           </svg>
-                     </button>
-                        
-                     <div id="dropdownAction" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                           <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionButton">
-                              <li>
-                                 <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reward</a>
-                              </li>
-                              <li>
-                                 <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Promote</a>
-                              </li>
-                              <li>
-                                 <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Activate account</a>
-                              </li>
-                           </ul>
-                           <div class="py-1">
-                              <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete User</a>
-                           </div>
                      </div>
-                  </div> --> */}
-                  <label for="table-search" class="sr-only">Search</label>
-                  <div class="relative">
-                     <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                           <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                           </svg>
-                     </div>
-                     <input type="text" id="table-search-users" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for users"/>
                   </div>
-               </div>
-
-         
-               <table  class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-               <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                  <tr>
-                     <th scope="col" class="px-6 py-3">
-                           Product Name
-                     </th>
-                     <th scope="col" class="px-6 py-3">
-                           Category
-                     </th>
-                     <th scope="col" class="px-6 py-3">
-                           Price
-                     </th>
-                     <th scope="col" class="px-6 py-3">
-                           Sold
-                     </th>
-                     <th scope="col" class="px-6 py-3">
-                           Profit
-                     </th>
-                  </tr>
-               </thead>
-
-
-            
-               <tbody>
-                  {foods.map(food => (
-                  <tr key={food.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                     <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                           <img class="w-10 h-10 rounded-2xl" src={food.image_url} alt={food.name}/>
-                           <div class="ps-3">
-                              <div class="text-base font-semibold">{food.name}</div>
-                           </div>  
-                     </th>
-                     <td class="px-6 py-4">
-                           {food.title}
-                     </td>
-                     <td class="px-6 py-4"> 
-                        {food.price}
-                     </td>
-                     <td class="px-6 py-4">
-                        {food.sold}
-                     </td>
-                     <td class="px-6 py-4"> 
-                        {food.profit}
-                     </td>
-                  </tr>
-                  ))}
-
-                  </tbody>
-               </table>
-
-         </div>
-
-         {/* Content */}
-         <div class="bg-white rounded-xl p-4 h-96 overflow-hidden">
-            <div class="flex justify-between sticky top-0 bg-white">
-               <h1 class="font-bold text-3xl tracking-wide">Website Content</h1>
-               <button class="p-2 border-2 border-gray-500 rounded-lg">View All Content</button>
             </div>
-           
+
+            {/* products & Content */}
+            <div class="grid grid-cols-2 gap-4 mb-4">
+               {/* Table of products */}
+               <div class="relative overflow-x-auto shadow-xl sm:rounded-lg col-span-1">
+                     <div class="flex items-center justify-end flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900">
+                        {/* <!-- <div>
+                           <button id="dropdownActionButton" data-dropdown-toggle="dropdownAction" class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
+                                 <span class="sr-only">Action button</span>
+                                 Action
+                                 <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                                 </svg>
+                           </button>
+                              
+                           <div id="dropdownAction" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                 <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionButton">
+                                    <li>
+                                       <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reward</a>
+                                    </li>
+                                    <li>
+                                       <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Promote</a>
+                                    </li>
+                                    <li>
+                                       <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Activate account</a>
+                                    </li>
+                                 </ul>
+                                 <div class="py-1">
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete User</a>
+                                 </div>
+                           </div>
+                        </div> --> */}
+                        <label for="table-search" class="sr-only">Search</label>
+                        <div class="relative">
+                           <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                                 <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                 </svg>
+                           </div>
+                           <input type="text" id="table-search-users" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for users"/>
+                        </div>
+                     </div>
+
+               
+                     <table  class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                           <th scope="col" class="px-6 py-3">
+                                 Product Name
+                           </th>
+                           <th scope="col" class="px-6 py-3">
+                                 Category
+                           </th>
+                           <th scope="col" class="px-6 py-3">
+                                 Price
+                           </th>
+                           <th scope="col" class="px-6 py-3">
+                                 Sold
+                           </th>
+                           <th scope="col" class="px-6 py-3">
+                                 Profit
+                           </th>
+                        </tr>
+                     </thead>
+
+
+                  
+                     <tbody>
+                        {foods.map(food => (
+                        <tr key={food.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                           <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                 <img class="w-10 h-10 rounded-2xl" src={food.image_url} alt={food.name}/>
+                                 <div class="ps-3">
+                                    <div class="text-base font-semibold">{food.name}</div>
+                                 </div>  
+                           </th>
+                           <td class="px-6 py-4">
+                                 {food.title}
+                           </td>
+                           <td class="px-6 py-4"> 
+                              {food.price}
+                           </td>
+                           <td class="px-6 py-4">
+                              {food.sold}
+                           </td>
+                           <td class="px-6 py-4"> 
+                              {food.profit}
+                           </td>
+                        </tr>
+                        ))}
+
+                        </tbody>
+                     </table>
+
+               </div>
+
+               {/* Content */}
+               <div class="bg-white rounded-xl p-4 h-96 overflow-hidden">
+                  <div class="flex justify-between sticky top-0 bg-white">
+                     <h1 class="font-bold text-3xl tracking-wide">Website Content</h1>
+                     <button class="p-2 border-2 border-gray-500 rounded-lg">View All Content</button>
+                  </div>
+
+               </div>
+            </div>
          </div>
       </div>
+placehold.co
   
     </div>
   )
