@@ -13,12 +13,15 @@ import arrowright from '../image/arrow right.png';
 import fb from '../image/fb.svg';
 import ig from '../image/ig.svg';
 import yt from '../image/yt.svg';
+import userIcon from '../image/UserAcc.svg';
+import bagIcon from '../image/bag.svg';
 import image2 from '../image/bg_bean2.png';
 import image3 from '../image/milktea.png';
 import image11 from '../image/menu.png';
 import aboutUsImage from '../image/AboutUs.png';
 import beansImage from '../image/coffe_bean.png';
 import chat from '../image/live-chat.png';
+import MapModal from '../Map/Map';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -39,6 +42,15 @@ function Home() {
     display: 'none',
   }
 
+  const [visibleCategory, setVisibleCategory] = useState('all'); // Default visible category
+
+  // Function to toggle visibility
+  
+
+  const [FAQ1, setFAQ1] = useState(false);
+  const [FAQ2, setFAQ2] = useState(false);
+  const [FAQ3, setFAQ3] = useState(false);
+  const [mapModal, setMapModal] = useState(false);
   const [cmsName,setCmsName] = useState('');
   const [cmsBigLogo,setBigLogo] = useState(null);
   const [cmsSmallLogo,setSmallLogo] = useState(null);
@@ -55,6 +67,28 @@ function Home() {
   const [cmsMilkTeaPrice,setCmsMilkTeaPrice] = useState('');
   const [cmsCoffeePrice,setCmsCoffeePrice] = useState('');
   const [cmsSnackPrice,setCmsSnackPrice] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleVisibility = (category) => {
+    setVisibleCategory(category);
+  };
+
+  const toggleFAQ1 = () => {
+    setFAQ1(!FAQ1);
+  };
+
+  const toggleFAQ2 = () => {
+    setFAQ2(!FAQ2);
+  };
+
+  const toggleFAQ3 = () => {
+    setFAQ3(!FAQ3);
+  };
+  
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
  
   useEffect(()=>{
 
@@ -68,6 +102,9 @@ function Home() {
       }
 
     };
+
+
+
     const fetchMilkTeaPriceData = async () => {
       try {
         const response = await axios.post('http://localhost:8081/cms', {title: 'Milktea Price'});
@@ -237,6 +274,9 @@ function Home() {
 
     };
 
+
+  // Toggle dropdown visibility
+    
       fetchPhoneData();
       fetchTelData();
       fetchNameData();
@@ -256,6 +296,10 @@ function Home() {
 
 
   },[])
+
+  const handleMapModal = () => {
+    setMapModal(!mapModal);
+  };
 
 
   useEffect(() => {
@@ -382,19 +426,15 @@ function Home() {
     }
 
     function respondToUser(userMessage) {
-      // Replace this with your chatbot logic
       setTimeout(() => {
         addBotMessage('Burat!');
       }, 500);
     }
 
-    // Automatically open the chatbox on page load
     toggleChatbox();
 
-    // Initialize AOS
     AOS.init();
 
-    // Cleanup event listeners on component unmount
     return () => {
       if (burgerBtn) {
         burgerBtn.removeEventListener('click', () => {
@@ -462,6 +502,7 @@ function Home() {
 
   const [authenticated, setAuthenticated] = useState(false);
   const [foods, setFoods] = useState([]);
+  const [menu, setMenu] = useState([]);
   const navigate = useNavigate();
   
   const handleNavigate = () => {
@@ -479,6 +520,18 @@ function Home() {
         console.error('Error fetching food details:', error);
       });
   }, []);
+
+  useEffect(()=>{
+    axios.get('http://localhost:8081/menu')
+      .then(response => {
+        setMenu(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching menu details:', error);
+      });
+  })
+
+  // tagabalik
 
   useEffect(() => {
     axios.get('http://localhost:8081/')
@@ -512,13 +565,16 @@ function Home() {
   };
 
   return (
+  
     <div class="bg-jaydsBg">
+
+    {mapModal && <MapModal closeModal ={() => setMapModal(!mapModal)} />}
 
     {/* <!-- nav --> */}
     <nav class="sticky top-0 bg-white z-20 shadow-lg">
       <div class="font-extrabold text-2xl flex items-center">
         {/* <!-- Logo/Title in Navbar --> */}
-        <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
+        <a href="#" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">{cmsName}</a>
       </div>
       <span class="menu">
         <ul
@@ -584,12 +640,59 @@ function Home() {
         </div>
 
         {/* <!-- Button for Login or Sign Up --> */}
-        <Link to="/login">
-          <button
-            class="btn mr-3 w-40 h-12 text-greenColor text-sm tracking-widest shadow-md cursor-pointer hover:shadow-lg outline  hover:shadow-gray-400 hover:bg-greenColor hover:text-white hover:outline-none ease-in-out transition background-color 0.3s, color 0.3s duration-300">
-               Login/Sign Up 
-          </button>
-        </Link>
+
+
+        {authenticated ? (
+          
+            <>
+              <div className="flex space-x-2 mr-2">
+                <button onClick={toggleDropdown} 
+                  className="focus:outline-none">
+                  <img src={userIcon} alt="user" className="mr-3" />
+                </button>
+
+                {isOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-10">
+                <ul className="py-2">
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Profile
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Order
+                  </li>
+                  <li
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </li>
+                </ul>
+              </div>
+            )}
+
+                <Link to= {'/cart'}>
+                  <img src={bagIcon} alt="bag"/>
+                </Link>
+              </div>
+
+              {/* <button
+                onClick={handleLogout}
+                className="btn w-48 h-14 bg-slate-900 text-gray-100 text-base tracking-widest lg:bg-green-600 md:bg-yellow-500 sm:bg-blue-600"
+              >
+                Logout
+              </button> */}
+
+                    
+              
+            </>
+          ) : (
+            <button onClick={navLogin} class="btn mr-3 w-40 h-12 text-greenColor text-sm tracking-widest shadow-md cursor-pointer hover:shadow-lg outline  hover:shadow-gray-400 hover:bg-greenColor hover:text-white hover:outline-none ease-in-out transition background-color 0.3s, color 0.3s duration-300">
+              Login/Sign Up
+            </button>
+          )}
+
+
+
       </div>
     </nav>
     <div class="scroll-progress "></div> {/* <!-- for scroll effect sa taas --> */}
@@ -676,7 +779,7 @@ function Home() {
         data-aos-easing="ease-in-sine"
         data-aos-duration="1500">
         <p class="text-black font-semibold tracking-wider text-3xl pb-1 drop-shadow-2xl">WELCOME TO </p>
-        <h1 class="text-textgreenColor text-8xl font-extrabold pb-2 drop-shadow-lg" id="name">Jayd's Cafe</h1>
+        <h1 class="text-textgreenColor text-8xl font-extrabold pb-2 drop-shadow-lg" id="name">{cmsName}</h1>
         <p class="max-w-[28rem] mb-5 text-md text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, molestias temporibus ipsam eaque quidem dicta. Asperiores nisi error delectus, earum accusantium molestias unde quod. Provident rerum laborum aliquam temporibus voluptatibus.</p>
     
         <div class="">
@@ -684,10 +787,10 @@ function Home() {
         </div>
       </div>
       <div class="w-[400px] h-[400px] md:m-auto relative hover:scale-100">
-        <img src={jayds1} alt="" class="w-[400px] h-[400px] z-10 absolute -top-6 -left-12" data-aos="fade-down-right"
+        <img src={cmsBigLogo} alt="" class="w-[400px] h-[400px] z-10 absolute -top-6 -left-12" data-aos="fade-down-right"
         data-aos-duration="1500" data-aos-easing="ease-in-sine"></img>
 
-        <img src={jayds2} alt="" class= "w-[400px] h-[400px] absolute top-10 left-28"data-aos="fade-down-left"
+        <img src={cmsSmallLogo} alt="" class= "w-[400px] h-[400px] absolute top-10 left-28"data-aos="fade-down-left"
         data-aos-duration="1500" data-aos-easing="ease-in-sine"></img>
       </div>
       
@@ -727,20 +830,21 @@ function Home() {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-20 gap-y-32 justify-items-center h-full px-32 py-3">
 
           {/* <!-- Card 1.2 --> */}
-          <div class=" z-10 relative flex flex-col p-4 rounded-xl bg-clip-border text-gray-700 shadow-md outline outline-[6px] outline-greenColor hover:bg-greenColor hover:text-white transition duration-300 overflow-visible" data-aos="flip-right" data-aos-duration="1000" data-aos-easing="ease-out-cubic">
+          {foods.map(food =>(
+            <div key={food.id} class=" z-10 relative flex flex-col p-4 rounded-xl bg-clip-border text-gray-700 shadow-md outline outline-[6px] outline-greenColor hover:bg-greenColor hover:text-white transition duration-300 overflow-visible" data-aos="flip-right" data-aos-duration="1000" data-aos-easing="ease-out-cubic">
             
             <div class="z-10 relative mx-4 mt-[-130px] h-56 rounded-xl bg-blue-gray-500 bg-clip-border hover:scale-110 duration-500">
-              <img src="/public/image/americano.png" alt="img-blur-shadow" layout="fill" class="object-contain w-full h-full"/>
+              <img src={food.image_url} alt="" layout="fill" class="object-contain w-full h-full"/>
             </div>
             <div>
               <h1 class="text-2xl font-bold mt-4 mb-2 hover:text-white">
-                Espresso 
+                {food.name} 
               </h1>
 
               <div class="min-h-32">
                 <p class="text-start text-xs tracking-wider min-w-36">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Non atque ipsa quibusdam dicta. Est, atque quaerat neque quasi explicabo ullam. Impedit labore doloribus nisi nobis, possimus ipsam placeat beatae veniam.
-                </p>
+                  {food.description}
+                  </p>
               </div>
 
               <div class="flex justify-between items-center mt-4 w-full">
@@ -748,95 +852,11 @@ function Home() {
               </div>
             </div>
             <div class=" flex justify-end">
-              <button class="text-white outline hover:text-black hover:bg-jaydsBg outline-white hover:outline-greenColor font-bold py-2 px-4 rounded-md" >
-              BUY NOW
+              <button onClick={handleNavigate} class="text-white outline hover:text-black hover:bg-jaydsBg outline-white hover:outline-greenColor font-bold py-2 px-4 rounded-md" >
+                BUY NOW
               </button>
             </div>
-          </div>
-
-          {/* <!-- Card 2.2 --> */}
-          <div class="z-10 relative flex flex-col p-4 rounded-xl bg-clip-border text-gray-700 shadow-md outline outline-[6px] outline-greenColor hover:bg-greenColor hover:text-white transition hover:scale-110 duration-300 overflow-visible" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="300" data-aos-easing="ease-out-cubic">
-            
-            <div class="z-10 relative mx-4 mt-[-130px] h-56 rounded-xl bg-blue-gray-500 bg-clip-border hover:scale-110 duration-500">
-              <img src="/public/image/caramel.png" alt="img-blur-shadow" layout="fill" class="object-contain w-full h-full"/>
-            </div>
-            <div>
-              <h1 class="text-2xl font-bold mt-4 mb-2 hover:text-white">
-                Caramel
-              </h1>
-
-              <div class="min-h-32">
-                <p class="text-start text-xs tracking-wider min-w-36">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Non atque ipsa quibusdam dicta. Est, atque quaerat neque quasi explicabo ullam. Impedit labore doloribus nisi nobis, possimus ipsam placeat beatae veniam.
-                </p>
-              </div>
-
-              <div class="flex justify-between items-center mt-4 w-full">
-                <span>20ML</span>
-              </div>
-            </div>
-            <div class=" flex justify-end">
-              <button class="text-white outline hover:text-black hover:bg-jaydsBg outline-white hover:outline-greenColor font-bold py-2 px-4 rounded-md" >
-              BUY NOW
-              </button>
-            </div>
-          </div>
-
-          {/* <!-- Card 3.2 --> */}
-          <div class="z-10 relative flex flex-col p-4 rounded-xl bg-clip-border text-gray-700 shadow-md outline outline-[6px] outline-greenColor hover:bg-greenColor hover:text-white transition hover:scale-110 duration-300 overflow-visible" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="500" data-aos-easing="ease-out-cubic">
-            
-            <div class="z-10 relative mx-4 mt-[-130px] h-56 rounded-xl bg-blue-gray-500 bg-clip-border hover:scale-110 duration-500">
-              <img src="/public/image/fruit.png" alt="img-blur-shadow" layout="fill" class="object-contain w-full h-full"/>
-            </div>
-            <div>
-              <h1 class="text-2xl font-bold mt-4 mb-2 hover:text-white">
-                Orange Freshie
-              </h1>
-
-              <div class="min-h-32">
-                <p class="text-start text-xs tracking-wider min-w-36">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Non atque ipsa quibusdam dicta. Est, atque quaerat neque quasi explicabo ullam. Impedit labore doloribus nisi nobis, possimus ipsam placeat beatae veniam.
-                </p>
-              </div>
-
-              <div class="flex justify-between items-center mt-4 w-full">
-                <span>20ML</span>
-              </div>
-            </div>
-            <div class=" flex justify-end">
-              <button class="text-white outline hover:text-black hover:bg-jaydsBg outline-white hover:outline-greenColor font-bold py-2 px-4 rounded-md" >
-              BUY NOW
-              </button>
-            </div>
-          </div>
-
-          {/* <!-- Card 4.2 --> */}
-          <div class="z-10 relative flex flex-col p-4 rounded-xl bg-clip-border text-gray-700 shadow-md outline outline-[6px] outline-greenColor hover:bg-greenColor hover:text-white transition hover:scale-110 duration-300 overflow-visible" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="700" data-aos-easing="ease-out-cubic">
-            
-            <div class="z-10 relative mx-4 mt-[-130px] h-56 rounded-xl bg-blue-gray-500 bg-clip-border hover:scale-110 duration-500">
-              <img src="/public/image/expresso.png" alt="img-blur-shadow" layout="fill" class="object-contain w-full h-full"/>
-            </div>
-            <div>
-              <h1 class="text-2xl font-bold mt-4 mb-2 hover:text-white">
-                MilkTea
-              </h1>
-
-              <div class="min-h-32">
-                <p class="text-start text-xs tracking-wider min-w-36">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Non atque ipsa quibusdam dicta. Est, atque quaerat neque quasi explicabo ullam. Impedit labore doloribus nisi nobis, possimus ipsam placeat beatae veniam.
-                </p>
-              </div>
-
-              <div class="flex justify-between items-center mt-4 w-full">
-                <span>20ML</span>
-              </div>
-            </div>
-            <div class=" flex justify-end">
-              <button class="text-white outline hover:text-black hover:bg-jaydsBg outline-white hover:outline-greenColor font-bold py-2 px-4 rounded-md" >
-              BUY NOW
-              </button>
-            </div>
-          </div>
+          </div>))}
 
         </div>
       </div>
@@ -875,7 +895,10 @@ function Home() {
         <div id="all"> {/* <!-- Div For All Items--> */}
           <div class="px-24 py-12 grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-4"> {/* <!-- Card Container--> */}
 
-            <div class="flex-shrink-0 m-6 relative overflow-hidden bg-jaydsBg outline outline-greenColor rounded-lg max-w-xs shadow-lg hover:scale-110 duration-500">
+
+          {menu.slice(0,8).map(menus =>(
+              
+              <div class="flex-shrink-0 m-6 relative overflow-hidden bg-jaydsBg outline outline-greenColor rounded-lg max-w-xs shadow-lg hover:scale-110 duration-500">
               <svg class="absolute bottom-0 left-0 mb-8" viewBox="0 0 375 283" fill="none" style={styleCard}>
                 <rect x="159.52" y="175" width="152" height="152" rx="8" transform="rotate(-45 159.52 175)" fill="brown"/>
                 <rect y="107.48" width="152" height="152" rx="8" transform="rotate(-45 0 107.48)" fill="red"/>
@@ -890,174 +913,16 @@ function Home() {
                 <div class="relative text-white px-3 pb-6 mt-1 align-baseline">
                   <span class="block opacity-75 -mb-1">Large</span>
                   <div class="flex justify-between">
-                    <span class="block font-semibold text-xl">Caramel</span>
-                    <span class="bg-white rounded-full text-textgreenColor text-md font-bold px-3 py-2 leading-none flex items-center">$36.00</span>
+                    <span class="block font-semibold text-xl">{menus.name}</span>
+                    <span class="bg-white rounded-full text-textgreenColor text-md font-bold px-3 py-2 leading-none flex items-center">₱{menus.Large}</span>
                   </div>
                   <button class="flex justify-center items-center mx-auto mt-6 bg-greenColor p-2 rounded-lg hover:scale-110 duration-300">Add to Cart</button>
                 </div>
               </div>
-            </div>
+            </div>))}
+            
 
-            <div class="flex-shrink-0 m-6 relative overflow-hidden bg-jaydsBg outline outline-greenColor rounded-lg max-w-xs shadow-lg hover:scale-110 duration-500">
-              <svg class="absolute bottom-0 left-0 mb-8" viewBox="0 0 375 283" fill="none" style={styleCard}>
-                <rect x="159.52" y="175" width="152" height="152" rx="8" transform="rotate(-45 159.52 175)" fill="purple"/>
-                <rect y="107.48" width="152" height="152" rx="8" transform="rotate(-45 0 107.48)" fill="orange"/>
-              </svg>
-              <div class="relative flex flex-col h-full">
-                <div class="flex-1">
-                  <div class="relative pt-5 px-10 flex items-center justify-center">
-                    <div class="block absolute w-48 h-48 bottom-0 left-0 -mb-24 ml-3" style={styleCard2}></div> {/* <!-- Shadow Effect-->*/}
-                    <img class="relative w-40" src="/public/image/fruit.png" alt=""></img>
-                  </div>
-                </div>
-                <div class="relative text-white px-3 pb-6 mt-1 align-baseline">
-                  <span class="block opacity-75 -mb-1">Medium</span>
-                  <div class="flex justify-between">
-                    <span class="block font-semibold text-xl">Strawberry</span>
-                    <span class="bg-white rounded-full text-textgreenColor text-md font-bold px-3 py-2 leading-none flex items-center">$36.00</span>
-                  </div>
-                  <button class="flex justify-center items-center mx-auto mt-6 bg-greenColor p-2 rounded-lg hover:scale-110 duration-300">Add to Cart</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex-shrink-0 m-6 relative overflow-hidden bg-jaydsBg outline outline-greenColor rounded-lg max-w-xs shadow-lg hover:scale-110 duration-500">
-              <svg class="absolute bottom-0 left-0 mb-8" viewBox="0 0 375 283" fill="none" style={styleCard}>
-                <rect x="159.52" y="175" width="152" height="152" rx="8" transform="rotate(-45 159.52 175)" fill="white"/>
-                <rect y="107.48" width="152" height="152" rx="8" transform="rotate(-45 0 107.48)" fill="yellow"/>
-              </svg>
-              <div class="relative flex flex-col h-full">
-                <div class="flex-1">
-                  <div class="relative pt-5 px-10 flex items-center justify-center">
-                    <div class="block absolute w-48 h-48 bottom-0 left-0 -mb-24 ml-3" style={styleCard2}></div> {/*<!-- Shadow Effect-->*/}
-                    <img class="relative w-40" src="/public/image/expresso.png" alt=""></img>
-                  </div>
-                </div>
-                <div class="relative text-white px-3 pb-6 mt-1 align-baseline">
-                  <span class="block opacity-75 -mb-1">Medium</span>
-                  <div class="flex justify-between">
-                    <span class="block font-semibold text-xl">Espresso</span>
-                    <span class="bg-white rounded-full text-textgreenColor text-md font-bold px-3 py-2 leading-none flex items-center">$36.00</span>
-                  </div>
-                  <button class="flex justify-center items-center mx-auto mt-6 bg-greenColor p-2 rounded-lg hover:scale-110 duration-300">Add to Cart</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex-shrink-0 m-6 relative overflow-hidden bg-jaydsBg outline outline-greenColor rounded-lg max-w-xs shadow-lg hover:scale-110 duration-500">
-              <svg class="absolute bottom-0 left-0 mb-8" viewBox="0 0 375 283" fill="none" style={styleCard}>
-                <rect x="159.52" y="175" width="152" height="152" rx="8" transform="rotate(-45 159.52 175)" fill="brown"/>
-                <rect y="107.48" width="152" height="152" rx="8" transform="rotate(-45 0 107.48)" fill="orange"/>
-              </svg>
-              <div class="relative flex flex-col h-full">
-                <div class="flex-1">
-                  <div class="relative pt-5 px-10 flex items-center justify-center">
-                    <div class="block absolute w-48 h-48 bottom-0 left-0 -mb-24 ml-3" style={styleCard2}></div> {/* <!-- Shadow Effect--> */}
-                    <img class="relative w-40" src="/public/image/orderPage(Image).png" alt=""></img>
-                  </div> 
-                </div>
-                <div class="relative text-white px-3 pb-6 mt-1 align-baseline">
-                  <span class="block opacity-75 -mb-1">Medium</span>
-                  <div class="flex justify-between">
-                    <span class="block font-semibold text-xl">Strawberry</span>
-                    <span class="bg-white rounded-full text-textgreenColor text-md font-bold px-3 py-2 leading-none flex items-center">$36.00</span>
-                  </div>
-                  <button class="flex justify-center items-center mx-auto mt-6 bg-greenColor p-2 rounded-lg hover:scale-110 duration-300">Add to Cart</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex-shrink-0 m-6 relative overflow-hidden bg-jaydsBg outline outline-greenColor rounded-lg max-w-xs shadow-lg hover:scale-110 duration-500">
-              <svg class="absolute bottom-0 left-0 mb-8" viewBox="0 0 375 283" fill="none" style={styleCard}>
-                <rect x="159.52" y="175" width="152" height="152" rx="8" transform="rotate(-45 159.52 175)" fill="purple"/>
-                <rect y="107.48" width="152" height="152" rx="8" transform="rotate(-45 0 107.48)" fill="orange"/>
-              </svg>
-              <div class="relative flex flex-col h-full">
-                <div class="flex-1">
-                  <div class="relative pt-5 px-10 flex items-center justify-center">
-                    <div class="block absolute w-48 h-48 bottom-0 left-0 -mb-24 ml-3" style={styleCard2}></div> {/* <!-- Shadow Effect-->*/}
-                    <img class="relative w-40" src="/public/image/caramel.png" alt=""></img>
-                  </div>
-                </div>
-                <div class="relative text-white px-3 pb-6 mt-1 align-baseline">
-                  <span class="block opacity-75 -mb-1">Large</span>
-                  <div class="flex justify-between">
-                    <span class="block font-semibold text-xl">Caramel</span>
-                    <span class="bg-white rounded-full text-textgreenColor text-md font-bold px-3 py-2 leading-none flex items-center">$36.00</span>
-                  </div>
-                  <button class="flex justify-center items-center mx-auto mt-6 bg-greenColor p-2 rounded-lg hover:scale-110 duration-300">Add to Cart</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex-shrink-0 m-6 relative overflow-hidden bg-jaydsBg outline outline-greenColor rounded-lg max-w-xs shadow-lg hover:scale-110 duration-500">
-              <svg class="absolute bottom-0 left-0 mb-8" viewBox="0 0 375 283" fill="none" style={styleCard}>
-                <rect x="159.52" y="175" width="152" height="152" rx="8" transform="rotate(-45 159.52 175)" fill="orange"/>
-                <rect y="107.48" width="152" height="152" rx="8" transform="rotate(-45 0 107.48)" fill="brown"/>
-              </svg>
-              <div class="relative flex flex-col h-full">
-                <div class="flex-1">
-                  <div class="relative pt-5 px-10 flex items-center justify-center">
-                    <div class="block absolute w-48 h-48 bottom-0 left-0 -mb-24 ml-3" style={styleCard2}></div> {/* <!-- Shadow Effect--> */}
-                    <img class="relative w-40" src="/public/image/fruit.png" alt=""></img>
-                  </div>
-                </div>
-                <div class="relative text-white px-3 pb-6 mt-1 align-baseline">
-                  <span class="block opacity-75 -mb-1">Medium</span>
-                  <div class="flex justify-between">
-                    <span class="block font-semibold text-xl">Orange</span>
-                    <span class="bg-white rounded-full text-textgreenColor text-md font-bold px-3 py-2 leading-none flex items-center">$36.00</span>
-                  </div>
-                  <button class="flex justify-center items-center mx-auto mt-6 bg-greenColor p-2 rounded-lg hover:scale-110 duration-300">Add to Cart</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex-shrink-0 m-6 relative overflow-hidden bg-jaydsBg outline outline-greenColor rounded-lg max-w-xs shadow-lg hover:scale-110 duration-500">
-              <svg class="absolute bottom-0 left-0 mb-8" viewBox="0 0 375 283" fill="none" style={styleCard}>
-                <rect x="159.52" y="175" width="152" height="152" rx="8" transform="rotate(-45 159.52 175)" fill="black"/>
-                <rect y="107.48" width="152" height="152" rx="8" transform="rotate(-45 0 107.48)" fill="orange"/>
-              </svg>
-              <div class="relative flex flex-col h-full">
-                <div class="flex-1">
-                  <div class="relative pt-5 px-10 flex items-center justify-center">
-                    <div class="block absolute w-48 h-48 bottom-0 left-0 -mb-24 ml-3" style={styleCard2}></div> {/* <!-- Shadow Effect-->*/}
-                    <img class="relative w-40" src="/public/image/expresso.png" alt=""></img>
-                  </div>
-                </div>
-                <div class="relative text-white px-3 pb-6 mt-1 align-baseline">
-                  <span class="block opacity-75 -mb-1">Medium</span>
-                  <div class="flex justify-between">
-                    <span class="block font-semibold text-xl">Espresso</span>
-                    <span class="bg-white rounded-full text-textgreenColor text-md font-bold px-3 py-2 leading-none flex items-center">$36.00</span>
-                  </div>
-                  <button class="flex justify-center items-center mx-auto mt-6 bg-greenColor p-2 rounded-lg hover:scale-110 duration-300">Add to Cart</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex-shrink-0 m-6 relative overflow-hidden bg-jaydsBg outline outline-greenColor rounded-lg max-w-xs shadow-lg hover:scale-110 duration-500">
-              <svg class="absolute bottom-0 left-0 mb-8" viewBox="0 0 375 283" fill="none" style={styleCard}>
-                <rect x="159.52" y="175" width="152" height="152" rx="8" transform="rotate(-45 159.52 175)" fill="purple"/>
-                <rect y="107.48" width="152" height="152" rx="8" transform="rotate(-45 0 107.48)" fill="orange"/>
-              </svg>
-              <div class="relative flex flex-col h-full">
-                <div class="flex-1">
-                  <div class="relative pt-5 px-10 flex items-center justify-center">
-                    <div class="block absolute w-48 h-48 bottom-0 left-0 -mb-24 ml-3" style={styleCard2}></div> {/* <!-- Shadow Effect-->*/}
-                    <img class="relative w-40" src="/public/image/orderPage(Image).png" alt=""></img>
-                  </div> 
-                </div>
-                <div class="relative text-white px-3 pb-6 mt-1 align-baseline">
-                  <span class="block opacity-75 -mb-1">Medium</span>
-                  <div class="flex justify-between">
-                    <span class="block font-semibold text-xl">Strawberry</span>
-                    <span class="bg-white rounded-full text-textgreenColor text-md font-bold px-3 py-2 leading-none flex items-center">$36.00</span>
-                  </div>
-                  <button class="flex justify-center items-center mx-auto mt-6 bg-greenColor p-2 rounded-lg hover:scale-110 duration-300">Add to Cart</button>
-                </div>
-              </div>
-            </div>
+            
 
           </div>
         </div>
@@ -1086,6 +951,7 @@ function Home() {
             </div>
           </div>
         </div>
+
         <div id="ft" style={cardContainers}>I'm container Fruity</div>
         <div id="ic" style={cardContainers}>I'm container ice Coffee</div>
         <div id="ao" style={cardContainers}>I'm container Add Ons</div>
@@ -1093,7 +959,9 @@ function Home() {
         <div id="sk" style={cardContainers}>I'm container Snacks</div>
 
         {/* <!-- Add button here --> */}
-        <button class="py-2 px-4 bg-greenColor outline outline-white hover:outline-greenColor hover:bg-white hover:text-textgreenColor text-white font-bold rounded-full shadow-md transition duration-300 ease-in-out flex justify-center mx-auto mt-4 mb-5" > 
+        <button 
+        onClick={()=>(navigate('/menu'))}
+        class="py-2 px-4 bg-greenColor outline outline-white hover:outline-greenColor hover:bg-white hover:text-textgreenColor text-white font-bold rounded-full shadow-md transition duration-300 ease-in-out flex justify-center mx-auto mt-4 mb-5" > 
           View All Products
           <svg class="rtl:rotate-180 text-lg w-6 h-6 ms-2"
             aria-hidden="true"
@@ -1259,16 +1127,16 @@ function Home() {
             <button
               type="button"
               class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+              onClick={toggleFAQ1}
               data-accordion-target="#accordion-color-body-1"
               aria-expanded="true"
               aria-controls="accordion-color-body-1"
             >
               <span class="text-lg"
-                >How do I place an order on JoeExpress?</span
-              >
+                >How do I place an order on JoeExpress? </span>
               <svg
                 data-accordion-icon
-                class="w-3 h-3 rotate-180 shrink-0"
+                className={`w-3 h-3 transition-transform duration-300 ${FAQ1 ? '' : 'rotate-180'}`}
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -1284,26 +1152,21 @@ function Home() {
               </svg>
             </button>
           </h2>
-          <div
-            id="accordion-color-body-1"
-            class="hidden"
-            aria-labelledby="accordion-color-heading-1"
-          >
-            <div
-              class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
-            >
-              <p class="mb-2 text-gray-500 dark:text-gray-400">
-                To place an order, simply browse our menu, select your favorite
-                items, and add them to your cart. Once you're ready, proceed to
-                checkout, where you can review your order and provide your
-                delivery details. Finally, choose your preferred payment method
-                and confirm your order.
+          
+            {FAQ1 && (
+
+            <div id="accordion-color-body-1" className="p-5 border border-gray-200 dark:border-gray-700">
+              <p className="text-gray-500 dark:text-gray-400">
+              • You can place an order by browsing our menu, adding items to your cart, and proceeding to checkout.
               </p>
             </div>
-          </div>
+
+            )}
+          
           <h2 id="accordion-color-heading-2">
             <button
               type="button"
+              onClick={toggleFAQ2}
               class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
               data-accordion-target="#accordion-color-body-2"
               aria-expanded="false"
@@ -1312,7 +1175,7 @@ function Home() {
               <span class="text-lg">What payment methods do you accept?</span>
               <svg
                 data-accordion-icon
-                class="w-3 h-3 rotate-180 shrink-0"
+                className={`w-3 h-3 transition-transform duration-300 ${FAQ2 ? '' : 'rotate-180'}`}
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -1328,22 +1191,22 @@ function Home() {
               </svg>
             </button>
           </h2>
-          <div
-            id="accordion-color-body-2"
-            class="hidden"
-            aria-labelledby="accordion-color-heading-2"
-          >
-            <div
-              class="p-5 border border-b-0 border-gray-200 dark:border-gray-700"
-            >
-              <p class="mb-2 text-gray-500 dark:text-gray-400">
-                We accept only Cash on delivery or Gcash payment method.
-              </p>
-            </div>
-          </div>
+
+          {FAQ2 && (
+                <div id="accordion-color-body-2" className="p-5 border border-gray-200 dark:border-gray-700">
+                  <p className="text-gray-500 dark:text-gray-400">
+                  • We offer free delivery for orders over a certain amount. For
+                        orders below this amount, a small delivery fee may apply.
+                        Details will be provided during checkout.
+                  </p>
+                </div>  
+          )}
+
+
           <h2 id="accordion-color-heading-3">
             <button
               type="button"
+              onClick={toggleFAQ3}
               class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
               data-accordion-target="#accordion-color-body-3"
               aria-expanded="false"
@@ -1352,7 +1215,7 @@ function Home() {
               <span class="text-lg">Do you charge for delivery?</span>
               <svg
                 data-accordion-icon
-                class="w-3 h-3 rotate-180 shrink-0"
+                className={`w-3 h-3 transition-transform duration-300 ${FAQ3 ? '' : 'rotate-180'}`}
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -1368,21 +1231,16 @@ function Home() {
               </svg>
             </button>
           </h2>
-          <div
-            id="accordion-color-body-3"
-            class="hidden"
-            aria-labelledby="accordion-color-heading-3"
-          >
-            <div
-              class="p-5 border border-t-0 border-gray-200 dark:border-gray-700"
-            >
-              <p class="mb-2 text-gray-500 dark:text-gray-400">
-                We offer free delivery for orders over a certain amount. For
-                orders below this amount, a small delivery fee may apply.
-                Details will be provided during checkout.
-              </p>
-            </div>
-          </div>
+          {FAQ3 && (
+                <div id="accordion-color-body-3" className="p-5 border border-gray-200 dark:border-gray-700">
+                  <p className="text-gray-500 dark:text-gray-400">
+                  • We offer free delivery for orders over a certain amount. For
+                        orders below this amount, a small delivery fee may apply.
+                        Details will be provided during checkout.
+                  </p>
+                </div>
+              )}
+          
         </div>
       </div>
     </div>
@@ -1393,21 +1251,25 @@ function Home() {
       <div class="border-y-2 border-gray-400 w-4/5 p-10">
         {/* <!-- container footer--> */}
         <div class="flex justify-between w-full">
-          <h1 class="text-white text-5xl font-bold">Jayd's Cafe</h1>
+          <h1 class="text-white text-5xl font-bold">{cmsName}</h1>
           <div class="flex gap-2">
-            <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-              <img src={fb} alt=""></img>
+            <button type='button' 
+            class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
+            <a href={cmsFacebook} target="_blank" rel="noopener noreferrer">
+              <img src={fb} alt="Facebook" />
+            </a>
             </button>
             <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-              <img src={ig} alt=""></img>
+              <a href={cmsInstagram} target="_blank" rel="noopener noreferrer"><img src={ig} alt=""></img></a>
             </button>
             <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-              <img src={yt} alt=""></img>
+              <a href={cmsLink} target="_blank" rel="noopener noreferrer"><img src={yt} alt=""></img></a>
             </button>
           </div>
         </div>
-        
-      <button type="button" class="rounded-full text-white w-fit px-6 py-2 mt-7" id="viewloc">View Location</button>
+
+      <button onClick={handleMapModal} class="rounded-full text-white w-fit px-6 py-2 mt-7" id="viewloc">View Location</button>
+      
       </div>
 
 

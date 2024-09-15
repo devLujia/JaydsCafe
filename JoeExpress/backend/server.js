@@ -913,7 +913,7 @@ app.post('/removeProduct',  async (req, res) =>{
     app.post('/updateProduct', upload.single('image_url') ,(req,res) => {
 
         const {name ,description ,category_id , foodId ,medprice , lgprice} = req.body;
-        const image_url = req.file ? req.file.filename : null;
+        const image_url = req.file ? `/images/${req.file.filename}` : null;
 
         const query = 
         `

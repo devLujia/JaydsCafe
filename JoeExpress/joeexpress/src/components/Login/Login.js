@@ -151,6 +151,9 @@ const Login = () => {
 
     }, [navigation]);
 
+
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const err = Validation(values);
@@ -174,7 +177,7 @@ const Login = () => {
       <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">
         <div class="font-extrabold text-2xl flex items-center">
           {/* <!-- Logo/Title in Navbar --> */}
-          <a href="/public/index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
+          <a href="/" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">{cmsName}</a>
         </div>
 
         <div class="inline-flex items-center justify-center me-2">
@@ -204,29 +207,35 @@ const Login = () => {
         <h2 class="text-2xl font-semibold mb-4 text-gray-600">Login</h2>
 
         {/* <!-- Form fields --> */}
-        <form action="/public/Html/menuPage.html">
+        <form onSubmit={handleSubmit} action="/menu">
           <div class="mb-4">
             {/* <!-- Email Input--> */}
+
             <input
               class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline"
               id="email"
-              type="text"
-              placeholder="Enter your Email"
-              required
+              type="email"
+              name="email"
+              placeholder="Enter email"
+              value={values.email}
+              onChange={handleInput}
             />
           </div>
 
           <div
             class="bg-white w-full max-w-full rounded-md mx-auto mt-300 flex items-center"
-            required
           >
             {/* <!-- password Input--> */}
             <div class="relative w-full">
               <input
-                type="password"
-                placeholder="Password"
                 class="w-full outline-0 text-gray-600 shadow appearance-none border rounded py-2 px-3 mb-10 leading-10 focus:outline-none focus:shadow-outline"
                 id="password"
+                type="password"
+                name="password"
+                placeholder="Enter password"    
+                value={values.password}
+                onChange={handleInput}
+                required
               />
 
               <img
@@ -234,6 +243,7 @@ const Login = () => {
                 alt="Eye"
                 class="absolute right-3 top-3 w-8 cursor-pointer"
                 id="hide"
+                
               />
             </div>
           </div>
@@ -247,11 +257,9 @@ const Login = () => {
           <p class="mb-10">
             {/* <!-- Don't have an account? --> */}
             Don't have an account?
-            <Link to="/Signup">
-              <span class="text-blue-500 cursor-pointer font-semibold">
-                <a href="/public/Html/registration.html"> Click Here </a>
-              </span>
-            </Link>
+            <span class="text-blue-500 cursor-pointer font-semibold">
+              <a href="/signup"> Click Here </a>
+            </span>
           </p>
 
           {/* <!-- or sign in with --> */}
@@ -281,19 +289,23 @@ const Login = () => {
         <div class="border-y-2 border-gray-400 w-4/5 p-10">
           {/* <!-- container footer--> */}
           <div class="flex justify-between w-full">
-            <h1 class="text-white text-5xl font-bold">Jayd's Cafe</h1>
-            <div class="flex gap-2">
-              <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-                <img src={fb} alt=""></img>
-              </button>
-              <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-                <img src={ig} alt=""></img>
-              </button>
-              <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-                <img src={yt} alt=""></img>
-              </button>
-            </div>
+          <h1 class="text-white text-5xl font-bold">{cmsName}</h1>
+          <div class="flex gap-2">
+            <button type='button' 
+            class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
+            <a href={cmsFacebook} target="_blank" rel="noopener noreferrer">
+              <img src={fb} alt="Facebook" />
+            </a>
+            </button>
+            <button type='button' 
+            class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
+              <a href={cmsInstagram} target="_blank" rel="noopener noreferrer"><img src={ig} alt=""></img></a>
+            </button>
+            <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
+              <a href={cmsLink} target="_blank" rel="noopener noreferrer"><img src={yt} alt=""></img></a>
+            </button>
           </div>
+        </div>
           
         <button type="button" class="rounded-full text-white w-fit px-6 py-2 mt-7" id="viewloc">View Location</button>
         </div>
