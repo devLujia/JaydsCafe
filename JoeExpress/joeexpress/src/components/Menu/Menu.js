@@ -152,7 +152,7 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
       <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">
         <div class="font-extrabold text-2xl flex items-center">
           {/* <!-- Logo/Title in Navbar --> */}
-          <a href="/public/index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
+          <a href="/" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">{cmsName}</a>
         </div>
 
         <div class="inline-flex items-center justify-center me-2">
@@ -501,7 +501,7 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
                 <p>₱178.00</p>
               </div>
               <div class="mt-7 space-y-5">
-                <button type="button" class="text-white bg-green-700 rounded-lg w-full h-10 font-bold tracking-widest hover:bg-greenColor py-1" onclick="location.href='/public/Html/cart.html'">
+                <button type="button" class="text-white bg-green-700 rounded-lg w-full h-10 font-bold tracking-widest hover:bg-greenColor py-1" onclick={()=>(navigate('/cart'))}>
                   Checkout
                 </button>
                 <button type="button" class="text-white bg-blue-600 hover:bg-blue-500 font-bold tracking-widest rounded-lg text-md px-5 py-2.5 text-center inline-flex items-center justify-center me-2 mb-2 w-full">
@@ -554,7 +554,7 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
                       </div>
                   </div>
                   <div class="relative top-2 ">
-                    <button type="button" class="w-5 h-5 hover:bg-yellow-500 hover:rounded-lg focus:ring-gray-100 focus:ring-2 focus:outline-none" onclick="location.href='/public/Html/orderPage.html'">
+                    <button type="button" class="w-5 h-5 hover:bg-yellow-500 hover:rounded-lg focus:ring-gray-100 focus:ring-2 focus:outline-none" onclick={()=>(navigate('/orderPage'))}>
                       <img src="/public/image/edit.svg" alt="Edit"/>
                     </button>
                   </div>
@@ -590,7 +590,7 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
                       </div>
                   </div>
                   <div class="relative top-2 ">
-                    <button type="button" class="w-5 h-5 hover:bg-yellow-500 hover:rounded-lg focus:ring-gray-100 focus:ring-2 focus:outline-none" onclick="location.href='/public/Html/orderPage.html'">
+                    <button type="button" class="w-5 h-5 hover:bg-yellow-500 hover:rounded-lg focus:ring-gray-100 focus:ring-2 focus:outline-none" onclick={()=>(navigate('/orderPage'))}>
                       <img src="/public/image/edit.svg" alt="Edit"/>
                     </button>
                   </div>
@@ -626,7 +626,7 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
                       </div>
                   </div>
                   <div class="relative top-2">
-                    <button type="button" class="w-5 h-5 hover:bg-yellow-500 hover:rounded-lg focus:ring-gray-100 focus:ring-2 focus:outline-none" onclick="location.href='/public/Html/orderPage.html'">
+                    <button type="button" class="w-5 h-5 hover:bg-yellow-500 hover:rounded-lg focus:ring-gray-100 focus:ring-2 focus:outline-none" onclick={()=>(navigate('/orderPage'))}>
                       <img src="/public/image/edit.svg" alt="Edit"/>
                     </button>
                   </div>
