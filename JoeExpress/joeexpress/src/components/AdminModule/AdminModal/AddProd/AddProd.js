@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './addprod.css'
 import axios from 'axios'
 
@@ -8,27 +8,58 @@ function AddProd({ closeModal }) {
         const [values, setValues] = useState({
                 name: '',
                 description: '',
-                image_url: '',
+                image_url: null,
                 category_id: '',
                 medprice: '',
-                lgprice: ''
         });
 
-        const handleInput = (e) => {
-        setValues({ 
-                ...values, 
-                [e.target.name]: e.target.value 
-        });
-        };    
+        const [category,setCategory] = useState([])
+
+        const handleInput =  (e) => {
+          setValues({ 
+                  ...values, 
+                  [e.target.name]: e.target.value 
+          });
+        };
+
+        const handleFileChange = (e) => {
+          setValues({
+              ...values,
+              image_url: e.target.files[0]
+          });
+      };    
 
         const handleSubmit = (e) => {
-                e.preventDefault();
-                axios.post('http://localhost:8081/addProduct', values)
-                .then(res => {
-                    closeModal(false)
-                })
-                .catch(err => console.error(err));
-        }
+          e.preventDefault();
+          
+          const formData = new FormData();
+      
+          formData.append('name', values.name);
+          formData.append('description', values.description);
+          formData.append('image_url', values.image_url);
+          formData.append('category_id', values.category_id);
+          formData.append('medprice', values.foodId);
+          
+          axios.post('http://localhost:8081/addProduct', formData)
+          .then(res=>{
+            alert("Successfully added!")   
+          })
+
+          .catch(err=> console.log(err));
+
+          closeModal(false);
+      }
+      
+
+        useEffect(()=>{
+          
+          axios.post('http://localhost:8081/fetchCategory')
+          .then(res => {
+            setCategory(res.data)
+        })
+
+        .catch(err => console.error(err));
+        },[])
 
   return (
         <div className='fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50'>
@@ -52,6 +83,7 @@ function AddProd({ closeModal }) {
                     name="name" 
                     id="name"
                     onChange={handleInput} 
+                    value={values.name}
                     className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline" 
                     placeholder="Product Name" 
                     required
@@ -64,7 +96,8 @@ function AddProd({ closeModal }) {
                     type="text" 
                     name="description" 
                     id="description"   
-                    onChange={handleInput}                             
+                    onChange={handleInput} 
+                    value={values.description}                            
                     placeholder="Creamy non coffee drink" 
                     className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline" 
                     required
@@ -72,17 +105,18 @@ function AddProd({ closeModal }) {
                 </div>
         
                 <div className='mb-4'>
-                  <label htmlFor="image_url" className="flex text-gray-600 text-sm font-bold tracking-wider">Image URL</label>
-                  <input 
-                    type="text" 
-                    name="image_url" 
-                    id="image_url"
-                    onChange={handleInput}
-                    className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline" 
-                    placeholder="image.png" 
-                    required
-                  />
-                </div>
+                <label for="image_url" className="flex text-gray-600 text-sm font-bold tracking-wider">Image URL</label>
+                <input 
+                  type="file" 
+                  name="image_url" 
+                  id="image_url"
+                  onChange={handleFileChange}
+                  accept="image/png, image/gif, image/jpeg"
+                  className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline" 
+                  placeholder="image.png" 
+                  required
+                />
+              </div>
         
                 <div className='mb-4'>
                   <p className="text-gray-600 text-sm font-bold tracking-wider mb-2">
@@ -91,38 +125,31 @@ function AddProd({ closeModal }) {
         
                   <div className="grid grid-cols-3 gap-4">
 
-                    <select ></select>
+                    
+                  <select
+                      id='category_id'
+                      name='category_id'
+                      value={values.category_id}
+                      onChange={handleInput}
+                      className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline"
+                      required
+                    >
+                      <option value="">Select a category</option>
+                      {category.map(categories => (
+                        <option key={categories.id} value={categories.id}>
+                          {categories.title}
+                        </option>
+                      ))}
 
-                    <div className="flex items-center">
-                      <input className="mr-2" type="radio" onChange={handleInput}  id="Coffee" name="category_id" value= '1' />
-                      <label className="text-gray-600 text-sm font-bold tracking-wider" htmlFor="Coffee">Coffee</label>
-                    </div>
-                    <div className="flex items-center">
-                      <input className="mr-2" type="radio" onChange={handleInput}  id="Milktea" name="category_id" value='2' />
-                      <label className="text-gray-600 text-sm font-bold tracking-wider" htmlFor="Milktea">Milktea</label>
-                    </div>
-                    <div className="flex items-center">
-                      <input className="mr-2" type="radio" onChange={handleInput}  id="Fruit-tea" name="category_id" value='3' />
-                      <label className="text-gray-600 text-sm font-bold tracking-wider" htmlFor="Fruit-tea">Fruit</label>
-                    </div>
-                  </div>
-        
-                  <div className="grid grid-cols-2 gap-4 mt-4">
-                    <div className="flex items-center">
-                      <input className="mr-2" type="radio" onChange={handleInput}  id="Premium_Cheesecake_Milktea" name="category_id" value='4' />
-                      <label className="text-gray-600 text-sm font-bold tracking-wider" htmlFor="Premium_Cheesecake_Milktea">
-                        Premium Cheesecake Milktea
-                      </label>
-                    </div>
-                    <div className="flex items-center">
-                      <input className="mr-2" type="radio" onChange={handleInput}  id="Non_Coffee" name="category_id" value='5' />
-                      <label className="text-gray-600 text-sm font-bold tracking-wider" htmlFor="Non_Coffee">Non Coffee</label>
-                    </div>
+                    </select>
+                    
+
+                    
                   </div>
                 </div>
         
                 <div className='mb-4'>
-                  <label htmlFor="medprice" className="flex text-gray-600 text-sm font-bold tracking-wider">Medium Price</label>
+                  <label for="medprice" className="flex text-gray-600 text-sm font-bold tracking-wider">Medium Price</label>
                   <input 
                     type="text" 
                     name="medprice" 
@@ -133,19 +160,6 @@ function AddProd({ closeModal }) {
                     required
                   />
                 </div>
-        
-                <div className='mb-4'>
-                  <label htmlFor="lgprice" className="flex text-gray-600 text-sm font-bold tracking-wider">Large Price</label>
-                  <input 
-                    type="text" 
-                    name="lgprice" 
-                    id="lgprice"
-                    onChange={handleInput} 
-                    className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline" 
-                    placeholder="$69" 
-                    required
-                  />
-                </div>        
         
                 <button type="submit" className="bg-amber-950 hover:bg-amber-900 text-white font-bold py-2 px-4 rounded-lg w-full">
                   Add product

@@ -771,9 +771,10 @@ app.post('/productResult', (req,res)=>{
 })
 
 
-app.post('/addProduct', (req, res) =>{
+app.post('/addProduct', upload.single('image_url') , (req, res) =>{
 
-    const { name, description, image_url, category_id, medprice, lgprice } = req.body;
+    const { name, description, category_id, medprice } = req.body;
+    const image_url = req.file ? `/images/${req.file.filename}` : '/images/americano.png';
 
     const query = `INSERT INTO foods (name, description, image_url, category_id) 
                    VALUES (?,?,?,?);
@@ -789,26 +790,30 @@ app.post('/addProduct', (req, res) =>{
         const medSizeQuery = `INSERT INTO food_sizes(food_id, size , price) 
                             VALUES (?,'medium',?)`
 
-        db.query(medSizeQuery, [lastfoodsId,medprice], (sizeErr, sizeResult)=> {
+        db.query(medSizeQuery, [lastfoodsId, medprice], (sizeErr, sizeResult)=> {
             if(sizeErr){
                 res.json({sizeErr: "Unable to add into food_sizes"})
             }
             
         })
 
-        const lgSizeQuery = `INSERT INTO food_sizes(food_id, size , price) 
-                            VALUES (?,'large',?)`
+        // const lgSizeQuery = `INSERT INTO food_sizes(food_id, size , price) 
+        //                     VALUES (?,'large',?)`
 
-        db.query(lgSizeQuery, [lastfoodsId,lgprice], (sizeErr, sizeResult)=> {
-            if(sizeErr){
-                res.json({sizeErr: "Unable to add into food_sizes"})
-            }
+        // db.query(lgSizeQuery, [lastfoodsId,lgprice], (sizeErr, sizeResult)=> {
+        //     if(sizeErr){
+        //         res.json({sizeErr: "Unable to add into food_sizes"})
+        //     }
             
-        })
+        // })
 
     })
 
 })
+
+
+
+
 
 app.post('/addSize',(req,res)=>{
     

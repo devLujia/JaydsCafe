@@ -15,6 +15,8 @@ function EditProd({closeModal, id}) {
 
         });
 
+        const [category,setCategory] = useState([])
+
         useEffect(() => {
           if (id) {
               setValues(prevValues => ({ ...prevValues, foodId: id }));
@@ -27,7 +29,17 @@ function EditProd({closeModal, id}) {
                   })
                   .catch(err => console.error(err));
           }
-      }, [id]);
+        }, [id]);
+
+      useEffect(()=>{
+          
+        axios.post('http://localhost:8081/fetchCategory')
+        .then(res => {
+          setCategory(res.data)
+      })
+
+      .catch(err => console.error(err));
+      },[])
 
       const handleInput = (e) => {
         const { name, type, files, value } = e.target;
@@ -75,7 +87,7 @@ function EditProd({closeModal, id}) {
 
   return (
         <div className='fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50'>
-        <div className='bg-white w-[900px] h-[900px] rounded-lg shadow-lg flex flex-col p-6'>
+        <div className='bg-white w-[900px] h-auto rounded-lg shadow-lg flex flex-col p-6'>
           
           <div className='flex justify-between items-center mb-4'>
             <h1 className='text-xl font-bold'>Edit Product</h1>
@@ -126,7 +138,7 @@ function EditProd({closeModal, id}) {
                   accept="image/png, image/gif, image/jpeg"
                   className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline" 
                   placeholder="image.png" 
-                  required
+                  
                 />
               </div>
       
@@ -136,31 +148,24 @@ function EditProd({closeModal, id}) {
                 </p>
       
                 <div className="grid grid-cols-3 gap-4">
-                  <div className="flex items-center">
-                    <input className="mr-2" type="radio" onChange={handleInput} id="Coffee" name="category_id" value= '1' />
-                    <label className="text-gray-600 text-sm font-bold tracking-wider" htmlFor="Coffee">Coffee</label>
-                  </div>
-                  <div className="flex items-center">
-                    <input className="mr-2" type="radio" onChange={handleInput} id="Milktea" name="category_id" value='2' />
-                    <label className="text-gray-600 text-sm font-bold tracking-wider" htmlFor="Milktea">Milktea</label>
-                  </div>
-                  <div className="flex items-center">
-                    <input className="mr-2" type="radio"  onChange={handleInput} id="Fruit-tea" name="category_id" value='3' />
-                    <label className="text-gray-600 text-sm font-bold tracking-wider" htmlFor="Fruit-tea">Fruit</label>
-                  </div>
-                </div>
-      
-                <div className="grid grid-cols-2 gap-4 mt-4">
-                  <div className="flex items-center">
-                    <input className="mr-2" type="radio" onChange={handleInput} id="Premium_Cheesecake_Milktea" name="category_id" value='4' />
-                    <label className="text-gray-600 text-sm font-bold tracking-wider" htmlFor="Premium_Cheesecake_Milktea">
-                      Premium Cheesecake Milktea
-                    </label>
-                  </div>
-                  <div className="flex items-center">
-                    <input className="mr-2" type="radio" onChange={handleInput} id="Non_Coffee" name="category_id" value='5' />
-                    <label className="text-gray-600 text-sm font-bold tracking-wider" htmlFor="Non_Coffee">Non Coffee</label>
-                  </div>
+
+                  <select
+                        id='category_id'
+                        name='category_id'
+                        value={values.category_id}
+                        onChange={handleInput}
+                        className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline"
+                        required
+                      >
+                        <option value="">Select a category</option>
+                        {category.map(categories => (
+                          <option key={categories.id} value={categories.id}>
+                            {categories.title}
+                          </option>
+                        ))}
+
+                    </select>
+
                 </div>
               </div>
       
