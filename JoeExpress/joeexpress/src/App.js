@@ -31,7 +31,7 @@ function App() {
       <Route path = '/signup' element={<Signup/>}></Route>
       <Route path = '/' element={<Home/>}></Route>
       <Route path='/menu' element={<Menu/>}></Route>
-      <Route path='/items/:foodId' element = {<Item/>}> </Route>
+      {/* <Route path='/items/:foodId' element = {<Item/>}> </Route> */}
       <Route path='/cart' element = {<Cart/>}> </Route>
       <Route path='/tracking' element = {<Tracking/>}> </Route>
       <Route path='/dashboard' element={<AdminDashboard/>}></Route>
@@ -45,7 +45,7 @@ function App() {
       <Route path='/CustomerAccount' element = {<CustomerAccount/>}> </Route>
       <Route path='/PaymentManagement' element = {<PaymentManagement/>}></Route>
       <Route path='/ContentManagement' element = {<ContentManagement/>}></Route>
-      <Route path='/Editpage' element = {<Editpage/>}></Route>
+      <Route path='/editpage/:foodId' element = {<Editpage/>}></Route>
       <Route path='/Message' element = {<Inbox/>}></Route>
       <Route path='/Settings' element = {<Settings/>}></Route>
 

@@ -529,7 +529,7 @@ function Home() {
       .catch(error => {
         console.error('Error fetching menu details:', error);
       });
-  })
+  },[])
 
   // tagabalik
 
@@ -783,7 +783,7 @@ function Home() {
         <p class="max-w-[28rem] mb-5 text-md text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, molestias temporibus ipsam eaque quidem dicta. Asperiores nisi error delectus, earum accusantium molestias unde quod. Provident rerum laborum aliquam temporibus voluptatibus.</p>
     
         <div class="">
-          <button class="bg-greenColor rounded-full py-3 px-5 text-white text-2xl font-light w-fit outline outline-white hover:outline-greenColor hover:bg-white hover:text-textgreenColor transition duration-300">Order Now!</button>
+          <button onClick={()=>navigate('/menu')} class="bg-greenColor rounded-full py-3 px-5 text-white text-2xl font-light w-fit outline outline-white hover:outline-greenColor hover:bg-white hover:text-textgreenColor transition duration-300">Order Now!</button>
         </div>
       </div>
       <div class="w-[400px] h-[400px] md:m-auto relative hover:scale-100">
@@ -830,33 +830,34 @@ function Home() {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-20 gap-y-32 justify-items-center h-full px-32 py-3">
 
           {/* <!-- Card 1.2 --> */}
-          {foods.map(food =>(
-            <div key={food.id} class=" z-10 relative flex flex-col p-4 rounded-xl bg-clip-border text-gray-700 shadow-md outline outline-[6px] outline-greenColor hover:bg-greenColor hover:text-white transition duration-300 overflow-visible" data-aos="flip-right" data-aos-duration="1000" data-aos-easing="ease-out-cubic">
-            
-            <div class="z-10 relative mx-4 mt-[-130px] h-56 rounded-xl bg-blue-gray-500 bg-clip-border hover:scale-110 duration-500">
-              <img src={food.image_url} alt="" layout="fill" class="object-contain w-full h-full"/>
-            </div>
-            <div>
-              <h1 class="text-2xl font-bold mt-4 mb-2 hover:text-white">
-                {food.name} 
-              </h1>
 
-              <div class="min-h-32">
-                <p class="text-start text-xs tracking-wider min-w-36">
-                  {food.description}
-                  </p>
-              </div>
+      {foods.map(food =>(
+        <div key={food.id} class=" z-10 relative flex flex-col p-4 rounded-xl bg-clip-border text-gray-700 shadow-md outline outline-[6px] outline-greenColor hover:bg-greenColor hover:text-white transition duration-300 overflow-visible" data-aos="flip-right" data-aos-duration="1000" data-aos-easing="ease-out-cubic">
+        
+        <div class="z-10 relative mx-4 mt-[-130px] h-56 rounded-xl bg-blue-gray-500 bg-clip-border hover:scale-110 duration-500">
+          <img src={food.image_url} alt="" layout="fill" class="object-contain w-full h-full"/>
+        </div>
+        <div>
+          <h1 class="text-2xl font-bold mt-4 mb-2 hover:text-white">
+            {food.name} 
+          </h1>
 
-              <div class="flex justify-between items-center mt-4 w-full">
-                <span>20ML</span>
-              </div>
-            </div>
-            <div class=" flex justify-end">
-              <button onClick={handleNavigate} class="text-white outline hover:text-black hover:bg-jaydsBg outline-white hover:outline-greenColor font-bold py-2 px-4 rounded-md" >
-                BUY NOW
-              </button>
-            </div>
-          </div>))}
+          <div class="min-h-32">
+            <p class="text-start text-xs tracking-wider min-w-36">
+              {food.description}
+              </p>
+          </div>
+
+          <div class="flex justify-between items-center mt-4 w-full">
+            <span>20ML</span>
+          </div>
+        </div>
+        <div class=" flex justify-end">
+          <button onClick={handleNavigate} class="text-white outline hover:text-black hover:bg-jaydsBg outline-white hover:outline-greenColor font-bold py-2 px-4 rounded-md" >
+            BUY NOW
+          </button>
+        </div>
+      </div>))}
 
         </div>
       </div>

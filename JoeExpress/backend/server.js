@@ -371,6 +371,7 @@ app.get('/items/:foodId', (req, res) => {
   
       res.status(200).json({ success: true, data: results[0] });
     });
+    
   });
 
 app.post('/cart_items', (req, res) => {

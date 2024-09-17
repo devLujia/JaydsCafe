@@ -94,7 +94,7 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
   };
 
   const handleNav = (foodId) =>{
-    navigate(`/items/${foodId}`);
+    navigate(`/editpage/${foodId}`);
   }
 
   const addToCartApi = async (food, userId) => {
@@ -253,20 +253,23 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
         <div id="mt-series"> {/* <!-- milk tea series div -->*/}
           <div class="container mx-auto p-4 mt-4"> 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
-                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 1 -->*/}
+
+                {foods.map(food=>(
+                  <div key={food.id} class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 1 -->*/}
                     <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
-                        <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain"/>
+                        <img src={food.image_url} alt="Milk Tea" class="w-full h-full object-contain"/>
                     </div>
-                    <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                    <h3 class="text-xl font-semibold mt-4 min-h-20">{food.name}</h3>
                     <p class="text-gray-600 mt-2">Starts at</p>
-                    <p class="text-2xl font-bold mt-1">P 65.00</p>
+                    <p class="text-2xl font-bold mt-1">₱{food.Medium}</p>
                   
-                    <button id="btn-cart" class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                      <img src={cartMenu} alt=""/>
+                    <button onClick={() => handleNav(food.id)} id="btn-cart" class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                      <img src={cartMenu} alt="" />
                     </button>
                 </div>
-    
-                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 2 -->*/}
+              ))}
+                  {/*<!-- card 2 -->*/}
+                {/* <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> 
                   <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
                       <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain"/>
                   </div>
@@ -277,9 +280,11 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
                   <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
                     <img src={cartMenu} alt=""/>
                   </button>
-                </div>
+                </div> */}
     
-                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 3 -->*/}
+
+                  {/*<!-- card 3 -->*/}
+                {/* <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> 
                   <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
                       <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain"/>
                   </div>
@@ -290,9 +295,10 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
                   <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
                      <img src={cartMenu} alt=""/>
                   </button>
-                </div>
+                </div> */}
     
-                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 4 -->*/}
+                   {/*<!-- card 4 -->*/}
+                {/* <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg">
                   <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
                       <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain"/>
                   </div>
@@ -303,9 +309,10 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
                   <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
                     <img src={cartMenu} alt=""/>
                   </button>
-                </div>
+                </div> */}
 
-                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 1.2 -->*/}
+                  {/*<!-- card 1.2 -->*/}
+                {/* <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> 
                     <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
                         <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain"/>
                     </div>
@@ -316,9 +323,10 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
                   <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
                     <img src={cartMenu} alt=""/>
                   </button>
-                </div>
+                </div> */}
     
-                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 2.2 -->*/}
+                   {/*<!-- card 2.2 -->*/}
+                {/* <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg">
                   <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
                       <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain"/>
                   </div>
@@ -329,9 +337,9 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
                   <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
                     <img src={cartMenu} alt=""/>
                   </button>
-                </div>
-    
-                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 3.2 -->*/}
+                </div> */}
+                   {/*<!-- card 3.2 -->*/}
+                {/* <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> 
                   <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
                       <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain"/>
                   </div>
@@ -342,9 +350,10 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
                   <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
                     <img src={cartMenu} alt=""/>
                   </button>
-                </div>
-    
-                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 4.2 -->*/}
+                </div> */}
+
+                    {/*<!-- card 4.2 -->*/}
+                {/* <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> 
                   <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
                       <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain"/>
                   </div>
@@ -355,15 +364,16 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
                   <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
                     <img src={cartMenu} alt=""/>
                   </button>
-                </div>
+                </div> */}
             </div> 
           </div>
         </div>
 
-        <div id="mt-series"> {/* <!-- fresh milk series div -->*/}
+      {/* <!-- fresh milk series div -->*/}
+        {/* <div id="mt-series"> 
           <div class="container mx-auto p-4 mt-4 bg-red-400"> 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
-                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 1 -->*/}
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg">
                     <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
                         <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain"/>
                     </div>
@@ -376,7 +386,7 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
                     </button>
                 </div>
     
-                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 2 -->*/}
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> 
                   <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
                       <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain"/>
                   </div>
@@ -389,7 +399,7 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
                   </button>
                 </div>
     
-                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 3 -->*/}
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> 
                   <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
                       <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain"/>
                   </div>
@@ -402,7 +412,7 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
                   </button>
                 </div>
     
-                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 4 -->*/}
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg">   
                   <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
                       <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain"/>
                   </div>
@@ -415,7 +425,7 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
                   </button>
                 </div>
 
-                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 1.2 -->*/}
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg">
                     <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
                         <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain"/>
                     </div>
@@ -428,7 +438,7 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
                   </button>
                 </div>
     
-                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 2.2 -->*/}
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg">
                   <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
                       <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain"/>
                   </div>
@@ -441,7 +451,7 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
                   </button>
                 </div>
     
-                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 3.2 -->*/}
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> 
                   <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
                       <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain"/>
                   </div>
@@ -454,7 +464,7 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
                   </button>
                 </div>
     
-                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 4.2 -->*/}
+                <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> 
                   <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
                       <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain"/>
                   </div>
@@ -468,7 +478,7 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
                 </div>
             </div> 
           </div>
-        </div>
+        </div> */}
 
       </div>
 
