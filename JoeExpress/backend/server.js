@@ -1213,10 +1213,10 @@ app.post('/removeProduct',  async (req, res) =>{
             o.status,
             o.totalPrice, 
             GROUP_CONCAT(
-                CONCAT(
-                    f.name, ' (', 
-                    of.size, ', ', 
-                    of.quantity, ', ', 
+                CONCAT('Food Name: ',
+                    f.name, ' ( Size: ', 
+                    of.size, ', Quantity: ', 
+                    of.quantity, ', Addons: ', 
                     IFNULL(of.addons, ''), ')'
                 ) ORDER BY f.name SEPARATOR ', '
             ) AS food_details
