@@ -70,44 +70,49 @@ app.get('/',(req,res)=>{
 }) 
 
 
-app.post('/order', (req,res)=>{
-    const {userId, totalBill} = req.body;
+app.post('/order', (req, res) => {
+    const { userId, totalBill } = req.body;
 
-    const query = 
-    `INSERT INTO orders (customer_id, totalPrice ,status) VALUES (?, ${totalBill} ,'paid');
-    SELECT LAST_INSERT_ID() as lastOrderId`
+    // Insert into orders table
+    const query = `
+        INSERT INTO orders (customer_id, totalPrice, status) 
+        VALUES (?, ?, 'paid');
+        SELECT LAST_INSERT_ID() as lastOrderId;
+    `;
 
-    db.query(query,[userId],(err,resInInserting)=>{
-        if(err) {
-            res.json({success: false, err: "Error on inserting order"});
+    db.query(query, [userId, totalBill], (err, resInInserting) => {
+        if (err) {
+            return res.json({ success: false, err: "Error inserting order" });
         }
-        
+
         const lastOrderId = resInInserting[1][0].lastOrderId;
 
-        const gettingOrder = 
-        ` INSERT INTO orders_food (order_id, food_id, quantity)
-          SELECT ? , food_id, quantity
-          FROM cart_items
-          WHERE user_id = ?;
-        `
-        db.query(gettingOrder,[lastOrderId,userId],(err,resInGettingOrder)=>{
-            if(err){
-                res.json({err: "Error on getting order"})
+        // Insert into orders_food with addons
+        const gettingOrder = `
+            INSERT INTO orders_food (order_id, food_id, quantity, addons, size)
+            SELECT ?, food_id, quantity, addons, size
+            FROM cart_items
+            WHERE user_id = ?;
+        `;
+
+        db.query(gettingOrder, [lastOrderId, userId], (err, resInGettingOrder) => {
+            if (err) {
+                return res.json({ err: "Error inserting order_food" });
             }
-            const remove = `Delete from cart_items WHERE user_id = ? `
-                db.query(remove,[userId],(errInRemove, resInRemove)=>{
-                    if(errInRemove){
-                        res.json({err:"Error in Removing from cart"})
-                    }
-                })
 
-        })
+            // Delete from cart_items after order is placed
+            const remove = `DELETE FROM cart_items WHERE user_id = ?`;
+            db.query(remove, [userId], (errInRemove, resInRemove) => {
+                if (errInRemove) {
+                    return res.json({ err: "Error removing items from cart" });
+                }
+            });
 
-        return res.json({ success: true });
+            return res.json({ success: true });
+        });
+    });
+});
 
-    })
-
-})
 
 app.post('/cms', (req, res) => {
     const { title } = req.body;
@@ -131,7 +136,10 @@ app.post('/cms', (req, res) => {
 
 
 app.get('/foods', (req,res)=>{
-    const query = `SELECT f.id, f.name, f.description, f.image_url, fs.size, fs.price 
+    
+    const query = 
+    
+    `SELECT f.id, f.name, f.description, f.image_url, fs.size, fs.price 
     FROM foods f JOIN food_sizes fs ON f.id = fs.food_id 
     GROUP BY f.id, f.name, f.description, f.image_url 
     WHERE visible = 1
@@ -144,7 +152,7 @@ app.get('/foods', (req,res)=>{
                    JOIN orders_food of on of.food_id = fs.id 
                    JOIN orders o on o.order_id = of.order_id 
                    WHERE visible = 1
-                   GROUP BY f.name, f.description, f.image_url, fs.price 
+                   GROUP BY f.name,fs.size, f.description, f.image_url, fs.price 
                    order by totalOrder desc limit 4;
                 `
     db.query(order,(err,results)=>{
@@ -311,32 +319,35 @@ app.get('/menu', (req ,res )=>{
 });
 
 
-app.post('/itemGetter',(req,res)=>{
-    
+app.post('/itemGetter', (req, res) => {
     const userId = req.body.userId;
 
     const query = `
     SELECT
-    c.food_id,
-    f.name,
-    f.image_url,
-    c.size,
-    c.price
-    
-        FROM
-            cart_items c 
-        JOIN foods f ON
-            f.id = c.food_id
-        WHERE user_id = ?
-        `
-    db.query(query, [userId], (err,result)=>{
-        if(err){
-            return res.status(500).json({ success: false, message: 'Failed to get item to cart' });
-        }
-        res.json({ success: true, items: result });
-    })
+        c.id,
+        c.food_id,
+        f.name AS food_name,
+        f.image_url AS food_image_url,
+        c.size,
+        c.price AS food_price,
+        c.addons
+    FROM
+        cart_items c 
+    JOIN foods f ON
+        f.id = c.food_id
+    WHERE c.user_id = ?
+    `;
 
-})
+    db.query(query, [userId], (err, result) => {
+        if (err) {
+            console.error('Error fetching items from cart:', err);
+            return res.status(500).json({ success: false, message: 'Failed to get items from cart' });
+        }
+        // Process result if needed (e.g., parse add-ons)
+        res.json({ success: true, items: result });
+    });
+});
+
 
 app.get('/items/:foodId', (req, res) => {
     const { foodId } = req.params;
@@ -374,19 +385,22 @@ app.get('/items/:foodId', (req, res) => {
     
   });
 
-app.post('/cart_items', (req, res) => {
-    const { foodId, size, price } = req.body;
+  app.post('/cart_items', (req, res) => {
+    const { foodId, size, price, addons } = req.body;
     const userId = req.session.userId;
-    const query = 'INSERT INTO cart_items (user_id, food_id, size, price) VALUES (?, ?, ?, ?)';
-  
-    db.query(query, [userId, foodId, size, price], (err, results) => {
-      if (err) {
-        return res.status(500).json({ success: false, message: 'Failed to add item to cart' });
-      }
-      res.status(200).json({ success: true, message: 'Item added to cart', results });
-    });
 
+    // Insert the add-ons names directly
+    const query = 'INSERT INTO cart_items (user_id, food_id, size, price, addons) VALUES (?, ?, ?, ?, ?)';
+
+    db.query(query, [userId, foodId, size, price, addons], (err, results) => {
+        if (err) {
+            console.error('Error adding item to cart:', err);
+            return res.status(500).json({ success: false, message: 'Failed to add item to cart' });
+        }
+        res.status(200).json({ success: true, message: 'Item added to cart', results });
+    });
 });
+
 
 app.post('/menuOption', (req, res) => {
     
@@ -1198,7 +1212,14 @@ app.post('/removeProduct',  async (req, res) =>{
             o.order_date, 
             o.status,
             o.totalPrice, 
-            GROUP_CONCAT(f.name ORDER BY f.name) AS food_name
+            GROUP_CONCAT(
+                CONCAT(
+                    f.name, ' (', 
+                    of.size, ', ', 
+                    of.quantity, ', ', 
+                    IFNULL(of.addons, ''), ')'
+                ) ORDER BY f.name SEPARATOR ', '
+            ) AS food_details
         FROM 
             orders o
         JOIN 
@@ -1226,6 +1247,107 @@ app.post('/removeProduct',  async (req, res) =>{
                 return res.status(500).json({ error: 'Failed to get orders' });
             }
             res.json(result)
+        });
+
+    })
+    
+    
+    app.post('/personalOrder', (req,res) =>{
+        
+        const {user_id} = req.body
+
+        const query = 
+        `
+        SELECT 
+            o.order_id, 
+            u.name,
+            u.address,
+            o.customer_id, 
+            o.order_date, 
+            o.status,
+            o.totalPrice, 
+            o.customer_id,
+            GROUP_CONCAT(f.name ORDER BY f.name) AS food_name
+        FROM 
+            orders o
+        JOIN 
+            orders_food of ON of.order_id = o.order_id
+        JOIN 
+            foods f ON f.id = of.food_id
+        JOIN 
+            user u ON u.id = o.customer_id
+        WHERE 
+            o.customer_id = ?
+        GROUP BY 
+            o.order_id, 
+            u.name,
+            u.address,
+            o.customer_id, 
+            o.order_date, 
+            o.status
+        ORDER BY 
+            o.order_date ASC;
+             
+        `
+
+        db.query(query,[user_id], (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to get orders' });
+            }
+            res.json(result)
+        });
+
+    })
+
+
+    app.post('/profile',(req,res) =>{
+
+        const {user_id} = req.body
+
+        const query = ` SELECT name, email, password, pnum, address FROM user WHERE id = ? `
+
+        db.query(query, [user_id], (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to get profile' });
+            }
+            if (result.length > 0) {
+                res.json(result[0]);
+            } 
+            else {
+                res.status(404).json({ error: 'Profile not found' });
+            }
+        });
+
+    })
+
+    app.post('/Addons',(req,res)=>{
+
+        const query = `Select * from addons`
+
+        db.query(query, (err, results) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to get addons' });
+            }
+            
+            res.json(results);
+            
+        });
+
+    })
+    
+    app.post('/sizes',(req,res)=>{
+
+        const {foodId} = req.body
+
+        const query = `Select * from food_sizes where food_id = ?`
+
+        db.query(query,[foodId] ,(err, results) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to get addons' });
+            }
+            
+            res.json(results);
+            
         });
 
     })

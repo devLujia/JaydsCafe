@@ -151,9 +151,6 @@ const Login = () => {
 
     }, [navigation]);
 
-
-
-
     const handleSubmit = (e) => {
         e.preventDefault();
         const err = Validation(values);
@@ -201,7 +198,7 @@ const Login = () => {
         {/* <!-- Image for login --> */}
         <div class="flex flex-col justify-center items-center mb-10 py-5">
           <p class="text-2xl mb-3 tracking-wider">WELCOME TO</p>
-          <h1 class="font-extrabold text-6xl tracking-wider text-textgreenColor">Jayd's Cafe</h1>
+          <h1 class="font-extrabold text-6xl tracking-wider text-textgreenColor">{cmsName}</h1>
         </div>
 
         <h2 class="text-2xl font-semibold mb-4 text-gray-600">Login</h2>

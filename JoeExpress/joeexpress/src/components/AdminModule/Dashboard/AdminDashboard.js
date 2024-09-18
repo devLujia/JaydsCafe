@@ -84,11 +84,12 @@ function AdminDashboard() {
     useEffect(() =>{
       
       AOS.init();
+
     })
 
    // useEffect(()=>{
 
-   //    const button = document.querySelector('[data-collapse-toggle="dropdown-example"]');
+   //    const button = document.querySelector('[data-collapse-O="dropdown-example"]');
    //    const dropdown = document.getElementById('dropdown-example');
 
    //    button.addEventListener('click', () => {
@@ -442,42 +443,78 @@ function AdminDashboard() {
                               </thead>
 
                               <tbody>
-                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white ">
-                                       <div class="text-base font-semibold">#Order-12</div>
-                                    </th>
-                                    <td class="px-6 py-4 text-center">
-                                       Mikha Brony James
-                                    </td>
-                                    <td class="px-6 py-4 text-center">
-                                       Diamond Village Salawag
-                                    </td>
-                                    <td class="px-6 py-4 text-center">
-                                       09082123822
-                                    </td>
-                                    <td class="px-6 py-4 text-center">
-                                       08-21-2024 / 08:42-9:00am
-                                    </td>
-                                    <td class="px-6 py-4 text-center text-greenColor">
-                                       ₱ 49
-                                    </td>
-                                    <td class="px-6 py-4">
-                                       <div class="bg-green-100 text-green-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">Paid</div>
-                                    </td>
-                                    <td class="flex items-center px-6 py-4 space-x-2">
-                                       <div class="h-fit items-center justify-center flex space-x-3 ps-4 mx-auto">
-                                          <button>
-                                             <img src={eye} alt="eye" class="w-6 h-6"/>
-                                          </button>
-                                          <button class="hover:underline hover:decoration-blue-500">
-                                             <img src={del} alt="trash"/>
-                                          </button>
-                                          <button>
-                                             <img src={check} alt="check"/>
-                                          </button>
-                                       </div>
-                                    </td>
-                                 </tr>
+                              {orders.slice(0, 2).map(order => (
+                                 <>
+                                    <tr
+                                       key={order.order_id}
+                                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                       <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white ">
+                                          <div className="text-base font-semibold">ORDR#{order.order_id}</div>
+                                       </th>
+                                       <td className="px-6 py-4 text-center">
+                                          {order.name}
+                                       </td>
+                                       <td className="px-6 py-4 text-center">
+                                          {order.address}
+                                       </td>
+                                       <td className="px-6 py-4 text-center">
+                                          WALA PA
+                                       </td>
+                                       <td className="px-6 py-4 text-center">
+                                          {new Date(order.order_date).toLocaleString('en-US', {
+                                             year: 'numeric',
+                                             month: 'long',
+                                             day: 'numeric',
+                                             hour: '2-digit',
+                                             minute: '2-digit',
+                                             second: '2-digit',
+                                          })}
+                                       </td>
+                                       <td className="px-6 py-4 text-center text-greenColor">
+                                          {order.totalPrice}
+                                       </td>
+                                       <td className="px-6 py-4">
+                                          <div className="bg-green-100 text-green-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status}</div>
+                                       </td>
+                                       <td className="flex items-center px-6 py-4 space-x-2">
+                                          <div className="h-fit items-center justify-center flex space-x-3 ps-4 mx-auto">
+                                             <button onClick={() => toggleOrderDetails(order.order_id)}>
+                                                <img src={eye} alt="eye" className="w-6 h-6" />
+                                             </button>
+                                             <button className="hover:underline hover:decoration-blue-500">
+                                                <img src={del} alt="trash" />
+                                             </button>
+                                             <button onClick={() => getTheOrder(order.order_id, order.status)}>
+                                                <img src={check} alt="check"/>
+                                             </button>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    
+                                    {expandedOrderId === order.order_id && (
+                                       <tr>
+                                          <td colSpan="8" className="bg-gray-100 dark:bg-gray-700">
+                                             <div className="px-6 py-4">
+                                                <div className="text-sm text-gray-600 dark:text-gray-300">
+                                                   <strong>Order Items:</strong>
+                                                   <ul className="mt-2 space-y-2">
+                                                      <li className="py-1 w-full text-left">
+                                                         {order.food_name}
+                                                      </li>
+                                                   </ul>
+                                                </div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    )}
+                                 </>
+                              ))}
+
+
+
+
+
+
                               </tbody>
                         </table>
                      </div>
@@ -551,7 +588,9 @@ function AdminDashboard() {
 
                   
                      <tbody>
-                        {foods.map(food => (
+                        
+                        {foods.slice(0,4).map(food => (
+
                         <tr key={food.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                            <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                                  <img class="w-10 h-10 rounded-2xl" src={food.image_url} alt={food.name}/>

@@ -15,6 +15,17 @@ function EditProd({closeModal, id}) {
 
         });
 
+        const [addons,setAddons] = useState([])
+
+        useEffect(()=>{
+          
+          axios.post('http://localhost:8081/addons')
+          .then(res => {
+            setAddons(res.data)
+        })
+
+      })
+
         const [category,setCategory] = useState([])
 
         useEffect(() => {
@@ -37,6 +48,8 @@ function EditProd({closeModal, id}) {
         .then(res => {
           setCategory(res.data)
       })
+
+
 
       .catch(err => console.error(err));
       },[])
@@ -61,6 +74,8 @@ function EditProd({closeModal, id}) {
         }
         
     };    
+
+    
 
         const handleSubmit = (e) => {
                 e.preventDefault();

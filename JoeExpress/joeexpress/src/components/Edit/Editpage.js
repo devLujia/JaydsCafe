@@ -1,180 +1,240 @@
-import React, { useEffect, useState } from 'react'
-import cup1 from '../image/cup(small).svg'
-import cup2 from '../image/cup(large).svg'
-import arrowLeft from '../image/arrow left.svg'
-import jaydscoffee from '../image/jaydsCoffee.svg'
-import cart from '../image/cart.svg'
+import React, { useEffect, useState } from 'react';
+import cup1 from '../image/cup(small).svg';
+import cup2 from '../image/cup(large).svg';
+import arrowLeft from '../image/arrow left.svg';
+import jaydscoffee from '../image/jaydsCoffee.svg';
+import cart from '../image/cart.svg';
 import bagIcon from '../image/bag.svg';
-import { useNavigate, useParams } from 'react-router-dom'
-import axios from 'axios'
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 export default function Editpage() {
-
-
     const [authenticated, setAuthenticated] = useState(false);
     const [userId, setUserId] = useState(null);
     const navigate = useNavigate();
-    const {foodId} = useParams();
+    const { foodId } = useParams();
     const [food, setFood] = useState(null);
     const [foods, setFoods] = useState([]);
+    const [addons, setAddons] = useState([]);
+    const [cart, setCart] = useState([]);
+    const [totalBill, setTotalBill] = useState(0);
+    const [sizes, setSizes] = useState([]);
+    const [selectedSize, setSelectedSize] = useState('');
+    const [selectedPrice, setSelectedPrice] = useState(0);
+    const [selectedAddons, setSelectedAddons] = useState([]);
 
-    useEffect( ()  => {
-        axios.get(`http://localhost:8081/items/${foodId}`)
-            .then(res => {
-
-            setFood(res.data.data);
-            })
-            .catch(err => console.log(err));
-        
-      }, [foodId]);
-
-
+    // Fetch the food item details
     useEffect(() => {
-    axios.get('http://localhost:8081/foods')
-        .then(response => {
-        setFoods(response.data);
-        })
-        .catch(error => {
-        console.error('Error fetching food details:', error);
-        });
+        axios.get(`http://localhost:8081/items/${foodId}`)
+            .then(res => setFood(res.data.data))
+            .catch(err => console.log(err));
+    }, [foodId]);
+
+    // Handle size selection
+    const handleInput = (event, size, price) => {
+        setSelectedSize(size);
+        setSelectedPrice(price);
+    };
+
+    // Handle addons selection
+    const handleAddons = (event, addon) => {
+        const isChecked = event.target.checked;
+        setSelectedAddons(prev => isChecked
+            ? [...prev, addon]
+            : prev.filter(a => a.id !== addon.id));
+    };
+
+    // Calculate total price including addons
+    const totalAddonsPrice = selectedAddons.reduce((sum, addon) => sum + addon.price, 0);
+    const totalPrice = selectedPrice + totalAddonsPrice;
+
+    // Fetch food sizes
+    useEffect(() => {
+        if (foodId) {
+            axios.post(`http://localhost:8081/sizes`, { foodId })
+                .then(res => setSizes(res.data))
+                .catch(err => console.error('Error fetching sizes:', err));
+        }
+    }, [foodId]);
+
+    // Fetch addons
+    useEffect(() => {
+        axios.post('http://localhost:8081/Addons')
+            .then(res => setAddons(res.data))
+            .catch(error => console.error('Error fetching addons details:', error));
     }, []);
 
+    // Check authentication status
     useEffect(() => {
         axios.get('http://localhost:8081/')
-          .then(res => {
-            if (res.data.valid) {
-              setAuthenticated(true);
-              setUserId(res.data.userId);
-            } else {
-              navigate('/');
-            }
-          })
-          .catch(err => console.log(err));
-      }, [navigate]);
+            .then(res => {
+                if (res.data.valid) {
+                    setAuthenticated(true);
+                    setUserId(res.data.userId);
+                } else {
+                    navigate('/');
+                }
+            })
+            .catch(err => console.log(err));
+    }, [navigate]);
 
-      if (!food) {
+    // Fetch cart items
+    useEffect(() => {
+        if (userId) {
+            axios.post('http://localhost:8081/itemGetter', { userId })
+                .then(res => {
+                    setCart(res.data.items);
+                    const total = res.data.items.reduce((sum, item) => sum + item.price, 0);
+                    setTotalBill(total);
+                })
+                .catch(error => console.error('Error fetching item details:', error));
+        }
+    }, [userId]);
+
+    // Add item to cart
+    const addToCartApi = async (food, userId) => {
+        try {
+            // Create a string with add-on names and their prices
+            const addonsDetails = selectedAddons.map(addon => `${addon.name} (₱${addon.price})`).join(',');
+    
+            const response = await axios.post('http://localhost:8081/cart_items', {
+                userId,
+                foodId: food.id,
+                size: selectedSize,
+                price: totalPrice,
+                addons: addonsDetails, // Send names and prices of add-ons
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+            throw error;
+        }
+    };
+    
+
+    const handleAddToCart = async (food) => {
+        try {
+            await addToCartApi(food, userId);
+            setCart(prevCart => [...prevCart, food]);
+            alert('Item added to cart!');
+        } catch (error) {
+            alert('Failed to add item to cart. Please try again.');
+        }
+    };
+
+    if (!food) {
         return <div>Loading...</div>;
     }
 
-  return (
-    <div>
-        {/* <!-- nav --> */}
-        <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-evenly">
-            <div class="font-extrabold text-2xl flex items-center">
-                {/* <!-- Logo/Title in Navbar --> */}
-                <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
-            </div>
-            <div></div>
-            {/* <!-- Button for Login or Sign Up --> */}
-            <button>
-                <img src={bagIcon} alt=""/>
-            </button>
-        </nav>
+    return (
+        <div>
+            {/* Nav */}
+            <nav className="sticky top-0 bg-white z-20 shadow-lg flex justify-evenly">
+                <div className="font-extrabold text-2xl flex items-center">
+                    <a href="index.html" className="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
+                </div>
+                <div></div>
+                <button>
+                    <img src={bagIcon} alt="Bag Icon" />
+                </button>
+            </nav>
 
-        <section>
-            <div class="h-screen bg-jaydsBg">
-                <div class="p-6">
-                    <a href="/menu" class="text-2xl font-bold hover:underline"> <img src={arrowLeft} alt="" class="inline-block w-4 h-4 me-2"/>Back to Cart</a>
-                    <div class="flex justify-center items-center flex-col space-x-10 md:flex-row mt-20">
-                        <div class="rounded-lg bg-menuCirclebg aspect-square w-96 h-96 shadow-xl">
-                            <img src={`/` + food.image_url} alt={food.name} class="w-full h-full object-contain"/>
-                        </div>
-                        <div class="">
-                            <h1 class="text-5xl font-bold pb-3">{food.name}</h1>
-                            <p class="text-gray-500 font-semibold pb-2">Starts at</p>
-                            <p class="text-3xl font-semibold pb-2">P {food.Medium}</p>
+            <section>
+                <div className="h-screen bg-jaydsBg">
+                    <div className="p-6">
+                        <a href="/menu" className="text-2xl font-bold hover:underline">
+                            <img src={arrowLeft} alt="Back Arrow" className="inline-block w-4 h-4 me-2" />Back to Cart
+                        </a>
+                        <div className="flex justify-center items-center flex-col space-x-10 md:flex-row mt-20">
+                            <div className="rounded-lg bg-menuCirclebg aspect-square w-96 h-96 shadow-xl">
+                                <img src={`/${food.image_url}`} alt={food.name} className="w-full h-full object-contain" />
+                            </div>
+                            <div>
+                                <h1 className="text-5xl font-bold pb-3">{food.name}</h1>
+                                <p className="text-gray-500 font-semibold pb-2">Price:</p>
+                                <p className="text-3xl font-semibold pb-2">₱{totalPrice}</p>
 
-                            <p class="text-lg font-semibold pb-2">Select Size:</p>
-                            <div class="flex justify-start items-center mb-4">
-                                <div class="flex items-center space-x-4">
-                                    <div>
-                                        <input type="radio" id="small" name="size" value="" class="hidden peer" checked/>
-                                        <label for="small" class="block p-4 rounded-md border border-gray-300 hover:border-gray-400 peer-checked:bg-green-400 peer-checked:border-green-900 cursor-pointer">
-                                            <div class="flex flex-col items-center">
-                                                <img src={cup1} alt={food.name}/>
-                                                <p class="text-sm font-bold text-gray-900">Small</p>
-                                                <p class="text-xs text-gray-500">354 ml</p>
+                                <p className="text-lg font-semibold pb-2">Select Size:</p>
+                                <div className="flex justify-start items-center mb-4">
+                                    <div className="flex items-center space-x-4">
+                                        {sizes.map(size => (
+                                            <div key={size.id}>
+                                                <input
+                                                    required
+                                                    type="radio"
+                                                    id={`size-${size.id}`}
+                                                    name="size"
+                                                    value={size.size}
+                                                    className="hidden peer"
+                                                    onChange={(e) => handleInput(e, size.size, size.price)}
+                                                    checked={selectedSize === size.size}
+                                                    
+                                                />
+                                                <label
+                                                    htmlFor={`size-${size.id}`}
+                                                    className="block p-4 rounded-md border border-gray-300 hover:border-gray-400 peer-checked:bg-green-400 peer-checked:border-green-900 cursor-pointer"
+                                                >
+                                                    <div className="flex flex-col items-center">
+                                                        <img src={cup1} alt={food.name} />
+                                                        <p className="text-sm font-bold text-gray-900">{size.size}</p>
+                                                        <p className="text-sm text-gray-500">{`₱${size.price}`}</p>
+                                                    </div>
+                                                </label>
                                             </div>
-                                        </label>
-                                    </div>
-
-                                    <div>
-                                        <input type="radio" id="medium" name="size" value="" class="hidden peer"/>
-                                        <label for="medium" class="block p-4 rounded-md border border-gray-300 hover:border-gray-400 peer-checked:bg-green-400 peer-checked:border-green-900 cursor-pointer">
-                                            <div class="flex flex-col items-center">
-                                                <img src={cup1} alt=""/>
-                                                <p class="text-sm font-bold text-gray-900">Medium</p>
-                                                <p class="text-xs text-gray-500">473 ml</p>
-                                            </div>
-                                        </label>
-                                    </div>
-
-                                    <div>
-                                        <input type="radio" id="large" name="size" value="" class="hidden peer" />
-                                        <label for="large" class="block p-4 rounded-md border border-gray-300 hover:border-gray-400 peer-checked:bg-green-400 peer-checked:border-green-900 cursor-pointer">
-                                            <div class="flex flex-col items-center">
-                                                <img src={cup1} alt=""/>
-                                                <p class="text-sm font-bold text-gray-900">Large</p>
-                                                <p class="text-xs text-gray-500">709 ml</p>
-                                            </div>
-                                        </label>
+                                        ))}
                                     </div>
                                 </div>
-                            </div>
 
-                            <h3 class="mb-2 font-semibold text-gray-900">Add-ons:</h3>
-                            <div class="text-gray-600 space-x-2 text-sm mb-7">
-                                <input type="radio" name="addons" id="pearls" class="w-4 h-4 text-green-700 bg-jaydsBg border-gray-500 focus:ring-green-800 focus:ring-2 rounded-md"/>
-                                <label for="pearls">Pearls (+ ₱25)</label>
+                                <h3 className="mb-2 font-semibold text-gray-900">Add-ons:</h3>
+                                <div className="text-gray-600 space-x-2 text-sm mb-7">
+                                    {/* <div>
+                                        <input
+                                            type="checkbox"
+                                            name="addons"
+                                            id="no-addons"
+                                            className="w-4 h-4 text-green-700 bg-jaydsBg border-gray-500 focus:ring-green-800 focus:ring-2 rounded-md"
+                                            onChange={() => setSelectedAddons([])}
+                                        />
+                                        <label htmlFor="no-addons">NONE</label>
+                                    </div> */}
+                                    {addons.map(addon => (
+                                        <div key={addon.id}>
+                                            <input
+                                                type="checkbox"
+                                                name="addons"
+                                                id={`addon-${addon.id}`}
+                                                className="w-4 h-4 text-green-700 bg-jaydsBg border-gray-500 focus:ring-green-800 focus:ring-2 rounded-md"
+                                                onChange={(e) => handleAddons(e, addon)}
+                                            />
+                                            <label htmlFor={`addon-${addon.id}`}>
+                                                {addon.name} (₱{addon.price})
+                                            </label>
+                                        </div>
+                                    ))}
 
-                                <input type="radio" name="addons" id="Coffee" class="w-4 h-4 text-green-700 bg-jaydsBg border-gray-500 focus:ring-green-800 focus:ring-2 rounded-md"/>
-                                <label for="Coffee">Coffee Jelly (+ ₱30)</label>
+                                    {selectedAddons.length > 0 && (
+                                        <div className="mt-4">
+                                            <h4 className="text-lg font-semibold">Selected Add-ons:</h4>
+                                            <ul>
+                                                {selectedAddons.map(addon => (
+                                                    <li key={addon.id} className="text-gray-600">{addon.name} (₱{addon.price})</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
 
-                                <input type="radio" name="addons" id="Beans" class="w-4 h-4 text-green-700 bg-jaydsBg border-gray-500 focus:ring-green-800 focus:ring-2 rounded-md"/>
-                                <label for="Beans">Red Beans (+ ₱30)</label>
-
-                                <input type="radio" name="addons" id="Coconut" class="w-4 h-4 text-green-700 bg-jaydsBg border-gray-500 focus:ring-green-800 focus:ring-2 rounded-md"/>
-                                <label for="Coconut">Coconut Jelly (+ ₱35)</label>
-                            </div>
-
-                            <div class="flex justify-center">
-                                <button class="bg-greenColor rounded-full py-3 px-5 text-white text-2xl font-light w-fit hover:outline-greenColor hover:bg-white hover:text-textgreenColor transition duration-300">Update Order</button>
+                                <button
+                                    className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+                                    onClick={() => handleAddToCart(food)}
+                                >
+                                    Add to Cart
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="h-screen">
-                <div class="p-20 text-center">
-                    <h1 class="text-5xl font-extrabold tracking-wide"><span class="text-lime-500">You</span> might like</h1>
-                </div>
-
-                <div id="mt-series" class=" w-3/4 mx-auto"> {/* <!-- milk tea series div --> */}
-                    <div class="container mx-auto p-4 mt-4"> 
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
-                        
-                        
-                    {foods.slice(0,4).map(food =>(
-                        <div key={food.id} class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/* <!-- card 1 --> */}
-                            <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
-                                <img src={`/`+food.image_url} alt="Milk Tea" class="w-full h-full object-contain"/>
-                            </div>
-                            <h3 class="text-xl font-semibold mt-4 min-h-20">{food.name}</h3>
-                            <p class="text-gray-600 mt-2">Starts at</p>
-                            <p class="text-2xl font-bold mt-1">P{food.price}</p>
-                            
-                            <button id="btn-cart" class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                                <img src={cart} alt=""/>
-                            </button>
-                        </div>
-                    ))}
-            
-                    </div> 
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-  )
+            </section>
+        </div>
+    );
 }

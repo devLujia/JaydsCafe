@@ -164,7 +164,7 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
     
           <div class="inline-flex w-fit h-fit space-x-2">
             <img src={userIcon} alt=""/>
-            <img src={bagIcon} alt=""/>
+            <img onClick={()=>navigate('/cart')} src={bagIcon} alt=""/>
           </div>
         </div>
       </nav>

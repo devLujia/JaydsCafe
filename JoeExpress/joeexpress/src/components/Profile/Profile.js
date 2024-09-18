@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import bagIcon from '../image/bag.svg';
 import gwen from '../image/Gwen.png';
 import camera from '../image/camera.svg';
@@ -6,19 +6,76 @@ import bg_pic from '../image/36733336252.png';
 import edit from '../image/edit.svg';
 import lock from '../image/lock.svg';
 import jaydsLogo from '../image/jayds cafe Logo.svg';
+import eye from '../image/eye(2).svg'
+import del from '../image/trashbin(2).svg'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function Profile() {
+
+  const [authenticated, setAuthenticated] = useState(false);
+  const [orders,setOrders] = useState([]);
+  const [expandedOrderId, setExpandedOrderId] = useState(null);
+  const [user_id, setUserId] = useState(null);
+  const [profile, setProfile] = useState({});
+
+  const navigate = useNavigate();
+
+  const toggleOrderDetails = (orderId) => {
+    setExpandedOrderId(expandedOrderId === orderId ? null : orderId);
+ };
+
+ axios.defaults.withCredentials = true;
+
+  useEffect(() => {
+    axios.get('http://localhost:8081/')
+      .then(res => {
+        if (res.data.valid) {
+          setAuthenticated(true);
+          setUserId(res.data.userId);
+        } else {
+          navigate('/');
+        }
+      })
+      .catch(err => console.log(err));
+  }, [navigate]);
+
+
+  useEffect(() => {
+    axios.post('http://localhost:8081/personalOrder', { user_id })
+      .then(res => {
+        setOrders(res.data);
+      })
+      .catch(error => {
+        console.error('Error fetching orders:', error);
+      });
+  }, [user_id]);
+  
+  useEffect(() => {
+    axios.post('http://localhost:8081/profile', { user_id })
+      .then(res => {
+        setProfile(res.data);
+      })
+      .catch(error => {
+        console.error('Error fetching profile:', error);
+      });
+  }, [user_id]);
+ 
+
+
   return (
+
+    
     <div className='bg-jaydsBg'>
     {/* <!-- Nav --> */}
     <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-evenly ">
       <div class="font-extrabold text-2xl items-center">
         {/* <!-- Logo/Title in Navbar --> */}
-        <a href="/public/index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
+        <a href="/" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
       </div>
 
         <div>
-            <img src={bagIcon} alt=""/>
+            <img class="cursor-pointer" onClick={()=>navigate('/menu')} src={bagIcon} alt=""/>
         </div>
     </nav>
 
@@ -42,7 +99,7 @@ export default function Profile() {
               <img src={camera} alt="" class="w-full h-full object-fill max-w-full max-h-full rounded-full"/>
             </div>
 
-            <h1 class="text-white text-2xl ml-4 tracking-wider">AkoSiLekraAklab</h1>
+            <h1 class="text-white text-2xl tracking-wider">{profile.name}</h1>
           </div>
         </div>
 
@@ -50,10 +107,10 @@ export default function Profile() {
           <div class="mb-4 border-b-2  border-gray-300"> {/* <!-- Tabs below--> */}
             <ul class="flex flex-wrap -mb-px text-md font-semibold text-center " id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
                 <li class="me-2" role="presentation">
-                    <button class="inline-block p-4 border-b-2 border-gray-300 rounded-t-lg hover:text-greenColor hover:border-textgreenColor active:text-greenColor" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+                    <button class="inline-block p-4 border-b-2 border-gray-300 rounded-t-lg hover:text-greenColor hover:border-textgreenColor active:text-greenColor" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">My Orders</button>
                 </li>
                 <li class="me-2" role="presentation">
-                    <button class="inline-block p-4 border-b-2 border-gray-300 rounded-t-lg hover:text-greenColor hover:border-textgreenColor" id="Order-tab" data-tabs-target="#Order" type="button" role="tab" aria-controls="Order" aria-selected="false">My Orders</button>
+                    <button class="inline-block p-4 border-b-2 border-gray-300 rounded-t-lg hover:text-greenColor hover:border-textgreenColor" id="Order-tab" data-tabs-target="#Order" type="button" role="tab" aria-controls="Order" aria-selected="false">My Profile</button>
                 </li>
                 <li class="me-2" role="presentation">
                     <button class="inline-block p-4 border-b-2 border-gray-300 rounded-t-lg hover:text-greenColor hover:border-textgreenColor" id="Address-tab" data-tabs-target="#Address" type="button" role="tab" aria-controls="Address" aria-selected="false">My Address</button>
@@ -140,16 +197,132 @@ export default function Profile() {
               </div>
   
             {/* <!-- Order Tab--> */}
-              <div class="hidden p-4 rounded-lg my-7 bg-gray-50 dark:bg-gray-800 min-h-[500px]" id="Order" role="tabpanel" aria-labelledby="Order-tab"> 
+              <div class=" p-4 rounded-lg my-7 bg-gray-50 dark:bg-gray-800 min-h-[500px]" id="Order" role="tabpanel" aria-labelledby="Order-tab"> 
                   <div>
                     <div class="mb-10 py-5 px-20">
                       <h1 class="text-4xl mb-5">My Orders</h1>
-                      <p>View your order history or check the status of a recent order.</p>
+                      <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                 <tr class="text-center">
+                                    <th scope="col" class="px-6 py-3 ">
+                                          ID
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                          Name
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                          address
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                          Contact Number
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                          Date / Time
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                          Price
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                          Status
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                          Action
+                                    </th>
+                                 </tr>
+                              </thead>
+
+                              <tbody>
+                              {orders.map(order => (
+                                 <>
+                                    <tr
+                                       key={order.order_id}
+                                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                       <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white ">
+                                          <div className="text-base font-semibold">ORDR#{order.order_id}</div>
+                                       </th>
+                                       <td className="px-6 py-4 text-center">
+                                          {order.name}
+                                       </td>
+                                       <td className="px-6 py-4 text-center">
+                                          {order.address}
+                                       </td>
+                                       <td className="px-6 py-4 text-center">
+                                          WALA PA
+                                       </td>
+                                       <td className="px-6 py-4 text-center">
+                                          {new Date(order.order_date).toLocaleString('en-US', {
+                                             year: 'numeric',
+                                             month: 'long',
+                                             day: 'numeric',
+                                             hour: '2-digit',
+                                             minute: '2-digit',
+                                             second: '2-digit',
+                                          })}
+                                       </td>
+                                       <td className="px-6 py-4 text-center text-greenColor">
+                                          {order.totalPrice}
+                                       </td>
+                                       <td className="px-6 py-4">
+                                       <td className="px-6 py-4">
+                                            {/* status */}
+                                            {order.status === 'paid' ? (
+                                              <div className="bg-green-100 text-green-500 font-semibold w-fit py-1 px-4 rounded-3xl">
+                                                Paid
+                                              </div>
+                                            ) : order.status === 'pending' ? (
+                                              <div className="bg-yellow-100 text-yellow-500 font-semibold w-fit py-1 px-4 rounded-3xl">
+                                                Pending
+                                              </div>
+                                            ) : (
+                                              <div className="bg-red-100 text-red-500 font-semibold w-fit py-1 px-4 rounded-3xl">
+                                                Unpaid
+                                              </div>
+                                            )}
+                                          </td>
+                                       </td>
+                                       <td className="flex items-center px-6 py-4 space-x-2">
+                                          <div className="h-fit items-center justify-center flex space-x-3 ps-4 mx-auto">
+                                             <button onClick={() => toggleOrderDetails(order.order_id)}>
+                                                <img src={eye} alt="eye" className="w-6 h-6" />
+                                             </button>
+                                             <button className="hover:underline hover:decoration-blue-500">
+                                                <img src={del} alt="trash" />
+                                             </button>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    
+                                    {expandedOrderId === order.order_id && (
+                                       <tr>
+                                          <td colSpan="8" className="bg-gray-100 dark:bg-gray-700">
+                                             <div className="px-6 py-4">
+                                                <div className="text-sm text-gray-600 dark:text-gray-300">
+                                                   <strong>Order Items:</strong>
+                                                   <ul className="mt-2 space-y-2">
+                                                      <li className="py-1 w-full text-left">
+                                                         {order.food_name}
+                                                      </li>
+                                                   </ul>
+                                                </div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    )}
+                                 </>
+                              ))}
+
+
+
+
+
+
+                              </tbody>
+                        </table>
                     </div>
 
                     <div class="border-y-2 py-10 px-16 w-[80%] flex flex-col justify-center items-center mx-auto">
                       <h1>You haven't placed any orders yet.</h1>
-                      <a href="/public/Html/menuPage.html" class="hover:underline">Start Browsing</a>
+                      <a href="/menu" class="hover:underline">Start Browsing</a>
                     </div>
                   </div>
               </div>
@@ -286,7 +459,7 @@ export default function Profile() {
               </div>
   
             {/* <!-- Account Tab--> */}
-              <div class=" p-4 px-16 rounded-lg my-7 bg-gray-50 dark:bg-gray-800" id="Account" role="tabpanel" aria-labelledby="Account-tab"> 
+              <div class="hidden p-4 px-16 rounded-lg my-7 bg-gray-50 dark:bg-gray-800" id="Account" role="tabpanel" aria-labelledby="Account-tab"> 
                   <div class="border-b-2 "> {/* <!-- Account --> */}
                       <div class="flex justify-between items-center" >
                         <h1 class="text-4xl py-5">Account</h1>

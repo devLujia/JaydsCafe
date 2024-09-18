@@ -654,11 +654,11 @@ function Home() {
                 {isOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-10">
                 <ul className="py-2">
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  <li onClick={()=>navigate('/profile')} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                     Profile
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    Order
+                    Settings
                   </li>
                   <li
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
