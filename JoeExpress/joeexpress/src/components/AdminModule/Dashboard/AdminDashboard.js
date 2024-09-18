@@ -24,6 +24,16 @@ function AdminDashboard() {
    const [totalRevenue,setTotalRevenue] = useState(0);
    const [totalCustomer,setTotalCustomer] = useState(0);
    const [foods,setFoods] = useState([]);
+   const [orders, setOrders] = useState([])
+   const [expandedOrderId, setExpandedOrderId] = useState(null);
+   
+   const [updateOrder, setUpdateOrder] = useState([
+      {
+         order_id:'',
+         status: '',
+      }
+
+   ]);
 
    useEffect(()=>{
       axios.post('http://localhost:8081/adminTable')
@@ -36,7 +46,7 @@ function AdminDashboard() {
          console.error('Error fetching food details:', error);
       })
       
-   })
+   },[])
 
    useEffect(() => {
       axios.post('http://localhost:8081/totalOrder')
@@ -47,7 +57,7 @@ function AdminDashboard() {
          console.error('Error fetching totalOrder details:', error);
        });
        
-    },[]);
+    });
 
     useEffect(() => {
       axios.post('http://localhost:8081/totalRevenue')
@@ -102,10 +112,56 @@ function AdminDashboard() {
    //    });
 
    //  })
+
+   useEffect(()=>{
+
+      axios.post('http://localhost:8081/orderTracking')
+      .then(res=>{
+          setOrders(res.data);
+      });
+
+  })
+
+   const toggleOrderDetails = (orderId) => {
+      setExpandedOrderId(expandedOrderId === orderId ? null : orderId);
+   };
+
+
+   const getTheOrder = (id, stats) => {
+
+      let newStatus = ''; 
+    
+      if (stats === 'paid') {
+        newStatus = 'pending';
+      } else if (stats === 'pending') {
+        newStatus = 'completed';
+      }
+
+      setUpdateOrder(prevState => 
+         prevState.map(order => ({
+           ...order,
+           order_id: id,
+           status: newStatus,
+         }))
+       );
+
+      axios.post('http://localhost:8081/updateOrders', {
+          order_id: id,
+          status: newStatus
+      })
+        .then(res => {
+          console.log('Order updated successfully:', res.data);
+        })
+        .catch(err => {
+          console.error('Error updating the order:', err);
+        });
+
+    }
+    
     
   return (
     <div class="bg-jaydsBg">
-      <nav class="z-20 bg-jaydsBg top-0 sticky w-[100%] md:w-[82%] md:float-end">
+      <nav class="z-20 bg-jaydsBg top-0 sticky w-[calc(100%-288px)] md:w-[calc(100%-288px)] md:float-end">
          <div class="ps-8">
             <h1 class="text-2xl font-semibold">Dashboard</h1>
          </div>

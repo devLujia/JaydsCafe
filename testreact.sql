@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 01, 2024 at 01:50 AM
+-- Generation Time: Sep 17, 2024 at 11:02 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -182,8 +182,8 @@ INSERT INTO `cms_pages` (`id`, `title`, `content`, `created_at`, `updated_at`, `
 (6, 'Link', 'https://github.com/chardgrey', '2024-08-26 08:22:07', '2024-08-30 22:55:40', 'footer'),
 (7, 'Phone Number', '099922292992', '2024-08-26 08:32:30', '2024-08-30 22:55:59', 'contact'),
 (8, 'Tel Number', '83928988', '2024-08-26 08:33:35', '2024-08-30 22:56:03', 'contact'),
-(9, 'Small Logo', '/images/content_1725107469892.jpg', '2024-08-31 05:41:38', '2024-08-31 12:40:24', 'image'),
-(10, 'Big Logo', '/images/content_1725109469734.avif', '2024-08-31 12:59:23', '2024-08-31 13:04:29', 'image'),
+(9, 'Small Logo', '/images/jaydsCoffee2.svg', '2024-08-31 05:41:38', '2024-09-15 02:19:42', 'image'),
+(10, 'Big Logo', '/images/jaydsCoffee.svg', '2024-08-31 12:59:23', '2024-09-15 02:19:37', 'image'),
 (11, 'Milktea Price', '39 to 49 Pesos', '2024-08-31 23:20:15', '2024-08-31 23:20:15', 'Price'),
 (12, 'Coffee Price', '49 to 69 Pesos', '2024-08-31 23:20:38', '2024-08-31 23:20:38', 'Price'),
 (13, 'Snack Price', '39 to 59 Pesos', '2024-08-31 23:21:02', '2024-08-31 23:21:02', 'Price'),
@@ -223,7 +223,7 @@ CREATE TABLE `foods` (
 --
 
 INSERT INTO `foods` (`id`, `name`, `description`, `image_url`, `category_id`, `visible`) VALUES
-(17, 'Vanilla', 'lorem ipsum', 'image_url_1725069960966.jpg', 1, 0),
+(17, 'Vanilla', 'lorem ipsum', 'image_url_1725069960966.jpg', 1, 1),
 (18, 'Caramel', 'lorem ipsum', 'images/americano.png', 1, 1),
 (19, 'Hazelnut', 'lorem ipsum', 'images/americano.png', 1, 1),
 (20, 'Butterscotch', 'lorem ipsum', 'images/americano.png', 1, 1),
@@ -268,8 +268,8 @@ INSERT INTO `foods` (`id`, `name`, `description`, `image_url`, `category_id`, `v
 (59, 'Strawberry Cheesecake', 'lorem ipsum', 'images/americano.png', 4, 1),
 (79, 'ice cream', 'ice cream', 'ice cream', 4, 1),
 (82, 'taengkambing', 'taengkambing', 'taengkambing', 1, 1),
-(83, 'bakla', 'bakla', 'bakla.png', 3, 1),
-(85, 'test-vanilla', 'test-lorem', 'testvanilla.png', 7, 1);
+(104, 'tanginatalaga', 'tanginatalaga', '/images/americano.png', 1, 1),
+(109, 'test', 'test', '/images/image_url_1726386182356.png', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -380,11 +380,9 @@ INSERT INTO `food_sizes` (`id`, `food_id`, `size`, `price`, `date_created`, `dat
 (135, 79, 'large', 69.00, '2024-08-31 15:17:30', '2024-08-31 15:18:07'),
 (140, 82, 'medium', 299.00, '2024-08-31 15:17:30', '2024-08-31 15:18:07'),
 (141, 82, 'large', 1000.00, '2024-08-31 15:17:30', '2024-08-31 15:18:07'),
-(142, 83, 'medium', 59.00, '2024-08-31 15:17:30', '2024-08-31 15:18:07'),
-(143, 83, 'large', 69.00, '2024-08-31 15:17:30', '2024-08-31 15:18:07'),
-(146, 85, 'medium', 59.00, '2024-08-31 15:17:30', '2024-08-31 15:18:07'),
-(147, 85, 'large', 69.00, '2024-08-31 15:17:30', '2024-08-31 15:18:07'),
-(149, 17, '', 6969.00, '2024-08-31 15:37:30', '2024-08-31 15:37:30');
+(149, 17, '', 6969.00, '2024-08-31 15:37:30', '2024-08-31 15:37:30'),
+(168, 104, 'medium', 0.00, '2024-09-15 07:17:58', '2024-09-15 07:17:58'),
+(173, 109, 'medium', 0.00, '2024-09-15 07:43:02', '2024-09-15 07:43:02');
 
 -- --------------------------------------------------------
 
@@ -396,7 +394,7 @@ CREATE TABLE `orders` (
   `order_id` int(100) UNSIGNED NOT NULL,
   `customer_id` int(100) UNSIGNED NOT NULL,
   `order_date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `status` enum('pending','completed','cancelled','') NOT NULL,
+  `status` enum('paid','pending','completed','cancelled','') NOT NULL,
   `totalPrice` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -406,8 +404,9 @@ CREATE TABLE `orders` (
 
 INSERT INTO `orders` (`order_id`, `customer_id`, `order_date`, `status`, `totalPrice`) VALUES
 (54, 31, '2024-08-10 11:49:42', 'pending', 206),
-(55, 31, '2024-08-10 11:53:11', 'pending', 216),
-(56, 31, '2024-08-24 01:28:07', 'pending', 49);
+(55, 31, '2024-08-10 11:53:11', 'paid', 216),
+(56, 31, '2024-08-24 01:28:07', 'pending', 49),
+(57, 31, '2024-09-08 04:40:24', 'pending', 108);
 
 -- --------------------------------------------------------
 
@@ -420,23 +419,26 @@ CREATE TABLE `orders_food` (
   `order_id` int(100) UNSIGNED NOT NULL,
   `food_id` int(50) UNSIGNED NOT NULL,
   `quantity` int(11) NOT NULL,
-  `order_addons` int(10) UNSIGNED NOT NULL
+  `order_addons` int(10) UNSIGNED NOT NULL,
+  `size` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `orders_food`
 --
 
-INSERT INTO `orders_food` (`id`, `order_id`, `food_id`, `quantity`, `order_addons`) VALUES
-(63, 54, 23, 1, 0),
-(64, 54, 26, 1, 0),
-(65, 54, 27, 1, 0),
-(66, 54, 28, 1, 0),
-(70, 55, 26, 1, 0),
-(71, 55, 25, 1, 0),
-(72, 55, 24, 1, 0),
-(73, 55, 23, 1, 0),
-(74, 56, 18, 1, 0);
+INSERT INTO `orders_food` (`id`, `order_id`, `food_id`, `quantity`, `order_addons`, `size`) VALUES
+(63, 54, 23, 1, 0, ''),
+(64, 54, 26, 1, 0, ''),
+(65, 54, 27, 1, 0, ''),
+(66, 54, 28, 1, 0, ''),
+(70, 55, 26, 1, 0, ''),
+(71, 55, 25, 1, 0, ''),
+(72, 55, 24, 1, 0, ''),
+(73, 55, 23, 1, 0, ''),
+(74, 56, 18, 1, 0, ''),
+(75, 57, 17, 1, 0, ''),
+(76, 57, 17, 1, 0, '');
 
 -- --------------------------------------------------------
 
@@ -603,7 +605,7 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -633,25 +635,25 @@ ALTER TABLE `faq_cms`
 -- AUTO_INCREMENT for table `foods`
 --
 ALTER TABLE `foods`
-  MODIFY `id` int(50) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id` int(50) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 
 --
 -- AUTO_INCREMENT for table `food_sizes`
 --
 ALTER TABLE `food_sizes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=174;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `orders_food`
 --
 ALTER TABLE `orders_food`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT for table `order_addons`

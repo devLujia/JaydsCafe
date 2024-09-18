@@ -74,7 +74,7 @@ app.post('/order', (req,res)=>{
     const {userId, totalBill} = req.body;
 
     const query = 
-    `INSERT INTO orders (customer_id, totalPrice ,status) VALUES (?, ${totalBill} ,'pending');
+    `INSERT INTO orders (customer_id, totalPrice ,status) VALUES (?, ${totalBill} ,'paid');
     SELECT LAST_INSERT_ID() as lastOrderId`
 
     db.query(query,[userId],(err,resInInserting)=>{
@@ -593,6 +593,29 @@ app.post('/adminlogin',async (req, res) => {
     });
 });
 
+app.post('/updateOrders', async (req,res)=>{
+
+    const {order_id, status} = req.body
+
+    const query = 
+    `
+    Update orders 
+    SET status = ?
+    WHERE order_id = ?
+
+    `
+    db.query(query, [status, order_id], (error, result) => {
+
+        if(error){
+            return res.status(500).json({ error: 'Database error' });
+        }
+        
+      })
+
+
+})
+
+
 app.post('/adminTable', async (req,res) => {
 
     const query = 
@@ -771,9 +794,10 @@ app.post('/productResult', (req,res)=>{
 })
 
 
-app.post('/addProduct', (req, res) =>{
+app.post('/addProduct', upload.single('image_url') , (req, res) =>{
 
-    const { name, description, image_url, category_id, medprice, lgprice } = req.body;
+    const { name, description, category_id, medprice } = req.body;
+    const image_url = req.file ? `/images/${req.file.filename}` : '/images/americano.png';
 
     const query = `INSERT INTO foods (name, description, image_url, category_id) 
                    VALUES (?,?,?,?);
@@ -789,26 +813,30 @@ app.post('/addProduct', (req, res) =>{
         const medSizeQuery = `INSERT INTO food_sizes(food_id, size , price) 
                             VALUES (?,'medium',?)`
 
-        db.query(medSizeQuery, [lastfoodsId,medprice], (sizeErr, sizeResult)=> {
+        db.query(medSizeQuery, [lastfoodsId, medprice], (sizeErr, sizeResult)=> {
             if(sizeErr){
                 res.json({sizeErr: "Unable to add into food_sizes"})
             }
             
         })
 
-        const lgSizeQuery = `INSERT INTO food_sizes(food_id, size , price) 
-                            VALUES (?,'large',?)`
+        // const lgSizeQuery = `INSERT INTO food_sizes(food_id, size , price) 
+        //                     VALUES (?,'large',?)`
 
-        db.query(lgSizeQuery, [lastfoodsId,lgprice], (sizeErr, sizeResult)=> {
-            if(sizeErr){
-                res.json({sizeErr: "Unable to add into food_sizes"})
-            }
+        // db.query(lgSizeQuery, [lastfoodsId,lgprice], (sizeErr, sizeResult)=> {
+        //     if(sizeErr){
+        //         res.json({sizeErr: "Unable to add into food_sizes"})
+        //     }
             
-        })
+        // })
 
     })
 
 })
+
+
+
+
 
 app.post('/addSize',(req,res)=>{
     
@@ -1153,6 +1181,50 @@ app.post('/removeProduct',  async (req, res) =>{
             }
     
             res.json({ message: 'Visibility updated successfully' });
+        });
+
+    })
+
+    app.post('/orderTracking', (req,res) =>{
+
+        const query = 
+        `
+        SELECT 
+            o.order_id, 
+            u.name,
+            u.address,
+            o.customer_id, 
+            o.order_date, 
+            o.status,
+            o.totalPrice, 
+            GROUP_CONCAT(f.name ORDER BY f.name) AS food_name
+        FROM 
+            orders o
+        JOIN 
+            orders_food of ON of.order_id = o.order_id
+        JOIN 
+            foods f ON f.id = of.food_id
+        JOIN 
+            user u ON u.id = o.customer_id
+        WHERE 
+            o.status = 'pending' OR o.status = 'paid'
+        GROUP BY 
+            o.order_id, 
+            u.name,
+            u.address,
+            o.customer_id, 
+            o.order_date, 
+            o.status
+        ORDER BY 
+            o.order_date ASC;
+             
+        `
+
+        db.query(query, (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to get orders' });
+            }
+            res.json(result)
         });
 
     })
