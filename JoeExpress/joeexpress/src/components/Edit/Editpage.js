@@ -1,12 +1,61 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import cup1 from '../image/cup(small).svg'
 import cup2 from '../image/cup(large).svg'
 import arrowLeft from '../image/arrow left.svg'
 import jaydscoffee from '../image/jaydsCoffee.svg'
 import cart from '../image/cart.svg'
 import bagIcon from '../image/bag.svg';
+import { useNavigate, useParams } from 'react-router-dom'
+import axios from 'axios'
 
 export default function Editpage() {
+
+
+    const [authenticated, setAuthenticated] = useState(false);
+    const [userId, setUserId] = useState(null);
+    const navigate = useNavigate();
+    const {foodId} = useParams();
+    const [food, setFood] = useState(null);
+    const [foods, setFoods] = useState([]);
+
+    useEffect( ()  => {
+        axios.get(`http://localhost:8081/items/${foodId}`)
+            .then(res => {
+
+            setFood(res.data.data);
+            })
+            .catch(err => console.log(err));
+        
+      }, [foodId]);
+
+
+    useEffect(() => {
+    axios.get('http://localhost:8081/foods')
+        .then(response => {
+        setFoods(response.data);
+        })
+        .catch(error => {
+        console.error('Error fetching food details:', error);
+        });
+    }, []);
+
+    useEffect(() => {
+        axios.get('http://localhost:8081/')
+          .then(res => {
+            if (res.data.valid) {
+              setAuthenticated(true);
+              setUserId(res.data.userId);
+            } else {
+              navigate('/');
+            }
+          })
+          .catch(err => console.log(err));
+      }, [navigate]);
+
+      if (!food) {
+        return <div>Loading...</div>;
+    }
+
   return (
     <div>
         {/* <!-- nav --> */}
@@ -25,15 +74,15 @@ export default function Editpage() {
         <section>
             <div class="h-screen bg-jaydsBg">
                 <div class="p-6">
-                    <a href="/cart" class="text-2xl font-bold hover:underline"> <img src={arrowLeft} alt="" class="inline-block w-4 h-4 me-2"/>Back to Cart</a>
+                    <a href="/menu" class="text-2xl font-bold hover:underline"> <img src={arrowLeft} alt="" class="inline-block w-4 h-4 me-2"/>Back to Cart</a>
                     <div class="flex justify-center items-center flex-col space-x-10 md:flex-row mt-20">
                         <div class="rounded-lg bg-menuCirclebg aspect-square w-96 h-96 shadow-xl">
-                            <img src={jaydscoffee} alt="Milk Tea" class="w-full h-full object-contain"/>
+                            <img src={`/` + food.image_url} alt={food.name} class="w-full h-full object-contain"/>
                         </div>
                         <div class="">
-                            <h1 class="text-5xl font-bold pb-3">Signature Milk Tea</h1>
+                            <h1 class="text-5xl font-bold pb-3">{food.name}</h1>
                             <p class="text-gray-500 font-semibold pb-2">Starts at</p>
-                            <p class="text-3xl font-semibold pb-2">P 59.00</p>
+                            <p class="text-3xl font-semibold pb-2">P {food.Medium}</p>
 
                             <p class="text-lg font-semibold pb-2">Select Size:</p>
                             <div class="flex justify-start items-center mb-4">
@@ -42,7 +91,7 @@ export default function Editpage() {
                                         <input type="radio" id="small" name="size" value="" class="hidden peer" checked/>
                                         <label for="small" class="block p-4 rounded-md border border-gray-300 hover:border-gray-400 peer-checked:bg-green-400 peer-checked:border-green-900 cursor-pointer">
                                             <div class="flex flex-col items-center">
-                                                <img src={cup1} alt=""/>
+                                                <img src={cup1} alt={food.name}/>
                                                 <p class="text-sm font-bold text-gray-900">Small</p>
                                                 <p class="text-xs text-gray-500">354 ml</p>
                                             </div>
@@ -53,7 +102,7 @@ export default function Editpage() {
                                         <input type="radio" id="medium" name="size" value="" class="hidden peer"/>
                                         <label for="medium" class="block p-4 rounded-md border border-gray-300 hover:border-gray-400 peer-checked:bg-green-400 peer-checked:border-green-900 cursor-pointer">
                                             <div class="flex flex-col items-center">
-                                                <img src={cup2} alt=""/>
+                                                <img src={cup1} alt=""/>
                                                 <p class="text-sm font-bold text-gray-900">Medium</p>
                                                 <p class="text-xs text-gray-500">473 ml</p>
                                             </div>
@@ -64,7 +113,7 @@ export default function Editpage() {
                                         <input type="radio" id="large" name="size" value="" class="hidden peer" />
                                         <label for="large" class="block p-4 rounded-md border border-gray-300 hover:border-gray-400 peer-checked:bg-green-400 peer-checked:border-green-900 cursor-pointer">
                                             <div class="flex flex-col items-center">
-                                                <img src={cup2} alt=""/>
+                                                <img src={cup1} alt=""/>
                                                 <p class="text-sm font-bold text-gray-900">Large</p>
                                                 <p class="text-xs text-gray-500">709 ml</p>
                                             </div>
@@ -104,57 +153,22 @@ export default function Editpage() {
                 <div id="mt-series" class=" w-3/4 mx-auto"> {/* <!-- milk tea series div --> */}
                     <div class="container mx-auto p-4 mt-4"> 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
-                        <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/* <!-- card 1 --> */}
+                        
+                        
+                    {foods.slice(0,4).map(food =>(
+                        <div key={food.id} class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/* <!-- card 1 --> */}
                             <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
-                                <img src={"/Images(Export)/caramel.png"} alt="Milk Tea" class="w-full h-full object-contain"/>
+                                <img src={`/`+food.image_url} alt="Milk Tea" class="w-full h-full object-contain"/>
                             </div>
-                            <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
+                            <h3 class="text-xl font-semibold mt-4 min-h-20">{food.name}</h3>
                             <p class="text-gray-600 mt-2">Starts at</p>
-                            <p class="text-2xl font-bold mt-1">P 65.00</p>
+                            <p class="text-2xl font-bold mt-1">P{food.price}</p>
                             
                             <button id="btn-cart" class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
                                 <img src={cart} alt=""/>
                             </button>
                         </div>
-            
-                        <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/* <!-- card 2 --> */}
-                            <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
-                                <img src="/Images(Export)/fruit.png" alt="Milk Tea" class="w-full h-full object-contain"/>
-                            </div>
-                            <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
-                            <p class="text-gray-600 mt-2">Starts at</p>
-                            <p class="text-2xl font-bold mt-1">P 65.00</p>
-                            
-                            <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                            <img src={cart} alt=""/>
-                            </button>
-                        </div>
-            
-                        <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/* <!-- card 3 --> */}
-                            <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
-                                <img src="/Images(Export)/expresso.png" alt="Milk Tea" class="w-full h-full object-contain"/>
-                            </div>
-                            <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
-                            <p class="text-gray-600 mt-2">Starts at</p>
-                            <p class="text-2xl font-bold mt-1">P 65.00</p>
-                            
-                            <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                            <img src={cart} alt=""/>
-                            </button>
-                        </div>
-            
-                        <div class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/* <!-- card 4 --> */}
-                            <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
-                                <img src="/Images(Export)/americano.png" alt="Milk Tea" class="w-full h-full object-contain"/>
-                            </div>
-                            <h3 class="text-xl font-semibold mt-4 min-h-20">Signature Milk Tea</h3>
-                            <p class="text-gray-600 mt-2">Starts at</p>
-                            <p class="text-2xl font-bold mt-1">P 65.00</p>
-                            
-                            <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%]" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                            <img src={cart} alt=""/>
-                            </button>
-                        </div>
+                    ))}
             
                     </div> 
                     </div>
