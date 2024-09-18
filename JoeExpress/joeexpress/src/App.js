@@ -19,6 +19,7 @@ import ProductManagement from './components/AdminModule/ProductManagement/Produc
 import CustomerAccount from './components/AdminModule/CustomerAccount/CustomerAccount'
 import PaymentManagement from './components/AdminModule/PaymentManagement/PaymentManagement'
 import ContentManagement from './components/AdminModule/ContentManagement/ContentManagement'
+import Order from './components/AdminModule/Order_New/Order_New'
 import Inbox from './components/AdminModule/Message/Message'
 import Settings from './components/AdminModule/Settings/Settings'
 import Checkout from './components/Checkout/Checkout'
@@ -47,6 +48,7 @@ function App() {
       <Route path='/CustomerAccount' element = {<CustomerAccount/>}> </Route>
       <Route path='/PaymentManagement' element = {<PaymentManagement/>}></Route>
       <Route path='/ContentManagement' element = {<ContentManagement/>}></Route>
+      <Route path='/Order' element = {<Order/>}></Route>
       <Route path='/editpage/:foodId' element = {<Editpage/>}></Route>
       <Route path='/Message' element = {<Inbox/>}></Route>
       <Route path='/Settings' element = {<Settings/>}></Route>

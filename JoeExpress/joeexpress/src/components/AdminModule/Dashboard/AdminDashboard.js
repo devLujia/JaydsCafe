@@ -161,35 +161,22 @@ function AdminDashboard() {
     
   return (
     <div class="bg-jaydsBg">
-      <nav class="z-20 bg-jaydsBg top-0 sticky w-[calc(100%-288px)] md:w-[calc(100%-288px)] md:float-end">
-         <div class="ps-8">
-            <h1 class="text-2xl font-semibold">Dashboard</h1>
-         </div>
-         <div class="flex justify-end items-center">
-            <div class="px-4 py-3 text-sm text-gray-900 flex flex-col items-center justify-end">
-               <div class="font-bold">Migz Gomez Go</div>
-               <div class="items-center justify-center">Admin</div>
+      <nav class="sticky top-0 bg-jaydsBg z-20 shadow-lg flex justify-betwee">
+            <div class="font-extrabold text-2xl flex items-center">
+                {/* <!-- Logo/Title in Navbar --> */}
+                <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
             </div>
+            <div></div>
+            {/* <!-- Button for Login or Sign Up --> */}
+            <div class="flex justify-end items-center">
+                <div class="px-4 py-3 text-sm text-gray-900 flex flex-col items-center justify-end">
+                    <div class="font-bold">Migz Gomez Go</div>
+                    <div class="items-center justify-center">Admin</div>
+                </div>
 
-            <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src={user} alt="User dropdown"/>
-         </div>
-
-         {/* <!-- Dropdown menu --> */}
-         <div id="userDropdown" class="top-16 right-10 absolute z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-            
-            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
-               <li>
-               <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-               </li>
-               <li>
-               <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-               </li>
-            </ul>
-            <div class="py-1">
-               <a href="/public/Html_Admin/adminLogin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src={user} alt="User dropdown"/>
             </div>
-         </div>
-      </nav>
+        </nav>
 
       <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-72 h-screen pt-5 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
          <div class="h-full px-3 pb-4 overflow-y-auto bg-white">
@@ -208,7 +195,7 @@ function AdminDashboard() {
                   </a>
                </li>
                <li> {/* <!-- Order Management --> */}
-                  <a href="#" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor group hover:text-white">
+                  <a href="/Order" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor group hover:text-white">
                      <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75 group-hover:text-white dark:text-gray-400 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 21">
                         <path d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z"/>
                      </svg>
