@@ -495,18 +495,20 @@ function AdminDashboard() {
                                        <tr>
                                           <td colSpan="8" className="bg-gray-100 dark:bg-gray-700">
                                              <div className="px-6 py-4">
-                                                <div className="text-sm text-gray-600 dark:text-gray-300">
-                                                   <strong>Order Items:</strong>
-                                                   <ul className="mt-2 space-y-2">
-                                                      <li className="py-1 w-full text-left">
-                                                         {order.food_name}
-                                                      </li>
-                                                   </ul>
-                                                </div>
+                                             <div className="text-sm text-gray-600 dark:text-gray-300">
+                                                <strong>Order Items:</strong>
+                                                <ul className="mt-2 space-y-2">
+                                                   {order.food_details.split(';').map((detail, index) => (
+                                                   <li key={index} className="py-1 w-full text-left">
+                                                      {detail.trim()}
+                                                   </li>
+                                                   ))}
+                                                </ul>
+                                             </div>
                                              </div>
                                           </td>
                                        </tr>
-                                    )}
+                                       )}
                                  </>
                               ))}
 
