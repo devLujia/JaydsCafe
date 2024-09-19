@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 17, 2024 at 11:02 AM
+-- Generation Time: Sep 19, 2024 at 04:51 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -103,8 +103,16 @@ CREATE TABLE `cart_items` (
   `price` decimal(10,2) NOT NULL,
   `quantity` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `addons` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cart_items`
+--
+
+INSERT INTO `cart_items` (`id`, `user_id`, `food_id`, `size`, `price`, `quantity`, `created_at`, `updated_at`, `addons`) VALUES
+(100, 31, 19, 'Medium', 316.00, 1, '2024-09-19 02:27:10', '2024-09-19 02:27:10', 'test (₱20),test (₱59),cheesesabinimam (₱59),cheesesabinimam (₱50),test-bibingka (₱79)');
 
 -- --------------------------------------------------------
 
@@ -403,10 +411,8 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `customer_id`, `order_date`, `status`, `totalPrice`) VALUES
-(54, 31, '2024-08-10 11:49:42', 'pending', 206),
-(55, 31, '2024-08-10 11:53:11', 'paid', 216),
-(56, 31, '2024-08-24 01:28:07', 'pending', 49),
-(57, 31, '2024-09-08 04:40:24', 'pending', 108);
+(60, 31, '2024-09-18 19:15:30', 'paid', 187),
+(61, 31, '2024-09-19 02:19:07', 'paid', 0);
 
 -- --------------------------------------------------------
 
@@ -419,26 +425,16 @@ CREATE TABLE `orders_food` (
   `order_id` int(100) UNSIGNED NOT NULL,
   `food_id` int(50) UNSIGNED NOT NULL,
   `quantity` int(11) NOT NULL,
-  `order_addons` int(10) UNSIGNED NOT NULL,
-  `size` varchar(100) NOT NULL
+  `size` varchar(100) NOT NULL,
+  `addons` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `orders_food`
 --
 
-INSERT INTO `orders_food` (`id`, `order_id`, `food_id`, `quantity`, `order_addons`, `size`) VALUES
-(63, 54, 23, 1, 0, ''),
-(64, 54, 26, 1, 0, ''),
-(65, 54, 27, 1, 0, ''),
-(66, 54, 28, 1, 0, ''),
-(70, 55, 26, 1, 0, ''),
-(71, 55, 25, 1, 0, ''),
-(72, 55, 24, 1, 0, ''),
-(73, 55, 23, 1, 0, ''),
-(74, 56, 18, 1, 0, ''),
-(75, 57, 17, 1, 0, ''),
-(76, 57, 17, 1, 0, '');
+INSERT INTO `orders_food` (`id`, `order_id`, `food_id`, `quantity`, `size`, `addons`) VALUES
+(80, 60, 18, 1, 'Medium', 'chard (₱59),test (₱20),cheesesabinimam (₱59)');
 
 -- --------------------------------------------------------
 
@@ -469,17 +465,18 @@ CREATE TABLE `user` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `verification_token` varchar(255) NOT NULL,
-  `verified` varchar(250) NOT NULL DEFAULT 'false'
+  `verified` varchar(250) NOT NULL DEFAULT 'false',
+  `pnum` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `name`, `email`, `password`, `address`, `role`, `created_at`, `updated_at`, `verification_token`, `verified`) VALUES
-(29, 'chardsd', 'cilayap482@modotso.com', '$2b$10$/Zy8Kp69PUPEfsaEbUvdFuMl2Hes3J05Kjd3SSWEJE0b1eoaMOZ8G', 'hello 214sd', 'user', '2024-07-23 08:10:42', '2024-07-23 08:15:03', '49hl4jgopk', 'true'),
-(30, 'dagangbukid', 'fobedo2401@reebsd.com', '$2b$10$LQfRgTYjqCoUngDsW9sQM.6lKfNq21fEMzVTh6ydb6Orj8uJqQxg.', 'DYAN LANG', 'user', '2024-07-23 08:20:10', '2024-07-23 08:20:10', 'cn0d0eco8k', 'false'),
-(31, 'chardgrey', 'cardosarichard@gmail.com', '$2b$10$2CfKaulWCdIfErdXWtxDz.J5PC2CYidnxPHi2sWv822mG8lWKcdmu', 'Blk 99 Lot 99 Dasmarinas Cavite', 'user', '2024-07-24 05:20:33', '2024-07-24 05:21:06', '254kh7vd2k', 'true');
+INSERT INTO `user` (`id`, `name`, `email`, `password`, `address`, `role`, `created_at`, `updated_at`, `verification_token`, `verified`, `pnum`) VALUES
+(29, 'chardsd', 'cilayap482@modotso.com', '$2b$10$/Zy8Kp69PUPEfsaEbUvdFuMl2Hes3J05Kjd3SSWEJE0b1eoaMOZ8G', 'hello 214sd', 'user', '2024-07-23 08:10:42', '2024-07-23 08:15:03', '49hl4jgopk', 'true', ''),
+(30, 'dagangbukid', 'fobedo2401@reebsd.com', '$2b$10$LQfRgTYjqCoUngDsW9sQM.6lKfNq21fEMzVTh6ydb6Orj8uJqQxg.', 'DYAN LANG', 'user', '2024-07-23 08:20:10', '2024-07-23 08:20:10', 'cn0d0eco8k', 'false', ''),
+(31, 'chardgrey', 'cardosarichard@gmail.com', '$2b$10$2CfKaulWCdIfErdXWtxDz.J5PC2CYidnxPHi2sWv822mG8lWKcdmu', 'Blk 99 Lot 99 Dasmarinas Cavite', 'user', '2024-07-24 05:20:33', '2024-07-24 05:21:06', '254kh7vd2k', 'true', '');
 
 --
 -- Indexes for dumped tables
@@ -510,7 +507,8 @@ ALTER TABLE `cart`
 ALTER TABLE `cart_items`
   ADD PRIMARY KEY (`id`),
   ADD KEY `food_id` (`food_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `addons_id` (`addons`);
 
 --
 -- Indexes for table `category`
@@ -605,7 +603,7 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -647,13 +645,13 @@ ALTER TABLE `food_sizes`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `orders_food`
 --
 ALTER TABLE `orders_food`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `order_addons`
