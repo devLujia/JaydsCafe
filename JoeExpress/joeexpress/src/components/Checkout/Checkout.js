@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import fb from '../image/fb.svg';
 import ig from '../image/ig.svg';
 import yt from '../image/yt.svg';
@@ -11,8 +11,79 @@ import bagIcon from '../image/bag.svg';
 import gcash from '../image/gcash_logo.svg';
 import plus from '../image/plus.svg';
 import lock from '../image/lock.svg';
+import axios from 'axios';
+import CheckoutModal from '../Modal/FileModal/FileModal';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Checkout() {
+
+    const [showModal, setShowModal] = useState(false);
+    const [items, setItems] = useState([]);
+    const [userId, setUserId] = useState(null);
+    const [authenticated, setAuthenticated] = useState(false);
+    const navigate = useNavigate();
+    const [totalBill, setTotalBill] = useState(0);
+
+    
+
+    useEffect(() => {
+        axios.get('http://localhost:8081/')
+          .then(res => {
+            if (res.data.valid) {
+              setAuthenticated(true);
+              setUserId(res.data.userId);
+              
+            } else {
+              navigate('/');
+            }
+          })
+          .catch(err => console.log(err));
+      }, [navigate]);
+
+    useEffect(() => {
+        axios.post('http://localhost:8081/itemGetter', { userId })
+            .then(res => {
+                setItems(res.data.items);
+                const total = items.reduce((sum, item) => sum + item.food_price, 0);
+                setTotalBill(total);
+
+            })
+            .catch(error => {
+                console.error('Error fetching item details:', error);
+            });
+    },[userId]);
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+        navigate('/');  // Navigate after closing the modal
+    };
+
+    const handleCheckout = async () =>{
+
+        try{
+            const res = await axios.post('http://localhost:8081/order',{userId, totalBill});
+            if (res.data.success){
+              navigate('/');
+            }
+            else{
+              console.log('Checkout Failed')
+            }
+           } catch (error) {
+            console.error('Error during checkout:', error);
+        }
+
+    }
+
+    useEffect(() => {
+        
+        const total = items.reduce((sum, item) => {
+          return sum + item.food_price * (item.quantity || 1);
+        }, 0);
+      
+        setTotalBill(total);
+      
+    });
+
   return (
     <div className='bg-white'>
         {/* <!-- nav --> */}
@@ -31,7 +102,7 @@ export default function Checkout() {
         <section class="grid grid-cols-1 md:grid-cols-2 p-4 pt-24 mx-32">
             {/* Left Side */}
             <div className='w-full px-10'>
-                <a href="/cart" class="text-2xl font-bold hover:underline"> <img src={arrowLeft} alt="" class="inline-block w-4 h-4 me-2"/>Back to Cart</a>
+                <Link to="/cart" class="text-2xl font-bold hover:underline"> <img src={arrowLeft} alt="" class="inline-block w-4 h-4 me-2"/>Back to Cart</Link>
                 
                 {/* payment checkout display */}
                 <div className='text-center'>
@@ -128,9 +199,11 @@ export default function Checkout() {
                     </div>
                     
                     <div>
-                        <button className='bg-textgreenColor rounded-xl text-white w-full py-5'>
+                        <button onClick={handleCheckout} className='bg-textgreenColor rounded-xl text-white w-full py-5'>
                             Pay Now
                         </button>
+
+                        {/* <CheckoutModal show={showModal} onClose={handleCloseModal} /> */}
                     </div>
                 </div>
             </div>
@@ -138,50 +211,43 @@ export default function Checkout() {
             {/* right side */}
             <div className='w-full px-16'>
                 <div className='mt-10 space-y-4 h-96 overflow-hidden overflow-y-auto py-4'> {/* Main container */}
-                    <div className='flex flex-row relative'> {/* order list */}
-                        <div className='w-24 h-24 px-2 rounded-lg bg-textgreenColor overflow-hidden me-4'>
-                            <img src={expresso} className='object-contain object-fit h-full w-full' alt="expresso"></img>
-                        </div>
-                        <div className='flex justify-between w-full items-center font-semibold'>
-                            <h1 className='tracking-wider'>
-                                Rato Melkti
-                            </h1>
-                            <p>
-                                ₱29.99
-                            </p>
-                        </div>
-                        <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-black/50 rounded-full -top-2 start-16">3</div>
-                    </div>
 
-                    <div className='flex flex-row relative'> {/* order list */}
-                        <div className='w-24 h-24 px-2 rounded-lg bg-textgreenColor overflow-hidden me-4'>
-                            <img src={jaydscoffee} className='object-contain object-fit h-full w-full' alt="expresso"></img>
-                        </div>
-                        <div className='flex justify-between w-full items-center font-semibold'>
-                            <h1 className='tracking-wider'>
-                                Coffee Camarel
-                            </h1>
-                            <p>
-                                ₱79.99
-                            </p>
-                        </div>
-                        <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-black/50 rounded-full -top-2 start-16">10</div>
-                    </div>
+                    {items.map(item => (
 
-                    <div className='flex flex-row relative'> {/* order list */}
+                        <div key={item.id} className='flex flex-row relative items-center py-2'> {/* order list */}
+                            
+                        {/* Product image */}
                         <div className='w-24 h-24 px-2 rounded-lg bg-textgreenColor overflow-hidden me-4'>
-                            <img src={jaydscoffee} className='object-contain object-fit h-full w-full' alt="expresso"></img>
+                            <img src={item.food_image_url} className='object-contain h-full w-full' alt={item.food_name} />
                         </div>
-                        <div className='flex justify-between w-full items-center font-semibold'>
-                            <h1 className='tracking-wider'>
-                                Coffee Camarel
-                            </h1>
-                            <p>
-                                ₱79.99
-                            </p>
+
+                        {/* Product details */}
+                        <div className='flex flex-col w-full'>
+                            {/* Product name and size */}
+                            <div className='flex justify-between items-center mb-2'>
+                                <h1 className='font-semibold tracking-wider'>{item.food_name}</h1>
+                                <h1 className='text-gray-500 text-sm tracking-wider'>{item.size}</h1>
+                            </div>
+                            
+                            {/* Addons and price */}
+                            <div className='flex justify-between items-center'>
+                        
+                                <h1 className='text-sm tracking-wider'><span className='md:font-bold tracking-wider'>Addons:</span> {item.addons ? item.addons : 'No addons'}</h1>
+                                <p className='font-semibold tracking-wider'>
+                                    ₱<span>{item.food_price * item.quantity}</span>
+                                </p>
+                            </div>
                         </div>
-                        <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-black/50 rounded-full -top-2 start-16">10</div>
-                    </div>
+
+                        {/* Quantity badge */}
+                        <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-black/50 rounded-full -top-2 start-16">
+                            {item.quantity}
+                        </div>
+                        </div>
+
+                        
+                    ))}
+                      
 
                 </div>
 
@@ -206,7 +272,7 @@ export default function Checkout() {
                             Subtotal
                         </h1>
                         <p className='text-md font-semibold'>
-                            ₱109.98
+                        ₱{totalBill}.00
                         </p>
                     </div>
                     {/* Shipping */}
@@ -224,7 +290,7 @@ export default function Checkout() {
                             Total
                         </h1>
                         <p className='text-lg font-semibold'>
-                            <span className='text-gray-500 me-2 text-sm'>PHP</span>₱109.98
+                            <span className='text-gray-500 me-2 text-sm'>PHP</span>₱{totalBill}.00
                         </p>
                     </div>
                 </div>

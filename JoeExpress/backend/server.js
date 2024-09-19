@@ -330,7 +330,8 @@ app.post('/itemGetter', (req, res) => {
         f.image_url AS food_image_url,
         c.size,
         c.price AS food_price,
-        c.addons
+        c.addons,
+        c.quantity
     FROM
         cart_items c 
     JOIN foods f ON
@@ -398,6 +399,20 @@ app.get('/items/:foodId', (req, res) => {
             return res.status(500).json({ success: false, message: 'Failed to add item to cart' });
         }
         res.status(200).json({ success: true, message: 'Item added to cart', results });
+    });
+});
+
+app.post('/update_items', (req, res) => {
+    const { quantity, id } = req.body;
+
+    const query = 'UPDATE cart_items SET quantity = ? WHERE id = ?';
+
+    db.query(query, [quantity, id], (err, results) => {
+        if (err) {
+            console.error('Error adding item to cart:', err);
+            return res.status(500).json({ success: false, message: 'Failed to update item to cart' });
+        }
+        res.status(200).json({ success: true, message: 'Quantity successfully updated', results });
     });
 });
 

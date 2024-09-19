@@ -104,7 +104,10 @@ export default function Editpage() {
                 price: totalPrice,
                 addons: addonsDetails, // Send names and prices of add-ons
             });
+            
             return response.data;
+
+
         } catch (error) {
             console.error('Error adding to cart:', error);
             throw error;
@@ -143,7 +146,7 @@ export default function Editpage() {
                 <div className="h-screen bg-jaydsBg">
                     <div className="p-6">
                         <a href="/menu" className="text-2xl font-bold hover:underline">
-                            <img src={arrowLeft} alt="Back Arrow" className="inline-block w-4 h-4 me-2" />Back to Cart
+                            <img src={arrowLeft} alt="Back Arrow" className="inline-block w-4 h-4 me-2" />Back to Menu
                         </a>
                         <div className="flex justify-center items-center flex-col space-x-10 md:flex-row mt-20">
                             <div className="rounded-lg bg-menuCirclebg aspect-square w-96 h-96 shadow-xl">
