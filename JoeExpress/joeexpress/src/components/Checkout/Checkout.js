@@ -22,7 +22,9 @@ export default function Checkout() {
     const [userId, setUserId] = useState(null);
     const [authenticated, setAuthenticated] = useState(false);
     const navigate = useNavigate();
+    const [paymentIntentId, setPaymentIntentId] = useState(null);
     const [totalBill, setTotalBill] = useState(0);
+    const [checkoutUrl, setCheckoutUrl] = useState(null);
 
     
 
@@ -73,6 +75,24 @@ export default function Checkout() {
         }
 
     }
+
+    const handleCreatePaymentIntent = async () => {
+        try {
+          const response = await axios.post('http://localhost:8081/create-payment-intent', {
+            amount: totalBill,
+            description: 'Order Payment for JoeExpress Milktea',
+          });
+    
+          const { checkoutUrl } = response.data;
+          setCheckoutUrl(checkoutUrl);
+    
+          window.location.href = checkoutUrl;
+        } 
+        
+        catch (error) {
+          console.error('Error creating payment intent:', error);
+        }
+      };
 
     useEffect(() => {
         
@@ -134,20 +154,20 @@ export default function Checkout() {
                     <form> {/* For option ng address */}
                         <div className='space-y-2'> {/* Main container */}
                             <div class="group"> {/* First option */}
-                                <label for="add1" class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100 ">
+                                <label htmlFor="add1" class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100 ">
                                     <input type="radio" id="add1" name="hosting" value="add1" class="peer text-textgreenColor focus:ring-textgreenColor "/>
                                     <div className='flex flex-col py-4 overflow-hidden'>
-                                        <label for="add1" class="w-full ms-3 pb-2 text-sm font-medium text-gray-900 tracking-wide">Edsel Noyuab , Blk 14 Lot 1 Tinola Street</label>
-                                        <label for="add1" class="w-full ms-3 text-sm font-normal text-gray-700 tracking-wide">Imus, Cavite, 1401, Phillipines</label>
+                                        <label htmlFor="add1" class="w-full ms-3 pb-2 text-sm font-medium text-gray-900 tracking-wide">Edsel Noyuab , Blk 14 Lot 1 Tinola Street</label>
+                                        <label htmlFor="add1" class="w-full ms-3 text-sm font-normal text-gray-700 tracking-wide">Imus, Cavite, 1401, Phillipines</label>
                                     </div>
                                 </label>
                             </div>
                             <div class="group">
-                                <label for="add2" class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100 ">
+                                <label htmlFor="add2" class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100 ">
                                     <input type="radio" id="add2" name="hosting" value="add2" class="peer text-textgreenColor focus:ring-textgreenColor "/>
                                     <div className='flex flex-col py-4 overflow-hidden'>
-                                        <label for="add2" class="w-full ms-3 pb-2 text-sm font-medium text-gray-900 tracking-wide">Edsel Noyuab , Blk 14 Lot 1 Tinola Street</label>
-                                        <label for="add2" class="w-full ms-3 text-sm font-normal text-gray-700 tracking-wide">Imus, Cavite, 1401, Phillipines</label>
+                                        <label htmlFor="add2" class="w-full ms-3 pb-2 text-sm font-medium text-gray-900 tracking-wide">Edsel Noyuab , Blk 14 Lot 1 Tinola Street</label>
+                                        <label htmlFor="add2" class="w-full ms-3 text-sm font-normal text-gray-700 tracking-wide">Imus, Cavite, 1401, Phillipines</label>
                                     </div>
                                 </label>
                             </div>
@@ -170,7 +190,7 @@ export default function Checkout() {
 
                     <div className='space-y-2'> {/* Main container */}
                         <div class="group"> {/* Gcash option */}
-                            <label for="gcash" class="inline-flex px-4 py-3 justify-between items-center w-full text-white bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor hover:bg-gray-100 ">
+                            <label htmlFor="gcash" class="inline-flex px-4 py-3 justify-between items-center w-full text-white bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor hover:bg-gray-100 ">
                                 <div className='inline-flex items-center'>
                                     <input type="radio" id="gcash" name="hosting" value="gcash" class="peer text-textgreenColor focus:ring-textgreenColor " required />
                                     <h1 className='text-black px-3'>Gcash</h1>
@@ -186,7 +206,7 @@ export default function Checkout() {
                             </label>
                         </div>
                         <div class="group"> {/* Cash option */}
-                            <label for="cash" class="inline-flex px-4 py-5 justify-between items-center w-full text-white bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor hover:bg-gray-100 ">
+                            <label htmlFor="cash" class="inline-flex px-4 py-5 justify-between items-center w-full text-white bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor hover:bg-gray-100 ">
                                 <div className='inline-flex items-center'>
                                     <input type="radio" id="cash" name="hosting" value="cash" class="peer text-textgreenColor focus:ring-textgreenColor " required />
                                     <h1 className='text-black ps-3'>Cash</h1>
@@ -199,7 +219,7 @@ export default function Checkout() {
                     </div>
                     
                     <div>
-                        <button onClick={handleCheckout} className='bg-textgreenColor rounded-xl text-white w-full py-5'>
+                        <button onClick={handleCreatePaymentIntent} className='bg-textgreenColor rounded-xl text-white w-full py-5'>
                             Pay Now
                         </button>
 
@@ -254,7 +274,7 @@ export default function Checkout() {
                 {/* voucher */}
                 <div className='w-full mt-5'> 
                     <form class="flex items-center ">   
-                        <label for="simple-search" class="sr-only">Search</label>
+                        <label htmlFor="simple-search" class="sr-only">Search</label>
                             <input type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"  placeholder="Discount code or gift card"/>
                         
                         <button class="p-4 ms-2 text-sm font-medium text-white bg-textgreenColor rounded-lg border border-textgreenColor hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-textgreenColor">

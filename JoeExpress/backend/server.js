@@ -11,8 +11,8 @@ const axios = require('axios');
 const multer = require('multer')
 const path = require('path')
 const {EMAIL,PASSWORD,PAYMONGO_SECRET_KEY} = require('./env.js')
-
 const app = express();
+
 app.use(cors({
     origin:"http://localhost:3000",
     methods: ["POST","GET"],
@@ -540,48 +540,85 @@ app.get('/verify/:token', (req, res) => {
 });
 
 app.post('/create-payment-intent', async (req, res) => {
-    const { amount } = req.body;
-
+    const { amount, description } = req.body;
+  
     try {
-        const response = await axios.post('https://api.paymongo.com/v1/payment_intents', {
-            data: {
-                attributes: {
-                    amount,
-                    currency: 'PHP',
-                    payment_method_types: ['gcash'],
-                },
+      const response = await axios.post(
+        'https://api.paymongo.com/v1/payment_intents',
+        {
+          data: {
+            attributes: {
+              amount: amount * 100,
+              payment_method_allowed: ['gcash'],
+              currency: 'PHP',
+              description: description,
             },
-        }, {
-            headers: {
-                'Authorization': `Basic ${Buffer.from(`${PAYMONGO_SECRET_KEY}:`).toString('base64')}`,
-                'Content-Type': 'application/json',
-            },
-        });
+          },
+        },
+        {
+          headers: {
+            Authorization: `Basic ${Buffer.from(PAYMONGO_SECRET_KEY).toString('base64')}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+  
+      const paymentIntentId = response.data.data.id;
 
-        res.json(response.data);
-    } catch (error) {
-        console.error('Error creating payment intent:', error);
-        res.status(500).json({ error: 'Failed to create payment intent' });
+      const checkoutResponse = await axios.post(
+        'https://api.paymongo.com/v1/sources',
+        {
+          data: {
+            attributes: {
+              amount: amount * 100, // amount in cents
+              redirect: {
+                success: 'http://localhost:3000/payment-success',
+                failed: 'http://localhost:3000/payment-failed',
+              },
+              type: 'gcash', // Or 'card', 'grab_pay', depending on your use case
+              currency: 'PHP',
+            },
+          },
+        },
+        {
+          headers: {
+            Authorization: `Basic ${Buffer.from(PAYMONGO_SECRET_KEY).toString('base64')}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+  
+      res.json({
+        checkoutUrl: checkoutResponse.data.data.attributes.redirect.checkout_url,
+        paymentIntentId,
+      });
+    } 
+    
+    catch (error) {
+      console.error('Error creating payment intent or checkout:', error.response?.data || error.message);
+      res.status(500).json({ error: 'Failed to create payment intent or checkout' });
     }
-});
 
-app.post('/verify-payment', async (req, res) => {
-    const { paymentIntentId } = req.body;
 
-    try {
-        const response = await axios.get(`https://api.paymongo.com/v1/payment_intents/${paymentIntentId}`, {
-            headers: {
-                'Authorization': `Basic ${Buffer.from(`${PAYMONGO_SECRET_KEY}:`).toString('base64')}`,
-                'Content-Type': 'application/json',
-            },
-        });
+  });
 
-        res.json(response.data);
-    } catch (error) {
-        console.error('Error verifying payment:', error);
-        res.status(500).json({ error: 'Failed to verify payment' });
-    }
-});
+// app.post('/verify-payment', async (req, res) => {
+//     const { paymentIntentId } = req.body;
+
+//     try {
+//         const response = await axios.get(`https://api.paymongo.com/v1/payment_intents/${paymentIntentId}`, {
+//             headers: {
+//                 'Authorization': `Basic ${Buffer.from(`${PAYMONGO_SECRET_KEY}:`).toString('base64')}`,
+//                 'Content-Type': 'application/json',
+//             },
+//         });
+
+//         res.json(response.data);
+//     } catch (error) {
+//         console.error('Error verifying payment:', error);
+//         res.status(500).json({ error: 'Failed to verify payment' });
+//     }
+// });
 
 app.post('/updateAcc', async (req, res) => {
     const { id, name, email, password, address } = req.body;
