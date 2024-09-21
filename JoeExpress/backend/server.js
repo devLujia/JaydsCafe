@@ -417,6 +417,22 @@ app.post('/update_items', (req, res) => {
 });
 
 
+app.post('/fetchAddons', (req,res) =>{
+
+    const {id} = req.body
+
+    const query = 'Select * from addons where id = ?';
+
+    db.query(query,[id], (err, results) => {
+        if (err) {
+            return res.status(500).json({ success: false, message: 'Failed to fetch item to addons' });
+        }
+        res.json(results[0]);
+    });
+
+})
+
+
 app.post('/menuOption', (req, res) => {
     
   const query = `
@@ -823,6 +839,19 @@ app.post('/productResult', (req,res)=>{
 
 })
 
+app.post('/fetchAddons', (req,res) =>{
+
+    const query = 'Select * from addons';
+
+    db.query(query,(err,result) =>{
+        if(err){
+            res.json({err: "Unable to fetch addons to product management"})
+        }
+        res.json(result)
+
+    })
+})
+
 
 app.post('/addProduct', upload.single('image_url') , (req, res) =>{
 
@@ -891,10 +920,10 @@ app.post('/addSize',(req,res)=>{
 
 app.post('/removeProduct',  async (req, res) =>{
 
-    const {name} = req.body;
+    const {id} = req.body;
     let foodId;
 
-    const rows = db.query(`Select id from foods where name = ?;`, [name], (error,result)=>{
+    const rows = db.query(`Select id from foods where id = ?;`, [id], (error,result)=>{
         if(error){
             res.json({error: "Unable to Select Id into foods"})
         }
@@ -907,7 +936,7 @@ app.post('/removeProduct',  async (req, res) =>{
     });
     
     try{
-        const query = `Delete from foods where name = ? `
+        const query = `Delete from foods where id = ? `
         await db.query (query,[name], (err,result) =>{
             if(err){
                 res.json({err: "Unable to delete into foods"})
@@ -926,6 +955,19 @@ app.post('/removeProduct',  async (req, res) =>{
     }catch(error){
         res.json(error)
     }
+
+    app.post('/removeAddons',(req,res)=>{
+        const {id} = req.body
+
+        const query = `Delete from adoons where id = ?`
+
+        db.query(query, [id], (err, result)=> {
+            if(err){
+                res.json({err: "Unable to delete into addons"})
+            }
+            
+        })
+    })
 
     })
 
@@ -1002,6 +1044,31 @@ app.post('/removeProduct',  async (req, res) =>{
                     res.json({lgErr: "Unable to update Large price"})
                 }
             })
+            res.json({success: true})
+         
+        })
+ 
+        })
+        
+        app.post('/updateAddons' , (req,res) => {
+
+        const { name , price, AddonsId } = req.body;
+
+        const query = 
+        `
+        Update addons
+        SET name = ?, 
+        price = ? 
+
+        WHERE 
+        id = ?
+        `
+
+        db.query (query,[name , price, AddonsId], (err,result) => {
+            if (err){
+                res.json({err: "Unable to update into Addons"})
+            }
+            res.json({success: true})
          
         })
  
