@@ -68,6 +68,9 @@ function Home() {
   const [cmsCoffeePrice,setCmsCoffeePrice] = useState('');
   const [cmsSnackPrice,setCmsSnackPrice] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [userId, setUserId] = useState(null);
+  const [orderNotif, setOrderNotif] = useState(0);
+
 
   const toggleVisibility = (category) => {
     setVisibleCategory(category);
@@ -530,6 +533,18 @@ function Home() {
         console.error('Error fetching menu details:', error);
       });
   },[])
+  
+  useEffect(() => {
+    
+    axios.post('http://localhost:8081/orderNotif', { userId })
+      .then(response => {
+        setOrderNotif(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching orderNotif details:', error);
+      });
+
+  }, [userId]);
 
   // tagabalik
 
@@ -538,6 +553,7 @@ function Home() {
       .then(res => {
         if (res.data.valid) {
           setAuthenticated(true);
+          setUserId(res.data.userId);
         } else {
           navigate('/');
         }
@@ -670,9 +686,16 @@ function Home() {
               </div>
             )}
 
-                <Link to= {'/cart'}>
-                  <img src={bagIcon} alt="bag"/>
-                </Link>
+                  <Link to={'/cart'} className="relative inline-block">
+                    <img src={bagIcon} alt="bag" className="w-8 h-8" /> {/* Adjust size as needed */}
+                    {orderNotif.totalOrders > 0 && (
+
+                      <span className="absolute top-[-5px] right-[-10px] bg-red-500 text-white text-base rounded-full px-2.5">
+                        {orderNotif.totalOrders}
+                      </span>
+                    )}
+                  </Link>
+                
               </div>
 
               {/* <button

@@ -44,13 +44,12 @@ function Cart() {
         axios.post('http://localhost:8081/itemGetter', { userId })
             .then(res => {
                 setItems(res.data.items);
-                
-
+            
             })
             .catch(error => {
                 console.error('Error fetching item details:', error);
             });
-        });
+        },[userId]);
 
         const decrement = async (itemId) => {
             // Update the quantity in the local state

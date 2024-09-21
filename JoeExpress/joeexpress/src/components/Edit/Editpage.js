@@ -5,7 +5,7 @@ import arrowLeft from '../image/arrow left.svg';
 import jaydscoffee from '../image/jaydsCoffee.svg';
 import cart from '../image/cart.svg';
 import bagIcon from '../image/bag.svg';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 export default function Editpage() {
@@ -21,6 +21,7 @@ export default function Editpage() {
     const [sizes, setSizes] = useState([]);
     const [selectedSize, setSelectedSize] = useState('');
     const [selectedPrice, setSelectedPrice] = useState(0);
+    const [orderNotif, setOrderNotif] = useState(0);
     const [selectedAddons, setSelectedAddons] = useState([]);
 
     // Fetch the food item details
@@ -29,6 +30,18 @@ export default function Editpage() {
             .then(res => setFood(res.data.data))
             .catch(err => console.log(err));
     }, [foodId]);
+    
+    useEffect(() => {
+    
+        axios.post('http://localhost:8081/orderNotif', { userId })
+          .then(response => {
+            setOrderNotif(response.data);
+          })
+          .catch(error => {
+            console.error('Error fetching orderNotif details:', error);
+          });
+    
+      }, [userId]);
 
     // Handle size selection
     const handleInput = (event, size, price) => {
@@ -138,7 +151,15 @@ export default function Editpage() {
                 </div>
                 <div></div>
                 <button>
-                    <img src={bagIcon} alt="Bag Icon" />
+                    <Link to={'/cart'} className="relative inline-block">
+                    <img src={bagIcon} alt="bag" className="w-8 h-8" /> {/* Adjust size as needed */}
+                    {orderNotif.totalOrders > 0 && (
+
+                      <span className="absolute top-[-5px] right-[-10px] bg-red-500 text-white text-base rounded-full px-2.5">
+                        {orderNotif.totalOrders}
+                      </span>
+                    )}
+                  </Link>
                 </button>
             </nav>
 

@@ -29,6 +29,11 @@ const [cart,setCart] = useState([]);
 const [userId, setUserId] = useState(null);
 const [cmsName,setCmsName] = useState('');
 const [cmsSmallLogo,setSmallLogo] = useState(null);
+const [orderNotif, setOrderNotif] = useState(0);
+const [isOpen, setIsOpen] = useState(false);
+const toggleDropdown = () => {
+  setIsOpen(!isOpen);
+};
 
  axios.defaults.withCredentials = true;
 
@@ -93,6 +98,21 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
     }));
   };
 
+  const handleLogout = async () => {
+    try {
+      const res = await axios.post('http://localhost:8081/logout');
+      if (res.data.success) {
+        // eslint-disable-next-line no-restricted-globals
+        location.reload();
+        navigate('/');
+      } else {
+        console.log('Logout Failed');
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+
   const handleNav = (foodId) =>{
     navigate(`/editpage/${foodId}`);
   }
@@ -111,6 +131,19 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
       throw error;
     }
   };
+
+
+  useEffect(() => {
+    
+    axios.post('http://localhost:8081/orderNotif', { userId })
+      .then(response => {
+        setOrderNotif(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching orderNotif details:', error);
+      });
+
+  }, [userId]);
 
   const handleAddToCart = async (food) => {
     try {
@@ -163,8 +196,38 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
           </button>
     
           <div class="inline-flex w-fit h-fit space-x-2">
-            <img src={userIcon} alt=""/>
-            <img onClick={()=>navigate('/cart')} src={bagIcon} alt=""/>
+          <button onClick={toggleDropdown} 
+                  className="focus:outline-none">
+                  <img src={userIcon} alt="user" className="mr-3" />
+                </button>
+
+                {isOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-10">
+                <ul className="py-2">
+                  <li onClick={()=>navigate('/profile')} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Profile
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Settings
+                  </li>
+                  <li
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </li>
+                </ul>
+              </div>
+            )}
+            <Link to={'/cart'} className="relative inline-block">
+                    <img src={bagIcon} alt="bag" className="w-8 h-8" /> {/* Adjust size as needed */}
+                    {orderNotif.totalOrders > 0 && (
+
+                      <span className="absolute top-[-5px] right-[-10px] bg-red-500 text-white text-base rounded-full px-2.5">
+                        {orderNotif.totalOrders}
+                      </span>
+                    )}
+                  </Link>
           </div>
         </div>
       </nav>

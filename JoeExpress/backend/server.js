@@ -168,7 +168,7 @@ app.get('/foods', (req,res)=>{
     });
     
     app.post('/signup', async (req, res) => {
-        const { name, email, password, address } = req.body;
+        const { pnum,name, email, password, address } = req.body;
     
         try {
             // Check if email already exists
@@ -187,8 +187,8 @@ app.get('/foods', (req,res)=>{
 
                 // Proceed to insert user into database
                 const hashedPassword = await bcrypt.hash(password, 10);
-                const insertQuery = 'INSERT INTO `user` (name, email, password, address, verification_token) VALUES (?, ?, ?, ?, ?)';
-                const values = [name, email, hashedPassword, address, verificationToken];
+                const insertQuery = 'INSERT INTO `user` (pnum, name, address, email, password, verification_token) VALUES (?, ?, ?, ?, ?, ?)';
+                const values = [pnum, name, address, email, hashedPassword,  verificationToken];
     
                 db.query(insertQuery, values, (insertError, result) => {
                     if (insertError) {
@@ -269,14 +269,18 @@ app.get('/foods', (req,res)=>{
                                 console.error('Email Sending Error:', emailError);
                                 res.status(500).json({ error: 'Failed to send email' });
                             });
+                    
     
                     } catch (emailError) {
                         console.error('Email Sending Error:', emailError);
                         res.status(500).json({ error: 'Failed to send email' });
                     }
                 });
-    
+
+                res.json({success:true})
             });
+
+            
         });
 
         } catch (error) {
@@ -1104,10 +1108,25 @@ app.post('/removeProduct',  async (req, res) =>{
     });
     
     
-    app.post('/totalOrder', async (req,res)=>{
+    app.post('/totalOrder', (req,res)=>{
         const query = `SELECT Count(*) as totalOrders FROM orders`;
 
         db.query(query,(err,result)=>{
+            if(err){
+                res.json({err: "error"});
+            }
+
+            res.json(result[0]);
+            
+        })
+    });
+
+    app.post('/orderNotif', (req,res)=>{
+        const {userId} = req.body;
+
+        const query = `SELECT Count(*) as totalOrders FROM cart_items where user_id = ?`;
+
+        db.query(query,[userId],(err,result)=>{
             if(err){
                 res.json({err: "error"});
             }
@@ -1336,7 +1355,7 @@ app.post('/removeProduct',  async (req, res) =>{
     
     app.post('/personalOrder', (req,res) =>{
         
-        const {user_id} = req.body
+        const {userId} = req.body
 
         const query = 
         `
@@ -1372,7 +1391,7 @@ app.post('/removeProduct',  async (req, res) =>{
              
         `
 
-        db.query(query,[user_id], (err, result) => {
+        db.query(query,[userId], (err, result) => {
             if (err) {
                 return res.status(500).json({ error: 'Failed to get orders' });
             }
@@ -1384,20 +1403,18 @@ app.post('/removeProduct',  async (req, res) =>{
 
     app.post('/profile',(req,res) =>{
 
-        const {user_id} = req.body
+        const {userId} = req.body
 
-        const query = ` SELECT name, email, password, pnum, address FROM user WHERE id = ? `
+        const query = ` SELECT name, email, pnum, address FROM user WHERE id = ? `
 
-        db.query(query, [user_id], (err, result) => {
+        db.query(query, [userId], (err, result) => {
             if (err) {
                 return res.status(500).json({ error: 'Failed to get profile' });
             }
             if (result.length > 0) {
                 res.json(result[0]);
             } 
-            else {
-                res.status(404).json({ error: 'Profile not found' });
-            }
+            
         });
 
     })
