@@ -1,9 +1,30 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 function Map({closeModal}) {
 
-    const location = (`https://www.google.com/maps/dir//Jayd's+Cafe+BLK+4,+Lot+1+Diamond+Ave+Dasmariñas,+4114+Cavite/@14.3466386,120.9810339,20z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3397d51753ff9d15:0x1b2216c1440e07a9!2m2!1d120.9810339!2d14.3466386?entry=ttu&g_ep=EgoyMDI0MDkxMS4wIKXMDSoASAFQAw%3D%3D`)
+  const [cmsLocation,setLocation] = useState('');
+
+  useEffect(()=>{
+
+    const fetchLocation = async () => {
+
+      try{
+        const response = await axios.post ('http://localhost:8081/cms', {title: 'Location'});
+        setLocation(response.data.content || '')
+      }
+      catch (error) {
+        console.error('Error fetching data:', error);
+      }
+
+    }
+
+    fetchLocation();
+
+  },[])
+
+    // const location = (
+    //   `https://www.google.com/maps/dir//Jayd's+Cafe+BLK+4,+Lot+1+Diamond+Ave+Dasmariñas,+4114+Cavite/@14.3466386,120.9810339,20z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3397d51753ff9d15:0x1b2216c1440e07a9!2m2!1d120.9810339!2d14.3466386?entry=ttu&g_ep=EgoyMDI0MDkxMS4wIKXMDSoASAFQAw%3D%3D`)
 
   return (
 
@@ -27,7 +48,7 @@ function Map({closeModal}) {
         
         <div className="flex justify-center">
           <a 
-            href={location} 
+            href={cmsLocation} 
             target="_blank" 
             rel="noopener noreferrer" 
             className="rounded-full text-white w-fit px-6 py-2 mt-7"

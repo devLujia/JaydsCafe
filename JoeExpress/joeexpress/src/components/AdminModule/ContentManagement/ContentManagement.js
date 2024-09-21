@@ -5,6 +5,7 @@ import fb from '../../image/fb.svg'
 import ig from '../../image/ig.svg'
 import location from '../../image/location.svg'
 import user from '../../image/UserAcc.svg'
+import links from '../../image/links.svg'
 import coffee from '../../image/americano.png'
 import jaydsLogo from '../../image/jayds cafe Logo.svg';
 import snack from '../../image/menu-burger.jpg'
@@ -271,142 +272,149 @@ export default function ContentManagement() {
 
        <div class="p-4 sm:ml-72 bg-slate-100">
             <div class="relative shadow-xl sm:rounded-lg">
-                <div class="bg-white rounded-xl py-10 px-20">
-
-                    {/* first row */}
-                    <div className='flex flex-col md:flex-row gap-14 justify-center'>
-                        <div className='relative border-2 border-gray-500 rounded-xl w-3/5 text-center px-2 shadow-xl min-w-fit'>
-                            <h1 className='mt-7 text-xl font-semibold mb-2'>Business Name</h1>
-                            <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value="Jayd's Cafe" disabled></input>
-                            <button className='absolute top-2 end-2 p-1 bg-textgreenColor rounded-lg'>
-                            <img src={edit} className='filter invert'></img>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                    {cmsContent.filter(cms => cms.category === "About Us" || cms.category === "Header").map(cms => (
+                        <div key={cms.category} className='relative border-2 border-gray-500 rounded-xl text-center shadow-xl min-w-fit p-4'>
+                            <h1 className='mt-7 text-xl font-semibold mb-2'>{cms.title}</h1>
+                            <h1 className='mt-7 text-lg font-normal mb-2'>Date Updated: {new Date(cms.updated_at).toLocaleString('en-US', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                            second: '2-digit'
+                                        })}
+                            </h1>
+                            <input
+                                type="text"
+                                id="disabled-input"
+                                value={cms.content}
+                                aria-label="disabled input"
+                                className="w-full h-48 px-2 rounded-lg bg-jaydsBg overflow-hidden"
+                                disabled
+                            />
+                            <button onClick={() => handleEditCms(cms.id)} className='absolute top-2 right-2 p-1 bg-textgreenColor rounded-lg'>
+                                <img src={edit} className='filter invert' alt="Edit" />
                             </button>
                         </div>
-
-                        <div className='relative border-2 border-gray-500 rounded-xl w-3/5 text-center px-2 shadow-xl min-w-fit'>
-                            <h1 className='mt-7 text-xl font-semibold mb-2'>Cellphone Number</h1>
-                            <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value="+63968-295-1334" disabled></input>
-                            <button className='absolute top-2 end-2 p-1 bg-textgreenColor rounded-lg'>
-                            <img src={edit} className='filter invert'></img>
-                            </button>
-                        </div>
-
-                        <div className='relative border-2 border-gray-500 rounded-xl w-3/5 text-center px-2 shadow-xl min-w-fit'>
-                            <h1 className='mt-7 text-xl font-semibold mb-2'>Telephone Number</h1>
-                            <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value="7688-2231-23" disabled></input>
-                            <button className='absolute top-2 end-2 p-1 bg-textgreenColor rounded-lg'>
-                            <img src={edit} className='filter invert'></img>
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Second row */}
-                    <div className='flex flex-col md:flex-row gap-12 mt-16 justify-center flex-wrap'>
-                        <div className='relative border-2 border-gray-500 rounded-xl w-fit flex flex-col items-center justify-center p-4 shadow-xl'>
-                            <h1 className='mt-5 text-lg font-semibold mb-2'>Small Logo</h1>
-                            <div className='w-24 h-24 px-2 rounded-lg bg-textgreenColor overflow-hidden'>
-                                <img src={jaydsLogo} className='object-contain object-fit h-full w-full' alt="expresso"></img>
-                            </div>
-                            <button className='absolute top-2 end-2 p-1 bg-textgreenColor rounded-lg'>
-                            <img src={edit} className='filter invert'></img>
-                            </button>
-                        </div>
-
-                        <div className='relative border-2 border-gray-500 rounded-xl w-fit flex flex-col items-center justify-center p-4 shadow-xl'>
-                            <h1 className='mt-5 text-lg font-semibold mb-2'>Big Logo</h1>
-                            <div className='w-24 h-24 px-2 rounded-lg bg-textgreenColor overflow-hidden'>
-                                <img src={trashbin} className='object-contain object-fit h-full w-full' alt="expresso"></img>
-                            </div>
-                            <button className='absolute top-2 end-2 p-1 bg-textgreenColor rounded-lg'>
-                            <img src={edit} className='filter invert'></img>
-                            </button>
-                        </div>
-
-                        <div className='relative border-2 border-gray-500 rounded-xl w-fit flex flex-col items-center justify-center p-4 shadow-xl'>
-                            <h1 className='mt-5 text-lg font-semibold mb-2'>Coffee Price</h1>
-                            <div className='w-24 h-24 px-2 rounded-lg bg-jaydsBg overflow-hidden'>
-                                <img src={coffee} className='object-contain object-fit h-full w-full' alt="expresso"></img>
-                            </div>
-                            <button className='absolute top-2 end-2 p-1 bg-textgreenColor rounded-lg'>
-                            <img src={edit} className='filter invert'></img>
-                            </button>
-                        </div>
-
-                        <div className='relative border-2 border-gray-500 rounded-xl w-fit flex flex-col items-center justify-center p-4 shadow-xl'>
-                            <h1 className='mt-5 text-lg font-semibold mb-2'>Milk Tea Price</h1>
-                            <div className='w-24 h-24 px-2 rounded-lg bg-jaydsBg overflow-hidden'>
-                                <img src={milktea} className='object-contain object-fit h-full w-full' alt="expresso"></img>
-                            </div>
-                            <button className='absolute top-2 end-2 p-1 bg-textgreenColor rounded-lg'>
-                            <img src={edit} className='filter invert'></img>
-                            </button>
-                        </div>
-                        
-                        <div className='relative border-2 border-gray-500 rounded-xl w-fit flex flex-col items-center justify-center p-4 shadow-xl'>
-                            <h1 className='mt-5 text-lg font-semibold mb-2'>Snack Price</h1>
-                            <div className='w-24 h-24 px-2 rounded-lg bg-jaydsBg overflow-hidden'>
-                                <img src={snack} className='object-contain object-fit h-full w-full' alt="expresso"></img>
-                            </div>
-                            <button className='absolute top-2 end-2 p-1 bg-textgreenColor rounded-lg'>
-                            <img src={edit} className='filter invert'></img>
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* third row */}
-                    <div className='flex flex-col md:flex-row gap-12 mt-16 justify-center flex-wrap w-full'>
-                        <div className='relative border-2 border-gray-500 rounded-xl w-fit flex flex-col items-center justify-center p-4 shadow-xl'>
-                            <h1 className='mt-5 text-lg font-semibold mb-2'>Location</h1>
-                            <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value="Salawag, Dasmarinas" disabled></input>
-                            <div className='w-full h-full p-2 rounded-lg bg-jaydsBg overflow-hidden'>
-                                <img src={location} className='object-contain object-fit h-full w-full' alt="expresso"></img>
-                            </div>
-                            <button className='absolute top-2 end-2 p-1 bg-textgreenColor rounded-lg'>
-                            <img src={edit} className='filter invert'></img>
-                            </button>
-                        </div>
-
-                        <div className='relative border-2 border-gray-500 rounded-xl w-fit flex flex-col items-center justify-center p-4 shadow-xl'>
-                            <h1 className='mt-5 text-lg font-semibold mb-2'>About Us</h1>
-                            <div className='w-56 h-48 px-2 rounded-lg bg-jaydsBg overflow-hidden'>
-                                <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </p>
-                            </div>
-                            <button className='absolute top-2 end-2 p-1 bg-textgreenColor rounded-lg'>
-                            <img src={edit} className='filter invert'></img>
-                            </button>
-                        </div>
-
-                        <div className='space-y-7 flex flex-row md:flex-col'>
-                            <div className='relative border-2 border-gray-500 rounded-xl w-96 text-center px-2 shadow-xl min-w-fit'>
-                                <h1 className='mt-7 text-xl font-semibold mb-2'>Facebook Link</h1>
-                                <input type="text" id="disabled-input" aria-label="disabled input" class="mb-3 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value="https://www.facebook.com/profile.php?id=61553978980489" disabled></input>
-                                <a href='#' className='bg-blue-600 absolute top-2 start-2 px-2 py-1 rounded-full'>
-                                    <img src={fb}></img>
-                                </a>
-                                <button className='absolute top-2 end-2 p-1 bg-textgreenColor rounded-lg'>
-                                    <img src={edit} className='filter invert'></img>
-                                </button>
-                            </div>
-
-                            <div className='relative border-2 border-gray-500 rounded-xl w-full text-center px-2 shadow-xl min-w-fit'>
-                                <h1 className='mt-7 text-xl font-semibold mb-2'>Instagram Link</h1>
-                                <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value="https://www.facebook.com/profile.php?id=61553978980489" disabled></input>
-                                <a href='#' className='bg-gradient-to-bl from-pink-600 to-yellow-400 absolute top-2 start-2 px-2 py-1 rounded-full'>
-                                    <img src={ig}></img>
-                                </a>
-                                <button className='absolute top-2 end-2 p-1 bg-textgreenColor rounded-lg'>
-                                    <img src={edit} className='filter invert'></img>
-                                </button>
-                            </div>
-                        </div>
-                        
-                    </div>
+                    ))}
                 </div>
+
+                <div className="grid mt-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {cmsContent.filter(cms => cms.category === "Price").map(cms => (
+                        <div key={cms.category} className='relative border-2 border-gray-500 rounded-xl text-center shadow-xl min-w-fit p-4'>
+                            <h1 className='mt-7 text-xl font-semibold mb-2'>{cms.title}</h1>
+                            <h1 className='mt-7 text-lg font-normal mb-2'>Date Updated: {new Date(cms.updated_at).toLocaleString('en-US', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                            second: '2-digit'
+                                        })}
+                            </h1>
+                            <input
+                                type="text"
+                                id="disabled-input"
+                                value={cms.content}
+                                aria-label="disabled input"
+                                className="w-full h-48 px-2 rounded-lg bg-jaydsBg overflow-hidden"
+                                disabled
+                            />
+                            <button onClick={() => handleEditCms(cms.id)} className='absolute top-2 right-2 p-1 bg-textgreenColor rounded-lg'>
+                                <img src={edit} className='filter invert' alt="Edit" />
+                            </button>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Second Row */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-16">
+                    {cmsContent.filter(cms => cms.category === "image").map(cms => (
+                        <div key={cms.category} className='relative border-2 border-gray-500 rounded-xl w-full flex flex-col items-center justify-center p-4 shadow-xl'>
+                            <h1 className='mt-5 text-lg font-semibold mb-2'>{cms.title}</h1>
+                            <h1 className='mt-7 text-lg font-normal mb-2'>Date Updated: {new Date(cms.updated_at).toLocaleString('en-US', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                            second: '2-digit'
+                                        })}
+                            </h1>
+                            <div className='w-full h-48 px-2 rounded-lg bg-textgreenColor overflow-hidden'>
+                                <img src={cms.content} className='object-contain h-full w-full' alt={cms.title} />
+                            </div>
+                            <button onClick={() => handleEditCms(cms.id)} className='absolute top-2 right-2 p-1 bg-textgreenColor rounded-lg'>
+                                <img src={edit} className='filter invert' alt="Edit" />
+                            </button>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Third Row */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mt-10">
+                {cmsContent.filter(cms => cms.category === "contact").map(cms => (
+                    
+                    <div key={cms.category} className='relative border-2 border-gray-500 rounded-xl w-full flex flex-col items-center justify-center p-4 shadow-xl'>
+                        <h1 className='mt-5 text-lg font-semibold mb-2'>{cms.title}</h1>
+                        <h1 className='mt-7 text-lg font-normal mb-2'>Date Updated: {new Date(cms.updated_at).toLocaleString('en-US', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        second: '2-digit'
+                                    })}
+                        </h1>
+                        <input type="text" id="disabled-input" aria-label="disabled input" className="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value={cms.content} disabled />
+                        <button className='absolute top-2 right-2 p-1 bg-textgreenColor rounded-lg'>
+                            <img src={edit} className='filter invert' alt="Edit" />
+                        </button>
+                    </div>
+                
+                ))}
+
+                
             </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+                        {cmsContent.filter(cms => cms.category === "footer").map(cms => (
+                            
+                            <div key={cms.category} className='relative border-2 border-gray-500 rounded-xl w-full flex flex-col items-center justify-center p-4 shadow-xl'>
+                                <h1 className='mt-5 text-lg font-semibold mb-2'>{cms.title}</h1>
+                                <h1 className='mt-7 text-lg font-normal mb-2'>Date Updated: {new Date(cms.updated_at).toLocaleString('en-US', {
+                                                year: 'numeric',
+                                                month: 'long',
+                                                day: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit',
+                                                second: '2-digit'
+                                            })}
+                                </h1>
+                                <input type="text" id="disabled-input" aria-label="disabled input" className="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value={cms.content} disabled />
+                                {cms.title === 'Instagram' ?  <a href='#' className='bg-gradient-to-bl from-pink-600 to-yellow-400 absolute top-2 left-2 px-2 py-1 rounded-full'>
+                                       <img src={ig} alt="Instagram" /> 
+                                </a>
+                                : cms.title === 'Facebook' ?  <a href='#' className='bg-blue-600 absolute top-2 left-2 px-2 py-1 rounded-full'>
+                                        <img src={fb} alt="Facebook" /> 
+                                 </a>
+                                : cms.title === 'Link' ?  <a href='#' className='bg-blue-600 absolute top-2 left-2 px-2 py-1 rounded-full'>
+                                        <img src={links} alt="Facebook" /> 
+                                </a>: null
+                                }
+                                
+
+                                <button className='absolute top-2 right-2 p-1 bg-textgreenColor rounded-lg'>
+                                    <img src={edit} className='filter invert' alt="Edit" />
+                                </button>
+                            </div>
+                        
+                        ))}
+
+                </div>
         </div> 
 
+    </div>
     </div>
   )
 }

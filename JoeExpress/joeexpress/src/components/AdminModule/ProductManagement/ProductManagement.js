@@ -302,7 +302,7 @@ function ProductManagement() {
                   </div>
 
                   <div class="text-center">
-                    <h3 class="text-xl font-semibold mt-4 min-h-15">{food.name}</h3>
+                    <h3 class="text-auto font-semibold mt-4 min-h-15">{food.name}</h3>
                     <p class="text-md font-normal mt-1"><span class="text-xl font-semibold mt-1">Sizes: </span>{food.medsize}  {food.lgsize ? '/ ' + food.lgsize : ''}                    </p>
                     <p class="text-md font-normal mt-1"><span class="text-xl font-semibold mt-1">Price: </span>₱ {food.medprice}.00{food.lgsize ? '/₱ ' + food.lgprice +'.00': ''}</p>
                   </div>
@@ -311,19 +311,19 @@ function ProductManagement() {
                     <button 
                     onClick={() => handleEditProduct(food.id)}
                     class="hover:scale-110 duration-300">
-                      <img src={edit} alt="edit" class="w-10 h-10" />
+                      <img src={edit} alt="edit" class="brightness-0 w-10 h-10"/>
                     </button>
 
                     <button
                     onClick={() => handleRemoveProduct(food.id)}
                      class="hover:scale-110 duration-300">
-                      <img src={trashbin2} alt="delete" class="w-10 h-10" />
+                      <img src={trashbin2}  alt="delete" class="brightness-0 w-12 h-12" />
                     </button>
 
                     <button
                     onClick={() => handleAddSize(food.id)}
                      class="hover:scale-110 duration-300">
-                      <img src={plus} alt="Add size" class="w-10 h-10" />
+                      <img src={plus} className='filter invert w-12 h-12' alt="Add size" />
                   </button>
                   
                   <button
