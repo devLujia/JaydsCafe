@@ -196,13 +196,12 @@ const toggleDropdown = () => {
           </button>
     
           <div class="inline-flex w-fit h-fit space-x-2">
-          <button onClick={toggleDropdown} 
-                  className="focus:outline-none">
-                  <img src={userIcon} alt="user" className="mr-3" />
-                </button>
+            <button onClick={toggleDropdown} className="focus:outline-none">
+              <img src={userIcon} alt="user" className="mr-3" />
+            </button>
 
-                {isOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-10">
+            {isOpen && (
+              <div className="absolute right-24 mt-8 w-48 bg-white border rounded-lg shadow-lg z-10">
                 <ul className="py-2">
                   <li onClick={()=>navigate('/profile')} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                     Profile
@@ -220,14 +219,14 @@ const toggleDropdown = () => {
               </div>
             )}
             <Link to={'/cart'} className="relative inline-block">
-                    <img src={bagIcon} alt="bag" className="w-8 h-8" /> {/* Adjust size as needed */}
-                    {orderNotif.totalOrders > 0 && (
+              <img src={bagIcon} alt="bag" className="w-8 h-8" /> {/* Adjust size as needed */}
+              {orderNotif.totalOrders > 0 && (
 
-                      <span className="absolute top-[-5px] right-[-10px] bg-red-500 text-white text-base rounded-full px-2.5">
-                        {orderNotif.totalOrders}
-                      </span>
-                    )}
-                  </Link>
+                <span className="absolute top-[-5px] right-[-10px] bg-red-500 text-white text-base rounded-full px-2.5">
+                  {orderNotif.totalOrders}
+                </span>
+              )}
+            </Link>
           </div>
         </div>
       </nav>
