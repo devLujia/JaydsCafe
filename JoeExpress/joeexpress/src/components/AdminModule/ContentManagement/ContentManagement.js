@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import edit from '../../image/edit.svg'
-import trashbin from '../../image/trashbin(3).svg'
+import notif from '../../image/notif.svg'
 import fb from '../../image/fb.svg'
 import ig from '../../image/ig.svg'
 import location from '../../image/location.svg'
@@ -71,6 +71,9 @@ export default function ContentManagement() {
             <div></div>
             {/* <!-- Button for Login or Sign Up --> */}
             <div class="flex justify-end items-center">
+                <button className='rounded-full p-2 bg-white border border-gray-400'>
+                    <img src={notif}></img>
+                </button>
                 <div class="px-4 py-3 text-sm text-gray-900 flex flex-col items-center justify-end">
                     <div class="font-bold">Migz Gomez Go</div>
                     <div class="items-center justify-center">Admin</div>

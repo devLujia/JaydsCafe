@@ -28,6 +28,7 @@ import Profile from './components/Profile/Profile'
 
 import RiderLogin from './components/RiderModule/LoginRider/LoginRider'
 import RiderForgot from './components/RiderModule/ForgotPasswordRider/ForgotPasswordRider'
+import RiderDashboard from './components/RiderModule/DashboardRider/DashboardRider'
 
 function App() {
 
@@ -62,6 +63,7 @@ function App() {
       
       <Route path='/RiderLogin' element = {<RiderLogin/>}></Route>
       <Route path='/RiderForgot' element = {<RiderForgot/>}></Route>
+      <Route path='/RiderDashboard' element = {<RiderDashboard/>}></Route>
 
     </Routes>
     </BrowserRouter>

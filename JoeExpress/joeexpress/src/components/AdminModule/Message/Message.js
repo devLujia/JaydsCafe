@@ -1,5 +1,6 @@
 import React from 'react'
 import user from '../../image/UserAcc.svg'
+import notif from '../../image/notif.svg'
 import jaydsLogo from '../../image/jayds cafe Logo.svg';
 import send from '../../image/send.svg'
 import { Link } from 'react-router-dom';
@@ -16,6 +17,9 @@ export default function Message() {
                <div></div>
                {/* <!-- Button for Login or Sign Up --> */}
                <div class="flex justify-end items-center">
+                  <button className='rounded-full p-2 bg-white border border-gray-400'>
+                     <img src={notif}></img>
+                  </button>
                   <div class="px-4 py-3 text-sm text-gray-900 flex flex-col items-center justify-end">
                      <div class="font-bold">Migz Gomez Go</div>
                      <div class="items-center justify-center">Admin</div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import trashbin2 from '../../image/trashbin(2).svg'
-import trashbin3 from '../../image/trashbin(3).svg'
+import notif from '../../image/notif.svg'
 import settings from '../../image/settings.svg'
 import ellipsis from '../../image/ellipsis.svg'
 import link from '../../image/Link.svg'
@@ -157,6 +157,9 @@ function ProductManagement() {
             <div></div>
             {/* <!-- Button for Login or Sign Up --> */}
             <div class="flex justify-end items-center">
+                <button className='rounded-full p-2 bg-white border border-gray-400'>
+                    <img src={notif}></img>
+                </button>
                 <div class="px-4 py-3 text-sm text-gray-900 flex flex-col items-center justify-end">
                     <div class="font-bold">Migz Gomez Go</div>
                     <div class="items-center justify-center">Admin</div>

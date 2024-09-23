@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import axios from 'axios';
-import arrowUP from '../../image/arrowUp.svg'
+import notif from '../../image/notif.svg'
 import jaydsLogo from '../../image/jayds cafe Logo.svg'
 import sales from '../../image/sales(dashboard).svg'
 import order from '../../image/order(dashboard).svg'
@@ -170,6 +170,10 @@ function AdminDashboard() {
          <div></div>
          {/* <!-- Button for Login or Sign Up --> */}
          <div class="flex justify-end items-center">
+               <button className='rounded-full p-2 bg-white border border-gray-400'>
+                     <img src={notif}></img>
+               </button>
+               
                <div class="px-4 py-3 text-sm text-gray-900 flex flex-col items-center justify-end">
                   <div class="font-bold">Migz Gomez Go</div>
                   <div class="items-center justify-center">Admin</div>

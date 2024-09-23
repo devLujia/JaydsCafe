@@ -1,5 +1,6 @@
 import React from 'react'
-import bagIcon from '../../image/bag.svg';
+import notif from '../../image/notif.svg';
+import user from '../../image/UserAcc.svg';
 import gwen from '../../image/Gwen.png';
 import camera from '../../image/camera.svg';
 import bg_pic from '../../image/36733336252.png';
@@ -11,13 +12,23 @@ export default function Settings() {
   return (
     <div>
         {/* <!-- Nav --> */}
-        <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-evenly ">
-            <div class="font-extrabold text-2xl items-center">
+        <nav class="sticky top-0 bg-jaydsBg z-20 shadow-lg flex justify-betwee">
+            <div class="font-extrabold text-2xl flex items-center">
                 {/* <!-- Logo/Title in Navbar --> */}
-                <a href="/public/index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
+                <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
             </div>
-            <div>
-                <img src={bagIcon} alt=""/>
+            <div></div>
+            {/* <!-- Button for Login or Sign Up --> */}
+            <div class="flex justify-end items-center">
+                <button className='rounded-full p-2 bg-white border border-gray-400'>
+                    <img src={notif}></img>
+                </button>
+                <div class="px-4 py-3 text-sm text-gray-900 flex flex-col items-center justify-end">
+                    <div class="font-bold">Migz Gomez Go</div>
+                    <div class="items-center justify-center">Admin</div>
+                </div>
+
+                <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src={user} alt="User dropdown"/>
             </div>
         </nav>
 
