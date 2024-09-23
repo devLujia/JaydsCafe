@@ -802,7 +802,7 @@ function Home() {
     
         <div class="">
           <button onClick={()=>navigate('/menu')} class="bg-greenColor rounded-full py-3 px-5 text-white text-2xl font-light w-fit outline outline-white hover:outline-greenColor hover:bg-white hover:text-textgreenColor transition duration-300">Order Now!</button>
-        </div>
+        </div>  
       </div>
       <div class="w-[400px] h-[400px] md:m-auto relative hover:scale-100">
         <img src={cmsBigLogo} alt="" class="w-[400px] h-[400px] z-10 absolute -top-6 -left-12" data-aos="fade-down-right"
@@ -1011,9 +1011,7 @@ function Home() {
           Let Us Introduce Ourselves
         </h2>
         <p class="max-w-lg md:m-auto">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non porro
-          rem, quod corrupti eius iure sit nihil similique, et voluptatem
-          possimus tenetur! Eum obcaecati sed odio velit labore quas in!
+          {cmsAboutUs}
         </p>
         {/* <!-- <button
           type="button"
@@ -1023,7 +1021,7 @@ function Home() {
         </button> --> */}
       </div>
       <img
-        src={aboutUsImage}
+        src={cmsAboutUsImage}
         alt="About Us"
         id="aboutUsPic"
         class="w-[550px] h-[591px] md:m-auto hover:scale-100"
@@ -1380,7 +1378,8 @@ function Home() {
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>{/* <!-- AOS Animation--> */}
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    {/* <!-- AOS Animation--> */}
     </div>
   );
 }

@@ -72,9 +72,9 @@ export default function Checkout() {
     const handleCheckout = async () =>{
 
         try{
-            const res = await axios.post('http://localhost:8081/order',{userId, totalBill});
+            const res = await axios.post('http://localhost:8081/order',{userId, amount: totalBill});
             if (res.data.success){
-              navigate('/');
+              handleCreatePaymentIntent();
             }
             else{
               console.log('Checkout Failed')
@@ -231,7 +231,7 @@ export default function Checkout() {
                     </div>
                     
                     <div>
-                        <button onClick={handleCreatePaymentIntent} className='bg-textgreenColor rounded-xl text-white w-full py-5'>
+                        <button onClick={()=> handleCheckout()} className='bg-textgreenColor rounded-xl text-white w-full py-5'>
                             Pay Now
                         </button>
 

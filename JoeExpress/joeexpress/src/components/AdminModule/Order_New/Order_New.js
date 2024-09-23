@@ -301,13 +301,13 @@ export default function Order_New() {
                                        </td>
                                        <td className="flex items-center px-6 py-4 space-x-2">
                                           <div className="h-fit items-center justify-center flex space-x-3 ps-4 mx-auto">
-                                             <button onClick={() => toggleOrderDetails(order.order_id)}>
+                                             <button onClick={()=> toggleOrderDetails(order.order_id)}>
                                                 <img src={eye} alt="eye" className="w-6 h-6" />
                                              </button>
                                              <button className="hover:underline hover:decoration-blue-500">
                                                 <img src={del} alt="trash" />
                                              </button>
-                                             <button onClick={() => getTheOrder(order.order_id, order.status)}>
+                                             <button onClick={()=> getTheOrder(order.order_id, order.status)}>
                                                 <img src={check} alt="check"/>
                                              </button>
                                           </div>
