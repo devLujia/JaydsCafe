@@ -1,5 +1,6 @@
 import React from 'react'
 import user from '../../image/UserAcc.svg';
+import notif from '../../image/notif.svg';
 import jaydsLogo from '../../image/jayds cafe Logo.svg';
 
 import { Link, useNavigate } from 'react-router-dom';
@@ -8,6 +9,9 @@ export default function Sales() {
   return (
     <div>
         <nav class="z-20 bg-jaydsBg border-gray-200 dark:bg-gray-900 top-0 sticky flex justify-end shadow-md">
+                <button className='rounded-full p-2 bg-white border border-gray-400'>
+                    <img src={notif}></img>
+                </button>
             <div class="px-4 py-3 text-sm text-gray-900 dark:text-white flex flex-col items-center">
                 <div class="font-bold">Migz Gomez Go</div>
                 <div class="items-center justify-center">Admin</div>

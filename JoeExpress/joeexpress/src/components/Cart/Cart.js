@@ -179,10 +179,10 @@ function Cart() {
         </div>
     </nav>
     
-    <section class="grid lg:grid-cols-2 sm:grid-cols-1 w-full h-screen">
+    <section class="grid lg:grid-cols-2 sm:grid-cols-1 w-full h-full ">
         <div class=" px-20"> {/* <!-- Left side cards--> */}
         {items.map(item =>(
-            <div key={item.id} class="mt-5 w-full p-4 text-left bg-white border border-gray-200 rounded-lg shadow-lg sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+            <div key={item.id} class="mt-8 w-full p-4 text-left bg-white border border-gray-200 rounded-lg shadow-lg sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                 
                 <div class="flex items-center">
                     <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">{/* <!-- Eto yung bilog, hindi pa goods to kung papalitan ng image ng product talaga--> */}
@@ -326,7 +326,7 @@ function Cart() {
                     onClick={()=>navigate('/checkout')}
                     data-modal-target="default-modal" 
                     data-modal-toggle="default-modal"
-                    class="px-10 bg-greenColor text-white font-bold text-2xl rounded-full py-3 flex items-center justify-center hover:bg-green-600 transition duration-300 ease-in-out shadow-lg">
+                    class="px-10 bg-greenColor text-white font-bold text-lg rounded-full py-3 flex items-center justify-center hover:bg-green-600 transition duration-300 ease-in-out shadow-lg">
                         Review payment and address
                     </button>
                 </div>

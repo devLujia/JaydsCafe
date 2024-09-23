@@ -164,12 +164,12 @@ export default function Editpage() {
             </nav>
 
             <section>
-                <div className="h-screen bg-jaydsBg">
+                <div className=" bg-jaydsBg">
                     <div className="p-6">
                         <a href="/menu" className="text-2xl font-bold hover:underline">
                             <img src={arrowLeft} alt="Back Arrow" className="inline-block w-4 h-4 me-2" />Back to Menu
                         </a>
-                        <div className="flex justify-center items-center flex-col space-x-10 md:flex-row mt-20">
+                        <div className="flex justify-center items-center flex-col space-x-10 md:flex-row">
                             <div className="rounded-lg bg-menuCirclebg aspect-square w-96 h-96 shadow-xl">
                                 <img src={`/${food.image_url}`} alt={food.name} className="w-full h-full object-contain" />
                             </div>
@@ -210,7 +210,7 @@ export default function Editpage() {
                                 </div>
 
                                 <h3 className="mb-2 font-semibold text-gray-900">Add-ons:</h3>
-                                <div className="text-gray-600 space-x-2 text-sm mb-7">
+                                <div className="text-gray-600 text-sm mb-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                                     {/* <div>
                                         <input
                                             type="checkbox"
@@ -222,12 +222,12 @@ export default function Editpage() {
                                         <label htmlFor="no-addons">NONE</label>
                                     </div> */}
                                     {addons.map(addon => (
-                                        <div key={addon.id}>
+                                        <div key={addon.id} className='w-full'>
                                             <input
                                                 type="checkbox"
                                                 name="addons"
                                                 id={`addon-${addon.id}`}
-                                                className="w-4 h-4 text-green-700 bg-jaydsBg border-gray-500 focus:ring-green-800 focus:ring-2 rounded-md"
+                                                className="w-4 h-4 me-2 text-green-700 bg-jaydsBg border-gray-500 focus:ring-green-800 focus:ring-2 rounded-md"
                                                 onChange={(e) => handleAddons(e, addon)}
                                             />
                                             <label htmlFor={`addon-${addon.id}`}>
@@ -235,11 +235,13 @@ export default function Editpage() {
                                             </label>
                                         </div>
                                     ))}
+                                </div>
 
+                                <div className='mb-2'>
                                     {selectedAddons.length > 0 && (
-                                        <div className="mt-4">
+                                        <div className="mt-5">
                                             <h4 className="text-lg font-semibold">Selected Add-ons:</h4>
-                                            <ul>
+                                            <ul className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 text-center'>
                                                 {selectedAddons.map(addon => (
                                                     <li key={addon.id} className="text-gray-600">{addon.name} (₱{addon.price})</li>
                                                 ))}

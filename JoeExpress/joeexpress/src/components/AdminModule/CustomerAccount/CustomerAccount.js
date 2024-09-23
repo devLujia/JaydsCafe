@@ -4,6 +4,8 @@ import trashbin3 from '../../image/trashbin(3).svg'
 import settings from '../../image/settings.svg'
 import ellipsis from '../../image/ellipsis.svg'
 import link from '../../image/Link.svg'
+import user from '../../image/UserAcc.svg'
+import notif from '../../image/notif.svg'
 import edit from '../../image/edit.svg'
 import plus from '../../image/plus.svg' 
 import picture from '../../image/UserAcc.svg'
@@ -74,11 +76,14 @@ export default function CustomerAccount() {
         
         
         <nav class="z-20 bg-jaydsBg border-gray-200 dark:bg-gray-900 top-0 sticky flex justify-end shadow-md">
+            <button className='rounded-full p-2 bg-white border border-gray-400'>
+                <img src={notif}></img>
+            </button>
             <div class="px-4 py-3 text-sm text-gray-900 dark:text-white flex flex-col items-center">
                 <div class="font-bold">Migz Gomez Go</div>
                 <div class="items-center justify-center">Admin</div>
             </div>
-            <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src="/public/image/UserAcc.png" alt="User dropdown"/>
+            <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src={user} alt="User dropdown"/>
 
             {/* Dropdown menu */}
             <div id="userDropdown" class="top-16 absolute z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">

@@ -58,7 +58,7 @@ export default function LoginRider() {
                         <p class="mb-10">
                             Don't have any account?
                             <span class="text-blue-500 cursor-pointer font-semibold">
-                                <a href="/signup"> Sign up </a>
+                                <a href="#"> Sign up </a>
                             </span>
                         </p>
                     </div>
