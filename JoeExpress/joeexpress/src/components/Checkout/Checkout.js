@@ -13,7 +13,7 @@ import plus from '../image/plus.svg';
 import lock from '../image/lock.svg';
 import axios from 'axios';
 import CheckoutModal from '../Modal/FileModal/FileModal';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 export default function Checkout() {
 
@@ -26,7 +26,13 @@ export default function Checkout() {
     const [totalBill, setTotalBill] = useState(0);
     const [checkoutUrl, setCheckoutUrl] = useState(null);
 
-    
+    const { OrdrId } = useParams();
+    const [Ordr,setOrdr] = useState([]);
+
+    const handleNav = (OrdrId) =>{
+        navigate(`/tracking/${OrdrId}`);
+    }
+
 
     useEffect(() => {
         axios.get('http://localhost:8081/')
@@ -92,7 +98,8 @@ export default function Checkout() {
         catch (error) {
           console.error('Error creating payment intent:', error);
         }
-      };
+    
+    };
 
     useEffect(() => {
         
