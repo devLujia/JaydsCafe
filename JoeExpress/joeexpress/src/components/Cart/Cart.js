@@ -16,8 +16,12 @@ function Cart() {
     const [items, setItems] = useState([]);
     const navigate = useNavigate();
     const [totalBill, setTotalBill] = useState(0);
-
-    
+    const [quantity, setQuantity] = useState(
+        items.reduce((acc, item) => {
+          acc[item.id] = 1;
+          return acc;
+        }, {})
+      );
 
     useEffect(() => {
         axios.get('http://localhost:8081/')
@@ -33,27 +37,80 @@ function Cart() {
           .catch(err => console.log(err));
       }, [navigate]);
 
+
       useEffect(() => {
         
     
         axios.post('http://localhost:8081/itemGetter', { userId })
             .then(res => {
                 setItems(res.data.items);
-                const total = items.reduce((sum, item) => sum + item.food_price, 0);
-                setTotalBill(total);
-
+            
             })
             .catch(error => {
                 console.error('Error fetching item details:', error);
             });
-        });
-    
+        },[userId]);
+
+        const decrement = async (itemId) => {
+            // Update the quantity in the local state
+            setQuantity((prevQuantity) => {
+                // Calculate the new quantity, ensuring it doesn't go below 1
+                const newQuantity = Math.max((prevQuantity[itemId] || 1) - 1, 1);
+        
+                // Send the updated quantity to the server
+                axios.post('http://localhost:8081/update_items', { quantity: newQuantity, id: itemId })
+                    .then(res => {
+                        if (res.data.success) {
+                            console.log('Quantity updated successfully');
+                        } else {
+                            console.log('Update failed');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error during quantity update:', error);
+                    });
+        
+                // Return the updated state
+                return {
+                    ...prevQuantity,
+                    [itemId]: newQuantity,
+                };
+            });
+        };
+      
+        const increment = async (itemId) => {
+            // Update the quantity in the local state
+            setQuantity((prevQuantity) => {
+                const newQuantity = (prevQuantity[itemId] || 0) + 1;
+        
+                // Send the updated quantity to the server
+                axios.post('http://localhost:8081/update_items', {  quantity: newQuantity, id: itemId })
+                    .then(res => {
+                        if (res.data.success) {
+                            console.log('Quantity updated successfully');
+                        } else {
+                            console.log('Update failed');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error during quantity update:', error);
+                    });
+        
+                // Return the updated state
+                return {
+                    ...prevQuantity,
+                    [itemId]: newQuantity,
+                };
+            });
+        };
 
       const handleCheckout = async () =>{
+
+        navigate('/checkout');
          try{
           const res = await axios.post('http://localhost:8081/order',{userId, totalBill});
           if (res.data.success){
-            navigate('/tracking');
+            navigate('/checkout');
           }
           else{
             console.log('Checkout Failed')
@@ -62,6 +119,56 @@ function Cart() {
           console.error('Error during checkout:', error);
         }
       } 
+
+      const handleInput = async (e, itemId) => {
+        const value = parseInt(e.target.value, 10);
+    
+            setQuantity((prevQuantity) => ({
+                ...prevQuantity,
+                [itemId]: value > 0 ? value : 1,
+            }));
+        
+
+            try {
+                const res = await axios.post('http://localhost:8081/update_items', {  quantity: value, id: itemId });
+                if (res.data.success) {
+                    console.log('Quantity updated successfully');
+                    
+                } else {
+                    console.log('Update failed');
+                }
+            } 
+            catch (error) {
+                console.error('Error during quantity update:', error);
+            }
+
+      };
+      
+
+    //   const handlePayment = async (id, quantity)=>{
+
+    //     try{
+    //         const res = await axios.post('http://localhost:8081/update_items',{id, quantity});
+    //         if (res.data.success){
+    //           navigate('/checkout');
+    //         }
+    //         else{
+    //           console.log('Checkout Failed')
+    //         }
+    //        } catch (error) {
+    //         console.error('Error during checkout:', error);
+    //       }
+    //   }
+
+      useEffect(() => {
+        
+        const total = items.reduce((sum, item) => {
+          return sum + item.food_price * (quantity[item.id] || 1);
+        }, 0);
+      
+        setTotalBill(total);
+      
+      });
 
   return (
   <div class="bg-white">
@@ -74,7 +181,8 @@ function Cart() {
     <section class="grid lg:grid-cols-2 sm:grid-cols-1 w-full h-screen">
         <div class=" px-20"> {/* <!-- Left side cards--> */}
         {items.map(item =>(
-            <div key={item.id}class="mt-5 w-full p-4 text-left bg-white border border-gray-200 rounded-lg shadow-lg sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+            <div key={item.id} class="mt-5 w-full p-4 text-left bg-white border border-gray-200 rounded-lg shadow-lg sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                
                 <div class="flex items-center">
                     <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">{/* <!-- Eto yung bilog, hindi pa goods to kung papalitan ng image ng product talaga--> */}
                         <circle cx="50" cy="50" r="50" fill="#ECE8DD"/>
@@ -90,20 +198,20 @@ function Cart() {
                         <p class="text-base text-gray-500 sm:text-sm mb-2 dark:text-gray-400 font-normal">Addons: {item.addons}</p> {/*<!-- addons ng product-->*/}
                     </div>
 
-                
-
                 </div>
                 <div class="items-center justify-end space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
                     {/* <!-- numper input --> */}
                     <div class="py-2 px-3 inline-block bg-white border-2 border-textgreenColor rounded-full dark:bg-neutral-900 dark:border-neutral-700" data-hs-input-number="">
                         <div class="flex items-center gap-x-1.5">
-                          <button type="button" id="decrement-btn" class="size-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" tabindex="-1" aria-label="Decrease" data-hs-input-number-decrement="">
+                          <button onClick={()=> decrement(item.id)} type="button" id="decrement-btn" class="size-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" tabindex="-1" aria-label="Decrease" data-hs-input-number-decrement="">
                             <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                               <path d="M5 12h14"></path>
                             </svg>
                           </button>
-                          <input id="input-number" class="p-0 w-6 bg-transparent border-0 text-gray-800 text-center focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none dark:text-white" type="number" aria-roledescription="Number field" value="0" data-hs-input-number-input=""/>
-                          <button type="button" id="increment-btn" class="size-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" tabindex="-1" aria-label="Increase" data-hs-input-number-increment="">
+                          
+                          <input id="input-number" class="p-0 w-6 bg-transparent border-0 text-gray-800 text-center focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none dark:text-white" type="number" aria-roledescription="Number field" onChange={(e) => handleInput(e, item.id)} value={quantity[item.id] || item.quantity} data-hs-input-number-input=""/>
+                          
+                          <button onClick={()=> increment(item.id)} type="button" id={`input-number-${item.id}`} class="size-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" tabindex="-1" aria-label="Increase" data-hs-input-number-increment="">
                             <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                               <path d="M5 12h14"></path>
                               <path d="M12 5v14"></path>
@@ -154,12 +262,12 @@ function Cart() {
                         </li>
                     </ul>
 
-                    <div class="min-w-full my-4 pr-5">
+                    {/* <div class="min-w-full my-4 pr-5">
                       <label for="date" class="block mb-2 pl-1 text-lg font-medium text-gray-700">Pick a Date</label>
                       <input type="text" placeholder="September 24,2024" id="date" class="peer h-full w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-lg font-normal text-gray-700 shadow-lg shadow-gray-900/5 outline-0 ring-4 ring-transparent transition-all placeholder:text-gray-500 focus:border-gray-900 focus:ring-gray-900/10 disabled:border-0 disabled:bg-gray-50" />
-                    </div>
+                    </div> */}
 
-                    <label for="date" class="block mb-2 pl-1 text-lg font-medium text-gray-700">Pick a Time</label>
+                    <label for="date" class="block mb-2 pl-1 text-lg my-4 font-medium text-gray-700">Pick a Time</label>
                     <div class="grid sm:grid-cols-2 gap-4 pr-5 mb-4">
                       <label for="time1" class="flex p-3 w-full bg-white border border-gray-200 rounded-lg text-sm  dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
                         <input id="time1" type="radio" name="hs-radio-in-form" class="shrink-0 mt-0.5 text-green-500 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-500"/>
@@ -213,11 +321,12 @@ function Cart() {
                 {/* <!--button --> */}
                 <div class="w-96 py-5"> 
                     <button 
-                    onClick={()=>handleCheckout()}
+                    // onClick={() => handlePayment(item.id, quantity[item.id])}
+                    onClick={()=>navigate('/checkout')}
                     data-modal-target="default-modal" 
                     data-modal-toggle="default-modal"
                     class="px-10 bg-greenColor text-white font-bold text-2xl rounded-full py-3 flex items-center justify-center hover:bg-green-600 transition duration-300 ease-in-out shadow-lg">
-                        Checkout
+                        Review payment and address
                     </button>
                 </div>
             </div>
@@ -306,7 +415,7 @@ function Cart() {
                 <div class="p-4 md:p-5 text-center">
                     <h3 class="mb-5 text-lg font-bold text-black dark:text-black">Confirm your Order(s)?</h3>
                     <button data-modal-hide="popup-modal" type="button" class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-red-500 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No, cancel</button>
-                    <button onclick={()=>navigate('/trackingPage')} data-modal-hide="popup-modal" type="button" class="text-white ms-3 bg-green-700 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-yellow-400 dark:focus:ring-yellow-800 font-medium rounded-full text-sm inline-flex items-center px-5 py-2.5 text-center">
+                    <button data-modal-hide="popup-modal" type="button" class="text-white ms-3 bg-green-700 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-yellow-400 dark:focus:ring-yellow-800 font-medium rounded-full text-sm inline-flex items-center px-5 py-2.5 text-center">
                         Yes, I'm sure
                     </button>
                 </div>

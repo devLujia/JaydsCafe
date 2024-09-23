@@ -38,7 +38,7 @@ function AddProd({ closeModal }) {
           formData.append('description', values.description);
           formData.append('image_url', values.image_url);
           formData.append('category_id', values.category_id);
-          formData.append('medprice', values.foodId);
+          formData.append('medprice', values.medprice);
           
           axios.post('http://localhost:8081/addProduct', formData)
           .then(res=>{

@@ -68,6 +68,9 @@ function Home() {
   const [cmsCoffeePrice,setCmsCoffeePrice] = useState('');
   const [cmsSnackPrice,setCmsSnackPrice] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [userId, setUserId] = useState(null);
+  const [orderNotif, setOrderNotif] = useState(0);
+
 
   const toggleVisibility = (category) => {
     setVisibleCategory(category);
@@ -530,6 +533,18 @@ function Home() {
         console.error('Error fetching menu details:', error);
       });
   },[])
+  
+  useEffect(() => {
+    
+    axios.post('http://localhost:8081/orderNotif', { userId })
+      .then(response => {
+        setOrderNotif(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching orderNotif details:', error);
+      });
+
+  }, [userId]);
 
   // tagabalik
 
@@ -538,6 +553,7 @@ function Home() {
       .then(res => {
         if (res.data.valid) {
           setAuthenticated(true);
+          setUserId(res.data.userId);
         } else {
           navigate('/');
         }
@@ -670,9 +686,16 @@ function Home() {
               </div>
             )}
 
-                <Link to= {'/cart'}>
-                  <img src={bagIcon} alt="bag"/>
-                </Link>
+                  <Link to={'/cart'} className="relative inline-block">
+                    <img src={bagIcon} alt="bag" className="w-8 h-8" /> {/* Adjust size as needed */}
+                    {orderNotif.totalOrders > 0 && (
+
+                      <span className="absolute top-[-5px] right-[-10px] bg-red-500 text-white text-base rounded-full px-2.5">
+                        {orderNotif.totalOrders}
+                      </span>
+                    )}
+                  </Link>
+                
               </div>
 
               {/* <button
@@ -775,7 +798,7 @@ function Home() {
         data-aos-duration="1500">
         <p class="text-black font-semibold tracking-wider text-3xl pb-1 drop-shadow-2xl">WELCOME TO </p>
         <h1 class="text-textgreenColor text-8xl font-extrabold pb-2 drop-shadow-lg" id="name">{cmsName}</h1>
-        <p class="max-w-[28rem] mb-5 text-md text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, molestias temporibus ipsam eaque quidem dicta. Asperiores nisi error delectus, earum accusantium molestias unde quod. Provident rerum laborum aliquam temporibus voluptatibus.</p>
+        <p class="max-w-[28rem] mb-5 text-md text-gray-600">{cmsAboutUs}</p>
     
         <div class="">
           <button onClick={()=>navigate('/menu')} class="bg-greenColor rounded-full py-3 px-5 text-white text-2xl font-light w-fit outline outline-white hover:outline-greenColor hover:bg-white hover:text-textgreenColor transition duration-300">Order Now!</button>

@@ -11,8 +11,8 @@ const axios = require('axios');
 const multer = require('multer')
 const path = require('path')
 const {EMAIL,PASSWORD,PAYMONGO_SECRET_KEY} = require('./env.js')
-
 const app = express();
+
 app.use(cors({
     origin:"http://localhost:3000",
     methods: ["POST","GET"],
@@ -168,7 +168,7 @@ app.get('/foods', (req,res)=>{
     });
     
     app.post('/signup', async (req, res) => {
-        const { name, email, password, address } = req.body;
+        const { pnum,name, email, password, address } = req.body;
     
         try {
             // Check if email already exists
@@ -187,8 +187,8 @@ app.get('/foods', (req,res)=>{
 
                 // Proceed to insert user into database
                 const hashedPassword = await bcrypt.hash(password, 10);
-                const insertQuery = 'INSERT INTO `user` (name, email, password, address, verification_token) VALUES (?, ?, ?, ?, ?)';
-                const values = [name, email, hashedPassword, address, verificationToken];
+                const insertQuery = 'INSERT INTO `user` (pnum, name, address, email, password, verification_token) VALUES (?, ?, ?, ?, ?, ?)';
+                const values = [pnum, name, address, email, hashedPassword,  verificationToken];
     
                 db.query(insertQuery, values, (insertError, result) => {
                     if (insertError) {
@@ -269,14 +269,18 @@ app.get('/foods', (req,res)=>{
                                 console.error('Email Sending Error:', emailError);
                                 res.status(500).json({ error: 'Failed to send email' });
                             });
+                    
     
                     } catch (emailError) {
                         console.error('Email Sending Error:', emailError);
                         res.status(500).json({ error: 'Failed to send email' });
                     }
                 });
-    
+
+                res.json({success:true})
             });
+
+            
         });
 
         } catch (error) {
@@ -330,7 +334,8 @@ app.post('/itemGetter', (req, res) => {
         f.image_url AS food_image_url,
         c.size,
         c.price AS food_price,
-        c.addons
+        c.addons,
+        c.quantity
     FROM
         cart_items c 
     JOIN foods f ON
@@ -400,6 +405,36 @@ app.get('/items/:foodId', (req, res) => {
         res.status(200).json({ success: true, message: 'Item added to cart', results });
     });
 });
+
+app.post('/update_items', (req, res) => {
+    const { quantity, id } = req.body;
+
+    const query = 'UPDATE cart_items SET quantity = ? WHERE id = ?';
+
+    db.query(query, [quantity, id], (err, results) => {
+        if (err) {
+            console.error('Error adding item to cart:', err);
+            return res.status(500).json({ success: false, message: 'Failed to update item to cart' });
+        }
+        res.status(200).json({ success: true, message: 'Quantity successfully updated', results });
+    });
+});
+
+
+app.post('/fetchAddons', (req,res) =>{
+
+    const {id} = req.body
+
+    const query = 'Select * from addons where id = ?';
+
+    db.query(query,[id], (err, results) => {
+        if (err) {
+            return res.status(500).json({ success: false, message: 'Failed to fetch item to addons' });
+        }
+        res.json(results[0]);
+    });
+
+})
 
 
 app.post('/menuOption', (req, res) => {
@@ -505,48 +540,85 @@ app.get('/verify/:token', (req, res) => {
 });
 
 app.post('/create-payment-intent', async (req, res) => {
-    const { amount } = req.body;
-
+    const { amount, description } = req.body;
+  
     try {
-        const response = await axios.post('https://api.paymongo.com/v1/payment_intents', {
-            data: {
-                attributes: {
-                    amount,
-                    currency: 'PHP',
-                    payment_method_types: ['gcash'],
-                },
+      const response = await axios.post(
+        'https://api.paymongo.com/v1/payment_intents',
+        {
+          data: {
+            attributes: {
+              amount: amount * 100,
+              payment_method_allowed: ['gcash'],
+              currency: 'PHP',
+              description: description,
             },
-        }, {
-            headers: {
-                'Authorization': `Basic ${Buffer.from(`${PAYMONGO_SECRET_KEY}:`).toString('base64')}`,
-                'Content-Type': 'application/json',
-            },
-        });
+          },
+        },
+        {
+          headers: {
+            Authorization: `Basic ${Buffer.from(PAYMONGO_SECRET_KEY).toString('base64')}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+  
+      const paymentIntentId = response.data.data.id;
 
-        res.json(response.data);
-    } catch (error) {
-        console.error('Error creating payment intent:', error);
-        res.status(500).json({ error: 'Failed to create payment intent' });
+      const checkoutResponse = await axios.post(
+        'https://api.paymongo.com/v1/sources',
+        {
+          data: {
+            attributes: {
+              amount: amount * 100, // amount in cents
+              redirect: {
+                success: 'http://localhost:3000/payment-success',
+                failed: 'http://localhost:3000/payment-failed',
+              },
+              type: 'gcash', // Or 'card', 'grab_pay', depending on your use case
+              currency: 'PHP',
+            },
+          },
+        },
+        {
+          headers: {
+            Authorization: `Basic ${Buffer.from(PAYMONGO_SECRET_KEY).toString('base64')}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+  
+      res.json({
+        checkoutUrl: checkoutResponse.data.data.attributes.redirect.checkout_url,
+        paymentIntentId,
+      });
+    } 
+    
+    catch (error) {
+      console.error('Error creating payment intent or checkout:', error.response?.data || error.message);
+      res.status(500).json({ error: 'Failed to create payment intent or checkout' });
     }
-});
 
-app.post('/verify-payment', async (req, res) => {
-    const { paymentIntentId } = req.body;
 
-    try {
-        const response = await axios.get(`https://api.paymongo.com/v1/payment_intents/${paymentIntentId}`, {
-            headers: {
-                'Authorization': `Basic ${Buffer.from(`${PAYMONGO_SECRET_KEY}:`).toString('base64')}`,
-                'Content-Type': 'application/json',
-            },
-        });
+  });
 
-        res.json(response.data);
-    } catch (error) {
-        console.error('Error verifying payment:', error);
-        res.status(500).json({ error: 'Failed to verify payment' });
-    }
-});
+// app.post('/verify-payment', async (req, res) => {
+//     const { paymentIntentId } = req.body;
+
+//     try {
+//         const response = await axios.get(`https://api.paymongo.com/v1/payment_intents/${paymentIntentId}`, {
+//             headers: {
+//                 'Authorization': `Basic ${Buffer.from(`${PAYMONGO_SECRET_KEY}:`).toString('base64')}`,
+//                 'Content-Type': 'application/json',
+//             },
+//         });
+
+//         res.json(response.data);
+//     } catch (error) {
+//         console.error('Error verifying payment:', error);
+//         res.status(500).json({ error: 'Failed to verify payment' });
+//     }
+// });
 
 app.post('/updateAcc', async (req, res) => {
     const { id, name, email, password, address } = req.body;
@@ -808,6 +880,19 @@ app.post('/productResult', (req,res)=>{
 
 })
 
+app.post('/fetchAddons', (req,res) =>{
+
+    const query = 'Select * from addons';
+
+    db.query(query,(err,result) =>{
+        if(err){
+            res.json({err: "Unable to fetch addons to product management"})
+        }
+        res.json(result)
+
+    })
+})
+
 
 app.post('/addProduct', upload.single('image_url') , (req, res) =>{
 
@@ -876,10 +961,10 @@ app.post('/addSize',(req,res)=>{
 
 app.post('/removeProduct',  async (req, res) =>{
 
-    const {name} = req.body;
+    const {id} = req.body;
     let foodId;
 
-    const rows = db.query(`Select id from foods where name = ?;`, [name], (error,result)=>{
+    const rows = db.query(`Select id from foods where id = ?;`, [id], (error,result)=>{
         if(error){
             res.json({error: "Unable to Select Id into foods"})
         }
@@ -892,7 +977,7 @@ app.post('/removeProduct',  async (req, res) =>{
     });
     
     try{
-        const query = `Delete from foods where name = ? `
+        const query = `Delete from foods where id = ? `
         await db.query (query,[name], (err,result) =>{
             if(err){
                 res.json({err: "Unable to delete into foods"})
@@ -911,6 +996,19 @@ app.post('/removeProduct',  async (req, res) =>{
     }catch(error){
         res.json(error)
     }
+
+    app.post('/removeAddons',(req,res)=>{
+        const {id} = req.body
+
+        const query = `Delete from adoons where id = ?`
+
+        db.query(query, [id], (err, result)=> {
+            if(err){
+                res.json({err: "Unable to delete into addons"})
+            }
+            
+        })
+    })
 
     })
 
@@ -987,6 +1085,31 @@ app.post('/removeProduct',  async (req, res) =>{
                     res.json({lgErr: "Unable to update Large price"})
                 }
             })
+            res.json({success: true})
+         
+        })
+ 
+        })
+        
+        app.post('/updateAddons' , (req,res) => {
+
+        const { name , price, AddonsId } = req.body;
+
+        const query = 
+        `
+        Update addons
+        SET name = ?, 
+        price = ? 
+
+        WHERE 
+        id = ?
+        `
+
+        db.query (query,[name , price, AddonsId], (err,result) => {
+            if (err){
+                res.json({err: "Unable to update into Addons"})
+            }
+            res.json({success: true})
          
         })
  
@@ -1022,10 +1145,25 @@ app.post('/removeProduct',  async (req, res) =>{
     });
     
     
-    app.post('/totalOrder', async (req,res)=>{
+    app.post('/totalOrder', (req,res)=>{
         const query = `SELECT Count(*) as totalOrders FROM orders`;
 
         db.query(query,(err,result)=>{
+            if(err){
+                res.json({err: "error"});
+            }
+
+            res.json(result[0]);
+            
+        })
+    });
+
+    app.post('/orderNotif', (req,res)=>{
+        const {userId} = req.body;
+
+        const query = `SELECT Count(*) as totalOrders FROM cart_items where user_id = ?`;
+
+        db.query(query,[userId],(err,result)=>{
             if(err){
                 res.json({err: "error"});
             }
@@ -1254,7 +1392,7 @@ app.post('/removeProduct',  async (req, res) =>{
     
     app.post('/personalOrder', (req,res) =>{
         
-        const {user_id} = req.body
+        const {userId} = req.body
 
         const query = 
         `
@@ -1290,7 +1428,7 @@ app.post('/removeProduct',  async (req, res) =>{
              
         `
 
-        db.query(query,[user_id], (err, result) => {
+        db.query(query,[userId], (err, result) => {
             if (err) {
                 return res.status(500).json({ error: 'Failed to get orders' });
             }
@@ -1302,20 +1440,18 @@ app.post('/removeProduct',  async (req, res) =>{
 
     app.post('/profile',(req,res) =>{
 
-        const {user_id} = req.body
+        const {userId} = req.body
 
-        const query = ` SELECT name, email, password, pnum, address FROM user WHERE id = ? `
+        const query = ` SELECT name, email, pnum, address FROM user WHERE id = ? `
 
-        db.query(query, [user_id], (err, result) => {
+        db.query(query, [userId], (err, result) => {
             if (err) {
                 return res.status(500).json({ error: 'Failed to get profile' });
             }
             if (result.length > 0) {
                 res.json(result[0]);
             } 
-            else {
-                res.status(404).json({ error: 'Profile not found' });
-            }
+            
         });
 
     })

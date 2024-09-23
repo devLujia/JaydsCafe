@@ -92,8 +92,11 @@ function EditProd({closeModal, id}) {
                 axios.post('http://localhost:8081/updateProduct', formData)
                 .then(res => {
                   
-                  alert('Product updated successfully');
-                  closeModal(false);
+                  if(res.data.success === true){
+                    alert('Product updated successfully');
+                    closeModal(false);
+                  }
+                  
                 })
                 .catch(err=> console.log(err));
            

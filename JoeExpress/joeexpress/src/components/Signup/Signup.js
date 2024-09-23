@@ -14,10 +14,12 @@ import google from '../image/google.png';
 
 function Signup() {
     const [values, setValues] = useState({
+        pnum: '',
         name: '',
+        address: '',
         email: '',
-        password: '',
-        address: ''
+        password: ''
+        
     });
 
     const [cmsName,setCmsName] = useState('');
@@ -28,6 +30,11 @@ function Signup() {
     const [cmsPhone,setCmsPhone] = useState('');
     const [cmsTel,setCmsTel] = useState('');
     const [cmsSmallLogo,setSmallLogo] = useState(null);
+
+    const togglePassword = () => {
+      const passwordField = document.getElementById("password");
+      passwordField.type = passwordField.type === "password" ? "text" : "password";
+    }
 
 
     useEffect(()=>{
@@ -141,13 +148,23 @@ function Signup() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        const trimmedValues = {
+          ...values,
+          name: values.name.trim(),
+          email: values.email.trim(),
+          password: values.password.trim(),
+          address: values.address.trim()
+        };
         const err = Validation(values);
         setErrors(err);
 
         if (!err.name && !err.email && !err.password && !err.address) {
-            axios.post('http://localhost:8081/signup', values)
+            axios.post('http://localhost:8081/signup', trimmedValues)
                 .then(res => {
-                    navigate('/login');
+                    if(res.data.success === true){
+                      navigate('/login');
+                    }
                 })
                 .catch(err => console.error(err));
         }
@@ -182,26 +199,72 @@ function Signup() {
           <h2 class="text-3xl font-extrabold mb-6 text-black tracking-wider">Register</h2>
     
           {/* <!-- Form fields --> */}
-          <form>
+          <form onSubmit={handleSubmit}>
           <div class="mb-4"> {/* <!-- Phone Input--> */}
               <label for="Phone" class="text-gray-600 text-lg font-bold tracking-wider">Phone Number</label>
-              <input class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" id="Phone" type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" placeholder="0912-345-6789" required/>
+              <input 
+              onChange={handleInput}
+              class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
+              id="pnum" 
+              name="pnum"
+              type="tel" 
+              pattern="09[0-9]{9}" 
+              placeholder="Ex. 09123456789"
+              required/>
+              {errors.pnum && <span className='text-red-700'> {errors.pnum}</span>}
+              
           </div>
           <div class="mb-4"> {/* <!-- Fullname Input--> */}
               <label for="name" class="text-gray-600 text-lg font-bold tracking-wider">Fullname</label>
-              <input class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Ex. Juan Dela Cruz" required/>
+              <input 
+              onChange={handleInput}
+              class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
+              id="name" 
+              name="name"
+              type="text" 
+              placeholder="Ex. Juan Dela Cruz"
+              required/>
+              {errors.name && <span className='text-red-700'> {errors.name}</span>}
           </div>
+
+          <div class="mb-4"> {/* <!-- Email Input--> */}
+              <label for="address" class="text-gray-600 text-lg font-bold tracking-wider">Address</label>
+              <input 
+              onChange={handleInput}
+              class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
+              id="address" 
+              name="address"
+              type="text" placeholder="Ex. Salawag Diamond village Blk 10 Lot 4" required/>
+              {errors.address && <span className='text-red-700'> {errors.address}</span>}
+          </div>
+
           <div class="mb-4"> {/* <!-- Email Input--> */}
               <label for="email" class="text-gray-600 text-lg font-bold tracking-wider">Email</label>
-              <input class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Ex. JuanDelaCruz@gmail.com" required/>
+              <input 
+              onChange={handleInput}
+              class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
+              id="email" 
+              name="email"
+              type="email" 
+              placeholder="Ex. JuanDelaCruz@gmail.com" required/>
+              {errors.email && <span className='text-red-700'> {errors.email}</span>}
           </div>
+          
+          
 
           <div class="bg-white w-full max-w-full rounded-md mx-auto flex items-center"> {/* <!-- password Input--> */}
               <div class="relative w-full">
               <label for="password" class="text-gray-600 text-lg font-bold tracking-wider">Create Password</label>
-              <input type="password" placeholder="Password" class="w-full outline-0 text-gray-600 shadow appearance-none border rounded py-2 px-3 mb-10 leading-10 focus:outline-none focus:shadow-outline" id="password" required/>
-
-              <img src={hidden} alt="Eye" class="absolute right-3 top-10 w-8 cursor-pointer" id="hide"/> 
+              <input
+              onChange={handleInput}
+              type="password" placeholder="Password" 
+              class="w-full outline-0 text-gray-600 shadow appearance-none border 
+              rounded py-2 px-3 mb-10 leading-10 focus:outline-none focus:shadow-outline" 
+              id="password" 
+              name='password'
+              required/>
+              {errors.password && <span className='text-red-700'> {errors.password}</span>}
+              <img src={hidden} alt="Eye" class="absolute right-3 top-10 w-8 cursor-pointer" id="hide" onClick={togglePassword}/> 
               </div>
           </div>
 
@@ -251,7 +314,7 @@ function Signup() {
 
           <button class="bg-greenColor hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-full leading-10 mb-10"  type="submit">Register Account</button>
 
-          <p class="mb-10">I already have an account <span class="text-blue-500 cursor-pointer font-semibold"><a href="/public/Html/login.html">Log In now</a></span></p>
+          <p class="mb-10">I already have an account <span class="text-blue-500 cursor-pointer font-semibold"><a href="/login">Log In now</a></span></p>
           
           {/* <!-- or sign in with --> */}
             <div class="flex items-center mb-4">

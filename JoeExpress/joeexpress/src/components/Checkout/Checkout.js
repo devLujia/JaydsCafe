@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import fb from '../image/fb.svg';
 import ig from '../image/ig.svg';
 import yt from '../image/yt.svg';
@@ -11,8 +11,99 @@ import bagIcon from '../image/bag.svg';
 import gcash from '../image/gcash_logo.svg';
 import plus from '../image/plus.svg';
 import lock from '../image/lock.svg';
+import axios from 'axios';
+import CheckoutModal from '../Modal/FileModal/FileModal';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Checkout() {
+
+    const [showModal, setShowModal] = useState(false);
+    const [items, setItems] = useState([]);
+    const [userId, setUserId] = useState(null);
+    const [authenticated, setAuthenticated] = useState(false);
+    const navigate = useNavigate();
+    const [paymentIntentId, setPaymentIntentId] = useState(null);
+    const [totalBill, setTotalBill] = useState(0);
+    const [checkoutUrl, setCheckoutUrl] = useState(null);
+
+    
+
+    useEffect(() => {
+        axios.get('http://localhost:8081/')
+          .then(res => {
+            if (res.data.valid) {
+              setAuthenticated(true);
+              setUserId(res.data.userId);
+              
+            } else {
+              navigate('/');
+            }
+          })
+          .catch(err => console.log(err));
+      }, [navigate]);
+
+    useEffect(() => {
+        axios.post('http://localhost:8081/itemGetter', { userId })
+            .then(res => {
+                setItems(res.data.items);
+                const total = items.reduce((sum, item) => sum + item.food_price, 0);
+                setTotalBill(total);
+
+            })
+            .catch(error => {
+                console.error('Error fetching item details:', error);
+            });
+    },[userId]);
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+        navigate('/');  // Navigate after closing the modal
+    };
+
+    const handleCheckout = async () =>{
+
+        try{
+            const res = await axios.post('http://localhost:8081/order',{userId, totalBill});
+            if (res.data.success){
+              navigate('/');
+            }
+            else{
+              console.log('Checkout Failed')
+            }
+           } catch (error) {
+            console.error('Error during checkout:', error);
+        }
+
+    }
+
+    const handleCreatePaymentIntent = async () => {
+        try {
+          const response = await axios.post('http://localhost:8081/create-payment-intent', {
+            amount: totalBill,
+            description: 'Order Payment for JoeExpress Milktea',
+          });
+    
+          const { checkoutUrl } = response.data;
+          setCheckoutUrl(checkoutUrl);
+    
+          window.location.href = checkoutUrl;
+        } 
+        
+        catch (error) {
+          console.error('Error creating payment intent:', error);
+        }
+      };
+
+    useEffect(() => {
+        
+        const total = items.reduce((sum, item) => {
+          return sum + item.food_price * (item.quantity || 1);
+        }, 0);
+      
+        setTotalBill(total);
+      
+    });
+
   return (
     <div className='bg-white'>
         {/* <!-- nav --> */}
@@ -31,7 +122,7 @@ export default function Checkout() {
         <section class="grid grid-cols-1 md:grid-cols-2 p-4 pt-24 mx-32">
             {/* Left Side */}
             <div className='w-full px-10'>
-                <a href="/cart" class="text-2xl font-bold hover:underline"> <img src={arrowLeft} alt="" class="inline-block w-4 h-4 me-2"/>Back to Cart</a>
+                <Link to="/cart" class="text-2xl font-bold hover:underline"> <img src={arrowLeft} alt="" class="inline-block w-4 h-4 me-2"/>Back to Cart</Link>
                 
                 {/* payment checkout display */}
                 <div className='text-center'>
@@ -63,20 +154,20 @@ export default function Checkout() {
                     <form> {/* For option ng address */}
                         <div className='space-y-2'> {/* Main container */}
                             <div class="group"> {/* First option */}
-                                <label for="add1" class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100 ">
+                                <label htmlFor="add1" class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100 ">
                                     <input type="radio" id="add1" name="hosting" value="add1" class="peer text-textgreenColor focus:ring-textgreenColor "/>
                                     <div className='flex flex-col py-4 overflow-hidden'>
-                                        <label for="add1" class="w-full ms-3 pb-2 text-sm font-medium text-gray-900 tracking-wide">Edsel Noyuab , Blk 14 Lot 1 Tinola Street</label>
-                                        <label for="add1" class="w-full ms-3 text-sm font-normal text-gray-700 tracking-wide">Imus, Cavite, 1401, Phillipines</label>
+                                        <label htmlFor="add1" class="w-full ms-3 pb-2 text-sm font-medium text-gray-900 tracking-wide">Edsel Noyuab , Blk 14 Lot 1 Tinola Street</label>
+                                        <label htmlFor="add1" class="w-full ms-3 text-sm font-normal text-gray-700 tracking-wide">Imus, Cavite, 1401, Phillipines</label>
                                     </div>
                                 </label>
                             </div>
                             <div class="group">
-                                <label for="add2" class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100 ">
+                                <label htmlFor="add2" class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100 ">
                                     <input type="radio" id="add2" name="hosting" value="add2" class="peer text-textgreenColor focus:ring-textgreenColor "/>
                                     <div className='flex flex-col py-4 overflow-hidden'>
-                                        <label for="add2" class="w-full ms-3 pb-2 text-sm font-medium text-gray-900 tracking-wide">Edsel Noyuab , Blk 14 Lot 1 Tinola Street</label>
-                                        <label for="add2" class="w-full ms-3 text-sm font-normal text-gray-700 tracking-wide">Imus, Cavite, 1401, Phillipines</label>
+                                        <label htmlFor="add2" class="w-full ms-3 pb-2 text-sm font-medium text-gray-900 tracking-wide">Edsel Noyuab , Blk 14 Lot 1 Tinola Street</label>
+                                        <label htmlFor="add2" class="w-full ms-3 text-sm font-normal text-gray-700 tracking-wide">Imus, Cavite, 1401, Phillipines</label>
                                     </div>
                                 </label>
                             </div>
@@ -99,7 +190,7 @@ export default function Checkout() {
 
                     <div className='space-y-2'> {/* Main container */}
                         <div class="group"> {/* Gcash option */}
-                            <label for="gcash" class="inline-flex px-4 py-3 justify-between items-center w-full text-white bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor hover:bg-gray-100 ">
+                            <label htmlFor="gcash" class="inline-flex px-4 py-3 justify-between items-center w-full text-white bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor hover:bg-gray-100 ">
                                 <div className='inline-flex items-center'>
                                     <input type="radio" id="gcash" name="hosting" value="gcash" class="peer text-textgreenColor focus:ring-textgreenColor " required />
                                     <h1 className='text-black px-3'>Gcash</h1>
@@ -115,7 +206,7 @@ export default function Checkout() {
                             </label>
                         </div>
                         <div class="group"> {/* Cash option */}
-                            <label for="cash" class="inline-flex px-4 py-5 justify-between items-center w-full text-white bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor hover:bg-gray-100 ">
+                            <label htmlFor="cash" class="inline-flex px-4 py-5 justify-between items-center w-full text-white bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor hover:bg-gray-100 ">
                                 <div className='inline-flex items-center'>
                                     <input type="radio" id="cash" name="hosting" value="cash" class="peer text-textgreenColor focus:ring-textgreenColor " required />
                                     <h1 className='text-black ps-3'>Cash</h1>
@@ -128,9 +219,11 @@ export default function Checkout() {
                     </div>
                     
                     <div>
-                        <button className='bg-textgreenColor rounded-xl text-white w-full py-5'>
+                        <button onClick={handleCreatePaymentIntent} className='bg-textgreenColor rounded-xl text-white w-full py-5'>
                             Pay Now
                         </button>
+
+                        {/* <CheckoutModal show={showModal} onClose={handleCloseModal} /> */}
                     </div>
                 </div>
             </div>
@@ -138,57 +231,50 @@ export default function Checkout() {
             {/* right side */}
             <div className='w-full px-16'>
                 <div className='mt-10 space-y-4 h-96 overflow-hidden overflow-y-auto py-4'> {/* Main container */}
-                    <div className='flex flex-row relative'> {/* order list */}
-                        <div className='w-24 h-24 px-2 rounded-lg bg-textgreenColor overflow-hidden me-4'>
-                            <img src={expresso} className='object-contain object-fit h-full w-full' alt="expresso"></img>
-                        </div>
-                        <div className='flex justify-between w-full items-center font-semibold'>
-                            <h1 className='tracking-wider'>
-                                Rato Melkti
-                            </h1>
-                            <p>
-                                ₱29.99
-                            </p>
-                        </div>
-                        <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-black/50 rounded-full -top-2 start-16">3</div>
-                    </div>
 
-                    <div className='flex flex-row relative'> {/* order list */}
-                        <div className='w-24 h-24 px-2 rounded-lg bg-textgreenColor overflow-hidden me-4'>
-                            <img src={jaydscoffee} className='object-contain object-fit h-full w-full' alt="expresso"></img>
-                        </div>
-                        <div className='flex justify-between w-full items-center font-semibold'>
-                            <h1 className='tracking-wider'>
-                                Coffee Camarel
-                            </h1>
-                            <p>
-                                ₱79.99
-                            </p>
-                        </div>
-                        <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-black/50 rounded-full -top-2 start-16">10</div>
-                    </div>
+                    {items.map(item => (
 
-                    <div className='flex flex-row relative'> {/* order list */}
+                        <div key={item.id} className='flex flex-row relative items-center py-2'> {/* order list */}
+                            
+                        {/* Product image */}
                         <div className='w-24 h-24 px-2 rounded-lg bg-textgreenColor overflow-hidden me-4'>
-                            <img src={jaydscoffee} className='object-contain object-fit h-full w-full' alt="expresso"></img>
+                            <img src={item.food_image_url} className='object-contain h-full w-full' alt={item.food_name} />
                         </div>
-                        <div className='flex justify-between w-full items-center font-semibold'>
-                            <h1 className='tracking-wider'>
-                                Coffee Camarel
-                            </h1>
-                            <p>
-                                ₱79.99
-                            </p>
+
+                        {/* Product details */}
+                        <div className='flex flex-col w-full'>
+                            {/* Product name and size */}
+                            <div className='flex justify-between items-center mb-2'>
+                                <h1 className='font-semibold tracking-wider'>{item.food_name}</h1>
+                                <h1 className='text-gray-500 text-sm tracking-wider'>{item.size}</h1>
+                            </div>
+                            
+                            {/* Addons and price */}
+                            <div className='flex justify-between items-center'>
+                        
+                                <h1 className='text-sm tracking-wider'><span className='md:font-bold tracking-wider'>Addons:</span> {item.addons ? item.addons : 'No addons'}</h1>
+                                <p className='font-semibold tracking-wider'>
+                                    ₱<span>{item.food_price * item.quantity}</span>
+                                </p>
+                            </div>
                         </div>
-                        <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-black/50 rounded-full -top-2 start-16">10</div>
-                    </div>
+
+                        {/* Quantity badge */}
+                        <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-black/50 rounded-full -top-2 start-16">
+                            {item.quantity}
+                        </div>
+                        </div>
+
+                        
+                    ))}
+                      
 
                 </div>
 
                 {/* voucher */}
                 <div className='w-full mt-5'> 
                     <form class="flex items-center ">   
-                        <label for="simple-search" class="sr-only">Search</label>
+                        <label htmlFor="simple-search" class="sr-only">Search</label>
                             <input type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"  placeholder="Discount code or gift card"/>
                         
                         <button class="p-4 ms-2 text-sm font-medium text-white bg-textgreenColor rounded-lg border border-textgreenColor hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-textgreenColor">
@@ -206,7 +292,7 @@ export default function Checkout() {
                             Subtotal
                         </h1>
                         <p className='text-md font-semibold'>
-                            ₱109.98
+                        ₱{totalBill}.00
                         </p>
                     </div>
                     {/* Shipping */}
@@ -224,7 +310,7 @@ export default function Checkout() {
                             Total
                         </h1>
                         <p className='text-lg font-semibold'>
-                            <span className='text-gray-500 me-2 text-sm'>PHP</span>₱109.98
+                            <span className='text-gray-500 me-2 text-sm'>PHP</span>₱{totalBill}.00
                         </p>
                     </div>
                 </div>

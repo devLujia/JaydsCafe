@@ -9,15 +9,16 @@ import jaydsLogo from '../image/jayds cafe Logo.svg';
 import eye from '../image/eye(2).svg'
 import del from '../image/trashbin(2).svg'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Profile() {
 
   const [authenticated, setAuthenticated] = useState(false);
   const [orders,setOrders] = useState([]);
   const [expandedOrderId, setExpandedOrderId] = useState(null);
-  const [user_id, setUserId] = useState(null);
-  const [profile, setProfile] = useState({});
+  const [userId, setUserId] = useState(null);
+  const [profile, setProfile] = useState([]);
+  const [orderNotif, setOrderNotif] = useState(0);
 
   const navigate = useNavigate();
 
@@ -42,24 +43,36 @@ export default function Profile() {
 
 
   useEffect(() => {
-    axios.post('http://localhost:8081/personalOrder', { user_id })
+    axios.post('http://localhost:8081/personalOrder', { userId })
       .then(res => {
         setOrders(res.data);
       })
       .catch(error => {
         console.error('Error fetching orders:', error);
       });
-  }, [user_id]);
+  }, [userId]);
   
   useEffect(() => {
-    axios.post('http://localhost:8081/profile', { user_id })
+    axios.post('http://localhost:8081/profile', { userId })
       .then(res => {
         setProfile(res.data);
       })
       .catch(error => {
         console.error('Error fetching profile:', error);
       });
-  }, [user_id]);
+  }, [userId]);
+
+  useEffect(() => {
+    
+    axios.post('http://localhost:8081/orderNotif', { userId })
+      .then(response => {
+        setOrderNotif(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching orderNotif details:', error);
+      });
+
+  }, [userId]);
  
 
 
@@ -75,7 +88,15 @@ export default function Profile() {
       </div>
 
         <div>
-            <img class="cursor-pointer" onClick={()=>navigate('/menu')} src={bagIcon} alt=""/>
+                  <Link to={'/cart'} className="relative inline-block">
+                    <img src={bagIcon} alt="bag" className="w-8 h-8" /> {/* Adjust size as needed */}
+                    {orderNotif.totalOrders > 0 && (
+
+                      <span className="absolute top-[-5px] right-[-10px] bg-red-500 text-white text-base rounded-full px-2.5">
+                        {orderNotif.totalOrders}
+                      </span>
+                    )}
+                  </Link>
         </div>
     </nav>
 

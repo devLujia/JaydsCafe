@@ -11,6 +11,7 @@ import AddCategory from '../AdminModal/AddCategory/AddCategory'
 import RemoveCategory from '../AdminModal/RemoveCategory/RemoveCategory'
 import axios from 'axios'
 import EditProd from '../AdminModal/EditProd/EditProd'
+import EditAddons from '../AdminModal/EditAddons/EditAddons'
 import AddAddons from '../AdminModal/AddAddons/AddAddons'
 import AddSize from '../AdminModal/AddSize/AddSize'
 import hiddenImage from '../../image/hidden.png';
@@ -24,12 +25,17 @@ function ProductManagement() {
     
     const navigate = useNavigate();
     const [foods,setFoods] = useState([]);
+    const [addons,setAddons] = useState([]);
     const [search, setSearch] = useState('');
+    const [addonSearch, setAddonSearch] = useState('');
+
     const [addProductModal,setAddProductModal] = useState(false);
     const [addCategoryModal,setAddCategoryModal] = useState(false);
     const [removeCategoryModal,setRemoveCategoryModal] = useState(false);
     const [editProductModal,setEditProductModal] = useState(false);
-    const [selectedProductId, setSelectedUserId] = useState(null);
+    const [editAddonsModal,setEditAddonsModal] = useState(false);
+    const [selectedProductId, setProductId] = useState(null);
+    const [selectedAddonsId, setAddonsId] = useState(null);
     const [addAddonsModal,setAddAddonsModal] = useState(false);
     const [addSizeModal,setAddSizeModal] = useState(false);
 
@@ -37,7 +43,7 @@ function ProductManagement() {
         setAddAddonsModal(!addAddonsModal)
     }
     const handleAddSize = (id) =>{
-        setSelectedUserId(id); 
+        setProductId(id); 
         setAddSizeModal(!addSizeModal)
     }
 
@@ -52,8 +58,13 @@ function ProductManagement() {
         setAddProductModal(!addProductModal)
     }
     const handleEditProduct = (id) => {
-        setSelectedUserId(id); 
+        setProductId(id); 
         setEditProductModal(!editProductModal);
+    };
+
+    const handleEditAddons = (id) => {
+        setAddonsId(id); 
+        setEditAddonsModal(true);
     };
     
     useEffect(()=>{
@@ -65,6 +76,16 @@ function ProductManagement() {
             console.error('Error fetching food details:', error);
         });
     })
+    
+    useEffect(()=>{
+        axios.post('http://localhost:8081/Addons')
+        .then(response =>{
+            setAddons(response.data)
+        })
+        .catch(error => {
+            console.error('Error fetching addons details:', error);
+        });
+    },[])
 
 
     // useEffect(()=>{
@@ -84,13 +105,23 @@ function ProductManagement() {
     //         });
     // })
 
-    const handleRemoveProduct = (name) => {
+    const handleRemoveProduct = (id) => {
 
-        axios.post('http://localhost:8081/removeProduct', { name });
-        const updatedFoods = foods.filter((food) => food.name !== name);
+        axios.post('http://localhost:8081/removeProduct', { id });
+        const updatedFoods = foods.filter((food) => food.id !== id);
         setFoods(updatedFoods);
 
     }
+    
+    const handleRemoveAddons = (id) => {
+
+        axios.post('http://localhost:8081/removeAddons', { id });
+        const updatedAddons = addons.filter((addon) => addon.id !== id);
+        setAddons(updatedAddons);
+
+    }
+
+    
 
     const handleHide = (id) =>{
         axios.post('http://localhost:8081/hideProduct', {id})
@@ -104,12 +135,17 @@ function ProductManagement() {
         {removeCategoryModal && <RemoveCategory closeModal={setRemoveCategoryModal}/>}
         {addCategoryModal && <AddCategory closeModal={setAddCategoryModal}/>}
         {addProductModal && <AddProd closeModal={setAddProductModal}/>}
+
         {addSizeModal && selectedProductId !== null &&
         (<AddSize closeModal={() => setAddSizeModal(false)} id={selectedProductId}/>
         )} 
         
         {editProductModal && selectedProductId !== null && (
             <EditProd closeModal={() => setEditProductModal(false)} id={selectedProductId} />
+        )}
+        
+        {editAddonsModal && selectedAddonsId !== null && (
+            <EditAddons closeModal={() => setEditAddonsModal(false)} id={selectedAddonsId} />
         )}
 
         {/* <!-- nav --> */}
@@ -224,304 +260,184 @@ function ProductManagement() {
         </aside>
         
         <div class="p-4 sm:ml-72 bg-slate-100">
-            <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
-                <div class="flex items-center flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900">
-                
-                    <label for="table-search" class="sr-only">Search</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                            </svg>
-                        </div>
-                        <input 
-                        type="Search"
-                        id="table-search-users" 
-                        style={{ textTransform: 'uppercase' }} 
-                        onChange={(e)=> setSearch(e.target.value)}
-                        className="searchInput block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500" 
-                        
-                        placeholder="Search for Product"/>
-                    </div>
-                    <div class="ms-3 me-10">  {/* Categories */}
-                        <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-gray-900 bg-white border border-gray-500 hover:bg-gray-100 focus:ring-4 focus:outline-gray focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1 text-center inline-flex items-center" type="button">Categories<svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                            </svg>
-                        </button>
-
-                        {/* <!-- Dropdown menu --> */}
-                        <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                            <li>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Milk Tea</a>
-                            </li>
-                            <li>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Fruity</a>
-                            </li>
-                            <li>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Non-Coffee</a>
-                            </li>
-                            <li>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Snacks</a>
-                            </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="space-y-2 pt-6">
-                        <button onClick = {toggleAddAddonsModal} type="button" class="ml-auto text-white bg-greenColor hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-3 py-2 text-center inline-flex items-center">
-                            <img src={plus} alt="remove Addons" class="me-1 md:block"/>
-                            <span class="md:block hidden"> Add Addons </span>
-                        </button>
-
-                        <button onClick = {toggleAddCategoryModal} type="button" class="ml-5 text-white bg-greenColor hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-3 py-2 text-center inline-flex items-center">
-                            <img src={plus} alt="Plus_Product" class="me-1 md:block"/>
-                            <span class="md:block hidden"> Add Category </span>
-                        </button>
-
-                        <button onClick={toggleAddProductModal} type="button" class="ml-5 text-white bg-greenColor hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-3 py-2 text-center inline-flex items-center">
-                            <img src={plus} alt="Plus_Product" class="me-1 md:block"/>
-                            <span class="md:block hidden"> Add Product </span>
-                        </button>
-                        
-                        <button onClick = {toggleRemoveCategoryModal} type="button" class="ml-5 text-white bg-greenColor hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-3 py-2 text-center inline-flex items-center">
-                            <img src={trashbin3} alt="remove category" class="me-1 md:block"/>
-                            <span class="md:block hidden"> Remove Category </span>
-                        </button>
-                    </div>
-                    
-                </div>
-
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                    <table class="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-slate-100">
-                            <tr>
-                                <th scope="col" class="p-4">
-                                    <div class="flex items-center">
-                                        <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                        <label for="checkbox-all-search" class="sr-only">checkbox</label>
-                                    </div>
-                                </th>
-                                <th scope="col" class="px-6 py-3 w-66">
-                                    PRODUCT NAME
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    CATEGORY
-                                </th>
-                                <th scope="col" class="px-6 py-3 text-center">
-                                    Visibility
-                                </th>
-                                <th scope="col" class="px-6 py-3 text-center">
-                                    Size
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    PRICE
-                                </th>
-                            </tr>
-                        </thead>
-                        
-                        <tbody>
-
-                            {foods
-                            .filter((food) =>{ 
-                                return search.toLowerCase() === '' 
-                                ? food 
-                                : food.name.toLowerCase().includes(search);    
-                            })
-
-                            .map((food) => (
-                            <tr key={food.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"> {/* Taro Milk Tea */}
-                                <td class="w-4 p-4">
-                                    <div class="flex items-center">
-                                        <input id="checkbox-table-search-1" type="checkbox" 
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                        <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                                    </div>
-                                </td>
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    <div class="text-base font-semibold">{food.name}</div> {/* product name */}
-                                    <div class="text-base font-normal text-gray-500">Milk Tea</div>
-                                </th>
-                                <td class="px-6 py-4"> {/* Category */}
-                                    {food.title}
-                                </td>
-                                <td class="px-6 py-4"> {/* id */}
-                                    {food.visible === 1 ? "true" : "false"}
-                                </td>
-                                <td class="px-6 py-4"> {/* id */}
-                                    {food.medsize} / {food.lgsize}
-                                    
-
-                                </td>
-                                <td class="px-6 py-4"> {/* price */}
-                                    <div className='price-display'>
-                                    ₱ {food.medprice} / ₱ {food.lgprice}
-                                    </div>
-                                </td>
-                                <td class="flex items-center px-6 py-4 space-x-2">
-                                    <button type="button" 
-                                    onClick={() => handleEditProduct(food.id)}
-                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    <img src={edit} alt="edit" class="px-2"/>
-                                    </button>
-                                    
-
-                                    <button type="button" 
-                                    onClick={() => handleRemoveProduct(food.name)}
-                                    class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    <img src={trashbin3} alt="trashbin" class="px-2"/>
-                                    </button>
-
-                                    <button type="button" 
-                                    onClick={() => handleAddSize(food.id)}
-                                    class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    <img src={plus} alt="Add Size" class="px-2 h-6 color"/>
-                                    </button>
-
-
-                                    <button type="button" 
-                                    onClick={() => handleHide(food.id)}
-                                    class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    <img src={hiddenImage} alt="hide" class="px-2 h-6 color"/>
-                                    </button>
-
-
-
-                                </td>
-                            </tr>
-                                ))}
-
-                        </tbody> 
-                        
-                        
-                    </table>
-                </div>
-
-
-
-
-                
-            </div>
+  <div class="relative shadow-xl sm:rounded-lg mx-auto w-full max-w-7xl"> 
+    <div class="flex items-center flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900 rounded-t-xl">
+      <label for="table-search" class="sr-only">Search</label>
+      <div class="relative">
+        <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+          <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+          </svg>
         </div>
+        <input type="text"
+         id="table-search-users" 
+         style={{ textTransform: 'uppercase' }} 
+         onChange={(e)=> setSearch(e.target.value)}
+         class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for Product" />
+      </div>
+      <button onClick={()=>toggleAddProductModal()} type="button" class="ml-auto text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+        <img src={plus} alt="Plus_Product" class="me-2 md:block" />
+        <span class="md:block hidden"> Add Product </span>
+      </button>
 
-        
-        {/* Eto yung bagong design sa Product management, Cards na siya */}
-        {/* <div class="p-4 sm:ml-72 bg-slate-100">
-            <div class="relative shadow-xl sm:rounded-lg">
-                <div class="flex items-center flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900 rounded-t-xl">
-                
-                    <label for="table-search" class="sr-only">Search</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                            </svg>
-                        </div>
-                        <input type="text" id="table-search-users" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for Product">
-                    </div>
-                    <button type="button" class="ml-auto text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
-                        <img src="/public/image/plus.png" alt="Plus_Product" class="me-2 md:block">
-                        <span class="md:block hidden"> Add Product </span>
+    </div>
+
+    <div class="bg-white rounded-b-xl">
+      <div class="text-center">
+        <h1 class="text-5xl font-semibold tracking-wider">Products</h1>
+      </div>
+
+      <div id="mt-series" class="w-full max-w-7xl mx-auto mt-4">
+        <div class="container mx-auto p-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
+  
+            {foods
+              .filter((food) => {
+                return search.toLowerCase() === '' ? food : food.name.toLowerCase().includes(search);
+              })
+              .map((food) => (
+                <div key={food.id} class="rounded-lg p-3 shadow-2xl relative outline outline-gray-500 hover:scale-95 duration-300 hover:bg-jaydsBg">
+                  <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src={food.image_url} alt="Milk Tea" class="w-full h-full object-contain" />
+                  </div>
+
+                  <div class="text-center">
+                    <h3 class="text-auto font-semibold mt-4 min-h-15">{food.name}</h3>
+                    <p class="text-md font-normal mt-1"><span class="text-xl font-semibold mt-1">Sizes: </span>{food.medsize}  {food.lgsize ? '/ ' + food.lgsize : ''}                    </p>
+                    <p class="text-md font-normal mt-1"><span class="text-xl font-semibold mt-1">Price: </span>₱ {food.medprice}.00{food.lgsize ? '/₱ ' + food.lgprice +'.00': ''}</p>
+                  </div>
+
+                  <div class="flex justify-center mt-4 space-x-2">
+                    <button 
+                    onClick={() => handleEditProduct(food.id)}
+                    class="hover:scale-110 duration-300">
+                      <img src={edit} alt="edit" class="brightness-0 w-10 h-10"/>
                     </button>
+
+                    <button
+                    onClick={() => handleRemoveProduct(food.id)}
+                     class="hover:scale-110 duration-300">
+                      <img src={trashbin2}  alt="delete" class="brightness-0 w-12 h-12" />
+                    </button>
+
+                    <button
+                    onClick={() => handleAddSize(food.id)}
+                     class="hover:scale-110 duration-300">
+                      <img src={plus} className='filter invert w-12 h-12' alt="Add size" />
+                  </button>
+                  
+                  <button
+                    onClick={() => handleHide(food.id)}
+                     class="hover:scale-110 duration-300">
+                      <img src={hiddenImage} alt="hide" class="w-10 h-10" />
+                  </button>
+                  </div>
+
+                  
+                  
+
                 </div>
+              ))}
 
-                <div class="bg-white rounded-b-xl">
-                    <div class="text-center">
-                        <h1 class="text-5xl font-semibold tracking-wider">Milk Tea</h1>
-                    </div>
+            {/* <!-- end grid --> */}
+          </div>
+          {/* <!-- end container --> */}
+        </div>
+        {/* <!-- end mt-series --> */}
+      </div> 
+      
+      {/* <!-- end bg-white --> */}
+    </div> 
+  </div>
 
-                    <div id="mt-series" class=" w-3/4 mx-auto"> <!-- milk tea series div -->
-                        <div class="container mx-auto p-4 mt-4"> 
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                            <div class="rounded-lg p-3 shadow-2xl relative outline outline-gray-500 hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 1 -->
-                                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
-                                    <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain">
-                                </div>
+  <div class="relative shadow-xl sm:rounded-lg mt-20 mx-auto w-full max-w-7xl"> 
+    <div class="flex items-center flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900 rounded-t-xl">
+      <label for="table-search" class="sr-only">Search</label>
+      <div class="relative">
+        <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+          <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+          </svg>
+        </div>
+        <input type="text"
+         id="table-search-users" 
+         style={{ textTransform: 'uppercase' }} 
+         onChange={(e)=> setAddonSearch(e.target.value)}
+         class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for Addons" />
+      </div>
+      <button onClick={()=>toggleAddAddonsModal()} type="button" class="ml-auto text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+        <img src={plus} alt="Plus_Product" class="me-2 md:block" />
+        <span class="md:block hidden"> Add Addons </span>
+      </button>
 
-                                <div class="text-center">
-                                    <h3 class="text-xl font-semibold mt-4 min-h-15">Tahong</h3>
-                                    <p class="text-xl font-semibold mt-1"><span>Price: </span>P 65.00</p>
-                                </div>
+    </div>
 
-                                <div class="flex justify-center mt-4 space-x-5">
-                                    <button class="hover:scale-110 duration-300">
-                                        <img src="/public/image/edit.svg" alt="" class="w-10 h-10">
-                                    </button>
-        
-                                    <button class="hover:scale-110 duration-300">
-                                        <img src="/public/image/delete.svg" alt="" class="w-10 h-10">
-                                    </button>
-                                </div>
-                            </div>
-                
-                            <div class="rounded-lg p-3 shadow-2xl relative outline outline-gray-500 hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 1 -->
-                                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
-                                    <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain">
-                                </div>
+    <div class="bg-white rounded-b-xl mb-20">
+      <div class="text-center">
+        <h1 class="text-5xl font-semibold tracking-wider">Addons</h1>
+      </div>
 
-                                <div class="text-center">
-                                <h3 class="text-xl font-semibold mt-4 min-h-15">Tahong</h3>
-                                <p class="text-xl font-semibold mt-1"><span>Price: </span>P 65.00</p>
-                                </div>
+      <div id="mt-series" class="w-full max-w-7xl mx-auto mt-4">
+        <div class="container mx-auto p-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
+  
+            {addons
+            .filter(addon => {
+                return addon.name.toLowerCase().includes(addonSearch.toLowerCase());
+              })
+              .map(addon=> (
+                <div key={addon.id} class="rounded-lg p-3 shadow-2xl relative outline outline-gray-500 hover:scale-95 duration-300 hover:bg-jaydsBg">
+                  {/* <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <img src={addon.image_url} alt={addon.image_url} class="w-full h-full object-contain" />
+                  </div> */}
 
-                                <div class="flex justify-center mt-4 space-x-5">
-                                    <button class="hover:scale-110 duration-300">
-                                        <img src="/public/image/edit.svg" alt="" class="w-10 h-10">
-                                    </button>
-        
-                                    <button class="hover:scale-110 duration-300">
-                                        <img src="/public/image/delete.svg" alt="" class="w-10 h-10">
-                                    </button>
-                                </div>
-                            </div>
+                  <div class="text-center">
+                    <h3 class="text-xl font-semibold mt-4 min-h-15">{addon.name}</h3>
+                    <p class="text-md font-normal mt-1"><span class="text-xl font-semibold mt-1">Price: </span> ₱ {addon.price}</p>
+                    {/* <p class="text-md font-normal mt-1"><span class="text-xl font-semibold mt-1">Price: </span>₱ {addon.medprice}.00{food.lgsize ? '/₱ ' + food.lgprice +'.00': ''}</p> */}
+                  </div>
 
-                            <div class="rounded-lg p-3 shadow-2xl relative outline outline-gray-500 hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 1 -->
-                                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
-                                    <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain">
-                                </div>
+                  <div class="flex justify-center mt-4 space-x-2">
+                    <button 
+                    onClick={() => handleEditAddons(addon.id)}
+                    class="hover:scale-110 duration-300">
+                      <img src={edit} alt="edit" class="w-10 h-10" />
+                    </button>
 
-                                <div class="text-center">
-                                <h3 class="text-xl font-semibold mt-4 min-h-15">Tahong</h3>
-                                <p class="text-xl font-semibold mt-1"><span>Price: </span>P 65.00</p>
-                                </div>
+                    <button
+                    onClick={() => handleRemoveProduct(addon.id)}
+                     class="hover:scale-110 duration-300">
+                      <img src={trashbin2} alt="delete" class="w-10 h-10" />
+                    </button>
+                  
+                  {/* <button
+                    onClick={() => handleHide(food.id)}
+                     class="hover:scale-110 duration-300">
+                      <img src={hiddenImage} alt="hide" class="w-10 h-10" />
+                  </button>
+                   */}
+                   </div>
 
-                                <div class="flex justify-center mt-4 space-x-5">
-                                    <button class="hover:scale-110 duration-300">
-                                        <img src="/public/image/edit.svg" alt="" class="w-10 h-10">
-                                    </button>
-        
-                                    <button class="hover:scale-110 duration-300">
-                                        <img src="/public/image/delete.svg" alt="" class="w-10 h-10">
-                                    </button>
-                                </div>
-                            </div>
+                  
+                  
 
-                            <div class="rounded-lg p-3 shadow-2xl relative outline outline-gray-500 hover:scale-95 duration-300 hover:bg-jaydsBg"> <!-- card 1 -->
-                                <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
-                                    <img src="/Images(Export)/caramel.png" alt="Milk Tea" class="w-full h-full object-contain">
-                                </div>
-
-                                <div class="text-center">
-                                <h3 class="text-xl font-semibold mt-4 min-h-15">Tahong</h3>
-                                <p class="text-xl font-semibold mt-1"><span>Price: </span>P 65.00</p>
-                                </div>
-
-                                <div class="flex justify-center mt-4 space-x-5">
-                                    <button class="hover:scale-110 duration-300">
-                                        <img src="/public/image/edit.svg" alt="" class="w-10 h-10">
-                                    </button>
-        
-                                    <button class="hover:scale-110 duration-300">
-                                        <img src="/public/image/delete.svg" alt="" class="w-10 h-10">
-                                    </button>
-                                </div>
-                            </div>
-                
-                        </div> 
-                        </div>
-                    </div>
                 </div>
-            </div>
-        </div> */}
+              ))}
+
+            {/* <!-- end grid --> */}
+          </div>
+          {/* <!-- end container --> */}
+        </div>
+        {/* <!-- end mt-series --> */}
+      </div> 
+      
+      {/* <!-- end bg-white --> */}
+    </div> 
+  </div>
+</div>
+
+        {/* Eto yung bagong design sa Product management, Cards na siya */}
+        
     </div>
   )
 }
