@@ -6,27 +6,35 @@ import track4 from '../image/track4.png';
 import arrowL from '../image/arrow left.png'
 import logo from '../image/logo.png'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function OrderTracking() {
 
     const [authenticated, setAuthenticated] = useState(false);
     const [userId, setUserId] = useState(null);
     const navigate = useNavigate();
+    const { OrdrId } = useParams();
+    const [Ordr,setOrdr] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:8081/')
-          .then(res => {
-            if (res.data.valid) {
-              setAuthenticated(true);
-              setUserId(res.data.userId);
+        axios.get(`http://localhost:8081/tracking/${OrdrId}`)
+            .then(res => setOrdr(res.data.data))
+            .catch(err => console.log(err));
+    }, [OrdrId]);
+
+    // useEffect(() => {
+    //     axios.get('http://localhost:8081/')
+    //       .then(res => {
+    //         if (res.data.valid) {
+    //           setAuthenticated(true);
+    //           setUserId(res.data.userId);
               
-            } else {
-              navigate('/');
-            }
-          })
-          .catch(err => console.log(err));
-      }, [navigate]);
+    //         } else {
+    //           navigate('/');
+    //         }
+    //       })
+    //       .catch(err => console.log(err));
+    //   }, [navigate]);
 
 
   return (

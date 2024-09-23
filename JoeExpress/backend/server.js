@@ -10,8 +10,15 @@ const MailGen = require('mailgen');
 const axios = require('axios');
 const multer = require('multer')
 const path = require('path')
-const {EMAIL,PASSWORD,PAYMONGO_SECRET_KEY} = require('./env.js')
+//const {EMAIL,PASSWORD,PAYMONGO_SECRET_KEY} = require('./env.js')
 const app = express();
+require('dotenv').config();
+
+
+const EMAIL = process.env.EMAIL;
+const PASSWORD = process.env.PASSWORD;
+const PAYMONGO_SECRET_KEY = process.env.PAYMONGO_SECRET_KEY;
+const PAYMONGO_PUBLIC_KEY = process.env.PAYMONGO_PUBLIC_KEY;
 
 app.use(cors({
     origin:"http://localhost:3000",
@@ -390,6 +397,20 @@ app.get('/items/:foodId', (req, res) => {
     
   });
 
+  app.get('/tracking/:orderId',(req,res)=>{
+    const {OrdrId} = req.params
+
+    const query = `SELECT * From ORDERS Where order_id = ?`
+    db.query(query, [OrdrId], (err, results) => {
+        if (err) {
+            console.error('Error fetching food data:', err);
+            return res.status(500).json({ success: false, message: 'Server error' });
+          }
+        res.json(results)
+    })
+
+  })
+
   app.post('/cart_items', (req, res) => {
     const { foodId, size, price, addons } = req.body;
     const userId = req.session.userId;
@@ -572,7 +593,7 @@ app.post('/create-payment-intent', async (req, res) => {
             attributes: {
               amount: amount * 100, // amount in cents
               redirect: {
-                success: 'http://localhost:3000/payment-success',
+                success: 'http://localhost:3000/tracking',
                 failed: 'http://localhost:3000/payment-failed',
               },
               type: 'gcash', // Or 'card', 'grab_pay', depending on your use case
