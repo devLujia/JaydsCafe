@@ -176,7 +176,7 @@ function Signup() {
       <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">
         <div class="font-extrabold text-2xl flex items-center">
           {/* <!-- Logo/Title in Navbar --> */}
-          <a href="/public/index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
+          <a href="/" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
         </div>
 
         <div class="inline-flex items-center justify-center me-2">

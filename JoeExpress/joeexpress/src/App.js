@@ -23,7 +23,11 @@ import Order from './components/AdminModule/Order_New/Order_New'
 import Inbox from './components/AdminModule/Message/Message'
 import Settings from './components/AdminModule/Settings/Settings'
 import Checkout from './components/Checkout/Checkout'
+import Sales from './components/AdminModule/Sales/Sales'
 import Profile from './components/Profile/Profile'
+
+import RiderLogin from './components/RiderModule/LoginRider/LoginRider'
+import RiderForgot from './components/RiderModule/ForgotPasswordRider/ForgotPasswordRider'
 
 function App() {
 
@@ -53,7 +57,11 @@ function App() {
       <Route path='/Message' element = {<Inbox/>}></Route>
       <Route path='/Settings' element = {<Settings/>}></Route>
       <Route path='/Checkout' element = {<Checkout/>}></Route>
+      <Route path='/Sales' element = {<Sales/>}></Route>
       <Route path='/Profile' element = {<Profile/>}></Route>
+      
+      <Route path='/RiderLogin' element = {<RiderLogin/>}></Route>
+      <Route path='/RiderForgot' element = {<RiderForgot/>}></Route>
 
     </Routes>
     </BrowserRouter>
