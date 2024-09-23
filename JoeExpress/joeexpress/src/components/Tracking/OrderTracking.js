@@ -16,11 +16,12 @@ function OrderTracking() {
     const { OrdrId } = useParams();
     const [Ordr,setOrdr] = useState([]);
 
-    useEffect(() => {
-        axios.get(`http://localhost:8081/tracking/${OrdrId}`)
-            .then(res => setOrdr(res.data.data))
-            .catch(err => console.log(err));
-    }, [OrdrId]);
+    // useEffect(() => {
+    //     axios.get(`http://localhost:8081/tracking/${OrdrId}`)
+    //         .then(res => setOrdr(res.data.data))
+    //         .catch(err => console.log(err));
+    
+    // }, [OrdrId]);
 
     // useEffect(() => {
     //     axios.get('http://localhost:8081/')
@@ -61,7 +62,7 @@ function OrderTracking() {
              <div>
                  <p class="font-bold text-xl">
                   Order Number: 
-                  <span class="font-normal ps-2">30 minutes</span>
+                  <span class="font-normal ps-2">{OrdrId}</span>
                  </p>
              </div>
             </div>

@@ -25,13 +25,16 @@ export default function Checkout() {
     const [paymentIntentId, setPaymentIntentId] = useState(null);
     const [totalBill, setTotalBill] = useState(0);
     const [checkoutUrl, setCheckoutUrl] = useState(null);
+    const [orderID,setOrderId] = useState([])
 
     const { OrdrId } = useParams();
-    const [Ordr,setOrdr] = useState([]);
+    
 
-    const handleNav = (OrdrId) =>{
-        navigate(`/tracking/${OrdrId}`);
-    }
+    useEffect(() => {
+        axios.get(`http://localhost:8081/tracking/${OrdrId}`)
+            .then(res => setOrderId(res.data.data))
+            .catch(err => console.log(err));
+    }, [OrdrId]);
 
 
     useEffect(() => {
@@ -87,6 +90,8 @@ export default function Checkout() {
           const response = await axios.post('http://localhost:8081/create-payment-intent', {
             amount: totalBill,
             description: 'Order Payment for JoeExpress Milktea',
+            OrderID: orderID,
+            userId: userId,
           });
     
           const { checkoutUrl } = response.data;

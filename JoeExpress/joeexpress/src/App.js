@@ -40,7 +40,7 @@ function App() {
       <Route path='/menu' element={<Menu/>}></Route>
       {/* <Route path='/items/:foodId' element = {<Item/>}> </Route> */}
       <Route path='/cart' element = {<Cart/>}> </Route>
-      <Route path='/tracking/:OrderId' element = {<Tracking/>}> </Route>
+      <Route path='/tracking/' element = {<Tracking/>}> </Route>
       <Route path='/dashboard' element={<AdminDashboard/>}></Route>
       <Route path='/admin' element={<AdminLogin/>}></Route>
       <Route path='/adminregistration' element={<AdminRegistration/>}></Route>.

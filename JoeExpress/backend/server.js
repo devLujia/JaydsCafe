@@ -77,48 +77,7 @@ app.get('/',(req,res)=>{
 }) 
 
 
-app.post('/order', (req, res) => {
-    const { userId, totalBill } = req.body;
 
-    // Insert into orders table
-    const query = `
-        INSERT INTO orders (customer_id, totalPrice, status) 
-        VALUES (?, ?, 'paid');
-        SELECT LAST_INSERT_ID() as lastOrderId;
-    `;
-
-    db.query(query, [userId, totalBill], (err, resInInserting) => {
-        if (err) {
-            return res.json({ success: false, err: "Error inserting order" });
-        }
-
-        const lastOrderId = resInInserting[1][0].lastOrderId;
-
-        // Insert into orders_food with addons
-        const gettingOrder = `
-            INSERT INTO orders_food (order_id, food_id, quantity, addons, size)
-            SELECT ?, food_id, quantity, addons, size
-            FROM cart_items
-            WHERE user_id = ?;
-        `;
-
-        db.query(gettingOrder, [lastOrderId, userId], (err, resInGettingOrder) => {
-            if (err) {
-                return res.json({ err: "Error inserting order_food" });
-            }
-
-            // Delete from cart_items after order is placed
-            const remove = `DELETE FROM cart_items WHERE user_id = ?`;
-            db.query(remove, [userId], (errInRemove, resInRemove) => {
-                if (errInRemove) {
-                    return res.json({ err: "Error removing items from cart" });
-                }
-            });
-
-            return res.json({ success: true });
-        });
-    });
-});
 
 
 app.post('/cms', (req, res) => {
@@ -397,8 +356,9 @@ app.get('/items/:foodId', (req, res) => {
     
   });
 
-  app.get('/tracking/:orderId',(req,res)=>{
-    const {OrdrId} = req.params
+  app.get('/tracking/:OrdrId',(req,res)=>{
+    
+    const { OrdrId } = req.params
 
     const query = `SELECT * From ORDERS Where order_id = ?`
     db.query(query, [OrdrId], (err, results) => {
@@ -406,7 +366,13 @@ app.get('/items/:foodId', (req, res) => {
             console.error('Error fetching food data:', err);
             return res.status(500).json({ success: false, message: 'Server error' });
           }
-        res.json(results)
+            if (results.length > 0) {
+            res.json(results[0]);
+            } 
+            else {
+            // If no order is found, return a 404 status
+            res.status(404).json({ success: false, message: 'Order not found' });
+            }
     })
 
   })
@@ -560,68 +526,177 @@ app.get('/verify/:token', (req, res) => {
     });
 });
 
+app.post('/order', (req, res) => {
+    const { userId, amount } = req.body;
+
+    // Insert into orders table
+    const query = `
+        INSERT INTO orders (customer_id, totalPrice, status) 
+        VALUES (?, ?, 'paid');
+        SELECT LAST_INSERT_ID() as lastOrderId;
+    `;
+
+    db.query(query, [userId, amount], (err, resInInserting) => {
+        if (err) {
+            return res.json({ success: false, err: "Error inserting order" });
+        }
+
+        const lastOrderId = resInInserting[1][0].lastOrderId;
+
+        // Insert into orders_food with addons
+        const gettingOrder = `
+            INSERT INTO orders_food (order_id, food_id, quantity, addons, size)
+            SELECT ?, food_id, quantity, addons, size
+            FROM cart_items
+            WHERE user_id = ?;
+        `;
+
+        db.query(gettingOrder, [lastOrderId, userId], (err, resInGettingOrder) => {
+            if (err) {
+                return res.json({ err: "Error inserting order_food" });
+            }
+
+            // Delete from cart_items after order is placed
+            const remove = `DELETE FROM cart_items WHERE user_id = ?`;
+            db.query(remove, [userId], (errInRemove, resInRemove) => {
+                if (errInRemove) {
+                    return res.json({ err: "Error removing items from cart" });
+                }
+            });
+
+            return res.json({ success: true });
+        });
+    });
+});
+
+// Webhook route to handle payment success
+app.post('/webhook', (req, res) => {
+    console.log('Webhook received:', req.body);
+    const event = req.body;
+
+    // Function to fetch the list of webhooks
+    const getWebhooks = async () => {
+        const options = {
+            method: 'GET',
+            url: 'https://api.paymongo.com/v1/webhooks',
+            headers: {
+                accept: 'application/json',
+                authorization: 'Basic c2tfdGVzdF81NXhIV1JVRFI3UXoxOTZicHNBZTFCREw6' // Replace with actual credentials
+            }
+        };
+
+        try {
+            const response = await axios.request(options);
+            console.log('Fetched webhooks:', response.data);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching webhooks:', error);
+            return null;
+        }
+    };
+
+    // First, check if the webhook event is a valid one by fetching all registered webhooks
+    getWebhooks().then((webhooks) => {
+        if (!webhooks) {
+            return res.status(500).json({ success: false, message: 'Failed to verify webhook.' });
+        }
+
+        // Now process the incoming webhook event
+        if (event.type === 'payment_intent.succeeded') {
+            const paymentIntent = event.data;
+            const { metadata } = paymentIntent.attributes;
+
+            const { userId } = metadata;
+
+            // Amount is in cents, convert it back to PHP
+            const totalBill = paymentIntent.attributes.amount / 100;
+
+            const orderData = {
+                userId: userId,
+                amount: totalBill,
+            };
+
+            // Call the /order route to place the order
+            axios.post('http://localhost:8081/order', orderData)
+                .then(() => {
+                    res.status(200).json({ success: true, message: 'Order placed successfully after payment.' });
+                })
+                .catch(err => {
+                    console.error('Error placing order after payment:', err);
+                    res.status(500).json({ success: false, message: 'Error placing order after payment' });
+                });
+        } else {
+            // If event type is not handled, log the event and respond with 400
+            console.log('Unhandled event type:', event.type);
+            res.status(400).send('Webhook event not handled');
+        }
+    });
+});
+  
 app.post('/create-payment-intent', async (req, res) => {
-    const { amount, description } = req.body;
-  
+    const { amount, description, userId } = req.body;
+
     try {
-      const response = await axios.post(
-        'https://api.paymongo.com/v1/payment_intents',
-        {
-          data: {
-            attributes: {
-              amount: amount * 100,
-              payment_method_allowed: ['gcash'],
-              currency: 'PHP',
-              description: description,
+        const response = await axios.post(
+            'https://api.paymongo.com/v1/payment_intents',
+            {
+                data: {
+                    attributes: {
+                        amount: amount * 100,
+                        payment_method_allowed: ['gcash'],
+                        currency: 'PHP',
+                        description: description,
+                        metadata: {
+                            userId: userId.toString()
+                        },
+                    },
+                },
             },
-          },
-        },
-        {
-          headers: {
-            Authorization: `Basic ${Buffer.from(PAYMONGO_SECRET_KEY).toString('base64')}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-  
-      const paymentIntentId = response.data.data.id;
+            {
+                headers: {
+                    Authorization: `Basic ${Buffer.from(PAYMONGO_SECRET_KEY).toString('base64')}`,
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
 
-      const checkoutResponse = await axios.post(
-        'https://api.paymongo.com/v1/sources',
-        {
-          data: {
-            attributes: {
-              amount: amount * 100, // amount in cents
-              redirect: {
-                success: 'http://localhost:3000/tracking',
-                failed: 'http://localhost:3000/payment-failed',
-              },
-              type: 'gcash', // Or 'card', 'grab_pay', depending on your use case
-              currency: 'PHP',
+        const paymentIntentId = response.data.data.id;
+
+        const checkoutResponse = await axios.post(
+            'https://api.paymongo.com/v1/sources',
+            {
+                data: {
+                    attributes: {
+                        amount: amount * 100, // amount in cents
+                        redirect: {
+                            success: `http://localhost:3000/tracking`,
+                            failed: 'http://localhost:3000/payment-failed',
+                        },
+                        type: 'gcash', // Payment type
+                        currency: 'PHP',
+                    },
+                },
             },
-          },
-        },
-        {
-          headers: {
-            Authorization: `Basic ${Buffer.from(PAYMONGO_SECRET_KEY).toString('base64')}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-  
-      res.json({
-        checkoutUrl: checkoutResponse.data.data.attributes.redirect.checkout_url,
-        paymentIntentId,
-      });
+            {
+                headers: {
+                    Authorization: `Basic ${Buffer.from(PAYMONGO_SECRET_KEY).toString('base64')}`,
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+
+        res.json({
+            checkoutUrl: checkoutResponse.data.data.attributes.redirect.checkout_url,
+            paymentIntentId,
+        });
     } 
-    
     catch (error) {
-      console.error('Error creating payment intent or checkout:', error.response?.data || error.message);
-      res.status(500).json({ error: 'Failed to create payment intent or checkout' });
+        console.error('Error creating payment intent or checkout:', error.response?.data || error.message);
+        res.status(500).json({ error: 'Failed to create payment intent or checkout' });
     }
+});
 
 
-  });
 
 // app.post('/verify-payment', async (req, res) => {
 //     const { paymentIntentId } = req.body;
@@ -858,7 +933,6 @@ app.post('/deleteUserData',(req,res)=>{
         })
 
     })
-
 
 })
 

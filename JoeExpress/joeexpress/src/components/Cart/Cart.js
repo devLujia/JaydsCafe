@@ -16,6 +16,7 @@ function Cart() {
     const [items, setItems] = useState([]);
     const navigate = useNavigate();
     const [totalBill, setTotalBill] = useState(0);
+    
     const [quantity, setQuantity] = useState(
         items.reduce((acc, item) => {
           acc[item.id] = 1;
