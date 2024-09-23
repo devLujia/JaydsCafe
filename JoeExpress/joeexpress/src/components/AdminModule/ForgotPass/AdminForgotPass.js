@@ -29,7 +29,7 @@ export default function AdminForgotPass() {
                 <input class="bg-yellow-900 hover:bg-amber-900 text-white font-semibold py-2 px-4 rounded-lg w-full leading-10 mb-5 tracking-wider" type="submit" value="Send Password Reset Link"/>
                 </form>
         </div>
-        </div>
+      </div>
     </div>
   )
 }

@@ -163,21 +163,21 @@ function AdminDashboard() {
   return (
     <div class="bg-jaydsBg">
       <nav class="sticky top-0 bg-jaydsBg z-20 shadow-lg flex justify-betwee">
-            <div class="font-extrabold text-2xl flex items-center">
-                {/* <!-- Logo/Title in Navbar --> */}
-                <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
-            </div>
-            <div></div>
-            {/* <!-- Button for Login or Sign Up --> */}
-            <div class="flex justify-end items-center">
-                <div class="px-4 py-3 text-sm text-gray-900 flex flex-col items-center justify-end">
-                    <div class="font-bold">Migz Gomez Go</div>
-                    <div class="items-center justify-center">Admin</div>
-                </div>
+         <div class="font-extrabold text-2xl flex items-center">
+               {/* <!-- Logo/Title in Navbar --> */}
+               <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
+         </div>
+         <div></div>
+         {/* <!-- Button for Login or Sign Up --> */}
+         <div class="flex justify-end items-center">
+               <div class="px-4 py-3 text-sm text-gray-900 flex flex-col items-center justify-end">
+                  <div class="font-bold">Migz Gomez Go</div>
+                  <div class="items-center justify-center">Admin</div>
+               </div>
 
-                <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src={user} alt="User dropdown"/>
-            </div>
-        </nav>
+               <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src={user} alt="User dropdown"/>
+         </div>
+      </nav>
 
       <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-72 h-screen pt-5 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
          <div class="h-full px-3 pb-4 overflow-y-auto bg-white">
@@ -215,7 +215,7 @@ function AdminDashboard() {
                </li>
 
                <li> {/* <!-- Sales Report --> */}
-               <a href="/public/Html_Admin/paymentManagement.html" class="flex items-center p-2 text-gray-600 rounded-lg dark:text-white hover:bg-greenColor  group hover:text-white">
+               <a href="/Sales" class="flex items-center p-2 text-gray-600 rounded-lg dark:text-white hover:bg-greenColor  group hover:text-white">
                   <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75  group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                      <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z"/>
                      <path d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z"/>
@@ -225,7 +225,7 @@ function AdminDashboard() {
                </a>
                </li>
                <li> {/* <!-- Customer Account --> */}
-                  <a href="/customerManagement" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor group hover:text-white">
+                  <a href="/CustomerAccount" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor group hover:text-white">
                      <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75 group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                         <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
                      </svg>
@@ -273,21 +273,23 @@ function AdminDashboard() {
          </div>
       </aside>
 
-      <div class="p-4 sm:ml-64 pt-20">
+      <div class="p-4 sm:ml-64 pt-10">
          <div class="p-4 ml-8">
 
             {/* Overview & Chats*/}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
 
                {/* Overview */}
-               <div class="p-4 bg-white rounded-xl h-fit w-fit">
+               <div class="p-4 bg-white rounded-xl h-full w-fit">
                   <div class="flex relative justify-between">
-                     <h1 class="font-bold text-3xl tracking-wide">Overview</h1>
-                     <button class="p-2 border-2 border-gray-500 rounded-lg">View Statistics</button>
+                     <h1 class="font-bold text-3xl tracking-wide mb-3">Overview</h1>
+                     <button class="p-2 border-2 border-gray-500 rounded-lg">
+                        <Link to='/Sales'>View Statistics</Link>
+                     </button>
                   </div>
-                  <p class="mb-10">Sales Summary</p>
+                  <p class="mb-16">Sales Summary</p>
 
-                  <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 mb-4">
+                  <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4">
                      <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-red-200 dark:bg-gray-800 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="100">
                         <div class= "w-10 h-10 mb-6 bg-red-400 rounded-full justify-center flex items-center flex-shrink-0">
                            <img src={sales}></img>
@@ -335,7 +337,9 @@ function AdminDashboard() {
                <div class="bg-white rounded-xl p-4 h-96 overflow-hidden">
                   <div class="flex justify-between sticky top-0 bg-white">
                      <h1 class="font-bold text-3xl tracking-wide">Chats</h1>
-                     <button class="p-2 border-2 border-gray-500 rounded-lg">View All Messages</button>
+                     <button class="p-2 border-2 border-gray-500 rounded-lg">
+                        <Link to='/Message'>View All Messages</Link>
+                     </button>
                   </div>
                   {/* Contacts */}
                   <div class="overflow-y-auto max-h-full pb-2">
@@ -396,7 +400,9 @@ function AdminDashboard() {
 
                         <div class="flex justify-between sticky top-0 bg-white p-3">
                            <h1 class="font-bold text-3xl tracking-wide">Pending Orders</h1>
-                           <button class="p-2 border-2 border-gray-500 rounded-lg">View All Products</button>
+                           <button class="p-2 border-2 border-gray-500 rounded-lg">
+                              <Link to='/ProductManagement'>View All Products</Link>
+                           </button>
                         </div>
 
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -611,7 +617,9 @@ function AdminDashboard() {
                <div class="bg-white rounded-xl p-4 h-96 overflow-hidden">
                   <div class="flex justify-between sticky top-0 bg-white mb-5 z-10">
                      <h1 class="font-bold text-3xl tracking-wide">Website Content</h1>
-                     <button class="p-2 border-2 border-gray-500 rounded-lg">View All Content</button>
+                     <button class="p-2 border-2 border-gray-500 rounded-lg">
+                        <Link to='/ContentManagement'>View All Content</Link>
+                     </button>
                   </div>
 
                   <div className='flex flex-col justify-center space-y-5 items-center overflow-y-auto max-h-full pt-40 pb-10'>
