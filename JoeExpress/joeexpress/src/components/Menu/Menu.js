@@ -317,7 +317,7 @@ const toggleDropdown = () => {
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
 
                 {foods.map(food=>(
-                  <div key={food.id} class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 1 -->*/}
+                  <div key={food.id} class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg" data-aos="flip-right" data-aos-duration="1000" data-aos-easing="ease-out-cubic"> {/*<!-- card 1 -->*/}
                     <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
                         <img src={food.image_url} alt="Milk Tea" class="w-full h-full object-contain"/>
                     </div>
@@ -728,6 +728,9 @@ const toggleDropdown = () => {
 
         </div>
       </div>
+
+      
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>{/* <!-- AOS Animation--> */}
     </div>
   )
 }
