@@ -27,11 +27,11 @@ export default function ForgotPasswordRider() {
                     </p>
                     <div class="mb-4 relative"> {/* <!-- email--> */}
                         <label for="email" class="text-gray-600 text-md font-bold tracking-wider ">Email</label>
-                        <input class="mt-2 shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Ex. Juan Dela Cruz" required/>
+                        <input class="mt-2 shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Enter your Email" required/>
                         <img src={email} className='absolute end-5 top-12 md:block hidden'></img>
                     </div>
 
-                    <input class="bg-greenColor hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-full leading-10 " type="submit" value="Sign In"/>
+                    <input class="bg-greenColor hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-full leading-10 " type="submit" value="Send Password Reset Link"/>
                 </form>
             </div>
         </div>
