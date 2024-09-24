@@ -111,7 +111,7 @@ function EditProd({closeModal, id}) {
               <h1 className='text-xl font-bold'>Edit Product</h1>
               <button 
               onClick={()=> closeModal(false)}
-              className='text-white bg-red-500 px-3 py-1 hover:bg-red-600 rounded-sm'>
+              className='text-white bg-red-500 px-3 py-1 hover:bg-red-600 rounded-lg'>
                 X
               </button>
             </div>

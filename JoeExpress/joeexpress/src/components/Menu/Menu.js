@@ -11,6 +11,7 @@ import axios from 'axios'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useNavigate } from 'react-router-dom'
+import AddOrder from '../UserModal/AddOrder'
 
 
 function Menu() {
@@ -32,6 +33,14 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
 const [orderNotif, setOrderNotif] = useState(0);
 const [isOpen, setIsOpen] = useState(false);
 const [isOpenRightNav, setIsOpenRightNav] = useState(false);
+
+// modal
+const [addAddorderModal,setAddAddorderModal] = useState(false);
+
+// modal
+const toggleAddAddorderModal = () =>{
+  setAddAddorderModal(!addAddorderModal)
+}
 
 const toggleDropdown = () => {
   setIsOpen(!isOpen);
@@ -188,6 +197,9 @@ const rightNav = () => {
           
   return (
     <div>
+      
+      {addAddorderModal && <AddOrder closeModal={addAddorderModal}/>}
+
       {/* <!-- Navbar --> */}
       <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">
         <div class="font-extrabold text-2xl flex items-center">
@@ -243,7 +255,7 @@ const rightNav = () => {
           <div class="absolute top-0 left-0 w-full h-full"> {/* <!-- buttons and title -->*/}
             <h1 class="text-2xl md:text-5xl font-bold my-10 text-center"><span class="text-textgreenColor pe-3">Explore our</span>Menu</h1>
 
-            <div class="justify-center items-center mx-auto px-52 flex-wrap space-x-3 space-y-2 hidden lg:flex">
+            <div class="justify-center items-center mx-auto px-52 flex-wrap space-x-3 space-y-3 hidden lg:flex">
               {/* <!-- buttons will be hidden on medium and below screens --> */}
               <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
               onclick="toggleVisibility('mt-series');">
@@ -333,7 +345,7 @@ const rightNav = () => {
                     <p className="text-gray-600 mt-2">Starts at</p>
                     <p className="text-2xl font-bold mt-1">₱{food.Medium}</p>
                   
-                    <button onClick={() => handleNav(food.id)} id="btn-cart" className="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                    <button onClick={() => toggleAddAddorderModal()} id="btn-cart" className="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
                       <img src={cartMenu} alt=""/>
                     </button> {/* onClick={() => handleNav(food.id)} */}
                 </div>

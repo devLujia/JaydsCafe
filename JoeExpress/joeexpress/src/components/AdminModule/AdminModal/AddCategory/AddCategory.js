@@ -53,7 +53,7 @@ function AddCategory({closeModal}) {
             <h1 className='text-xl font-bold'>Add Category</h1>
             <button 
             onClick={()=> closeModal(false)}
-            className='text-white bg-red-500 px-3 py-1 hover:bg-red-600 rounded-sm'>
+            className='text-white bg-red-500 px-3 py-1 hover:bg-red-600 rounded-lg'>
               X
             </button>
           </div>
@@ -61,7 +61,7 @@ function AddCategory({closeModal}) {
           <div className='flex-1'>
             <form className='flex flex-col' onSubmit={handleSubmit}>
               <div className='mb-4'>
-                <label htmlFor="title" className="flex text-gray-600 text-sm font-bold tracking-wider">Category Name</label>
+                <label htmlFor="title" className="flex text-gray-600 text-sm font-bold tracking-wider mb-2">Category Name</label>
                 <input 
                   type="text" 
                   name="title" 
@@ -73,20 +73,7 @@ function AddCategory({closeModal}) {
                 />
               </div>                        
       
-              <div className='mb-4'>
-                <label htmlFor="image_url" className="flex text-gray-600 text-sm font-bold tracking-wider">Image URL</label>
-                <input 
-                  type="file" 
-                  name="image_url" 
-                  id="image_url"
-                  onChange={handleInput}
-                  accept="image/png, image/gif, image/jpeg"
-                  className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline" 
-                  placeholder="image.png" 
-                  required
-                />
-                
-              </div>        
+             
       
               <button type="submit" className="bg-greenColor hover:bg-green-800 text-white font-bold py-2 px-4 rounded-lg w-full">
                 Add Category

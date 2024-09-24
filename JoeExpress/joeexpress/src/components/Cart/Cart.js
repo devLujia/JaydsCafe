@@ -180,7 +180,8 @@ function Cart() {
     </nav>
     
     <section class="grid grid-cols-1 lg:grid-cols-[70%_30%] w-full h-full"> {/* this let the 2 div 70/30 ratio */}
-        <div class=" px-16"> {/* <!-- Left side cards--> */}
+        {/* <!-- Left side cards--> */}
+        <div class=" px-16"> 
             <div className='md:flex justify-between px-14 mt-5 text-xl font-semibold hidden'>
                 <h1>
                     Product
@@ -281,10 +282,14 @@ function Cart() {
                                 </label>
                             </li>
                         </ul>
+
+
                         {/* <div class="min-w-full my-4 pr-5">
                           <label for="date" class="block mb-2 pl-1 text-lg font-medium text-gray-700">Pick a Date</label>
                           <input type="text" placeholder="September 24,2024" id="date" class="peer h-full w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-lg font-normal text-gray-700 shadow-lg shadow-gray-900/5 outline-0 ring-4 ring-transparent transition-all placeholder:text-gray-500 focus:border-gray-900 focus:ring-gray-900/10 disabled:border-0 disabled:bg-gray-50" />
                         </div> */}
+
+                        {/* lalabas lang kapag pick up yung clinick */}
                         {/* <label for="date" class="block mb-2 pl-1 text-lg my-4 font-medium text-gray-700">Pick a Time</label>
                         <div class="grid sm:grid-cols-2 gap-4 pr-5 mb-4">
                           <label for="time1" class="flex p-3 w-full bg-white border border-gray-200 rounded-lg text-sm  dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
@@ -315,10 +320,14 @@ function Cart() {
                             <input type="radio" name="hs-radio-in-form" class="shrink-0 mt-0.5 border-gray-200 rounded-full text-green-500 bg-gray-100 focus:ring-green-500 dark:focus:ring-green-500" id="time6"/>
                               <span class="text-sm text-gray-500 ms-3 dark:text-neutral-400">ASAP</span>
                           </label>
-                        </div>
-                        <label for="instruction" class="block mb-2 pl-1 text-lg font-medium text-gray-700 mt-8">Instructions (Option)</label>
-                        <textarea name="txt-area" id="instruction" placeholder="Add Instruction for the rider" class="w-full min-h-32 rounded-lg p-2"></textarea>
-                            */}
+                        </div> */}
+
+                        {/* lalabas lang kapag local delivery yung clinick */}
+                        <div className='px-4'>
+                            <label for="instruction" class="block mb-2 pl-1 text-lg font-medium text-gray-700 mt-8">Dropoff Instructions (Option)</label>
+                            <textarea name="txt-area" id="instruction" placeholder="Add Instruction for the rider" class="w-full min-h-32 rounded-lg p-2 border-2 border-slate-300"></textarea>
+                        </div> 
+
                     </form>
                 </div>
 
