@@ -50,6 +50,7 @@ function Home() {
   const [FAQ1, setFAQ1] = useState(false);
   const [FAQ2, setFAQ2] = useState(false);
   const [FAQ3, setFAQ3] = useState(false);
+  
   const [mapModal, setMapModal] = useState(false);
   const [cmsName,setCmsName] = useState('');
   const [cmsBigLogo,setBigLogo] = useState(null);
@@ -850,32 +851,32 @@ function Home() {
           {/* <!-- Card 1.2 --> */}
 
           {foods.map(food =>(
-            <div key={food.id} class=" z-10 relative flex flex-col p-4 rounded-xl bg-clip-border text-gray-700 shadow-md outline outline-[6px] outline-greenColor hover:bg-greenColor hover:text-white transition duration-300 overflow-visible" data-aos="flip-right" data-aos-duration="1000" data-aos-easing="ease-out-cubic">
+            <div key={food.id} class=" z-10 relative flex flex-col p-4 rounded-xl bg-clip-border text-gray-700 shadow-md outline outline-[6px] outline-greenColor hover:bg-greenColor hover:text-white transition duration-300 overflow-visible" data-aos="zoom-in" data-aos-duration="1000" data-aos-easing="ease-out-cubic" >
             
-            <div class="z-10 relative mx-4 mt-[-130px] h-56 rounded-xl bg-blue-gray-500 bg-clip-border hover:scale-110 duration-500">
-              <img src={food.image_url} alt="" layout="fill" class="object-contain w-full h-full"/>
-            </div>
-            <div>
-              <h1 class="text-2xl font-bold mt-4 mb-2 hover:text-white">
-                {food.name} 
-              </h1>
-
-              <div class="min-h-32">
-                <p class="text-start text-xs tracking-wider min-w-36">
-                  {food.description}
-                  </p>
+              <div class="z-10 relative mx-4 mt-[-130px] h-56 rounded-xl bg-blue-gray-500 bg-clip-border hover:scale-110 duration-500">
+                <img src={food.image_url} alt="" layout="fill" class="object-contain w-full h-full"/>
               </div>
+              <div>
+                <h1 class="text-2xl font-bold mt-4 mb-2 hover:text-white">
+                  {food.name} 
+                </h1>
 
-              <div class="flex justify-between items-center mt-4 w-full">
-                <span>20ML</span>
+                <div class="min-h-32">
+                  <p class="text-start text-xs tracking-wider min-w-36">
+                    {food.description}
+                    </p>
+                </div>
+
+                <div class="flex justify-between items-center mt-4 w-full">
+                  <span>20ML</span>
+                </div>
               </div>
-            </div>
-            <div class=" flex justify-end">
-              <button onClick={handleNavigate} class="text-white outline hover:text-black hover:bg-jaydsBg outline-white hover:outline-greenColor font-bold py-2 px-4 rounded-md" >
-                BUY NOW
-              </button>
-            </div>
-          </div>))}
+              <div class=" flex justify-end">
+                <button onClick={handleNavigate} class="text-white outline hover:text-black hover:bg-jaydsBg outline-white hover:outline-greenColor font-bold py-2 px-4 rounded-md" >
+                  BUY NOW
+                </button>
+              </div>
+            </div>))}
 
         </div>
       </div>
