@@ -265,6 +265,11 @@ const rightNav = () => {
             <h1 class="text-2xl md:text-5xl font-bold my-10 text-center"><span class="text-textgreenColor pe-3">Explore our</span>Menu</h1>
 
             <div class="justify-center items-center mx-auto px-52 flex-wrap space-x-3 space-y-2 hidden lg:flex">
+              <button  class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+                onClick={() => setCategorySearch(0)}
+                >
+                All Items
+              </button>
               {/* <!-- buttons will be hidden on medium and below screens --> */}
               {category.map(cat =>(
                 <button key={cat.id} class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
