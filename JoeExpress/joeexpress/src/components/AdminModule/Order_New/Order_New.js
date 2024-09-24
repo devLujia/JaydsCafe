@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import trashbin2 from '../../image/trashbin(2).svg'
 import notif from '../../image/notif.svg'
 import plus from '../../image/plus.svg'
@@ -7,10 +7,90 @@ import eye from '../../image/eye(2).svg'
 import download from '../../image/download.svg'
 import user from '../../image/UserAcc.svg';
 import jaydsLogo from '../../image/jayds cafe Logo.svg';
+import del from '../../image/trashbin(2).svg'
+import check from '../../image/check.svg'
 
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function Order_New() {
+    const [orders, setOrders] = useState([])
+    const [orderHistory, setOrderHistory] = useState([])
+    const [expandedOrderId, setExpandedOrderId] = useState(null);
+    const [expandedOrderHistoryId, setExpandedOrderHistoryId] = useState(null);
+
+
+    const [updateOrder, setUpdateOrder] = useState([
+        {
+           order_id:'',
+           status: '',
+        }
+  
+    ]);
+
+    useEffect(()=>{
+
+        axios.post('http://localhost:8081/orderTracking')
+        .then(res=>{
+            setOrders(res.data);
+        });
+  
+    })
+    
+    useEffect(()=>{
+
+        const orderHistoria = async()=>{
+            try{
+                const response = await axios.post('http://localhost:8081/orderHistory')
+                setOrderHistory(response.data);
+            }
+            catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        } 
+
+        orderHistoria()
+
+    },[])
+
+    const toggleOrderDetails = (orderId) => {
+        setExpandedOrderId(expandedOrderId === orderId ? null : orderId);
+     };
+
+     const toggleOrderHistoryDetails = (orderHistoryId) => {
+        setExpandedOrderHistoryId(expandedOrderHistoryId === orderHistoryId ? null : orderHistoryId);
+     };
+
+     const getTheOrder = (id, stats) => {
+
+        let newStatus = ''; 
+      
+        if (stats === 'paid') {
+          newStatus = 'pending';
+        } else if (stats === 'pending') {
+          newStatus = 'completed';
+        }
+  
+        setUpdateOrder(prevState => 
+           prevState.map(order => ({
+             ...order,
+             order_id: id,
+             status: newStatus,
+           }))
+         );
+  
+        axios.post('http://localhost:8081/updateOrders', {
+            status: newStatus,
+            order_id: id
+        })
+          .then(res => {
+            console.log('Order updated successfully:', res.data);
+          })
+          .catch(err => {
+            console.error('Error updating the order:', err);
+          });
+  
+      }
+
   return (
     <div className=''>
          {/* <!-- nav --> */}
@@ -153,108 +233,112 @@ export default function Order_New() {
                         <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
                             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                                    {/* Order Tracking */}
                                     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                         <thead class="text-xs tracking-widest text-white uppercase bg-textgreenColor dark:bg-gray-700 dark:text-gray-400">
-                                            <tr class="text-center">
-                                                <th scope="col" class="px-6 py-3 ">
-                                                    TRANSACTION
-                                                </th>
-                                                <th scope="col" class="px-6 py-3">
-                                                    DATE / TIME
-                                                </th>
-                                                <th scope="col" class="px-6 py-3">
-                                                    STATUS
-                                                </th>
-                                                <th scope="col" class="px-6 py-3">
-                                                    ACTIONS
-                                                </th>
-                                            </tr>
+                                        <tr class="text-center">
+                                            <th scope="col" class="px-6 py-3 ">
+                                                ID
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Name
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                address
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Contact Number
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Date / Time
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Price
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Status
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Action
+                                            </th>
+                                        </tr>
                                         </thead>
 
                                         <tbody>
-                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                                <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white ">
-                                                    <div class="ps-3 mx-auto">
-                                                        <div class="text-base font-semibold">#Order-12</div>
-                                                        <div class="font-normal text-gray-500">₱39.00</div>
-                                                    </div>  
-                                                </th>
-                                                <td class="px-6 py-4 text-center">
-                                                    Jan 13,2023/12:00:00pm
-                                                </td>
-                                                <td class="px-6 py-4">
-                                                    <div class="bg-green-100 text-green-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">Paid</div>
-                                                </td>
-                                                <td class="px-6 py-4 space-x-2">
-                                                    <div class="h-fit items-center justify-center flex space-x-3 ps-4 mx-auto">
-                                                        <button>
-                                                            <img src={eye} alt="eye" class="w-6 h-6"/>
-                                                        </button>
-                                                        <button class="hover:underline hover:decoration-blue-500">
-                                                            <img src={trashbin2} alt="trash"/>
-                                                        </button>
-                                                        <button>
-                                                            <img src={download} alt="download"/>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                        
 
-                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                                <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white ">
-                                                    <div class="ps-3 mx-auto">
-                                                        <div class="text-base font-semibold">#Order-12</div>
-                                                        <div class="font-normal text-gray-500">₱39.00</div>
-                                                    </div>  
-                                                </th>
-                                                <td class="px-6 py-4 text-center">
-                                                    Jan 13,2023/12:00:00pm
-                                                </td>
-                                                <td class="px-6 py-4">
-                                                    <div class="bg-green-100 text-green-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">Paid</div>
-                                                </td>
-                                                <td class="px-6 py-4 space-x-2">
-                                                    <div class="h-fit items-center justify-center flex space-x-3 ps-4 mx-auto">
-                                                        <button>
-                                                            <img src={eye} alt="eye" class="w-6 h-6"/>
-                                                        </button>
-                                                        <button class="hover:underline hover:decoration-blue-500">
-                                                            <img src={trashbin2} alt="trash"/>
-                                                        </button>
-                                                        <button>
-                                                            <img src={download} alt="download"/>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                 {orders.map(order => (
+                                    <React.Fragment key={order.order_id}>
+                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                       <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white ">
+                                          <div className="text-base font-semibold">ORDR#{order.order_id}</div>
+                                       </th>
+                                       <td className="px-6 py-4 text-center">
+                                          {order.name}
+                                       </td>
+                                       <td className="px-6 py-4 text-center">
+                                          {order.address}
+                                       </td>
+                                       <td className="px-6 py-4 text-center">
+                                          WALA PA
+                                       </td>
+                                       <td className="px-6 py-4 text-center">
+                                          {new Date(order.order_date).toLocaleString('en-US', {
+                                             year: 'numeric',
+                                             month: 'long',
+                                             day: 'numeric',
+                                             hour: '2-digit',
+                                             minute: '2-digit',
+                                             second: '2-digit',
+                                          })}
+                                       </td>
+                                       <td className="px-6 py-4 text-center font-semibold text-green-500">
+                                        ₱{order.totalPrice}.00
+                                       </td>
+                                       <td className="px-6 py-4">
+                                        {order.status === 'paid' ? <div className="bg-green-100 text-blue-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status}</div> : <div className="bg-green-100 text-orange-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status} </div>}
+                                          
+                                       </td>
+                                       <td className="flex items-center px-6 py-4 space-x-2">
+                                          <div className="h-fit items-center justify-center flex space-x-3 ps-4 mx-auto">
+                                             <button onClick={()=> toggleOrderDetails(order.order_id)}>
+                                                <img src={eye} alt="eye" className="w-6 h-6" />
+                                             </button>
+                                             <button className="hover:underline hover:decoration-blue-500">
+                                                <img src={del} alt="trash" />
+                                             </button>
+                                             <button onClick={()=> getTheOrder(order.order_id, order.status)}>
+                                                <img src={check} alt="check"/>
+                                             </button>
+                                          </div>
+                                       </td>
 
-                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                                <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white ">
-                                                    <div class="ps-3 mx-auto">
-                                                        <div class="text-base font-semibold">#Order-12</div>
-                                                        <div class="font-normal text-gray-500">₱39.00</div>
-                                                    </div>  
-                                                </th>
-                                                <td class="px-6 py-4 text-center">
-                                                    Jan 13,2023/12:00:00pm
-                                                </td>
-                                                <td class="px-6 py-4">
-                                                    <div class="bg-green-100 text-green-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">Paid</div>
-                                                </td>
-                                                <td class="px-6 py-4 space-x-2">
-                                                    <div class="h-fit items-center justify-center flex space-x-3 ps-4 mx-auto">
-                                                        <button>
-                                                            <img src={eye} alt="eye" class="w-6 h-6"/>
-                                                        </button>
-                                                        <button class="hover:underline hover:decoration-blue-500">
-                                                            <img src={trashbin2} alt="trash"/>
-                                                        </button>
-                                                        <button>
-                                                            <img src={download} alt="download"/>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                    </tr>
+
+                                    {expandedOrderId === order.order_id && (
+                                       <tr>
+                                          <td colSpan="8" className="bg-gray-100 dark:bg-gray-700">
+                                             <div className="px-6 py-4">
+                                             <div className="text-sm text-gray-600 dark:text-gray-300">
+                                                <strong>Order Items:</strong>
+                                                <ul className="mt-2 space-y-2 list-disc list-inside">
+                                                   {order.food_details.split(';').map((detail, index) => (
+                                                   <li key={index} className="py-1 w-full text-left">
+                                                      {detail.trim()}
+                                                   </li>
+                                                   ))}
+                                                </ul>
+                                             </div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                       )}
+
+                                    </React.Fragment>
+
+                                    ))}
+
+                              
                                         </tbody>
                                     </table>
                                 </div>
@@ -286,65 +370,105 @@ export default function Order_New() {
                         <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
                             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                         <thead class="text-xs tracking-widest text-white uppercase bg-textgreenColor dark:bg-gray-700 dark:text-gray-400">
-                                            <tr class="text-center">
-                                                <th scope="col" class="px-6 py-3 ">
-                                                    TRANSACTION
-                                                </th>
-                                                <th scope="col" class="px-6 py-3">
-                                                    Order ID
-                                                </th>
-                                                <th scope="col" class="px-6 py-3">
-                                                    DATE / TIME
-                                                </th>
-                                                <th scope="col" class="px-6 py-3">
-                                                    Amount
-                                                </th>
-                                                <th scope="col" class="px-6 py-3">
-                                                    Status
-                                                </th>
-                                            </tr>
+                                        <tr class="text-center">
+                                            <th scope="col" class="px-6 py-3 ">
+                                                ID
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Name
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                address
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Contact Number
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Date / Time
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Price
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Status
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Action
+                                            </th>
+                                        </tr>
                                         </thead>
 
                                         <tbody>
-                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                                <td class="px-6 py-4 text-center">
-                                                    Payment from <span className='font-semibold'>Brony James</span>
-                                                </td>
-                                                <td class="px-6 py-4 text-center">
-                                                    #Order-12
-                                                </td>
-                                                <td class="px-6 py-4 text-center">
-                                                    Jan 13,2023/12:00:00pm
-                                                </td>
-                                                <td class="px-6 py-4 text-center">
-                                                    <span className='font-semibold'> + </span> ₱ 218.00
-                                                </td>
-                                                <td class="px-6 py-4 text-center">
-                                                    <p className='font-semibold text-textgreenColor'>Complete</p>
-                                                    <p className='font-semibold text-red-600 hidden'>Cancelled</p>
-                                                </td>
-                                            </tr>
+                                        {orderHistory.map(orderh => (
+                                            <React.Fragment key={orderh.order_id}>
+                                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                                    <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white text-center">
+                                                        <div className="text-base font-semibold">ORDR#{orderh.order_id}</div>
+                                                    </th>
+                                                    <td className="px-6 py-4 text-center">
+                                                        {orderh.name}
+                                                    </td>
+                                                    <td className="px-6 py-4 text-center">
+                                                        {orderh.address}
+                                                    </td>
+                                                    <td className="px-6 py-4 text-center text-yellow-500 font-medium">
+                                                        {/* Placeholder for status like 'Pending' */}
+                                                        WALA PA
+                                                    </td>
+                                                    <td className="px-6 py-4 text-center">
+                                                        {new Date(orderh.order_date).toLocaleString('en-US', {
+                                                            year: 'numeric',
+                                                            month: 'long',
+                                                            day: 'numeric',
+                                                            hour: '2-digit',
+                                                            minute: '2-digit',
+                                                            second: '2-digit',
+                                                        })}
+                                                    </td>
+                                                    <td className="px-6 py-4 text-center text-green-500 font-semibold">
+                                                        ₱{orderh.totalPrice.toFixed(2)}
+                                                    </td>
+                                                    <td className="px-6 py-4 text-center">
+                                                        
+                                                        {orderh.status === 'completed' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{orderh.status}</div> 
+                                                        : <div className="bg-red-100 text-blue-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{orderh.status}</div>}
+                                                        
+                                                    </td>
+                                                    <td className="px-6 py-4 text-center">
+                                                        <button 
+                                                            onClick={() => toggleOrderHistoryDetails(orderh.order_id)} 
+                                                            className="hover:text-blue-500 transition-colors duration-200"
+                                                            title="View Details"
+                                                        >
+                                                            <img src={eye} alt="eye icon" className="w-6 h-6 mx-auto" />
+                                                        </button>
+                                                    </td>
+                                                </tr>
 
-                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                                <td class="px-6 py-4 text-center">
-                                                    Payment from <span className='font-semibold'>Brony James</span>
-                                                </td>
-                                                <td class="px-6 py-4 text-center">
-                                                    #Order-12
-                                                </td>
-                                                <td class="px-6 py-4 text-center">
-                                                    Jan 13,2023/12:00:00pm
-                                                </td>
-                                                <td class="px-6 py-4 text-center">
-                                                    <span className='font-semibold'> + </span> ₱ 218.00
-                                                </td>
-                                                <td class="px-6 py-4 text-center">
-                                                    <p className='font-semibold text-textgreenColor hidden'>Complete</p>
-                                                    <p className='font-semibold text-red-600 '>Cancelled</p>
-                                                </td>
-                                            </tr>
+                                                {/* Expanded row for food details */}
+                                                {expandedOrderHistoryId === orderh.order_id && (
+                                                    <tr className="bg-gray-100 dark:bg-gray-700">
+                                                        <td colSpan="8" className="px-6 py-4">
+                                                            <div className="text-sm text-gray-600 dark:text-gray-300">
+                                                                <strong>Order Items:</strong>
+                                                                <ul className="mt-2 space-y-1 list-disc list-inside">
+                                                                    {orderh.food_details.split(';').map((detail, index) => (
+                                                                        <li key={index} className="text-left">
+                                                                            {detail.trim()}
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </React.Fragment>
+                                        ))}
+                                    
+
+                              
                                         </tbody>
                                     </table>
                                 </div>

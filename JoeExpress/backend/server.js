@@ -1485,6 +1485,58 @@ app.post('/removeProduct',  async (req, res) =>{
     })
     
     
+    app.post('/orderHistory', (req,res) =>{
+
+        const query = 
+        `
+        SELECT 
+            o.order_id, 
+            u.name,
+            u.address,
+            o.customer_id, 
+            o.order_date, 
+            o.status,
+            o.totalPrice, 
+            GROUP_CONCAT(
+                CONCAT('Food Name: ',
+                    f.name, ' ( Size: ', 
+                    of.size, ', Quantity: ', 
+                    of.quantity, ', Addons: ', 
+                    IFNULL(of.addons, ''), ')'
+                ) ORDER BY f.name SEPARATOR ', '
+            ) AS food_details
+        FROM 
+            orders o
+        JOIN 
+            orders_food of ON of.order_id = o.order_id
+        JOIN 
+            foods f ON f.id = of.food_id
+        JOIN 
+            user u ON u.id = o.customer_id
+        WHERE 
+            o.status = 'completed' or o.status = 'cancelled'
+        GROUP BY 
+            o.order_id, 
+            u.name,
+            u.address,
+            o.customer_id, 
+            o.order_date, 
+            o.status
+        ORDER BY 
+            o.order_date ASC;
+             
+        `
+
+        db.query(query, (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to get orders' });
+            }
+            res.json(result)
+        });
+
+    })
+    
+    
     app.post('/personalOrder', (req,res) =>{
         
         const {userId} = req.body
