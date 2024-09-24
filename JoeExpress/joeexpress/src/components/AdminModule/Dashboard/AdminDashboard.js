@@ -277,14 +277,14 @@ function AdminDashboard() {
          </div>
       </aside>
 
-      <div class="p-4 sm:ml-64 pt-10">
+      <div class="p-4 sm:ml-64 pt-5">
          <div class="p-4 ml-8">
 
             {/* Overview & Chats*/}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="grid grid-cols-1 md:grid-cols-[65%_34%] gap-4 mb-6">
 
                {/* Overview */}
-               <div class="p-4 bg-white rounded-xl h-full w-fit">
+               <div class="p-4 bg-white rounded-xl h-full w-ful">
                   <div class="flex relative justify-between">
                      <h1 class="font-bold text-3xl tracking-wide mb-3">Overview</h1>
                      <button class="p-2 border-2 border-gray-500 rounded-lg">
@@ -398,7 +398,7 @@ function AdminDashboard() {
             </div>
 
             {/* Pending Orders */}
-            <div class="relative overflow-x-auto shadow-xl sm:rounded-lg col-span-2 mb-4">
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg col-span-2 mb-6">
                   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
 
@@ -521,7 +521,7 @@ function AdminDashboard() {
             </div>
 
             {/* products & Content */}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="grid grid-cols-1 md:grid-cols-[65%_34%] gap-4 mb-6">
                {/* Table of products */}
                <div class="relative overflow-x-auto shadow-xl sm:rounded-lg col-span-1">
                      <div class="flex items-center justify-end flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900">

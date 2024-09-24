@@ -76,90 +76,95 @@ function AddProd({ closeModal }) {
         
             <div className='flex-1'>
               <form className='flex flex-col' onSubmit={handleSubmit}>
-                <div className='mb-4'>
-                  <label htmlFor="name" className="flex text-gray-600 text-sm font-bold tracking-wider">Product Name</label>
-                  <input 
-                    type="text" 
-                    name="name" 
-                    id="name"
-                    onChange={handleInput} 
-                    value={values.name}
-                    className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline" 
-                    placeholder="Product Name" 
-                    required
-                  />
-                </div>                        
-                
+
+                <div className='grid grid-cols-2 gap-6'>
+                  {/* Product Name */}
+                  <div className='mb-4'>
+                    <label htmlFor="name" className="flex text-gray-600 text-sm font-bold tracking-wider">Product Name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      id="name"
+                      onChange={handleInput}
+                      value={values.name}
+                      className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline"
+                      placeholder="Product Name"
+                      required
+                    />
+                  </div>
+                  
+                  {/* categories */}
+                  <div className='mb-4'>
+                    <p className="text-gray-600 text-sm font-bold tracking-wider">
+                      Please choose a category for this product
+                    </p>
+                    <div>
+                    <select
+                        id='category_id'
+                        name='category_id'
+                        value={values.category_id}
+                        onChange={handleInput}
+                        className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline py-2"
+                        required
+                      >
+                        <option value="">Select a category</option>
+                        {category.map(categories => (
+                          <option key={categories.id} value={categories.id}>
+                            {categories.title}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div className='grid grid-cols-2 gap-6'>
+                  {/* medium price */}
+                  <div className='mb-4'>
+                    <label for="medprice" className="flex text-gray-600 text-sm font-bold tracking-wider">Medium Price</label>
+                    <input
+                      type="text"
+                      name="medprice"
+                      onChange={handleInput}
+                      id="medprice"
+                      className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline"
+                      placeholder="$69"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Description */}
                 <div className="mb-4">
                   <label htmlFor="description" className="flex text-gray-600 text-sm font-bold tracking-wider">Description</label>
-                  <input 
+                  <textarea 
                     type="text" 
                     name="description" 
                     id="description"   
                     onChange={handleInput} 
                     value={values.description}                            
                     placeholder="Creamy non coffee drink" 
-                    className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline" 
+                    className="shadow appearance-none border min-h-fit max-h-80 rounded w-full text-gray-700 focus:outline-none focus:shadow-outline" 
                     required
                   />
                 </div>
         
+                {/* url */}
                 <div className='mb-4'>
-                <label for="image_url" className="flex text-gray-600 text-sm font-bold tracking-wider">Image URL</label>
-                <input 
-                  type="file" 
-                  name="image_url" 
-                  id="image_url"
-                  onChange={handleFileChange}
-                  accept="image/png, image/gif, image/jpeg"
-                  className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline" 
-                  placeholder="image.png" 
-                  required
-                />
-              </div>
-        
-                <div className='mb-4'>
-                  <p className="text-gray-600 text-sm font-bold tracking-wider mb-2">
-                    Please choose a category for this product
-                  </p>
-        
-                  <div className="grid grid-cols-3 gap-4">
-
-                    
-                  <select
-                      id='category_id'
-                      name='category_id'
-                      value={values.category_id}
-                      onChange={handleInput}
-                      className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline"
-                      required
-                    >
-                      <option value="">Select a category</option>
-                      {category.map(categories => (
-                        <option key={categories.id} value={categories.id}>
-                          {categories.title}
-                        </option>
-                      ))}
-
-                    </select>
-                    
-
-                    
-                  </div>
-                </div>
-        
-                <div className='mb-4'>
-                  <label for="medprice" className="flex text-gray-600 text-sm font-bold tracking-wider">Medium Price</label>
+                  <label for="image_url" className="flex text-gray-600 text-sm font-bold tracking-wider">Image URL</label>
                   <input 
-                    type="text" 
-                    name="medprice" 
-                    onChange={handleInput} 
-                    id="medprice"
+                    type="file" 
+                    name="image_url" 
+                    id="image_url"
+                    onChange={handleFileChange}
+                    accept="image/png, image/gif, image/jpeg"
                     className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline" 
-                    placeholder="$69" 
+                    placeholder="image.png" 
                     required
                   />
                 </div>
+        
+        
         
                 <button type="submit" className="bg-amber-950 hover:bg-amber-900 text-white font-bold py-2 px-4 rounded-lg w-full">
                   Add product

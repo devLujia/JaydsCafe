@@ -598,7 +598,7 @@ function Home() {
         >
           <li class="link"><a href="#">Home</a></li>
           <li class="link"><a id="menu-link" href="#">Menu</a></li>
-          <li class="link"><a href="#about">About Us</a></li>
+          <li class="link"><a href="#aboutus">About Us</a></li>
           <li class="link"><a href="#footer">Contact Us</a></li>
         </ul>
       </span>
@@ -668,7 +668,7 @@ function Home() {
                 </button>
 
                 {isOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-10">
+              <div className="absolute right-24 mt-8 w-48 bg-white border rounded-lg shadow-lg z-10">
                 <ul className="py-2">
                   <li onClick={()=>navigate('/profile')} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                     Profile
@@ -845,7 +845,7 @@ function Home() {
 
       {/* <!-- cards --> */}
       <div class="container mx-auto p-4 flex justify-center">
-        <div class="flex flex-wrap justify-center gap-x-20 gap-y-32 px-32 py-3">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 py-5"> {/* flex flex-wrap justify-center gap-x-20 gap-y-32 px-32 py-3 */}
 
           {/* <!-- Card 1.2 --> */}
 
@@ -935,7 +935,10 @@ function Home() {
                     <span class="block font-semibold text-xl">{menus.name}</span>
                     <span class="bg-white rounded-full text-textgreenColor text-md font-bold px-3 py-2 leading-none flex items-center">₱{menus.Large}</span>
                   </div>
-                  <button class="flex justify-center items-center mx-auto mt-6 bg-greenColor p-2 rounded-lg hover:scale-110 duration-300">Add to Cart</button>
+                  
+                    <button class="flex justify-center items-center mx-auto mt-6 bg-greenColor p-2 rounded-lg hover:scale-110 duration-300">
+                      <Link to={'/navlogin'}>Add to Cart</Link>
+                    </button>
                 </div>
               </div>
             </div>))}
@@ -998,7 +1001,7 @@ function Home() {
     </div>
 
     {/* <!-- About Us --> */}
-    <div class="flex lg:flex-row md:flex-col overflow-hidden bg-greenColor text-white py-10 top-0" id="about">
+    <div class="flex lg:flex-row md:flex-col overflow-hidden bg-greenColor text-white py-10 top-0" id="aboutus">
       <div
         class="p-32 md:text-center lg:text-left"
         data-aos="fade-right"

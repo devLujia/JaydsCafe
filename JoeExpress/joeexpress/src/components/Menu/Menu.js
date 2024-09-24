@@ -31,9 +31,16 @@ const [cmsName,setCmsName] = useState('');
 const [cmsSmallLogo,setSmallLogo] = useState(null);
 const [orderNotif, setOrderNotif] = useState(0);
 const [isOpen, setIsOpen] = useState(false);
+const [isOpenRightNav, setIsOpenRightNav] = useState(false);
+
 const toggleDropdown = () => {
   setIsOpen(!isOpen);
 };
+
+const rightNav = () => {
+  setIsOpenRightNav(!isOpenRightNav);
+};
+
 
  axios.defaults.withCredentials = true;
 
@@ -201,12 +208,12 @@ const toggleDropdown = () => {
             </button>
 
             {isOpen && (
-              <div className="absolute right-24 mt-8 w-48 bg-white border rounded-lg shadow-lg z-10">
+              <div className="absolute right-24 mt-8 w-48 bg-white border rounded-lg shadow-lg z-50">
                 <ul className="py-2">
                   <li onClick={()=>navigate('/profile')} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                     Profile
                   </li>
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  <li onClick={()=>navigate('#')} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                     Settings
                   </li>
                   <li
@@ -234,7 +241,7 @@ const toggleDropdown = () => {
       <div class="w-full relative flex justify-center items-center"> {/* <!-- Top Section --> */}
         <img src={topBG} alt="" class="w-full h-full object-cover"/>
           <div class="absolute top-0 left-0 w-full h-full"> {/* <!-- buttons and title -->*/}
-            <h1 class="text-2xl md:text-5xl font-bold mb-4 text-center mt-3"><span class="text-textgreenColor pe-3">Explore our</span>Menu</h1>
+            <h1 class="text-2xl md:text-5xl font-bold my-10 text-center"><span class="text-textgreenColor pe-3">Explore our</span>Menu</h1>
 
             <div class="justify-center items-center mx-auto px-52 flex-wrap space-x-3 space-y-2 hidden lg:flex">
               {/* <!-- buttons will be hidden on medium and below screens --> */}
@@ -314,20 +321,21 @@ const toggleDropdown = () => {
 
         <div id="mt-series"> {/* <!-- milk tea series div -->*/}
           <div class="container mx-auto p-4 mt-4"> 
+          <h1 className='text-5xl font-bold text-center mb-10'> <span className='text-textgreenColor'>Milk Tea</span> Series</h1>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
 
                 {foods.map(food=>(
-                  <div key={food.id} class="rounded-lg p-4 shadow-md relative outline outline-greenColor hover:scale-95 duration-300 hover:bg-jaydsBg" data-aos="flip-right" data-aos-duration="1000" data-aos-easing="ease-out-cubic"> {/*<!-- card 1 -->*/}
-                    <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
-                        <img src={food.image_url} alt="Milk Tea" class="w-full h-full object-contain"/>
+                  <div key={food.id} className="rounded-lg p-4 shadow-md relative outline outline-slate-300 hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 1 -->*/}
+                    <div className="rounded-full bg-menuCirclebg p-4 aspect-square">
+                        <img src={food.image_url} alt="Milk Tea" className="w-full h-full object-contain"/>
                     </div>
-                    <h3 class="text-xl font-semibold mt-4 min-h-20">{food.name}</h3>
-                    <p class="text-gray-600 mt-2">Starts at</p>
-                    <p class="text-2xl font-bold mt-1">₱{food.Medium}</p>
+                    <h3 className="text-xl font-semibold mt-4 min-h-20">{food.name}</h3>
+                    <p className="text-gray-600 mt-2">Starts at</p>
+                    <p className="text-2xl font-bold mt-1">₱{food.Medium}</p>
                   
-                    <button onClick={() => handleNav(food.id)} id="btn-cart" class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                      <img src={cartMenu} alt="" />
-                    </button>
+                    <button onClick={() => handleNav(food.id)} id="btn-cart" className="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                      <img src={cartMenu} alt=""/>
+                    </button> {/* onClick={() => handleNav(food.id)} */}
                 </div>
               ))}
                   {/*<!-- card 2 -->*/}
@@ -546,190 +554,191 @@ const toggleDropdown = () => {
 
       {/* <!-- Right drawer --> */}
       {/* <!-- drawer component --> */}
-      <div id="drawer-right-example" class="fixed top-0 right-0 z-40 h-screen overflow-hidden transition-transform translate-x-full bg-orange-50 w-80 dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-right-label" style={rightDrawer}>
-        <div class="w-full h-16 bg-greenColor"></div>
+      
+      {isOpenRightNav && (
+        <div id="drawer-right-example" className="fixed top-0 right-0 z-40 h-screen overflow-hidden transition-transform translate-x-full bg-orange-50 w-80 dark:bg-gray-800" tabIndex="-1" aria-labelledby="drawer-right-label" style={rightDrawer}>
+          <div class="w-full h-16 bg-greenColor"></div>
 
-        <div class="p-4">
-          <button type="button" data-drawer-hide="drawer-right-example" aria-controls="drawer-right-example" class="bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-md w-fit h-8 absolute top-[70px] start-2.5 inline-flex items-center justify-center px-2" >
-            <span><img src="/public/image/arrow left.svg" alt="arrow" class="me-2"/></span>
-            <h1 class="text-textgreenColor">Continue Shopping</h1>
-            <span class="sr-only">Close menu</span>
-          </button>
+          <div class="p-4">
+            <button type="button" data-drawer-hide="drawer-right-example" aria-controls="drawer-right-example" className="bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-md w-fit h-8 absolute top-[70px] start-2.5 inline-flex items-center justify-center px-2" >
+              <span><img src="/public/image/arrow left.svg" alt="arrow" class="me-2"/></span>
+              <h1 class="text-textgreenColor">Continue Shopping</h1>
+              <span class="sr-only">Close menu</span>
+            </button>
 
-          <div class="h-56 text-black">
-            <div class="flex justify-between items-baseline">
-              <h1 class="font-bold text-lg mt-10">Your Order(s)</h1>
-              <a href="#" class="hover:underline">View Cart</a>
-            </div>
-
-            {/* <!-- if the cart is empty--> */}
-            {/* <!-- <div> 
-              <p class="mt-12">You have no items in your cart</p>
-            </div> --> */}
-
-            <div> {/* <!-- if the cart have items --> */}
-              <div class="mt-8 flex justify-between text-black px-4">
-                <h1 class="text-lg font-semibold">Subtotal: </h1>
-                <p>₱178.00</p>
+            <div class="h-56 text-black">
+              <div class="flex justify-between items-baseline">
+                <h1 class="font-bold text-lg mt-10">Your Order(s)</h1>
+                <a href="#" class="hover:underline">View Cart</a>
               </div>
-              <div class="mt-7 space-y-5">
-                <button type="button" class="text-white bg-green-700 rounded-lg w-full h-10 font-bold tracking-widest hover:bg-greenColor py-1" onclick={()=>(navigate('/cart'))}>
-                  Checkout
-                </button>
-                <button type="button" class="text-white bg-blue-600 hover:bg-blue-500 font-bold tracking-widest rounded-lg text-md px-5 py-2.5 text-center inline-flex items-center justify-center me-2 mb-2 w-full">
-                  <img src="/public/image/gcash.svg" alt="Gcash" class="me-2"/>
-                    GCash
-                </button>
+
+              {/* <!-- if the cart is empty--> */}
+              {/* <!-- <div> 
+                <p class="mt-12">You have no items in your cart</p>
+              </div> --> */}
+
+              <div> {/* <!-- if the cart have items --> */}
+                <div class="mt-8 flex justify-between text-black px-4">
+                  <h1 class="text-lg font-semibold">Subtotal: </h1>
+                  <p>₱178.00</p>
+                </div>
+                <div class="mt-7 space-y-5">
+                  <button type="button" class="text-white bg-green-700 rounded-lg w-full h-10 font-bold tracking-widest hover:bg-greenColor py-1" onclick={()=>(navigate('/cart'))}>
+                    Checkout
+                  </button>
+                  <button type="button" class="text-white bg-blue-600 hover:bg-blue-500 font-bold tracking-widest rounded-lg text-md px-5 py-2.5 text-center inline-flex items-center justify-center me-2 mb-2 w-full">
+                    <img src="/public/image/gcash.svg" alt="Gcash" class="me-2"/>
+                      GCash
+                  </button>
+                </div>
               </div>
-            </div>
-          </div>
-          
-          {/* <!-- Drop down items --> */}
-          <div class="mt-16"> {/* <!-- Main container --> */}
-            <div class="flex justify-between">
-              <div class="flex text-black ">
-                <h1 class="me-5 font-semibold">Products</h1>
-                <p>(3 Items)</p>
-              </div>
-              <button type="button" id="dropdownUsersButton" data-dropdown-toggle="dropdownUsers" data-dropdown-placement="bottom"><img src="/public/image/arrow down.svg" alt="drop down"/></button>
             </div>
             
-            <div id="dropdownUsers" class="z-10 hidden divide-y divide-gray-100 h-screen"> {/* <!-- drop down menu --> */}
-              {/* <!-- TAKE NOTE!! Everytime na nag dadagdag ng item dapat iba yung id. ex. quantity-input1--> */}
-              <div> {/* <!-- item 1 --> */}
-                <a href="#" class="flex px-4 py-3 hover:bg-gray-100"> 
-                  <div class="flex-shrink-0">
-                    <img class="rounded-lg w-11 h-11" src="/public/image/americano.png" alt="image"/>
-                  </div>
-                  <div class="w-full ps-3">
-                      <h1 class="text-black font-semibold">Cappucino Frappe</h1>
-                      <p class="font-normal text-black text-sm">Large</p>
-                      <h1 class="text-black font-semibold">₱59.00</h1>
-    
-                      <div class="pt-2 flex">
-                        <form class="max-w-xs mx-auto">
-                          <div class="relative flex items-center max-w-[8rem]">
-                              <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input1" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
-                                  <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
-                                  </svg>
-                              </button>
-                              <input type="text" id="quantity-input1" data-input-counter aria-describedby="helper-text-explanation" class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5" placeholder="0" required />
-                              <button type="button" id="increment-button" data-input-counter-increment="quantity-input1" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
-                                  <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-                                  </svg>
-                              </button>
-                          </div>
-                        </form>
-                        <button type="button" class="ms-2 hover:underline">Remove</button>
-                      </div>
-                  </div>
-                  <div class="relative top-2 ">
-                    <button type="button" class="w-5 h-5 hover:bg-yellow-500 hover:rounded-lg focus:ring-gray-100 focus:ring-2 focus:outline-none" onclick={()=>(navigate('/orderPage'))}>
-                      <img src="/public/image/edit.svg" alt="Edit"/>
-                    </button>
-                  </div>
-                </a>
+            {/* <!-- Drop down items --> */}
+            <div class="mt-16"> {/* <!-- Main container --> */}
+              <div class="flex justify-between">
+                <div class="flex text-black ">
+                  <h1 class="me-5 font-semibold">Products</h1>
+                  <p>(3 Items)</p>
+                </div>
+                <button type="button" id="dropdownUsersButton" data-dropdown-toggle="dropdownUsers" data-dropdown-placement="bottom"><img src="/public/image/arrow down.svg" alt="drop down"/></button>
               </div>
-              <div> {/* <!-- item 2 --> */}
-                <a href="#" class="flex px-4 py-3 hover:bg-gray-100"> 
-                  <div class="flex-shrink-0">
-                    <img class="rounded-lg w-11 h-11" src="/public/image/americano.png" alt="image"/>
-                  </div>
-                  <div class="w-full ps-3">
-                      <h1 class="text-yellow-800 font-semibold">Cold Brew</h1>
-                      <p class="font-normal text-yellow-700 text-sm">Medium</p>
-                      <h1 class="text-yellow-800 font-semibold">₱39.00</h1>
-    
-                      <div class="pt-2 flex">
-                        <form class="max-w-xs mx-auto">
-                          <div class="relative flex items-center max-w-[8rem]">
-                              <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input2" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
-                                  <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
-                                  </svg>
-                              </button>
-                              <input type="text" id="quantity-input2" data-input-counter aria-describedby="helper-text-explanation" class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5" placeholder="0" required />
-                              <button type="button" id="increment-button" data-input-counter-increment="quantity-input2" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
-                                  <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-                                  </svg>
-                              </button>
-                          </div>
-                        </form>
-                        <button type="button" class="ms-2 hover:underline">Remove</button>
-                      </div>
-                  </div>
-                  <div class="relative top-2 ">
-                    <button type="button" class="w-5 h-5 hover:bg-yellow-500 hover:rounded-lg focus:ring-gray-100 focus:ring-2 focus:outline-none" onclick={()=>(navigate('/orderPage'))}>
-                      <img src="/public/image/edit.svg" alt="Edit"/>
-                    </button>
-                  </div>
-                </a>
-              </div>
-              <div> {/* <!-- item 3 --> */}
-                <a href="#" class="flex px-4 py-3 hover:bg-gray-100"> 
-                  <div class="flex-shrink-0">
-                    <img class="rounded-lg w-11 h-11" src="/public/image/americano.png" alt="image"/>
-                  </div>
-                  <div class="w-full ps-3">
-                      <h1 class="text-yellow-800 font-semibold">Cappucino Frappe</h1>
-                      <p class="font-normal text-yellow-700 text-sm">Large</p>
-                      <h1 class="text-yellow-800 font-semibold">₱59.00</h1>
-    
-                      <div class="pt-2 flex">
-                        <form class="max-w-xs mx-auto">
-                          <div class="relative flex items-center max-w-[8rem]">
-                              <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input3" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
-                                  <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
-                                  </svg>
-                              </button>
-                              <input type="text" id="quantity-input3" data-input-counter aria-describedby="helper-text-explanation" class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5" placeholder="0" required />
-                              <button type="button" id="increment-button" data-input-counter-increment="quantity-input3" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
-                                  <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-                                  </svg>
-                              </button>
-                          </div>
-                        </form>
-                        <button type="button" class="ms-2 hover:underline">Remove</button>
-                      </div>
-                  </div>
-                  <div class="relative top-2">
-                    <button type="button" class="w-5 h-5 hover:bg-yellow-500 hover:rounded-lg focus:ring-gray-100 focus:ring-2 focus:outline-none" onclick={()=>(navigate('/orderPage'))}>
-                      <img src="/public/image/edit.svg" alt="Edit"/>
-                    </button>
-                  </div>
-                </a>
+              
+              <div id="dropdownUsers" class="z-10 hidden divide-y divide-gray-100 h-screen"> {/* <!-- drop down menu --> */}
+                {/* <!-- TAKE NOTE!! Everytime na nag dadagdag ng item dapat iba yung id. ex. quantity-input1--> */}
+                <div> {/* <!-- item 1 --> */}
+                  <a href="#" class="flex px-4 py-3 hover:bg-gray-100"> 
+                    <div class="flex-shrink-0">
+                      <img class="rounded-lg w-11 h-11" src="/public/image/americano.png" alt="image"/>
+                    </div>
+                    <div class="w-full ps-3">
+                        <h1 class="text-black font-semibold">Cappucino Frappe</h1>
+                        <p class="font-normal text-black text-sm">Large</p>
+                        <h1 class="text-black font-semibold">₱59.00</h1>
+      
+                        <div class="pt-2 flex">
+                          <form class="max-w-xs mx-auto">
+                            <div class="relative flex items-center max-w-[8rem]">
+                                <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input1" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
+                                    <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+                                    </svg>
+                                </button>
+                                <input type="text" id="quantity-input1" data-input-counter aria-describedby="helper-text-explanation" class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5" placeholder="0" required />
+                                <button type="button" id="increment-button" data-input-counter-increment="quantity-input1" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
+                                    <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                                    </svg>
+                                </button>
+                            </div>
+                          </form>
+                          <button type="button" class="ms-2 hover:underline">Remove</button>
+                        </div>
+                    </div>
+                    <div class="relative top-2 ">
+                      <button type="button" class="w-5 h-5 hover:bg-yellow-500 hover:rounded-lg focus:ring-gray-100 focus:ring-2 focus:outline-none" onclick={()=>(navigate('/orderPage'))}>
+                        <img src="/public/image/edit.svg" alt="Edit"/>
+                      </button>
+                    </div>
+                  </a>
+                </div>
+                <div> {/* <!-- item 2 --> */}
+                  <a href="#" class="flex px-4 py-3 hover:bg-gray-100"> 
+                    <div class="flex-shrink-0">
+                      <img class="rounded-lg w-11 h-11" src="/public/image/americano.png" alt="image"/>
+                    </div>
+                    <div class="w-full ps-3">
+                        <h1 class="text-yellow-800 font-semibold">Cold Brew</h1>
+                        <p class="font-normal text-yellow-700 text-sm">Medium</p>
+                        <h1 class="text-yellow-800 font-semibold">₱39.00</h1>
+      
+                        <div class="pt-2 flex">
+                          <form class="max-w-xs mx-auto">
+                            <div class="relative flex items-center max-w-[8rem]">
+                                <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input2" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
+                                    <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+                                    </svg>
+                                </button>
+                                <input type="text" id="quantity-input2" data-input-counter aria-describedby="helper-text-explanation" class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5" placeholder="0" required />
+                                <button type="button" id="increment-button" data-input-counter-increment="quantity-input2" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
+                                    <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                                    </svg>
+                                </button>
+                            </div>
+                          </form>
+                          <button type="button" class="ms-2 hover:underline">Remove</button>
+                        </div>
+                    </div>
+                    <div class="relative top-2 ">
+                      <button type="button" class="w-5 h-5 hover:bg-yellow-500 hover:rounded-lg focus:ring-gray-100 focus:ring-2 focus:outline-none" onclick={()=>(navigate('/orderPage'))}>
+                        <img src="/public/image/edit.svg" alt="Edit"/>
+                      </button>
+                    </div>
+                  </a>
+                </div>
+                <div> {/* <!-- item 3 --> */}
+                  <a href="#" class="flex px-4 py-3 hover:bg-gray-100"> 
+                    <div class="flex-shrink-0">
+                      <img class="rounded-lg w-11 h-11" src="/public/image/americano.png" alt="image"/>
+                    </div>
+                    <div class="w-full ps-3">
+                        <h1 class="text-yellow-800 font-semibold">Cappucino Frappe</h1>
+                        <p class="font-normal text-yellow-700 text-sm">Large</p>
+                        <h1 class="text-yellow-800 font-semibold">₱59.00</h1>
+      
+                        <div class="pt-2 flex">
+                          <form class="max-w-xs mx-auto">
+                            <div class="relative flex items-center max-w-[8rem]">
+                                <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input3" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
+                                    <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+                                    </svg>
+                                </button>
+                                <input type="text" id="quantity-input3" data-input-counter aria-describedby="helper-text-explanation" class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5" placeholder="0" required />
+                                <button type="button" id="increment-button" data-input-counter-increment="quantity-input3" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">
+                                    <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                                    </svg>
+                                </button>
+                            </div>
+                          </form>
+                          <button type="button" class="ms-2 hover:underline">Remove</button>
+                        </div>
+                    </div>
+                    <div class="relative top-2">
+                      <button type="button" class="w-5 h-5 hover:bg-yellow-500 hover:rounded-lg focus:ring-gray-100 focus:ring-2 focus:outline-none" onclick={()=>(navigate('/orderPage'))}>
+                        <img src="/public/image/edit.svg" alt="Edit"/>
+                      </button>
+                    </div>
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div> {/* <!-- You might like--> */}
-            <h1 class="font-bold text-lg mt-10 text-black mb-2">You might like</h1>
-              <div>
-                <a href="#" class="flex px-4 py-3 hover:bg-gray-100"> 
-                  <div class="flex-shrink-0">
-                    <img class="rounded-lg w-11 h-11" src="/public/image/americano.png" alt="image"/>
-                  </div>
-                  <div class="w-full ps-3 text-black">
-                      <h1 class=" font-normal">Taro</h1>
-                      <h1 class=" font-normal">₱59.00</h1>
-    
-                      <div class="pt-2 flex">
-                        <button type="button" class="w-full py-3 bg-green-600 rounded-lg text-white font-semibold hover:bg-greenColor">Add to Cart</button>
-                      </div>
-                  </div>
-                </a>
-              </div>
-          </div>
-
-        </div>
-      </div>
-
+            <div> {/* <!-- You might like--> */}
+              <h1 class="font-bold text-lg mt-10 text-black mb-2">You might like</h1>
+                <div>
+                  <a href="#" class="flex px-4 py-3 hover:bg-gray-100"> 
+                    <div class="flex-shrink-0">
+                      <img class="rounded-lg w-11 h-11" src="/public/image/americano.png" alt="image"/>
+                    </div>
+                    <div class="w-full ps-3 text-black">
+                        <h1 class=" font-normal">Taro</h1>
+                        <h1 class=" font-normal">₱59.00</h1>
       
+                        <div class="pt-2 flex">
+                          <button type="button" class="w-full py-3 bg-green-600 rounded-lg text-white font-semibold hover:bg-greenColor">Add to Cart</button>
+                        </div>
+                    </div>
+                  </a>
+                </div>
+            </div>
+
+          </div>
+        </div>
+      )}
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>{/* <!-- AOS Animation--> */}
     </div>
   )
