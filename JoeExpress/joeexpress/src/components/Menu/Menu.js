@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom'
 import './menuPage.css'
 import logo from '../image/logo.png'
-import americano from '../image/americano.png'
 import topBG from '../image/top-bg.svg';
 import cartMenu from '../image/cart.svg';
 import userIcon from '../image/UserAcc.svg';
@@ -33,8 +32,10 @@ const [cmsSmallLogo,setSmallLogo] = useState(null);
 const [orderNotif, setOrderNotif] = useState(0);
 const [isOpen, setIsOpen] = useState(false);
 const [isOpenRightNav, setIsOpenRightNav] = useState(false);
+const [categorySearch, setCategorySearch] = useState(0);
 
 // modal
+const [category,setCategory] = useState([]);
 const [addAddorderModal,setAddAddorderModal] = useState(false);
 
 // modal
@@ -98,9 +99,8 @@ const rightNav = () => {
         if (res.data.valid) {
           setAuthenticated(true);
           setUserId(res.data.userId);
-        } else {
-          navigate('/');
         }
+
       })
       .catch(err => console.log(err));
   }, [navigate]);
@@ -160,6 +160,18 @@ const rightNav = () => {
       });
 
   }, [userId]);
+  
+  useEffect(() => {
+    
+    axios.post('http://localhost:8081/fetchCategory')
+      .then(response => {
+        setCategory(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching orderNotif details:', error);
+      });
+
+  }, [userId]);
 
   const handleAddToCart = async (food) => {
     try {
@@ -198,7 +210,7 @@ const rightNav = () => {
   return (
     <div>
       
-      {addAddorderModal && <AddOrder closeModal={addAddorderModal}/>}
+      {addAddorderModal && <AddOrder closeModal={setAddAddorderModal}/>}
 
       {/* <!-- Navbar --> */}
       <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">
@@ -209,12 +221,10 @@ const rightNav = () => {
 
         <div class="inline-flex items-center justify-center me-2">
           {/* <!-- Button for Login or Sign Up --> */}
-          <button
-            class="btn mr-3 w-40 h-12 text-greenColor text-sm tracking-widest shadow-md cursor-pointer hover:shadow-lg outline  hover:shadow-gray-400 hover:bg-greenColor hover:text-white hover:outline-none ease-in-out transition background-color 0.3s, color 0.3s duration-300">
-            Order Now!
-          </button>
-    
-          <div class="inline-flex w-fit h-fit space-x-2">
+
+          {authenticated ? 
+          (
+            <div class="inline-flex w-fit h-fit space-x-2">
             <button onClick={toggleDropdown} className="focus:outline-none">
               <img src={userIcon} alt="user" className="mr-3" />
             </button>
@@ -247,6 +257,15 @@ const rightNav = () => {
               )}
             </Link>
           </div>
+            ) : (<button
+              onClick={()=> navigate('/login')}
+              class="btn mr-3 w-40 h-12 text-greenColor text-sm tracking-widest shadow-md cursor-pointer hover:shadow-lg outline  hover:shadow-gray-400 hover:bg-greenColor hover:text-white hover:outline-none ease-in-out transition background-color 0.3s, color 0.3s duration-300">
+              Order Now!
+            </button>)
+          }
+          
+    
+          
         </div>
       </nav>
 
@@ -255,13 +274,21 @@ const rightNav = () => {
           <div class="absolute top-0 left-0 w-full h-full"> {/* <!-- buttons and title -->*/}
             <h1 class="text-2xl md:text-5xl font-bold my-10 text-center"><span class="text-textgreenColor pe-3">Explore our</span>Menu</h1>
 
-            <div class="justify-center items-center mx-auto px-52 flex-wrap space-x-3 space-y-3 hidden lg:flex">
-              {/* <!-- buttons will be hidden on medium and below screens --> */}
-              <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
-              onclick="toggleVisibility('mt-series');">
-                MilkTea Series
+              <div class="justify-center items-center mx-auto px-52 flex-wrap space-x-3 space-y-2 hidden lg:flex">
+              <button  class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+                onClick={() => setCategorySearch(0)}
+                >
+                All Items
               </button>
-              <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+              {/* <!-- buttons will be hidden on medium and below screens --> */}
+              {category.map(cat =>(
+                <button key={cat.id} class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+                onClick={() => setCategorySearch(cat.id)}
+                >
+                {cat.title}
+              </button>
+              ))}
+              {/* <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
               onclick="toggleVisibility('fm-series');">
                 Fresh Milk Series
               </button>
@@ -288,7 +315,7 @@ const rightNav = () => {
               <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
               onclick="toggleVisibility('bt-series');">
                 Brewed Tea Series
-              </button>
+              </button> */}
             </div>
             
             {/* <!-- dropdown category button --> */}
@@ -299,9 +326,11 @@ const rightNav = () => {
               {/* <!-- category menu --> */}
               <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                   <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                    <li>
-                      <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('mt-series');">MilkTea Series</a>
+                    
+                      <li >
+                      <button class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('mt-series');">MilkTea Series</button>
                     </li>
+
                     <li>
                       <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('fm-series');">Fresh Milk Series</a>
                     </li>
@@ -336,7 +365,9 @@ const rightNav = () => {
           <h1 className='text-5xl font-bold text-center mb-10'> <span className='text-textgreenColor'>Milk Tea</span> Series</h1>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
 
-                {foods.map(food=>(
+                {foods.filter((food) => {
+                return categorySearch === 0 ? food : food.category_id === categorySearch;
+                }).map((food)=>(
                   <div key={food.id} className="rounded-lg p-4 shadow-md relative outline outline-slate-300 hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 1 -->*/}
                     <div className="rounded-full bg-menuCirclebg p-4 aspect-square">
                         <img src={food.image_url} alt="Milk Tea" className="w-full h-full object-contain"/>
@@ -345,9 +376,16 @@ const rightNav = () => {
                     <p className="text-gray-600 mt-2">Starts at</p>
                     <p className="text-2xl font-bold mt-1">₱{food.Medium}</p>
                   
-                    <button onClick={() => toggleAddAddorderModal()} id="btn-cart" className="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                  {
+                    authenticated ? 
+                    (<button onClick={() => toggleAddAddorderModal()} id="btn-cart" className="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                    <img src={cartMenu} alt=""/>
+                    </button> ):
+                    (<button onClick={() => navigate('/login')} id="btn-cart" className="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
                       <img src={cartMenu} alt=""/>
-                    </button> {/* onClick={() => handleNav(food.id)} */}
+                    </button>)
+                  }
+                    
                 </div>
               ))}
                   {/*<!-- card 2 -->*/}

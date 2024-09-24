@@ -176,10 +176,11 @@ const Login = () => {
           {/* <!-- Logo/Title in Navbar --> */}
           <a href="/" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">{cmsName}</a>
         </div>
-
-        <div class="inline-flex items-center justify-center me-2">
-          {/* <!-- Button for Login or Sign Up --> */}
+{/* <!-- Button for Login or Sign Up --> */}
+        {/* <div class="inline-flex items-center justify-center me-2">
+          
           <button
+          onClick={()=> navigation('/login')}
             class="btn mr-3 w-40 h-12 text-greenColor text-sm tracking-widest shadow-md cursor-pointer hover:shadow-lg outline  hover:shadow-gray-400 hover:bg-greenColor hover:text-white hover:outline-none ease-in-out transition background-color 0.3s, color 0.3s duration-300">
             Order Now!
           </button>
@@ -188,7 +189,7 @@ const Login = () => {
             <img src={userIcon} alt=""/>
             <img src={bagIcon} alt=""/>
           </div>
-        </div>
+        </div> */}
       </nav>
 
     {/* <!-- Form container --> */}
