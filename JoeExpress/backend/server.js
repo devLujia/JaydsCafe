@@ -260,6 +260,7 @@ app.get('/menu', (req ,res )=>{
         `SELECT
             f.id,
             f.name,
+            f.category_id,
             f.description,
             f.image_url,
             MAX(CASE WHEN fs.size = 'large' THEN fs.price END) AS Large,
