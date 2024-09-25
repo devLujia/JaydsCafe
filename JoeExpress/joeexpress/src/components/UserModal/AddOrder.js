@@ -61,9 +61,9 @@ return(
             <div className='bg-white w-full max-w-fit md:max-w-4xl max-h-full rounded-xl shadow-lg flex flex-col'>
 
                 {/* Main Container */}
-                <div className='grid grid-cols-1 md:grid-cols-2 rounded-lg'>
+                <div className='grid grid-cols-1 md:grid-cols-2 rounded-lg max-h-screen '>
                     {/* Left side */}
-                    <div className='flex flex-col rounded-lg'>
+                    <div className='flex flex-col rounded-lg gap-y-5'>
                         <div className='bg-background rounded-tl-xl'>
                             <div className="p-4  w-56 mx-auto aspect-square">
                                 <img src={caramel} alt="Milk Tea" className="w-full h-full object-contain"/>
@@ -189,27 +189,27 @@ return(
 
                         {sweetness && (
                             <div id="accordion-color-body-1" className="w-full px-5">
-                                <div class="flex items-center mb-4 border-b-2 border-gray-200 py-3">
-                                    <input id="default-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                    <label for="default-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">No Sugar (0%)</label>
-                                </div> 
-                                <div class="flex items-center mb-4 border-b-2 border-gray-200 py-3">
-                                    <input id="default-checkbox1" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                    <label for="default-checkbox1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Quarter (25%)</label>
-                                </div>
-                                <div class="flex items-center mb-4 border-b-2 border-gray-200 py-3">
-                                    <input id="default-checkbox2" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                    <label for="default-checkbox2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Half (50%)</label>
-                                </div>
-                                <div class="flex items-center mb-4 border-b-2 border-gray-200 py-3">
-                                    <input id="default-checkbox3" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                    <label for="default-checkbox3" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Lite (75%)</label>
-                                </div>
-                                <div class="flex items-center mb-4 border-b-2 border-gray-200 py-3">
-                                    <input id="default-checkbox4" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                    <label for="default-checkbox4" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Normal (100%)</label>
-                                </div>
+                            <div class="flex items-center mb-4 border-b-2 border-gray-200 py-3">
+                                <input id="radio-1" type="radio" name="sugar-level" class="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-textgreenColor dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                <label for="radio-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">No Sugar (0%)</label>
+                            </div> 
+                            <div class="flex items-center mb-4 border-b-2 border-gray-200 py-3">
+                                <input id="radio-2" type="radio" name="sugar-level" class="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-textgreenColor dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                <label for="radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Quarter (25%)</label>
                             </div>
+                            <div class="flex items-center mb-4 border-b-2 border-gray-200 py-3">
+                                <input id="radio-3" type="radio" name="sugar-level" class="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-textgreenColor dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                <label for="radio-3" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Half (50%)</label>
+                            </div>
+                            <div class="flex items-center mb-4 border-b-2 border-gray-200 py-3">
+                                <input id="radio-4" type="radio" name="sugar-level" class="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-textgreenColor dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                <label for="radio-4" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Lite (75%)</label>
+                            </div>
+                            <div class="flex items-center mb-4 border-b-2 border-gray-200 py-3">
+                                <input id="radio-5" type="radio" name="sugar-level" class="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-textgreenColor dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                <label for="radio-5" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Normal (100%)</label>
+                            </div>
+                        </div>
                         )}
 
                         {/* addons Dropdown */}
@@ -245,11 +245,20 @@ return(
                         </h2>
 
                         {addons && (
-                            <div id="accordion-color-body-1" className="w-full p-5">
+                            <div id="accordion-color-body-1" className="w-full p-5 max-h-52 overflow-y-auto">
                                 <div class="flex justify-between items-center mb-4 border-b-2 border-gray-200 py-3">
                                     <div>
-                                        <input id="default-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                        <label for="default-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default checkbox</label>
+                                        <input id="addons1" type="checkbox" value="" class="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                        <label for="addons1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default checkbox</label>
+                                    </div>
+                                    <div>
+                                        <p>₱ 10.00</p>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center mb-4 border-b-2 border-gray-200 py-3">
+                                    <div>
+                                        <input id="addons2" type="checkbox" value="" class="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                        <label for="addons2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default checkbox</label>
                                     </div>
                                     <div>
                                         <p>₱ 10.00</p>
@@ -257,25 +266,46 @@ return(
                                 </div> 
                                 <div class="flex justify-between items-center mb-4 border-b-2 border-gray-200 py-3">
                                     <div>
-                                        <input id="default-checkbox1" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                        <label for="default-checkbox1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default checkbox</label>
+                                        <input id="addons3" type="checkbox" value="" class="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                        <label for="addons3" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default checkbox</label>
                                     </div>
                                     <div>
                                         <p>₱ 10.00</p>
                                     </div>
-                                </div>
-                                 
+                                </div> 
+                                <div class="flex justify-between items-center mb-4 border-b-2 border-gray-200 py-3">
+                                    <div>
+                                        <input id="addons4" type="checkbox" value="" class="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                        <label for="addons4" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default checkbox</label>
+                                    </div>
+                                    <div>
+                                        <p>₱ 10.00</p>
+                                    </div>
+                                </div> 
+                                <div class="flex justify-between items-center mb-4 border-b-2 border-gray-200 py-3">
+                                    <div>
+                                        <input id="addons5" type="checkbox" value="" class="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                        <label for="addons5" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default checkbox</label>
+                                    </div>
+                                    <div>
+                                        <p>₱ 10.00</p>
+                                    </div>
+                                </div>  
                             </div>
                         )}
-
+                        <div className='flex justify-end items-center mb-4 gap-2 mt-4'>
+                            <button onClick={()=> closeModal(false)} className='text-white w-full bg-red-500 px-4 py-2 hover:bg-red-600 rounded-lg'>
+                                Cancel
+                            </button>
+                            <button className='bg-textgreenColor text-white rounded-lg py-2 px-3 w-full'>
+                                Add to order <span className='text-gray-400'>₱ 59.00</span>
+                            </button>
+                        </div>
                     </div>
+                    
                 </div>
                 
-                <div className='flex justify-end items-center mb-4'>
-                    <button onClick={()=> closeModal(false)} className='text-white bg-red-500 px-3 py-1 hover:bg-red-600 rounded-sm'>
-                        X
-                    </button>
-                </div>
+                
             
             </div>
         </div>
