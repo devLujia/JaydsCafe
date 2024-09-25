@@ -1210,6 +1210,29 @@ app.post('/removeProduct',  async (req, res) =>{
         })
  
         })
+        
+        app.post('/updateCategory' , (req,res) => {
+
+        const { title } = req.body;
+
+        const query = 
+        `
+        Update category
+        SET title = ?, 
+
+        WHERE 
+        id = ?
+        `
+
+        db.query (query,[title], (err,result) => {
+            if (err){
+                res.json({err: "Unable to update into category"})
+            }
+            res.json({success: true})
+         
+        })
+ 
+        })
 
     app.post('/users', (req, res) => {
         const query = `SELECT COUNT(DISTINCT customer_id) AS customer_count FROM orders;`;
