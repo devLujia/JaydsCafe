@@ -17,6 +17,8 @@ function Cart() {
     const navigate = useNavigate();
     const [totalBill, setTotalBill] = useState(0);
 
+    const [showTooltip, setShowTooltip] = useState(false); //For tooltip
+    
     const [quantity, setQuantity] = useState(
         items.reduce((acc, item) => {
             acc[item.id] = 1;
@@ -329,33 +331,36 @@ function Cart() {
                             </form>
                         </div>
 
-                        <div class="flex items-center justify-end pt-5">
-                            <h1 class="text-3xl font-extrabold tracking-wider">₱{totalBill}</h1>
-                            <span class="inline-flex items-center justify-center w-6 h-6 ms-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full" data-tooltip-target="tooltip-default">
-                                i
-                            </span>
-                        </div>
-
-
-                        <div id="tooltip-default" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                            Taxes, discounts and shipping calculated at checkout
-                            <div class="tooltip-arrow" data-popper-arrow></div>
-                        </div>
-
-                        {/* <!--button --> */}
-                        <div class="w-full py-5 mt-5">
-                            <button
-                                // onClick={() => handlePayment(item.id, quantity[item.id])}
-                                onClick={() => navigate('/checkout')}
-                                data-modal-target="default-modal"
-                                data-modal-toggle="default-modal"
-                                class="w-full px-10 bg-greenColor text-white font-bold text-lg rounded-full py-3 flex items-center justify-center hover:bg-green-600 transition duration-300 ease-in-out shadow-lg">
-                                Review payment and address
-                            </button>
-                        </div>
-                    </div>
+                <div class="flex items-center justify-end pt-5">
+                    <h1 class="text-3xl font-extrabold tracking-wider">₱{totalBill}</h1>
+                    <span class="inline-flex items-center justify-center w-6 h-6 ms-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full" 
+                    onMouseEnter={() => setShowTooltip(true)}
+                    onMouseLeave={() => setShowTooltip(false)}>
+                        i
+                    </span>
                 </div>
-            </section>
+                
+                {showTooltip && (
+                    <div className="absolute z-10 inline-block px-3 py-2 text-sm font-medium text-gray-100 bg-black/40 backdrop-blur-sm rounded-lg shadow-sm border border-white dark:bg-gray-700/30 dark:border-gray-600/20">
+                        Taxes, discounts, and shipping calculated at checkout.
+                        <div className="tooltip-arrow" />
+                    </div>
+                )}
+                
+                {/* <!--button --> */}
+                <div class="w-full py-5 mt-5"> 
+                    <button 
+                    // onClick={() => handlePayment(item.id, quantity[item.id])}
+                    onClick={()=>navigate('/checkout')}
+                    data-modal-target="default-modal" 
+                    data-modal-toggle="default-modal"
+                    class="w-full px-10 bg-greenColor text-white font-bold text-lg rounded-full py-3 flex items-center justify-center hover:bg-green-600 transition duration-300 ease-in-out shadow-lg">
+                        Review payment and address
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
 
             {/* <!-- List or reciept -->
     <!-- Modal for Receipt --> */}
