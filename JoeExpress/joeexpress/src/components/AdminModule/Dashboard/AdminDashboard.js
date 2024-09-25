@@ -27,6 +27,8 @@ function AdminDashboard() {
    const [orders, setOrders] = useState([])
    const [expandedOrderId, setExpandedOrderId] = useState(null);
    
+   const [showTooltip, setShowTooltip] = useState(false); //For tooltip
+   
    const [updateOrder, setUpdateOrder] = useState([
       {
          order_id:'',
@@ -475,12 +477,27 @@ function AdminDashboard() {
                                        </td>
                                        <td className="flex items-center px-6 py-4 space-x-2">
                                           <div className="h-fit items-center justify-center flex space-x-3 ps-4 mx-auto">
-                                             <button onClick={() => toggleOrderDetails(order.order_id)}>
-                                                <img src={eye} alt="eye" className="w-6 h-6" />
-                                             </button>
+
+                                             {/* nag ddouble kasi nasa loop din ata to so lahat ng naka eye is lalabas yung tooltip */}
+                                             <span 
+                                                onMouseEnter={() => setShowTooltip(true)}
+                                                onMouseLeave={() => setShowTooltip(false)}>
+                                                <button onClick={() => toggleOrderDetails(order.order_id)}>
+                                                   <img src={eye} alt="eye" className="w-6 h-6" />
+                                                </button>
+                                             </span>
+
+                                             {showTooltip && (
+                                                <div className="absolute z-10 inline-block px-3 py-2 text-sm font-medium text-gray-100 bg-black/40 backdrop-blur-sm rounded-lg shadow-sm border border-white dark:bg-gray-700/30 dark:border-gray-600/20">
+                                                      Edit
+                                                      <div className="tooltip-arrow" />
+                                                </div>
+                                             )}
+
                                              <button className="hover:underline hover:decoration-blue-500">
                                                 <img src={del} alt="trash" />
                                              </button>
+
                                              <button onClick={() => getTheOrder(order.order_id, order.status)}>
                                                 <img src={check} alt="check"/>
                                              </button>
