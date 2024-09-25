@@ -379,13 +379,13 @@ app.get('/items/:foodId', (req, res) => {
   })
 
   app.post('/cart_items', (req, res) => {
-    const { foodId, size, price, addons } = req.body;
+    const { foodId, size, price, addons, quantity } = req.body;
     const userId = req.session.userId;
 
     // Insert the add-ons names directly
-    const query = 'INSERT INTO cart_items (user_id, food_id, size, price, addons) VALUES (?, ?, ?, ?, ?)';
+    const query = 'INSERT INTO cart_items (user_id, food_id, size, price, addons, quantity) VALUES (?, ?, ?, ?, ?, ?)';
 
-    db.query(query, [userId, foodId, size, price, addons], (err, results) => {
+    db.query(query, [userId, foodId, size, price, addons, quantity], (err, results) => {
         if (err) {
             console.error('Error adding item to cart:', err);
             return res.status(500).json({ success: false, message: 'Failed to add item to cart' });
@@ -1524,7 +1524,7 @@ app.post('/removeProduct',  async (req, res) =>{
             o.order_date, 
             o.status
         ORDER BY 
-            o.order_date ASC;
+            o.order_date DESC;
              
         `
 
@@ -1572,7 +1572,7 @@ app.post('/removeProduct',  async (req, res) =>{
             o.order_date, 
             o.status
         ORDER BY 
-            o.order_date ASC;
+            o.order_date DESC;
              
         `
 

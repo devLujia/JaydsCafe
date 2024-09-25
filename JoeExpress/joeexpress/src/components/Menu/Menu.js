@@ -33,15 +33,22 @@ const [orderNotif, setOrderNotif] = useState(0);
 const [isOpen, setIsOpen] = useState(false);
 const [isOpenRightNav, setIsOpenRightNav] = useState(false);
 const [categorySearch, setCategorySearch] = useState(0);
+const [selectedFoodId, setSelectedFoodId] = useState(null);
 
 // modal
 const [category,setCategory] = useState([]);
 const [addAddorderModal,setAddAddorderModal] = useState(false);
 
 // modal
-const toggleAddAddorderModal = () =>{
-  setAddAddorderModal(!addAddorderModal)
-}
+const toggleAddAddorderModal = (foodId = null) => {
+  // Set the selected foodId when opening the modal
+  if (foodId) {
+    setSelectedFoodId(foodId);
+  }
+
+  // Toggle the modal visibility
+  setAddAddorderModal(!addAddorderModal);
+};
 
 const toggleDropdown = () => {
   setIsOpen(!isOpen);
@@ -159,7 +166,7 @@ const rightNav = () => {
         console.error('Error fetching orderNotif details:', error);
       });
 
-  }, [userId]);
+  });
   
   useEffect(() => {
     
@@ -210,7 +217,7 @@ const rightNav = () => {
   return (
     <div>
       
-      {addAddorderModal && <AddOrder closeModal={setAddAddorderModal}/>}
+      {addAddorderModal && <AddOrder closeModal={setAddAddorderModal} foodId={selectedFoodId} />}
 
       {/* <!-- Navbar --> */}
       <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">
@@ -378,7 +385,11 @@ const rightNav = () => {
                   
                   {
                     authenticated ? 
-                    (<button onClick={() => toggleAddAddorderModal()} id="btn-cart" className="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                    (<button onClick={() => 
+                    
+                    toggleAddAddorderModal(food.id)} id="btn-cart" 
+                    className="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" 
+                    data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
                     <img src={cartMenu} alt=""/>
                     </button> ):
                     (<button onClick={() => navigate('/login')} id="btn-cart" className="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
