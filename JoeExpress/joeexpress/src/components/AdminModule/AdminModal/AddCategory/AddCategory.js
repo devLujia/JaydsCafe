@@ -30,7 +30,7 @@ function AddCategory({closeModal}) {
 
       const formData = new FormData();
       formData.append('title', values.title);
-      formData.append('image_url', values.image_url);
+      //formData.append('image_url', values.image_url);
 
       formData.forEach((value, key) => {
         console.log(key, value);

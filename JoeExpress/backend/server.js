@@ -1290,8 +1290,8 @@ app.post('/removeProduct',  async (req, res) =>{
         const image_url = req.file ? req.file.filename : null;
 
         const query = 
-        `INSERT INTO category (title,image_url)
-        VALUES(?,?)`
+        `INSERT INTO category (title)
+        VALUES(?)`
 
         db.query(query,[title,image_url],(err,result)=>{
             if(err){
