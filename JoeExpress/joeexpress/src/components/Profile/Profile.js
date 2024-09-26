@@ -254,82 +254,91 @@ export default function Profile() {
 
                               <tbody>
                               {orders.map(order => (
-                                 <>
-                                    <tr
-                                       key={order.order_id}
-                                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                       <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white ">
-                                          <div className="text-base font-semibold">ORDR#{order.order_id}</div>
-                                       </th>
-                                       <td className="px-6 py-4 text-center">
-                                          {order.name}
-                                       </td>
-                                       <td className="px-6 py-4 text-center">
-                                          {order.address}
-                                       </td>
-                                       <td className="px-6 py-4 text-center">
-                                          WALA PA
-                                       </td>
-                                       <td className="px-6 py-4 text-center">
-                                          {new Date(order.order_date).toLocaleString('en-US', {
-                                             year: 'numeric',
-                                             month: 'long',
-                                             day: 'numeric',
-                                             hour: '2-digit',
-                                             minute: '2-digit',
-                                             second: '2-digit',
-                                          })}
-                                       </td>
-                                       <td className="px-6 py-4 text-center text-greenColor">
-                                          {order.totalPrice}
-                                       </td>
-                                       <td className="px-6 py-4">
-                                       <td className="px-6 py-4">
-                                            {/* status */}
-                                            {order.status === 'paid' ? (
-                                              <div className="bg-green-100 text-green-500 font-semibold w-fit py-1 px-4 rounded-3xl">
-                                                Paid
-                                              </div>
-                                            ) : order.status === 'pending' ? (
-                                              <div className="bg-yellow-100 text-yellow-500 font-semibold w-fit py-1 px-4 rounded-3xl">
-                                                Pending
-                                              </div>
-                                            ) : (
-                                              <div className="bg-red-100 text-red-500 font-semibold w-fit py-1 px-4 rounded-3xl">
-                                                Unpaid
-                                              </div>
-                                            )}
-                                          </td>
-                                       </td>
-                                       <td className="flex items-center px-6 py-4 space-x-2">
-                                          <div className="h-fit items-center justify-center flex space-x-3 ps-4 mx-auto">
-                                             <button onClick={() => toggleOrderDetails(order.order_id)}>
-                                                <img src={eye} alt="eye" className="w-6 h-6" />
-                                             </button>
-                                             <button className="hover:underline hover:decoration-blue-500">
-                                                <img src={del} alt="trash" />
-                                             </button>
+                                orders.length > 0 ? (<React.Fragment key={order.order_id}>
+                                  <tr
+                                     className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                     <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white ">
+                                        <div className="text-base font-semibold">ORDR#{order.order_id}</div>
+                                     </th>
+                                     <td className="px-6 py-4 text-center">
+                                        {order.name}
+                                     </td>
+                                     <td className="px-6 py-4 text-center">
+                                        {order.address}
+                                     </td>
+                                     <td className="px-6 py-4 text-center">
+                                        WALA PA
+                                     </td>
+                                     <td className="px-6 py-4 text-center">
+                                        {new Date(order.order_date).toLocaleString('en-US', {
+                                           year: 'numeric',
+                                           month: 'long',
+                                           day: 'numeric',
+                                           hour: '2-digit',
+                                           minute: '2-digit',
+                                           second: '2-digit',
+                                        })}
+                                     </td>
+                                     <td className="px-6 py-4 text-center text-greenColor">
+                                        {order.totalPrice}
+                                     </td>
+                                     <td className="px-6 py-4">
+                                     <td className="px-6 py-4">
+                                          {/* status */}
+                                          {order.status === 'paid' ? (
+                                            <div className="bg-green-100 text-green-500 font-semibold w-fit py-1 px-4 rounded-3xl">
+                                              Paid - On Process
+                                            </div>
+                                          ) : order.status === 'pending' ? (
+                                            <div className="bg-yellow-100 text-yellow-500 font-semibold w-fit py-1 px-4 rounded-3xl">
+                                              Pending
+                                            </div>
+                                          ) : order.status === 'completed' ? (
+                                            <div className="bg-red-100 text-green-500 font-semibold w-fit py-1 px-4 rounded-3xl">
+                                              Completed
+                                            </div>
+                                          ):
+                                          <div className="bg-red-100 text-red-500 font-semibold w-fit py-1 px-4 rounded-3xl">
+                                            Canceled
                                           </div>
-                                       </td>
-                                    </tr>
-                                    
-                                    {expandedOrderId === order.order_id && (
-                                       <tr>
-                                          <td colSpan="8" className="bg-gray-100 dark:bg-gray-700">
-                                             <div className="px-6 py-4">
-                                                <div className="text-sm text-gray-600 dark:text-gray-300">
-                                                   <strong>Order Items:</strong>
-                                                   <ul className="mt-2 space-y-2">
-                                                      <li className="py-1 w-full text-left">
-                                                         {order.food_name}
-                                                      </li>
-                                                   </ul>
-                                                </div>
-                                             </div>
-                                          </td>
-                                       </tr>
-                                    )}
-                                 </>
+                                        }
+                                        </td>
+                                     </td>
+                                     <td className="flex items-center px-6 py-4 space-x-2">
+                                        <div className="h-fit items-center justify-center flex space-x-3 ps-4 mx-auto">
+                                           <button onClick={() => toggleOrderDetails(order.order_id)}>
+                                              <img src={eye} alt="eye" className="w-6 h-6" />
+                                           </button>
+                                           <button className="hover:underline hover:decoration-blue-500">
+                                              <img src={del} alt="trash" />
+                                           </button>
+                                        </div>
+                                     </td>
+                                  </tr>
+                                  
+                                  {expandedOrderId === order.order_id && (
+                                     <tr>
+                                        <td colSpan="8" className="bg-gray-100 dark:bg-gray-700">
+                                           <div className="px-6 py-4">
+                                              <div className="text-sm text-gray-600 dark:text-gray-300">
+                                                 <strong>Order Items:</strong>
+                                                 <ul className="mt-2 space-y-2">
+                                                    <li className="py-1 w-full text-left">
+                                                       {order.food_name}
+                                                    </li>
+                                                 </ul>
+                                              </div>
+                                           </div>
+                                        </td>
+                                     </tr>
+                                  )}
+                               </React.Fragment>):(
+                                
+                                <div class="border-y-2 py-10 px-16 w-[80%] flex flex-col justify-center items-center mx-auto">
+                                  <h1>You haven't placed any orders yet.</h1>
+                                  <a href="/menu" class="hover:underline">Start Browsing</a>
+                                </div>)
+                                 
                               ))}
 
 
@@ -341,10 +350,7 @@ export default function Profile() {
                         </table>
                     </div>
 
-                    <div class="border-y-2 py-10 px-16 w-[80%] flex flex-col justify-center items-center mx-auto">
-                      <h1>You haven't placed any orders yet.</h1>
-                      <a href="/menu" class="hover:underline">Start Browsing</a>
-                    </div>
+                    
                   </div>
               </div>
               

@@ -181,6 +181,7 @@ export default function Editpage() {
                                 <p className="text-lg font-semibold pb-2">Select Size:</p>
                                 <div className="flex justify-start items-center mb-4">
                                     <div className="flex items-center space-x-4">
+                                        
                                         {sizes.map(size => (
                                             <div key={size.id}>
                                                 <input
@@ -206,6 +207,7 @@ export default function Editpage() {
                                                 </label>
                                             </div>
                                         ))}
+                                        
                                     </div>
                                 </div>
 

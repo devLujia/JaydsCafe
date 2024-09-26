@@ -23,6 +23,7 @@ function ProductManagement() {
     const navigate = useNavigate();
     const [foods,setFoods] = useState([]);
     const [addons,setAddons] = useState([]);
+    const [categories,setCategories] = useState([]);
     const [search, setSearch] = useState('');
     const [addonSearch, setAddonSearch] = useState('');
 
@@ -32,9 +33,14 @@ function ProductManagement() {
     const [editProductModal,setEditProductModal] = useState(false);
     const [editAddonsModal,setEditAddonsModal] = useState(false);
     const [selectedProductId, setProductId] = useState(null);
+    const [selectedValue, setSelectedValue] = useState('Product');
     const [selectedAddonsId, setAddonsId] = useState(null);
     const [addAddonsModal,setAddAddonsModal] = useState(false);
     const [addSizeModal,setAddSizeModal] = useState(false);
+
+    const handleSelectChange = (event) => {
+      setSelectedValue(event.target.value);
+    };
 
     const toggleAddAddonsModal = () =>{
         setAddAddonsModal(!addAddonsModal)
@@ -83,7 +89,17 @@ function ProductManagement() {
         .catch(error => {
             console.error('Error fetching addons details:', error);
         });
-    },[])
+    })
+    
+    useEffect(()=>{
+        axios.post('http://localhost:8081/fetchCategory')
+        .then(response =>{
+            setCategories(response.data)
+        })
+        .catch(error => {
+            console.error('Error fetching addons details:', error);
+        });
+    })
 
 
     // useEffect(()=>{
@@ -260,186 +276,226 @@ function ProductManagement() {
             </div>
         </aside>
         
-        <div class="p-4 sm:ml-72 bg-slate-100">
-          <div class="relative shadow-xl sm:rounded-lg mx-auto w-full max-w-7xl"> 
-            <div class="flex items-center flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900 rounded-t-xl">
-              <div className='ms-2'>
-                <h1 className='text-2xl font-semibold'>Categories</h1>
-              </div>
-              
-              <div className='ms-2 text-md'>
-                <select className=' rounded-lg px-3 py-2 w-40  ps-2 border-2 border-slate-400 '>
-                  <option value="default">MilkTea</option>
-                  <option value="default">Addons</option>
-                </select>
-              </div>
+        <div className="p-4 sm:ml-72 bg-slate-100">
+  <div className="relative shadow-xl sm:rounded-lg mx-auto w-full max-w-7xl">
+    <div className="flex items-center flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900 rounded-t-xl">
+      {/* <div className="ms-2">
+        <h1 className="text-2xl font-semibold">Categories</h1>
+      </div> */}
 
-              <div className='ms-2'>
-                <button onClick={()=>toggleAddCategoryModal()} type="button" class="ml-auto border-2 border-slate-400  font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
-                  <span class="md:block hidden"> Add Category </span>
-                </button>
-              </div>
+      <div className="ms-2 text-md">
+        <select 
+          id="select" 
+          name="select" 
+          value={selectedValue} 
+          onChange={handleSelectChange} 
+          className="rounded-lg px-3 py-2 w-40 ps-2 border-2 border-slate-400"
+        >
+          <option value="Product">Product</option>
+          <option value="Addons">Addons</option>
+          <option value="Category">Category</option>
+        </select>
+      </div>
 
-              <button onClick={()=>toggleAddProductModal()} type="button" class="ml-auto text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
-                <img src={plus} alt="Plus_Product" class="me-2 md:block" />
-                <span class="md:block hidden"> Add Product </span>
-              </button>
-
+      <div className="relative">
+            <div className="absolute inset-y-0 ml-5 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+              </svg>
             </div>
+            <input 
+              type="text"
+              id="table-search-users" 
+              style={{ textTransform: 'uppercase' }} 
+              onChange={(e) => setAddonSearch(e.target.value)}
+              className="block p-2 ps-10 text-sm ml-5 text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+              placeholder="Search" 
+            />
+      </div>
 
-            <div class="bg-white rounded-b-xl">
-              <div class="text-center">
-                <h1 class="text-5xl font-semibold tracking-wider">Products</h1>
-              </div>
+      {selectedValue === 'Product' ? (
+  <button 
+    onClick={toggleAddProductModal} 
+    type="button" 
+    className="ml-auto text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+  >
+    <img src={plus} alt="Plus_Product" className="me-2 md:block" />
+    <span className="md:block hidden"> Add Product </span>
+  </button>
+) : selectedValue === 'Addons' ? (
+  <button 
+    onClick={toggleAddAddonsModal} 
+    type="button" 
+    className="ml-auto text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+  >
+    <img src={plus} alt="Plus_Addons" className="me-2 md:block" />
+    <span className="md:block hidden"> Add Addons </span>
+  </button>
+) : selectedValue === 'Category' ? (
+  <button 
+    onClick={toggleAddCategoryModal} // Assuming you meant to toggle a category modal
+    type="button" 
+    className="ml-auto text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+  >
+    <img src={plus} alt="Plus_Category" className="me-2 md:block" />
+    <span className="md:block hidden"> Add Category </span>
+  </button>
+) : null}
 
-              <div id="mt-series" class="w-full max-w-7xl mx-auto mt-4">
-                <div class="container mx-auto p-4">
-                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
-          
-                    {foods
-                      .filter((food) => {
-                        return search.toLowerCase() === '' ? food : food.name.toLowerCase().includes(search);
-                      })
-                      .map((food) => (
-                        <div key={food.id} class="rounded-lg p-3 shadow-2xl relative outline outline-gray-500 hover:scale-95 duration-300 hover:bg-jaydsBg">
-                          <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
-                            <img src={food.image_url} alt="Milk Tea" class="w-full h-full object-contain" />
-                          </div>
+      
 
-                          <div class="text-center">
-                            <h3 class="text-auto font-semibold mt-4 min-h-15">{food.name}</h3>
-                            <p class="text-md font-normal mt-1"><span class="text-xl font-semibold mt-1">Sizes: </span>{food.medsize}  {food.lgsize ? '/ ' + food.lgsize : ''}                    </p>
-                            <p class="text-md font-normal mt-1"><span class="text-xl font-semibold mt-1">Price: </span>₱ {food.medprice}.00{food.lgsize ? '/₱ ' + food.lgprice +'.00': ''}</p>
-                          </div>
 
-                          <div class="flex justify-center mt-4 space-x-2">
-                            <button 
-                            onClick={() => handleEditProduct(food.id)}
-                            class="hover:scale-110 duration-300">
-                              <img src={edit} alt="edit" class="brightness-0 w-10 h-10"/>
-                            </button>
 
-                            <button
-                            onClick={() => handleRemoveProduct(food.id)}
-                            class="hover:scale-110 duration-300">
-                              <img src={trashbin2}  alt="delete" class="brightness-0 w-12 h-12" />
-                            </button>
+    </div>
 
-                            <button
-                            onClick={() => handleAddSize(food.id)}
-                            class="hover:scale-110 duration-300">
-                              <img src={plus} className='filter invert w-12 h-12' alt="Add size" />
-                          </button>
-                          
-                          <button
-                            onClick={() => handleHide(food.id)}
-                            class="hover:scale-110 duration-300">
-                              <img src={hiddenImage} alt="hide" class="w-10 h-10" />
-                          </button>
-                          </div>
+    {selectedValue === 'Product' ? (
+      <div className="bg-white rounded-b-xl">
+        <div className="text-center">
+          <h1 className="text-5xl font-semibold tracking-wider">Products</h1>
+        </div>
 
-                          
-                          
-
-                        </div>
-                      ))}
-
-                    {/* <!-- end grid --> */}
-                  </div>
-                  {/* <!-- end container --> */}
-                </div>
-                {/* <!-- end mt-series --> */}
-              </div> 
+        <div id="mt-series" className="w-full max-w-7xl mx-auto mt-4">
+          <div className="container mx-auto p-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
               
-              {/* <!-- end bg-white --> */}
-            </div> 
-          </div>
+              {foods
+                .filter(food => food.name.toLowerCase().includes(addonSearch.toLowerCase()))
+                .map((food) => (
+                  <div key={food.id} className="rounded-lg p-3 shadow-2xl relative outline outline-gray-500 hover:scale-95 duration-300 hover:bg-jaydsBg">
+                    <div className="rounded-full bg-menuCirclebg p-4 aspect-square">
+                      <img src={food.image_url} alt="Milk Tea" className="w-full h-full object-contain" />
+                    </div>
 
-          <div class="relative shadow-xl sm:rounded-lg mt-20 mx-auto w-full max-w-7xl"> 
-            <div class="flex items-center flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900 rounded-t-xl">
-              <label for="table-search" class="sr-only">Search</label>
-              <div class="relative">
-                <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                  <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                  </svg>
-                </div>
-                <input type="text"
-                id="table-search-users" 
-                style={{ textTransform: 'uppercase' }} 
-                onChange={(e)=> setAddonSearch(e.target.value)}
-                class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for Addons" />
-              </div>
-              <button onClick={()=>toggleAddAddonsModal()} type="button" class="ml-auto text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
-                <img src={plus} alt="Plus_Product" class="me-2 md:block" />
-                <span class="md:block hidden"> Add Addons </span>
-              </button>
+                    <div className="text-center">
+                      <h3 className="text-auto font-semibold mt-4 min-h-15">{food.name}</h3>
+                      <p className="text-md font-normal mt-1">
+                        <span className="text-xl font-semibold mt-1">Sizes: </span>
+                        {food.medsize} {food.lgsize ? '/ ' + food.lgsize : ''}
+                      </p>
+                      <p className="text-md font-normal mt-1">
+                        <span className="text-xl font-semibold mt-1">Price: </span>₱ {food.medprice}.00
+                        {food.lgsize ? '/₱ ' + food.lgprice + '.00' : ''}
+                      </p>
+                    </div>
 
+                    <div className="flex justify-center mt-4 space-x-2">
+                      <button onClick={() => handleEditProduct(food.id)} className="hover:scale-110 duration-300">
+                        <img src={edit} alt="edit" className="brightness-0 w-10 h-10" />
+                      </button>
+
+                      <button onClick={() => handleRemoveProduct(food.id)} className="hover:scale-110 duration-300">
+                        <img src={trashbin2} alt="delete" className="brightness-0 w-12 h-12" />
+                      </button>
+
+                      <button onClick={() => handleAddSize(food.id)} className="hover:scale-110 duration-300">
+                        <img src={plus} className="filter invert w-12 h-12" alt="Add size" />
+                      </button>
+
+                      <button onClick={() => handleHide(food.id)} className="hover:scale-110 duration-300">
+                        <img src={hiddenImage} alt="hide" className="w-10 h-10" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
             </div>
-
-            <div class="bg-white rounded-b-xl mb-20">
-              <div class="text-center">
-                <h1 class="text-5xl font-semibold tracking-wider">Addons</h1>
-              </div>
-
-              <div id="mt-series" class="w-full max-w-7xl mx-auto mt-4">
-                <div class="container mx-auto p-4">
-                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
-          
-                    {addons
-                    .filter(addon => {
-                        return addon.name.toLowerCase().includes(addonSearch.toLowerCase());
-                      })
-                      .map(addon=> (
-                        <div key={addon.id} class="rounded-lg p-3 shadow-2xl relative outline outline-gray-500 hover:scale-95 duration-300 hover:bg-jaydsBg">
-                          {/* <div class="rounded-full bg-menuCirclebg p-4 aspect-square">
-                            <img src={addon.image_url} alt={addon.image_url} class="w-full h-full object-contain" />
-                          </div> */}
-
-                          <div class="text-center">
-                            <h3 class="text-xl font-semibold mt-4 min-h-15">{addon.name}</h3>
-                            <p class="text-md font-normal mt-1"><span class="text-xl font-semibold mt-1">Price: </span> ₱ {addon.price}</p>
-                            {/* <p class="text-md font-normal mt-1"><span class="text-xl font-semibold mt-1">Price: </span>₱ {addon.medprice}.00{food.lgsize ? '/₱ ' + food.lgprice +'.00': ''}</p> */}
-                          </div>
-
-                          <div class="flex justify-center mt-4 space-x-2">
-                            <button 
-                            onClick={() => handleEditAddons(addon.id)}
-                            class="hover:scale-110 duration-300">
-                              <img src={edit} alt="edit" class="w-10 h-10" />
-                            </button>
-
-                            <button
-                            onClick={() => handleRemoveProduct(addon.id)}
-                            class="hover:scale-110 duration-300">
-                              <img src={trashbin2} alt="delete" class="w-10 h-10" />
-                            </button>
-                          
-                          {/* <button
-                            onClick={() => handleHide(food.id)}
-                            class="hover:scale-110 duration-300">
-                              <img src={hiddenImage} alt="hide" class="w-10 h-10" />
-                          </button>
-                          */}
-                          </div>
-
-                          
-                          
-
-                        </div>
-                      ))}
-
-                    {/* <!-- end grid --> */}
-                  </div>
-                  {/* <!-- end container --> */}
-                </div>
-                {/* <!-- end mt-series --> */}
-              </div> 
-              
-              {/* <!-- end bg-white --> */}
-            </div> 
           </div>
         </div>
+      </div>
+    ) : selectedValue === 'Addons' ? (
+      <div className="relative shadow-xl sm:rounded-lg mx-auto w-full max-w-7xl">
+        
+        <div className="bg-white rounded-b-xl mb-20">
+          <div className="text-center">
+            <h1 className="text-5xl font-semibold tracking-wider">Addons</h1>
+          </div>
+
+          <div id="mt-series" className="w-full max-w-7xl mx-auto mt-4">
+            <div className="container mx-auto p-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
+                {addons
+                  .filter(addon => addon.name.toLowerCase().includes(addonSearch.toLowerCase()))
+                  .map(addon => (
+                    <div key={addon.id} className="rounded-lg p-3 shadow-2xl relative outline outline-gray-500 hover:scale-95 duration-300 hover:bg-jaydsBg">
+                      <div className="text-center">
+                        <h3 className="text-xl font-semibold mt-4 min-h-15">{addon.name}</h3>
+                        <p className="text-md font-normal mt-1">
+                          <span className="text-xl font-semibold mt-1">Price: </span> ₱ {addon.price}
+                        </p>
+                      </div>
+
+                      <div className="flex justify-center mt-4 space-x-2">
+                        <button 
+                          onClick={() => handleEditAddons(addon.id)}
+                          className="hover:scale-110 duration-300"
+                        >
+                          <img src={edit} alt="edit" className="w-10 h-10" />
+                        </button>
+
+                        <button
+                          onClick={() => handleRemoveProduct(addon.id)}
+                          className="hover:scale-110 duration-300"
+                        >
+                          <img src={trashbin2} alt="delete" className="w-12 h-12" />
+                        </button>
+
+                        <button 
+                          onClick={() => handleHide(addon.id)}
+                          className="hover:scale-110 duration-300"
+                        >
+                          <img src={hiddenImage} alt="hide" className="w-10 h-10" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    ) : (
+      <div className="relative shadow-xl sm:rounded-lg mx-auto w-full max-w-7xl">
+        <div className="bg-white rounded-b-xl mb-20">
+          <div className="text-center">
+            <h1 className="text-5xl font-semibold tracking-wider">Categories</h1>
+          </div>
+
+          <div id="mt-series" className="w-full max-w-7xl mx-auto mt-4">
+            <div className="container mx-auto p-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
+                {categories
+                  .filter(category => category.title.toLowerCase().includes(addonSearch.toLowerCase()))
+                  .map(category => (
+                    <div key={category.id} className="rounded-lg p-3 shadow-2xl relative outline outline-gray-500 hover:scale-95 duration-300 hover:bg-jaydsBg">
+                      <div className="text-center">
+                        <h3 className="text-xl font-semibold mt-4 min-h-15">{category.title}</h3>
+                      </div>
+
+                      {/* <div className="flex justify-center mt-4 space-x-2">
+                        <button 
+                          onClick={() => handleEditCategory(category.id)}
+                          className="hover:scale-110 duration-300"
+                        >
+                          <img src={edit} alt="edit" className="w-10 h-10" />
+                        </button>
+
+                        <button
+                          onClick={() => handleRemoveCategory(category.id)}
+                          className="hover:scale-110 duration-300"
+                        >
+                          <img src={trashbin2} alt="delete" className="w-12 h-12" />
+                        </button>
+                      </div> */}
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+</div>
+
 
         {/* Eto yung bagong design sa Product management, Cards na siya */}
         
