@@ -209,7 +209,7 @@ function Signup() {
       </nav>
 
       {/* <!-- Form container --> */}
-      <div class="max-w-md mx-auto p-4 mt-2 mb-4 bg-white rounded-xl shadow-md md:max-w-lg md:p-6 md:pt-4 md:mb-6 lg:max-w-xl lg:p-8 lg:pt-6 lg:mb-8">
+      <div class="max-w-md mx-auto p-4 mt-2 mb-4 bg-white rounded-xl shadow-md md:max-w-lg md:p-6 md:pt-4 md:mb-6 lg:max-w-lg lg:p-8 lg:pt-6 lg:mb-8">
 
           <h2 class="text-3xl font-extrabold mb-6 text-black tracking-wider">Register</h2>
     
@@ -288,7 +288,7 @@ function Signup() {
               <label for="TAC" class="text-gray-500 text-md font-bold tracking-wider">
                   I Agree To 
               </label>
-              <span class="text-blue-500 text-lg cursor-pointer font-bold pl-2" onClick={toggleTermsAndCondiotion}>Terms & conditions</span>
+              <span class="text-blue-500 text-lg cursor-pointer font-bold pl-2 hover:underline" onClick={toggleTermsAndCondiotion}>Terms & conditions</span>
           </div>
 
           <button class="bg-greenColor hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-full leading-10 mb-10"  type="submit">Register Account</button>

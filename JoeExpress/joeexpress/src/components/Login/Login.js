@@ -230,9 +230,7 @@ const Login = () => {
             />
           </div>
 
-          <div
-            class="bg-white w-full max-w-full rounded-md mx-auto mt-300 flex items-center"
-          >
+          <div class="bg-white w-full max-w-full rounded-md mx-auto mt-300 flex items-center">
             {/* <!-- password Input--> */}
             <div class="relative w-full">
               <input
@@ -273,7 +271,7 @@ const Login = () => {
           {/* <!-- or sign in with --> */}
           <div class="flex items-center mb-4">
             <hr class="w-full border-t border-gray-300" />
-            <span class="px-10 text-gray-400 w-full"> or sign in with </span>
+            <span class="px-5 text-gray-400 w-full"> or sign in with </span>
             <hr class="w-full border-t border-gray-300" />
           </div>
 

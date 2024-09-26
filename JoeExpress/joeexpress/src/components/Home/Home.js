@@ -20,7 +20,7 @@ import image3 from '../image/milktea.png';
 import image11 from '../image/menu.png';
 import aboutUsImage from '../image/AboutUs.png';
 import beansImage from '../image/coffe_bean.png';
-import chat from '../image/live-chat.png';
+import chat from '../image/chat.svg';
 import MapModal from '../Map/Map';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -728,7 +728,7 @@ function Home() {
     <div class="fixed bottom-0 right-0 mb-4 mr-4 z-50 w-16 h-16">
       <button
         id="open-chat"
-        class="bg-footer text-white py-2 px-4 rounded-full hover:bg-amber-700 transition duration-300 flex items-center w-16 h-16"
+        class="bg-textgreenColor text-white py-2 px-4 rounded-full hover:bg-amber-700 transition duration-300 flex items-center w-16 h-16"
       >
         <img src={chat} alt="chat"/>
       </button>
@@ -736,7 +736,7 @@ function Home() {
     <div id="chat-container" class="hidden fixed bottom-16 right-4 w-96 z-50">
       <div class="bg-cards2 shadow-md rounded-lg max-w-lg w-full">
         <div
-          class="p-4 border-b bg-footer text-white rounded-t-lg flex justify-between items-center"
+          class="p-4 border-b bg-textgreenColor text-white rounded-t-lg flex justify-between items-center"
         >
           <p class="text-lg font-semibold">JoeBot</p>
           <button
@@ -790,7 +790,7 @@ function Home() {
           />
           <button
             id="send-button"
-            class="bg-footer text-white px-4 py-2 rounded-r-md hover:bg-amber-700 transition duration-300"
+            class="bg-textgreenColor text-white px-4 py-2 rounded-r-md hover:bg-amber-700 transition duration-300"
           >
             Send
           </button>
