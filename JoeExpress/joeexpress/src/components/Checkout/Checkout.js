@@ -137,22 +137,8 @@ export default function Checkout() {
                 <Link to="/cart" class="text-2xl font-bold hover:underline"> <img src={arrowLeft} alt="" class="inline-block w-4 h-4 me-2"/>Back to Cart</Link>
                 
                 {/* payment checkout display */}
-                <div className='text-center'>
-                    <p  className='mb-3 mt-5 text-gray-600'>Payment Checkout</p>
-                    <div className='text-white flex flex-row flex-wrap gap-2 justify-between mb-2'>
-                        <button className='inline-flex justify-center items-center text-md bg-blue-800 rounded-lg px-9 py-2 cursor-default '>
-                            <img src={gcash} className='me-2'></img>Gcash
-                        </button>
-                        <button className='flex justify-center items-center text-md bg-textgreenColor rounded-lg px-16 py-2 cursor-default '>
-                            Cash
-                        </button>
-                    </div>
-                     {/* <!-- or --> */}
-                    <div class="flex items-center mb-4">
-                        <hr class="w-full border-t border-greenColor" />
-                        <span class="px-4 text-gray-600 w-fit"> OR </span>
-                        <hr class="w-full border-t border-greenColor" />
-                    </div>
+                <div className='text-left my-8'>
+                    <p  className=' text-gray-600'>Payment Checkout</p>
                 </div>
 
                 {/* ship to section */}
