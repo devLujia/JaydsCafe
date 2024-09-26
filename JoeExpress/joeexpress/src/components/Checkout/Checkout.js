@@ -232,35 +232,35 @@ export default function Checkout() {
 
                     {items.map(item => (
 
-                        <div key={item.id} className='flex flex-row relative items-center py-2'> {/* order list */}
+                        <div key={item.id} className='flex flex-row items-center py-2'> {/* order list */}
                             
-                        {/* Product image */}
-                        <div className='w-24 h-24 px-2 rounded-lg bg-textgreenColor overflow-hidden me-4'>
-                            <img src={item.food_image_url} className='object-contain h-full w-full' alt={item.food_name} />
-                        </div>
+                            {/* Product image */}
+                            <div className='w-24 h-24 px-2 rounded-lg bg-textgreenColor overflow-hidden me-4 relative'>
+                                <img src={item.food_image_url} className='object-contain h-full w-full' alt={item.food_name} />
 
-                        {/* Product details */}
-                        <div className='flex flex-col w-full'>
-                            {/* Product name and size */}
-                            <div className='flex justify-between items-center mb-2'>
-                                <h1 className='font-semibold tracking-wider'>{item.food_name}</h1>
-                                <h1 className='text-gray-500 text-sm tracking-wider'>{item.size}</h1>
+                                {/* Quantity badge */}
+                                <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-black/50 rounded-full top-1 end-1">
+                                    {item.quantity}
+                                </div>
                             </div>
+
+                            {/* Product details */}
+                            <div className='flex flex-col w-full'>
+                                {/* Product name and size */}
+                                <div className='flex justify-between items-center mb-2'>
+                                    <h1 className='font-semibold tracking-wider'>{item.food_name}</h1>
+                                    <h1 className='text-gray-500 text-sm tracking-wider'>{item.size}</h1>
+                                </div>
+                                
+                                {/* Addons and price */}
+                                <div className='flex justify-between items-center'>
                             
-                            {/* Addons and price */}
-                            <div className='flex justify-between items-center'>
-                        
-                                <h1 className='text-sm tracking-wider'><span className='md:font-bold tracking-wider'>Addons:</span> {item.addons ? item.addons : 'No addons'}</h1>
-                                <p className='font-semibold tracking-wider'>
-                                    ₱<span>{item.food_price * item.quantity}</span>
-                                </p>
+                                    <h1 className='text-sm tracking-wider'><span className='md:font-bold tracking-wider'>Addons:</span> {item.addons ? item.addons : 'No addons'}</h1>
+                                    <p className='font-semibold tracking-wider'>
+                                        ₱<span>{item.food_price * item.quantity}</span>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-
-                        {/* Quantity badge */}
-                        <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-black/50 rounded-full -top-2 start-16">
-                            {item.quantity}
-                        </div>
                         </div>
 
                         

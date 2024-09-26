@@ -34,9 +34,9 @@ const [isOpen, setIsOpen] = useState(false);
 const [isOpenRightNav, setIsOpenRightNav] = useState(false);
 const [categorySearch, setCategorySearch] = useState(0);
 const [selectedFoodId, setSelectedFoodId] = useState(null);
+const [category,setCategory] = useState([]);
 
 // modal
-const [category,setCategory] = useState([]);
 const [addAddorderModal,setAddAddorderModal] = useState(false);
 
 // modal
@@ -385,9 +385,8 @@ const rightNav = () => {
                   
                   {
                     authenticated ? 
-                    (<button onClick={() => 
-                    
-                    toggleAddAddorderModal(food.id)} id="btn-cart" 
+                    (<button onClick={() => toggleAddAddorderModal(food.id)} 
+                    id="btn-cart" 
                     className="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" 
                     data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
                     <img src={cartMenu} alt=""/>

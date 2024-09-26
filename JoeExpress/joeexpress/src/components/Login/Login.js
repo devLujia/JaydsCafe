@@ -13,6 +13,8 @@ import google from '../image/google.png'
 import hidden from '../image/hidden.png'
 import './login.css'
 
+import Terms from '../UserModal/TermsAndCondition/Terms'
+
 const Login = () => {
     const [values, setValues] = useState({
         email: '',
@@ -47,6 +49,12 @@ const Login = () => {
     const [cmsLink,setCmsLink] = useState('');
     const [cmsSmallLogo,setSmallLogo] = useState(null);
     const [cmsBigLogo,setBigLogo] = useState(null);
+    const [TermsModal,setTermsModal] = useState(false); //modal
+
+    // modal
+    const toggleTermsAndCondiotion = () =>{
+      setTermsModal(!TermsModal)
+    }
 
 
     useEffect(()=>{
@@ -170,6 +178,10 @@ const Login = () => {
 
     return (
     <div className="bg-background">
+
+      
+    {TermsModal && <Terms closeModal={setTermsModal}/>}
+
      {/* <!-- Navbar --> */}
       <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">
         <div class="font-extrabold text-2xl flex items-center">
@@ -319,7 +331,7 @@ const Login = () => {
               <a href="#footer" class="hover:underline me-4 md:me-6">Privacy Policy</a>
             </li>
             <li class="footer-links">
-              <a href="#footer" class="hover:underline me-4 md:me-6" data-modal-target="default-modal3" data-modal-toggle="default-modal3">Terms and Conditions</a>
+              <a href="#footer" class="hover:underline me-4 md:me-6" onClick={toggleTermsAndCondiotion}>Terms and Conditions</a>
             </li>
           </ul>
         </div>

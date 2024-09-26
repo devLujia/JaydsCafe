@@ -25,6 +25,8 @@ import MapModal from '../Map/Map';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
+import Terms from '../UserModal/TermsAndCondition/Terms'
+
 function Home() {
   //styles inside the element
   const styleCard = {
@@ -71,7 +73,12 @@ function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [userId, setUserId] = useState(null);
   const [orderNotif, setOrderNotif] = useState(0);
+  const [TermsModal,setTermsModal] = useState(false); //modal
 
+  // modal
+  const toggleTermsAndCondiotion = () =>{
+    setTermsModal(!TermsModal)
+  }
 
   const toggleVisibility = (category) => {
     setVisibleCategory(category);
@@ -586,6 +593,7 @@ function Home() {
     <div class="bg-jaydsBg">
 
     {mapModal && <MapModal closeModal ={() => setMapModal(!mapModal)} />}
+    {TermsModal && <Terms closeModal={setTermsModal}/>}
 
     {/* <!-- nav --> */}
     <nav class="sticky top-0 bg-white z-20 shadow-lg">
@@ -1305,7 +1313,7 @@ function Home() {
             <a href="#footer" class="hover:underline me-4 md:me-6">Privacy Policy</a>
           </li>
           <li class="footer-links">
-            <a href="#footer" class="hover:underline me-4 md:me-6" data-modal-target="default-modal3" data-modal-toggle="default-modal3">Terms and Conditions</a>
+            <a href="#footer" class="hover:underline me-4 md:me-6"  onClick={toggleTermsAndCondiotion}>Terms and Conditions</a>
           </li>
         </ul>
       </div>
