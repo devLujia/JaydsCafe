@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 23, 2024 at 07:23 AM
+-- Generation Time: Sep 28, 2024 at 07:19 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,7 +45,8 @@ INSERT INTO `addons` (`id`, `name`, `price`) VALUES
 (5, 'cheesesabinimam', 59.00),
 (6, 'cheesesabinimam', 50.00),
 (7, 'test-bibingka', 79.00),
-(8, 'NewTest', 12.00);
+(8, 'NewTest', 12.00),
+(9, 'check', 20.00);
 
 -- --------------------------------------------------------
 
@@ -89,7 +90,9 @@ INSERT INTO `cart` (`id`, `user_id`, `created_at`, `updated_at`) VALUES
 (4, 29, '2024-07-23 08:10:42', '2024-07-23 08:10:42'),
 (5, 30, '2024-07-23 08:20:10', '2024-07-23 08:20:10'),
 (6, 31, '2024-07-24 05:20:33', '2024-07-24 05:20:33'),
-(15, 40, '2024-09-21 12:18:09', '2024-09-21 12:18:09');
+(15, 40, '2024-09-21 12:18:09', '2024-09-21 12:18:09'),
+(16, 41, '2024-09-28 01:52:33', '2024-09-28 01:52:33'),
+(17, 42, '2024-09-28 01:58:05', '2024-09-28 01:58:05');
 
 -- --------------------------------------------------------
 
@@ -115,8 +118,7 @@ CREATE TABLE `cart_items` (
 
 INSERT INTO `cart_items` (`id`, `user_id`, `food_id`, `size`, `price`, `quantity`, `created_at`, `updated_at`, `addons`) VALUES
 (109, 40, 18, 'Medium', 217.00, 1, '2024-09-21 12:23:10', '2024-09-21 12:23:10', 'taengkambing (₱59),cheesesabinimam (₱59),cheesesabinimam (₱50)'),
-(110, 40, 20, 'Large', 109.00, 1, '2024-09-21 12:34:54', '2024-09-21 12:34:54', 'cheesesabinimam (₱50)'),
-(114, 31, 20, 'Medium', 122.00, 1, '2024-09-21 18:50:33', '2024-09-21 18:50:33', 'fruit salad (₱39),karton (₱34)');
+(110, 40, 20, 'Large', 109.00, 1, '2024-09-21 12:34:54', '2024-09-21 12:34:54', 'cheesesabinimam (₱50)');
 
 -- --------------------------------------------------------
 
@@ -143,7 +145,10 @@ INSERT INTO `category` (`id`, `title`, `image_url`, `active`, `featured`) VALUES
 (4, 'Premium Cheesecake Milktea', 'image/milktea.png', 'true', 'false'),
 (5, 'Non Coffee', 'image/milktea.png', 'true', 'false'),
 (7, 'taengkambing', 'taengkambing.png', 'true', 'false'),
-(26, 'zero', 'image_url_1725085405582.jpg', 'true', 'false');
+(26, 'zero', 'image_url_1725085405582.jpg', 'true', 'false'),
+(27, 'hello', '', 'true', 'false'),
+(28, 'check', '', 'true', 'false'),
+(29, 'check', '', 'true', 'false');
 
 -- --------------------------------------------------------
 
@@ -235,9 +240,9 @@ CREATE TABLE `foods` (
 --
 
 INSERT INTO `foods` (`id`, `name`, `description`, `image_url`, `category_id`, `visible`) VALUES
-(17, 'Vanilla', 'lorem ipsum', 'image_url_1725069960966.jpg', 1, 1),
-(18, 'Caramel', 'lorem ipsum', 'images/americano.png', 1, 1),
-(19, 'Hazelnut', 'lorem ipsum', '/images/image_url_1726907712248.png', 1, 1),
+(17, 'Vanilla', 'lorem ipsum', '/images/image_url_1727542253675.jpg', 1, 1),
+(18, 'Caramel', 'lorem ipsum', '/images/image_url_1727540475176.jpg', 1, 1),
+(19, 'Hazelnut', 'lorem ipsum', '/images/image_url_1727541643781.png', 1, 1),
 (20, 'Butterscotch', 'lorem ipsum', 'images/americano.png', 1, 1),
 (21, 'Mocha', 'lorem ipsum', 'images/americano.png', 1, 1),
 (22, 'Salted Caramel', 'lorem ipsum', 'images/americano.png', 1, 1),
@@ -278,12 +283,8 @@ INSERT INTO `foods` (`id`, `name`, `description`, `image_url`, `category_id`, `v
 (57, 'Matcha Cheesecake', 'lorem ipsum', 'images/americano.png', 4, 1),
 (58, 'Dark Chocolate Cheesecake', 'lorem ipsum', 'images/americano.png', 4, 1),
 (59, 'Strawberry Cheesecake', 'lorem ipsum', 'images/americano.png', 4, 1),
-(79, 'ice cream', 'ice cream', 'ice cream', 4, 1),
-(82, 'Yapanit', 'Yapanit', '', 1, 1),
-(104, 'tanginatalaga', 'tanginatalaga', '/images/americano.png', 1, 1),
 (110, 'New Product', 'Product New', '', 5, 1),
 (111, 'try', 'try', '/images/image_url_1726907822929.png', 7, 1),
-(112, 'try ulet', 'lorem ipsum', '/images/image_url_1726907870576.png', 2, 1),
 (113, 'try lang ulet', 'braaaaat', '/images/image_url_1726908028723.png', 26, 1);
 
 -- --------------------------------------------------------
@@ -391,16 +392,12 @@ INSERT INTO `food_sizes` (`id`, `food_id`, `size`, `price`, `date_created`, `dat
 (115, 59, 'medium', 59.00, '2024-08-31 15:17:30', '2024-08-31 15:18:07'),
 (117, 23, 'medium', 49.00, '2024-08-31 15:17:30', '2024-08-31 15:18:07'),
 (118, 22, 'large', 59.00, '2024-08-31 15:17:30', '2024-08-31 15:18:07'),
-(134, 79, 'medium', 67.00, '2024-08-31 15:17:30', '2024-08-31 15:18:07'),
-(135, 79, 'large', 69.00, '2024-08-31 15:17:30', '2024-08-31 15:18:07'),
-(140, 82, 'medium', 299.00, '2024-08-31 15:17:30', '2024-08-31 15:18:07'),
-(141, 82, 'large', 1000.00, '2024-08-31 15:17:30', '2024-08-31 15:18:07'),
-(149, 17, '', 6969.00, '2024-08-31 15:37:30', '2024-08-31 15:37:30'),
-(168, 104, 'medium', 0.00, '2024-09-15 07:17:58', '2024-09-15 07:17:58'),
+(149, 17, '', 20.00, '2024-08-31 15:37:30', '2024-09-28 16:50:37'),
 (174, 110, 'medium', 29.00, '2024-09-21 08:35:40', '2024-09-21 08:36:08'),
 (175, 111, 'medium', 0.00, '2024-09-21 08:37:02', '2024-09-21 08:37:02'),
-(176, 112, 'medium', 399.00, '2024-09-21 08:37:50', '2024-09-21 08:37:50'),
-(177, 113, 'medium', 29.00, '2024-09-21 08:40:28', '2024-09-21 08:40:28');
+(177, 113, 'medium', 29.00, '2024-09-21 08:40:28', '2024-09-21 08:40:28'),
+(178, 18, 'small', 27.00, '2024-09-28 13:54:02', '2024-09-28 13:54:02'),
+(179, 19, 'small', 29.00, '2024-09-28 14:18:55', '2024-09-28 14:18:55');
 
 -- --------------------------------------------------------
 
@@ -416,6 +413,19 @@ CREATE TABLE `orders` (
   `totalPrice` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `customer_id`, `order_date`, `status`, `totalPrice`) VALUES
+(1910, 31, '2024-09-23 07:38:22', 'completed', 400),
+(1911, 31, '2024-09-23 07:40:12', 'paid', 400),
+(1912, 31, '2024-09-23 07:47:01', 'completed', 400),
+(1913, 31, '2024-09-23 09:28:04', 'completed', 100),
+(1914, 31, '2024-09-23 10:05:35', 'completed', 100),
+(1915, 31, '2024-09-23 17:46:49', 'completed', 296),
+(1916, 31, '2024-09-25 15:03:41', 'completed', 1389);
+
 -- --------------------------------------------------------
 
 --
@@ -430,6 +440,19 @@ CREATE TABLE `orders_food` (
   `size` varchar(100) NOT NULL,
   `addons` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders_food`
+--
+
+INSERT INTO `orders_food` (`id`, `order_id`, `food_id`, `quantity`, `size`, `addons`) VALUES
+(98, 1910, 20, 1, 'Medium', 'fruit salad (₱39),karton (₱34)'),
+(99, 1912, 23, 2, 'Medium', 'bilobilo (₱79),karton (₱34),cheesesabinimam (₱50)'),
+(100, 1913, 22, 1, 'Large', 'fruit salad (₱39),cheesesabinimam (₱59),test-bibingka (₱79)'),
+(101, 1914, 19, 1, 'Medium', 'karton (₱34),cheesesabinimam (₱59),test-bibingka (₱79)'),
+(102, 1915, 19, 2, 'Large', 'fruit salad (₱39),cheesesabinimam (₱50)'),
+(103, 1916, 18, 4, 'Large', 'taengkambing (₱59),bilobilo (₱79)'),
+(104, 1916, 18, 1, 'Medium', 'taengkambing (₱59),bilobilo (₱79)');
 
 -- --------------------------------------------------------
 
@@ -472,7 +495,9 @@ INSERT INTO `user` (`id`, `name`, `email`, `password`, `address`, `role`, `creat
 (29, 'chardsd', 'cilayap482@modotso.com', '$2b$10$/Zy8Kp69PUPEfsaEbUvdFuMl2Hes3J05Kjd3SSWEJE0b1eoaMOZ8G', 'hello 214sd', 'user', '2024-07-23 08:10:42', '2024-07-23 08:15:03', '49hl4jgopk', 'true', ''),
 (30, 'dagangbukid', 'fobedo2401@reebsd.com', '$2b$10$LQfRgTYjqCoUngDsW9sQM.6lKfNq21fEMzVTh6ydb6Orj8uJqQxg.', 'DYAN LANG', 'user', '2024-07-23 08:20:10', '2024-07-23 08:20:10', 'cn0d0eco8k', 'false', ''),
 (31, 'chardgrey', 'cardosarichard@gmail.com', '$2b$10$2CfKaulWCdIfErdXWtxDz.J5PC2CYidnxPHi2sWv822mG8lWKcdmu', 'Blk 99 Lot 99 Dasmarinas Cavite', 'user', '2024-07-24 05:20:33', '2024-07-24 05:21:06', '254kh7vd2k', 'true', ''),
-(40, 'Pedro Penduko', 'jobatoc997@ofionk.com', '$2b$10$txPG8S9wWxyQKrWnVhhBd.ABarEi71skq8KM1IWayUX3bEj04cqiu', 'Salawag Diamond Village Blk 10 Lot 4', 'user', '2024-09-21 12:18:09', '2024-09-21 12:18:09', '27o4xjs1ts', 'false', '09278658355');
+(40, 'Pedro Penduko', 'jobatoc997@ofionk.com', '$2b$10$txPG8S9wWxyQKrWnVhhBd.ABarEi71skq8KM1IWayUX3bEj04cqiu', 'Salawag Diamond Village Blk 10 Lot 4', 'user', '2024-09-21 12:18:09', '2024-09-21 12:18:09', '27o4xjs1ts', 'false', '09278658355'),
+(41, 'chardgrey', 'chardgrey@gmail.com', '$2b$10$5zsQK5v7BQW3WFcpLMBDveWzsV8e6EsUR7751.X3ZU2VhZ4pXcdle', 'Blk p lot 4 DASMARINAS', 'user', '2024-09-28 01:52:33', '2024-09-28 01:52:33', 'dolrv3tepi', 'false', '09278658355'),
+(42, 'leklek', 'leklek@gmail.com', '$2b$10$YZg1R7JAiuRBIxbXuD/HF.Z.Y6fGM7cUPqyD94Zns1pyIEBWLf9K.', 'Blk p lot 4 DASMARINAS', 'admin', '2024-09-28 01:58:05', '2024-09-28 13:14:10', '0473le3c91', 'true', '09278658355');
 
 --
 -- Indexes for dumped tables
@@ -581,7 +606,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `addons`
 --
 ALTER TABLE `addons`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `admin`
@@ -593,19 +618,19 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(50) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(50) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `cms`
@@ -635,19 +660,19 @@ ALTER TABLE `foods`
 -- AUTO_INCREMENT for table `food_sizes`
 --
 ALTER TABLE `food_sizes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1909;
+  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1917;
 
 --
 -- AUTO_INCREMENT for table `orders_food`
 --
 ALTER TABLE `orders_food`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
 -- AUTO_INCREMENT for table `order_addons`
@@ -659,7 +684,7 @@ ALTER TABLE `order_addons`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- Constraints for dumped tables
