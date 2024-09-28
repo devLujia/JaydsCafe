@@ -16,7 +16,7 @@ import edit from '../../image/edit.svg'
 import arrowDOWN from '../../image/arrowdown.svg'
 import settings from '../../image/settings.svg'
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function AdminDashboard() {
 
@@ -26,6 +26,13 @@ function AdminDashboard() {
    const [foods,setFoods] = useState([]);
    const [orders, setOrders] = useState([])
    const [expandedOrderId, setExpandedOrderId] = useState(null);
+   const [authenticated, setAuthenticated] = useState(false);
+   const [userId, setUserId] = useState(null);
+   const [profile, setProfile] = useState([]);
+
+
+   const navigate = useNavigate();
+   axios.defaults.withCredentials = true;
    
    const [showTooltip, setShowTooltip] = useState(false); //For tooltip
    
@@ -59,7 +66,9 @@ function AdminDashboard() {
          console.error('Error fetching totalOrder details:', error);
        });
        
-    });
+    },[]);
+
+
 
     useEffect(() => {
       axios.post('http://localhost:8081/totalRevenue')
@@ -88,6 +97,33 @@ function AdminDashboard() {
       AOS.init();
 
     })
+
+    useEffect(() => {
+      axios.get('http://localhost:8081/')
+        .then(res => {
+          if (res.data.valid) {
+            setAuthenticated(true);
+            setUserId(res.data.userId);
+          } else {
+            navigate('/admin');
+          }
+        })
+        .catch(err => console.log(err));
+    }, [navigate]);
+    
+    useEffect(() =>{
+      
+      axios.post('http://localhost:8081/profile', { userId })
+      .then(response=>{
+         setProfile(response.data);
+      })
+      .catch(error => {
+         console.error('Error fetching profile details:', error);
+       });
+
+    },[userId])
+
+    
 
    // useEffect(()=>{
 
@@ -177,7 +213,7 @@ function AdminDashboard() {
                </button>
                
                <div class="px-4 py-3 text-sm text-gray-900 flex flex-col items-center justify-end">
-                  <div class="font-bold">Migz Gomez Go</div>
+                  <div class="font-bold">{profile.name}</div>
                   <div class="items-center justify-center">Admin</div>
                </div>
 

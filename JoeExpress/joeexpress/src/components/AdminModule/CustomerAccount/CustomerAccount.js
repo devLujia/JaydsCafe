@@ -14,7 +14,7 @@ import jaydsLogo from '../../image/jayds cafe Logo.svg'
 import Areyousure from '../AdminModal/AYS/Areyousure.js'  
 import EditCustomerAcc from '../AdminModal/EditCustomer/EditCustomerAcc.js'
 import axios from 'axios'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function CustomerAccount() {
 
@@ -37,6 +37,38 @@ export default function CustomerAccount() {
         setSelectedUserId(id);
         setEditModal(!editModal);
     };
+
+    const [authenticated, setAuthenticated] = useState(false);
+    const [userId, setUserId] = useState(null);
+    const [profile, setProfile] = useState([]);
+    const navigate = useNavigate();
+    axios.defaults.withCredentials = true;
+
+    useEffect(() => {
+      axios.get('http://localhost:8081/')
+        .then(res => {
+          if (res.data.valid) {
+            setAuthenticated(true);
+            setUserId(res.data.userId);
+          } else {
+            navigate('/admin');
+          }
+        })
+        .catch(err => console.log(err));
+    }, [navigate]);
+
+    useEffect(() =>{
+      
+      axios.post('http://localhost:8081/profile', { userId })
+      .then(response=>{
+         setProfile(response.data);
+      })
+      .catch(error => {
+         console.error('Error fetching profile details:', error);
+       });
+
+    },[userId])
+
 
 
     useEffect(()=>{

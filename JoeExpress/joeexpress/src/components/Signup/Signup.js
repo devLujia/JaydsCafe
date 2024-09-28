@@ -44,10 +44,10 @@ function Signup() {
       setTermsModal(!TermsModal)
     }
 
-    const toggleDropdown = () => {
-      setIsOpen(!isOpen);
+    // const toggleDropdown = () => {
+    //   setIsOpen(!isOpen);
 
-    };
+    // };
 
     useEffect(()=>{
         

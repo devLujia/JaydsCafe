@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
-function AddSize({id,closeModal}) {
+function AddSize({closeModal,id}) {
 
     const [values, setValues] = useState({
         id: '',

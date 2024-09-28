@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 
 function EditProd({closeModal, id}) {
 
+
+        const [sizes, setSizes] = useState([]);
         const [values, setValues] = useState({
 
             name: '',
@@ -10,8 +12,7 @@ function EditProd({closeModal, id}) {
             image_url: null,
             category_id: '',
             foodId: '',
-            medprice: '',
-            lgprice: ''
+            sizes:[]
 
         });
 
@@ -24,7 +25,7 @@ function EditProd({closeModal, id}) {
             setAddons(res.data)
         })
 
-      })
+        },[])
 
         const [category,setCategory] = useState([])
 
@@ -55,25 +56,52 @@ function EditProd({closeModal, id}) {
       },[])
 
       const handleInput = (e) => {
-        const { name, type, files, value } = e.target;
+        const { name, type, files, value, id } = e.target;
     
         if (type === 'file' && files.length > 0) {
-            
             setValues((prevValues) => ({
                 ...prevValues,
-                [name]: files[0] 
+                [name]: files[0]
             }));
-            
+        } 
+        else if (name === 'size') {
+            // Update price for specific size
+            const updatedSizes = sizes.map((sizeObj) => 
+                sizeObj.size === id ? { ...sizeObj, price: value } : sizeObj
+            );
+    
+            setSizes(updatedSizes);  // Update the sizes state
+            setValues((prevValues) => ({ 
+                ...prevValues, 
+                sizes: updatedSizes // Reflect changes in values if necessary
+            }));
         } 
         else {
-            
             setValues((prevValues) => ({
                 ...prevValues,
                 [name]: value
             }));
         }
+    };
+    
         
-    };    
+
+    useEffect(() => {
+      
+      axios.post('http://localhost:8081/sizes', { foodId: id })
+        .then(response => {
+          
+          const formattedSizes = response.data.map(size => ({
+            size: size.size,
+            price: size.price
+          }));
+    
+          setSizes(formattedSizes);
+        })
+        .catch(error => {
+          console.error('Error fetching food details:', error);
+        });
+    }, [id]);
 
     
 
@@ -86,8 +114,7 @@ function EditProd({closeModal, id}) {
                 formData.append('image_url', values.image_url);
                 formData.append('category_id', values.category_id);
                 formData.append('foodId', values.foodId);
-                formData.append('medprice', values.medprice);
-                formData.append('lgprice', values.lgprice);
+                formData.append('sizes', JSON.stringify(values.sizes));
                 
                 axios.post('http://localhost:8081/updateProduct', formData)
                 .then(res => {
@@ -95,6 +122,9 @@ function EditProd({closeModal, id}) {
                   if(res.data.success === true){
                     alert('Product updated successfully');
                     closeModal(false);
+                  }
+                  else {
+                    alert('Failed to update product');
                   }
                   
                 })
@@ -160,21 +190,23 @@ function EditProd({closeModal, id}) {
         
                 <div className='grid grid-cols-2 gap-6'>
                   {/* medium price */}
-                  <div className='mb-4'>
-                    <label htmlFor="medprice" className="flex text-gray-600 text-sm font-bold tracking-wider">Medium Price</label>
-                    <input
-                      type="text"
-                      name="medprice"
-                      value={values.medprice}
-                      onChange={handleInput}
-                      id="medprice"
-                      className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline"
-                      placeholder="$69"
-                      required
-                    />
-                  </div>
+                  {sizes.map(({ size, price }) => (
+                      <div key={size} className='mb-4'>
+                          <label htmlFor={size} className="flex text-gray-600 text-sm font-bold tracking-wider">{size}</label>
+                          <input
+                              type="text"
+                              name="size"
+                              value={price} // Bind price from the sizes array
+                              onChange={handleInput} // This will call handleInput correctly
+                              id={size} // id matches the size
+                              className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline"
+                              placeholder="$69"
+                              required
+                          />
+                      </div>
+                  ))}
                   {/* large price */}
-                  <div className='mb-4'>
+                  {/* <div className='mb-4'>
                     <label htmlFor="lgprice" className="flex text-gray-600 text-sm font-bold tracking-wider">Large Price</label>
                     <input
                       type="text"
@@ -186,7 +218,7 @@ function EditProd({closeModal, id}) {
                       placeholder="$69"
                       required
                     />
-                  </div>
+                  </div> */}
                 </div>                     
                 
                 {/* description */}

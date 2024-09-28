@@ -20,6 +20,37 @@ export default function ContentManagement() {
     const [cmsContent ,setCms] = useState([]);
     const [editCms,setEditCms] = useState(false);
     const [cmsID, setCmsId] = useState(null);
+    const [authenticated, setAuthenticated] = useState(false);
+    const [userId, setUserId] = useState(null);
+    const [profile, setProfile] = useState([]);
+    const navigate = useNavigate();
+    axios.defaults.withCredentials = true;
+
+    useEffect(() => {
+      axios.get('http://localhost:8081/')
+        .then(res => {
+          if (res.data.valid) {
+            setAuthenticated(true);
+            setUserId(res.data.userId);
+          } else {
+            navigate('/admin');
+          }
+        })
+        .catch(err => console.log(err));
+    }, [navigate]);
+
+    useEffect(() =>{
+      
+      axios.post('http://localhost:8081/profile', { userId })
+      .then(response=>{
+         setProfile(response.data);
+      })
+      .catch(error => {
+         console.error('Error fetching profile details:', error);
+       });
+
+    },[userId])
+
 
     const handleEditCms = (id) => {
         setCmsId(id); 

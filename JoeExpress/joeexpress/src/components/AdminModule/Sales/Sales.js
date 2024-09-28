@@ -1,11 +1,44 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import user from '../../image/UserAcc.svg';
 import notif from '../../image/notif.svg';
 import jaydsLogo from '../../image/jayds cafe Logo.svg';
 
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function Sales() {
+
+    const [authenticated, setAuthenticated] = useState(false);
+    const [userId, setUserId] = useState(null);
+    const [profile, setProfile] = useState([]);
+    const navigate = useNavigate();
+    axios.defaults.withCredentials = true;
+
+    useEffect(() => {
+      axios.get('http://localhost:8081/')
+        .then(res => {
+          if (res.data.valid) {
+            setAuthenticated(true);
+            setUserId(res.data.userId);
+          } else {
+            navigate('/admin');
+          }
+        })
+        .catch(err => console.log(err));
+    }, [navigate]);
+
+    useEffect(() =>{
+      
+      axios.post('http://localhost:8081/profile', { userId })
+      .then(response=>{
+         setProfile(response.data);
+      })
+      .catch(error => {
+         console.error('Error fetching profile details:', error);
+       });
+
+    },[userId])
+
   return (
     <div>
         <nav class="z-20 bg-jaydsBg border-gray-200 dark:bg-gray-900 top-0 sticky flex justify-end shadow-md">

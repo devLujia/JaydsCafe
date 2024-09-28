@@ -24,8 +24,11 @@ import chat from '../image/live-chat.png';
 import MapModal from '../Map/Map';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-
+//import { io } from 'socket.io-client';
 import Terms from '../UserModal/TermsAndCondition/Terms'
+import ChatComponent from '../UserModal/ChatService/ChatComponent'
+
+//const socket = io('http://localhost:3000');
 
 function Home() {
   //styles inside the element
@@ -74,10 +77,14 @@ function Home() {
   const [userId, setUserId] = useState(null);
   const [orderNotif, setOrderNotif] = useState(0);
   const [TermsModal,setTermsModal] = useState(false); //modal
+  const [ChatModal,setChatModal] = useState(false); //modal
 
   // modal
   const toggleTermsAndCondiotion = () =>{
     setTermsModal(!TermsModal)
+  }
+  const toggleChatModal = () =>{
+    setChatModal(!ChatModal)
   }
 
   const toggleVisibility = (category) => {
@@ -113,8 +120,6 @@ function Home() {
       }
 
     };
-
-
 
     const fetchMilkTeaPriceData = async () => {
       try {
@@ -594,6 +599,7 @@ function Home() {
 
     {mapModal && <MapModal closeModal ={() => setMapModal(!mapModal)} />}
     {TermsModal && <Terms closeModal={setTermsModal}/>}
+    {TermsModal && <Terms closeModal={setTermsModal}/>}
 
     {/* <!-- nav --> */}
     <nav class="sticky top-0 bg-white z-20 shadow-lg">
@@ -725,78 +731,80 @@ function Home() {
     <div class="scroll-progress "></div> {/* <!-- for scroll effect sa taas --> */}
 
     {/* <!-- Chat button / chat box / chat bot --> */}
-    <div class="fixed bottom-0 right-0 mb-4 mr-4 z-50 w-16 h-16">
-      <button
-        id="open-chat"
-        class="bg-footer text-white py-2 px-4 rounded-full hover:bg-amber-700 transition duration-300 flex items-center w-16 h-16"
-      >
-        <img src={chat} alt="chat"/>
-      </button>
-    </div>
-    <div id="chat-container" class="hidden fixed bottom-16 right-4 w-96 z-50">
-      <div class="bg-cards2 shadow-md rounded-lg max-w-lg w-full">
-        <div
-          class="p-4 border-b bg-footer text-white rounded-t-lg flex justify-between items-center"
-        >
-          <p class="text-lg font-semibold">JoeBot</p>
-          <button
-            id="close-chat"
-            class="text-gray-300 hover:text-gray-400 focus:outline-none focus:text-gray-400"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-6 h-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+    {authenticated ? (
+        <ChatComponent userId={userId} role={'user'} />
+      ) : (
+        <>
+          <div className="fixed bottom-0 right-0 mb-4 mr-4 z-50 w-16 h-16">
+            <button
+              id="open-chat"
+              onClick={toggleChatModal}
+              className="bg-footer text-white py-2 px-4 rounded-full hover:bg-amber-700 transition duration-300 flex items-center w-16 h-16"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              ></path>
-            </svg>
-          </button>
-        </div>
-        <div id="chatbox" class="p-4 h-80 overflow-y-auto">
-          {/* <!-- Chat messages will be displayed here --> */}
-          <div class="mb-2">
-            <p
-              class="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block"
-            >
-              👋 Hi there! I'm JoeBot!, your friendly virtual assistant here at
-              JoeExpress. I'm here to make your experience as smooth and
-              enjoyable as possible. Whether you need help finding your favorite
-              milk tea flavor, placing an order, or learning about our latest
-              promotions, I'm just a click away!
-            </p>
+              <img src={chat} alt="chat" />
+            </button>
           </div>
-          <div class="mb-2">
-            <p
-              class="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block"
-            >
-              Feel free to ask me anything, and I'll do my best to assist you.
-              Let's get started on finding your perfect drink today! 🥤
-            </p>
-          </div>
-        </div>
-        <div class="p-4 border-t flex">
-          <input
-            id="user-input"
-            type="text"
-            placeholder="Type a message"
-            class="w-full px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button
-            id="send-button"
-            class="bg-footer text-white px-4 py-2 rounded-r-md hover:bg-amber-700 transition duration-300"
-          >
-            Send
-          </button>
-        </div>
-      </div>
-    </div>
+
+          {ChatModal && (
+            <div id="chat-container" className="fixed bottom-16 right-4 w-96 z-50">
+              <div className="bg-cards2 shadow-md rounded-lg max-w-lg w-full">
+                <div className="p-4 border-b bg-footer text-white rounded-t-lg flex justify-between items-center">
+                  <p className="text-lg font-semibold">JoeBot</p>
+                  <button
+                    onClick={toggleChatModal}
+                    className="text-gray-300 hover:text-gray-400 focus:outline-none focus:text-gray-400"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-6 h-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
+
+                <div id="chatbox" className="p-4 h-80 overflow-y-auto">
+                  <div className="mb-2">
+                    <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
+                      👋 Hi there! I'm JoeBot!, your friendly virtual assistant here at JoeExpress.
+                      I'm here to make your experience as smooth and enjoyable as possible. Whether you need help finding your favorite milk tea flavor, placing an order, or learning about our latest promotions, I'm just a click away!
+                    </p>
+                  </div>
+                  <div className="mb-2">
+                    <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
+                      Feel free to ask me anything, and I'll do my best to assist you. Let's get started on finding your perfect drink today! 🥤
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-4 border-t flex">
+                  <input
+                    id="user-input"
+                    type="text"
+                    placeholder="Type a message"
+                    className="w-full px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <button
+                    id="send-button"
+                    className="bg-footer text-white px-4 py-2 rounded-r-md hover:bg-amber-700 transition duration-300"
+                  >
+                    Send
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </>
+      )}
+    
 
     {/* <!-- Land upper --> */}
     <div class="flex lg:flex-row flex-col overflow-hidden bg-jaydsBg text-white py-16 h-fit top-0 items-center" id="about">

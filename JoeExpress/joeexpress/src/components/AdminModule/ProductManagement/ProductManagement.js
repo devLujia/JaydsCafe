@@ -37,6 +37,12 @@ function ProductManagement() {
     const [selectedAddonsId, setAddonsId] = useState(null);
     const [addAddonsModal,setAddAddonsModal] = useState(false);
     const [addSizeModal,setAddSizeModal] = useState(false);
+    const [authenticated, setAuthenticated] = useState(false);
+    const [userId, setUserId] = useState(null);
+    const [foodId, setFoodId] = useState(null);
+    const [profile, setProfile] = useState([]);
+    const [sizes, setSizes] = useState([]);
+    axios.defaults.withCredentials = true;
 
     const handleSelectChange = (event) => {
       setSelectedValue(event.target.value);
@@ -81,6 +87,31 @@ function ProductManagement() {
         });
     })
     
+    useEffect(() => {
+      const fetchSizes = async () => {
+          try {
+              const updatedSizes = {};
+  
+              for (const food of foods) {
+                  const response = await axios.post('http://localhost:8081/sizes', { foodId: food.id });
+                  updatedSizes[food.id] = response.data;
+              }
+  
+              setSizes(prevSizes => ({
+                  ...prevSizes,
+                  ...updatedSizes
+              }));
+              
+          } catch (error) {
+              console.error('Error fetching food details:', error);
+          }
+      };
+  
+      if (foods.length > 0) {
+          fetchSizes();
+      }
+  }, [foods]);
+    
     useEffect(()=>{
         axios.post('http://localhost:8081/Addons')
         .then(response =>{
@@ -89,7 +120,7 @@ function ProductManagement() {
         .catch(error => {
             console.error('Error fetching addons details:', error);
         });
-    })
+    },[])
     
     useEffect(()=>{
         axios.post('http://localhost:8081/fetchCategory')
@@ -99,7 +130,32 @@ function ProductManagement() {
         .catch(error => {
             console.error('Error fetching addons details:', error);
         });
-    })
+    },[])
+
+    useEffect(() => {
+      axios.get('http://localhost:8081/')
+        .then(res => {
+          if (res.data.valid) {
+            setAuthenticated(true);
+            setUserId(res.data.userId);
+          } else {
+            navigate('/admin');
+          }
+        })
+        .catch(err => console.log(err));
+    }, [navigate]);
+
+    useEffect(() =>{
+      
+      axios.post('http://localhost:8081/profile', { userId })
+      .then(response=>{
+         setProfile(response.data);
+      })
+      .catch(error => {
+         console.error('Error fetching profile details:', error);
+       });
+
+    },[userId])
 
 
     // useEffect(()=>{
@@ -119,7 +175,7 @@ function ProductManagement() {
     //         });
     // })
 
-    const handleRemoveProduct = (id) => {
+    const handleRemoveProduct = (event, id) => {
 
         axios.post('http://localhost:8081/removeProduct', { id });
         const updatedFoods = foods.filter((food) => food.id !== id);
@@ -367,15 +423,19 @@ function ProductManagement() {
                     </div>
 
                     <div className="text-center">
-                      <h3 className="text-auto font-semibold mt-4 min-h-15">{food.name}</h3>
-                      <p className="text-md font-normal mt-1">
-                        <span className="text-xl font-semibold mt-1">Sizes: </span>
-                        {food.medsize} {food.lgsize ? '/ ' + food.lgsize : ''}
+                      <h3 className="text-auto font-bold mt-4 min-h-15">{food.name}</h3>
+                      {sizes[food.id]?.map(size =>(
+                        <React.Fragment key={size.id}>
+                        <p className="text-auto font-normal mt-1">
+                        Size:
+                        <span className="text-auto font-semibold mt-1"> {size.size.toUpperCase()} (₱ {size.price}.00)</span>
                       </p>
-                      <p className="text-md font-normal mt-1">
-                        <span className="text-xl font-semibold mt-1">Price: </span>₱ {food.medprice}.00
-                        {food.lgsize ? '/₱ ' + food.lgprice + '.00' : ''}
+                        <p className="text-auto font-normal mt-1">
+                        
                       </p>
+                      </React.Fragment>
+                        
+                    ))}
                     </div>
 
                     <div className="flex justify-center mt-4 space-x-2">
@@ -383,7 +443,7 @@ function ProductManagement() {
                         <img src={edit} alt="edit" className="brightness-0 w-10 h-10" />
                       </button>
 
-                      <button onClick={() => handleRemoveProduct(food.id)} className="hover:scale-110 duration-300">
+                      <button onClick={(event) => handleRemoveProduct(food.id)} className="hover:scale-110 duration-300">
                         <img src={trashbin2} alt="delete" className="brightness-0 w-12 h-12" />
                       </button>
 

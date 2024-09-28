@@ -1,11 +1,42 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import user from '../../image/UserAcc.svg'
 import notif from '../../image/notif.svg'
 import jaydsLogo from '../../image/jayds cafe Logo.svg';
 import send from '../../image/send.svg'
 import { Link } from 'react-router-dom';
+import { io } from 'socket.io-client';
 
 export default function Message() {
+
+   const [messages, setMessages] = useState([]);
+   const [message, setMessage] = useState('');
+   const socket = io('http://localhost:3000');
+
+   useEffect(() => {
+      
+      socket.emit('join', { userId: 'adminId', role: 'admin' });
+
+      // Listen for incoming messages
+      socket.on('receiveMessage', (data) => {
+          setMessages((prevMessages) => [...prevMessages, data]);
+      });
+
+      // Cleanup on component unmount
+      return () => {
+          socket.off('receiveMessage');
+      };
+   }, []);
+
+  const sendMessage = () => {
+      if (message.trim()) {
+         // Emit the message to the user (you may want to specify the user)
+         socket.emit('sendMessage', { message, to: 'userId' }); // Replace 'userId' as necessary
+         setMessages((prevMessages) => [...prevMessages, { message, from: 'Admin' }]);
+         setMessage('');
+      }
+   };
+
+
   return (
     <div class="bg-jaydsBg">
          {/* <!-- nav --> */}
@@ -124,7 +155,7 @@ export default function Message() {
 
          <div class="p-4 sm:ml-64 md:pl-14 py-2 mb-0 h-fit">
             {/* This is chat */}
-            <div class="container mx-auto shadow-lg rounded-lg">
+            <div class="container mx-auto shadow-lg rounded-lg overflow-auto">
                   {/* <!-- headaer --> */}
                <div class="px-5 py-3 flex justify-between items-center bg-white border-b-2 rounded-t-xl">
                   <div class="font-semibold text-2xl">Active Conversation</div>
@@ -199,19 +230,19 @@ export default function Message() {
                   {/* <!-- end chat list --> */}
 
                   {/* <!-- message --> */}
-                  <div class="w-full px-5 flex flex-col justify-between">
-                     <div class="flex flex-col mt-5">
-                        <div class="flex justify-start mb-4"> {/* chat niya */}
+                  <div class="w-full px-5 flex flex-col justify-between overflow-auto">
+                     <div class="flex flex-col mt-5 ">
+                        {/* <div class="flex justify-start mb-4">
                            <div class="ml-2 py-3 px-4 bg-blue-200 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white max-w-[50%]">
                               Tara kila migz! 9:00 pm. sagot ko na hapunan natin!
                            </div>
                         </div>
-                        <div class="flex justify-end mb-4"> {/* chat mo */}
+                        <div class="flex justify-end mb-4">
                            <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white max-w-[50%]">
                               Welcome to group everyone !
                            </div>
                         </div>
-                        <div class="flex justify-start mb-4"> {/* chat niya */}
+                        <div class="flex justify-start mb-4"> 
                            <div class="ml-2 py-3 px-4 bg-blue-200 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white max-w-[50%]">
                               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
                               at praesentium, aut ullam delectus odio error sit rem. Architecto
@@ -219,24 +250,42 @@ export default function Message() {
                               consequatur quas?
                            </div>
                         </div>
-                        <div class="flex justify-end mb-4">{/* chat mo */}
+                        <div class="flex justify-end mb-4">
                            <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white max-w-[50%]">
                               Edi wow pukinang ngina ina ka!
                            </div>
                         </div>
-                        <div class="flex justify-start mb-4"> {/* chat niya */}
+                        <div class="flex justify-start mb-4"> 
                            <div class="ml-2 py-3 px-4 bg-blue-200 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white max-w-[50%]">
                               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
                               at praesentium.
                            </div>
-                        </div>
+                        </div> */}
+                         {messages.map((msg, index) => (
+                           <div key={index} className={msg.from === 'Admin' ? 'admin-message text-right' : 'user-message text-left'}>
+                                 {/* <strong>{msg.from}: </strong>{msg.message} */}
+                                 {msg.from === 'Admin' ? 
+                                 (<p className="bg-blue-300 text-black m-2 rounded-lg py-2 px-4 inline-block">
+                                    {msg.from === 'Admin' ? 'Admin' : msg.from}: {msg.message}
+                                 </p>)
+                                 :(<p className="bg-blue-500 text-white m-2 rounded-lg py-2 px-4 inline-block">
+                                 {msg.from === 'Admin' ? 'Admin' : msg.from}: {msg.message}
+                                 </p>)
+                                 }
+
+                           </div>
+                        ))}
                         
                      </div>
 
                      <label for="search" class="text-sm font-medium text-gray-900 sr-only dark:text-white">Type Something here.</label>
                      <div class="relative ">
-                        <input type="search" id="search" class="mb-2 block w-full p-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Type Something here"/>
-                        <button type="submit" class="text-white absolute end-2.5 bottom-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><img src={send}></img></button>
+                        <input type="text" value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        placeholder="Type a message"
+                        id="search" class="mb-2 block w-full p-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                        />
+                        <button onClick={sendMessage} class="text-white absolute end-2.5 bottom-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><img src={send}></img></button>
                      </div>
                   </div>
                   {/* <!-- end message --> */}

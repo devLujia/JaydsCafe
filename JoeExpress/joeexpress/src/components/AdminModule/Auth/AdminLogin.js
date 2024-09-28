@@ -16,6 +16,8 @@ function AdminLogin() {
     const [errors, setErrors] = useState({});
     const navigation = useNavigate();
 
+    axios.defaults.withCredentials = true;
+
     const handleInput = (e) => {
         setValues(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
@@ -61,14 +63,14 @@ function AdminLogin() {
        <div class="bg-white flex w-4/5 mx-auto my-10 rounded-lg flex-col lg:flex-row shadow-xl">
 
         <div class="flex justify-center items-center flex-col border-r-2 border-gray-300 flex-1 px-5">
-            <h2 class="text-2xl font-bold flex justify-center mb-5">JoeExpressAdmin</h2>
+            <h2 class="text-2xl font-bold flex justify-center mb-5">Jayd's Admin</h2>
             <p class="flex justify-center mb-14 max-w-96 text-center">Lorem ipsum dolor sit amet, consectetur
                 adipiscing elit suspendisse.</p>
         </div>
 
 <div class="my-5 flex-1 p-10">
     <form onSubmit={handleSubmit}>
-        <h1 class="font-bold text-3xl my-5">Sign In to JoeExpress <span class="underline">Admin</span></h1>
+        <h1 class="font-bold text-3xl my-5">Sign In to Jayd's Express <span class="underline">Admin</span></h1>
         <div class="mb-4">
             <label>Email</label>
             <input class="shadow appearance-none border rounded w-full py-3 px-3 my-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
@@ -93,7 +95,7 @@ function AdminLogin() {
             value={values.password}
             onChange={handleInput} 
             id="password"
-            name='password'
+            name="password"
             />
             {errors.password && <span className='text-red-900'> {errors.password}</span>}
 

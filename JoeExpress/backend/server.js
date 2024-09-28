@@ -10,8 +10,11 @@ const MailGen = require('mailgen');
 const axios = require('axios');
 const multer = require('multer')
 const path = require('path')
-//const {EMAIL,PASSWORD,PAYMONGO_SECRET_KEY} = require('./env.js')
+const { Server } = require('socket.io');
 const app = express();
+const http = require("http")
+const server = http.createServer(app);
+const io = new Server(server);
 require('dotenv').config();
 
 
@@ -70,10 +73,10 @@ app.get('/',(req,res)=>{
     if(req.session.name){
         return res.json({valid:true, name: req.session.name, userId: req.session.userId})
     }
-    
     else{
         return res.json({valid: false})
     }
+
 }) 
 
 
@@ -134,7 +137,7 @@ app.get('/foods', (req,res)=>{
     });
     
     app.post('/signup', async (req, res) => {
-        const { pnum,name, email, password, address } = req.body;
+        const { pnum, name, email, password, address } = req.body;
     
         try {
             // Check if email already exists
@@ -148,13 +151,13 @@ app.get('/foods', (req,res)=>{
                 if (resultFromDb.length > 0) {
                     return res.status(400).json({ error: 'Email Already Taken' });
                 }
-
+    
                 const verificationToken = generateToken();
-
+    
                 // Proceed to insert user into database
                 const hashedPassword = await bcrypt.hash(password, 10);
                 const insertQuery = 'INSERT INTO `user` (pnum, name, address, email, password, verification_token) VALUES (?, ?, ?, ?, ?, ?)';
-                const values = [pnum, name, address, email, hashedPassword,  verificationToken];
+                const values = [pnum, name, address, email, hashedPassword, verificationToken];
     
                 db.query(insertQuery, values, (insertError, result) => {
                     if (insertError) {
@@ -162,98 +165,90 @@ app.get('/foods', (req,res)=>{
                         return res.status(500).json({ error: 'Failed to sign up' });
                     }
     
-                    console.log('User signed up successfully:', result);
-
-                
                     const userId = result.insertId;
-
+    
                     if (!userId) {
                         console.error('Failed to retrieve userId:', result);
                         return res.status(500).json({ error: 'Failed to retrieve userId' });
                     }
-
+    
+                    // Insert into cart table
                     const cartQuery = 'INSERT INTO cart (user_id) VALUES (?)';
-
-                db.query(cartQuery, [userId], (userError, cartResult)=>{
-                    if(userError){
-                        console.error('Error signing up:', userError);
-                        return res.status(500).json({ error: 'Failed to create cart' });
-                    }
-                      
-                    try {
-                        const transporter = nodemailer.createTransport({
-                            service: 'gmail',
-                            host: 'smtp.gmail.com',
-                            port: 587,
-                            secure: false,
-                            auth: {
-                                user: EMAIL,
-                                pass: PASSWORD
-                            }
-                        });
+                    db.query(cartQuery, [userId], (userError, cartResult) => {
+                        if (userError) {
+                            console.error('Error creating cart:', userError);
+                            return res.status(500).json({ error: 'Failed to create cart' });
+                        }
     
-                        const mailGenerator = new MailGen({
-                            theme: 'default',
-                            product: {
-                                name: `Jayd's Cafe`,
-                                link: 'https://mailgen.js/'
-                            }
-                        });
+                        // Sending email after user creation
+                        try {
+                            const transporter = nodemailer.createTransport({
+                                service: 'gmail',
+                                host: 'smtp.gmail.com',
+                                port: 587,
+                                secure: false,
+                                auth: {
+                                    user: EMAIL,
+                                    pass: PASSWORD
+                                }
+                            });
     
-                        const response = {
-                            body: {
-                                
-                                name: name,
-                                intro: 'YOU REGISTERED SUCCESSFULLY',
-                                outro: 'PLEASE CLICK THE LINK TO CONTINUE',
-                                action: {
-                                    instructions: 'To complete your registration, please click the following button:',
-                                    button: {
-                                        color: '#22BC66',
-                                        text: 'Verify your account',
-                                        link: `http://localhost:8081/verify/${verificationToken}`
+                            const mailGenerator = new MailGen({
+                                theme: 'default',
+                                product: {
+                                    name: `Jayd's Cafe`,
+                                    link: 'https://mailgen.js/'
+                                }
+                            });
+    
+                            const response = {
+                                body: {
+                                    name: name,
+                                    intro: 'YOU REGISTERED SUCCESSFULLY',
+                                    outro: 'PLEASE CLICK THE LINK TO CONTINUE',
+                                    action: {
+                                        instructions: 'To complete your registration, please click the following button:',
+                                        button: {
+                                            color: '#22BC66',
+                                            text: 'Verify your account',
+                                            link: `http://localhost:8081/verify/${verificationToken}`
+                                        }
                                     }
                                 }
-
-                            }
-                        };
+                            };
     
-                        const mail = mailGenerator.generate(response);
+                            const mail = mailGenerator.generate(response);
     
-                        const message = {
-                            from: EMAIL,
-                            to: email,
-                            subject: 'REGISTRATION',
-                            html: mail
-                        };
+                            const message = {
+                                from: EMAIL,
+                                to: email,
+                                subject: 'REGISTRATION',
+                                html: mail
+                            };
     
-                        transporter.sendMail(message)
-                            .then(() => {
-                                res.status(201).json({ msg: 'You should receive an email shortly' });
-                            })
-                            .catch(emailError => {
-                                console.error('Email Sending Error:', emailError);
-                                res.status(500).json({ error: 'Failed to send email' });
-                            });
-                    
+                            transporter.sendMail(message)
+                                .then(() => {
+                                    // Send success response when everything is successful
+                                    return res.status(201).json({ success: true, msg: 'You should receive an email shortly' });
+                                })
+                                .catch(emailError => {
+                                    console.error('Email Sending Error:', emailError);
+                                    return res.status(500).json({ error: 'Failed to send email' });
+                                });
     
-                    } catch (emailError) {
-                        console.error('Email Sending Error:', emailError);
-                        res.status(500).json({ error: 'Failed to send email' });
-                    }
+                        } catch (emailError) {
+                            console.error('Email Sending Error:', emailError);
+                            return res.status(500).json({ error: 'Failed to send email' });
+                        }
+                    });
                 });
-
-                res.json({success:true})
             });
-
-            
-        });
-
         } catch (error) {
             console.error('Signup Error:', error);
-            res.status(500).json({ error: 'Failed to sign up' });
+            return res.status(500).json({ error: 'Failed to sign up' });
         }
     });
+    
 
 app.get('/menu', (req ,res )=>{
         const query = 
@@ -751,9 +746,11 @@ app.post('/updateAcc', async (req, res) => {
 
 app.post('/adminlogin',async (req, res) => {
 
-    const sql = 'SELECT * FROM admin WHERE email = ?';
+    const {email,password} = req.body
 
-    db.query(sql, [req.body.email, req.body.password], (err, data) => {
+    const sql = 'SELECT * FROM user WHERE email = ?';
+
+    db.query(sql, [email, password], (err, data) => {
         const isMatch = bcrypt.compare(req.body.password,data[0].password);
         if (err) {
             return res.json("Error");
@@ -762,18 +759,25 @@ app.post('/adminlogin',async (req, res) => {
         if (data.length == 0) {
             return res.json({ Login: false, Message: "NO RECORD EXISTED" });
         } 
-        const userData = data[0];
         
-        if (isMatch){
+        const userData = data[0];
+
+        if (!userData.verified) {
+            return res.status(401).json({ error: 'Account not verified. Please check your email for verification instructions.' });
+        }
+        
+        if (isMatch && data[0].role === 'admin'){
             req.session.userId = userData.id;
             const name = data[0].name;
             req.session.name = name;          
             return res.json({ Login: true });
         }
+
         else{
             res.send("Wrong Password");
-            return
+             return
         }
+
     });
 });
 
@@ -1058,6 +1062,7 @@ app.post('/addSize',(req,res)=>{
 app.post('/removeProduct',  async (req, res) =>{
 
     const {id} = req.body;
+
     let foodId;
 
     const rows = db.query(`Select id from foods where id = ?;`, [id], (error,result)=>{
@@ -1074,7 +1079,7 @@ app.post('/removeProduct',  async (req, res) =>{
     
     try{
         const query = `Delete from foods where id = ? `
-        await db.query (query,[name], (err,result) =>{
+        await db.query (query,[id], (err,result) =>{
             if(err){
                 res.json({err: "Unable to delete into foods"})
             }
@@ -1149,43 +1154,53 @@ app.post('/removeProduct',  async (req, res) =>{
 
     app.post('/updateProduct', upload.single('image_url') ,(req,res) => {
 
-        const {name ,description ,category_id , foodId ,medprice , lgprice} = req.body;
+        const {name ,description ,category_id , foodId } = req.body;
         const image_url = req.file ? `/images/${req.file.filename}` : null;
-
+        const sizes = JSON.parse(req.body.sizes);
         const query = 
         `
-        Update foods, food_sizes
-        SET name= ?, 
-        description= ? , 
-        image_url= ? ,
-        category_id = ?,
-        food_sizes.price = ?
+        UPDATE foods
+        SET name = ?, 
+            description = ?, 
+            image_url = ?, 
+            category_id = ?
+            WHERE id = ?
+        `;
 
-        WHERE 
-        food_sizes.food_id = foods.id
-        AND foods.id = ? AND food_sizes.size = 'medium'
-        `
-
-        db.query (query,[name ,description ,image_url ,category_id ,medprice , foodId], (err,result) => {
+        db.query (query,[name ,description ,image_url ,category_id, foodId], (err,result) => {
             if (err){
                 res.json({err: "Unable to update into food and food_sizes"})
             }
 
-            const largeQuery = 
-            `UPDATE food_sizes
-            SET food_sizes.price = ?
-            WHERE food_sizes.food_id = ? AND food_sizes.size = 'large'
-            `
-            db.query(largeQuery,[lgprice,foodId],(lgErr,lgRes) =>{
-                if (lgErr){
-                    res.json({lgErr: "Unable to update Large price"})
-                }
-            })
-            res.json({success: true})
+            let sizeQuery = `
+            UPDATE food_sizes
+            SET price = ?
+            WHERE food_id = ? AND size = ?
+            `;
+
+            const sizePromises = sizes.map(({ size, price }) => {
+                return new Promise((resolve, reject) => {
+                    db.query(sizeQuery, [price, foodId, size], (sizeErr, sizeRes) => {
+                        if (sizeErr) {
+                            reject(sizeErr);
+                        } else {
+                            resolve(sizeRes);
+                        }
+                    });
+                });
+            });
+    
+            Promise.all(sizePromises)
+                .then(() => {
+                    res.json({ success: true });
+                })
+                .catch((updateErr) => {
+                    res.json({ err: "Unable to update sizes", details: updateErr });
+                });
          
         })
  
-        })
+    })
         
         app.post('/updateAddons' , (req,res) => {
 
@@ -1658,6 +1673,78 @@ app.post('/removeProduct',  async (req, res) =>{
         });
 
     })
+
+
+    app.post('/fetchSizes',(req,res)=>{
+
+        const {foodId} = req.body
+
+        const query = `Select * from food_sizes`
+
+        db.query(query,[foodId] ,(err, results) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to get addons' });
+            }
+            
+            res.json(results);
+            
+        });
+
+    })
+
+
+    let users = {};  // To keep track of users
+
+    io.on('connection', (socket) => {
+        
+        console.log('A user connected:', socket.id);
+
+
+        socket.on('join', ({ userId, role }) => {
+            // Query the database for the user
+            const query = 'SELECT * FROM user WHERE id = ?'; // Adjust according to your user table structure
+    
+            connection.execute(query, [userId], (error, results) => {
+                if (error) {
+                    console.error('Database query error:', error);
+                    return;
+                }
+    
+                if (results.length > 0) {
+                    const user = results[0]; // Assuming user exists
+                    users[socket.id] = { userId: user.id, role: user.role };
+    
+                    if (role === 'admin') {
+                        socket.join('admin');
+                        console.log('Admin joined');
+                    } else {
+                        socket.join(userId);  // Each user has their own room
+                        console.log('User joined:', userId);
+                    }
+                } else {
+                    console.log('User not found:', userId);
+                }
+            });
+        });
+
+        // Join a room based on the user type (admin or user)
+        socket.on('sendMessage', ({ message, to }) => {
+            const sender = users[socket.id];
+            if (sender.role === 'admin') {
+                // Admin sends message to a specific user
+                io.to(to).emit('receiveMessage', { message, from: 'admin' });
+            } else {
+                // User sends message to admin
+                io.to('admin').emit('receiveMessage', { message, from: sender.userId });
+            }
+        });
+    
+        // Handle disconnect
+        socket.on('disconnect', () => {
+            console.log('User disconnected:', socket.id);
+            delete users[socket.id];
+        });
+    });
 
     
 

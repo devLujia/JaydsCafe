@@ -78,18 +78,18 @@ export default function Editpage() {
     }, []);
 
     // Check authentication status
-    // useEffect(() => {
-    //     axios.get('http://localhost:8081/')
-    //         .then(res => {
-    //             if (res.data.valid) {
-    //                 setAuthenticated(true);
-    //                 setUserId(res.data.userId);
-    //             } else {
-    //                 navigate('/');
-    //             }
-    //         })
-    //         .catch(err => console.log(err));
-    // }, [navigate]);
+    useEffect(() => {
+        axios.get('http://localhost:8081/')
+            .then(res => {
+                if (res.data.valid) {
+                    setAuthenticated(true);
+                    setUserId(res.data.userId);
+                } else {
+                    navigate('/');
+                }
+            })
+            .catch(err => console.log(err));
+    }, [navigate]);
 
     // Fetch cart items
     useEffect(() => {
