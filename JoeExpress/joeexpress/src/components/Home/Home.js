@@ -20,7 +20,7 @@ import image3 from '../image/milktea.png';
 import image11 from '../image/menu.png';
 import aboutUsImage from '../image/AboutUs.png';
 import beansImage from '../image/coffe_bean.png';
-import chat from '../image/live-chat.png';
+import chat from '../image/chat.svg';
 import MapModal from '../Map/Map';
 import AOS from 'aos';
 import 'aos/dist/aos.css';

@@ -22,6 +22,7 @@ import ContentManagement from './components/AdminModule/ContentManagement/Conten
 import Order from './components/AdminModule/Order_New/Order_New'
 import Inbox from './components/AdminModule/Message/Message'
 import Settings from './components/AdminModule/Settings/Settings'
+import PaymentSuccess from './components/PaymentSuccess/PaymentSuccess'
 import Checkout from './components/Checkout/Checkout'
 import Sales from './components/AdminModule/Sales/Sales'
 import Profile from './components/Profile/Profile'
@@ -43,6 +44,7 @@ function App() {
       <Route path='/cart' element = {<Cart/>}> </Route>
       <Route path='/tracking/' element = {<Tracking/>}> </Route>
       <Route path='/dashboard' element={<AdminDashboard/>}></Route>
+      <Route path='/paymentSuccess' element={<PaymentSuccess/>}></Route>
       <Route path='/admin' element={<AdminLogin/>}></Route>
       <Route path='/adminregistration' element={<AdminRegistration/>}></Route>.
 

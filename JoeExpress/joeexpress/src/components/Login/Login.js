@@ -188,7 +188,7 @@ const Login = () => {
           {/* <!-- Logo/Title in Navbar --> */}
           <a href="/" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">{cmsName}</a>
         </div>
-{/* <!-- Button for Login or Sign Up --> */}
+{     /* <!-- Button for Login or Sign Up --> */}
         {/* <div class="inline-flex items-center justify-center me-2">
           
           <button
@@ -205,9 +205,7 @@ const Login = () => {
       </nav>
 
     {/* <!-- Form container --> */}
-      <div
-        class="max-w-md mx-auto p-4 mt-2 mb-4 bg-white rounded-xl shadow-md md:max-w-lg md:p-6 md:pt-4 md:mb-6 lg:max-w-xl lg:p-8 lg:pt-6 lg:mb-8"
-      >
+      <div class="max-w-md mx-auto p-4 mt-2 mb-4 bg-white rounded-xl shadow-md md:max-w-lg md:p-6 md:pt-4 md:mb-6 lg:max-w-lg lg:p-8 lg:pt-6 lg:mb-8">
         {/* <!-- Image for login --> */}
         <div class="flex flex-col justify-center items-center mb-10 py-5">
           <p class="text-2xl mb-3 tracking-wider">WELCOME TO</p>
@@ -232,9 +230,7 @@ const Login = () => {
             />
           </div>
 
-          <div
-            class="bg-white w-full max-w-full rounded-md mx-auto mt-300 flex items-center"
-          >
+          <div class="bg-white w-full max-w-full rounded-md mx-auto mt-300 flex items-center">
             {/* <!-- password Input--> */}
             <div class="relative w-full">
               <input
@@ -275,7 +271,7 @@ const Login = () => {
           {/* <!-- or sign in with --> */}
           <div class="flex items-center mb-4">
             <hr class="w-full border-t border-gray-300" />
-            <span class="px-10 text-gray-400 w-full"> or sign in with </span>
+            <span class="px-5 text-gray-400 w-full"> or sign in with </span>
             <hr class="w-full border-t border-gray-300" />
           </div>
 
