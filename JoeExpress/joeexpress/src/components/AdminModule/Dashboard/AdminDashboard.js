@@ -99,7 +99,7 @@ function AdminDashboard() {
     })
 
     useEffect(() => {
-      axios.get('http://localhost:8081/')
+      axios.get('http://localhost:8081/admin')
         .then(res => {
           if (res.data.valid) {
             setAuthenticated(true);

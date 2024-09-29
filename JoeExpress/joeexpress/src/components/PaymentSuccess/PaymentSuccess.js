@@ -9,6 +9,7 @@ import MapModal from '../Map/Map';
 import Terms from '../UserModal/TermsAndCondition/Terms'
 
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function PaymentSuccess() {
 

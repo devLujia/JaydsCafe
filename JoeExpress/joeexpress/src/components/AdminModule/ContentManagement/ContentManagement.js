@@ -27,17 +27,17 @@ export default function ContentManagement() {
     axios.defaults.withCredentials = true;
 
     useEffect(() => {
-      axios.get('http://localhost:8081/')
-        .then(res => {
-          if (res.data.valid) {
-            setAuthenticated(true);
-            setUserId(res.data.userId);
-          } else {
-            navigate('/admin');
-          }
-        })
-        .catch(err => console.log(err));
-    }, [navigate]);
+        axios.get('http://localhost:8081/admin')
+          .then(res => {
+            if (res.data.valid) {
+              setAuthenticated(true);
+              setUserId(res.data.userId);
+            } else {
+              navigate('/admin');
+            }
+          })
+          .catch(err => console.log(err));
+      }, [navigate]);
 
     useEffect(() =>{
       

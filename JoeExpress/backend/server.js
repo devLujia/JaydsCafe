@@ -67,10 +67,20 @@ function generateToken() {
     return Math.random().toString(36).substr(2, 10);
 }
 
-
 app.get('/',(req,res)=>{
     
-    if(req.session.name){
+    if(req.session.name && req.session.role === 'user'){
+        return res.json({valid:true, name: req.session.name, userId: req.session.userId})
+    }
+    else{
+        return res.json({valid: false})
+    }
+
+})
+
+app.get('/admin',(req,res)=>{
+    
+    if(req.session.name && req.session.role === 'admin'){
         return res.json({valid:true, name: req.session.name, userId: req.session.userId})
     }
     else{
@@ -469,8 +479,10 @@ app.post('/login',async (req, res) => {
             req.session.userId = userData.id;
             const name = data[0].name;
             req.session.name = name;          
+            req.session.role = 'user';          
             return res.json({ Login: true });
         }
+
         else{
             res.send("Wrong Password");
             return
@@ -769,7 +781,8 @@ app.post('/adminlogin',async (req, res) => {
         if (isMatch && data[0].role === 'admin'){
             req.session.userId = userData.id;
             const name = data[0].name;
-            req.session.name = name;          
+            req.session.name = name;
+            req.session.role = 'admin';          
             return res.json({ Login: true });
         }
 
