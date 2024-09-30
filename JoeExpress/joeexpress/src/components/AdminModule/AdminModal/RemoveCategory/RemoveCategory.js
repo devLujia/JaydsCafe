@@ -13,11 +13,10 @@ function RemoveCategory({ closeModal }) {
     const handleRemove = async (e) => {
         e.preventDefault();
     
-        axios.post('http://localhost:8081/deleteCategory', { id })
+        axios.post('http://localhost:8081/removeCategory', { id })
         .then(res => {
-            if(res.data.success === true){
+            
               closeModal(false);
-            }
               
         })
         .catch(error => {

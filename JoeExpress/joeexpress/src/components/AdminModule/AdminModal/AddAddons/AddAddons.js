@@ -1,26 +1,43 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 function AddAddons({closeModal}) {
 
+  const [category,setCategory] = useState([])
   const [values, setValues] = useState({
     name: '',
-    price: ''
+    price: '',
+    category_id: ''
   });
 
   const handleInput = (e) => {
     setValues({
-        ...values,
-        [e.target.name]: e.target.value
+      ...values,
+      [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = () =>{
+  const handleSubmit = (e) =>{
+    e.preventDefault();
+
     axios.post('http://localhost:8081/addAddons', values)
         .then(res =>{
-            closeModal(false)
+            if(res.data.Success === true){
+              closeModal(false)
+            }
         })
+        
   }
+
+  useEffect(()=>{
+    axios.post('http://localhost:8081/fetchCategory')
+        .then(res =>{
+          setCategory(res.data)
+        })
+        .catch((err) => {
+          console.error('Error fetching categories:', err);
+        });
+  },[])
 
   return (
     <div>
@@ -63,7 +80,35 @@ function AddAddons({closeModal}) {
                   required
                 />
                 
-              </div>        
+              </div>
+              
+              <div className='mb-4'>
+                <label
+                  htmlFor='category_id'
+                  className='flex text-gray-600 text-sm font-bold tracking-wider'
+                >
+                  Category
+                </label>
+                <select
+                  id='category_id'
+                  name='category_id'
+                  value={values.category_id}
+                  onChange={handleInput}
+                  className='shadow appearance-none border rounded w-full py-2 ps-2 text-gray-700 focus:outline-none focus:shadow-outline'
+                  required
+                >
+                  <option value=''>Select a category</option>
+                  {category.length === 0 ? (
+                    <option disabled>Loading...</option>
+                  ) : (
+                    category.map((categories) => (
+                      <option key={categories.id} value={categories.id}>
+                        {categories.title}
+                      </option>
+                    ))
+                  )}
+                </select>
+              </div>      
       
               <button type="submit" className="bg-greenColor hover:bg-green-800 text-white font-bold py-2 px-4 rounded-lg w-full">
                 Add Addons

@@ -35,6 +35,7 @@ function ProductManagement() {
     const [selectedProductId, setProductId] = useState(null);
     const [selectedValue, setSelectedValue] = useState('Product');
     const [selectedAddonsId, setAddonsId] = useState(null);
+    
     const [addAddonsModal,setAddAddonsModal] = useState(false);
     const [addSizeModal,setAddSizeModal] = useState(false);
     const [authenticated, setAuthenticated] = useState(false);
@@ -42,6 +43,9 @@ function ProductManagement() {
     const [foodId, setFoodId] = useState(null);
     const [profile, setProfile] = useState([]);
     const [sizes, setSizes] = useState([]);
+
+    const [editCategoryModal,setEditCategoryModal] = useState(false);
+    const [selectedCategoryId, setCategoryId] = useState(null);
     axios.defaults.withCredentials = true;
 
     const handleSelectChange = (event) => {
@@ -77,6 +81,11 @@ function ProductManagement() {
         setEditAddonsModal(true);
     };
     
+    const handleEditCategory = (id) => {
+        setAddonsId(id); 
+        setEditAddonsModal(true);
+    };
+    
     useEffect(()=>{
         axios.post('http://localhost:8081/productResult')
         .then(response=>{
@@ -85,7 +94,7 @@ function ProductManagement() {
         .catch(error => {
             console.error('Error fetching food details:', error);
         });
-    })
+    },[])
     
     useEffect(() => {
       const fetchSizes = async () => {
@@ -175,7 +184,7 @@ function ProductManagement() {
     //         });
     // })
 
-    const handleRemoveProduct = (event, id) => {
+    const handleRemoveProduct = (id) => {
 
         axios.post('http://localhost:8081/removeProduct', { id });
         const updatedFoods = foods.filter((food) => food.id !== id);
@@ -190,8 +199,14 @@ function ProductManagement() {
         setAddons(updatedAddons);
 
     }
-
     
+    const handleRemoveCategory = (id) => {
+
+        axios.post('http://localhost:8081/removeCategory', { id })
+        const updatedAddons = categories.filter((category) => category.id !== id);
+        setCategories(updatedAddons);
+        
+    }
 
     const handleHide = (id) =>{
         axios.post('http://localhost:8081/hideProduct', {id})
@@ -202,6 +217,7 @@ function ProductManagement() {
 
     <div>
         {addAddonsModal && <AddAddons closeModal={setAddAddonsModal}/>}
+        
         {removeCategoryModal && <RemoveCategory closeModal={setRemoveCategoryModal}/>}
         {addCategoryModal && <AddCategory closeModal={setAddCategoryModal}/>}
         {addProductModal && <AddProd closeModal={setAddProductModal}/>}
@@ -217,6 +233,9 @@ function ProductManagement() {
         {editAddonsModal && selectedAddonsId !== null && (
             <EditAddons closeModal={() => setEditAddonsModal(false)} id={selectedAddonsId} />
         )}
+        {/* {editCategoryModal && selectedCategoryId !== null && (
+            <EditCategory closeModal={() => setEditCategoryModal(false)} id={selectedCategoryId} />
+        )} */}
 
         {/* <!-- nav --> */}
         <nav class="sticky top-0 bg-jaydsBg z-20 shadow-lg flex justify-between dark:bg-gray-900">
@@ -490,13 +509,13 @@ function ProductManagement() {
                                   <img src={edit} alt="edit" className="w-10 h-10" />
                                 </button>
 
-                                <button
-                                  onClick={() => handleRemoveProduct(addon.id)}
-                                  className="hover:scale-110 duration-300" 
-                                  title='Delete'
-                                >
-                                  <img src={trashbin2} alt="delete" className="w-12 h-12" />
-                                </button>
+                        <button
+                          onClick={() => handleRemoveAddons(addon.id)}
+                          className="hover:scale-110 duration-300"
+                          title='Delete'
+                        >
+                          <img src={trashbin2} alt="delete" className="w-12 h-12" />
+                        </button>
 
                                 <button 
                                   onClick={() => handleHide(addon.id)}
@@ -531,32 +550,35 @@ function ProductManagement() {
                                 <h3 className="text-xl font-semibold mt-4 min-h-15">{category.title}</h3>
                               </div>
 
-                              {/* <div className="flex justify-center mt-4 space-x-2">
-                                <button 
-                                  onClick={() => handleEditCategory(category.id)}
-                                  className="hover:scale-110 duration-300"
-                                >
-                                  <img src={edit} alt="edit" className="w-10 h-10" />
-                                </button>
+                      <div className="flex justify-center mt-4 space-x-2">
+                        <button 
+                          onClick={() => handleEditCategory(category.id)}
+                          className="hover:scale-110 duration-300"
+                        >
+                          <img src={edit} alt="edit" className="w-10 h-10" />
+                        </button>
 
-                                <button
-                                  onClick={() => handleRemoveCategory(category.id)}
-                                  className="hover:scale-110 duration-300"
-                                >
-                                  <img src={trashbin2} alt="delete" className="w-12 h-12" />
-                                </button>
-                              </div> */}
-                            </div>
-                          ))}
+                        <button
+                          onClick={() => handleRemoveCategory(category.id)}
+                          className="hover:scale-110 duration-300"
+                        >
+                          <img src={trashbin2} alt="delete" className="w-12 h-12" />
+                        </button>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  ))}
               </div>
-            )}
+            </div>
           </div>
         </div>
+      </div>
+    )}
+  </div>
+</div>
 
+
+        {/* Eto yung bagong design sa Product management, Cards na siya */}
+        
     </div>
   )
 }
