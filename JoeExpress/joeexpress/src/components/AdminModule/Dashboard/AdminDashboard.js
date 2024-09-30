@@ -200,19 +200,19 @@ function AdminDashboard() {
     
   return (
     <div class="bg-jaydsBg">
-      <nav class="sticky top-0 bg-jaydsBg z-20 shadow-lg flex justify-betwee">
+      <nav class="sticky top-0 bg-jaydsBg z-20 shadow-lg flex justify-between dark:bg-gray-900">
          <div class="font-extrabold text-2xl flex items-center">
                {/* <!-- Logo/Title in Navbar --> */}
                <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
          </div>
          <div></div>
          {/* <!-- Button for Login or Sign Up --> */}
-         <div class="flex justify-end items-center">
+         <div class="flex justify-end items-center ">
                <button className='rounded-full p-2 bg-white border border-gray-400'>
                      <img src={notif} title='Notification'></img>
                </button>
                
-               <div class="px-4 py-3 text-sm text-gray-900 flex flex-col items-center justify-end">
+               <div class="px-4 py-3 text-sm text-gray-900 flex flex-col items-center justify-end dark:text-white">
                   <div class="font-bold">{profile.name}</div>
                   <div class="items-center justify-center">Admin</div>
                </div>
@@ -221,16 +221,16 @@ function AdminDashboard() {
          </div>
       </nav>
 
-      <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-72 h-screen pt-5 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
-         <div class="h-full px-3 pb-4 overflow-y-auto bg-white">
+      <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-72 h-screen pt-5 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800" aria-label="Sidebar">
+         <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
          <a href="#" class="flex items-center ps-2.5 mb-5">
             <img src={jaydsLogo} alt="Logo"/>           
             <span class="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2">Jayd's Cafe</span>
          </a>
-            <ul class="space-y-2 font-medium">
+            <ul class="space-y-2 font-medium ">
                <li> {/* <!-- Dashboard --> */}
                   <a href="#" class="flex items-center p-2 rounded-lg bg-greenColor group text-white">
-                  <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 text-white dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
+                  <svg class="w-5 h-5 transition duration-75 text-white dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
                      <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z"/>
                      <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z"/>
                   </svg>
@@ -239,7 +239,7 @@ function AdminDashboard() {
                </li>
                <li> {/* <!-- Order Management --> */}
                   <a href="/Order" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor group hover:text-white">
-                     <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75 group-hover:text-white dark:text-gray-400 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 21">
+                     <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75 group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 21">
                         <path d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z"/>
                      </svg>
                      <span class="ms-3">Order</span>
@@ -257,7 +257,7 @@ function AdminDashboard() {
                </li>
 
                <li> {/* <!-- Sales Report --> */}
-               <a href="/Sales" class="flex items-center p-2 text-gray-600 rounded-lg dark:text-white hover:bg-greenColor  group hover:text-white">
+               <a href="/Sales" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor  group hover:text-white">
                   <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75  group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                      <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z"/>
                      <path d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z"/>
@@ -322,7 +322,7 @@ function AdminDashboard() {
             <div class="grid grid-cols-1 md:grid-cols-[65%_34%] gap-4 mb-6">
 
                {/* Overview */}
-               <div class="p-4 bg-white rounded-xl h-full w-ful">
+               <div class="p-4 bg-white rounded-xl h-full w-full dark:bg-gray-900 dark:text-gray-300">
                   <div class="flex relative justify-between">
                      <h1 class="font-bold text-3xl tracking-wide mb-3">Overview</h1>
                      <button class="p-2 border-2 border-gray-500 rounded-lg">
@@ -332,7 +332,7 @@ function AdminDashboard() {
                   <p class="mb-16">Sales Summary</p>
 
                   <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4">
-                     <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-red-200 dark:bg-gray-800 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="100">
+                     <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-red-200 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="100">
                         <div class= "w-10 h-10 mb-6 bg-red-400 rounded-full justify-center flex items-center flex-shrink-0">
                            <img src={sales}></img>
                         </div>
@@ -342,7 +342,7 @@ function AdminDashboard() {
                         </div>
                      </div>
 
-                     <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-yellow-100 dark:bg-gray-800 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="200">
+                     <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-yellow-100 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="200">
                         <div class= "w-10 h-10 mb-6 bg-yellow-400 rounded-full justify-center flex items-center flex-shrink-0 ">
                            <img src={order}></img>
                         </div>
@@ -352,7 +352,7 @@ function AdminDashboard() {
                         </div>
                      </div>
 
-                     <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-green-100 dark:bg-gray-800 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="300">
+                     <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-green-100 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="300">
                         <div class= "w-10 h-10 mb-6 bg-green-400 rounded-full justify-center flex items-center flex-shrink-0">
                            <img src={product}></img>
                         </div>
@@ -362,7 +362,7 @@ function AdminDashboard() {
                         </div>
                      </div>
 
-                     <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-violet-100 dark:bg-gray-800 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="400">
+                     <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-violet-100 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="400">
                         <div class= "w-10 h-10 mb-6 bg-violet-400 rounded-full justify-center flex items-center flex-shrink-0 ">
                            <img src={customer}></img>
                         </div>
@@ -376,8 +376,8 @@ function AdminDashboard() {
                </div>
 
                {/* Chat */}
-               <div class="bg-white rounded-xl p-4 h-96 overflow-hidden">
-                  <div class="flex justify-between sticky top-0 bg-white">
+               <div class="bg-white rounded-xl p-4 h-96 overflow-hidden dark:bg-gray-900 dark:text-gray-300">
+                  <div class="flex justify-between sticky top-0 bg-white dark:bg-gray-900 dark:text-gray-300">
                      <h1 class="font-bold text-3xl tracking-wide">Chats</h1>
                      <button class="p-2 border-2 border-gray-500 rounded-lg">
                         <Link to='/Message'>View All Messages</Link>
@@ -436,19 +436,19 @@ function AdminDashboard() {
             </div>
 
             {/* Pending Orders */}
-            <div class="relative overflow-x-auto shadow-md sm:rounded-lg col-span-2 mb-6">
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg col-span-2 mb-6 ">
                   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
 
-                        <div class="flex justify-between sticky top-0 bg-white p-3">
+                        <div class="flex justify-between sticky top-0 bg-white p-3 dark:bg-gray-900 dark:text-gray-300">
                            <h1 class="font-bold text-3xl tracking-wide">Pending Orders</h1>
                            <button class="p-2 border-2 border-gray-500 rounded-lg">
                               <Link to='/ProductManagement'>View All Products</Link>
                            </button>
                         </div>
 
-                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-800 dark:text-gray-300">
                                  <tr class="text-center">
                                     <th scope="col" class="px-6 py-3 ">
                                           ID
@@ -480,10 +480,8 @@ function AdminDashboard() {
                               <tbody>
                               {orders.slice(0, 2).map(order => (
                                  <>
-                                    <tr
-                                       key={order.order_id}
-                                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                       <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white ">
+                                    <tr key={order.order_id} className="bg-white border-b hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:hover:text-gray-800">
+                                       <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-gray-300">
                                           <div className="text-base font-semibold">ORDR#{order.order_id}</div>
                                        </th>
                                        <td className="px-6 py-4 text-center">
@@ -524,17 +522,17 @@ function AdminDashboard() {
                                              </span>
 
                                              {showTooltip && (
-                                                <div className="absolute z-10 inline-block px-3 py-2 text-sm font-medium text-gray-100 bg-black/40 backdrop-blur-sm rounded-lg shadow-sm border border-white dark:bg-gray-700/30 dark:border-gray-600/20">
+                                                <div className="absolute z-10 inline-block px-3 py-2 text-sm font-medium text-gray-100 bg-black/40 backdrop-blur-sm rounded-lg shadow-sm border border-white">
                                                       Edit
                                                       <div className="tooltip-arrow" />
                                                 </div>
                                              )}
 
-                                             <button className="hover:underline hover:decoration-blue-500">
+                                             <button className="hover:underline hover:decoration-blue-500" title='Remove'>
                                                 <img src={del} alt="trash" />
                                              </button>
 
-                                             <button onClick={() => getTheOrder(order.order_id, order.status)}>
+                                             <button onClick={() => getTheOrder(order.order_id, order.status)} title='Done'>
                                                 <img src={check} alt="check"/>
                                              </button>
                                           </div>
@@ -543,9 +541,9 @@ function AdminDashboard() {
                                     
                                     {expandedOrderId === order.order_id && (
                                        <tr>
-                                          <td colSpan="8" className="bg-gray-100 dark:bg-gray-700">
+                                          <td colSpan="8" className="bg-gray-100">
                                              <div className="px-6 py-4">
-                                             <div className="text-sm text-gray-600 dark:text-gray-300">
+                                             <div className="text-sm text-gray-600">
                                                 <strong>Order Items:</strong>
                                                 <ul className="mt-2 space-y-2">
                                                    {order.food_details.split(';').map((detail, index) => (
@@ -562,11 +560,6 @@ function AdminDashboard() {
                                  </>
                               ))}
 
-
-
-
-
-
                               </tbody>
                         </table>
                      </div>
@@ -577,47 +570,23 @@ function AdminDashboard() {
             <div class="grid grid-cols-1 md:grid-cols-[65%_34%] gap-4 mb-6">
                {/* Table of products */}
                <div class="relative overflow-x-auto shadow-xl sm:rounded-lg col-span-1">
-                     <div class="flex items-center justify-end flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900">
-                        {/* <!-- <div>
-                           <button id="dropdownActionButton" data-dropdown-toggle="dropdownAction" class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
-                                 <span class="sr-only">Action button</span>
-                                 Action
-                                 <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                                 </svg>
-                           </button>
-                              
-                           <div id="dropdownAction" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                 <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionButton">
-                                    <li>
-                                       <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reward</a>
-                                    </li>
-                                    <li>
-                                       <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Promote</a>
-                                    </li>
-                                    <li>
-                                       <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Activate account</a>
-                                    </li>
-                                 </ul>
-                                 <div class="py-1">
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete User</a>
-                                 </div>
-                           </div>
-                        </div> --> */}
+                     <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900 dark:text-gray-300">
+                      
+                        <h1 class="font-bold text-3xl tracking-wide">Top Products</h1>
                         <label for="table-search" class="sr-only">Search</label>
                         <div class="relative">
                            <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                                 <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                 <svg class="w-4 h-4 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                  </svg>
                            </div>
-                           <input type="text" id="table-search-users" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for users"/>
+                           <input type="text" id="table-search-users" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 " placeholder="Search for users"/>
                         </div>
                      </div>
 
                
-                     <table  class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                     <table  class="w-full text-sm text-left rtl:text-right text-gray-500">
+                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-300">
                         <tr>
                            <th scope="col" class="px-6 py-3">
                                  Product Name
@@ -637,33 +606,31 @@ function AdminDashboard() {
                         </tr>
                      </thead>
 
-
-                  
-                     <tbody>
+                        <tbody>
                         
-                        {foods.slice(0,4).map(food => (
+                           {foods.slice(0,4).map(food => (
 
-                        <tr key={food.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                           <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                 <img class="w-10 h-10 rounded-2xl" src={food.image_url} alt={food.name}/>
-                                 <div class="ps-3">
-                                    <div class="text-base font-semibold">{food.name}</div>
-                                 </div>  
-                           </th>
-                           <td class="px-6 py-4">
-                                 {food.title}
-                           </td>
-                           <td class="px-6 py-4"> 
-                              {food.price}
-                           </td>
-                           <td class="px-6 py-4">
-                              {food.sold}
-                           </td>
-                           <td class="px-6 py-4"> 
-                              {food.profit}
-                           </td>
-                        </tr>
-                        ))}
+                           <tr key={food.id} class="bg-white border-b hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:hover:text-gray-800">
+                              <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-gray-300 dark:hover:text-gray-800">
+                                    <img class="w-10 h-10 rounded-2xl" src={food.image_url} alt={food.name}/>
+                                    <div class="ps-3">
+                                       <div class="text-base font-semibold">{food.name}</div>
+                                    </div>  
+                              </th>
+                              <td class="px-6 py-4">
+                                    {food.title}
+                              </td>
+                              <td class="px-6 py-4"> 
+                                 {food.price}
+                              </td>
+                              <td class="px-6 py-4">
+                                 {food.sold}
+                              </td>
+                              <td class="px-6 py-4"> 
+                                 {food.profit}
+                              </td>
+                           </tr>
+                           ))}
 
                         </tbody>
                      </table>
@@ -671,16 +638,16 @@ function AdminDashboard() {
                </div>
 
                {/* Content */}
-               <div class="bg-white rounded-xl p-4 h-96 overflow-hidden">
-                  <div class="flex justify-between sticky top-0 bg-white mb-5 z-10">
+               <div class="bg-white rounded-xl p-4 h-96 overflow-hidden dark:bg-gray-900 dark:text-gray-300">
+                  <div class="flex justify-between sticky top-0 bg-white mb-5 z-10 dark:bg-gray-900 ">
                      <h1 class="font-bold text-3xl tracking-wide">Website Content</h1>
                      <button class="p-2 border-2 border-gray-500 rounded-lg">
                         <Link to='/ContentManagement'>View All Content</Link>
                      </button>
                   </div>
 
-                  <div className='flex flex-col justify-center space-y-5 items-center overflow-y-auto max-h-full pt-40 pb-10'>
-                     <div className='relative border-2 border-gray-500 rounded-xl w-3/5 text-center px-2 shadow-xl'>
+                  <div className='flex flex-col justify-center space-y-5 items-center overflow-y-auto max-h-full pt-40 pb-10 '>
+                     <div className='relative border-2 border-gray-500 rounded-xl w-3/5 text-center px-2 shadow-xl dark:bg-gray-800 dark:text-gray-300'>
                         <h1 className='mt-7 text-2xl font-semibold mb-2'>Business Name</h1>
                         <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value="Jayd's Cafe" disabled></input>
                         <button className='absolute top-2 end-2 p-1 bg-textgreenColor rounded-lg'>
@@ -688,7 +655,7 @@ function AdminDashboard() {
                         </button>
                       </div>
 
-                      <div className='relative border-2 border-gray-500 rounded-xl w-3/5 text-center px-2 shadow-xl'>
+                      <div className='relative border-2 border-gray-500 rounded-xl w-3/5 text-center px-2 shadow-xl dark:bg-gray-800 dark:text-gray-300'>
                         <h1 className='mt-7 text-xl font-semibold mb-2'>Cellphone Number</h1>
                         <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value="09123456789" disabled></input>
                         <button className='absolute top-2 end-2 p-1 bg-textgreenColor rounded-lg'>
@@ -696,7 +663,7 @@ function AdminDashboard() {
                         </button>
                       </div>
 
-                      <div className='relative border-2 border-gray-500 rounded-xl w-3/5 text-center px-2 shadow-xl'>
+                      <div className='relative border-2 border-gray-500 rounded-xl w-3/5 text-center px-2 shadow-xl dark:bg-gray-800 dark:text-gray-300'>
                         <h1 className='mt-7 text-xl font-semibold mb-2'>Location</h1>
                         <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value="Diamond Village, Salawag, Dasmariñas, Cavite" disabled></input>
                         <button className='absolute top-2 end-2 p-1 bg-textgreenColor rounded-lg'>
