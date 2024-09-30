@@ -303,6 +303,7 @@ app.post('/itemGetter', (req, res) => {
         c.id,
         c.food_id,
         f.name AS food_name,
+        fs.price,
         f.image_url AS food_image_url,
         c.size,
         c.price AS food_price,
@@ -312,7 +313,9 @@ app.post('/itemGetter', (req, res) => {
         cart_items c 
     JOIN foods f ON
         f.id = c.food_id
-    WHERE c.user_id = ?
+    JOIN food_sizes fs ON
+        fs.food_id = f.id
+    WHERE c.user_id = ? AND fs.size = c.size
     `;
 
     db.query(query, [userId], (err, result) => {

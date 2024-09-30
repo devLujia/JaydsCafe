@@ -206,7 +206,7 @@ function Cart() {
                                     </div>
                                     <div class="flex flex-col justify-center ml-6 min-w-64 max-w-64">
                                         <h5 class="text-3xl font-bold text-gray-900 dark:text-white max-w-64">{item.food_name}</h5> {/*<!-- Title ng product-->*/}
-                                        <p class="text-base text-gray-500 sm:text-lg dark:text-gray-400 font-semibold">₱{item.food_price}</p> {/*<!-- price ng product-->*/}
+                                        <p class="text-base text-gray-500 sm:text-lg dark:text-gray-400 font-semibold">₱{item.price}</p> {/*<!-- price ng product-->*/}
                                         <p class="text-base text-gray-500 sm:text-lg dark:text-gray-400 font-semibold">Size: <span class="font-normal">{item.size}</span></p> {/*<!-- Size ng product-->*/}
                                         <p class="text-base text-gray-500 sm:text-sm mb-2 dark:text-gray-400 font-semibold pr-5">Addons: <span className='font-normal'>{item.addons}</span></p> {/*<!-- addons ng product-->*/}
                                     </div>

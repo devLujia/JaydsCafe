@@ -16,7 +16,7 @@ function AddOrder({closeModal, foodId}) {
     const navigate = useNavigate();
     const [selectedPrice, setSelectedPrice] = useState(0);
     const [quantity,setQuantity] = useState(1);
-    const [selectedSize, setSelectedSize] = useState('medium');
+    const [selectedSize, setSelectedSize] = useState(null);
     const [selectedAddons, setSelectedAddons] = useState([]);
     
     const [values, setValues] = useState({
@@ -24,8 +24,6 @@ function AddOrder({closeModal, foodId}) {
         price: ''
     });
     
-
-
     const handleIncrement = () => {
         setQuantity(prevQuantity => prevQuantity + 1);
       };
@@ -33,8 +31,6 @@ function AddOrder({closeModal, foodId}) {
     const handleDecrement = () => {
     setQuantity(prevQuantity => prevQuantity - 1);
     };
-
-
 
     useEffect(() => {
         axios.get('http://localhost:8081/')
@@ -55,6 +51,7 @@ function AddOrder({closeModal, foodId}) {
             });
     
     }
+
     const toggleSweetness = () => {
         setSweetness(!sweetness);
     };
@@ -70,7 +67,7 @@ function AddOrder({closeModal, foodId}) {
             : prev.filter(a => a.id !== addon.id));
     };
 
-    const handleInput = (event, size, price) => {
+    const handleInput = (e, size, price) => {
         setSelectedSize(size);
         setSelectedPrice(price);
     };
@@ -94,10 +91,20 @@ function AddOrder({closeModal, foodId}) {
     useEffect(() => {
         if (foodId) {
             axios.post(`http://localhost:8081/sizes`, { foodId })
-                .then(res => setSizes(res.data))
+                .then(res => {
+                    const fetchedSizes = res.data;
+                    setSizes(fetchedSizes);
+
+                    const mediumSize = fetchedSizes.find(size => size.size.toLowerCase() === 'medium');
+                    if (mediumSize) {
+                        setSelectedSize('medium');
+                        setSelectedPrice(mediumSize.price);
+                    }
+                })
                 .catch(err => console.error('Error fetching sizes:', err));
         }
-            }, [foodId]);
+    }, [foodId]);
+
 
     useEffect(() => {
         axios.post('http://localhost:8081/Addons')
