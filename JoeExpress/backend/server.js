@@ -259,6 +259,44 @@ app.get('/foods', (req,res)=>{
         }
     });
     
+    app.post('/addAdmin', async (req, res) => {
+        const { pnum, name, email, password, address } = req.body;
+    
+        try {
+            // Check if email already exists
+            const checkQuery = 'SELECT * FROM user WHERE email = ?';
+            db.query(checkQuery, [email], async (error, resultFromDb) => {
+                if (error) {
+                    console.error('Database error:', error);
+                    return res.status(500).json({ error: 'Database error' });
+                }
+    
+                if (resultFromDb.length > 0) {
+                    return res.status(400).json({ error: 'Email Already Taken' });
+                }
+    
+                const verificationToken = generateToken();
+    
+                // Proceed to insert user into database
+                const hashedPassword = await bcrypt.hash(password, 10);
+                const insertQuery = 'INSERT INTO `user` (pnum, name, address, email, password, role, verification_token) VALUES (?, ?, ?, ?, ?, `rider`, ?)';
+                const values = [pnum, name, address, email, hashedPassword, verificationToken];
+    
+                db.query(insertQuery, values, (insertError, result) => {
+                    if (insertError) {
+                        console.error('Error signing up:', insertError);
+                        return res.status(500).json({ error: 'Failed to sign up' });
+                    }
+    
+                    });
+                });
+            }
+        catch (error) {
+            console.error('Signup Error:', error);
+            return res.status(500).json({ error: 'Failed to sign up' });
+        }
+    });
+    
 
 app.get('/menu', (req ,res )=>{
         const query = 
