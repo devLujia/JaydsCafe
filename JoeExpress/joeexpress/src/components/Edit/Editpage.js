@@ -5,6 +5,8 @@ import arrowLeft from '../image/arrow left.svg';
 import jaydscoffee from '../image/jaydsCoffee.svg';
 import cart from '../image/cart.svg';
 import bagIcon from '../image/bag.svg';
+import caramel from '../image/milktea.png'
+import cupsmall from '../image/cup(small).svg'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -179,36 +181,25 @@ export default function Editpage() {
                                 <p className="text-3xl font-semibold pb-2">₱{totalPrice}</p>
 
                                 <p className="text-lg font-semibold pb-2">Select Size:</p>
-                                <div className="flex justify-start items-center mb-4">
-                                    <div className="flex items-center space-x-4">
-                                        
-                                        {sizes.map(size => (
-                                            <div key={size.id}>
+                                <div className="bg-white border-2 border-slate-300 rounded-lg p-4 flex items-center justify-between w-72 mb-6">
+                                    {/* <!-- Small Size --> */}
+                                    {sizes.map(size => (
+                                                <label key={size.id} className="flex flex-col items-center">
                                                 <input
-                                                    required
                                                     type="radio"
-                                                    id={`size-${size.id}`}
                                                     name="size"
                                                     value={size.size}
-                                                    className="hidden peer"
-                                                    onChange={(e) => handleInput(e, size.size, size.price)}
                                                     checked={selectedSize === size.size}
-                                                    
+                                                    onChange={(e) => handleInput(e, size.size, size.price)}
+                                                    className="hidden"
                                                 />
-                                                <label
-                                                    htmlFor={`size-${size.id}`}
-                                                    className="block p-4 rounded-md border border-gray-300 hover:border-gray-400 peer-checked:bg-green-400 peer-checked:border-green-900 cursor-pointer"
-                                                >
-                                                    <div className="flex flex-col items-center">
-                                                        <img src={cup1} alt={food.name} />
-                                                        <p className="text-sm font-bold text-gray-900">{size.size}</p>
-                                                        <p className="text-sm text-gray-500">{`₱${size.price}`}</p>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                        ))}
-                                        
-                                    </div>
+                                                <div className={`p-1 ${selectedSize === size.size ? 'border-2 border-textgreenColor bg-[#d4e9e2] rounded-full' : ''}`}>
+                                                    <img src={cupsmall} alt="Medium" className="h-8 w-8" />
+                                                </div>
+                                                <p className={`text-sm font-semibold ${selectedSize === size.size ? 'text-green-500' : ''}`}>{size.size}</p>
+                                                <p className="text-xs text-gray-500">473 ml</p>
+                                            </label>
+                                    ))}
                                 </div>
 
                                 <h3 className="mb-2 font-semibold text-gray-900">Add-ons:</h3>

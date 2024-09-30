@@ -50,11 +50,10 @@ function AdminRegistration() {
       <div class="bg-white flex w-4/5 mx-auto my-10 rounded-lg flex-col lg:flex-row shadow-xl">
 
 <div class="flex justify-center items-center flex-col border-r-2 border-gray-300 flex-1 px-5">
-    <h2 class="text-2xl font-bold flex justify-center mb-5">JoeExpressAdmin</h2>
+    <h2 class="text-3xl font-bold flex justify-center mb-5 text-textgreenColor">Jayd's Cafe Admin</h2>
     <p class="flex justify-center mb-14 max-w-96 text-center">Lorem ipsum dolor sit amet, consectetur
         adipiscing elit suspendisse.</p>
 
-    <img src={logo} alt="Logo" class="w-40 h-40"/>
 </div>
 
 <div class="my-5 flex-1 p-10">
@@ -103,7 +102,7 @@ function AdminRegistration() {
             />
             {errors.password && <span className='text-red-900'> {errors.password}</span>}
 
-            <img src={hidden} onClick={togglePasswordVisibility} alt="Eye" class="absolute right-3 top-10 w-8 cursor-pointer" id="hide"/> 
+            <img src={hidden} onClick={togglePasswordVisibility} alt="Eye" class="absolute right-5 top-12 w-8 cursor-pointer" id="hide"/> 
             </div>
         </div>
 
