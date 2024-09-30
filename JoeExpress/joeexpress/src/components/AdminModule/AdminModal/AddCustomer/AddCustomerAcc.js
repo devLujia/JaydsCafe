@@ -34,73 +34,74 @@ function AddCustomerAcc({ closeModal }) {
 
   return (
 
-    <div className='modalBackground z-50' >
-      <div className='modalContainer'>
-                
-            <div className='title flex'><h1 className='text-2xl font-semibold'>Add Admin</h1> <button className='text-white text-center bg-red-500 px-2 hover:bg-red-600 rounded-sm' onClick={()=> closeModal(false)}> X </button> </div>
-                <div className='body'>
-                    <form className='grid grid-cols-1' onSubmit={handleSubmit}>
-                        
-                            {/* name */}
-                            <div className='mb-4 text-start'>
-                                <label htmlFor="name" className="text-gray-600 text-lg font-bold tracking-wider">Your Name</label>
-                                <input 
-                                type="text" 
-                                name="name" 
-                                id="name" 
-                                onChange={handleInput} 
-                                className="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
-                                placeholder="Juan Dela Cruz" 
-                                required/>
-                            </div>
+    <div className='modalBackground h-fit'>
+        <div className='modalContainer h-fit'>
+            <div className='flex justify-between mb-5'>
+                <h1 className='text-2xl font-bold'>Add Admin</h1> 
+                <button className='text-white text-center bg-red-500 px-3 hover:bg-red-600 rounded-md' onClick={()=> closeModal(false)}> X </button> 
+            </div>
 
-                            {/* email */}
-                            <div class="mb-4">
-                                <label htmlFor="email" className="text-gray-600 text-lg font-bold tracking-wider">Your email</label>
-                                <input 
-                                type="email" 
-                                name="email" 
-                                id="email" 
-                                onChange={handleInput} 
-                                className="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
-                                placeholder="name@company.com" 
-                                required/>
-                            </div>
-
-                            {/* password */}
-                            <div class="mb-4">
-                                <label htmlFor="password" className="text-gray-600 text-lg font-bold tracking-wider">Password</label>
-                                <input 
-                                type="password" 
-                                name="password" 
-                                id="password" 
-                                placeholder="••••••••" 
-                                onChange={handleInput} 
-                                className="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
-                                required/>
-                            </div>
-
-                            {/* address */}
-                            <div class="mb-4">
-                                <label htmlFor="address" className="text-gray-600 text-lg font-bold tracking-wider">Address</label>
-                                <input 
-                                type="text" 
-                                name="address" 
-                                id="address"
-                                value={values.address}
-                                onChange={handleInput}  
-                                placeholder="Location" 
-                                className="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline"
-                                style={{ zIndex: 10, position: 'relative' }} // Adjusting to ensure no overlaps
-                                required/>
-                            </div>
-                            
-                            <button type="submit" className="bg-amber-950 hover:bg-amber-900 text-white font-bold py-2 px-4 rounded-lg w-full leading-10 mb-10">
-                            Register an account</button>
-
-                    </form>
+            <form class="max-w-lg mx-10 className='grid grid-cols-1' onSubmit={handleSubmit}">
+                <div class="mb-5">
+                    <label for="napnumme" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
+                    <input 
+                        type="tel" 
+                        id="pnum" 
+                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" 
+                        placeholder="Ex. 09123459678" 
+                        required 
+                        onChange={handleInput} />
                 </div>
-      </div>
+                <div class="mb-5">
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Admin Name</label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" 
+                        placeholder="Ex. Juan Dela Cruz" 
+                        required 
+                        onChange={handleInput} />
+                </div>
+                <div class="mb-5">
+                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" 
+                        placeholder="Ex. JuanDelaCruz@gmail.com" 
+                        required 
+                        onChange={handleInput}/>
+                </div>
+                <div class="mb-5">
+                    <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" 
+                        placeholder='Enter a Password' 
+                        required
+                        onChange={handleInput}/>
+                </div>
+               {/* address */}
+               <div class="mb-5">
+                    <label htmlFor="address" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
+                    <input 
+                    type="text" 
+                    name="address" 
+                    id="address"
+                    value={values.address}
+                    onChange={handleInput}  
+                    placeholder="Location" 
+                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" 
+                    style={{ zIndex: 10, position: 'relative' }} // Adjusting to ensure no overlaps
+                    required/>
+                </div>
+
+                <div className='flex justify-center'>
+                    <button type="submit" class="mx-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Register new account</button>
+                </div>
+            </form>
+        </div>
     </div>
   )
 }
