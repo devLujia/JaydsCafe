@@ -69,8 +69,6 @@ export default function CustomerAccount() {
 
     },[userId])
 
-
-
     useEffect(()=>{
         axios.post('http://localhost:8081/fetchUserData')
         .then(result =>{
@@ -79,7 +77,7 @@ export default function CustomerAccount() {
         .catch(error=>{
             console.log("There was an error on fetching the users details! ", error);
         });
-    })
+    },[])
 
     // useEffect(()=>{
     //     const button = document.querySelector('[data-collapse-toggle="dropdown-example"]');
@@ -298,7 +296,7 @@ export default function CustomerAccount() {
                             {userData.filter((user)=>{
                                 return search.toLowerCase() === '' 
                                 ? user 
-                                : user.fullname.toLowerCase().includes(search);    
+                                : user.name.toLowerCase().includes(search);    
                             })
                             .map(user => (
                                     <tr key= {user.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -311,7 +309,7 @@ export default function CustomerAccount() {
                                     <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                                         <img src={picture} alt="Jese image" class="w-10 h-10 rounded-full"/>
                                         <div class="ps-3">
-                                            <div class="text-base font-semibold">{user.fullname}</div>
+                                            <div class="text-base font-semibold">{user.name}</div>
                                             
                                         </div>  
                                     </th>

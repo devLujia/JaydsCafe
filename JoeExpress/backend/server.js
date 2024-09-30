@@ -333,6 +333,7 @@ app.get('/items/:foodId', (req, res) => {
       SELECT
         f.id,
         f.name,
+        f.category_id,
         f.description,
         f.image_url,
         MAX(CASE WHEN fs.size = 'large' THEN fs.price END) AS Large,
@@ -894,7 +895,7 @@ app.post('/adminsignup', async (req, res) => {
 
 app.post('/fetchUserData', (req,res)=>{
 
-    const query = `SELECT id, fullname , email, role from admin`
+    const query = `SELECT id, name , email, role from user WHERE role = 'admin' OR role = 'rider' `
     db.query(query,(err,result) => {
         
         if(err){
@@ -1111,10 +1112,12 @@ app.post('/removeProduct',  async (req, res) =>{
         res.json(error)
     }
 
+    })
+
     app.post('/removeAddons',(req,res)=>{
         const {id} = req.body
 
-        const query = `Delete from adoons where id = ?`
+        const query = `Delete from addons where id = ?`
 
         db.query(query, [id], (err, result)=> {
             if(err){
@@ -1123,7 +1126,19 @@ app.post('/removeProduct',  async (req, res) =>{
             
         })
     })
+    
+    app.post('/removeCategory',(req,res)=>{
+        const {id} = req.body
 
+        const query = `Delete from Category where id = ?`
+
+        db.query(query, [id], (err, result)=> {
+            if(err){
+                res.json({err: "Unable to delete into addons"})
+            }
+            res.json({success: true})
+            
+        })
     })
 
     app.post('/fetchProduct',(req,res) =>{
@@ -1241,7 +1256,7 @@ app.post('/removeProduct',  async (req, res) =>{
         
         app.post('/updateCategory' , (req,res) => {
 
-        const { title } = req.body;
+        const { title, id  } = req.body;
 
         const query = 
         `
@@ -1252,7 +1267,7 @@ app.post('/removeProduct',  async (req, res) =>{
         id = ?
         `
 
-        db.query (query,[title], (err,result) => {
+        db.query (query,[title, id], (err,result) => {
             if (err){
                 res.json({err: "Unable to update into category"})
             }
@@ -1353,20 +1368,20 @@ app.post('/removeProduct',  async (req, res) =>{
 
     })
 
-    app.post('/deleteCategory',(req,res)=>{
-        const {id} = req.body;
+    // app.post('/deleteCategory',(req,res)=>{
+    //     const {id} = req.body;
 
-        const query = 
-        `DELETE FROM category WHERE id = ? `
+    //     const query = 
+    //     `DELETE FROM category WHERE id = ? `
 
-        db.query(query, [id] ,(err,result)=>{
-            if(err){
-                res.json({err:"ERROR"});
-            }
+    //     db.query(query, [id] ,(err,result)=>{
+    //         if(err){
+    //             res.json({err:"ERROR"});
+    //         }
     
-        })   
+    //     })   
 
-    })
+    // })
 
     app.post('/fetchCategory', (req,res)=>{
         const query = "Select * from category"
@@ -1383,16 +1398,17 @@ app.post('/removeProduct',  async (req, res) =>{
 
     app.post('/addAddons',(req,res)=>{
 
-        const {name, price} = req.body;
+        const {name, price, category_id} = req.body;
         
-        const query = `Insert into addons (name, price) VALUES
-        (?, ?)`
+        const query = `Insert into addons (name, price, category_id) VALUES
+        (?, ?, ?)`
 
-        db.query(query, [name, price] ,(err, result) => {
+        db.query(query, [name, price, category_id] ,(err, result) => {
             
             if(err){
                 res.json({err:"ERROR"});
             }
+            res.json({Sucess: true})
              
         })
 

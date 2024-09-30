@@ -365,7 +365,8 @@ return(
 
                         {addons && (
                             <div id="accordion-color-body-1" className="w-full p-5 max-h-52 overflow-y-auto">
-                                {fetchAddons.map(addon => (
+                                {fetchAddons.filter((addon) => addon.category_id === food.category_id)
+                                .map(addon => (
                                     
                                     <div key={addon.id} class="flex justify-between items-center mb-4 border-b-2 border-gray-200 py-3">
                                     <div>
