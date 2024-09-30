@@ -5,24 +5,17 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  
+  height: fit-content;
 }
 
 .modalContainer {
   width: 500px;
-  height: 600px;
+  height: fit-content;
   border-radius: 12px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
   flex-direction: column;
-}
-
-.modalContainer .title {
-  
-  text-align: center;
-  margin-top: 10px;
-  justify-content: space-between;
 }
 
 .titleCloseBtn {
@@ -39,7 +32,7 @@
 
 .modalContainer .body {
   flex: 80%;
-  height: 60%;
+  height: fit-content;
   display: flex;
   justify-content: center;
   align-items: flex-start;

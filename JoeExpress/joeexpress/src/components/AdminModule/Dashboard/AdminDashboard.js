@@ -332,44 +332,48 @@ function AdminDashboard() {
                   <p class="mb-16">Sales Summary</p>
 
                   <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4">
-                     <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-red-200 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="100">
+                     <div class="px-4 py-4 flex flex-col rounded-xl bg-red-200 shadow-lg h-fit" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="100">
                         <div class= "w-10 h-10 mb-6 bg-red-400 rounded-full justify-center flex items-center flex-shrink-0">
                            <img src={sales}></img>
                         </div>
-                        <h1 class="font-bold text-lg text-gray-700"><span>₱</span>134</h1>
-                        <div class="inline-flex justify-between font-normal text-gray-400">
+                        <h1 class="font-bold text-lg text-gray-700 mb-1"><span>₱</span>134</h1>
+                        <div class="inline-flex justify-between font-normal text-gray-600 mb-1">
                            <p>Total Sales</p>
                         </div>
+                        <p className='font-semibold text-blue-500 pb-2'>Per Month</p>
                      </div>
 
-                     <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-yellow-100 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="200">
+                     <div class="px-4 py-4 flex flex-col h-fit rounded-xl bg-yellow-100 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="200">
                         <div class= "w-10 h-10 mb-6 bg-yellow-400 rounded-full justify-center flex items-center flex-shrink-0 ">
                            <img src={order}></img>
                         </div>
-                        <h1 class="font-bold text-lg text-gray-700">{totalOrder} </h1>
-                        <div class="inline-flex justify-between font-normal text-gray-400">
+                        <h1 class="font-bold text-lg text-gray-700 mb-1">{totalOrder} </h1>
+                        <div class="inline-flex justify-between font-normal text-gray-600 mb-1">
                            <p>Total Order</p>
                         </div>
+                        <p className='font-semibold text-blue-500 pb-2'>This Week</p>
                      </div>
 
-                     <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-green-100 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="300">
+                     <div class="px-4 py-4 flex flex-col h-fit rounded-xl bg-green-100 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="300">
                         <div class= "w-10 h-10 mb-6 bg-green-400 rounded-full justify-center flex items-center flex-shrink-0">
                            <img src={product}></img>
                         </div>
-                        <h1 class="font-bold text-lg text-gray-700">{totalRevenue} </h1>
-                        <div class="font-normal text-gray-400">
+                        <h1 class="font-bold text-lg text-gray-700 mb-1">{totalRevenue} </h1>
+                        <div class="font-normal text-gray-600 mb-1">
                            <p>Product Sold</p>
                         </div>
+                        <p className='font-semibold text-blue-500 pb-2'>Per Month</p>
                      </div>
 
-                     <div class="px-4 py-4 flex flex-col h-40 rounded-xl bg-violet-100 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="400">
+                     <div class="px-4 py-4 flex flex-col h-fit rounded-xl bg-violet-100 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="400">
                         <div class= "w-10 h-10 mb-6 bg-violet-400 rounded-full justify-center flex items-center flex-shrink-0 ">
                            <img src={customer}></img>
                         </div>
-                        <h1 class="font-bold text-lg text-gray-700">{totalCustomer} </h1>
-                        <div class="inline-flex justify-between font-normal text-gray-400">
+                        <h1 class="font-bold text-lg text-gray-700 mb-1">{totalCustomer} </h1>
+                        <div class="inline-flex justify-between font-normal text-gray-600 mb-1">
                            <p>New Customer</p>
                         </div>
+                        <p className='font-semibold text-blue-500 pb-2'>Per Week</p>
                      </div>
 
                   </div>

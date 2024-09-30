@@ -17,19 +17,22 @@ function Areyousure( {closeModal, id} ) {
     <div className='modalBackground z-50' >
       <div className='modalContainer'>
                 
-            <div className='title flex'><h1>Are you sure you want to delete the user ?</h1> <button className='text-white text-center bg-red-500 px-2 hover:bg-red-600 rounded-sm' onClick={()=> closeModal(false)}> X </button> </div>
-            <div className='body'>
-                
+            <div className='title flex'>
+              <h1 className='text-black text-2xl font-semibold'>Delete Admin!</h1> 
+              <button className='text-white text-center bg-red-500 px-3 py-2 hover:bg-red-600 rounded-md' onClick={()=> closeModal(false)}> X </button> 
+            </div>
+
+            <div className='body flex flex-col mb-0'>
+              <p className='text-black font-normal mb-5'>
+                Are you sure you want to delete the user ?
+              </p>
             
-            <button
-            onClick={() => {
-                closeModal(false);
-            }}
-            id="cancelBtn"
-          >
-            Cancel
-          </button>
-          <button onClick={()=>handleDeleteUser()}>Continue</button>
+              <div className='flex flex-row w-full'>
+                <button onClick={() => { closeModal(false); }} id="cancelBtn">
+                  Cancel
+                </button>
+                <button onClick={()=>handleDeleteUser()}>Continue</button>
+              </div>
             </div>
 
       </div>
