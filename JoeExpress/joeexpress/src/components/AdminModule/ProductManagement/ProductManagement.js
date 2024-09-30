@@ -333,232 +333,230 @@ function ProductManagement() {
         </aside>
         
         <div className="p-4 sm:ml-72 bg-slate-100">
-  <div className="relative shadow-xl sm:rounded-lg mx-auto w-full max-w-7xl">
-    <div className="flex items-center flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900 rounded-t-xl">
-      {/* <div className="ms-2">
-        <h1 className="text-2xl font-semibold">Categories</h1>
-      </div> */}
+          <div className="relative shadow-xl sm:rounded-lg mx-auto w-full max-w-7xl">
+            <div className="flex items-center flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900 rounded-t-xl">
+              {/* <div className="ms-2">
+                <h1 className="text-2xl font-semibold">Categories</h1>
+              </div> */}
 
-      <div className="ms-2 text-md">
-        <select 
-          id="select" 
-          name="select" 
-          value={selectedValue} 
-          onChange={handleSelectChange} 
-          className="rounded-lg px-3 py-2 w-40 ps-2 border-2 border-slate-400"
-        >
-          <option value="Product">Product</option>
-          <option value="Addons">Addons</option>
-          <option value="Category">Category</option>
-        </select>
-      </div>
+              <div className="ms-2 text-md">
+                <select 
+                  id="select" 
+                  name="select" 
+                  value={selectedValue} 
+                  onChange={handleSelectChange} 
+                  className="rounded-lg px-3 py-2 w-40 ps-2 border-2 border-slate-400"
+                >
+                  <option value="Product">Product</option>
+                  <option value="Addons">Addons</option>
+                  <option value="Category">Category</option>
+                </select>
+              </div>
 
-      <div className="relative">
-            <div className="absolute inset-y-0 ml-5 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-              </svg>
-            </div>
-            <input 
-              type="text"
-              id="table-search-users" 
-              style={{ textTransform: 'uppercase' }} 
-              onChange={(e) => setAddonSearch(e.target.value)}
-              className="block p-2 ps-10 text-sm ml-5 text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-              placeholder="Search" 
-            />
-      </div>
+              <div className="relative">
+                    <div className="absolute inset-y-0 ml-5 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                      <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                      </svg>
+                    </div>
+                    <input 
+                      type="text"
+                      id="table-search-users" 
+                      style={{ textTransform: 'uppercase' }} 
+                      onChange={(e) => setAddonSearch(e.target.value)}
+                      className="block p-2 ps-10 text-sm ml-5 text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                      placeholder="Search" 
+                    />
+              </div>
 
-      {selectedValue === 'Product' ? (
-  <button 
-    onClick={toggleAddProductModal} 
-    type="button" 
-    className="ml-auto text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
-  >
-    <img src={plus} alt="Plus_Product" className="me-2 md:block" />
-    <span className="md:block hidden"> Add Product </span>
-  </button>
-) : selectedValue === 'Addons' ? (
-  <button 
-    onClick={toggleAddAddonsModal} 
-    type="button" 
-    className="ml-auto text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
-  >
-    <img src={plus} alt="Plus_Addons" className="me-2 md:block" />
-    <span className="md:block hidden"> Add Addons </span>
-  </button>
-) : selectedValue === 'Category' ? (
-  <button 
-    onClick={toggleAddCategoryModal} // Assuming you meant to toggle a category modal
-    type="button" 
-    className="ml-auto text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
-  >
-    <img src={plus} alt="Plus_Category" className="me-2 md:block" />
-    <span className="md:block hidden"> Add Category </span>
-  </button>
-) : null}
+              {selectedValue === 'Product' ? (
+          <button 
+            onClick={toggleAddProductModal} 
+            type="button" 
+            className="ml-auto text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+          >
+            <img src={plus} alt="Plus_Product" className="me-2 md:block" />
+            <span className="md:block hidden"> Add Product </span>
+          </button>
+        ) : selectedValue === 'Addons' ? (
+          <button 
+            onClick={toggleAddAddonsModal} 
+            type="button" 
+            className="ml-auto text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+          >
+            <img src={plus} alt="Plus_Addons" className="me-2 md:block" />
+            <span className="md:block hidden"> Add Addons </span>
+          </button>
+        ) : selectedValue === 'Category' ? (
+          <button 
+            onClick={toggleAddCategoryModal} // Assuming you meant to toggle a category modal
+            type="button" 
+            className="ml-auto text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+          >
+            <img src={plus} alt="Plus_Category" className="me-2 md:block" />
+            <span className="md:block hidden"> Add Category </span>
+          </button>
+        ) : null}
 
-      
-
-
-
-    </div>
-
-    {selectedValue === 'Product' ? (
-      <div className="bg-white rounded-b-xl">
-        <div className="text-center">
-          <h1 className="text-5xl font-semibold tracking-wider">Products</h1>
-        </div>
-
-        <div id="mt-series" className="w-full max-w-7xl mx-auto mt-4">
-          <div className="container mx-auto p-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
               
-              {foods
-                .filter(food => food.name.toLowerCase().includes(addonSearch.toLowerCase()))
-                .map((food) => (
-                  <div key={food.id} className="rounded-lg p-3 shadow-2xl relative outline outline-gray-500 hover:scale-95 duration-300 hover:bg-jaydsBg">
-                    <div className="rounded-full bg-menuCirclebg p-4 aspect-square">
-                      <img src={food.image_url} alt="Milk Tea" className="w-full h-full object-contain" />
-                    </div>
 
-                    <div className="text-center">
-                      <h3 className="text-auto font-bold mt-4 min-h-15">{food.name}</h3>
-                      {sizes[food.id]?.map(size =>(
-                        <React.Fragment key={size.id}>
-                        <p className="text-auto font-normal mt-1">
-                        Size:
-                        <span className="text-auto font-semibold mt-1"> {size.size.toUpperCase()} (₱ {size.price}.00)</span>
-                      </p>
-                        <p className="text-auto font-normal mt-1">
-                        
-                      </p>
-                      </React.Fragment>
-                        
-                    ))}
-                    </div>
 
-                    <div className="flex justify-center mt-4 space-x-2">
-                      <button onClick={() => handleEditProduct(food.id)} className="hover:scale-110 duration-300">
-                        <img src={edit} alt="edit" className="brightness-0 w-10 h-10" />
-                      </button>
 
-                      <button onClick={(event) => handleRemoveProduct(food.id)} className="hover:scale-110 duration-300">
-                        <img src={trashbin2} alt="delete" className="brightness-0 w-12 h-12" />
-                      </button>
+            </div>
 
-                      <button onClick={() => handleAddSize(food.id)} className="hover:scale-110 duration-300">
-                        <img src={plus} className="filter invert w-12 h-12" alt="Add size" />
-                      </button>
+            {selectedValue === 'Product' ? (
+              <div className="bg-white rounded-b-xl">
+                <div className="text-center">
+                  <h1 className="text-5xl font-semibold tracking-wider">Products</h1>
+                </div>
 
-                      <button onClick={() => handleHide(food.id)} className="hover:scale-110 duration-300">
-                        <img src={hiddenImage} alt="hide" className="w-10 h-10" />
-                      </button>
+                <div id="mt-series" className="w-full max-w-7xl mx-auto mt-4">
+                  <div className="container mx-auto p-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
+                      
+                      {foods
+                        .filter(food => food.name.toLowerCase().includes(addonSearch.toLowerCase()))
+                        .map((food) => (
+                          <div key={food.id} className="rounded-lg p-3 shadow-2xl relative outline outline-gray-500 hover:scale-95 duration-300 hover:bg-jaydsBg">
+                            <div className="rounded-full bg-menuCirclebg p-4 aspect-square">
+                              <img src={food.image_url} alt="Milk Tea" className="w-full h-full object-contain" />
+                            </div>
+
+                            <div className="text-center">
+                              <h3 className="text-auto font-bold mt-4 min-h-15">{food.name}</h3>
+                              {sizes[food.id]?.map(size =>(
+                                <React.Fragment key={size.id}>
+                                <p className="text-auto font-normal mt-1">
+                                Size:
+                                <span className="text-auto font-semibold mt-1"> {size.size.toUpperCase()} (₱ {size.price}.00)</span>
+                              </p>
+                                <p className="text-auto font-normal mt-1">
+                                
+                              </p>
+                              </React.Fragment>
+                                
+                            ))}
+                            </div>
+
+                            <div className="flex justify-center mt-4 space-x-2">
+                              <button onClick={() => handleEditProduct(food.id)} className="hover:scale-110 duration-300" title='Edit Product'>
+                                <img src={edit} alt="edit" className="brightness-0 w-10 h-10" />
+                              </button>
+
+                              <button onClick={(event) => handleRemoveProduct(food.id)} className="hover:scale-110 duration-300" title='Delete'>
+                                <img src={trashbin2} alt="delete" className="brightness-0 w-12 h-12" />
+                              </button>
+
+                              <button onClick={() => handleAddSize(food.id)} className="hover:scale-110 duration-300" title='Add Size'>
+                                <img src={plus} className="filter invert w-12 h-12" alt="Add size" />
+                              </button>
+
+                              <button onClick={() => handleHide(food.id)} className="hover:scale-110 duration-300" title='Hide'>
+                                <img src={hiddenImage} alt="hide" className="w-10 h-10" />
+                              </button>
+                            </div>
+                          </div>
+                        ))}
                     </div>
                   </div>
-                ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    ) : selectedValue === 'Addons' ? (
-      <div className="relative shadow-xl sm:rounded-lg mx-auto w-full max-w-7xl">
-        
-        <div className="bg-white rounded-b-xl mb-20">
-          <div className="text-center">
-            <h1 className="text-5xl font-semibold tracking-wider">Addons</h1>
-          </div>
+                </div>
+              </div>
+            ) : selectedValue === 'Addons' ? (
+              <div className="relative shadow-xl sm:rounded-lg mx-auto w-full max-w-7xl">
+                
+                <div className="bg-white rounded-b-xl mb-20">
+                  <div className="text-center">
+                    <h1 className="text-5xl font-semibold tracking-wider">Addons</h1>
+                  </div>
 
-          <div id="mt-series" className="w-full max-w-7xl mx-auto mt-4">
-            <div className="container mx-auto p-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
-                {addons
-                  .filter(addon => addon.name.toLowerCase().includes(addonSearch.toLowerCase()))
-                  .map(addon => (
-                    <div key={addon.id} className="rounded-lg p-3 shadow-2xl relative outline outline-gray-500 hover:scale-95 duration-300 hover:bg-jaydsBg">
-                      <div className="text-center">
-                        <h3 className="text-xl font-semibold mt-4 min-h-15">{addon.name}</h3>
-                        <p className="text-md font-normal mt-1">
-                          <span className="text-xl font-semibold mt-1">Price: </span> ₱ {addon.price}
-                        </p>
-                      </div>
+                  <div id="mt-series" className="w-full max-w-7xl mx-auto mt-4">
+                    <div className="container mx-auto p-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
+                        {addons
+                          .filter(addon => addon.name.toLowerCase().includes(addonSearch.toLowerCase()))
+                          .map(addon => (
+                            <div key={addon.id} className="rounded-lg p-3 shadow-2xl relative outline outline-gray-500 hover:scale-95 duration-300 hover:bg-jaydsBg">
+                              <div className="text-center">
+                                <h3 className="text-xl font-semibold mt-4 min-h-15">{addon.name}</h3>
+                                <p className="text-md font-normal mt-1">
+                                  <span className="text-xl font-semibold mt-1">Price: </span> ₱ {addon.price}
+                                </p>
+                              </div>
 
-                      <div className="flex justify-center mt-4 space-x-2">
-                        <button 
-                          onClick={() => handleEditAddons(addon.id)}
-                          className="hover:scale-110 duration-300"
-                        >
-                          <img src={edit} alt="edit" className="w-10 h-10" />
-                        </button>
+                              <div className="flex justify-center mt-4 space-x-2">
+                                <button onClick={() => handleEditAddons(addon.id)} 
+                                className="hover:scale-110 duration-300" 
+                                title='Edit Addons'>
+                                  <img src={edit} alt="edit" className="w-10 h-10" />
+                                </button>
 
-                        <button
-                          onClick={() => handleRemoveProduct(addon.id)}
-                          className="hover:scale-110 duration-300"
-                        >
-                          <img src={trashbin2} alt="delete" className="w-12 h-12" />
-                        </button>
+                                <button
+                                  onClick={() => handleRemoveProduct(addon.id)}
+                                  className="hover:scale-110 duration-300" 
+                                  title='Delete'
+                                >
+                                  <img src={trashbin2} alt="delete" className="w-12 h-12" />
+                                </button>
 
-                        <button 
-                          onClick={() => handleHide(addon.id)}
-                          className="hover:scale-110 duration-300"
-                        >
-                          <img src={hiddenImage} alt="hide" className="w-10 h-10" />
-                        </button>
+                                <button 
+                                  onClick={() => handleHide(addon.id)}
+                                  className="hover:scale-110 duration-300" 
+                                  title='Hide Addons'
+                                >
+                                  <img src={hiddenImage} alt="hide" className="w-10 h-10" />
+                                </button>
+                              </div>
+                            </div>
+                          ))}
                       </div>
                     </div>
-                  ))}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    ) : (
-      <div className="relative shadow-xl sm:rounded-lg mx-auto w-full max-w-7xl">
-        <div className="bg-white rounded-b-xl mb-20">
-          <div className="text-center">
-            <h1 className="text-5xl font-semibold tracking-wider">Categories</h1>
-          </div>
+            ) : (
+              <div className="relative shadow-xl sm:rounded-lg mx-auto w-full max-w-7xl">
+                <div className="bg-white rounded-b-xl mb-20">
+                  <div className="text-center">
+                    <h1 className="text-5xl font-semibold tracking-wider">Categories</h1>
+                  </div>
 
-          <div id="mt-series" className="w-full max-w-7xl mx-auto mt-4">
-            <div className="container mx-auto p-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
-                {categories
-                  .filter(category => category.title.toLowerCase().includes(addonSearch.toLowerCase()))
-                  .map(category => (
-                    <div key={category.id} className="rounded-lg p-3 shadow-2xl relative outline outline-gray-500 hover:scale-95 duration-300 hover:bg-jaydsBg">
-                      <div className="text-center">
-                        <h3 className="text-xl font-semibold mt-4 min-h-15">{category.title}</h3>
+                  <div id="mt-series" className="w-full max-w-7xl mx-auto mt-4">
+                    <div className="container mx-auto p-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
+                        {categories
+                          .filter(category => category.title.toLowerCase().includes(addonSearch.toLowerCase()))
+                          .map(category => (
+                            <div key={category.id} className="rounded-lg p-3 shadow-2xl relative outline outline-gray-500 hover:scale-95 duration-300 hover:bg-jaydsBg">
+                              <div className="text-center">
+                                <h3 className="text-xl font-semibold mt-4 min-h-15">{category.title}</h3>
+                              </div>
+
+                              {/* <div className="flex justify-center mt-4 space-x-2">
+                                <button 
+                                  onClick={() => handleEditCategory(category.id)}
+                                  className="hover:scale-110 duration-300"
+                                >
+                                  <img src={edit} alt="edit" className="w-10 h-10" />
+                                </button>
+
+                                <button
+                                  onClick={() => handleRemoveCategory(category.id)}
+                                  className="hover:scale-110 duration-300"
+                                >
+                                  <img src={trashbin2} alt="delete" className="w-12 h-12" />
+                                </button>
+                              </div> */}
+                            </div>
+                          ))}
                       </div>
-
-                      {/* <div className="flex justify-center mt-4 space-x-2">
-                        <button 
-                          onClick={() => handleEditCategory(category.id)}
-                          className="hover:scale-110 duration-300"
-                        >
-                          <img src={edit} alt="edit" className="w-10 h-10" />
-                        </button>
-
-                        <button
-                          onClick={() => handleRemoveCategory(category.id)}
-                          className="hover:scale-110 duration-300"
-                        >
-                          <img src={trashbin2} alt="delete" className="w-12 h-12" />
-                        </button>
-                      </div> */}
                     </div>
-                  ))}
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
-      </div>
-    )}
-  </div>
-</div>
 
-
-        {/* Eto yung bagong design sa Product management, Cards na siya */}
-        
     </div>
   )
 }

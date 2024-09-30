@@ -248,16 +248,16 @@ export default function CustomerAccount() {
                     </div>
 
                     <div class="h-fit items-center justify-center flex space-x-1 ps-4">
-                        <button>
+                        <button title='Settings'>
                             <img src={settings} alt="settings"/>
                         </button>
-                        <button>
+                        <button title='Delete'>
                             <img src={trashbin2} alt="trash"/>
                         </button>
-                        <button>
+                        <button title='Question'>
                             <img src={link} alt="ellipsis"/>
                         </button>
-                        <button>
+                        <button title='More'>
                             <img src={ellipsis} alt="ellipsis"/>
                         </button>
                     </div>
@@ -324,11 +324,11 @@ export default function CustomerAccount() {
                                         </div>
                                     </td>
                                     <td class="flex items-center px-6 py-4 space-x-2">
-                                        <button onClick={() => handleEditClick(user.id)} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                            <img src={edit} alt="edit" class="px-2"/>
+                                        <button onClick={() => handleEditClick(user.id)} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" title='Edit Account'>
+                                            <img src={edit} alt="edit" class="px-2 filter invert"/>
                                         </button>
                                         
-                                        <button onClick={toggleAYSModal} type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                        <button onClick={toggleAYSModal} type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" title='Delete Account'>
                                             <img src={trashbin3} alt="trashbin" class="px-2"/>
                                             {AYSModal && <Areyousure closeModal={setAYSModal} id={user.id}/>}
                                         </button>

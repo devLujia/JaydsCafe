@@ -327,7 +327,7 @@ export default function ContentManagement() {
                                 className="w-full h-48 px-2 rounded-lg bg-jaydsBg overflow-hidden"
                                 disabled
                             />
-                            <button onClick={() => handleEditCms(cms.id)} className='absolute top-2 right-2 p-1 bg-textgreenColor rounded-lg'>
+                            <button onClick={() => handleEditCms(cms.id)} className='absolute top-2 right-2 p-1 bg-textgreenColor rounded-lg' title='Edit Content'>
                                 <img src={edit} className='filter invert' alt="Edit" />
                             </button>
                         </div>

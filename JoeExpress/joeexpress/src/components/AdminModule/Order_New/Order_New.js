@@ -261,7 +261,7 @@ export default function Order_New() {
                     
                 </div>
 
-                <div class="w-4/5 mx-auto rounded-lg py-2 mb-16">
+                <div class="w-5/6 mx-auto rounded-lg py-2 mb-16">
                         <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
                             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -331,8 +331,20 @@ export default function Order_New() {
                                         {order.status === 'paid' ? <div className="bg-green-100 text-blue-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status}</div> : <div className="bg-green-100 text-orange-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status} </div>}
                                           
                                        </td>
-                                       <td className="flex items-center px-6 py-4 space-x-2">
-                                          <div className="h-fit items-center justify-center flex space-x-3 ps-4 mx-auto">
+                                       <td className=" px-6 py-4">
+                                          <button className='py-2 px-3 bg-textgreenColor text-white rounded-full hidden'>
+                                            Complete
+                                          </button>
+
+                                          <button className='py-2 px-3 bg-yellow-600 text-white rounded-full'>
+                                            On Process
+                                          </button>
+
+                                          <button className='py-2 px-3 bg-red-600 text-white rounded-full hidden'>
+                                            Cancel
+                                          </button>
+                                          
+                                          {/* <div className="h-fit items-center justify-center space-x-3 ps-4 mx-auto">
                                              <button onClick={()=> toggleOrderDetails(order.order_id)}>
                                                 <img src={eye} alt="eye" className="w-6 h-6" />
                                              </button>
@@ -342,7 +354,7 @@ export default function Order_New() {
                                              <button onClick={()=> getTheOrder(order.order_id, order.status)}>
                                                 <img src={check} alt="check"/>
                                              </button>
-                                          </div>
+                                          </div> */}
                                        </td>
 
                                     </tr>
