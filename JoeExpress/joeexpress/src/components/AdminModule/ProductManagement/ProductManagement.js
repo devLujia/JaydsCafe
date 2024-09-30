@@ -228,7 +228,7 @@ function ProductManagement() {
             {/* <!-- Button for Login or Sign Up --> */}
             <div class="flex justify-end items-center">
                 <button className='rounded-full p-2 bg-white border border-gray-400'>
-                    <img src={notif}></img>
+                    <img src={notif} title='Notification'></img>
                 </button>
                 <div class="px-4 py-3 text-sm text-gray-900 flex flex-col items-center justify-end">
                     <div class="font-bold">Migz Gomez Go</div>

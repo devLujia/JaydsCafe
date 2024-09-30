@@ -678,6 +678,7 @@ function Home() {
             <>
               <div className="flex space-x-2 mr-2">
                 <button onClick={toggleDropdown} 
+                title='Profile'
                   className="focus:outline-none">
                   <img src={userIcon} alt="user" className="mr-3" />
                 </button>
@@ -702,7 +703,7 @@ function Home() {
             )}
 
                   <Link to={'/cart'} className="relative inline-block">
-                    <img src={bagIcon} alt="bag" className="w-8 h-8" /> {/* Adjust size as needed */}
+                    <img src={bagIcon} alt="bag" className="w-8 h-8" title='Cart' /> {/* Adjust size as needed */}
                     {orderNotif.totalOrders > 0 && (
 
                       <span className="absolute top-[-5px] right-[-10px] bg-red-500 text-white text-base rounded-full px-2.5">
@@ -739,7 +740,7 @@ function Home() {
             <button
               id="open-chat"
               onClick={toggleChatModal}
-              className="bg-footer text-white py-2 px-4 rounded-full hover:bg-amber-700 transition duration-300 flex items-center w-16 h-16"
+              className="bg-textgreenColor text-white py-2 px-4 rounded-full hover:bg-green-800 hover:scale-110 transition duration-300 flex items-center w-16 h-16"
             >
               <img src={chat} alt="chat" />
             </button>
@@ -748,7 +749,7 @@ function Home() {
           {ChatModal && (
             <div id="chat-container" className="fixed bottom-16 right-4 w-96 z-50">
               <div className="bg-cards2 shadow-md rounded-lg max-w-lg w-full">
-                <div className="p-4 border-b bg-footer text-white rounded-t-lg flex justify-between items-center">
+                <div className="p-4 border-b bg-textgreenColor text-white rounded-t-lg flex justify-between items-center">
                   <p className="text-lg font-semibold">JoeBot</p>
                   <button
                     onClick={toggleChatModal}
@@ -794,7 +795,7 @@ function Home() {
                   />
                   <button
                     id="send-button"
-                    className="bg-footer text-white px-4 py-2 rounded-r-md hover:bg-amber-700 transition duration-300"
+                    className="bg-textgreenColor text-white px-4 py-2 rounded-r-md hover:bg-amber-700 transition duration-300"
                   >
                     Send
                   </button>

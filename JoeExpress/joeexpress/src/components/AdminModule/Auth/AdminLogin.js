@@ -99,7 +99,7 @@ function AdminLogin() {
             />
             {errors.password && <span className='text-red-900'> {errors.password}</span>}
 
-            <img src={hidden} onClick={togglePasswordVisibility} alt="Eye" class="absolute right-3 top-10 w-8 cursor-pointer" id="hide"/> 
+            <img src={hidden} onClick={togglePasswordVisibility} alt="Eye" class="absolute right-5 top-12 w-8 cursor-pointer" id="hide"/> 
             </div>
         </div>
 
