@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 28, 2024 at 07:19 PM
+-- Generation Time: Oct 02, 2024 at 02:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -30,23 +30,23 @@ SET time_zone = "+00:00";
 CREATE TABLE `addons` (
   `id` int(11) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
-  `price` decimal(10,2) NOT NULL
+  `price` decimal(10,2) NOT NULL,
+  `category_id` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `addons`
 --
 
-INSERT INTO `addons` (`id`, `name`, `price`) VALUES
-(1, 'taengkambing', 59.00),
-(2, 'bilobilo', 79.00),
-(3, 'fruit salad', 39.00),
-(4, 'karton', 34.00),
-(5, 'cheesesabinimam', 59.00),
-(6, 'cheesesabinimam', 50.00),
-(7, 'test-bibingka', 79.00),
-(8, 'NewTest', 12.00),
-(9, 'check', 20.00);
+INSERT INTO `addons` (`id`, `name`, `price`, `category_id`) VALUES
+(1, 'taengkambing', 59.00, 1),
+(2, 'bilobilo', 79.00, 1),
+(3, 'fruit salad', 39.00, 2),
+(4, 'karton', 34.00, 3),
+(5, 'cheesesabinimam', 59.00, 4),
+(6, 'cheesesabinimam', 50.00, 5),
+(7, 'test-bibingka', 79.00, 7),
+(19, 'Cheese', 30.00, 34);
 
 -- --------------------------------------------------------
 
@@ -146,9 +146,7 @@ INSERT INTO `category` (`id`, `title`, `image_url`, `active`, `featured`) VALUES
 (5, 'Non Coffee', 'image/milktea.png', 'true', 'false'),
 (7, 'taengkambing', 'taengkambing.png', 'true', 'false'),
 (26, 'zero', 'image_url_1725085405582.jpg', 'true', 'false'),
-(27, 'hello', '', 'true', 'false'),
-(28, 'check', '', 'true', 'false'),
-(29, 'check', '', 'true', 'false');
+(34, 'Pasta', '', 'true', 'false');
 
 -- --------------------------------------------------------
 
@@ -285,7 +283,11 @@ INSERT INTO `foods` (`id`, `name`, `description`, `image_url`, `category_id`, `v
 (59, 'Strawberry Cheesecake', 'lorem ipsum', 'images/americano.png', 4, 1),
 (110, 'New Product', 'Product New', '', 5, 1),
 (111, 'try', 'try', '/images/image_url_1726907822929.png', 7, 1),
-(113, 'try lang ulet', 'braaaaat', '/images/image_url_1726908028723.png', 26, 1);
+(113, 'try lang ulet', 'braaaaat', '/images/image_url_1726908028723.png', 26, 1),
+(114, 'ispagiti', 'Hehe', '/images/image_url_1727864602811.jpg', 34, 1),
+(115, 'TESTOCT22024', 'TESTOCT22024', '/images/image_url_1727865359920.jpg', 34, 1),
+(116, 'TESTOCT2', 'TESTOCT2', '/images/image_url_1727865493845.jpg', 3, 1),
+(117, 'TEST6:41', 'TEST6:41', '/images/image_url_1727865705842.png', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -296,7 +298,7 @@ INSERT INTO `foods` (`id`, `name`, `description`, `image_url`, `category_id`, `v
 CREATE TABLE `food_sizes` (
   `id` int(11) NOT NULL,
   `food_id` int(50) UNSIGNED DEFAULT NULL,
-  `size` enum('small','medium','large') NOT NULL,
+  `size` varchar(255) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
   `date_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -397,7 +399,9 @@ INSERT INTO `food_sizes` (`id`, `food_id`, `size`, `price`, `date_created`, `dat
 (175, 111, 'medium', 0.00, '2024-09-21 08:37:02', '2024-09-21 08:37:02'),
 (177, 113, 'medium', 29.00, '2024-09-21 08:40:28', '2024-09-21 08:40:28'),
 (178, 18, 'small', 27.00, '2024-09-28 13:54:02', '2024-09-28 13:54:02'),
-(179, 19, 'small', 29.00, '2024-09-28 14:18:55', '2024-09-28 14:18:55');
+(179, 19, 'small', 29.00, '2024-09-28 14:18:55', '2024-09-28 14:18:55'),
+(180, 114, 'medium', 15.00, '2024-10-02 10:23:22', '2024-10-02 10:23:22'),
+(181, 117, 'TEST6:41', 20.00, '2024-10-02 10:41:45', '2024-10-02 10:41:45');
 
 -- --------------------------------------------------------
 
@@ -424,7 +428,10 @@ INSERT INTO `orders` (`order_id`, `customer_id`, `order_date`, `status`, `totalP
 (1913, 31, '2024-09-23 09:28:04', 'completed', 100),
 (1914, 31, '2024-09-23 10:05:35', 'completed', 100),
 (1915, 31, '2024-09-23 17:46:49', 'completed', 296),
-(1916, 31, '2024-09-25 15:03:41', 'completed', 1389);
+(1916, 31, '2024-09-25 15:03:41', 'completed', 1389),
+(1917, 31, '2024-10-02 10:12:45', 'paid', 354),
+(1918, 31, '2024-10-02 10:16:45', 'paid', 354),
+(1919, 31, '2024-10-02 10:20:16', 'paid', 108);
 
 -- --------------------------------------------------------
 
@@ -452,7 +459,10 @@ INSERT INTO `orders_food` (`id`, `order_id`, `food_id`, `quantity`, `size`, `add
 (101, 1914, 19, 1, 'Medium', 'karton (₱34),cheesesabinimam (₱59),test-bibingka (₱79)'),
 (102, 1915, 19, 2, 'Large', 'fruit salad (₱39),cheesesabinimam (₱50)'),
 (103, 1916, 18, 4, 'Large', 'taengkambing (₱59),bilobilo (₱79)'),
-(104, 1916, 18, 1, 'Medium', 'taengkambing (₱59),bilobilo (₱79)');
+(104, 1916, 18, 1, 'Medium', 'taengkambing (₱59),bilobilo (₱79)'),
+(105, 1917, 54, 3, 'Medium', 'cheesesabinimam (₱59)'),
+(106, 1918, 19, 3, 'Large', 'taengkambing (₱59)'),
+(107, 1919, 18, 1, 'Medium', 'taengkambing (₱59)');
 
 -- --------------------------------------------------------
 
@@ -606,7 +616,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `addons`
 --
 ALTER TABLE `addons`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `admin`
@@ -624,13 +634,13 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(50) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(50) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `cms`
@@ -654,25 +664,25 @@ ALTER TABLE `faq_cms`
 -- AUTO_INCREMENT for table `foods`
 --
 ALTER TABLE `foods`
-  MODIFY `id` int(50) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
+  MODIFY `id` int(50) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
 
 --
 -- AUTO_INCREMENT for table `food_sizes`
 --
 ALTER TABLE `food_sizes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=182;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1917;
+  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1920;
 
 --
 -- AUTO_INCREMENT for table `orders_food`
 --
 ALTER TABLE `orders_food`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT for table `order_addons`
