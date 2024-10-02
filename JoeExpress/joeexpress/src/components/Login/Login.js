@@ -50,11 +50,16 @@ const Login = () => {
     const [cmsSmallLogo,setSmallLogo] = useState(null);
     const [cmsBigLogo,setBigLogo] = useState(null);
     const [TermsModal,setTermsModal] = useState(false); //modal
+    const [passwordVisible, setPasswordVisible] = useState(false);
 
     // modal
     const toggleTermsAndCondiotion = () =>{
       setTermsModal(!TermsModal)
     }
+
+    const togglePasswordVisibility = () => {
+      setPasswordVisible(!passwordVisible);
+  };
 
 
     useEffect(()=>{
@@ -176,6 +181,7 @@ const Login = () => {
         }
     };
 
+
     return (
     <div className="bg-background">
 
@@ -236,7 +242,7 @@ const Login = () => {
               <input
                 class="w-full outline-0 text-gray-600 shadow appearance-none border rounded py-2 px-3 mb-10 leading-10 focus:outline-none focus:shadow-outline"
                 id="password"
-                type="password"
+                type={passwordVisible ? 'text' : 'password'}
                 name="password"
                 placeholder="Enter password"    
                 value={values.password}
@@ -245,6 +251,7 @@ const Login = () => {
               />
 
               <img
+                onClick={togglePasswordVisibility}
                 src={hidden}
                 alt="Eye"
                 class="absolute right-3 top-3 w-8 cursor-pointer"
