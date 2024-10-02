@@ -33,11 +33,11 @@ function Signup() {
     const [cmsTel,setCmsTel] = useState('');
     const [cmsSmallLogo,setSmallLogo] = useState(null);
     const [TermsModal,setTermsModal] = useState(false); //modal
+    const [passwordVisible, setPasswordVisible] = useState(false);
 
-    const togglePassword = () => {
-      const passwordField = document.getElementById("password");
-      passwordField.type = passwordField.type === "password" ? "text" : "password";
-    }
+    const togglePasswordVisibility = () => {
+      setPasswordVisible(!passwordVisible);
+  };
 
     // modal
     const toggleTermsAndCondiotion = () =>{
@@ -171,7 +171,7 @@ function Signup() {
         const err = Validation(values);
         setErrors(err);
 
-        if (!err.name && !err.email && !err.password && !err.address) {
+        if (!err.pnum && !err.name && !err.email && !err.password && !err.address) {
             axios.post('http://localhost:8081/signup', trimmedValues)
                 .then(res => {
                     if(res.data.success === true){
@@ -201,10 +201,10 @@ function Signup() {
             Order Now!
           </button>
     
-          <div class="inline-flex w-fit h-fit space-x-2">
+          {/* <div class="inline-flex w-fit h-fit space-x-2">
             <img src={userIcon} alt=""/>
             <img src={bagIcon} alt=""/>
-          </div>
+          </div> */}
         </div>
       </nav>
 
@@ -272,14 +272,15 @@ function Signup() {
               <label for="password" class="text-gray-600 text-lg font-bold tracking-wider">Create Password</label>
               <input
               onChange={handleInput}
-              type="password" placeholder="Password" 
+              type={passwordVisible ? 'text' : 'password'}
+              placeholder="Password" 
               class="w-full outline-0 text-gray-600 shadow appearance-none border 
               rounded py-2 px-3 mb-10 leading-10 focus:outline-none focus:shadow-outline" 
               id="password" 
               name='password'
               required/>
               {errors.password && <span className='text-red-700'> {errors.password}</span>}
-              <img src={hidden} alt="Eye" class="absolute right-3 top-10 w-8 cursor-pointer" id="hide" onClick={togglePassword}/> 
+              <img src={hidden} alt="Eye" class="absolute right-3 top-10 w-8 cursor-pointer" id="hide" onClick={togglePasswordVisibility}/> 
               </div>
           </div>
 

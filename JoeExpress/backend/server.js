@@ -499,11 +499,13 @@ app.post('/menuOption', (req, res) => {
   });
 
 
-app.post('/login',async (req, res) => {
+  app.post('/login',async (req, res) => {
+
+    const {email,password} = req.body
 
     const sql = 'SELECT * FROM user WHERE email = ?';
 
-    db.query(sql, [req.body.email, req.body.password], (err, data) => {
+    db.query(sql, [email, password], (err, data) => {
         const isMatch = bcrypt.compare(req.body.password,data[0].password);
         if (err) {
             return res.json("Error");
@@ -512,6 +514,7 @@ app.post('/login',async (req, res) => {
         if (data.length == 0) {
             return res.json({ Login: false, Message: "NO RECORD EXISTED" });
         } 
+        
         const userData = data[0];
 
         if (!userData.verified) {
@@ -521,15 +524,16 @@ app.post('/login',async (req, res) => {
         if (isMatch && data[0].role === 'user'){
             req.session.userId = userData.id;
             const name = data[0].name;
-            req.session.name = name;          
+            req.session.name = name;
             req.session.role = 'user';          
             return res.json({ Login: true });
         }
 
         else{
             res.send("Wrong Password");
-            return
+             return
         }
+
     });
 });
 
