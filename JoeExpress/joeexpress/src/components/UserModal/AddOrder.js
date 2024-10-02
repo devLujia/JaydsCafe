@@ -159,7 +159,7 @@ return(
                     <div className='flex flex-col rounded-lg gap-y-5'>
                         <div className='bg-background rounded-tl-xl'>
                             <div className="p-4  w-56 mx-auto aspect-square">
-                                <img src={caramel} alt="Milk Tea" className="w-full h-full object-contain"/>
+                                <img src={food.image_url} alt="Milk Tea" className="w-full h-full object-contain"/>
                             </div>
                         </div>
                         
@@ -282,7 +282,7 @@ return(
                     {/* right side */}
                     <div className='rounded-r-xl p-3'>
                         {/* Sweetness Dropdown */}
-                        <h2 id="accordion-color-heading-1">
+                        {/* <h2 id="accordion-color-heading-1">
                             <button
                             type="button"
                             class="flex items-center justify-between w-full font-medium rtl:text-right text-gray-500 hover:bg-slate-300 rounded-t-lg px-2 gap-3"
@@ -311,9 +311,9 @@ return(
                                 </svg>
                             </div>
                             </button>
-                        </h2>
+                        </h2> */}
 
-                        {sweetness && (
+                        {/* {sweetness && (
                             <div id="accordion-color-body-1" className="w-full px-5">
                             <div class="flex items-center mb-4 border-b-2 border-gray-200 py-3">
                                 <input id="radio-1" type="radio" name="sugar-level" class="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-textgreenColor dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
@@ -336,7 +336,7 @@ return(
                                 <label for="radio-5" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Normal (100%)</label>
                             </div>
                         </div>
-                        )}
+                        )} */}
 
                         {/* addons Dropdown */}
                         <h2 id="accordion-color-heading-1">

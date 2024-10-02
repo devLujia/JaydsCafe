@@ -306,17 +306,18 @@ app.get('/menu', (req ,res )=>{
             f.category_id,
             f.description,
             f.image_url,
+            fs.size,
+            fs.price,
             MAX(CASE WHEN fs.size = 'large' THEN fs.price END) AS Large,
-            MAX(CASE WHEN fs.size = 'medium' THEN fs.price END) AS Medium
-            
+            MAX(CASE WHEN fs.size = 'medium' THEN fs.price END) AS Medium       
         FROM
             foods f
         JOIN
             food_sizes fs ON f.id = fs.food_id
         WHERE
-            visible = 1   
+            visible = 1  
         GROUP BY
-            f.id, f.name, f.description, f.image_url;
+        f.id, f.name, f.description, f.image_url;
          
             
             `
@@ -719,7 +720,7 @@ app.post('/create-payment-intent', async (req, res) => {
                     attributes: {
                         amount: amount * 100, // amount in cents
                         redirect: {
-                            success: `http://localhost:3000/tracking`,
+                            success: `http://localhost:3000/paymentSuccess`,
                             failed: 'http://localhost:3000/payment-failed',
                         },
                         type: 'gcash', // Payment type
@@ -1051,7 +1052,7 @@ app.post('/fetchAddons', (req,res) =>{
 
 app.post('/addProduct', upload.single('image_url') , (req, res) =>{
 
-    const { name, description, category_id, medprice } = req.body;
+    const { name, description, category_id, sizeName , price } = req.body;
     const image_url = req.file ? `/images/${req.file.filename}` : '/images/americano.png';
 
     const query = `INSERT INTO foods (name, description, image_url, category_id) 
@@ -1066,9 +1067,9 @@ app.post('/addProduct', upload.single('image_url') , (req, res) =>{
 
         const lastfoodsId = result[1][0].lastfoodsId;
         const medSizeQuery = `INSERT INTO food_sizes(food_id, size , price) 
-                            VALUES (?,'medium',?)`
+                            VALUES (?,?,?)`
 
-        db.query(medSizeQuery, [lastfoodsId, medprice], (sizeErr, sizeResult)=> {
+        db.query(medSizeQuery, [lastfoodsId, sizeName ,price], (sizeErr, sizeResult)=> {
             if(sizeErr){
                 res.json({sizeErr: "Unable to add into food_sizes"})
             }
