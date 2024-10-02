@@ -144,6 +144,10 @@ export default function Order_New() {
             </div>
         </nav>
 
+        <div class="bg-white h-screen flex justify-center items-center sm:hidden z-10">
+            <p class="text-black text-xl">Only for desktop use!</p>
+        </div>
+        
         <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-72 h-screen pt-5 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 " aria-label="Sidebar">
             <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
             <a href="#" class="flex items-center ps-2.5 mb-5">
@@ -239,7 +243,7 @@ export default function Order_New() {
             </div>
         </aside>
         
-        <div class="p-4 sm:ml-72 bg-jaydsBg">
+        <div class="p-4 sm:ml-72 bg-jaydsBg hidden sm:block">
             <div class="relative shadow-xl sm:rounded-lg bg-white">
                 {/* track order */}
                 <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white rounded-t-xl">

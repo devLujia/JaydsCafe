@@ -72,6 +72,9 @@ nav .link{
     font-size: larger;
     font-weight: 500;
 }
+.active-link {
+  color: blue;
+}
 
 .btn{
   border-radius: 0px 40px 0px 40px;

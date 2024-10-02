@@ -111,16 +111,17 @@ export default function Profile() {
             <img src={camera} alt=""/>
           </button>
 
-          <div class="flex overflow-x-hidden mb-6 ml-16 items-center absolute bottom-0"> {/* <!-- container ng profile pic --> */}
+          <div class="flex overflow-x-hidden mb-6 ml-16 items-center absolute bottom-0 gap-3"> {/* <!-- container ng profile pic --> */}
             <div class="object-contain w-36 h-36 rounded-full bottom-0"data-popover-target="popover-user-profile" type="button">
               <img src={gwen} alt="" class="w-full h-full object-fill max-w-full max-h-full rounded-full"/>
             </div>
+
+            <h1 class="text-white text-2xl tracking-wider">{profile.name}</h1>
 
             <div class="object-contain w-36 h-36 rounded-full bottom-0 invisible" data-popover id="popover-user-profile">
               <img src={camera} alt="" class="w-full h-full object-fill max-w-full max-h-full rounded-full"/>
             </div>
 
-            <h1 class="text-white text-2xl tracking-wider">{profile.name}</h1>
           </div>
         </div>
 

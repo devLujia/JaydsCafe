@@ -114,6 +114,10 @@ export default function ContentManagement() {
             </div>
         </nav>
 
+        <div class="bg-white h-screen flex justify-center items-center sm:hidden z-10">
+          <p class="text-black text-xl">Only for desktop use!</p>
+        </div>
+        
         <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-72 h-screen pt-5 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800" aria-label="Sidebar">
             <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
             <a href="#" class="flex items-center ps-2.5 mb-5">
@@ -304,9 +308,9 @@ export default function ContentManagement() {
             </div>
         </div> */}
 
-       <div class="p-4 sm:ml-72 bg-slate-100">
+       <div class="p-4 sm:ml-72 bg-slate-100 hidden sm:block">
             <div class="relative shadow-xl sm:rounded-lg">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                     {cmsContent.filter(cms => cms.category === "About Us" || cms.category === "Header").map(cms => (
                         <div key={cms.category} className='relative border-2 border-gray-500 rounded-xl text-center shadow-xl min-w-fit p-4'>
                             <h1 className='mt-7 text-xl font-semibold mb-2'>{cms.title}</h1>
@@ -388,67 +392,67 @@ export default function ContentManagement() {
 
                 {/* Third Row */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mt-10">
-                {cmsContent.filter(cms => cms.category === "contact").map(cms => (
-                    
-                    <div key={cms.category} className='relative border-2 border-gray-500 rounded-xl w-full flex flex-col items-center justify-center p-4 shadow-xl'>
-                        <h1 className='mt-5 text-lg font-semibold mb-2'>{cms.title}</h1>
-                        <h1 className='mt-7 text-lg font-normal mb-2'>Date Updated: {new Date(cms.updated_at).toLocaleString('en-US', {
-                                        year: 'numeric',
-                                        month: 'long',
-                                        day: 'numeric',
-                                        hour: '2-digit',
-                                        minute: '2-digit',
-                                        second: '2-digit'
-                                    })}
-                        </h1>
-                        <input type="text" id="disabled-input" aria-label="disabled input" className="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value={cms.content} disabled />
-                        <button className='absolute top-2 right-2 p-1 bg-textgreenColor rounded-lg'>
-                            <img src={edit} className='filter invert' alt="Edit" />
-                        </button>
-                    </div>
-                
-                ))}
-
-                
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
-                        {cmsContent.filter(cms => cms.category === "footer").map(cms => (
-                            
-                            <div key={cms.category} className='relative border-2 border-gray-500 rounded-xl w-full flex flex-col items-center justify-center p-4 shadow-xl'>
-                                <h1 className='mt-5 text-lg font-semibold mb-2'>{cms.title}</h1>
-                                <h1 className='mt-7 text-lg font-normal mb-2'>Date Updated: {new Date(cms.updated_at).toLocaleString('en-US', {
-                                                year: 'numeric',
-                                                month: 'long',
-                                                day: 'numeric',
-                                                hour: '2-digit',
-                                                minute: '2-digit',
-                                                second: '2-digit'
-                                            })}
-                                </h1>
-                                <input type="text" id="disabled-input" aria-label="disabled input" className="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value={cms.content} disabled />
-                                {cms.title === 'Instagram' ?  <a href='#' className='bg-gradient-to-bl from-pink-600 to-yellow-400 absolute top-2 left-2 px-2 py-1 rounded-full'>
-                                       <img src={ig} alt="Instagram" /> 
-                                </a>
-                                : cms.title === 'Facebook' ?  <a href='#' className='bg-blue-600 absolute top-2 left-2 px-2 py-1 rounded-full'>
-                                        <img src={fb} alt="Facebook" /> 
-                                 </a>
-                                : cms.title === 'Link' ?  <a href='#' className='bg-blue-600 absolute top-2 left-2 px-2 py-1 rounded-full'>
-                                        <img src={links} alt="Facebook" /> 
-                                </a>: null
-                                }
-                                
-
-                                <button className='absolute top-2 right-2 p-1 bg-textgreenColor rounded-lg'>
-                                    <img src={edit} className='filter invert' alt="Edit" />
-                                </button>
-                            </div>
+                    {cmsContent.filter(cms => cms.category === "contact").map(cms => (
                         
-                        ))}
+                        <div key={cms.category} className='relative border-2 border-gray-500 rounded-xl w-full flex flex-col items-center justify-center p-4 shadow-xl'>
+                            <h1 className='mt-5 text-lg font-semibold mb-2'>{cms.title}</h1>
+                            <h1 className='mt-7 text-lg font-normal mb-2'>Date Updated: {new Date(cms.updated_at).toLocaleString('en-US', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                            second: '2-digit'
+                                        })}
+                            </h1>
+                            <input type="text" id="disabled-input" aria-label="disabled input" className="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value={cms.content} disabled />
+                            <button className='absolute top-2 right-2 p-1 bg-textgreenColor rounded-lg'>
+                                <img src={edit} className='filter invert' alt="Edit" />
+                            </button>
+                        </div>
+                    
+                    ))}
+
+                    
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+                    {cmsContent.filter(cms => cms.category === "footer").map(cms => (
+                        
+                        <div key={cms.category} className='relative border-2 border-gray-500 rounded-xl w-full flex flex-col items-center justify-center p-4 shadow-xl'>
+                            <h1 className='mt-5 text-lg font-semibold mb-2'>{cms.title}</h1>
+                            <h1 className='mt-7 text-lg font-normal mb-2'>Date Updated: {new Date(cms.updated_at).toLocaleString('en-US', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                            second: '2-digit'
+                                        })}
+                            </h1>
+                            <input type="text" id="disabled-input" aria-label="disabled input" className="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value={cms.content} disabled />
+                            {cms.title === 'Instagram' ?  <a href='#' className='bg-gradient-to-bl from-pink-600 to-yellow-400 absolute top-2 left-2 px-2 py-1 rounded-full'>
+                                <img src={ig} alt="Instagram" /> 
+                            </a>
+                            : cms.title === 'Facebook' ?  <a href='#' className='bg-blue-600 absolute top-2 left-2 px-2 py-1 rounded-full'>
+                                    <img src={fb} alt="Facebook" /> 
+                            </a>
+                            : cms.title === 'Link' ?  <a href='#' className='bg-blue-600 absolute top-2 left-2 px-2 py-1 rounded-full'>
+                                    <img src={links} alt="Facebook" /> 
+                            </a>: null
+                            }
+                            
+
+                            <button className='absolute top-2 right-2 p-1 bg-textgreenColor rounded-lg'>
+                                <img src={edit} className='filter invert' alt="Edit" />
+                            </button>
+                        </div>
+                    
+                    ))}
 
                 </div>
-        </div> 
+            </div> 
 
-    </div>
+        </div>
     </div>
   )
 }

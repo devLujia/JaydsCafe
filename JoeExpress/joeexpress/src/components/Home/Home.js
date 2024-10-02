@@ -31,6 +31,7 @@ import ChatComponent from '../UserModal/ChatService/ChatComponent'
 //const socket = io('http://localhost:3000');
 
 function Home() {
+  
   //styles inside the element
   const styleCard = {
     transform: 'scale(1.5)', 
@@ -608,9 +609,7 @@ function Home() {
         <a href="#" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">{cmsName}</a>
       </div>
       <span class="menu">
-        <ul
-          class="nav_links md:hidden sm:hidden lg:flex lg:flex-row lg:justify-between"
-        >
+        <ul class="nav_links md:hidden sm:hidden lg:flex lg:flex-row lg:justify-between">
           <li class="link"><a href="#">Home</a></li>
           <li class="link"><a id="menu-link" href="#">Menu</a></li>
           <li class="link"><a href="#aboutus">About Us</a></li>

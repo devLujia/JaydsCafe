@@ -32,6 +32,10 @@ export default function Settings() {
             </div>
         </nav>
 
+        <div class="bg-white h-screen flex justify-center items-center sm:hidden z-10">
+          <p class="text-black text-xl">Only for desktop use!</p>
+        </div>
+        
         {/* Aside */}
         <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-72 h-screen pt-5 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800" aria-label="Sidebar">
             <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
@@ -127,7 +131,7 @@ export default function Settings() {
          </aside>
 
         {/* <!-- Main body --> */}
-        <div class=" w-4/5 h-full mt-10 flex flex-col float-right dark:text-gray-300"> 
+        <div class=" w-4/5 h-full mt-10 sm:flex flex-col float-right dark:text-gray-300 hidden sm:block"> 
             <div class="h-64 rounded-t-2xl px-20 w-full relative drop-shadow-sm">
                 <div class="object-contain w-full h-full rounded-t-2xl"> {/* <!-- container ng cover photo --> */}
                     <img src={bg_pic} alt="" class="w-full h-full object-fill max-w-full max-h-full rounded-t-2xl"/>

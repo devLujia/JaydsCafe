@@ -61,6 +61,10 @@ export default function Message() {
                </div>
          </nav>
         
+         <div class="bg-white h-screen flex justify-center items-center sm:hidden z-10">
+          <p class="text-black text-xl">Only for desktop use!</p>
+        </div>
+        
          <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-72 h-screen pt-5 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800" aria-label="Sidebar">
             <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
             <a href="#" class="flex items-center ps-2.5 mb-5">
@@ -154,7 +158,7 @@ export default function Message() {
             </div>
          </aside>
 
-         <div class="p-4 sm:ml-64 md:pl-14 py-2 mb-0 h-fit">
+         <div class="p-4 sm:ml-64 md:pl-14 py-2 mb-0 h-fit hidden sm:block">
             {/* This is chat */}
             <div class="container mx-auto shadow-lg rounded-lg overflow-auto">
                   {/* <!-- headaer --> */}

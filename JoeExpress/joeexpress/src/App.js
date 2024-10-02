@@ -30,6 +30,8 @@ import Profile from './components/Profile/Profile'
 import RiderLogin from './components/RiderModule/LoginRider/LoginRider'
 import RiderForgot from './components/RiderModule/ForgotPasswordRider/ForgotPasswordRider'
 import RiderDashboard from './components/RiderModule/DashboardRider/DashboardRider'
+import RiderOrder from './components/RiderModule/OrderRider/OrderRider'
+import RiderInbox from './components/RiderModule/InboxRider/InboxRider'
 
 function App() {
 
@@ -66,6 +68,8 @@ function App() {
       <Route path='/RiderLogin' element = {<RiderLogin/>}></Route>
       <Route path='/RiderForgot' element = {<RiderForgot/>}></Route>
       <Route path='/RiderDashboard' element = {<RiderDashboard/>}></Route>
+      <Route path='/RiderOrder' element = {<RiderOrder/>}></Route>
+      <Route path='/RiderInbox' element = {<RiderInbox/>}></Route>
 
     </Routes>
     </BrowserRouter>
