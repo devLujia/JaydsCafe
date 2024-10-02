@@ -10,7 +10,8 @@ function AddProd({ closeModal }) {
                 description: '',
                 image_url: null,
                 category_id: '',
-                medprice: '',
+                sizeName: '',
+                price: '',
         });
 
         const [category,setCategory] = useState([])
@@ -38,7 +39,8 @@ function AddProd({ closeModal }) {
           formData.append('description', values.description);
           formData.append('image_url', values.image_url);
           formData.append('category_id', values.category_id);
-          formData.append('medprice', values.medprice);
+          formData.append('sizeName', values.sizeName);
+          formData.append('price', values.price);
           
           axios.post('http://localhost:8081/addProduct', formData)
           .then(res=>{
@@ -119,14 +121,30 @@ function AddProd({ closeModal }) {
                 </div>
 
                 <div className='grid grid-cols-2 gap-6'>
-                  {/* medium price */}
+                  {/* size name */}
                   <div className='mb-4'>
-                    <label for="medprice" className="flex text-gray-600 text-sm font-bold tracking-wider">Medium Price</label>
+                    <label for="sizeName" className="flex text-gray-600 text-sm font-bold tracking-wider">Size Name:</label>
                     <input
                       type="text"
-                      name="medprice"
+                      name="sizeName"
                       onChange={handleInput}
-                      id="medprice"
+                      id="sizeName"
+                      className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline"
+                      placeholder="Medium"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className='grid grid-cols-2 gap-6'>
+                  {/* price */}
+                  <div className='mb-4'>
+                    <label for="price" className="flex text-gray-600 text-sm font-bold tracking-wider">Price :</label>
+                    <input
+                      type="text"
+                      name="price"
+                      onChange={handleInput}
+                      id="price"
                       className="shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline"
                       placeholder="$69"
                       required

@@ -259,6 +259,44 @@ app.get('/foods', (req,res)=>{
         }
     });
     
+    app.post('/addAdmin', async (req, res) => {
+        const { pnum, name, email, password, address } = req.body;
+    
+        try {
+            // Check if email already exists
+            const checkQuery = 'SELECT * FROM user WHERE email = ?';
+            db.query(checkQuery, [email], async (error, resultFromDb) => {
+                if (error) {
+                    console.error('Database error:', error);
+                    return res.status(500).json({ error: 'Database error' });
+                }
+    
+                if (resultFromDb.length > 0) {
+                    return res.status(400).json({ error: 'Email Already Taken' });
+                }
+    
+                const verificationToken = generateToken();
+    
+                // Proceed to insert user into database
+                const hashedPassword = await bcrypt.hash(password, 10);
+                const insertQuery = 'INSERT INTO `user` (pnum, name, address, email, password, role, verification_token) VALUES (?, ?, ?, ?, ?, `rider`, ?)';
+                const values = [pnum, name, address, email, hashedPassword, verificationToken];
+    
+                db.query(insertQuery, values, (insertError, result) => {
+                    if (insertError) {
+                        console.error('Error signing up:', insertError);
+                        return res.status(500).json({ error: 'Failed to sign up' });
+                    }
+    
+                    });
+                });
+            }
+        catch (error) {
+            console.error('Signup Error:', error);
+            return res.status(500).json({ error: 'Failed to sign up' });
+        }
+    });
+    
 
 app.get('/menu', (req ,res )=>{
         const query = 
@@ -268,17 +306,18 @@ app.get('/menu', (req ,res )=>{
             f.category_id,
             f.description,
             f.image_url,
+            fs.size,
+            fs.price,
             MAX(CASE WHEN fs.size = 'large' THEN fs.price END) AS Large,
-            MAX(CASE WHEN fs.size = 'medium' THEN fs.price END) AS Medium
-            
+            MAX(CASE WHEN fs.size = 'medium' THEN fs.price END) AS Medium       
         FROM
             foods f
         JOIN
             food_sizes fs ON f.id = fs.food_id
         WHERE
-            visible = 1   
+            visible = 1  
         GROUP BY
-            f.id, f.name, f.description, f.image_url;
+        f.id, f.name, f.description, f.image_url;
          
             
             `
@@ -681,7 +720,7 @@ app.post('/create-payment-intent', async (req, res) => {
                     attributes: {
                         amount: amount * 100, // amount in cents
                         redirect: {
-                            success: `http://localhost:3000/tracking`,
+                            success: `http://localhost:3000/paymentSuccess`,
                             failed: 'http://localhost:3000/payment-failed',
                         },
                         type: 'gcash', // Payment type
@@ -1013,7 +1052,7 @@ app.post('/fetchAddons', (req,res) =>{
 
 app.post('/addProduct', upload.single('image_url') , (req, res) =>{
 
-    const { name, description, category_id, medprice } = req.body;
+    const { name, description, category_id, sizeName , price } = req.body;
     const image_url = req.file ? `/images/${req.file.filename}` : '/images/americano.png';
 
     const query = `INSERT INTO foods (name, description, image_url, category_id) 
@@ -1028,9 +1067,9 @@ app.post('/addProduct', upload.single('image_url') , (req, res) =>{
 
         const lastfoodsId = result[1][0].lastfoodsId;
         const medSizeQuery = `INSERT INTO food_sizes(food_id, size , price) 
-                            VALUES (?,'medium',?)`
+                            VALUES (?,?,?)`
 
-        db.query(medSizeQuery, [lastfoodsId, medprice], (sizeErr, sizeResult)=> {
+        db.query(medSizeQuery, [lastfoodsId, sizeName ,price], (sizeErr, sizeResult)=> {
             if(sizeErr){
                 res.json({sizeErr: "Unable to add into food_sizes"})
             }

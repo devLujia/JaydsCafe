@@ -8,7 +8,7 @@ import check from '../image/greenCheck.svg';
 import MapModal from '../Map/Map';
 import Terms from '../UserModal/TermsAndCondition/Terms'
 
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export default function PaymentSuccess() {
@@ -77,15 +77,14 @@ export default function PaymentSuccess() {
       setTermsModal(!TermsModal)
     }
 
-    const navigateMenu = useNavigate();
-    const navigateOrder = useNavigate();
+    const navigate= useNavigate();
 
     const goToMenu = () => {
-        navigateMenu('/menu')
+        navigate('/menu')
     }
     
     const gotoOrders = () => {
-        navigateOrder('/cart')
+        navigate('/cart')
     }
 
   return (
@@ -123,8 +122,8 @@ export default function PaymentSuccess() {
                     </p>
                 </div>
                 <div className='flex flex-col w-full gap-y-4 font-bold tracking-wide mb-2 px-3'>
-                    <button className='bg-textgreenColor hover:bg-green-500 transition duration-500 w-full rounded-full text-center text-lg text-white py-3 '>
-                        View Order(s)
+                    <button onClick={() => navigate('/tracking')} className='bg-textgreenColor hover:bg-green-500 transition duration-500 w-full rounded-full text-center text-lg text-white py-3 '>
+                        View Order Status
                     </button>
                     <button className='w-full hover:underline' onClick={goToMenu}>
                         Back to menu

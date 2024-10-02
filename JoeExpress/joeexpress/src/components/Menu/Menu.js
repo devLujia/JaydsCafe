@@ -381,7 +381,7 @@ const rightNav = () => {
                     </div>
                     <h3 className="text-xl font-semibold mt-4 min-h-20">{food.name}</h3>
                     <p className="text-gray-600 mt-2">Starts at</p>
-                    <p className="text-2xl font-bold mt-1">₱{food.Medium}</p>
+                    <p className="text-2xl font-bold mt-1">₱{food.price}</p>
                   
                   {
                     authenticated ? 

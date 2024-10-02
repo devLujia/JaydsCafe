@@ -24,7 +24,7 @@ function AddCustomerAcc({ closeModal }) {
         setErrors(err);
 
         if (!err.name && !err.email && !err.password && !err.address) {
-            axios.post('http://localhost:8081/signup', values)
+            axios.post('http://localhost:8081/addAdmin', values)
                 .then(res => {
                     closeModal(false)
                 })
