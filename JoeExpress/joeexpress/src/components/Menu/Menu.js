@@ -376,7 +376,7 @@ const rightNav = () => {
                 return categorySearch === 0 ? food : food.category_id === categorySearch;
                 }).map((food)=>(
                   <div key={food.id} className="rounded-lg p-4 shadow-md relative outline outline-slate-300 hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 1 -->*/}
-                    <div className="rounded-full bg-menuCirclebg p-4 aspect-square">
+                    <div className="rounded-full bg-menuCirclebg p-4 aspect-square overflow-hidden">
                         <img src={food.image_url} alt="Milk Tea" className="w-full h-full object-contain"/>
                     </div>
                     <h3 className="text-xl font-semibold mt-4 min-h-20">{food.name}</h3>

@@ -340,12 +340,6 @@ export default function Profile() {
                                 </div>)
                                  
                               ))}
-
-
-
-
-
-
                               </tbody>
                         </table>
                     </div>
@@ -502,8 +496,8 @@ export default function Profile() {
                       <p class="pb-5">View and edit your personal info below.</p>
                   </div>
     
-                  <div class="border-b-2 mt-3 pb-5"> 
         {/* <!-- Display Info --> */}
+                  <div class="border-b-2 mt-3 pb-5"> 
                     <div class="flex justify-between items-center" >
                       <h1 class="text-2xl py-5">Display info</h1>
                     </div>
@@ -524,8 +518,8 @@ export default function Profile() {
                     
                   </div> 
 
-                  <div class="border-b-2 mt-3"> 
         {/* <!-- Personal Info --> */}
+                  <div class="border-b-2 mt-3"> 
                     <div class="flex justify-between items-center">
                       <h1 class="text-2xl py-5">Personal info</h1>
                     </div>
@@ -567,8 +561,8 @@ export default function Profile() {
                     </form>
                   </div> 
 
-                  <div class="flex flex-col justify-start items-start space-y-2 border-b-2 mt-3">
         {/* <!-- information details--> */}
+                  <div class="flex flex-col justify-start items-start space-y-2 border-b-2 mt-3">
                     <h1 class="text-2xl py-3">Login info</h1>
                     <p class="pb-10">View and update your login email and password.</p>
 

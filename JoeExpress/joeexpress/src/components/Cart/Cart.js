@@ -8,6 +8,7 @@ import store from '../image/store.svg'
 import logo from '../image/logo.png'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Del from '../UserModal/Delete/DeleteModal'
 
 function Cart() {
 
@@ -16,8 +17,14 @@ function Cart() {
     const [items, setItems] = useState([]);
     const navigate = useNavigate();
     const [totalBill, setTotalBill] = useState(0);
+    const [DeleteModal,setDeleteModal] = useState(false); //modal
 
     const [showTooltip, setShowTooltip] = useState(false); //For tooltip
+
+    // modal
+    const toggleDeleteModal = () =>{
+        setDeleteModal(!DeleteModal)
+      }
     
     const [quantity, setQuantity] = useState(
         items.reduce((acc, item) => {
@@ -173,6 +180,9 @@ function Cart() {
 
     return (
         <div class="bg-white">
+            
+            {DeleteModal && <Del closeModal={setDeleteModal}/>}
+
             <nav class="sticky top-0 bg-white z-20">
                 <div class="font-extrabold text-xl flex items-center py-1">
                     <a href="/menu" class="flex items-center w-96 h-10 hover:scale-110 hover:cursor-pointer hover:brightness-110 transition duration-200 hover:text-yellow-950"> <img src={arrowLeft} alt="Arrow Back" class=" w-14 h-14 mx-4" />Back to Menu</a>
@@ -234,7 +244,7 @@ function Cart() {
                                     </div>
 
                                     <div className='min-w-fit '>
-                                        <button class="py-3 me-3 px-3 inline-block bg-white dark:bg-neutral-900 dark:border-neutral-700" >
+                                        <button class="py-3 me-3 px-3 inline-block bg-white dark:bg-neutral-900 dark:border-neutral-700"  onClick={toggleDeleteModal}>
                                             <img src={del} alt="" />
                                         </button>
                                         <button class="py-3 px-3 inline-block bg-white dark:bg-neutral-900 dark:border-neutral-700" >
