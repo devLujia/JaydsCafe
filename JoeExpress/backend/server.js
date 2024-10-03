@@ -1150,8 +1150,11 @@ app.post('/removeProduct',  async (req, res) =>{
                 if(sizeDelErr){
                     res.json({sizeDelErr: "Unable to delete into food_sizes"})
                 }
+                res.json({success: true})
                 
             })
+
+            
     
         })
     }catch(error){

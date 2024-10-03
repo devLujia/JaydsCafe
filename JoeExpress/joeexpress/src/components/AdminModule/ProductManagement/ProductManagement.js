@@ -35,6 +35,7 @@ function ProductManagement() {
     const [editProductModal,setEditProductModal] = useState(false);
     const [editAddonsModal,setEditAddonsModal] = useState(false);
     const [selectedProductId, setProductId] = useState(null);
+    const [selectedRemoveableProductId, setRemoveableProductId] = useState(null);
     const [selectedValue, setSelectedValue] = useState('Product');
     const [selectedAddonsId, setAddonsId] = useState(null);
     
@@ -68,11 +69,13 @@ function ProductManagement() {
     }
     
     const toggleRemoveCategoryModal = () =>{
+
         setRemoveCategoryModal(!removeCategoryModal)
     }
 
-    const toggleRemoveProductModal = () =>{
-      setRemoveProductModal(!removeProductModal)
+    const toggleRemoveProductModal = (id) =>{
+      setProductId(id); 
+      setRemoveProductModal(!removeProductModal);
     }
 
     const toggleAddProductModal = () =>{
@@ -226,12 +229,16 @@ function ProductManagement() {
         {addAddonsModal && <AddAddons closeModal={setAddAddonsModal}/>}
         
         {removeCategoryModal && <RemoveCategory closeModal={setRemoveCategoryModal}/>}
-        {removeProductModal && <RemoveProduct closeModal={setRemoveProductModal}/>}
+        {/* {removeProductModal && <RemoveProduct closeModal={setRemoveProductModal}/>} */}
         {addCategoryModal && <AddCategory closeModal={setAddCategoryModal}/>}
         {addProductModal && <AddProd closeModal={setAddProductModal}/>}
 
         {addSizeModal && selectedProductId !== null &&
         (<AddSize closeModal={() => setAddSizeModal(false)} id={selectedProductId}/>
+        )}
+
+        {removeProductModal && selectedProductId !== null &&
+        (<RemoveProduct closeModal={() => setRemoveProductModal(false)} id={selectedProductId}/>
         )} 
         
         {editProductModal && selectedProductId !== null && (
@@ -473,7 +480,7 @@ function ProductManagement() {
                               
                               {/* Need lagyan ng confirmation */}
                               {/*             {(event) => handleRemoveProduct(food.id)} */}
-                              <button onClick={toggleRemoveProductModal} className="hover:scale-110 duration-300" title='Delete'>
+                              <button onClick={() => toggleRemoveProductModal(food.id)} className="hover:scale-110 duration-300" title='Delete'>
                                 <img src={trashbin2} alt="delete" className="brightness-0 w-12 h-12" />
                               </button>
 
