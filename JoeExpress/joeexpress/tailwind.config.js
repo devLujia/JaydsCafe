@@ -22,7 +22,8 @@ cards2: '#F0F0F0',
 greenColor: '#067741',
 textgreenColor: '#017242',
 jaydsBg: '#e3ded6',
-menuCirclebg: '#faf6e2'
+menuCirclebg: '#faf6e2',
+darkgreen: '#273617',
 }
 },
 },

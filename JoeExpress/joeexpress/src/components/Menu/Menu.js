@@ -4,6 +4,7 @@ import './menuPage.css'
 import logo from '../image/logo.png'
 import topBG from '../image/top-bg.svg';
 import cartMenu from '../image/cart.svg';
+import cart2 from '../image/cart2.svg';
 import userIcon from '../image/UserAcc.svg';
 import bagIcon from '../image/bag.svg';
 import axios from 'axios'
@@ -375,24 +376,24 @@ const rightNav = () => {
                 {foods.filter((food) => {
                 return categorySearch === 0 ? food : food.category_id === categorySearch;
                 }).map((food)=>(
-                  <div key={food.id} className="rounded-lg p-4 shadow-md relative outline outline-slate-300 hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 1 -->*/}
-                    <div className="rounded-full bg-menuCirclebg p-4 aspect-square overflow-hidden">
+                  <div key={food.id} className="rounded-lg p-2 shadow-md relative outline outline-slate-300 hover:scale-95 duration-300 hover:bg-jaydsBg"> {/*<!-- card 1 -->*/}
+                    <div className="rounded-lg bg-darkgreen p-4 aspect-square overflow-hidden">
                         <img src={food.image_url} alt="Milk Tea" className="w-full h-full object-contain"/>
                     </div>
-                    <h3 className="text-xl font-semibold mt-4 min-h-20">{food.name}</h3>
-                    <p className="text-gray-600 mt-2">Starts at</p>
-                    <p className="text-2xl font-bold mt-1">₱{food.price}</p>
+                    <h3 className="text-xl font-semibold mt-4 min-h-10">{food.name}</h3>
+                    <p className="text-gray-400 mt-2 text-sm font-semibold">Starts at</p>
+                    <p className="text-2xl font-bold mb-1">₱{food.price}</p>
                   
                   {
                     authenticated ? 
                     (<button onClick={() => toggleAddAddorderModal(food.id)} 
                     title='Add to cart'
                     id="btn-cart" 
-                    className="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" 
+                    className="bg-slate-200 p-2 w-fit rounded-full absolute right-7 top-[52%] hover:scale-125 duration-300" 
                     data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                    <img src={cartMenu} alt=""/>
+                    <img src={cart2} alt="" className='grayscale md:grayscale-0'/>
                     </button> ):
-                    (<button onClick={() => navigate('/login')} id="btn-cart" className="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                    (<button onClick={() => navigate('/login')} id="btn-cart" className="bg-slate-400 p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
                       <img src={cartMenu} alt=""/>
                     </button>)
                   }
