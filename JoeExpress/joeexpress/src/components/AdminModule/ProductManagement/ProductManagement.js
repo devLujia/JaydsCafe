@@ -6,6 +6,7 @@ import plus from '../../image/plus.svg'
 import AddProd from '../AdminModal/AddProd/AddProd'
 import AddCategory from '../AdminModal/AddCategory/AddCategory'
 import RemoveCategory from '../AdminModal/RemoveCategory/RemoveCategory'
+import RemoveProduct from '../AdminModal/RemoveProduct/RemoveProduct'
 import axios from 'axios'
 import EditProd from '../AdminModal/EditProd/EditProd'
 import EditAddons from '../AdminModal/EditAddons/EditAddons'
@@ -30,6 +31,7 @@ function ProductManagement() {
     const [addProductModal,setAddProductModal] = useState(false);
     const [addCategoryModal,setAddCategoryModal] = useState(false);
     const [removeCategoryModal,setRemoveCategoryModal] = useState(false);
+    const [removeProductModal,setRemoveProductModal] = useState(false);
     const [editProductModal,setEditProductModal] = useState(false);
     const [editAddonsModal,setEditAddonsModal] = useState(false);
     const [selectedProductId, setProductId] = useState(null);
@@ -64,8 +66,13 @@ function ProductManagement() {
     const toggleAddCategoryModal = () =>{
         setAddCategoryModal(!addCategoryModal)
     }
+    
     const toggleRemoveCategoryModal = () =>{
         setRemoveCategoryModal(!removeCategoryModal)
+    }
+
+    const toggleRemoveProductModal = () =>{
+      setRemoveProductModal(!removeProductModal)
     }
 
     const toggleAddProductModal = () =>{
@@ -215,10 +222,11 @@ function ProductManagement() {
 
   return (
 
-    <div>
+    <div className=''>
         {addAddonsModal && <AddAddons closeModal={setAddAddonsModal}/>}
         
         {removeCategoryModal && <RemoveCategory closeModal={setRemoveCategoryModal}/>}
+        {removeProductModal && <RemoveProduct closeModal={setRemoveProductModal}/>}
         {addCategoryModal && <AddCategory closeModal={setAddCategoryModal}/>}
         {addProductModal && <AddProd closeModal={setAddProductModal}/>}
 
@@ -298,7 +306,7 @@ function ProductManagement() {
                     </li>
                     <li> {/* <!-- Sales Report --> */}
                     <a href="/Sales" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor  group hover:text-white">
-                    <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75 group-hover:text-white dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z"/>
                         <path d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z"/>
                         <path d="M8.961 16a.93.93 0 0 0 .189-.019l3.4-.679a.961.961 0 0 0 .49-.263l6.118-6.117a2.884 2.884 0 0 0-4.079-4.078l-6.117 6.117a.96.96 0 0 0-.263.491l-.679 3.4A.961.961 0 0 0 8.961 16Zm7.477-9.8a.958.958 0 0 1 .68-.281.961.961 0 0 1 .682 1.644l-.315.315-1.36-1.36.313-.318Zm-5.911 5.911 4.236-4.236 1.359 1.359-4.236 4.237-1.7.339.341-1.699Z"/>
@@ -421,10 +429,7 @@ function ProductManagement() {
           </button>
         ) : null}
 
-              
-
-
-
+            
             </div>
 
             {selectedValue === 'Product' ? (
@@ -465,8 +470,10 @@ function ProductManagement() {
                               <button onClick={() => handleEditProduct(food.id)} className="hover:scale-110 duration-300" title='Edit Product'>
                                 <img src={edit} alt="edit" className="brightness-0 w-10 h-10" />
                               </button>
-
-                              <button onClick={(event) => handleRemoveProduct(food.id)} className="hover:scale-110 duration-300" title='Delete'>
+                              
+                              {/* Need lagyan ng confirmation */}
+                              {/*             {(event) => handleRemoveProduct(food.id)} */}
+                              <button onClick={toggleRemoveProductModal} className="hover:scale-110 duration-300" title='Delete'>
                                 <img src={trashbin2} alt="delete" className="brightness-0 w-12 h-12" />
                               </button>
 

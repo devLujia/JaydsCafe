@@ -199,7 +199,7 @@ function AdminDashboard() {
     
     
   return (
-    <div class="bg-jaydsBg"> 
+    <div class="bg-jaydsBg dark:bg-gray-700"> 
       <nav class="sticky top-0 bg-jaydsBg z-20 shadow-lg flex justify-between dark:bg-gray-900">
          <div class="font-extrabold text-2xl flex items-center">
                {/* <!-- Logo/Title in Navbar --> */}
@@ -225,7 +225,7 @@ function AdminDashboard() {
          <p class="text-black text-xl">Only for desktop use!</p>
       </div>
       
-      <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-72 h-screen pt-5 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800" aria-label="Sidebar">
+      <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-72 h-screen pt-5 transition-transform -translate-x-full bg-white border-r border-white dark:border-gray-600 sm:translate-x-0 dark:bg-gray-800" aria-label="Sidebar">
          <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
          <a href="#" class="flex items-center ps-2.5 mb-5">
             <img src={jaydsLogo} alt="Logo"/>           
@@ -524,17 +524,17 @@ function AdminDashboard() {
                                              <span 
                                                 onMouseEnter={() => setShowTooltip(true)}
                                                 onMouseLeave={() => setShowTooltip(false)}>
-                                                <button onClick={() => toggleOrderDetails(order.order_id)}>
+                                                <button onClick={() => toggleOrderDetails(order.order_id)} title='View Order'>
                                                    <img src={eye} alt="eye" className="w-6 h-6" />
                                                 </button>
                                              </span>
 
-                                             {showTooltip && (
+                                             {/* {showTooltip && (
                                                 <div className="absolute z-10 inline-block px-3 py-2 text-sm font-medium text-gray-100 bg-black/40 backdrop-blur-sm rounded-lg shadow-sm border border-white">
-                                                      Edit
+                                                      View Order
                                                       <div className="tooltip-arrow" />
                                                 </div>
-                                             )}
+                                             )} */}
 
                                              <button className="hover:underline hover:decoration-blue-500" title='Remove'>
                                                 <img src={del} alt="trash" />
