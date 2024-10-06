@@ -13,8 +13,9 @@ function OrderTracking() {
     const [authenticated, setAuthenticated] = useState(false);
     const [userId, setUserId] = useState(null);
     const navigate = useNavigate();
-    const { OrdrId } = useParams();
-    const [Ordr,setOrdr] = useState([]);
+
+
+    const [orderId,setOrderId] = useState([]);
 
     // useEffect(() => {
     //     axios.get(`http://localhost:8081/tracking/${OrdrId}`)
@@ -62,7 +63,7 @@ function OrderTracking() {
              <div>
                  <p class="font-bold text-xl">
                   Order Number: 
-                  <span class="font-normal ps-2">{OrdrId}</span>
+                  <span class="font-normal ps-2"></span>
                  </p>
              </div>
             </div>
