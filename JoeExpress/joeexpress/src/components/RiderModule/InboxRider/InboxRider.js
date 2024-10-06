@@ -131,7 +131,7 @@ export default function InboxRider() {
            </div>
         </aside>
 
-        <div class="p-4 sm:ml-64 md:pl-14 py-2 mb-0 h-fit hidden sm:block">
+        <div class="p-4 sm:ml-64 md:pl-14 py-2 mb-0 h-fit">
             {/* This is chat */}
             <div class="container mx-auto shadow-lg rounded-lg overflow-auto">
                   {/* <!-- headaer --> */}

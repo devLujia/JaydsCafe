@@ -143,7 +143,7 @@ export default function DashboardRider() {
                 {/* Pending & Chats*/}
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                     {/* Pening order */}
-                    <div class="p-4 bg-white rounded-xl h-screen w-full dark:bg-gray-900 dark:text-gray-300 overflow-hidden overflow-y-auto ">
+                    <div class="p-4 bg-white rounded-xl shadow-lg h-screen w-full dark:bg-gray-900 dark:text-gray-300 overflow-hidden overflow-y-auto ">
                         <div class="flex relative justify-between">
                             <h1 class="font-bold text-3xl tracking-wide mb-3">Pending Orders</h1>
                             <Link to='/RiderOrder'>
@@ -521,7 +521,7 @@ export default function DashboardRider() {
                     </div>
 
                     {/* Chat */}
-                    <div class="bg-white rounded-xl p-4 h-screen overflow-hidden dark:bg-gray-900 dark:text-gray-300">
+                    <div class="bg-white rounded-xl shadow-lg p-4 h-screen overflow-hidden dark:bg-gray-900 dark:text-gray-300">
                         <div class="flex justify-between sticky top-0 bg-white dark:bg-gray-900 dark:text-gray-300">
                             <h1 class="font-bold text-3xl tracking-wide">Recent Messages</h1>
                             <button class="p-2 border-2 border-gray-500 rounded-lg">
