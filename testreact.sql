@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 02, 2024 at 02:15 PM
+-- Generation Time: Oct 06, 2024 at 03:23 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -92,7 +92,8 @@ INSERT INTO `cart` (`id`, `user_id`, `created_at`, `updated_at`) VALUES
 (6, 31, '2024-07-24 05:20:33', '2024-07-24 05:20:33'),
 (15, 40, '2024-09-21 12:18:09', '2024-09-21 12:18:09'),
 (16, 41, '2024-09-28 01:52:33', '2024-09-28 01:52:33'),
-(17, 42, '2024-09-28 01:58:05', '2024-09-28 01:58:05');
+(17, 42, '2024-09-28 01:58:05', '2024-09-28 01:58:05'),
+(18, 43, '2024-10-02 12:27:35', '2024-10-02 12:27:35');
 
 -- --------------------------------------------------------
 
@@ -104,7 +105,7 @@ CREATE TABLE `cart_items` (
   `id` int(11) NOT NULL,
   `user_id` int(100) UNSIGNED NOT NULL,
   `food_id` int(50) UNSIGNED NOT NULL,
-  `size` enum('Medium','Large') NOT NULL,
+  `size` varchar(255) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `quantity` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -118,7 +119,8 @@ CREATE TABLE `cart_items` (
 
 INSERT INTO `cart_items` (`id`, `user_id`, `food_id`, `size`, `price`, `quantity`, `created_at`, `updated_at`, `addons`) VALUES
 (109, 40, 18, 'Medium', 217.00, 1, '2024-09-21 12:23:10', '2024-09-21 12:23:10', 'taengkambing (₱59),cheesesabinimam (₱59),cheesesabinimam (₱50)'),
-(110, 40, 20, 'Large', 109.00, 1, '2024-09-21 12:34:54', '2024-09-21 12:34:54', 'cheesesabinimam (₱50)');
+(110, 40, 20, 'Large', 109.00, 1, '2024-09-21 12:34:54', '2024-09-21 12:34:54', 'cheesesabinimam (₱50)'),
+(125, 31, 18, 'small', 27.00, 1, '2024-10-06 01:20:37', '2024-10-06 01:20:37', '');
 
 -- --------------------------------------------------------
 
@@ -284,10 +286,7 @@ INSERT INTO `foods` (`id`, `name`, `description`, `image_url`, `category_id`, `v
 (110, 'New Product', 'Product New', '', 5, 1),
 (111, 'try', 'try', '/images/image_url_1726907822929.png', 7, 1),
 (113, 'try lang ulet', 'braaaaat', '/images/image_url_1726908028723.png', 26, 1),
-(114, 'ispagiti', 'Hehe', '/images/image_url_1727864602811.jpg', 34, 1),
-(115, 'TESTOCT22024', 'TESTOCT22024', '/images/image_url_1727865359920.jpg', 34, 1),
-(116, 'TESTOCT2', 'TESTOCT2', '/images/image_url_1727865493845.jpg', 3, 1),
-(117, 'TEST6:41', 'TEST6:41', '/images/image_url_1727865705842.png', 2, 1);
+(114, 'ispagiti', 'Hehe', '/images/image_url_1727864602811.jpg', 34, 1);
 
 -- --------------------------------------------------------
 
@@ -400,8 +399,7 @@ INSERT INTO `food_sizes` (`id`, `food_id`, `size`, `price`, `date_created`, `dat
 (177, 113, 'medium', 29.00, '2024-09-21 08:40:28', '2024-09-21 08:40:28'),
 (178, 18, 'small', 27.00, '2024-09-28 13:54:02', '2024-09-28 13:54:02'),
 (179, 19, 'small', 29.00, '2024-09-28 14:18:55', '2024-09-28 14:18:55'),
-(180, 114, 'medium', 15.00, '2024-10-02 10:23:22', '2024-10-02 10:23:22'),
-(181, 117, 'TEST6:41', 20.00, '2024-10-02 10:41:45', '2024-10-02 10:41:45');
+(180, 114, 'medium', 15.00, '2024-10-02 10:23:22', '2024-10-02 10:23:22');
 
 -- --------------------------------------------------------
 
@@ -507,7 +505,8 @@ INSERT INTO `user` (`id`, `name`, `email`, `password`, `address`, `role`, `creat
 (31, 'chardgrey', 'cardosarichard@gmail.com', '$2b$10$2CfKaulWCdIfErdXWtxDz.J5PC2CYidnxPHi2sWv822mG8lWKcdmu', 'Blk 99 Lot 99 Dasmarinas Cavite', 'user', '2024-07-24 05:20:33', '2024-07-24 05:21:06', '254kh7vd2k', 'true', ''),
 (40, 'Pedro Penduko', 'jobatoc997@ofionk.com', '$2b$10$txPG8S9wWxyQKrWnVhhBd.ABarEi71skq8KM1IWayUX3bEj04cqiu', 'Salawag Diamond Village Blk 10 Lot 4', 'user', '2024-09-21 12:18:09', '2024-09-21 12:18:09', '27o4xjs1ts', 'false', '09278658355'),
 (41, 'chardgrey', 'chardgrey@gmail.com', '$2b$10$5zsQK5v7BQW3WFcpLMBDveWzsV8e6EsUR7751.X3ZU2VhZ4pXcdle', 'Blk p lot 4 DASMARINAS', 'user', '2024-09-28 01:52:33', '2024-09-28 01:52:33', 'dolrv3tepi', 'false', '09278658355'),
-(42, 'leklek', 'leklek@gmail.com', '$2b$10$YZg1R7JAiuRBIxbXuD/HF.Z.Y6fGM7cUPqyD94Zns1pyIEBWLf9K.', 'Blk p lot 4 DASMARINAS', 'admin', '2024-09-28 01:58:05', '2024-09-28 13:14:10', '0473le3c91', 'true', '09278658355');
+(42, 'leklek', 'leklek@gmail.com', '$2b$10$YZg1R7JAiuRBIxbXuD/HF.Z.Y6fGM7cUPqyD94Zns1pyIEBWLf9K.', 'Blk p lot 4 DASMARINAS', 'admin', '2024-09-28 01:58:05', '2024-09-28 13:14:10', '0473le3c91', 'true', '09278658355'),
+(43, 'tetetetest', 'tetetetest@gmail.com', '$2b$10$2hGDiB5Dhngk.xiEi958kuOhvTVH5NoRhFWU.MYR985VgbIcfQDpC', 'tetetetest', 'user', '2024-10-02 12:27:35', '2024-10-02 12:27:35', 'xdix8ijkbf', 'false', '09278658355');
 
 --
 -- Indexes for dumped tables
@@ -628,13 +627,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -664,13 +663,13 @@ ALTER TABLE `faq_cms`
 -- AUTO_INCREMENT for table `foods`
 --
 ALTER TABLE `foods`
-  MODIFY `id` int(50) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
+  MODIFY `id` int(50) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 
 --
 -- AUTO_INCREMENT for table `food_sizes`
 --
 ALTER TABLE `food_sizes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=182;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=187;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -694,7 +693,7 @@ ALTER TABLE `order_addons`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- Constraints for dumped tables
