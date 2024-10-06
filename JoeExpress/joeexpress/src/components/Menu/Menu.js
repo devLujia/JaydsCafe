@@ -215,6 +215,7 @@ const rightNav = () => {
               }
             };
           }, []);
+            
             // State for pagination
             const [currentPage, setCurrentPage] = useState(1);
             const itemsPerPage = 8; // Adjust the number of items per page as needed
@@ -411,7 +412,7 @@ const rightNav = () => {
                     <img src={food.image_url} alt="Milk Tea" className="w-full h-full object-contain min-h-52 min-w-52"/>
                   </div>
                   <h3 className="text-xl font-semibold mt-4 min-h-10">{food.name}</h3>
-                  <p className="text-gray-400 mt-2 text-sm font-semibold">Starts at</p>
+                  <p className="text-gray-400 mt-4 text-sm font-semibold">Starts at</p>
                   <p className="text-2xl font-bold mb-1">₱{food.price}</p>
 
                   {authenticated ? (
@@ -427,7 +428,7 @@ const rightNav = () => {
                     <button
                       onClick={() => navigate('/login')}
                       id="btn-cart"
-                      className="bg-slate-400 p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300"
+                      className="bg-gray-300 p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300"
                     >
                       <img src={cartMenu} alt=""/>
                     </button>
@@ -437,7 +438,7 @@ const rightNav = () => {
             </div>
 
             {/* Pagination controls */}
-            <div className="flex justify-center items-center space-x-4 mt-10">
+            <div className="flex justify-center items-center space-x-4 mt-10 text-sm">
               <div className='px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 inline-flex gap-2'onClick={goToPreviousPage}>
                 <img src={left}></img>
                 <button className={`${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={currentPage === 1}>

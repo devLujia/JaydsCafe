@@ -373,9 +373,6 @@ function ProductManagement() {
         <div className="p-4 sm:ml-72 bg-slate-100 hidden sm:block">
           <div className="relative shadow-xl sm:rounded-lg mx-auto w-full max-w-7xl">
             <div className="flex items-center flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900 rounded-t-xl">
-              {/* <div className="ms-2">
-                <h1 className="text-2xl font-semibold">Categories</h1>
-              </div> */}
 
               <div className="ms-2 text-md">
                 <select 
@@ -411,7 +408,7 @@ function ProductManagement() {
           <button 
             onClick={toggleAddProductModal} 
             type="button" 
-            className="ml-auto text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+            className="ml-auto text-white bg-textgreenColor hover:bg-green-900 focus:ring-2 focus:outline-none focus:ring-green-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
           >
             <img src={plus} alt="Plus_Product" className="me-2 md:block" />
             <span className="md:block hidden"> Add Product </span>
@@ -420,7 +417,7 @@ function ProductManagement() {
           <button 
             onClick={toggleAddAddonsModal} 
             type="button" 
-            className="ml-auto text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+            className="ml-auto text-white bg-textgreenColor hover:bg-green-900 focus:ring-2 focus:outline-none focus:ring-green-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
           >
             <img src={plus} alt="Plus_Addons" className="me-2 md:block" />
             <span className="md:block hidden"> Add Addons </span>
@@ -429,7 +426,7 @@ function ProductManagement() {
           <button 
             onClick={toggleAddCategoryModal} // Assuming you meant to toggle a category modal
             type="button" 
-            className="ml-auto text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+            className="ml-auto text-white bg-textgreenColor hover:bg-green-900 focus:ring-2 focus:outline-none focus:ring-green-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
           >
             <img src={plus} alt="Plus_Category" className="me-2 md:block" />
             <span className="md:block hidden"> Add Category </span>
@@ -447,55 +444,57 @@ function ProductManagement() {
 
                 <div id="mt-series" className="w-full max-w-7xl mx-auto mt-4">
                   <div className="container mx-auto p-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
-                      
-                      {foods
-                        .filter(food => food.name.toLowerCase().includes(addonSearch.toLowerCase()))
-                        .map((food) => (
-                          <div key={food.id} className="rounded-lg p-3 shadow-2xl relative outline outline-gray-500 hover:scale-95 duration-300 hover:bg-jaydsBg">
-                            <div className="rounded-full bg-menuCirclebg p-4 aspect-square">
-                              <img src={food.image_url} alt="Milk Tea" className="w-full h-full object-contain" />
-                            </div>
+                    
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
+                        
+                        {foods
+                          .filter(food => food.name.toLowerCase().includes(addonSearch.toLowerCase()))
+                          .map((food) => (
+                            <div key={food.id} className="rounded-3xl p-3 shadow-2xl relative border-2 border-gray-300 hover:scale-95 duration-300 hover:bg-jaydsBg">
+                              <div className="rounded-full bg-slate-200 p-4 aspect-square overflow-hidden items-center flex justify-center w-4/5 mx-auto">
+                                <img src={food.image_url} alt="Milk Tea" className="w-full h-full object-contain" />
+                              </div>
 
-                            <div className="text-center">
-                              <h3 className="text-auto font-bold mt-4 min-h-15">{food.name}</h3>
-                              {sizes[food.id]?.map(size =>(
-                                <React.Fragment key={size.id}>
-                                <p className="text-auto font-normal mt-1">
-                                Size:
-                                <span className="text-auto font-semibold mt-1"> {size.size.toUpperCase()} (₱ {size.price}.00)</span>
-                              </p>
-                                <p className="text-auto font-normal mt-1">
+                              <div className="text-center">
+                                <h3 className="text-auto font-bold mt-4 min-h-15">{food.name}</h3>
+                                {sizes[food.id]?.map(size =>(
+                                  <React.Fragment key={size.id}>
+                                  <p className="text-auto text-sm font-semibold mt-1 text-gray-500">
+                                  Size:
+                                  <span className="text-auto font-normal mt-1"> {size.size.toUpperCase()} (₱ {size.price}.00)</span>
+                                </p>
+                                  <p className="text-auto font-normal mt-1">
+                                  
+                                </p>
+                                </React.Fragment>
+                                  
+                              ))}
+                              </div>
+
+                              <div className="flex justify-center mt-4 space-x-2 flex-wrap">
+                                <button onClick={() => handleEditProduct(food.id)} className="hover:scale-110 duration-300" title='Edit Product'>
+                                  <img src={edit} alt="edit" className="brightness-0 w-10 h-10" />
+                                </button>
                                 
-                              </p>
-                              </React.Fragment>
-                                
-                            ))}
+                                {/* Need lagyan ng confirmation */}
+                                {/*             {(event) => handleRemoveProduct(food.id)} */}
+                                <button onClick={() => toggleRemoveProductModal(food.id)} className="hover:scale-110 duration-300" title='Delete'>
+                                  <img src={trashbin2} alt="delete" className="brightness-0 w-12 h-12" />
+                                </button>
+
+                                <button onClick={() => handleAddSize(food.id)} className="hover:scale-110 duration-300" title='Add Size'>
+                                  <img src={plus} className="filter invert w-12 h-12" alt="Add size" />
+                                </button>
+
+                                <button onClick={() => handleHide(food.id)} className="hover:scale-110 duration-300" title='Hide'>
+                                  <img src={hiddenImage} alt="hide" className="w-10 h-10" />
+                                </button>
+                              </div>
                             </div>
-
-                            <div className="flex justify-center mt-4 space-x-2">
-                              <button onClick={() => handleEditProduct(food.id)} className="hover:scale-110 duration-300" title='Edit Product'>
-                                <img src={edit} alt="edit" className="brightness-0 w-10 h-10" />
-                              </button>
-                              
-                              {/* Need lagyan ng confirmation */}
-                              {/*             {(event) => handleRemoveProduct(food.id)} */}
-                              <button onClick={() => toggleRemoveProductModal(food.id)} className="hover:scale-110 duration-300" title='Delete'>
-                                <img src={trashbin2} alt="delete" className="brightness-0 w-12 h-12" />
-                              </button>
-
-                              <button onClick={() => handleAddSize(food.id)} className="hover:scale-110 duration-300" title='Add Size'>
-                                <img src={plus} className="filter invert w-12 h-12" alt="Add size" />
-                              </button>
-
-                              <button onClick={() => handleHide(food.id)} className="hover:scale-110 duration-300" title='Hide'>
-                                <img src={hiddenImage} alt="hide" className="w-10 h-10" />
-                              </button>
-                            </div>
-                          </div>
-                        ))}
-                    </div>
+                          ))}
+                      </div>
                   </div>
+                  
                 </div>
               </div>
             ) : selectedValue === 'Addons' ? (

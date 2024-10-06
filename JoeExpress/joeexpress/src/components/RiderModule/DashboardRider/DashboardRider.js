@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import user from '../../image/UserAcc.svg'
 import notif from '../../image/notif.svg'
 import jaydsLogo from '../../image/jayds cafe Logo.svg';
@@ -13,9 +13,23 @@ import msg from '../../image/messagerider.svg';
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function DashboardRider() {
+
+    const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+    const toggleSideNav = () => {
+        setSidebarOpen (!isSidebarOpen);
+    };
+
   return (
     <div className='bg-slate-100 dark:bg-gray-700'>
         <nav class="sticky top-0 bg-slate-100 z-20 shadow-none flex justify-between dark:bg-gray-900 ">
+            
+            <div className='block sm:hidden'>
+                <button onClick={toggleSideNav}>
+                    <img src={riderLogo}></img>
+                </button>
+            </div>
+
             <div class="font-extrabold text-2xl flex items-center">
                 {/* <!-- Logo/Title in Navbar --> */}
             </div>
@@ -34,25 +48,27 @@ export default function DashboardRider() {
             </div>
         </nav>
 
-        <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-72 h-screen pt-5 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
+
+        <aside id="logo-sidebar" className={`fixed top-0 left-0 z-40 w-72 h-screen pt-5 transition-transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700`}
+             aria-label="Sidebar">            
             <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
-                <a href="#" class="flex items-center ps-2.5 mb-5">
+                <button class="flex items-center ps-2.5 mb-5" onClick={toggleSideNav}>
                     <img src={riderLogo} alt="Logo"/>
                     <span class="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2">Jayd's Cafe</span>
-                </a>
+                </button>
                 <ul class="space-y-2 font-medium">
-                    <li> {/* <!-- Dashboard --> */}
-                        <a href="#" class="flex items-center p-2 rounded-lg bg-greenColor group text-white">
-                        <svg class="w-5 h-5 transition duration-75 dark:text-white text-white dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
-                            <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z"/>
-                            <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z"/>
-                        </svg>
+                    <li> {/* <!--Dashboard  -->  text-gray-600 transition duration-75 group-hover:text-white dark:text-gray-400 dark:group-hover:text-white */}
+                        <a href="#" class="flex items-center p-2  rounded-lg bg-greenColor group text-white">
+                            <svg class="w-5 h-5 transition duration-75 dark:text-gray-600  group text-white dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
+                                <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z"/>
+                                <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z"/>
+                            </svg>
                             <span class="ms-3">Dashboard</span>
                         </a>
                     </li>
-                    <li> {/* <!-- Order Management -->  text-gray-600 transition duration-75 group-hover:text-white dark:text-gray-400 dark:group-hover:text-white */}
-                        <a href="/RiderOrder" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor group hover:text-white">
-                            <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75 group-hover:text-white dark:text-gray-600 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 21">
+                    <li> {/* <!-- Order Management --> */}
+                        <a href="/RiderOrder" class="flex items-center p-2 rounded-lg hover:bg-greenColor group text-gray-600  hover:text-white">
+                            <svg class="flex-shrink-0 w-5 h-5 hover:text-white transition duration-75 group-hover:text-white dark:text-gray-400 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 21">
                                 <path d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z"/>
                             </svg>
                             <span class="ms-3">Order</span>
@@ -91,7 +107,7 @@ export default function DashboardRider() {
         </aside>
 
         <div class="py-4 sm:ml-64 ">
-            <div class="p-4 ml-8">
+            <div class="p-4 sm:ml-8">
 
                 {/* Cards top container */}
                  <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-5'>
@@ -181,14 +197,14 @@ export default function DashboardRider() {
                                     <span class="text-sm leading-6 text-gray-500"> Accepted at: 09:42 AM </span>
                                 </div>
 
-                                <div className='mt-5 flex justify-between'>
+                                <div className='mt-5 flex justify-between flex-wrap gap-y-4'>
                                     <button className='font-semibold inline-flex justify-center items-center border border-solid border-slate-300 py-2 px-3 rounded-lg gap-2 text-slate-700'>
                                         <img src={msg} className='dark:filter dark:invert'></img>
                                         <p className='dark:text-white'>Message</p>
                                     </button>
 
                                     {/* ito yung unang lalabas */}
-                                    <div className='flex justify-between gap-4'>
+                                    <div className='flex justify-between gap-4 flex-wrap'>
                                         <button className='font-normal hover:bg-red-700 transition-all duration-300 bg-red-500 py-2 px-3 rounded-lg gap-2 text-white'>
                                             <p>Decline</p>
                                         </button>
