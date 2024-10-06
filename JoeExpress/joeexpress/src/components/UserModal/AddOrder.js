@@ -156,9 +156,9 @@ return(
                 {/* Main Container */}
                 <div className='grid grid-cols-1 md:grid-cols-2 rounded-lg max-h-screen '>
                     {/* Left side */}
-                    <div className='flex flex-col rounded-lg gap-y-5'>
-                        <div className='bg-background rounded-tl-xl'>
-                            <div className="p-4  w-56 mx-auto aspect-square">
+                    <div className='flex flex-col rounded-lg gap-y-4'>
+                        <div className='bg-darkgreen rounded-tl-xl'>
+                            <div className="p-4 w-56 mx-auto aspect-square">
                                 <img src={food.image_url} alt="Milk Tea" className="w-full h-full object-contain"/>
                             </div>
                         </div>
@@ -167,7 +167,7 @@ return(
                             <h1 className='text-3xl font-bold mb-2'>
                                 {food.name}
                             </h1>
-                            <p className='text-lg font-semibold text-slate-300 mb-1'>
+                            <p className='text-md font-normal text-slate-400'>
                                 Starts at
                             </p>
                             <h2 className='text-2xl mb-4'>

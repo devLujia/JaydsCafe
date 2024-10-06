@@ -947,11 +947,11 @@ function Home() {
                   </div>
                 </div>
                 <div class="relative text-white px-3 pb-6 mt-1 align-baseline">
-                  <span class="block opacity-75 -mb-1">Large</span>
                   <div class="flex justify-between">
                     <span class="block font-semibold text-xl">{menus.name}</span>
-                    <span class="bg-white rounded-full text-textgreenColor text-md font-bold px-3 py-2 leading-none flex items-center">₱{menus.Large}</span>
+                    <span class="bg-white rounded-full text-gray-900 text-md font-bold px-3 py-2 leading-none flex items-center">₱{menus.Large}</span>
                   </div>
+                  <span class="block opacity-75 -mb-1">Large</span>
                   
                     <button class="flex justify-center items-center mx-auto mt-6 bg-greenColor p-2 rounded-lg hover:scale-110 duration-300">
                       <Link to={'/navlogin'}>Add to Cart</Link>

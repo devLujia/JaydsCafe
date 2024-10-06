@@ -18,7 +18,6 @@ export default function DashboardRider() {
         <nav class="sticky top-0 bg-slate-100 z-20 shadow-none flex justify-between dark:bg-gray-900 ">
             <div class="font-extrabold text-2xl flex items-center">
                 {/* <!-- Logo/Title in Navbar --> */}
-                <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Dashboard</a>
             </div>
             <div></div>
             {/* <!-- Button for Login or Sign Up --> */}
