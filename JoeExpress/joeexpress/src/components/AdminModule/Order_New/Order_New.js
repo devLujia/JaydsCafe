@@ -90,6 +90,18 @@ export default function Order_New() {
         setExpandedOrderHistoryId(expandedOrderHistoryId === orderHistoryId ? null : orderHistoryId);
      };
 
+     const cancelOrder = async (order_id) =>{
+        
+        const isConfirmed = window.confirm("Are you sure you want to delete this item?");
+                if (isConfirmed) {
+                    await axios.post('http://localhost:8081/cancelOrder', {order_id})   
+                }   
+                else {
+                    console.log("Action canceled");
+                }
+
+     }
+
      const getTheOrder = (id, stats) => {
 
         let newStatus = ''; 
@@ -352,16 +364,18 @@ export default function Order_New() {
                                             Mark as 'on Delivery'
                                           </button>     
                                         : ""}
+                                            <button onClick={()=> toggleOrderDetails(order.order_id)}>
+                                                <img src={eye} alt="eye" className="w-6 h-6"/>
+                                             </button>
 
+                                             <button onClick={()=> cancelOrder(order.order_id)} className="hover:underline hover:decoration-blue-500">
+                                                <img src={del} alt="trash" />
+                                             </button>
                                           
                                           
                                            {/*<div className="h-fit items-center justify-center space-x-3 ps-4 mx-auto">
-                                             <button onClick={()=> toggleOrderDetails(order.order_id)}>
-                                                <img src={eye} alt="eye" className="w-6 h-6" />
-                                             </button>
-                                             <button className="hover:underline hover:decoration-blue-500">
-                                                <img src={del} alt="trash" />
-                                             </button>
+                                             
+                                             
                                              <button onClick={()=> getTheOrder(order.order_id, order.status)}>
                                                 <img src={check} alt="check"/>
                                              </button>

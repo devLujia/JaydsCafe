@@ -1585,7 +1585,8 @@ app.post('/removeProduct',  async (req, res) =>{
         JOIN 
             user u ON u.id = o.customer_id
         WHERE 
-            o.status = 'on process' OR o.status = 'paid' OR o.status = 'on delivery'
+            o.status = 'on process' OR o.status = 'paid'
+
         GROUP BY 
             o.order_id, 
             u.name,
@@ -1637,7 +1638,7 @@ app.post('/removeProduct',  async (req, res) =>{
         JOIN 
             user u ON u.id = o.customer_id
         WHERE 
-            o.status = 'completed' or o.status = 'cancelled'
+            o.status = 'completed' or o.status = 'cancelled' or o.status = 'on delivery' 
         GROUP BY 
             o.order_id, 
             u.name,
@@ -1657,6 +1658,45 @@ app.post('/removeProduct',  async (req, res) =>{
             res.json(result)
         });
 
+    })
+
+    app.post('/cancelOrder',(req,res)=>{
+        const {order_id} = req.body
+
+        const query = `Update orders 
+        SET status = 'cancelled'
+        WHERE order_id = ?`
+
+        db.query(query, [order_id], (error, result) => {
+    
+            if(error){
+                return res.status(500).json({ error: 'Database error' });
+            }
+            res.json({success: true})
+            
+          })
+    })
+
+    app.post('/updateOrders', async (req,res)=>{
+
+        const {order_id, status} = req.body
+    
+        const query = 
+        `
+        Update orders 
+        SET status = ?
+        WHERE order_id = ?
+    
+        `
+        db.query(query, [status, order_id], (error, result) => {
+    
+            if(error){
+                return res.status(500).json({ error: 'Database error' });
+            }
+            
+          })
+    
+    
     })
     
     
