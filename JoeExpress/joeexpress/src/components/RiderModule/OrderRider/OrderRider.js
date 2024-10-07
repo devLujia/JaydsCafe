@@ -106,14 +106,14 @@ export default function OrderRider() {
 
                 {/* Cards top container */}
                  <div className='w-full flex gap-2'>
-                   <button className='w-full rounded-full text-gray-500 hover:bg-white font-semibold hover:text-gray-900'>
+                   <button className='w-full rounded-lg text-gray-500 hover:bg-white font-semibold hover:text-gray-900'>
                         Pending <span>(1)</span>
                    </button>
-                   <button className='w-full rounded-full text-gray-500 hover:bg-white font-semibold hover:text-gray-900'>
+                   <button className='w-full rounded-lg text-gray-500 bg-white font-semibold hover:text-gray-900'>
                         Active <span>(3)</span>
                    </button>
-                   <button className='w-full rounded-full text-gray-500 hover:bg-white font-semibold hover:text-gray-900'>
-                        Complete <span>(0)</span>
+                   <button className='w-full rounded-lg text-gray-500 hover:bg-white font-semibold hover:text-gray-900'>
+                        Completed <span>(0)</span>
                    </button>
                  </div>
 
