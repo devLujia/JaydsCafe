@@ -8,7 +8,7 @@ import check from '../image/greenCheck.svg';
 import MapModal from '../Map/Map';
 import Terms from '../UserModal/TermsAndCondition/Terms'
 
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 export default function PaymentSuccess() {
@@ -19,6 +19,15 @@ export default function PaymentSuccess() {
   const [cmsInstagram,setCmsInstagram] = useState('');
   const [cmsLink,setCmsLink] = useState('');
   const [TermsModal,setTermsModal] = useState(false); //modal
+  const { OrderId } = useParams();
+  const [OrdrID, setOrdrID] = useState('');
+
+  useEffect(()=>{
+    if(OrderId){
+        setOrdrID(OrderId)
+    }
+  },[OrderId])
+
 
   useEffect(()=>{
 
@@ -66,6 +75,11 @@ export default function PaymentSuccess() {
   
       };
 
+      fetchNameData()
+      fetchFacebookLinkData()
+      fetchInstagramLinkData()
+      fetchLinkData()
+
   },[])
 
     const handleMapModal = () => {
@@ -97,7 +111,7 @@ export default function PaymentSuccess() {
         <nav class="w-full top-0 fixed bg-white z-20 shadow-lg flex justify-evenly">
             <div class="font-extrabold text-2xl flex items-center">
                 {/* <!-- Logo/Title in Navbar --> */}
-                <a href={'/menu'} class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
+                <a href={'/menu'} class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">{cmsName}</a>
             </div>
             <div></div>
             {/* <!-- Button for Login or Sign Up --> */}
@@ -122,9 +136,15 @@ export default function PaymentSuccess() {
                     </p>
                 </div>
                 <div className='flex flex-col w-full gap-y-4 font-bold tracking-wide mb-2 px-3'>
-                    <button onClick={() => navigate('/tracking')} className='bg-textgreenColor hover:bg-green-500 transition duration-500 w-full rounded-full text-center text-lg text-white py-3 '>
+                {OrderId ? (
+                        <button onClick={() => navigate(`/tracking/${OrdrID}`)} className='bg-textgreenColor hover:bg-green-500 transition duration-500 w-full rounded-full text-center text-lg text-white py-3 '>
                         View Order Status
                     </button>
+                    ) : (
+                        <p>Order ID not found</p>
+                    )}
+                    
+                    
                     <button className='w-full hover:underline' onClick={goToMenu}>
                         Back to menu
                     </button>

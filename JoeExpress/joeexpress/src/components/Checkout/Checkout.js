@@ -4,15 +4,11 @@ import ig from '../image/ig.svg';
 import yt from '../image/yt.svg';
 import arrowLeft from '../image/arrow left.svg'
 import arrowUp from '../image/arrowUp.svg'
-import jaydscoffee from '../image/jaydsCoffee.svg'
-import expresso from '../image/expresso.png'
-import cart from '../image/cart.svg'
 import bagIcon from '../image/bag.svg';
 import gcash from '../image/gcash_logo.svg';
 import plus from '../image/plus.svg';
 import lock from '../image/lock.svg';
 import axios from 'axios';
-import CheckoutModal from '../Modal/FileModal/FileModal';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 export default function Checkout() {
@@ -25,16 +21,16 @@ export default function Checkout() {
     const [paymentIntentId, setPaymentIntentId] = useState(null);
     const [totalBill, setTotalBill] = useState(0);
     const [checkoutUrl, setCheckoutUrl] = useState(null);
-    const [orderID,setOrderId] = useState([])
+     const [orderID,setOrderId] = useState([])
 
     const { OrdrId } = useParams();
     
 
-    useEffect(() => {
-        axios.get(`http://localhost:8081/tracking/${OrdrId}`)
-            .then(res => setOrderId(res.data.data))
-            .catch(err => console.log(err));
-    }, [OrdrId]);
+    // useEffect(() => {
+    //     axios.get(`http://localhost:8081/tracking/${OrdrId}`)
+    //         .then(res => setOrderId(res.data.data))
+    //         .catch(err => console.log(err));
+    // }, [OrdrId]);
 
 
     useEffect(() => {
@@ -62,7 +58,7 @@ export default function Checkout() {
             .catch(error => {
                 console.error('Error fetching item details:', error);
             });
-    },[userId]);
+    },[userId,items]);
 
     const handleCloseModal = () => {
         setShowModal(false);
@@ -87,23 +83,21 @@ export default function Checkout() {
 
     const handleCreatePaymentIntent = async () => {
         try {
-          const response = await axios.post('http://localhost:8081/create-payment-intent', {
-            amount: totalBill,
-            description: 'Order Payment for JoeExpress Milktea',
-            OrderID: orderID,
-            userId: userId,
-          });
+                
+            const response = await axios.post(`http://localhost:8081/create-payment-intent/${OrdrId}`, {
+                amount: totalBill,
+                description: `Order Payment for Jayd's Coffee`,
+                userId: userId,
+            });
     
-          const { checkoutUrl } = response.data;
-          setCheckoutUrl(checkoutUrl);
+
+            const { checkoutUrl } = response.data;
     
-          window.location.href = checkoutUrl;
-        } 
-        
-        catch (error) {
-          console.error('Error creating payment intent:', error);
+            setCheckoutUrl(checkoutUrl);
+            window.location.href = checkoutUrl;
+        } catch (error) {
+            console.error('Error creating payment intent:', error);
         }
-    
     };
 
     useEffect(() => {
@@ -114,7 +108,7 @@ export default function Checkout() {
       
         setTotalBill(total);
       
-    });
+    },[items]);
 
   return (
     <div className='bg-white'>

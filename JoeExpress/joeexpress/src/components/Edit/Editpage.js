@@ -16,7 +16,6 @@ export default function Editpage() {
     const navigate = useNavigate();
     const { foodId } = useParams();
     const [food, setFood] = useState(null);
-    const [foods, setFoods] = useState([]);
     const [addons, setAddons] = useState([]);
     const [cart, setCart] = useState([]);
     const [totalBill, setTotalBill] = useState(0);

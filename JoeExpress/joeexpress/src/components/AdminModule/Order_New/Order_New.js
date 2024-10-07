@@ -95,9 +95,11 @@ export default function Order_New() {
         let newStatus = ''; 
       
         if (stats === 'paid') {
-          newStatus = 'pending';
-        } else if (stats === 'pending') {
-          newStatus = 'completed';
+          newStatus = 'on process';
+        } 
+        
+        else if (stats === 'on process') {
+          newStatus = 'on delivery';
         }
   
         setUpdateOrder(prevState => 
@@ -305,7 +307,7 @@ export default function Order_New() {
 
                                  {orders.map(order => (
                                     <React.Fragment key={order.order_id}>
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <tr  className="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                        <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white ">
                                           <div className="text-base font-semibold">ORDR#{order.order_id}</div>
                                        </th>
@@ -332,23 +334,28 @@ export default function Order_New() {
                                         ₱{order.totalPrice}.00
                                        </td>
                                        <td className="px-6 py-4">
-                                        {order.status === 'paid' ? <div className="bg-green-100 text-blue-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status}</div> : <div className="bg-green-100 text-orange-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status} </div>}
+                                        {order.status === 'paid' ? 
+                                        <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status.toUpperCase()}</div> 
+                                        : order.status === 'on process' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div>
+                                        : order.status === 'on delivery' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div> 
+                                        :''}
                                           
                                        </td>
-                                       <td className=" px-6 py-4">
-                                          <button className='py-2 px-3 bg-textgreenColor text-white rounded-full hidden'>
-                                            Complete
-                                          </button>
-
-                                          <button className='py-2 px-3 bg-yellow-600 text-white rounded-full'>
-                                            On Process
-                                          </button>
-
-                                          <button className='py-2 px-3 bg-red-600 text-white rounded-full hidden'>
-                                            Cancel
-                                          </button>
+                                       <td className=" px-6 py-4 ">
                                           
-                                          {/* <div className="h-fit items-center justify-center space-x-3 ps-4 mx-auto">
+                                       {order.status === 'paid' ? 
+                                        <button onClick={()=> getTheOrder(order.order_id, order.status)} className='py-2 px-3 bg-yellow-500 text-white rounded-full' >
+                                            Mark as 'on process'
+                                          </button>  
+                                        : order.status === 'on process' ? 
+                                        <button onClick={()=> getTheOrder(order.order_id, order.status)} className='py-2 px-3 bg-textgreenColor text-white rounded-full'>
+                                            Mark as 'on Delivery'
+                                          </button>     
+                                        : ""}
+
+                                          
+                                          
+                                           {/*<div className="h-fit items-center justify-center space-x-3 ps-4 mx-auto">
                                              <button onClick={()=> toggleOrderDetails(order.order_id)}>
                                                 <img src={eye} alt="eye" className="w-6 h-6" />
                                              </button>

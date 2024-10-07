@@ -619,7 +619,7 @@ app.post('/order', (req, res) => {
                 }
             });
 
-            return res.json({ success: true });
+            return res.json({ success: true, lastOrderId });
         });
     });
 });
@@ -688,8 +688,9 @@ app.post('/webhook', (req, res) => {
     });
 });
   
-app.post('/create-payment-intent', async (req, res) => {
-    const { amount, description, userId } = req.body;
+app.post('/create-payment-intent/:OrdrId', async (req, res) => {
+    const { amount, description , userId} = req.body;
+    const OrdrId = req.params.OrdrId
 
     try {
         const response = await axios.post(
@@ -702,7 +703,8 @@ app.post('/create-payment-intent', async (req, res) => {
                         currency: 'PHP',
                         description: description,
                         metadata: {
-                            userId: userId.toString()
+                            userId: userId.toString(),
+                            OrderId: OrderId.toString()
                         },
                     },
                 },
@@ -724,7 +726,7 @@ app.post('/create-payment-intent', async (req, res) => {
                     attributes: {
                         amount: amount * 100, // amount in cents
                         redirect: {
-                            success: `http://localhost:3000/paymentSuccess`,
+                            success: `http://localhost:3000/paymentSuccess/${OrdrId}`,
                             failed: 'http://localhost:3000/payment-failed',
                         },
                         type: 'gcash', // Payment type
@@ -743,6 +745,7 @@ app.post('/create-payment-intent', async (req, res) => {
         res.json({
             checkoutUrl: checkoutResponse.data.data.attributes.redirect.checkout_url,
             paymentIntentId,
+            OrderId
         });
     } 
     catch (error) {
@@ -1579,7 +1582,7 @@ app.post('/removeProduct',  async (req, res) =>{
         JOIN 
             user u ON u.id = o.customer_id
         WHERE 
-            o.status = 'pending' OR o.status = 'paid'
+            o.status = 'on process' OR o.status = 'paid' OR o.status = 'on delivery'
         GROUP BY 
             o.order_id, 
             u.name,
