@@ -21,7 +21,7 @@ export default function Checkout() {
     const [paymentIntentId, setPaymentIntentId] = useState(null);
     const [totalBill, setTotalBill] = useState(0);
     const [checkoutUrl, setCheckoutUrl] = useState(null);
-     const [orderID,setOrderId] = useState([])
+    const [orderID,setOrderId] = useState([])
 
     const { OrdrId } = useParams();
     
@@ -70,7 +70,7 @@ export default function Checkout() {
         try{
             const res = await axios.post('http://localhost:8081/order',{userId, amount: totalBill});
             if (res.data.success){
-              handleCreatePaymentIntent();
+              handleCreatePaymentIntent(res.data.lastOrderId);
             }
             else{
               console.log('Checkout Failed')
@@ -81,16 +81,15 @@ export default function Checkout() {
 
     }
 
-    const handleCreatePaymentIntent = async () => {
+    const handleCreatePaymentIntent = async (id) => {
         try {
                 
-            const response = await axios.post(`http://localhost:8081/create-payment-intent/${OrdrId}`, {
+            const response = await axios.post(`http://localhost:8081/create-payment-intent/${id}`, {
                 amount: totalBill,
                 description: `Order Payment for Jayd's Coffee`,
                 userId: userId,
             });
     
-
             const { checkoutUrl } = response.data;
     
             setCheckoutUrl(checkoutUrl);

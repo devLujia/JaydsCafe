@@ -20,13 +20,13 @@ export default function PaymentSuccess() {
   const [cmsLink,setCmsLink] = useState('');
   const [TermsModal,setTermsModal] = useState(false); //modal
   const { OrderId } = useParams();
-  const [OrdrID, setOrdrID] = useState('');
+  //const [OrdrID, setOrdrID] = useState('');
 
-  useEffect(()=>{
-    if(OrderId){
-        setOrdrID(OrderId)
-    }
-  },[OrderId])
+//   useEffect(()=>{
+//     if(OrderId){
+//         setOrdrID(OrderId)
+//     }
+//   },[OrderId])
 
 
   useEffect(()=>{
@@ -137,7 +137,7 @@ export default function PaymentSuccess() {
                 </div>
                 <div className='flex flex-col w-full gap-y-4 font-bold tracking-wide mb-2 px-3'>
                 {OrderId ? (
-                        <button onClick={() => navigate(`/tracking/${OrdrID}`)} className='bg-textgreenColor hover:bg-green-500 transition duration-500 w-full rounded-full text-center text-lg text-white py-3 '>
+                        <button onClick={() => navigate(`/tracking/${OrderId}`)} className='bg-textgreenColor hover:bg-green-500 transition duration-500 w-full rounded-full text-center text-lg text-white py-3 '>
                         View Order Status
                     </button>
                     ) : (

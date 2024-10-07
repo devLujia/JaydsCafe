@@ -688,23 +688,24 @@ app.post('/webhook', (req, res) => {
     });
 });
   
-app.post('/create-payment-intent/:OrdrId', async (req, res) => {
-    const { amount, description , userId} = req.body;
-    const OrdrId = req.params.OrdrId
+app.post('/create-payment-intent/:id', async (req, res) => {
+    const { amount, description, userId } = req.body;
+    const orderId = req.params.id; // Use the correct variable name
 
     try {
-        const response = await axios.post(
+        // Create payment intent
+        const paymentIntentResponse = await axios.post(
             'https://api.paymongo.com/v1/payment_intents',
             {
                 data: {
                     attributes: {
-                        amount: amount * 100,
-                        payment_method_allowed: ['gcash'],
-                        currency: 'PHP',
-                        description: description,
+                        amount: amount * 100, // Amount in cents
+                        payment_method_allowed: ['gcash'], // Allowed payment methods
+                        currency: 'PHP', // Currency
+                        description: description, // Payment description
                         metadata: {
-                            userId: userId.toString(),
-                            OrderId: OrderId.toString()
+                            userId: userId.toString(), // User ID in metadata
+                            OrderId: orderId.toString() // Use the orderId from params
                         },
                     },
                 },
@@ -717,20 +718,21 @@ app.post('/create-payment-intent/:OrdrId', async (req, res) => {
             }
         );
 
-        const paymentIntentId = response.data.data.id;
+        const paymentIntentId = paymentIntentResponse.data.data.id;
 
+        // Create a source for the payment
         const checkoutResponse = await axios.post(
             'https://api.paymongo.com/v1/sources',
             {
                 data: {
                     attributes: {
-                        amount: amount * 100, // amount in cents
+                        amount: amount * 100, // Amount in cents
                         redirect: {
-                            success: `http://localhost:3000/paymentSuccess/${OrdrId}`,
-                            failed: 'http://localhost:3000/payment-failed',
+                            success: `http://localhost:3000/paymentSuccess/${orderId}`, // Use the orderId from params
+                            failed: 'http://localhost:3000/payment-failed', // Redirect on failure
                         },
                         type: 'gcash', // Payment type
-                        currency: 'PHP',
+                        currency: 'PHP', // Currency
                     },
                 },
             },
@@ -742,17 +744,18 @@ app.post('/create-payment-intent/:OrdrId', async (req, res) => {
             }
         );
 
+        // Respond with checkout URL and payment intent ID
         res.json({
             checkoutUrl: checkoutResponse.data.data.attributes.redirect.checkout_url,
             paymentIntentId,
-            OrderId
+            OrderId: orderId // Return the OrderId
         });
-    } 
-    catch (error) {
+    } catch (error) {
         console.error('Error creating payment intent or checkout:', error.response?.data || error.message);
         res.status(500).json({ error: 'Failed to create payment intent or checkout' });
     }
 });
+
 
 
 
