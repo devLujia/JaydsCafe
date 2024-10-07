@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 06, 2024 at 03:23 AM
+-- Generation Time: Oct 07, 2024 at 06:45 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -119,8 +119,7 @@ CREATE TABLE `cart_items` (
 
 INSERT INTO `cart_items` (`id`, `user_id`, `food_id`, `size`, `price`, `quantity`, `created_at`, `updated_at`, `addons`) VALUES
 (109, 40, 18, 'Medium', 217.00, 1, '2024-09-21 12:23:10', '2024-09-21 12:23:10', 'taengkambing (₱59),cheesesabinimam (₱59),cheesesabinimam (₱50)'),
-(110, 40, 20, 'Large', 109.00, 1, '2024-09-21 12:34:54', '2024-09-21 12:34:54', 'cheesesabinimam (₱50)'),
-(125, 31, 18, 'small', 27.00, 1, '2024-10-06 01:20:37', '2024-10-06 01:20:37', '');
+(110, 40, 20, 'Large', 109.00, 1, '2024-09-21 12:34:54', '2024-09-21 12:34:54', 'cheesesabinimam (₱50)');
 
 -- --------------------------------------------------------
 
@@ -411,7 +410,7 @@ CREATE TABLE `orders` (
   `order_id` int(100) UNSIGNED NOT NULL,
   `customer_id` int(100) UNSIGNED NOT NULL,
   `order_date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `status` enum('paid','pending','completed','cancelled','') NOT NULL,
+  `status` enum('unpaid','paid','on process','on delivery','completed','cancelled') NOT NULL,
   `totalPrice` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -427,9 +426,39 @@ INSERT INTO `orders` (`order_id`, `customer_id`, `order_date`, `status`, `totalP
 (1914, 31, '2024-09-23 10:05:35', 'completed', 100),
 (1915, 31, '2024-09-23 17:46:49', 'completed', 296),
 (1916, 31, '2024-09-25 15:03:41', 'completed', 1389),
-(1917, 31, '2024-10-02 10:12:45', 'paid', 354),
-(1918, 31, '2024-10-02 10:16:45', 'paid', 354),
-(1919, 31, '2024-10-02 10:20:16', 'paid', 108);
+(1917, 31, '2024-10-02 10:12:45', 'on delivery', 354),
+(1918, 31, '2024-10-02 10:16:45', 'completed', 354),
+(1919, 31, '2024-10-02 10:20:16', 'cancelled', 108),
+(1920, 31, '2024-10-06 01:29:29', 'cancelled', 27),
+(1921, 31, '2024-10-07 01:41:09', 'on process', 29),
+(1922, 31, '2024-10-07 01:53:32', 'on process', 27),
+(1923, 31, '2024-10-07 02:01:09', 'on process', 27),
+(1924, 31, '2024-10-07 02:03:31', 'on process', 49),
+(1925, 31, '2024-10-07 02:03:36', 'paid', 49),
+(1926, 31, '2024-10-07 02:03:51', 'on process', 27),
+(1927, 31, '2024-10-07 02:04:15', 'on process', 49),
+(1928, 31, '2024-10-07 02:07:14', 'on process', 49),
+(1929, 31, '2024-10-07 02:09:20', 'paid', 0),
+(1930, 31, '2024-10-07 02:09:35', 'paid', 49),
+(1931, 31, '2024-10-07 02:19:45', 'paid', 147),
+(1932, 31, '2024-10-07 02:21:43', 'paid', 49),
+(1933, 31, '2024-10-07 02:23:08', 'paid', 49),
+(1934, 31, '2024-10-07 02:25:20', 'paid', 49),
+(1935, 31, '2024-10-07 02:27:05', 'paid', 49),
+(1936, 31, '2024-10-07 02:27:12', 'paid', 49),
+(1937, 31, '2024-10-07 02:30:30', 'paid', 49),
+(1938, 31, '2024-10-07 02:40:24', 'paid', 49),
+(1939, 31, '2024-10-07 02:40:32', 'paid', 49),
+(1940, 31, '2024-10-07 02:43:40', 'paid', 49),
+(1941, 31, '2024-10-07 02:44:16', 'paid', 49),
+(1942, 31, '2024-10-07 02:46:41', 'paid', 49),
+(1943, 31, '2024-10-07 05:19:14', 'paid', 69),
+(1944, 31, '2024-10-07 05:21:48', 'paid', 59),
+(1945, 31, '2024-10-07 05:25:29', 'paid', 49),
+(1946, 31, '2024-10-07 05:26:07', 'paid', 27),
+(1947, 31, '2024-10-07 05:33:19', 'paid', 49),
+(1948, 31, '2024-10-07 05:35:29', 'paid', 39),
+(1949, 31, '2024-10-07 16:42:46', 'paid', 27);
 
 -- --------------------------------------------------------
 
@@ -460,7 +489,35 @@ INSERT INTO `orders_food` (`id`, `order_id`, `food_id`, `quantity`, `size`, `add
 (104, 1916, 18, 1, 'Medium', 'taengkambing (₱59),bilobilo (₱79)'),
 (105, 1917, 54, 3, 'Medium', 'cheesesabinimam (₱59)'),
 (106, 1918, 19, 3, 'Large', 'taengkambing (₱59)'),
-(107, 1919, 18, 1, 'Medium', 'taengkambing (₱59)');
+(107, 1919, 18, 1, 'Medium', 'taengkambing (₱59)'),
+(108, 1920, 18, 1, 'small', ''),
+(109, 1921, 19, 1, 'small', ''),
+(110, 1922, 18, 1, 'small', ''),
+(111, 1923, 18, 1, 'small', ''),
+(112, 1924, 20, 1, 'medium', ''),
+(113, 1926, 18, 1, 'small', ''),
+(114, 1927, 18, 1, 'medium', ''),
+(115, 1928, 18, 1, 'medium', ''),
+(116, 1930, 18, 1, 'medium', ''),
+(117, 1931, 17, 1, 'medium', ''),
+(118, 1931, 17, 1, 'medium', ''),
+(119, 1931, 17, 1, 'medium', ''),
+(120, 1932, 17, 1, 'medium', ''),
+(121, 1933, 18, 1, 'medium', ''),
+(122, 1934, 18, 1, 'medium', ''),
+(123, 1935, 20, 1, 'medium', ''),
+(124, 1937, 18, 1, 'medium', ''),
+(125, 1938, 17, 1, 'medium', ''),
+(126, 1940, 17, 1, 'medium', ''),
+(127, 1941, 17, 1, 'medium', ''),
+(128, 1942, 18, 1, 'medium', ''),
+(129, 1943, 54, 1, 'large', ''),
+(130, 1944, 17, 1, 'large', ''),
+(131, 1945, 18, 1, 'medium', ''),
+(132, 1946, 18, 1, 'small', ''),
+(133, 1947, 18, 1, 'medium', ''),
+(134, 1948, 26, 1, 'medium', ''),
+(135, 1949, 18, 1, 'small', '');
 
 -- --------------------------------------------------------
 
@@ -633,7 +690,7 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -675,13 +732,13 @@ ALTER TABLE `food_sizes`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1920;
+  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1950;
 
 --
 -- AUTO_INCREMENT for table `orders_food`
 --
 ALTER TABLE `orders_food`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
 
 --
 -- AUTO_INCREMENT for table `order_addons`
