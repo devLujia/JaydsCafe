@@ -279,7 +279,7 @@ export default function Order_New() {
                     
                 </div>
 
-                <div class="w-5/6 mx-auto rounded-lg py-2 mb-16">
+                <div class="w-full px-10  mx-auto rounded-lg py-2 mb-16">
                         <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
                             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -311,6 +311,9 @@ export default function Order_New() {
                                             <th scope="col" class="px-6 py-3">
                                                 Action
                                             </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                
+                                            </th>
                                         </tr>
                                         </thead>
 
@@ -319,11 +322,11 @@ export default function Order_New() {
 
                                  {orders.map(order => (
                                     <React.Fragment key={order.order_id}>
-                                    <tr  className="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                       <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white ">
+                                    <tr className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"  onClick={()=> toggleOrderDetails(order.order_id)}>
+                                       <td className="px-6 py-4 text-center text-gray-900">
                                           <div className="text-base font-semibold">ORDR#{order.order_id}</div>
-                                       </th>
-                                       <td className="px-6 py-4 text-center">
+                                       </td>
+                                       <td className="px-6 py-4 text-center ">
                                           {order.name}
                                        </td>
                                        <td className="px-6 py-4 text-center">
@@ -354,39 +357,28 @@ export default function Order_New() {
                                           
                                        </td>
                                        <td className=" px-6 py-4 ">
-                                          
-                                       {order.status === 'paid' ? 
-                                        <button onClick={()=> getTheOrder(order.order_id, order.status)} className='py-2 px-3 bg-yellow-500 text-white rounded-full' >
-                                            Mark as 'on process'
-                                          </button>  
-                                        : order.status === 'on process' ? 
-                                        <button onClick={()=> getTheOrder(order.order_id, order.status)} className='py-2 px-3 bg-textgreenColor text-white rounded-full'>
-                                            Mark as 'on Delivery'
-                                          </button>     
-                                        : ""}
-                                            <button onClick={()=> toggleOrderDetails(order.order_id)}>
-                                                <img src={eye} alt="eye" className="w-6 h-6"/>
-                                             </button>
+                                        {order.status === 'paid' ? 
+                                            <button onClick={()=> getTheOrder(order.order_id, order.status)} className='py-2 px-3 bg-yellow-500 text-white rounded-full' >
+                                                Mark as 'on process'
+                                            </button>  
+                                            : order.status === 'on process' ? 
+                                            <button onClick={()=> getTheOrder(order.order_id, order.status)} className='py-2 px-3 bg-textgreenColor text-white rounded-full'>
+                                                Mark as 'on Delivery'
+                                            </button>     
+                                            : ""}
+                                       </td>
 
-                                             <button onClick={()=> cancelOrder(order.order_id)} className="hover:underline hover:decoration-blue-500">
+                                       <td>
+                                            <button onClick={()=> cancelOrder(order.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title='Delete'>
                                                 <img src={del} alt="trash" />
-                                             </button>
-                                          
-                                          
-                                           {/*<div className="h-fit items-center justify-center space-x-3 ps-4 mx-auto">
-                                             
-                                             
-                                             <button onClick={()=> getTheOrder(order.order_id, order.status)}>
-                                                <img src={check} alt="check"/>
-                                             </button>
-                                          </div> */}
+                                            </button>
                                        </td>
 
                                     </tr>
 
                                     {expandedOrderId === order.order_id && (
                                        <tr>
-                                          <td colSpan="8" className="bg-gray-100 dark:bg-gray-700">
+                                          <td colSpan="9" className="bg-gray-100 dark:bg-gray-700">
                                              <div className="px-6 py-4">
                                              <div className="text-sm text-gray-600 dark:text-gray-300">
                                                 <strong>Order Items:</strong>

@@ -222,6 +222,27 @@ function ProductManagement() {
         axios.post('http://localhost:8081/hideProduct', {id})
         
     }
+    
+      //pagination 
+      const [currentPage, setCurrentPage] = useState(1);
+      const itemsPerPage = 8;
+    
+      // Filter and paginate foods based on addonSearch
+      const filteredFoods = foods.filter((food) =>
+        food.name.toLowerCase().includes(addonSearch.toLowerCase())
+      );
+    
+      const totalPages = Math.ceil(filteredFoods.length / itemsPerPage);
+    
+      const currentItems = filteredFoods.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+      );
+    
+      // Handle pagination control clicks
+      const goToPage = (page) => {
+        setCurrentPage(page);
+      };
 
   return (
 
@@ -442,14 +463,13 @@ function ProductManagement() {
                   <h1 className="text-5xl font-semibold tracking-wider">Products</h1>
                 </div>
 
+{/* dito */}
                 <div id="mt-series" className="w-full max-w-7xl mx-auto mt-4">
                   <div className="container mx-auto p-4">
                     
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
                         
-                        {foods
-                          .filter(food => food.name.toLowerCase().includes(addonSearch.toLowerCase()))
-                          .map((food) => (
+                          {currentItems.map((food) => (
                             <div key={food.id} className="rounded-3xl p-3 shadow-2xl relative border-2 border-gray-300 hover:scale-95 duration-300 hover:bg-jaydsBg">
                               <div className="rounded-full bg-slate-200 p-4 aspect-square overflow-hidden items-center flex justify-center w-4/5 mx-auto">
                                 <img src={food.image_url} alt="Milk Tea" className="w-full h-full object-contain" />
@@ -494,6 +514,39 @@ function ProductManagement() {
                           ))}
                       </div>
                   </div>
+                  
+               {/* Pagination Controls */}
+              <div className="flex justify-center mt-6 pb-6">
+                <button
+                  onClick={() => goToPage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="px-3 py-1 mx-1 bg-gray-300 text-gray-700 rounded-lg disabled:bg-gray-200"
+                >
+                  Previous
+                </button>
+
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <button
+                    key={index + 1}
+                    onClick={() => goToPage(index + 1)}
+                    className={`px-3 py-1 mx-1 rounded-lg ${
+                      currentPage === index + 1
+                        ? 'bg-greenColor text-white'
+                        : 'bg-gray-300 text-gray-700'
+                    }`}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+
+                <button
+                  onClick={() => goToPage(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className="px-3 py-1 mx-1 bg-gray-300 text-gray-700 rounded-lg disabled:bg-gray-200"
+                >
+                  Next
+                </button>
+              </div>
                   
                 </div>
               </div>
@@ -593,8 +646,6 @@ function ProductManagement() {
   </div>
 </div>
 
-
-        {/* Eto yung bagong design sa Product management, Cards na siya */}
         
     </div>
   )

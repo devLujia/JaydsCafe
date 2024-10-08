@@ -218,7 +218,7 @@ const rightNav = () => {
             
             // State for pagination
             const [currentPage, setCurrentPage] = useState(1);
-            const itemsPerPage = 8; // Adjust the number of items per page as needed
+            const itemsPerPage = 8; // kung ilang cards lang makikita per page
           
             // Filtered food items based on category search
             const filteredFoods = foods.filter((food) => {
@@ -328,34 +328,6 @@ const rightNav = () => {
                 {cat.title}
               </button>
               ))}
-              {/* <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
-              onclick="toggleVisibility('fm-series');">
-                Fresh Milk Series
-              </button>
-              <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
-              onclick="toggleVisibility('mc-series');">
-                Macchiato Series
-              </button>
-              <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
-              onclick="toggleVisibility('cf-series');">
-                Coffee Series
-              </button>
-              <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
-              onclick="toggleVisibility('fp-series');">
-                Frappe Series
-              </button>
-              <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
-              onclick="toggleVisibility('ft-series');">
-                Fruity Series
-              </button>
-              <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
-              onclick="toggleVisibility('ml-series');">
-                Milo Series
-              </button>
-              <button class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
-              onclick="toggleVisibility('bt-series');">
-                Brewed Tea Series
-              </button> */}
             </div>
             
             {/* <!-- dropdown category button --> */}

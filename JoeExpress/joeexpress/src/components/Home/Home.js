@@ -611,7 +611,7 @@ function Home() {
       <span class="menu">
         <ul class="nav_links md:hidden sm:hidden lg:flex lg:flex-row lg:justify-between">
           <li class="link"><a href="#">Home</a></li>
-          <li class="link"><a id="menu-link" href="#">Menu</a></li>
+          <li class="link"><a onClick={handleNavigate}>Menu</a></li>
           <li class="link"><a href="#aboutus">About Us</a></li>
           <li class="link"><a href="#footer">Contact Us</a></li>
         </ul>
