@@ -142,11 +142,11 @@ export default function Checkout() {
                             <img src={arrowUp}></img>
                         </button>
                     </div>
-                    <form> {/* For option ng address */}
+                    <form > {/* For option ng address */}
                         <div className='space-y-2'> {/* Main container */}
                             <div class="group"> {/* First option */}
-                                <label htmlFor="add1" class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100 ">
-                                    <input type="radio" id="add1" name="hosting" value="add1" class="peer text-textgreenColor focus:ring-textgreenColor "/>
+                                <label htmlFor="add1"  class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
+                                    <input type="radio" id="add1" name="hosting" value="add1" class="peer text-textgreenColor focus:ring-textgreenColor"/>
                                     <div className='flex flex-col py-4 overflow-hidden'>
                                         <label htmlFor="add1" class="w-full ms-3 pb-2 text-sm font-medium text-gray-900 tracking-wide">Edsel Noyuab , Blk 14 Lot 1 Tinola Street</label>
                                         <label htmlFor="add1" class="w-full ms-3 text-sm font-normal text-gray-700 tracking-wide">Imus, Cavite, 1401, Phillipines</label>
@@ -179,7 +179,7 @@ export default function Checkout() {
                         All transactions are secure and encrypted.
                     </p>
 
-                    <div className='space-y-2'> {/* Main container */}
+                    <div className='space-y-2' > {/* Main container */}
                         <div class="group"> {/* Gcash option */}
                             <label htmlFor="gcash" class="inline-flex px-4 py-3 justify-between items-center w-full text-white bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor hover:bg-gray-100 ">
                                 <div className='inline-flex items-center'>
