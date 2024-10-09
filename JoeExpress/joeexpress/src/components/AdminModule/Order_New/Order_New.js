@@ -281,131 +281,130 @@ export default function Order_New() {
 
                 <div class="w-full px-10  mx-auto rounded-lg py-2 mb-16">
                         <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
-                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg ">
+                                <div class="relative overflow-x-auto max-h-[500px] overflow-y-auto shadow-md sm:rounded-lg">
                                     {/* Order Tracking */}
-                                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                        <thead class="text-xs tracking-widest text-white uppercase bg-textgreenColor dark:bg-gray-700 dark:text-white">
-                                        <tr class="text-center">
-                                            <th scope="col" class="px-6 py-3 ">
-                                                ID
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Name
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                address
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Contact Number
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Date / Time
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Price
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Status
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Action
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                
-                                            </th>
-                                        </tr>
-                                        </thead>
+                                    <div className="overflow-x-auto">{/* To make it scrollable*/}
+                                        <div className="relative max-h-[500px] overflow-y-auto shadow-md sm:rounded-lg">
+                                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                                <thead class="text-xs tracking-widest sticky top-0 text-white uppercase bg-textgreenColor dark:bg-gray-700 dark:text-white">
+                                                    <tr class="text-center">
+                                                        <th scope="col" class="px-6 py-3 ">
+                                                            ID
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Name
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            address
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Contact Number
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Date / Time
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Price
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Status
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Action
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            
+                                                        </th>
+                                                    </tr>
+                                                </thead>
 
-                                        <tbody>
-                                        
+                                                <tbody>
+                                                    {orders.map(order => (
+                                                        <React.Fragment key={order.order_id}>
+                                                        <tr className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"  onClick={()=> toggleOrderDetails(order.order_id)}>
+                                                        <td className="px-6 py-4 text-center text-gray-900">
+                                                            <div className="text-base font-semibold">ORDR#{order.order_id}</div>
+                                                        </td>
+                                                        <td className="px-6 py-4 text-center ">
+                                                            {order.name}
+                                                        </td>
+                                                        <td className="px-6 py-4 text-center">
+                                                            {order.address}
+                                                        </td>
+                                                        <td className="px-6 py-4 text-center">
+                                                            WALA PA
+                                                        </td>
+                                                        <td className="px-6 py-4 text-center">
+                                                            {new Date(order.order_date).toLocaleString('en-US', {
+                                                                year: 'numeric',
+                                                                month: 'long',
+                                                                day: 'numeric',
+                                                                hour: '2-digit',
+                                                                minute: '2-digit',
+                                                                second: '2-digit',
+                                                            })}
+                                                        </td>
+                                                        <td className="px-6 py-4 text-center font-semibold text-green-500">
+                                                            ₱{order.totalPrice}.00
+                                                        </td>
+                                                        <td className="px-6 py-4">
+                                                            {order.status === 'paid' ? 
+                                                            <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status.toUpperCase()}</div> 
+                                                            : order.status === 'on process' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div>
+                                                            : order.status === 'on delivery' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div> 
+                                                            :''}
+                                                            
+                                                        </td>
+                                                        <td className=" px-6 py-4 ">
+                                                            {order.status === 'paid' ? 
+                                                                <button onClick={()=> getTheOrder(order.order_id, order.status)} className='py-2 px-3 bg-yellow-500 text-white rounded-full' >
+                                                                    Mark as 'on process'
+                                                                </button>  
+                                                                : order.status === 'on process' ? 
+                                                                <button onClick={()=> getTheOrder(order.order_id, order.status)} className='py-2 px-3 bg-textgreenColor text-white rounded-full'>
+                                                                    Mark as 'on Delivery'
+                                                                </button>     
+                                                                : ""}
+                                                        </td>
 
-                                 {orders.map(order => (
-                                    <React.Fragment key={order.order_id}>
-                                    <tr className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"  onClick={()=> toggleOrderDetails(order.order_id)}>
-                                       <td className="px-6 py-4 text-center text-gray-900">
-                                          <div className="text-base font-semibold">ORDR#{order.order_id}</div>
-                                       </td>
-                                       <td className="px-6 py-4 text-center ">
-                                          {order.name}
-                                       </td>
-                                       <td className="px-6 py-4 text-center">
-                                          {order.address}
-                                       </td>
-                                       <td className="px-6 py-4 text-center">
-                                          WALA PA
-                                       </td>
-                                       <td className="px-6 py-4 text-center">
-                                          {new Date(order.order_date).toLocaleString('en-US', {
-                                             year: 'numeric',
-                                             month: 'long',
-                                             day: 'numeric',
-                                             hour: '2-digit',
-                                             minute: '2-digit',
-                                             second: '2-digit',
-                                          })}
-                                       </td>
-                                       <td className="px-6 py-4 text-center font-semibold text-green-500">
-                                        ₱{order.totalPrice}.00
-                                       </td>
-                                       <td className="px-6 py-4">
-                                        {order.status === 'paid' ? 
-                                        <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status.toUpperCase()}</div> 
-                                        : order.status === 'on process' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div>
-                                        : order.status === 'on delivery' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div> 
-                                        :''}
-                                          
-                                       </td>
-                                       <td className=" px-6 py-4 ">
-                                        {order.status === 'paid' ? 
-                                            <button onClick={()=> getTheOrder(order.order_id, order.status)} className='py-2 px-3 bg-yellow-500 text-white rounded-full' >
-                                                Mark as 'on process'
-                                            </button>  
-                                            : order.status === 'on process' ? 
-                                            <button onClick={()=> getTheOrder(order.order_id, order.status)} className='py-2 px-3 bg-textgreenColor text-white rounded-full'>
-                                                Mark as 'on Delivery'
-                                            </button>     
-                                            : ""}
-                                       </td>
+                                                        <td>
+                                                                <button onClick={()=> cancelOrder(order.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title='Delete'>
+                                                                    <img src={del} alt="trash" />
+                                                                </button>
+                                                        </td>
 
-                                       <td>
-                                            <button onClick={()=> cancelOrder(order.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title='Delete'>
-                                                <img src={del} alt="trash" />
-                                            </button>
-                                       </td>
+                                                        </tr>
 
-                                    </tr>
+                                                        {expandedOrderId === order.order_id && (
+                                                        <tr>
+                                                            <td colSpan="9" className="bg-gray-100 dark:bg-gray-700">
+                                                                <div className="px-6 py-4">
+                                                                <div className="text-sm text-gray-600 dark:text-gray-300">
+                                                                    <strong>Order Items:</strong>
+                                                                    <ul className="mt-2 space-y-2 list-disc list-inside">
+                                                                    {order.food_details.split(';').map((detail, index) => (
+                                                                    <li key={index} className="py-1 w-full text-left">
+                                                                        {detail.trim()}
+                                                                    </li>
+                                                                    ))}
+                                                                    </ul>
+                                                                </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        )}
 
-                                    {expandedOrderId === order.order_id && (
-                                       <tr>
-                                          <td colSpan="9" className="bg-gray-100 dark:bg-gray-700">
-                                             <div className="px-6 py-4">
-                                             <div className="text-sm text-gray-600 dark:text-gray-300">
-                                                <strong>Order Items:</strong>
-                                                <ul className="mt-2 space-y-2 list-disc list-inside">
-                                                   {order.food_details.split(';').map((detail, index) => (
-                                                   <li key={index} className="py-1 w-full text-left">
-                                                      {detail.trim()}
-                                                   </li>
-                                                   ))}
-                                                </ul>
-                                             </div>
-                                             </div>
-                                          </td>
-                                       </tr>
-                                       )}
+                                                        </React.Fragment>
 
-                                    </React.Fragment>
-
-                                    ))}
-
-                              
-                                        </tbody>
-                                    </table>
+                                                        ))}
+                                                </tbody>
+                                            </table>
+                                        </div>  
+                                    </div>                
                                 </div>
                             </div>
                         </div>
-                    
                 </div>
                 {/* end of track order */}
                 
@@ -428,114 +427,112 @@ export default function Order_New() {
                 </div>
 
                 <div class="w-full px-10 mx-auto rounded-lg py-4 mb-2">
-                        <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
+                    <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
+                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                        <thead class="text-xs tracking-widest text-white uppercase bg-textgreenColor dark:bg-gray-700 dark:text-gray-400">
-                                        <tr class="text-center dark:text-white">
-                                            <th scope="col" class="px-6 py-3 ">
-                                                ID
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Name
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                address
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Contact Number
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Date / Time
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Price
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Status
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Action
-                                            </th>
-                                        </tr>
-                                        </thead>
-
-                                        <tbody>
-                                        {orderHistory.map(orderh => (
-                                            <React.Fragment key={orderh.order_id}>
-                                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                                    <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white text-center">
-                                                        <div className="text-base font-semibold">ORDR#{orderh.order_id}</div>
+                                <div className='overflow-x-auto'>
+                                    <div className='relative max-h-[500px] overflow-y-auto shadow-md sm:rounded-lg'>
+                                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                            <thead class="text-xs sticky top-0 tracking-widest text-white uppercase bg-textgreenColor dark:bg-gray-700 dark:text-gray-400">
+                                                <tr class="text-center dark:text-white">
+                                                    <th scope="col" class="px-6 py-3 ">
+                                                        ID
                                                     </th>
-                                                    <td className="px-6 py-4 text-center">
-                                                        {orderh.name}
-                                                    </td>
-                                                    <td className="px-6 py-4 text-center">
-                                                        {orderh.address}
-                                                    </td>
-                                                    <td className="px-6 py-4 text-center text-yellow-500 font-medium">
-                                                        {/* Placeholder for status like 'Pending' */}
-                                                        WALA PA
-                                                    </td>
-                                                    <td className="px-6 py-4 text-center">
-                                                        {new Date(orderh.order_date).toLocaleString('en-US', {
-                                                            year: 'numeric',
-                                                            month: 'long',
-                                                            day: 'numeric',
-                                                            hour: '2-digit',
-                                                            minute: '2-digit',
-                                                            second: '2-digit',
-                                                        })}
-                                                    </td>
-                                                    <td className="px-6 py-4 text-center text-green-500 font-semibold">
-                                                        ₱{orderh.totalPrice.toFixed(2)}
-                                                    </td>
-                                                    <td className="px-6 py-4 text-center">
-                                                        
-                                                        {orderh.status === 'completed' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{orderh.status}</div> 
-                                                        : <div className="bg-red-100 text-blue-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{orderh.status}</div>}
-                                                        
-                                                    </td>
-                                                    <td className="px-6 py-4 text-center">
-                                                        <button 
-                                                            onClick={() => toggleOrderHistoryDetails(orderh.order_id)} 
-                                                            className="hover:text-blue-500 transition-colors duration-200"
-                                                            title="View Details"
-                                                        >
-                                                            <img src={eye} alt="eye icon" className="w-6 h-6 mx-auto" />
-                                                        </button>
-                                                    </td>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        Name
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        address
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        Contact Number
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        Date / Time
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        Price
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        Status
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        Action
+                                                    </th>
                                                 </tr>
-
-                                                {/* Expanded row for food details */}
-                                                {expandedOrderHistoryId === orderh.order_id && (
-                                                    <tr className="bg-gray-100 dark:bg-gray-700">
-                                                        <td colSpan="8" className="px-6 py-4">
-                                                            <div className="text-sm text-gray-600 dark:text-gray-300">
-                                                                <strong>Order Items:</strong>
-                                                                <ul className="mt-2 space-y-1 list-disc list-inside">
-                                                                    {orderh.food_details.split(';').map((detail, index) => (
-                                                                        <li key={index} className="text-left">
-                                                                            {detail.trim()}
-                                                                        </li>
-                                                                    ))}
-                                                                </ul>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                )}
-                                            </React.Fragment>
-                                        ))}
-                                    
-
-                              
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                {orderHistory.map(orderh => (
+                                                    <React.Fragment key={orderh.order_id}>
+                                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                                            <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white text-center">
+                                                                <div className="text-base font-semibold">ORDR#{orderh.order_id}</div>
+                                                            </th>
+                                                            <td className="px-6 py-4 text-center">
+                                                                {orderh.name}
+                                                            </td>
+                                                            <td className="px-6 py-4 text-center">
+                                                                {orderh.address}
+                                                            </td>
+                                                            <td className="px-6 py-4 text-center text-yellow-500 font-medium">
+                                                                {/* Placeholder for status like 'Pending' */}
+                                                                WALA PA
+                                                            </td>
+                                                            <td className="px-6 py-4 text-center">
+                                                                {new Date(orderh.order_date).toLocaleString('en-US', {
+                                                                    year: 'numeric',
+                                                                    month: 'long',
+                                                                    day: 'numeric',
+                                                                    hour: '2-digit',
+                                                                    minute: '2-digit',
+                                                                    second: '2-digit',
+                                                                })}
+                                                            </td>
+                                                            <td className="px-6 py-4 text-center text-green-500 font-semibold">
+                                                                ₱{orderh.totalPrice.toFixed(2)}
+                                                            </td>
+                                                            <td className="px-6 py-4 text-center">
+                                        
+                                                                {orderh.status === 'completed' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{orderh.status}</div>
+                                                                : <div className="bg-red-100 text-blue-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{orderh.status}</div>}
+                                        
+                                                            </td>
+                                                            <td className="px-6 py-4 text-center">
+                                                                <button
+                                                                    onClick={() => toggleOrderHistoryDetails(orderh.order_id)}
+                                                                    className="hover:text-blue-500 transition-colors duration-200"
+                                                                    title="View Details"
+                                                                >
+                                                                    <img src={eye} alt="eye icon" className="w-6 h-6 mx-auto" />
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        {/* Expanded row for food details */}
+                                                        {expandedOrderHistoryId === orderh.order_id && (
+                                                            <tr className="bg-gray-100 dark:bg-gray-700">
+                                                                <td colSpan="8" className="px-6 py-4">
+                                                                    <div className="text-sm text-gray-600 dark:text-gray-300">
+                                                                        <strong>Order Items:</strong>
+                                                                        <ul className="mt-2 space-y-1 list-disc list-inside">
+                                                                            {orderh.food_details.split(';').map((detail, index) => (
+                                                                                <li key={index} className="text-left">
+                                                                                    {detail.trim()}
+                                                                                </li>
+                                                                            ))}
+                                                                        </ul>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        )}
+                                                    </React.Fragment>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    
+                    </div>
                 </div>
                 {/* end of order history */}
             </div>
