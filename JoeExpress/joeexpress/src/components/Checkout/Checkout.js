@@ -115,7 +115,7 @@ export default function Checkout() {
         <nav class="w-full top-0 fixed bg-white z-20 shadow-lg flex justify-evenly">
             <div class="font-extrabold text-2xl flex items-center">
                 {/* <!-- Logo/Title in Navbar --> */}
-                <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
+                <a href="/menu" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
             </div>
             <div></div>
             {/* <!-- Button for Login or Sign Up --> */}
@@ -185,7 +185,8 @@ export default function Checkout() {
                                 <div className='inline-flex items-center'>
                                     <input type="radio" id="gcash" name="hosting" value="gcash" class="peer text-textgreenColor focus:ring-textgreenColor " required />
                                     <h1 className='text-black px-3'>Gcash</h1>
-                                    <a data-tooltip-id="my-tooltip" data-tooltip-content="Hello to you too!">
+                                    <a data-tooltip-id="my-tooltip" data-tooltip-content="Hello to you too!" title='After clicking "Pay with GCash", you will be redirected to GCash to complete your
+purchase securely.'>
                                         <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="blue" viewBox="0 0 20 20">
                                             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
                                         </svg>

@@ -7,7 +7,6 @@ import edit from '../image/edit.svg';
 import lock from '../image/lock.svg';
 import jaydsLogo from '../image/jayds cafe Logo.svg';
 import eye from '../image/eye(2).svg'
-import del from '../image/trashbin(2).svg'
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -307,11 +306,8 @@ export default function Profile() {
                                      </td>
                                      <td className="flex items-center px-6 py-4 space-x-2">
                                         <div className="h-fit items-center justify-center flex space-x-3 ps-4 mx-auto">
-                                           <button onClick={() => toggleOrderDetails(order.order_id)}>
+                                           <button onClick={() => toggleOrderDetails(order.order_id)} title='View Orders'>
                                               <img src={eye} alt="eye" className="w-6 h-6" />
-                                           </button>
-                                           <button className="hover:underline hover:decoration-blue-500">
-                                              <img src={del} alt="trash" />
                                            </button>
                                         </div>
                                      </td>
