@@ -284,7 +284,7 @@ export default function Order_New() {
                             <div class="relative overflow-x-auto shadow-md sm:rounded-lg ">
                                 <div class="relative overflow-x-auto max-h-[500px] overflow-y-auto shadow-md sm:rounded-lg">
                                     {/* Order Tracking */}
-                                    <div className="overflow-x-auto">{/* To make it scrollable*/}
+                                    <div className="overflow-x-auto scrollbar-none">{/* To make it scrollable*/}
                                         <div className="relative max-h-[500px] overflow-y-auto shadow-md sm:rounded-lg">
                                             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                                 <thead class="text-xs tracking-widest sticky top-0 text-white uppercase bg-textgreenColor dark:bg-gray-700 dark:text-white">
@@ -322,8 +322,8 @@ export default function Order_New() {
                                                 <tbody>
                                                     {orders.map(order => (
                                                         <React.Fragment key={order.order_id}>
-                                                        <tr className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"  onClick={()=> toggleOrderDetails(order.order_id)}>
-                                                        <td className="px-6 py-4 text-center text-gray-900">
+                                                        <tr className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                                        <td className="px-6 py-4 text-center text-gray-900 cursor-pointer" onClick={()=> toggleOrderDetails(order.order_id)} title='View Order(s)'>
                                                             <div className="text-base font-semibold">ORDR#{order.order_id}</div>
                                                         </td>
                                                         <td className="px-6 py-4 text-center ">
@@ -579,7 +579,7 @@ export default function Order_New() {
                     <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
                         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                                <div className='overflow-x-auto'>
+                                <div className='overflow-x-auto scrollbar-none'>
                                     <div className='relative max-h-[500px] overflow-y-auto shadow-md sm:rounded-lg'>
                                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                             <thead class="text-xs sticky top-0 tracking-widest text-white uppercase bg-textgreenColor dark:bg-gray-700 dark:text-gray-400">

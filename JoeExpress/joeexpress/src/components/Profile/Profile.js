@@ -187,81 +187,6 @@ export default function Profile() {
           </div>
   
           <div id="default-tab-content"> {/* <!-- Content of every tabs --> */}
-            {/* <!-- Profile Tab--> */}
-            {activeTab === 'profile' && (
-              <div class="py-4 px-20 my-7 rounded-lg bg-gray-50 dark:bg-gray-800" id="profile" role="tabpanel"> 
-                <div class="border-b-2">
-                    <div class="flex justify-between items-center" >
-                      <h1 class="text-4xl py-5">Profile Picture</h1>
-                      <button class="outline outline-1 outline-black p-2 rounded-xl inline-flex justify-center items-center">
-                        <img src={edit} alt="" class="me-2"/>
-                        Edit Profile
-                      </button>
-                    </div>
-                    <p class="pb-10 pt-5"><strong>Join date:</strong> Aug 27,2025</p>
-                </div>
-  
-                  <div>
-                    <h1 class="text-4xl py-5">About</h1>
-                    <form>
-                      <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-                        <div class="px-4 py-2 bg-white rounded-b-lg dark:bg-gray-800">
-                          <label for="editor" class="sr-only">Publish post</label>
-                          <textarea id="editor" rows="8" class="block w-full px-0 text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Share something about yourself..." required ></textarea>
-                        </div>
-                            <div class="flex items-center justify-between px-3 py-2 border-b dark:border-gray-600">
-                              <div class="flex flex-wrap items-center divide-gray-200 sm:divide-x sm:rtl:divide-x-reverse dark:divide-gray-600">
-                                  <div class="flex items-center space-x-1 rtl:space-x-reverse sm:pe-4">
-  
-                                      <button type="button" data-tooltip-target="tooltip-attachfile" class="p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                                          <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 12 20">
-                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M1 6v8a5 5 0 1 0 10 0V4.5a3.5 3.5 0 1 0-7 0V13a2 2 0 0 0 4 0V6"/>
-                                            </svg>
-                                          <span class="sr-only">Attach file</span>
-                                      </button>
-                                      
-                                      <div id="tooltip-attachfile" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                                        Attach File
-                                        <div class="tooltip-arrow" data-popper-arrow></div>
-                                      </div>
-  
-                                      <button type="button" data-tooltip-target="tooltip-image" class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
-                                            <path fill="currentColor" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
-                                        </svg>
-                                        <span class="sr-only">Upload image</span>
-                                      </button>
-                                    
-                                      <div id="tooltip-image" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                                        Upload image
-                                        <div class="tooltip-arrow" data-popper-arrow></div>
-                                      </div>
-  
-                                      <button type="button" data-tooltip-target="tooltip-video" class="p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                                          <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
-                                                <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z"/>
-                                                <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z"/>
-                                            </svg>
-                                          <span class="sr-only">Upload image</span>
-                                      </button>
-  
-                                      <div id="tooltip-video" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                                        Upload video
-                                        <div class="tooltip-arrow" data-popper-arrow></div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      <button type="submit" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-greenColor rounded-lg focus:ring-4 focus:ring-blue-200 hover:bg-green-700">
-                          Publish post
-                      </button>
-                    </form>
-                  </div>
-              </div>
-            )}
             {/* <!-- Order Tab--> */}
             {activeTab === 'order' && (
               <div class="p-4 rounded-lg my-7 bg-gray-50 dark:bg-gray-800 min-h-[500px]" id="order" role="tabpanel" aria-labelledby="Order-tab"> 
@@ -391,6 +316,67 @@ export default function Profile() {
                   </div>
               </div>
             )}
+            
+            {/* <!-- Profile Tab--> */}
+            {activeTab === 'profile' && (
+              <div class="py-4 px-20 my-7 rounded-lg bg-gray-50 dark:bg-gray-800" id="profile" role="tabpanel"> 
+                <div class="border-b-2">
+                    <div class="flex justify-between items-center" >
+                      <h1 class="text-4xl py-5">Profile Picture</h1>
+                      <button class="outline outline-1 outline-black p-2 rounded-xl inline-flex justify-center items-center">
+                        <img src={edit} alt="" class="me-2"/>
+                        Edit Profile
+                      </button>
+                    </div>
+                    <p class="pb-10 pt-5"><strong>Join date:</strong> Aug 27,2025</p>
+                </div>
+  
+                  <div>
+                    <h1 class="text-4xl py-5">About</h1>
+                    <form>
+                      <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                        <div class="px-4 py-2 bg-white rounded-b-lg dark:bg-gray-800">
+                          <label for="editor" class="sr-only">Publish post</label>
+                          <textarea id="editor" rows="8" class="block w-full px-0 text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Share something about yourself..." required ></textarea>
+                        </div>
+                            <div class="flex items-center justify-between px-3 py-2 border-b dark:border-gray-600">
+                              <div class="flex flex-wrap items-center divide-gray-200 sm:divide-x sm:rtl:divide-x-reverse dark:divide-gray-600">
+                                  <div class="flex items-center space-x-1 rtl:space-x-reverse sm:pe-4">
+  
+                                      <button type="button" title='Attach File' class="p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                                          <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 12 20">
+                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M1 6v8a5 5 0 1 0 10 0V4.5a3.5 3.5 0 1 0-7 0V13a2 2 0 0 0 4 0V6"/>
+                                            </svg>
+                                          <span class="sr-only">Attach file</span>
+                                      </button>
+                                      
+  
+                                      <button type="button" title='Upload Image' class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                                            <path fill="currentColor" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
+                                        </svg>
+                                      </button>
+
+                                      <button type="button" title='Upload Video' class="p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                                          <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
+                                                <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z"/>
+                                                <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z"/>
+                                            </svg>
+                                      </button>
+  
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <button type="submit" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-greenColor rounded-lg focus:ring-4 focus:ring-blue-200 hover:bg-green-700">
+                          Publish post
+                      </button>
+                    </form>
+                  </div>
+              </div>
+            )}
 
             {/* <!-- Address Tab--> */}
             {activeTab === 'address' && (
@@ -407,7 +393,7 @@ export default function Profile() {
                   </div> --> */}
 
                   <div class="border-y-2 py-8  w-[80%] flex flex-col mx-auto"> {/* <!-- Main div for information--> */}
-                    <div class="flex flex-col justify-start items-start text-2xl space-y-3"> {/* <!-- information details--> */}
+                    <div class="flex flex-col justify-start items-start text-xl space-y-2"> {/* <!-- information details--> */}
                       <h1 class="font-semibold">Lekra Mabangis</h1>
                       <p class="text-md">STI</p>
                       <p class="text-md">Para streets 69</p>
@@ -578,21 +564,21 @@ export default function Profile() {
                           <label for="fname" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">First name <span class="text-red-600">*</span></label>
                           <div class="inline-flex w-full">
                             <input type="text" name="fname" id="fname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 me-2" placeholder="Lekra" required=""/>
-                            <img src="/public/image/lock.svg" alt=""/>
+                            <img src={lock} alt=""/>
                           </div>
                         </div>
                         <div class="col-span-2 sm:col-span-1">
                           <label for="lname" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">Last name <span class="text-red-600">*</span></label>
                           <div class="inline-flex w-full">
                             <input type="text" name="lname" id="lname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 me-2" placeholder="Lekra" required=""/>
-                            <img src="/public/image/lock.svg" alt=""/>
+                            <img src={lock} alt=""/>
                           </div>
                         </div>
                         <div class="col-span-2 sm:col-span-1">
                           <label for="phone" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">Phone <span class="text-red-600">*</span></label>
                           <div class="inline-flex w-full">
                             <input type="text" name="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 me-2" placeholder="Lekra" required=""/>
-                            <img src="/public/image/lock.svg" alt=""/>
+                            <img src={lock} alt=""/>
                           </div>
                         </div>
                       </div>
