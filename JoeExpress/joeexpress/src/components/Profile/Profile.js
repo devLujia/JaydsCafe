@@ -4,6 +4,9 @@ import gwen from '../image/Gwen.png';
 import camera from '../image/camera.svg';
 import bg_pic from '../image/36733336252.png';
 import edit from '../image/edit.svg';
+import fb from '../image/fb.svg';
+import ig from '../image/ig.svg';
+import yt from '../image/yt.svg';
 import lock from '../image/lock.svg';
 import jaydsLogo from '../image/jayds cafe Logo.svg';
 import eye from '../image/eye(2).svg'
@@ -72,6 +75,13 @@ export default function Profile() {
       });
 
   }, [userId]);
+
+  //for switch tabs
+  const [activeTab, setActiveTab] = useState('profile');
+
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
  
 
 
@@ -126,25 +136,60 @@ export default function Profile() {
 
         <div class="w-full px-20"> {/* <!-- main container of tabs--> */}
           <div class="mb-4 border-b-2  border-gray-300"> {/* <!-- Tabs below--> */}
-            <ul class="flex flex-wrap -mb-px text-md font-semibold text-center " id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
+            <ul class="flex flex-wrap -mb-px text-md font-semibold text-center " id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">    
                 <li class="me-2" role="presentation">
-                    <button class="inline-block p-4 border-b-2 border-gray-300 rounded-t-lg hover:text-greenColor hover:border-textgreenColor active:text-greenColor" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">My Orders</button>
+                  <button
+                    className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-greenColor hover:border-textgreenColor ${
+                      activeTab === 'order' ? 'border-textgreenColor text-greenColor' : 'border-gray-300'
+                    }`}
+                    onClick={() => handleTabClick('order')}
+                    type="button"
+                    role="tab">
+                    My Orders
+                  </button>
                 </li>
+
                 <li class="me-2" role="presentation">
-                    <button class="inline-block p-4 border-b-2 border-gray-300 rounded-t-lg hover:text-greenColor hover:border-textgreenColor" id="Order-tab" data-tabs-target="#Order" type="button" role="tab" aria-controls="Order" aria-selected="false">My Profile</button>
+                  <button
+                    className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-greenColor hover:border-textgreenColor ${
+                      activeTab === 'profile' ? 'border-textgreenColor text-greenColor' : 'border-gray-300'
+                    }`}
+                    onClick={() => handleTabClick('profile')}
+                    type="button"
+                    role="tab">     
+                  My Profile
+                  </button>           
                 </li>
+
                 <li class="me-2" role="presentation">
-                    <button class="inline-block p-4 border-b-2 border-gray-300 rounded-t-lg hover:text-greenColor hover:border-textgreenColor" id="Address-tab" data-tabs-target="#Address" type="button" role="tab" aria-controls="Address" aria-selected="false">My Address</button>
+                  <button
+                    className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-greenColor hover:border-textgreenColor ${
+                      activeTab === 'address' ? 'border-textgreenColor text-greenColor' : 'border-gray-300'
+                    }`}
+                    onClick={() => handleTabClick('address')}
+                    type="button"
+                    role="tab">
+                    My Address
+                  </button>                
                 </li>
+
                 <li role="presentation">
-                    <button class="inline-block p-4 border-b-2 border-gray-300 rounded-t-lg hover:text-greenColor hover:border-textgreenColor" id="Account-tab" data-tabs-target="#Account" type="button" role="tab" aria-controls="Account" aria-selected="false">Account</button>
+                <button
+                  className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-greenColor hover:border-textgreenColor ${
+                    activeTab === 'account' ? 'border-textgreenColor text-greenColor' : 'border-gray-300'}`}
+                  onClick={() => handleTabClick('account')}
+                  type="button"
+                  role="tab">
+                  Account
+                </button>
                 </li>
             </ul>
           </div>
   
           <div id="default-tab-content"> {/* <!-- Content of every tabs --> */}
             {/* <!-- Profile Tab--> */}
-              <div class="hidden py-4 px-20 my-7 rounded-lg bg-gray-50 dark:bg-gray-800" id="profile" role="tabpanel" aria-labelledby="profile-tab"> 
+            {activeTab === 'profile' && (
+              <div class="py-4 px-20 my-7 rounded-lg bg-gray-50 dark:bg-gray-800" id="profile" role="tabpanel"> 
                 <div class="border-b-2">
                     <div class="flex justify-between items-center" >
                       <h1 class="text-4xl py-5">Profile Picture</h1>
@@ -216,9 +261,10 @@ export default function Profile() {
                     </form>
                   </div>
               </div>
-  
+            )}
             {/* <!-- Order Tab--> */}
-              <div class=" p-4 rounded-lg my-7 bg-gray-50 dark:bg-gray-800 min-h-[500px]" id="Order" role="tabpanel" aria-labelledby="Order-tab"> 
+            {activeTab === 'order' && (
+              <div class="p-4 rounded-lg my-7 bg-gray-50 dark:bg-gray-800 min-h-[500px]" id="order" role="tabpanel" aria-labelledby="Order-tab"> 
                   <div>
                     <div class="mb-10 py-5 px-20">
                       <h1 class="text-4xl mb-5">My Orders</h1>
@@ -344,9 +390,11 @@ export default function Profile() {
                     
                   </div>
               </div>
-              
+            )}
+
             {/* <!-- Address Tab--> */}
-              <div class="hidden p-6 rounded-lg my-7 bg-gray-50 dark:bg-gray-800" id="Address" role="tabpanel" aria-labelledby="Address-tab"> 
+            {activeTab === 'address' && (
+              <div class="p-6 rounded-lg my-7 bg-gray-50 dark:bg-gray-800" id="address" role="tabpanel" aria-labelledby="Address-tab"> 
                 <div>
                   <div class="mb-10 py-5 px-20">
                     <h1 class="text-4xl mb-5">My Address(es)</h1>
@@ -475,9 +523,11 @@ export default function Profile() {
                     </div>
                   </div> 
               </div>
-  
+            )}
+
             {/* <!-- Account Tab--> */}
-              <div class="hidden p-4 px-16 rounded-lg my-7 bg-gray-50 dark:bg-gray-800" id="Account" role="tabpanel" aria-labelledby="Account-tab"> 
+            {activeTab === 'account' && (
+              <div class="p-4 px-16 rounded-lg my-7 bg-gray-50 dark:bg-gray-800" id="account" role="tabpanel" aria-labelledby="Account-tab"> 
                   <div class="border-b-2 "> {/* <!-- Account --> */}
                       <div class="flex justify-between items-center" >
                         <h1 class="text-4xl py-5">Account</h1>
@@ -578,7 +628,7 @@ export default function Profile() {
                     </div>
                   </div>
               </div>
-  
+            )}
           </div>
         </div>
      </div>
@@ -593,13 +643,13 @@ export default function Profile() {
 
           <div class="flex gap-2">
             <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-              <img src="/public/image/fb.svg" alt=""/>
+              <img src={fb} alt=""/>
             </button>
             <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-              <img src="/public/image/yt.svg" alt=""/>
+              <img src={yt} alt=""/>
             </button>
             <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-              <img src="/public/image/ig.svg" alt=""/>
+              <img src={ig} alt=""/>
             </button>
           </div>
         </div>
