@@ -830,7 +830,7 @@ function Home() {
 
     {/* <!-- Best Sellers --> */}
     <div class="bg-white" id="Menu">
-      <h1 class="font-extrabold text-greenColor text-5xl text-center py-8 top-10 z-auto">
+      <h1 class="font-extrabold text-greenColor text-4xl text-center py-8 top-10 z-auto">
         Top Picks of the Day
       </h1>
       <div class="flex justify-center mb-32">
