@@ -383,7 +383,7 @@ export default function Profile() {
               <div class="p-6 rounded-lg my-7 bg-gray-50 dark:bg-gray-800" id="address" role="tabpanel" aria-labelledby="Address-tab"> 
                 <div>
                   <div class="mb-10 py-5 px-20">
-                    <h1 class="text-4xl mb-5">My Address(es)</h1>
+                    <h1 class="text-3xl mb-5">My Address(es)</h1>
                     <p>Add and manage the addresses you use often.</p>
                   </div>
 
