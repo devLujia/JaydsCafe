@@ -13,6 +13,7 @@ export default function Message() {
 
    const [messages, setMessages] = useState([]);
    const [message, setMessage] = useState('');
+   const [isOpen, setIsOpen] = useState(false);
    
    // const socket = io.connect('http://localhost:3000');
 
@@ -40,6 +41,27 @@ export default function Message() {
       }
    };
 
+   
+    //for dropdown user
+    const toggleDropdown = () => {
+      setIsOpen(!isOpen);
+  };
+
+  const handleLogout = async () => {
+      try {
+      const res = await axios.post('http://localhost:8081/logout');
+      if (res.data.success) {
+          // eslint-disable-next-line no-restricted-globals
+          location.reload();
+          navigate('/');
+      } else {
+          console.log('Logout Failed');
+      }
+      } catch (error) {
+      console.error('Error during logout:', error);
+      }
+  };
+
 
   return (
     <div class="bg-jaydsBg">
@@ -60,7 +82,27 @@ export default function Message() {
                      <div class="items-center justify-center">Admin</div>
                   </div>
 
-                  <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src={user} alt="User dropdown"/>
+                  
+                  <button onClick={toggleDropdown}>
+                     <img id="avatarButton" type="button" class="w-10 h-10 rounded-full cursor-pointer" src={user} alt="User dropdown"/>
+                  </button>
+
+                  {isOpen && (
+                  <div className="absolute top-5 right-10 mt-8 w-48 bg-white border rounded-lg shadow-lg z-50">
+                     <ul className="py-2">
+                           <li onClick={()=>navigate('/settings')} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                           Profile
+                           </li>
+                           <li
+                           className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                           onClick={handleLogout}
+                           >
+                           Logout
+                           </li>
+                     </ul>
+                  </div>
+                  )}
+
                </div>
          </nav>
         

@@ -12,6 +12,7 @@ export default function Sales() {
     const [userId, setUserId] = useState(null);
     const [profile, setProfile] = useState([]);
     const navigate = useNavigate();
+    const [isOpen, setIsOpen] = useState(false);
     axios.defaults.withCredentials = true;
 
     useEffect(() => {
@@ -39,6 +40,26 @@ export default function Sales() {
 
     },[userId])
 
+    //for dropdown user
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
+
+    const handleLogout = async () => {
+        try {
+        const res = await axios.post('http://localhost:8081/logout');
+        if (res.data.success) {
+            // eslint-disable-next-line no-restricted-globals
+            location.reload();
+            navigate('/');
+        } else {
+            console.log('Logout Failed');
+        }
+        } catch (error) {
+        console.error('Error during logout:', error);
+        }
+    };
+
   return (
     <div>
         <nav class="z-20 bg-jaydsBg border-gray-200  top-0 sticky flex justify-end shadow-md dark:bg-gray-900">
@@ -49,23 +70,26 @@ export default function Sales() {
                 <div class="font-bold">{profile.name}</div>
                 <div class="items-center justify-center">Admin</div>
             </div>
-            <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src={user} alt="User dropdown"/>
 
-            {/* Dropdown menu */}
-            <div id="userDropdown" class="top-16 absolute z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                
-                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
-                    <li>
-                    <a href="/dashboard" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+            <button onClick={toggleDropdown}>
+                <img id="avatarButton" type="button" class="w-10 h-10 rounded-full cursor-pointer" src={user} alt="User dropdown"/>
+            </button>
+
+            {isOpen && (
+            <div className="absolute top-5 right-10 mt-8 w-48 bg-white border rounded-lg shadow-lg z-50">
+                <ul className="py-2">
+                    <li onClick={()=>navigate('/settings')} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Profile
                     </li>
-                    <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+                    <li
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={handleLogout}
+                    >
+                    Logout
                     </li>
                 </ul>
-                <div class="py-1">
-                    <a href="/admin" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
-                </div>
             </div>
+            )}
         </nav>
 
         <div class="bg-white h-screen flex justify-center items-center sm:hidden z-10">

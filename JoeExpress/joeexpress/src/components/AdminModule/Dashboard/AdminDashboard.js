@@ -30,6 +30,8 @@ function AdminDashboard() {
    const [userId, setUserId] = useState(null);
    const [profile, setProfile] = useState([]);
 
+   const [isOpen, setIsOpen] = useState(false);
+   const [isNotif, setIsNotif] = useState(false);
 
    const navigate = useNavigate();
    axios.defaults.withCredentials = true;
@@ -67,8 +69,46 @@ function AdminDashboard() {
        });
        
     },[]);
+   
+   //For notif dropdown
+   // Sample notifications
+   const notifications = [
+      'Notification 1',
+      'Notification 2',
+      'Notification 3',
+      'Notification 1',
+      'Notification 2',
+      'Notification 3',
+      'Notification 1',
+      'Notification 2',
+      'Notification 3'
+   ];
+
+   // Function to toggle dropdown
+   const toggleNotif = () => {
+      setIsNotif(!isNotif);
+   };
 
 
+   //for dropdown user
+    const toggleDropdown = () => {
+      setIsOpen(!isOpen);
+    };
+
+    const handleLogout = async () => {
+      try {
+        const res = await axios.post('http://localhost:8081/logout');
+        if (res.data.success) {
+          // eslint-disable-next-line no-restricted-globals
+          location.reload();
+          navigate('/');
+        } else {
+          console.log('Logout Failed');
+        }
+      } catch (error) {
+        console.error('Error during logout:', error);
+      }
+    };
 
     useEffect(() => {
       axios.post('http://localhost:8081/totalRevenue')
@@ -208,16 +248,51 @@ function AdminDashboard() {
          <div></div>
          {/* <!-- Button for Login or Sign Up --> */}
          <div class="flex justify-end items-center ">
-               <button className='rounded-full p-2 bg-white border border-gray-400'>
+               <button className='rounded-full p-2 bg-white border border-gray-400' onClick={toggleNotif}>
                      <img src={notif} title='Notification'></img>
                </button>
+
+               {isNotif &&(
+                   <div className="absolute top-8 right-40 mt-2 w-72 bg-white border border-gray-300 rounded-md shadow-lg max-h-52 overflow-hidden overflow-y-auto">
+                    <h1 className='sticky top-0 w-full bg-white ps-5 text-gray-400 py-2 font-semibold'>Notification</h1>
+                     <ul className="pb-4 gap-y-2">
+                        {notifications.length > 0 ? (
+                        notifications.map((notification, index) => (
+                           <li key={index} className=" ps-4 py-4 border-b w-full last:border-none hover:bg-slate-100">
+                              {notification}
+                           </li>
+                        ))
+                        ) : (
+                        <li>No new notifications</li>
+                        )}
+                     </ul>
+                 </div>
+               )}
                
                <div class="px-4 py-3 text-sm text-gray-900 flex flex-col items-center justify-end dark:text-white">
                   <div class="font-bold">{profile.name}</div>
                   <div class="items-center justify-center">Admin</div>
                </div>
 
-               <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src={user} alt="User dropdown"/>
+               <button onClick={toggleDropdown}>
+                  <img id="avatarButton" type="button" class="w-10 h-10 rounded-full cursor-pointer" src={user} alt="User dropdown"/>
+               </button>
+
+               {isOpen && (
+               <div className="absolute top-5 right-10 mt-8 w-48 bg-white border rounded-lg shadow-lg z-50">
+                  <ul className="py-2">
+                     <li onClick={()=>navigate('/settings')} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                     Profile
+                     </li>
+                     <li
+                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                     onClick={handleLogout}
+                     >
+                     Logout
+                     </li>
+                  </ul>
+               </div>
+               )}
          </div>
       </nav>
 
@@ -658,26 +733,17 @@ function AdminDashboard() {
                      <div className='relative border-2 border-gray-500 rounded-xl w-3/5 text-center px-2 shadow-xl dark:bg-gray-800 dark:text-gray-300'>
                         <h1 className='mt-7 text-2xl font-semibold mb-2'>Business Name</h1>
                         <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value="Jayd's Cafe" disabled></input>
-                        <button className='absolute top-2 end-2 p-1 bg-textgreenColor rounded-lg'>
-                           <img src={edit} className='filter invert'></img>
-                        </button>
                       </div>
 
                       <div className='relative border-2 border-gray-500 rounded-xl w-3/5 text-center px-2 shadow-xl dark:bg-gray-800 dark:text-gray-300'>
                         <h1 className='mt-7 text-xl font-semibold mb-2'>Cellphone Number</h1>
                         <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value="09123456789" disabled></input>
-                        <button className='absolute top-2 end-2 p-1 bg-textgreenColor rounded-lg'>
-                           <img src={edit} className='filter invert'></img>
-                        </button>
                       </div>
 
                       <div className='relative border-2 border-gray-500 rounded-xl w-3/5 text-center px-2 shadow-xl dark:bg-gray-800 dark:text-gray-300'>
                         <h1 className='mt-7 text-xl font-semibold mb-2'>Location</h1>
                         <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value="Diamond Village, Salawag, Dasmariñas, Cavite" disabled></input>
-                        <button className='absolute top-2 end-2 p-1 bg-textgreenColor rounded-lg'>
-                           <img src={edit} className='filter invert'></img>
-                        </button>
-                      </div>
+                     </div>
                   </div>
                </div>
             </div>
