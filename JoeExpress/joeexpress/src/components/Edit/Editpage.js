@@ -121,7 +121,6 @@ export default function Editpage() {
             
             return response.data;
 
-
         } catch (error) {
             console.error('Error adding to cart:', error);
             throw error;

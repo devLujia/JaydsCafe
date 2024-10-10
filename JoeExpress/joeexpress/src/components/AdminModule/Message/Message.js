@@ -4,29 +4,32 @@ import notif from '../../image/notif.svg'
 import jaydsLogo from '../../image/jayds cafe Logo.svg';
 import send from '../../image/send.svg'
 import { Link } from 'react-router-dom';
-import { io } from 'socket.io-client';
+import  io  from 'socket.io-client';
 import Profile from '../../Profile/Profile';
+
+const socket = io.connect('http://localhost:8081');
 
 export default function Message() {
 
    const [messages, setMessages] = useState([]);
    const [message, setMessage] = useState('');
-   const socket = io('http://localhost:3000');
+   
+   // const socket = io.connect('http://localhost:3000');
 
-   useEffect(() => {
+   // useEffect(() => {
       
-      socket.emit('join', { userId: 'adminId', role: 'admin' });
+   //    socket.emit('join', { userId: 'adminId', role: 'admin' });
 
-      // Listen for incoming messages
-      socket.on('receiveMessage', (data) => {
-          setMessages((prevMessages) => [...prevMessages, data]);
-      });
+   //    // Listen for incoming messages
+   //    socket.on('receiveMessage', (data) => {
+   //        setMessages((prevMessages) => [...prevMessages, data]);
+   //    });
 
-      // Cleanup on component unmount
-      return () => {
-          socket.off('receiveMessage');
-      };
-   }, []);
+   //    // Cleanup on component unmount
+   //    return () => {
+   //        socket.off('receiveMessage');
+   //    };
+   // }, []);
 
   const sendMessage = () => {
       if (message.trim()) {

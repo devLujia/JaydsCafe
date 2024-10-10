@@ -1,6 +1,22 @@
+import axios from 'axios';
 import React from 'react'
 
-function DeleteModal({closeModal}) {
+function DeleteModal({closeModal, id}) {
+
+  const handleDelete = () => {
+    
+    if (id){
+      axios.post('http://localhost:8081/removeCartItems', {id})
+      .then(res =>{
+        if (res.data.success === true){
+          closeModal(false)
+        }
+      })
+     
+  }
+
+}
+
 
   return (
     <div>
@@ -30,8 +46,11 @@ function DeleteModal({closeModal}) {
                     </div>
                     {/* <!-- Modal footer --> */}
                     <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                        <button type="button" class=" font-medium rounded-lg text-gray-900 focus:outline-none bg-white border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100  dark:text-gray-400 dark:border-gray-600 dark:hover:text-white  text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={()=> closeModal(false)}>Cancel</button>
-                        <button type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">Delete</button>
+                        <button type="button" 
+                        class=" font-medium rounded-lg text-gray-900 focus:outline-none bg-white border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100  dark:text-gray-400 dark:border-gray-600 dark:hover:text-white  text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={()=> closeModal(false)}>Cancel</button>
+                        <button type="button"
+                         onClick={handleDelete}
+                         class="py-2.5 px-5 ms-3 text-sm font-medium text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">Delete</button>
                     </div>
                 </div>
             </div>

@@ -18,11 +18,12 @@ function Cart() {
     const navigate = useNavigate();
     const [totalBill, setTotalBill] = useState(0);
     const [DeleteModal,setDeleteModal] = useState(false); //modal
-
+    const [selectedProductId, setProductId] = useState(null);
     const [showTooltip, setShowTooltip] = useState(false); //For tooltip
 
     // modal
-    const toggleDeleteModal = () =>{
+    const toggleDeleteModal = (id) =>{
+        setProductId(id)
         setDeleteModal(!DeleteModal)
       }
     
@@ -59,7 +60,8 @@ function Cart() {
             .catch(error => {
                 console.error('Error fetching item details:', error);
             });
-    }, [userId]);
+            
+    }, [userId, DeleteModal]);
 
     const decrement = async (itemId,itemQuantity) => {
         // Update the quantity in the local state
@@ -178,10 +180,16 @@ function Cart() {
 
     });
 
+    const handleNav = (foodId) =>{
+        navigate(`/editpage/${foodId}`);
+    }
+
     return (
         <div class="bg-white">
             
-            {DeleteModal && <Del closeModal={setDeleteModal}/>}
+            {DeleteModal && selectedProductId !== null &&
+            (<Del closeModal={() => setDeleteModal(false)} id={selectedProductId}/>
+            )}
 
             <nav class="sticky top-0 bg-white z-20">
                 <div class="font-extrabold text-xl flex items-center py-1">
@@ -216,7 +224,7 @@ function Cart() {
                                     </div>
                                     <div class="flex flex-col justify-center ml-6 min-w-64 max-w-64">
                                         <h5 class="text-3xl font-bold text-gray-900 dark:text-white max-w-64">{item.food_name}</h5> {/*<!-- Title ng product-->*/}
-                                        <p class="text-base text-gray-500 sm:text-lg dark:text-gray-400 font-semibold">₱{item.price}</p> {/*<!-- price ng product-->*/}
+                                        <p class="text-base text-gray-500 sm:text-lg dark:text-gray-400 font-semibold">₱{item.price}.00</p> {/*<!-- price ng product-->*/}
                                         <p class="text-base text-gray-500 sm:text-lg dark:text-gray-400 font-semibold">Size: <span class="font-normal">{item.size}</span></p> {/*<!-- Size ng product-->*/}
                                         <p class="text-base text-gray-500 sm:text-sm mb-2 dark:text-gray-400 font-semibold pr-5">Addons: <span className='font-normal'>{item.addons}</span></p> {/*<!-- addons ng product-->*/}
                                     </div>
@@ -244,12 +252,12 @@ function Cart() {
                                     </div>
 
                                     <div className='min-w-fit '>
-                                        <button class="py-3 me-3 px-3 inline-block bg-white dark:bg-neutral-900 dark:border-neutral-700"  onClick={toggleDeleteModal}>
+                                    <button class="py-3 me-3 px-3 inline-block bg-white dark:bg-neutral-900 dark:border-neutral-700"  onClick={()=> toggleDeleteModal(item.id)}>
                                             <img src={del} alt="" />
                                         </button>
-                                        <button class="py-3 px-3 inline-block bg-white dark:bg-neutral-900 dark:border-neutral-700" >
+                                        {/* <button class="py-3 px-3 inline-block bg-white dark:bg-neutral-900 dark:border-neutral-700" onClick={()=> handleNav(item.food_id)}>
                                             <img src={edit} alt="" />
-                                        </button>
+                                        </button> */}
                                     </div>
                                 </div>
 
@@ -342,7 +350,7 @@ function Cart() {
                         </div>
 
                 <div class="flex items-center justify-end pt-5">
-                    <h1 class="text-3xl font-extrabold tracking-wider">₱{totalBill}</h1>
+                    <h1 class="text-3xl font-extrabold tracking-wider">₱{totalBill}.00</h1>
                     <span class="inline-flex items-center justify-center w-6 h-6 ms-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full" 
                     onMouseEnter={() => setShowTooltip(true)}
                     onMouseLeave={() => setShowTooltip(false)}>
