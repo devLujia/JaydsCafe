@@ -4,6 +4,7 @@ import americano from '../image/americano.png'
 import caramel from '../image/milktea.png'
 import cupsmall from '../image/cup(small).svg'
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';//alert 
 
 function AddOrder({closeModal, foodId}) {
     const [sizes, setSizes] = useState([]);
@@ -135,12 +136,17 @@ function AddOrder({closeModal, foodId}) {
         }
     };
 
+//alert 
     const handleAddToCart = async (food) => {
         try {
             await addToCartApi(food, userId);
             setCart(prevCart => [...prevCart, food]);
-            alert('Item added to cart!');
-            closeModal(false)
+            Swal.fire({ 
+                title: "Add to Cart Successful",
+                text: "Your order placed on the cart!",
+                icon: "success"
+              });
+            closeModal(false)   
         } catch (error) {
             alert('Failed to add item to cart. Please try again.');
         }
@@ -281,63 +287,6 @@ return(
 
                     {/* right side */}
                     <div className='rounded-r-xl p-3'>
-                        {/* Sweetness Dropdown */}
-                        {/* <h2 id="accordion-color-heading-1">
-                            <button
-                            type="button"
-                            class="flex items-center justify-between w-full font-medium rtl:text-right text-gray-500 hover:bg-slate-300 rounded-t-lg px-2 gap-3"
-                            onClick={toggleSweetness}
-                            data-accordion-target="#accordion-color-body-1"
-                            aria-expanded="true"
-                            aria-controls="accordion-color-body-1"
-                            >
-                            <span class="text-md">Sweetness </span>
-                            <div className='inline-flex items-center gap-2'>
-                                <p>optional</p>
-                                <svg
-                                    data-accordion-icon
-                                    className={`w-3 h-3 transition-transform duration-300 ${sweetness ? '' : 'rotate-180'}`}
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 10 6">
-                                    <path
-                                    stroke="currentColor"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M9 5 5 1 1 5"
-                                    />
-                                </svg>
-                            </div>
-                            </button>
-                        </h2> */}
-
-                        {/* {sweetness && (
-                            <div id="accordion-color-body-1" className="w-full px-5">
-                            <div class="flex items-center mb-4 border-b-2 border-gray-200 py-3">
-                                <input id="radio-1" type="radio" name="sugar-level" class="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-textgreenColor dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                <label for="radio-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">No Sugar (0%)</label>
-                            </div> 
-                            <div class="flex items-center mb-4 border-b-2 border-gray-200 py-3">
-                                <input id="radio-2" type="radio" name="sugar-level" class="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-textgreenColor dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                <label for="radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Quarter (25%)</label>
-                            </div>
-                            <div class="flex items-center mb-4 border-b-2 border-gray-200 py-3">
-                                <input id="radio-3" type="radio" name="sugar-level" class="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-textgreenColor dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                <label for="radio-3" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Half (50%)</label>
-                            </div>
-                            <div class="flex items-center mb-4 border-b-2 border-gray-200 py-3">
-                                <input id="radio-4" type="radio" name="sugar-level" class="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-textgreenColor dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                <label for="radio-4" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Lite (75%)</label>
-                            </div>
-                            <div class="flex items-center mb-4 border-b-2 border-gray-200 py-3">
-                                <input id="radio-5" type="radio" name="sugar-level" class="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-textgreenColor dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                <label for="radio-5" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Normal (100%)</label>
-                            </div>
-                        </div>
-                        )} */}
-
                         {/* addons Dropdown */}
                         <h2 id="accordion-color-heading-1">
                             <button

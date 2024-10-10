@@ -280,7 +280,7 @@ function Cart() {
                             <h1 class="text-xl font-bold mb-6 tracking-wider  text-center">Select your delivery method</h1>
 
                             <form action="">
-                                <ul class="grid gap-2 md:grid-cols-2 px-14 text-center">
+                                <ul class="grid gap-2 md:grid-cols-2 px-14 text-center" required>
                                     <li>
                                         <input type="radio" id="delivery" name="hosting" value="delivery" class="hidden peer" required />
                                         <label for="delivery" class="inline-block items-center justify-center py-3 w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-textgreenColor peer-checked:border-textgreenColor peer-checked:text-textgreenColor hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -300,46 +300,7 @@ function Cart() {
                                         </label>
                                     </li>
                                 </ul>
-
-
-                                {/* <div class="min-w-full my-4 pr-5">
-                          <label for="date" class="block mb-2 pl-1 text-lg font-medium text-gray-700">Pick a Date</label>
-                          <input type="text" placeholder="September 24,2024" id="date" class="peer h-full w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-lg font-normal text-gray-700 shadow-lg shadow-gray-900/5 outline-0 ring-4 ring-transparent transition-all placeholder:text-gray-500 focus:border-gray-900 focus:ring-gray-900/10 disabled:border-0 disabled:bg-gray-50" />
-                        </div> */}
-
-                                {/* lalabas lang kapag pick up yung clinick */}
-                                {/* <label for="date" class="block mb-2 pl-1 text-lg my-4 font-medium text-gray-700">Pick a Time</label>
-                        <div class="grid sm:grid-cols-2 gap-4 pr-5 mb-4">
-                          <label for="time1" class="flex p-3 w-full bg-white border border-gray-200 rounded-lg text-sm  dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
-                            <input id="time1" type="radio" name="hs-radio-in-form" class="shrink-0 mt-0.5 text-green-500 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-500"/>
-                            <span class="text-sm text-gray-500 ms-3 dark:text-neutral-400">2:30 PM – 4:30 PM</span>
-                          </label>
-                    
-                          <label for="time2" class="flex p-3 w-full bg-white border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
-                            <input type="radio" name="hs-radio-in-form" class="shrink-0 mt-0.5 text-green-500 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-500" id="time2"/>
-                               <span class="text-sm text-gray-500 ms-3 dark:text-neutral-400">4:30 PM – 6:30 PM</span>
-                          </label>
-                          <label for="time3" class="flex p-3 w-full bg-white border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
-                            <input type="radio" name="hs-radio-in-form" class="shrink-0 mt-0.5 border-gray-200 rounded-full text-green-500 bg-gray-100 focus:ring-green-500 dark:focus:ring-green-500"  id="time3"/>
-                              <span class="text-sm text-gray-500 ms-3 dark:text-neutral-400">2:30 PM – 4:30 PM</span>
-                          </label>
-                    
-                          <label for="time4" class="flex p-3 w-full bg-white border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
-                            <input type="radio" name="hs-radio-in-form" class="shrink-0 mt-0.5 border-gray-200 rounded-full text-green-500 bg-gray-100 focus:ring-green-500 dark:focus:ring-green-500" id="time4"/>
-                              <span class="text-sm text-gray-500 ms-3 dark:text-neutral-400">4:30 PM – 6:30 PM</span>
-                          </label>
-                    
-                          <label for="time5" class="flex p-3 w-full bg-white border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
-                            <input type="radio" name="hs-radio-in-form" class="shrink-0 mt-0.5 border-gray-200 rounded-full text-green-500 bg-gray-100 focus:ring-green-500 dark:focus:ring-green-500" id="time5"/>
-                              <span class="text-sm text-gray-500 ms-3 dark:text-neutral-400">6:30 PM – 8:30 PM</span>
-                          </label>
-                    
-                          <label for="time6" class="flex p-3 w-full bg-white border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
-                            <input type="radio" name="hs-radio-in-form" class="shrink-0 mt-0.5 border-gray-200 rounded-full text-green-500 bg-gray-100 focus:ring-green-500 dark:focus:ring-green-500" id="time6"/>
-                              <span class="text-sm text-gray-500 ms-3 dark:text-neutral-400">ASAP</span>
-                          </label>
-                        </div> */}
-
+                                
                                 {/* lalabas lang kapag local delivery yung clinick */}
                                 <div className='px-4'>
                                     <label for="instruction" class="block mb-2 pl-1 text-lg font-medium text-gray-700 mt-8">Dropoff Instructions (Option)</label>
