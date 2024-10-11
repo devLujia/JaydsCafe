@@ -819,10 +819,10 @@ function Home() {
         </div>  
       </div>
       <div class="w-[400px] h-[400px] md:m-auto relative hover:scale-100">
-        <img src={cmsBigLogo} alt="" class="w-[400px] h-[400px] z-10 absolute -top-6 -left-12" data-aos="fade-down-right"
+        <img src={cmsBigLogo} alt="" class="w-[400px] h-[400px] z-10 absolute -top-6 -left-28" data-aos="fade-down-right"
         data-aos-duration="1500" data-aos-easing="ease-in-sine"></img>
 
-        <img src={cmsSmallLogo} alt="" class= "w-[400px] h-[400px] absolute top-10 left-28"data-aos="fade-down-left"
+        <img src={cmsSmallLogo} alt="" class= "w-[400px] h-[400px] absolute top-10 left-16"data-aos="fade-down-left"
         data-aos-duration="1500" data-aos-easing="ease-in-sine"></img>
       </div>
       
