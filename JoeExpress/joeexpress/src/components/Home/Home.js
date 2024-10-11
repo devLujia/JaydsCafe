@@ -606,7 +606,7 @@ function Home() {
     <nav class="sticky top-0 bg-white z-20 shadow-lg">
       <div class="font-extrabold text-2xl flex items-center">
         {/* <!-- Logo/Title in Navbar --> */}
-        <a href="#" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">{cmsName}</a>
+        <a href="#" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide">{cmsName}</a>
       </div>
       <span class="menu">
         <ul class="nav_links md:hidden sm:hidden lg:flex lg:flex-row lg:justify-between">
