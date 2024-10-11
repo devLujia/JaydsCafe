@@ -341,7 +341,7 @@ export default function Order_New() {
                                                             Contact Number
                                                         </th>
                                                         <th scope="col" class="px-6 py-3">
-                                                            Date / Time
+                                                            Date / Time Order Placed
                                                         </th>
                                                         <th scope="col" class="px-6 py-3">
                                                             Price
@@ -636,7 +636,7 @@ export default function Order_New() {
                                                         Contact Number
                                                     </th>
                                                     <th scope="col" class="px-6 py-3">
-                                                        Date / Time
+                                                        Date / Time Updated
                                                     </th>
                                                     <th scope="col" class="px-6 py-3">
                                                         Price
@@ -667,7 +667,7 @@ export default function Order_New() {
                                                                 WALA PA
                                                             </td>
                                                             <td className="px-6 py-4 text-center">
-                                                                {new Date(orderh.order_date).toLocaleString('en-US', {
+                                                                {new Date(orderh.update_order_date).toLocaleString('en-US', {
                                                                     year: 'numeric',
                                                                     month: 'long',
                                                                     day: 'numeric',

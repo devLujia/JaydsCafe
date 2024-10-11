@@ -562,8 +562,8 @@ function AdminDashboard() {
 
                               <tbody>
                               {orders.slice(0, 2).map(order => (
-                                 <>
-                                    <tr key={order.order_id} className="bg-white border-b hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:hover:text-gray-800">
+                                 <React.Fragment key={order.order_id}>
+                                    <tr className="bg-white border-b hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:hover:text-gray-800">
                                        <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-gray-300">
                                           <div className="text-base font-semibold">ORDR#{order.order_id}</div>
                                        </th>
@@ -574,7 +574,7 @@ function AdminDashboard() {
                                           {order.address}
                                        </td>
                                        <td className="px-6 py-4 text-center">
-                                          WALA PA
+                                          {order.pnum}
                                        </td>
                                        <td className="px-6 py-4 text-center">
                                           {new Date(order.order_date).toLocaleString('en-US', {
@@ -640,7 +640,7 @@ function AdminDashboard() {
                                           </td>
                                        </tr>
                                        )}
-                                 </>
+                                 </React.Fragment>
                               ))}
 
                               </tbody>

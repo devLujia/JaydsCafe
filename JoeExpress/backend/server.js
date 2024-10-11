@@ -1592,6 +1592,7 @@ app.post('/removeProduct',  async (req, res) =>{
             o.order_id, 
             u.name,
             u.address,
+            u.pnum,
             o.customer_id, 
             o.order_date, 
             o.status,
@@ -1619,6 +1620,7 @@ app.post('/removeProduct',  async (req, res) =>{
             o.order_id, 
             u.name,
             u.address,
+            u.pnum,
             o.customer_id, 
             o.order_date, 
             o.status
@@ -1646,7 +1648,8 @@ app.post('/removeProduct',  async (req, res) =>{
             u.name,
             u.address,
             o.customer_id, 
-            o.order_date, 
+            o.order_date,
+            o.update_order_date, 
             o.status,
             o.totalPrice, 
             GROUP_CONCAT(
@@ -1672,10 +1675,11 @@ app.post('/removeProduct',  async (req, res) =>{
             u.name,
             u.address,
             o.customer_id, 
-            o.order_date, 
+            o.order_date,
+            o.update_order_date, 
             o.status
         ORDER BY 
-            o.order_date DESC;
+            o.update_order_date DESC;
              
         `
 

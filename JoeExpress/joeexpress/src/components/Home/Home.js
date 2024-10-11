@@ -59,6 +59,9 @@ function Home() {
   
   const [mapModal, setMapModal] = useState(false);
   const [cmsName,setCmsName] = useState('');
+  const [cmsReview1,setReview1] = useState(null);
+  const [cmsReview2,setReview2] = useState(null);
+  const [cmsReview3,setReview3] = useState(null);
   const [cmsBigLogo,setBigLogo] = useState(null);
   const [cmsSmallLogo,setSmallLogo] = useState(null);
   const [cmsAboutUsImage,setAboutUsImage] = useState(null);
@@ -115,6 +118,39 @@ function Home() {
       try {
         const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
         setCmsName(response.data.content || '');
+      } 
+      catch (error) {
+        console.error('Error fetching data:', error);
+      }
+
+    };
+    
+    const fetchReview1Data = async () => {
+      try {
+        const response = await axios.post('http://localhost:8081/cms', {title: 'Review1'});
+        setReview1(response.data.content || '');
+      } 
+      catch (error) {
+        console.error('Error fetching data:', error);
+      }
+
+    };
+    
+    const fetchReview2Data = async () => {
+      try {
+        const response = await axios.post('http://localhost:8081/cms', {title: 'Review2'});
+        setReview2(response.data.content || '');
+      } 
+      catch (error) {
+        console.error('Error fetching data:', error);
+      }
+
+    };
+    
+    const fetchReview3Data = async () => {
+      try {
+        const response = await axios.post('http://localhost:8081/cms', {title: 'Review3'});
+        setReview3(response.data.content || '');
       } 
       catch (error) {
         console.error('Error fetching data:', error);
@@ -294,6 +330,9 @@ function Home() {
 
   // Toggle dropdown visibility
     
+      fetchReview1Data()
+      fetchReview2Data()
+      fetchReview3Data()
       fetchPhoneData();
       fetchTelData();
       fetchNameData();
@@ -1069,8 +1108,21 @@ function Home() {
           id="backBtn"
           class="w-12 h-12"
         />
-        <div class="gallery">
-          <div>
+        <div className="gallery">
+        
+        <div className="flex space-x-2">
+          <span>
+            <img src={cmsReview1} alt=""/>
+          </span>
+          <span>
+            <img src={cmsReview2} alt="" />
+          </span>
+          <span>
+            <img src={cmsReview3} alt=""/>
+          </span>
+        </div>
+
+          {/* <div>
             <span
               ><img src="/public/image/Facebook Post Recommendation.png" alt=""
             /></span>
@@ -1084,8 +1136,8 @@ function Home() {
                 src="/public/image/Facebook Post Recommendation (2).png"
                 alt=""
             /></span>
-          </div>
-          <div>
+          </div> */}
+          {/* <div>
             <span
               ><img src="/public/image/Facebook Post Recommendation.png" alt=""
             /></span>
@@ -1099,22 +1151,7 @@ function Home() {
                 src="/public/image/Facebook Post Recommendation (2).png"
                 alt=""
             /></span>
-          </div>
-          <div>
-            <span
-              ><img src="/public/image/Facebook Post Recommendation.png" alt=""
-            /></span>
-            <span
-              ><img
-                src="/public/image/Facebook Post Recommendation (1).png"
-                alt=""
-            /></span>
-            <span
-              ><img
-                src="/public/image/Facebook Post Recommendation (2).png"
-                alt=""
-            /></span>
-          </div>
+          </div> */}
         </div>
         <img
           src={arrowright}

@@ -60,7 +60,7 @@ function OrderTracking() {
         <nav class="w-full top-0 fixed bg-white z-20 shadow-lg flex justify-evenly">
             <div class="font-extrabold text-2xl flex items-center">
                 {/* <!-- Logo/Title in Navbar --> */}
-                <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
+                <Link href="/" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</Link>
             </div>
             <div></div>
             {/* <!-- Button for Login or Sign Up --> */}

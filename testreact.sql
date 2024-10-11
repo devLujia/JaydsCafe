@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 07, 2024 at 06:45 PM
+-- Generation Time: Oct 11, 2024 at 07:09 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -47,27 +47,6 @@ INSERT INTO `addons` (`id`, `name`, `price`, `category_id`) VALUES
 (6, 'cheesesabinimam', 50.00, 5),
 (7, 'test-bibingka', 79.00, 7),
 (19, 'Cheese', 30.00, 34);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `admin`
---
-
-CREATE TABLE `admin` (
-  `id` int(11) NOT NULL,
-  `fullname` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `role` enum('admin','rider') NOT NULL DEFAULT 'admin'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `admin`
---
-
-INSERT INTO `admin` (`id`, `fullname`, `email`, `password`, `role`) VALUES
-(1, 'lekra', 'soulreaper69@gmail.com', '$2b$10$WCAbBGO/glKo1.nV2eb36eTgghjWmMkOeyaUSKsuMA9ZB70RD0MFG', 'admin');
 
 -- --------------------------------------------------------
 
@@ -152,27 +131,6 @@ INSERT INTO `category` (`id`, `title`, `image_url`, `active`, `featured`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cms`
---
-
-CREATE TABLE `cms` (
-  `id` int(11) NOT NULL,
-  `Title` varchar(255) NOT NULL,
-  `About us` text NOT NULL,
-  `Location` varchar(255) NOT NULL,
-  `Tel.no` varchar(100) NOT NULL,
-  `Mob.no` varchar(100) NOT NULL,
-  `facebook` varchar(255) NOT NULL,
-  `instagram` varchar(255) NOT NULL,
-  `link` varchar(255) NOT NULL,
-  `faq_id` int(10) UNSIGNED NOT NULL,
-  `operation_hours` varchar(255) NOT NULL,
-  `operation_date` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `cms_pages`
 --
 
@@ -205,19 +163,13 @@ INSERT INTO `cms_pages` (`id`, `title`, `content`, `created_at`, `updated_at`, `
 (13, 'Snack Price', '39 to 59 Pesos', '2024-08-31 23:21:02', '2024-08-31 23:21:02', 'Price'),
 (14, 'Store Image', '/images/content_1725147459433.png', '2024-08-31 23:32:07', '2024-08-31 23:37:39', 'image'),
 (15, 'Operation hours', '10:00AM - 9:00PM', '2024-08-31 23:43:38', '2024-08-31 23:43:38', 'About Us'),
-(16, 'Operation days', 'Monday - Sunday', '2024-08-31 23:44:02', '2024-08-31 23:44:02', 'About Us');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `faq_cms`
---
-
-CREATE TABLE `faq_cms` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `Question` varchar(255) NOT NULL,
-  `Answer` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+(16, 'Operation days', 'Monday - Sunday', '2024-08-31 23:44:02', '2024-08-31 23:44:02', 'About Us'),
+(17, 'Review1', '/images/462534247_1771802123587897_6128529856494394845_n.png', '2024-10-11 16:50:21', '2024-10-11 16:50:21', 'Review'),
+(18, 'Review2', '/images/462535634_1181343276303254_1691258288920020029_n.png', '2024-10-11 16:51:30', '2024-10-11 16:51:30', 'Review'),
+(19, 'Review3', '/images/462538751_1066066354963335_9093822928369937838_n.png', '2024-10-11 16:51:51', '2024-10-11 16:51:51', 'Review'),
+(20, 'Review4', '/images/', '2024-10-11 17:06:32', '2024-10-11 17:06:32', 'Review'),
+(21, 'Review5', '/images/', '2024-10-11 17:06:36', '2024-10-11 17:06:36', 'Review'),
+(22, 'Review6', '/images/', '2024-10-11 17:06:39', '2024-10-11 17:06:39', 'Review');
 
 -- --------------------------------------------------------
 
@@ -410,6 +362,7 @@ CREATE TABLE `orders` (
   `order_id` int(100) UNSIGNED NOT NULL,
   `customer_id` int(100) UNSIGNED NOT NULL,
   `order_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `update_order_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` enum('unpaid','paid','on process','on delivery','completed','cancelled') NOT NULL,
   `totalPrice` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -418,47 +371,48 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`order_id`, `customer_id`, `order_date`, `status`, `totalPrice`) VALUES
-(1910, 31, '2024-09-23 07:38:22', 'completed', 400),
-(1911, 31, '2024-09-23 07:40:12', 'paid', 400),
-(1912, 31, '2024-09-23 07:47:01', 'completed', 400),
-(1913, 31, '2024-09-23 09:28:04', 'completed', 100),
-(1914, 31, '2024-09-23 10:05:35', 'completed', 100),
-(1915, 31, '2024-09-23 17:46:49', 'completed', 296),
-(1916, 31, '2024-09-25 15:03:41', 'completed', 1389),
-(1917, 31, '2024-10-02 10:12:45', 'on delivery', 354),
-(1918, 31, '2024-10-02 10:16:45', 'completed', 354),
-(1919, 31, '2024-10-02 10:20:16', 'cancelled', 108),
-(1920, 31, '2024-10-06 01:29:29', 'cancelled', 27),
-(1921, 31, '2024-10-07 01:41:09', 'on process', 29),
-(1922, 31, '2024-10-07 01:53:32', 'on process', 27),
-(1923, 31, '2024-10-07 02:01:09', 'on process', 27),
-(1924, 31, '2024-10-07 02:03:31', 'on process', 49),
-(1925, 31, '2024-10-07 02:03:36', 'paid', 49),
-(1926, 31, '2024-10-07 02:03:51', 'on process', 27),
-(1927, 31, '2024-10-07 02:04:15', 'on process', 49),
-(1928, 31, '2024-10-07 02:07:14', 'on process', 49),
-(1929, 31, '2024-10-07 02:09:20', 'paid', 0),
-(1930, 31, '2024-10-07 02:09:35', 'paid', 49),
-(1931, 31, '2024-10-07 02:19:45', 'paid', 147),
-(1932, 31, '2024-10-07 02:21:43', 'paid', 49),
-(1933, 31, '2024-10-07 02:23:08', 'paid', 49),
-(1934, 31, '2024-10-07 02:25:20', 'paid', 49),
-(1935, 31, '2024-10-07 02:27:05', 'paid', 49),
-(1936, 31, '2024-10-07 02:27:12', 'paid', 49),
-(1937, 31, '2024-10-07 02:30:30', 'paid', 49),
-(1938, 31, '2024-10-07 02:40:24', 'paid', 49),
-(1939, 31, '2024-10-07 02:40:32', 'paid', 49),
-(1940, 31, '2024-10-07 02:43:40', 'paid', 49),
-(1941, 31, '2024-10-07 02:44:16', 'paid', 49),
-(1942, 31, '2024-10-07 02:46:41', 'paid', 49),
-(1943, 31, '2024-10-07 05:19:14', 'paid', 69),
-(1944, 31, '2024-10-07 05:21:48', 'paid', 59),
-(1945, 31, '2024-10-07 05:25:29', 'paid', 49),
-(1946, 31, '2024-10-07 05:26:07', 'paid', 27),
-(1947, 31, '2024-10-07 05:33:19', 'paid', 49),
-(1948, 31, '2024-10-07 05:35:29', 'paid', 39),
-(1949, 31, '2024-10-07 16:42:46', 'paid', 27);
+INSERT INTO `orders` (`order_id`, `customer_id`, `order_date`, `update_order_date`, `status`, `totalPrice`) VALUES
+(1910, 31, '2024-09-23 07:38:22', '2024-10-11 16:33:11', 'completed', 400),
+(1911, 31, '2024-09-23 07:40:12', '2024-10-11 16:33:11', 'paid', 400),
+(1912, 31, '2024-09-23 07:47:01', '2024-10-11 16:33:11', 'completed', 400),
+(1913, 31, '2024-09-23 09:28:04', '2024-10-11 16:33:11', 'completed', 100),
+(1914, 31, '2024-09-23 10:05:35', '2024-10-11 16:33:11', 'completed', 100),
+(1915, 31, '2024-09-23 17:46:49', '2024-10-11 16:33:11', 'completed', 296),
+(1916, 31, '2024-09-25 15:03:41', '2024-10-11 16:33:11', 'completed', 1389),
+(1917, 31, '2024-10-02 10:12:45', '2024-10-11 16:33:11', 'on delivery', 354),
+(1918, 31, '2024-10-02 10:16:45', '2024-10-11 16:33:11', 'completed', 354),
+(1919, 31, '2024-10-02 10:20:16', '2024-10-11 16:33:11', 'cancelled', 108),
+(1920, 31, '2024-10-06 01:29:29', '2024-10-11 16:33:11', 'cancelled', 27),
+(1921, 31, '2024-10-07 01:41:09', '2024-10-11 16:33:11', 'on process', 29),
+(1922, 31, '2024-10-07 01:53:32', '2024-10-11 16:33:11', 'on process', 27),
+(1923, 31, '2024-10-07 02:01:09', '2024-10-11 16:33:11', 'on process', 27),
+(1924, 31, '2024-10-07 02:03:31', '2024-10-11 16:33:11', 'on process', 49),
+(1925, 31, '2024-10-07 02:03:36', '2024-10-11 16:33:11', 'paid', 49),
+(1926, 31, '2024-10-07 02:03:51', '2024-10-11 16:33:11', 'on process', 27),
+(1927, 31, '2024-10-07 02:04:15', '2024-10-11 16:33:11', 'on process', 49),
+(1928, 31, '2024-10-07 02:07:14', '2024-10-11 16:33:11', 'on process', 49),
+(1929, 31, '2024-10-07 02:09:20', '2024-10-11 16:33:11', 'paid', 0),
+(1930, 31, '2024-10-07 02:09:35', '2024-10-11 16:33:11', 'paid', 49),
+(1931, 31, '2024-10-07 02:19:45', '2024-10-11 16:33:11', 'paid', 147),
+(1932, 31, '2024-10-07 02:21:43', '2024-10-11 16:33:11', 'paid', 49),
+(1933, 31, '2024-10-07 02:23:08', '2024-10-11 16:33:11', 'paid', 49),
+(1934, 31, '2024-10-07 02:25:20', '2024-10-11 16:33:11', 'paid', 49),
+(1935, 31, '2024-10-07 02:27:05', '2024-10-11 16:33:11', 'paid', 49),
+(1936, 31, '2024-10-07 02:27:12', '2024-10-11 16:33:11', 'paid', 49),
+(1937, 31, '2024-10-07 02:30:30', '2024-10-11 16:33:11', 'paid', 49),
+(1938, 31, '2024-10-07 02:40:24', '2024-10-11 16:33:11', 'paid', 49),
+(1939, 31, '2024-10-07 02:40:32', '2024-10-11 16:33:11', 'paid', 49),
+(1940, 31, '2024-10-07 02:43:40', '2024-10-11 16:33:11', 'paid', 49),
+(1941, 31, '2024-10-07 02:44:16', '2024-10-11 16:33:11', 'paid', 49),
+(1942, 31, '2024-10-07 02:46:41', '2024-10-11 16:33:11', 'paid', 49),
+(1943, 31, '2024-10-07 05:19:14', '2024-10-11 16:33:11', 'paid', 69),
+(1944, 31, '2024-10-07 05:21:48', '2024-10-11 16:33:11', 'paid', 59),
+(1945, 31, '2024-10-07 05:25:29', '2024-10-11 16:33:11', 'paid', 49),
+(1946, 31, '2024-10-07 05:26:07', '2024-10-11 16:33:11', 'paid', 27),
+(1947, 31, '2024-10-07 05:33:19', '2024-10-11 16:33:11', 'paid', 49),
+(1948, 31, '2024-10-07 05:35:29', '2024-10-11 16:33:11', 'paid', 39),
+(1949, 31, '2024-10-07 16:42:46', '2024-10-11 16:33:11', 'paid', 27),
+(1950, 31, '2024-10-11 16:17:18', '2024-10-11 16:33:11', 'paid', 127);
 
 -- --------------------------------------------------------
 
@@ -517,7 +471,10 @@ INSERT INTO `orders_food` (`id`, `order_id`, `food_id`, `quantity`, `size`, `add
 (132, 1946, 18, 1, 'small', ''),
 (133, 1947, 18, 1, 'medium', ''),
 (134, 1948, 26, 1, 'medium', ''),
-(135, 1949, 18, 1, 'small', '');
+(135, 1949, 18, 1, 'small', ''),
+(136, 1950, 113, 1, 'medium', ''),
+(137, 1950, 18, 1, 'medium', ''),
+(138, 1950, 19, 1, 'medium', '');
 
 -- --------------------------------------------------------
 
@@ -559,7 +516,7 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id`, `name`, `email`, `password`, `address`, `role`, `created_at`, `updated_at`, `verification_token`, `verified`, `pnum`) VALUES
 (29, 'chardsd', 'cilayap482@modotso.com', '$2b$10$/Zy8Kp69PUPEfsaEbUvdFuMl2Hes3J05Kjd3SSWEJE0b1eoaMOZ8G', 'hello 214sd', 'user', '2024-07-23 08:10:42', '2024-07-23 08:15:03', '49hl4jgopk', 'true', ''),
 (30, 'dagangbukid', 'fobedo2401@reebsd.com', '$2b$10$LQfRgTYjqCoUngDsW9sQM.6lKfNq21fEMzVTh6ydb6Orj8uJqQxg.', 'DYAN LANG', 'user', '2024-07-23 08:20:10', '2024-07-23 08:20:10', 'cn0d0eco8k', 'false', ''),
-(31, 'chardgrey', 'cardosarichard@gmail.com', '$2b$10$2CfKaulWCdIfErdXWtxDz.J5PC2CYidnxPHi2sWv822mG8lWKcdmu', 'Blk 99 Lot 99 Dasmarinas Cavite', 'user', '2024-07-24 05:20:33', '2024-07-24 05:21:06', '254kh7vd2k', 'true', ''),
+(31, 'chardgrey', 'cardosarichard@gmail.com', '$2b$10$2CfKaulWCdIfErdXWtxDz.J5PC2CYidnxPHi2sWv822mG8lWKcdmu', 'Blk 99 Lot 99 Dasmarinas Cavite', 'user', '2024-07-24 05:20:33', '2024-10-11 16:41:30', '254kh7vd2k', 'true', '232324'),
 (40, 'Pedro Penduko', 'jobatoc997@ofionk.com', '$2b$10$txPG8S9wWxyQKrWnVhhBd.ABarEi71skq8KM1IWayUX3bEj04cqiu', 'Salawag Diamond Village Blk 10 Lot 4', 'user', '2024-09-21 12:18:09', '2024-09-21 12:18:09', '27o4xjs1ts', 'false', '09278658355'),
 (41, 'chardgrey', 'chardgrey@gmail.com', '$2b$10$5zsQK5v7BQW3WFcpLMBDveWzsV8e6EsUR7751.X3ZU2VhZ4pXcdle', 'Blk p lot 4 DASMARINAS', 'user', '2024-09-28 01:52:33', '2024-09-28 01:52:33', 'dolrv3tepi', 'false', '09278658355'),
 (42, 'leklek', 'leklek@gmail.com', '$2b$10$YZg1R7JAiuRBIxbXuD/HF.Z.Y6fGM7cUPqyD94Zns1pyIEBWLf9K.', 'Blk p lot 4 DASMARINAS', 'admin', '2024-09-28 01:58:05', '2024-09-28 13:14:10', '0473le3c91', 'true', '09278658355'),
@@ -573,12 +530,6 @@ INSERT INTO `user` (`id`, `name`, `email`, `password`, `address`, `role`, `creat
 -- Indexes for table `addons`
 --
 ALTER TABLE `addons`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `admin`
---
-ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -604,21 +555,9 @@ ALTER TABLE `category`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `cms`
---
-ALTER TABLE `cms`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `cms_pages`
 --
 ALTER TABLE `cms_pages`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `faq_cms`
---
-ALTER TABLE `faq_cms`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -640,6 +579,7 @@ ALTER TABLE `food_sizes`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`order_id`),
+  ADD UNIQUE KEY `update_orderdate` (`order_id`),
   ADD KEY `Fk_user_id` (`customer_id`);
 
 --
@@ -675,12 +615,6 @@ ALTER TABLE `addons`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
--- AUTO_INCREMENT for table `admin`
---
-ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
@@ -690,7 +624,7 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -699,22 +633,10 @@ ALTER TABLE `category`
   MODIFY `id` int(50) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
--- AUTO_INCREMENT for table `cms`
---
-ALTER TABLE `cms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `cms_pages`
 --
 ALTER TABLE `cms_pages`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
---
--- AUTO_INCREMENT for table `faq_cms`
---
-ALTER TABLE `faq_cms`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `foods`
@@ -732,13 +654,13 @@ ALTER TABLE `food_sizes`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1950;
+  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1951;
 
 --
 -- AUTO_INCREMENT for table `orders_food`
 --
 ALTER TABLE `orders_food`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
 
 --
 -- AUTO_INCREMENT for table `order_addons`
