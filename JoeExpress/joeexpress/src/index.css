@@ -71,6 +71,7 @@ nav .link{
     padding: 15px 10px;
     font-size: larger;
     font-weight: 500;
+    text-decoration: none;
 }
 .active-link {
   color: blue;
