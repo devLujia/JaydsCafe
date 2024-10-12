@@ -450,7 +450,7 @@ const rightNav = () => {
                   </div>
                   <h3 className="text-xl font-semibold mt-4 min-h-10">{food.name}</h3>
                   <p className="text-gray-400 mt-4 text-sm font-semibold">Starts at</p>
-                  <p className="text-2xl font-bold mb-1">₱{food.price}</p>
+                  <p className="text-2xl font-bold mb-1">₱ {food.price}.00</p>
 
                   {authenticated ? (
                     <button

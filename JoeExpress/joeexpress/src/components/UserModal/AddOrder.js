@@ -152,7 +152,6 @@ function AddOrder({closeModal, foodId}) {
         }
     };
 
-    
 
 return(
     <div>
@@ -177,7 +176,7 @@ return(
                                 Starts at
                             </p>
                             <h2 className='text-2xl mb-4'>
-                            ₱{totalPrice}.00
+                            ₱{selectedPrice}.00
                             </h2>
 
                             <div className="bg-white border-2 border-slate-300 rounded-lg p-4 flex items-center justify-between w-72 mb-6">

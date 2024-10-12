@@ -9,9 +9,11 @@ import gcash from '../image/gcash_logo.svg';
 import plus from '../image/plus.svg';
 import lock from '../image/lock.svg';
 import axios from 'axios';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
 
 export default function Checkout() {
+
+    let location = useLocation();
 
     const [showModal, setShowModal] = useState(false);
     const [items, setItems] = useState([]);
@@ -21,10 +23,11 @@ export default function Checkout() {
     const [paymentIntentId, setPaymentIntentId] = useState(null);
     const [totalBill, setTotalBill] = useState(0);
     const [checkoutUrl, setCheckoutUrl] = useState(null);
-    const [orderID,setOrderId] = useState([])
+    const [profile, setProfile] = useState([])
+
 
     const { OrdrId } = useParams();
-    
+    const { riderNote } = location.state || {};
 
     // useEffect(() => {
     //     axios.get(`http://localhost:8081/tracking/${OrdrId}`)
@@ -59,6 +62,18 @@ export default function Checkout() {
                 console.error('Error fetching item details:', error);
             });
     },[userId,items]);
+    
+    
+    useEffect(() => {
+        axios.post('http://localhost:8081/profile', { userId })
+            .then(res => {
+                setProfile(res.data);
+
+            })
+            .catch(error => {
+                console.error('Error fetching item details:', error);
+            });
+    },[userId]);
 
     const handleCloseModal = () => {
         setShowModal(false);
@@ -129,31 +144,38 @@ export default function Checkout() {
             <div className='w-full px-10'>
                 <Link to="/cart" class="text-2xl font-bold hover:underline"> <img src={arrowLeft} alt="" class="inline-block w-4 h-4 me-2"/>Back to Cart</Link>
                 
+
+                <div className='text-left my-8'>
+                    <p className=' text-gray-600'>For <span className='text-xl font-semibold'>{riderNote?.option.toUpperCase()}</span></p>
+                </div>
+
+
                 {/* payment checkout display */}
                 <div className='text-left my-8'>
-                    <p  className=' text-gray-600'>Payment Checkout</p>
+                    <p className=' text-gray-600'>Payment Checkout</p>
                 </div>
 
                 {/* ship to section */}
-                <div className='border-b-2 border-textgreenColor my-2 pb-4'>
+                {riderNote?.option === 'delivery'? <div className='border-b-2 border-textgreenColor my-2 pb-4'>
                     <div className='flex justify-between mb-3'>
                         <h1 className='text-gray-400 font-semibold'>Ship to</h1>
                         <button className='p-2 bg-cards rounded-lg'>
                             <img src={arrowUp}></img>
                         </button>
                     </div>
-                    <form > {/* For option ng address */}
+                     <form > {/* For option ng address */}
                         <div className='space-y-2'> {/* Main container */}
                             <div class="group"> {/* First option */}
+
                                 <label htmlFor="add1"  class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
-                                    <input type="radio" id="add1" name="hosting" value="add1" class="peer text-textgreenColor focus:ring-textgreenColor"/>
+                                    <input type="radio" id="add1" name="hosting" value="add1" class="peer text-textgreenColor focus:ring-textgreenColor" defaultChecked/>
                                     <div className='flex flex-col py-4 overflow-hidden'>
-                                        <label htmlFor="add1" class="w-full ms-3 pb-2 text-sm font-medium text-gray-900 tracking-wide">Edsel Noyuab , Blk 14 Lot 1 Tinola Street</label>
-                                        <label htmlFor="add1" class="w-full ms-3 text-sm font-normal text-gray-700 tracking-wide">Imus, Cavite, 1401, Phillipines</label>
+                                        <label htmlFor="add1" class="w-full ms-3 text-sm font-medium text-gray-900 tracking-wide">{profile.address}</label>
+                                        {/* <label htmlFor="add1" class="w-full ms-3 text-sm font-normal text-gray-700 tracking-wide">Imus, Cavite, 1401, Phillipines</label> */}
                                     </div>
                                 </label>
                             </div>
-                            <div class="group">
+                            {/* <div class="group">
                                 <label htmlFor="add2" class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100 ">
                                     <input type="radio" id="add2" name="hosting" value="add2" class="peer text-textgreenColor focus:ring-textgreenColor "/>
                                     <div className='flex flex-col py-4 overflow-hidden'>
@@ -161,14 +183,14 @@ export default function Checkout() {
                                         <label htmlFor="add2" class="w-full ms-3 text-sm font-normal text-gray-700 tracking-wide">Imus, Cavite, 1401, Phillipines</label>
                                     </div>
                                 </label>
-                            </div>
+                            </div> */}
 
                             <button className='inline-flex justify-center p-2 hover:underline text-md'>
                                 <img src={plus} className='filter invert'></img> Use a Different address
                             </button>
                         </div>
                     </form>
-                </div>
+                </div>:""}
 
                 {/* Payment */}
                 <div className='my-10'>
@@ -201,7 +223,7 @@ purchase securely.'>
                             <label htmlFor="cash" class="inline-flex px-4 py-5 justify-between items-center w-full text-white bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor hover:bg-gray-100 ">
                                 <div className='inline-flex items-center'>
                                     <input type="radio" id="cash" name="hosting" value="cash" class="peer text-textgreenColor focus:ring-textgreenColor " required />
-                                    <h1 className='text-black ps-3'>Cash</h1>
+                                    {riderNote?.option === 'pickup' ? <h1 className='text-black ps-3'>Cash</h1> : <h1 className='text-black ps-3'>Cash on Delivery</h1>}
                                 </div>
                             </label>
                         </div>
@@ -251,7 +273,7 @@ purchase securely.'>
                             
                                     <h1 className='text-sm tracking-wider'><span className='md:font-bold tracking-wider'>Addons:</span> {item.addons ? item.addons : 'No addons'}</h1>
                                     <p className='font-semibold tracking-wider'>
-                                        ₱<span>{item.food_price * item.quantity}</span>
+                                        ₱<span>{item.food_price * item.quantity}.00</span>
                                     </p>
                                 </div>
                             </div>
