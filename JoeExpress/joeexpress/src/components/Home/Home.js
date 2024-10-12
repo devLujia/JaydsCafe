@@ -12,7 +12,6 @@ import arrowleft from '../image/arrow left.png';
 import arrowright from '../image/arrow right.png';
 import fb from '../image/fb.svg';
 import ig from '../image/ig.svg';
-import yt from '../image/yt.svg';
 import userIcon from '../image/UserAcc.svg';
 import bagIcon from '../image/bag.svg';
 import image2 from '../image/bg_bean2.png';
@@ -93,6 +92,21 @@ function Home() {
 
   const toggleVisibility = (category) => {
     setVisibleCategory(category);
+  };
+
+  // scrollable review
+  const carouselRef = useRef(null);
+
+  const scrollLeft = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+    }
   };
 
   const toggleFAQ1 = () => {
@@ -758,7 +772,7 @@ function Home() {
 
             </>
           ) : (
-            <button onClick={navLogin} class="relative inline-flex items-center gap-2 px-6 py-3 font-semibold text-white bg-gradient-to-r from-[#0e9b6c] via-[#067741] to-[#05633f] ring-2 ring-[#067741]/50 rounded-full shadow-lg overflow-hidden hover:bg-gradient-to-r hover:from-[#05633f] hover:via-[#067741] hover:to-[#0e9b6c] hover:opacity-95 transition-all duration-300 ease-in-out before:absolute before:top-4 before:left-1/2 before:-translate-x-1/2 before:w-[120px] before:h-[120px] before:rounded-full before:bg-gradient-to-b before:from-white/10 before:blur-xl">
+            <button onClick={navLogin} class="relative inline-flex items-center gap-2 px-6 py-3 font-semibold text-white bg-gradient-to-r from-[#0e9b6c] via-[#067741] to-[#05633f] ring-2 ring-[#067741]/50 rounded-full shadow-lg overflow-hidden hover:bg-gradient-to-r hover:from-[#05633f] hover:via-[#067741] hover:to-[#0e9b6c] hover:opacity-95 transition-all duration-500 ease-in-out before:absolute before:top-4 before:left-1/2 before:-translate-x-1/2 before:w-[120px] before:h-[120px] before:rounded-full before:bg-gradient-to-b before:from-white/10 before:blur-xl">
     Login/Sign Up
 </button>
 
@@ -1089,71 +1103,30 @@ function Home() {
     </div>
 
     {/* <!-- Reviews --> */}
-    <div class="mt-20 h-screen">
+    <div class="mt-14">
       <h2 class="font-extrabold text-5xl mb-10 text-yellow-950 text-center">
         Reviews
       </h2>
 
-      {/* <!-- Background Coffee --> */}
-      <div class="relative bg-cover">
-        <img
-          src={image1}
-          alt="beans"
-          class="absolute top-20 right-96 p-14 rotate--90 z-[-1]"
-        />
-      </div>
-
-      <div class="gallery-wrap">
+      {/* <div class="gallery-wrap">
         <img
           src={arrowleft}
           alt="Right-button"
           id="backBtn"
-          class="w-12 h-12"
-        />
+          class="w-12 h-12"/>
         <div className="gallery">
         
-        <div className="flex space-x-2">
-          <span>
-            <img src={cmsReview1} alt=""/>
-          </span>
-          <span>
-            <img src={cmsReview2} alt="" />
-          </span>
-          <span>
-            <img src={cmsReview3} alt=""/>
-          </span>
-        </div>
-
-          {/* <div>
-            <span
-              ><img src="/public/image/Facebook Post Recommendation.png" alt=""
-            /></span>
-            <span
-              ><img
-                src="/public/image/Facebook Post Recommendation (1).png"
-                alt=""
-            /></span>
-            <span
-              ><img
-                src="/public/image/Facebook Post Recommendation (2).png"
-                alt=""
-            /></span>
-          </div> */}
-          {/* <div>
-            <span
-              ><img src="/public/image/Facebook Post Recommendation.png" alt=""
-            /></span>
-            <span
-              ><img
-                src="/public/image/Facebook Post Recommendation (1).png"
-                alt=""
-            /></span>
-            <span
-              ><img
-                src="/public/image/Facebook Post Recommendation (2).png"
-                alt=""
-            /></span>
-          </div> */}
+          <div className='flex flex-nowrap'>
+            <span className='hover:scale-110 transition-all duration-300'> 
+              <img src={cmsReview1} alt="" />
+            </span>
+            <span className='hover:scale-110 transition-all duration-300'>
+              <img src={cmsReview2} alt="" />
+            </span>
+            <span className='hover:scale-110 transition-all duration-300'>
+              <img src={cmsReview3} alt=""/>
+            </span>
+          </div>
         </div>
         <img
           src={arrowright}
@@ -1161,24 +1134,48 @@ function Home() {
           id="nextBtn"
           class="w-12 h-12"
         />
-      </div>
-    </div>
+      </div> */}
 
-    {/* <!-- Background Coffee --> */}
-    <div class="relative bg-cover">
-      <img
-        src={image1}
-        alt="beans"
-        class="absolute top-10 left-48 p-14 rotate-180 z-[-1]"
-      />
-    </div>
-    {/* <!-- Background Coffee --> */}
-    <div class="relative bg-cover">
-      <img
-        src={image1}
-        alt="beans"
-        class="absolute top-72 right-80 p-14 rotate-90 z-[-1]"
-      />
+      <div className="relative">
+        <button onClick={scrollLeft} className="absolute left-5 z-10 bg-white rounded-full top-1/2">
+          <img src={arrowright} className='w-12 h-12 rotate-180'></img>
+        </button>
+        <div ref={carouselRef} className="carousel carousel-center rounded-box w-full space-x-10 p-4 overflow-x-auto">
+          <div className="carousel-item">
+            <img
+              src={cmsReview1}
+              className="rounded-box w-full h-full object-contain" />
+          </div>
+          <div className="carousel-item">
+            <img
+              src={cmsReview2}
+              className="rounded-box w-full h-full object-contain" />
+          </div>
+          <div className="carousel-item">
+            <img
+              src={cmsReview3}
+              className="rounded-box w-full h-full object-contain" />
+          </div>
+          <div className="carousel-item">
+            <img
+              src={cmsReview1}
+              className="rounded-box w-full h-full object-contain" />
+          </div>
+          <div className="carousel-item">
+            <img
+              src={cmsReview2}
+              className="rounded-box w-full h-full object-contain" />
+          </div>
+          <div className="carousel-item">
+            <img
+              src={cmsReview3}
+              className="rounded-box w-full h-full object-contain" />
+          </div>
+        </div>
+        <button onClick={scrollRight} className="absolute right-5 z-10 bg-white rounded-full top-1/2">
+          <img src={arrowright} className='w-12 h-12'></img>
+        </button>
+      </div>
     </div>
 
     {/* <!-- FAQ --> */}

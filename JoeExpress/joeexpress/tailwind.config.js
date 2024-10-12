@@ -27,6 +27,8 @@ darkgreen: '#273617',
 }
 },
 },
-  plugins: [],
+  plugins: [
+    require('daisyui'),
+  ],
 }
 

@@ -267,44 +267,6 @@ nav .link{
       transform: rotate(0deg);
     }
   }
-
-  /* Review Cards */
-  .gallery{
-    width: 90%;
-    display: flex;
-    overflow-x: scroll;
-  }
-
-  .gallery div{
-    width: 100%;
-    display: grid;
-    grid-template-columns: auto auto auto;
-    grid-gap: 25px;
-    padding: 20px;
-    flex: none;
-  }
-
-  .gallery div img{
-    width: 100%;
-  }
-
-  /* para mawala yung scrollbar */
-  .gallery::-webkit-scrollbar{
-    display: none;
-  }
-
-  .gallery-wrap{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 10% auto;
-  }
-
-  #backBtn, #nextBtn{
-    cursor: pointer;
-    margin: 10px;
-  }
-
   
 .menu_category{
   background-color: #F3ECE6;
