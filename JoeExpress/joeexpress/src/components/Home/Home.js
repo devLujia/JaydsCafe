@@ -758,9 +758,11 @@ function Home() {
 
             </>
           ) : (
-            <button onClick={navLogin} class="btn mr-3 w-40 h-12 text-greenColor text-sm tracking-widest shadow-md cursor-pointer hover:shadow-lg outline  hover:shadow-gray-400 hover:bg-greenColor hover:text-white hover:outline-none ease-in-out transition background-color 0.3s, color 0.3s duration-300">
-              Login/Sign Up
-            </button>
+            <button onClick={navLogin} class="relative inline-flex items-center gap-2 px-6 py-3 font-semibold text-white bg-gradient-to-r from-[#0e9b6c] via-[#067741] to-[#05633f] ring-2 ring-[#067741]/50 rounded-full shadow-lg overflow-hidden hover:bg-gradient-to-r hover:from-[#05633f] hover:via-[#067741] hover:to-[#0e9b6c] hover:opacity-95 transition-all duration-300 ease-in-out before:absolute before:top-4 before:left-1/2 before:-translate-x-1/2 before:w-[120px] before:h-[120px] before:rounded-full before:bg-gradient-to-b before:from-white/10 before:blur-xl">
+    Login/Sign Up
+</button>
+
+
           )}
       </div>
     </nav>
@@ -857,11 +859,11 @@ function Home() {
           <button onClick={()=>navigate('/menu')} class="bg-greenColor rounded-full py-3 px-5 text-white text-2xl font-light w-fit outline outline-white hover:outline-greenColor hover:bg-white hover:text-textgreenColor transition duration-300">Order Now!</button>
         </div>  
       </div>
-      <div class="w-[400px] h-[400px] md:m-auto relative hover:scale-100">
-        <img src={cmsBigLogo} alt="" class="w-[400px] h-[400px] z-10 absolute -top-6 -left-28" data-aos="fade-down-right"
+      <div class="w-[400px] h-[500px] md:m-auto relative hover:scale-100">
+        <img src={cmsBigLogo} alt="" class="w-[400px] h-[400px] z-10 absolute -top-2 -left-28" data-aos="fade-down-right"
         data-aos-duration="1500" data-aos-easing="ease-in-sine"></img>
 
-        <img src={cmsSmallLogo} alt="" class= "w-[400px] h-[400px] absolute top-10 left-16"data-aos="fade-down-left"
+        <img src={cmsSmallLogo} alt="" class= "w-[400px] h-[400px] absolute top-20 left-16"data-aos="fade-down-left"
         data-aos-duration="1500" data-aos-easing="ease-in-sine"></img>
       </div>
       
