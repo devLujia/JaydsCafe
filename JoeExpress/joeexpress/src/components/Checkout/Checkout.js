@@ -146,12 +146,13 @@ export default function Checkout() {
                 
 
                 <div className='text-left my-8'>
-                    <p className=' text-gray-600'>For <span className='text-xl font-semibold'>{riderNote?.option.toUpperCase()}</span></p>
+                    <p className=' text-gray-600'>Delivery method:
+                        <span className='text-2xl font-bold block underline'>{riderNote?.option.toUpperCase()}</span></p>
                 </div>
 
 
                 {/* payment checkout display */}
-                <div className='text-left my-8'>
+                <div className='text-left mt-8'>
                     <p className=' text-gray-600'>Payment Checkout</p>
                 </div>
 

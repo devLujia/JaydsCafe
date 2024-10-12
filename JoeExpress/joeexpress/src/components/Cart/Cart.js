@@ -281,7 +281,7 @@ function Cart() {
 
                 </div>
                 
-                : <div className="flex flex-col items-center justify-center h-64 ">
+                : <div className="flex flex-col w-full col-span-full items-center justify-center h-screen ">
                     <h1 className="text-2xl font-semibold text-gray-600">No items in cart</h1>
                     <button onClick={() => navigate('/menu')} className="px-4 py-2 mt-2 text-white bg-greenColor rounded-full hover:bg-green-600 transition">
                         Browse Our Menu
