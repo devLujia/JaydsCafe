@@ -1,10 +1,9 @@
 import React from 'react'
 import Login from './components/Login/Login'
 import Signup from './components/Signup/Signup'
-import {BrowserRouter,Routes,Route} from 'react-router-dom'
+import {BrowserRouter, Routes ,Route ,Switch } from 'react-router-dom'
 import Home from './components/Home/Home'
 import Menu from './components/Menu/Menu'
-import Item from './components/OrderPage/OrderPage'
 import Cart from './components/Cart/Cart'
 import Editpage from './components/Edit/Editpage'
 import Tracking from './components/Tracking/OrderTracking'
@@ -40,7 +39,7 @@ function App() {
     <Routes>
       <Route path = '/login' element={<Login/>}></Route>
       <Route path = '/signup' element={<Signup/>}></Route>
-      <Route path = '/' element={<Home/>}></Route>
+      
       <Route path='/menu' element={<Menu/>}></Route>
       {/* <Route path='/items/:foodId' element = {<Item/>}> </Route> */}
       <Route path='/cart' element = {<Cart/>}> </Route>
@@ -60,6 +59,8 @@ function App() {
       <Route path='/Order' element = {<Order/>}></Route>
       <Route path='/editpage/:foodId' element = {<Editpage/>}></Route>
       <Route path='/Message' element = {<Inbox/>}></Route>
+      <Route path = '/' element={<Home/>}></Route>
+
       <Route path='/Settings' element = {<Settings/>}></Route>
       <Route path='/Checkout' element = {<Checkout/>}></Route>
       <Route path='/Sales' element = {<Sales/>}></Route>

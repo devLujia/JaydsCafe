@@ -26,12 +26,30 @@ import 'aos/dist/aos.css';
 //import { io } from 'socket.io-client';
 import Terms from '../UserModal/TermsAndCondition/Terms'
 import ChatComponent from '../UserModal/ChatService/ChatComponent'
-
+import socket from '../AdminModule/Message/socketService';
 
 //const socket = io('http://localhost:3000');
 
 function Home() {
   
+  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    socket.on('receiveMessage', (messageData) => {
+      setMessages((prevMessages) => [...prevMessages, messageData]);
+    });
+
+    return () => {
+      socket.off('receiveMessage');
+    };
+  }, []);
+
+  const handleSendMessage = () => {
+    const messageData = { role: 'User', message };
+    socket.emit('sendMessage', messageData);
+    setMessage('');
+  };
   //styles inside the element
   const styleCard = {
     transform: 'scale(1.5)', 

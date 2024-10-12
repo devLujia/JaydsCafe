@@ -1,28 +1,37 @@
-import React, { useState } from 'react';
-import { io } from 'socket.io-client';
+import React, { useEffect, useState } from 'react';
 import chatlogo from '../../image/live-chat.png';
-
-const socket = io('http://localhost:3000');
+import socket from '../../AdminModule/Message/socketService';
 
 const ChatComponent = ({ userId, role }) => {
   const [chatVisible, setChatVisible] = useState(false);
   const [message, setMessage] = useState('');
-  const [chat, setChat] = useState([]);
+  const [messages, setMessages] = useState([]);
 
   const toggleChat = () => {
     setChatVisible(!chatVisible);
   };
 
-  const sendMessage = () => {
+  const sendMessage = (e) => {
+    e.preventDefault();
+
     if (message.trim()) {
       // Emit message to the server
-      socket.emit('sendMessage', { message, to: role === 'user' ? 'admin' : userId });
-
+      socket.emit('sendMessage', { message, to: role === 'User' ? 'Admin' : userId });
       // Add the message to the local chat
-      setChat((prevChat) => [...prevChat, { message, from: 'Me' }]);
+      setMessages((prevChat) => [...prevChat, { message, from: 'Me' }]);
       setMessage('');
     }
   };
+
+  useEffect(() => {
+    socket.on('receiveMessage', (messageData) => {
+      setMessages((prevMessages) => [...prevMessages, messageData]);
+    });
+
+    return () => {
+      socket.off('receiveMessage');
+    };
+  }, []);
   
   return (
     <>
@@ -73,19 +82,24 @@ const ChatComponent = ({ userId, role }) => {
               </div> */}
 
               {/* Display chat messages */}
-              {chat.map((c, index) => (
-                <div key={index} className={`mb-2  ${c.from === 'Me' ? 'text-right' : 'text-left'}`}>
-                  
-                  {c.from === 'Me' ? 
-                  (<p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
-                    {c.from === 'Me' ? 'You' : c.from}: {c.message}
-                  </p>):
-                  (<p className="bg-blue-300 text-black rounded-lg py-2 px-4 inline-block">
-                    {c.from === 'Me' ? 'You' : c.from}: {c.message}
-                  </p>)
-                  }
-                </div>
-              ))}
+              {messages.map((c, index) => (
+    <div 
+        key={index} 
+        className={`mb-2 ${c.from === 'Me' ? 'text-right' : 'text-left'}`}
+    >
+        {c.from === 'Me' ? 
+        (
+            <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
+                Me: {c.message}
+            </p>
+        ) : 
+        (
+            <p className="bg-blue-300 text-black rounded-lg py-2 px-4 inline-block">
+                {c.from === 'Admin' ? 'Admin' : c.from}: {c.message}
+            </p>
+        )}
+    </div>
+))}
             </div>
 
             <div className="p-4 border-t flex">

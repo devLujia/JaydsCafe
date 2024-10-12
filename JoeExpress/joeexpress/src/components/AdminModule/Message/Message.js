@@ -3,34 +3,34 @@ import user from '../../image/UserAcc.svg'
 import notif from '../../image/notif.svg'
 import jaydsLogo from '../../image/jayds cafe Logo.svg';
 import send from '../../image/send.svg'
-import { Link } from 'react-router-dom';
-import  io  from 'socket.io-client';
+import { Link, useNavigate } from 'react-router-dom';
 import Profile from '../../Profile/Profile';
+import axios from 'axios';
+import socket from './socketService';
 
-const socket = io.connect('http://localhost:8081');
 
 export default function Message() {
 
    const [messages, setMessages] = useState([]);
    const [message, setMessage] = useState('');
    const [isOpen, setIsOpen] = useState(false);
+   const navigate = useNavigate();
    
-   // const socket = io.connect('http://localhost:3000');
+   useEffect(() => {
+      socket.on('receiveMessage', (messageData) => {
+        setMessages((prevMessages) => [...prevMessages, messageData]);
+      });
+  
+      return () => {
+        socket.off('receiveMessage');
+      };
+    }, []);
 
-   // useEffect(() => {
-      
-   //    socket.emit('join', { userId: 'adminId', role: 'admin' });
-
-   //    // Listen for incoming messages
-   //    socket.on('receiveMessage', (data) => {
-   //        setMessages((prevMessages) => [...prevMessages, data]);
-   //    });
-
-   //    // Cleanup on component unmount
-   //    return () => {
-   //        socket.off('receiveMessage');
-   //    };
-   // }, []);
+    const handleSendMessage = () => {
+      const messageData = { role: 'Admin', message };
+      socket.emit('sendMessage', messageData);
+      setMessage('');
+    };
 
   const sendMessage = () => {
       if (message.trim()) {
@@ -312,19 +312,12 @@ export default function Message() {
                            </div>
                         </div> */}
                          {messages.map((msg, index) => (
-                           <div key={index} className={msg.from === 'Admin' ? 'admin-message text-right' : 'user-message text-left'}>
-                                 {/* <strong>{msg.from}: </strong>{msg.message} */}
-                                 {msg.from === 'Admin' ? 
-                                 (<p className="bg-blue-300 text-black m-2 rounded-lg py-2 px-4 inline-block">
-                                    {msg.from === 'Admin' ? 'Admin' : msg.from}: {msg.message}
-                                 </p>)
-                                 :(<p className="bg-blue-500 text-white m-2 rounded-lg py-2 px-4 inline-block">
-                                 {msg.from === 'Admin' ? 'Admin' : msg.from}: {msg.message}
-                                 </p>)
-                                 }
-
-                           </div>
-                        ))}
+                              <div key={msg.id || index} className={msg.from === 'Admin' ? 'admin-message text-right' : 'user-message text-left'}>
+                                 <p className={`m-2 rounded-lg py-2 px-4 inline-block ${msg.from === 'Admin' ? 'bg-blue-300 text-black' : 'bg-blue-500 text-white'}`}>
+                                       {msg.from}: {msg.message}
+                                 </p>
+                              </div>
+                           ))}
                         
                      </div>
 

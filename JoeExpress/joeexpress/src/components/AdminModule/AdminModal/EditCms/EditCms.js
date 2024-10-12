@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 
 function EditCms({closeModal, id}) {
 
-
     const [cmsData, setCmsData] = useState({
     });
 
@@ -97,7 +96,6 @@ function EditCms({closeModal, id}) {
                   className="shadow appearance-none border rounded w-[600px] h-[300px] text-gray-700 focus:outline-none focus:shadow-outline" 
                   required
                 />
-
 
               
               }

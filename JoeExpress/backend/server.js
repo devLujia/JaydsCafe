@@ -16,6 +16,12 @@ const http = require("http")
 const server = http.createServer(app);
 
 
+const io = new Server(server, {
+    cors:{
+        origin: "http://localhost:3000",
+        methods: ["GET","POST"],
+    }
+});
 
 require('dotenv').config();
 
@@ -31,12 +37,7 @@ app.use(cors({
     credentials: true 
 }));
 
-const io = new Server(server, {
-    cors:{
-        origin:"http://localhost:3000",
-        methods: ["GET","POST"],
-    }
-});
+
 
 app.use(express.json());
 app.use(cookieParser());
@@ -1806,7 +1807,6 @@ app.post('/removeProduct',  async (req, res) =>{
             if (err) {
                 return res.status(500).json({ error: 'Failed to get addons' });
             }
-            
             res.json(results);
             
         });
@@ -1848,72 +1848,24 @@ app.post('/removeProduct',  async (req, res) =>{
 
     })
 
-
-    io.on("connection", (socket) => {
-
-        console.log(`User connected : ${socket.id}`);
-        
-        socket.on("disconnect", () =>{
-            console.log("User end their session",  socket.id)
-
-        })
-
-    })
-
-
-    // let users = {};  // To keep track of users
-
-    // io.on('connection', (socket) => {
-        
-    //     console.log('A user connected:', socket.id);
-
-
-    //     socket.on('join', ({ userId, role }) => {
-    //         // Query the database for the user
-    //         const query = 'SELECT * FROM user WHERE id = ?'; // Adjust according to your user table structure
+    io.on('connection', (socket) => {
+        console.log('A user connected:', socket.id);
     
-    //         connection.execute(query, [userId], (error, results) => {
-    //             if (error) {
-    //                 console.error('Database query error:', error);
-    //                 return;
-    //             }
+        socket.on('sendMessage', (messageData) => {
+            console.log(messageData);
+            // io.emit('receiveMessage', messageData);
+        });
     
-    //             if (results.length > 0) {
-    //                 const user = results[0]; // Assuming user exists
-    //                 users[socket.id] = { userId: user.id, role: user.role };
-    
-    //                 if (role === 'admin') {
-    //                     socket.join('admin');
-    //                     console.log('Admin joined');
-    //                 } else {
-    //                     socket.join(userId);  // Each user has their own room
-    //                     console.log('User joined:', userId);
-    //                 }
-    //             } else {
-    //                 console.log('User not found:', userId);
-    //             }
-    //         });
-    //     });
+        socket.on('disconnect', () => {
+            console.log('A user disconnected');
+        });
+    });
 
-    //     // Join a room based on the user type (admin or user)
-    //     socket.on('sendMessage', ({ message, to }) => {
-    //         const sender = users[socket.id];
-    //         if (sender.role === 'admin') {
-    //             // Admin sends message to a specific user
-    //             io.to(to).emit('receiveMessage', { message, from: 'admin' });
-    //         } else {
-    //             // User sends message to admin
-    //             io.to('admin').emit('receiveMessage', { message, from: sender.userId });
-    //         }
-    //     });
-    
-    //     // Handle disconnect
-    //     socket.on('disconnect', () => {
-    //         console.log('User disconnected:', socket.id);
-    //         delete users[socket.id];
-    //     });
-    // });
 
-app.listen(8081,()=>{
-    console.log("Connected");
-})
+// app.listen(8081,()=>{
+//     console.log("Connected");
+// })
+
+server.listen(8081, () => {
+    console.log("Socket.IO server running on port 8081");
+});
