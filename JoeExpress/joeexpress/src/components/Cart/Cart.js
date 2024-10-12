@@ -20,6 +20,15 @@ function Cart() {
     const [DeleteModal,setDeleteModal] = useState(false); //modal
     const [selectedProductId, setProductId] = useState(null);
     const [showTooltip, setShowTooltip] = useState(false); //For tooltip
+    const [riderNote, setRiderNote] = useState({ option: 'pickup', instruction: '' });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setRiderNote(prevState => ({
+            ...prevState,
+            [name]: value,
+        }));
+    };
 
     // modal
     const toggleDeleteModal = (id) =>{
@@ -140,7 +149,6 @@ function Cart() {
             [itemId]: value > 0 ? value : 1,
         }));
 
-
         try {
             const res = await axios.post('http://localhost:8081/update_items', { quantity: value, id: itemId });
             if (res.data.success) {
@@ -199,6 +207,7 @@ function Cart() {
 
             <section class="grid grid-cols-1 lg:grid-cols-[70%_30%] w-full h-full"> {/* this let the 2 div 70/30 ratio */}
                 {/* <!-- Left side cards--> */}
+                {items.length > 0 ?
                 <div class=" px-16">
                     <div className='md:flex justify-between px-14 mt-5 text-xl font-semibold hidden'>
                         <h1>
@@ -211,7 +220,7 @@ function Cart() {
                             Total
                         </h1>
                     </div>
-                    {items.map(item => (
+                     {items.map(item => (
                         <div key={item.id} class="mt-8 w-full p-4 text-left bg-white border-b-4 border-gray-200 rounded-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
 
                             <div class="flex items-center">
@@ -271,18 +280,36 @@ function Cart() {
 
 
                 </div>
+                
+                : <div className="flex flex-col items-center justify-center h-64 ">
+                    <h1 className="text-2xl font-semibold text-gray-600">No items in cart</h1>
+                    <button onClick={() => navigate('/menu')} className="px-4 py-2 mt-2 text-white bg-greenColor rounded-full hover:bg-green-600 transition">
+                        Browse Our Menu
+                    </button>
+                </div>}
 
                 {/* <!-- Right side Infos--> */}
+
+                {items.length > 0 ?
                 <div class=" flex justify-center mx-auto py-20">
                     <div class="min-w-full sticky top-0 bg-white">
 
-                        <div className='outline outline-slate-300 rounded-lg py-4'>
+                         <div className='outline outline-slate-300 rounded-lg py-4'>
                             <h1 class="text-xl font-bold mb-6 tracking-wider  text-center">Select your delivery method</h1>
 
                             <form action="">
                                 <ul class="grid gap-2 md:grid-cols-2 px-14 text-center" required>
+                                     <li>
+                                        <input type="radio" id="pickup" onChange={handleChange} name="option" value="pickup" class="hidden peer" required defaultChecked />
+                                        <label for="pickup" class="inline-block items-center justify-center py-3 w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-textgreenColor peer-checked:border-textgreenColor peer-checked:text-textgreenColor hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                            <img src={store} alt="" class="mx-auto mb-2" />
+                                            <div class="block">
+                                                <div class="w-full text- font-semibold">Pick Up</div>
+                                            </div>
+                                        </label>
+                                    </li>
                                     <li>
-                                        <input type="radio" id="delivery" name="hosting" value="delivery" class="hidden peer" required />
+                                        <input type="radio" id="delivery" onChange={handleChange} name="option" value="delivery" class="hidden peer" required />
                                         <label for="delivery" class="inline-block items-center justify-center py-3 w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-textgreenColor peer-checked:border-textgreenColor peer-checked:text-textgreenColor hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
                                             <img src={motor} alt="" class="mx-auto mb-2" />
                                             <div class="block">
@@ -290,25 +317,17 @@ function Cart() {
                                             </div>
                                         </label>
                                     </li>
-                                    <li>
-                                        <input type="radio" id="store" name="hosting" value="store" class="hidden peer" />
-                                        <label for="store" class="inline-block items-center justify-center py-3 w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-textgreenColor peer-checked:border-textgreenColor peer-checked:text-textgreenColor hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-                                            <img src={store} alt="" class="mx-auto mb-2" />
-                                            <div class="block">
-                                                <div class="w-full text- font-semibold">Pick Up</div>
-                                            </div>
-                                        </label>
-                                    </li>
+                                    
                                 </ul>
                                 
                                 {/* lalabas lang kapag local delivery yung clinick */}
                                 <div className='px-4'>
                                     <label for="instruction" class="block mb-2 pl-1 text-lg font-medium text-gray-700 mt-8">Dropoff Instructions (Option)</label>
-                                    <textarea name="txt-area" id="instruction" placeholder="Add Instruction for the rider" class="w-full min-h-32 rounded-lg p-2 border-2 border-slate-300"></textarea>
+                                    <textarea name="instruction" id="instruction" zzzzzzzzzzzzzzzzzzzzzzzzzz value={riderNote.instruction} onChange={handleChange} placeholder="Add Instruction for the rider" class="w-full min-h-32 rounded-lg p-2 border-2 border-slate-300"></textarea>
                                 </div>
 
                             </form>
-                        </div>
+                        </div> 
 
                 <div class="flex items-center justify-end pt-5">
                     <h1 class="text-3xl font-extrabold tracking-wider">₱{totalBill}.00</h1>
@@ -330,15 +349,17 @@ function Cart() {
                 <div class="w-full py-5 mt-5"> 
                     <button 
                     // onClick={() => handlePayment(item.id, quantity[item.id])}
-                    onClick={()=>navigate('/checkout')}
+                    
+                    onClick={()=> navigate('/checkout', { state: { riderNote } })}
                     data-modal-target="default-modal" 
                     data-modal-toggle="default-modal"
                     class="w-full px-10 bg-greenColor text-white font-bold text-lg rounded-full py-3 flex items-center justify-center hover:bg-green-600 transition duration-300 ease-in-out shadow-lg">
                         Review payment and address
-                    </button>
+                    </button> 
+                    
                 </div>
             </div>
-        </div>
+        </div> : "" }
     </section>
 
             {/* <!-- List or reciept -->

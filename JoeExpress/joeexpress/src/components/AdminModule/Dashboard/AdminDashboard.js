@@ -29,7 +29,7 @@ function AdminDashboard() {
    const [authenticated, setAuthenticated] = useState(false);
    const [userId, setUserId] = useState(null);
    const [profile, setProfile] = useState([]);
-
+   const [cmsContent ,setCms] = useState([]);
    const [isOpen, setIsOpen] = useState(false);
    const [isNotif, setIsNotif] = useState(false);
 
@@ -136,7 +136,16 @@ function AdminDashboard() {
       
       AOS.init();
 
-    })
+    },[])
+
+    useEffect(()=>{
+
+      axios.post('http://localhost:8081/cms_backend')
+      .then(res=>{
+      setCms(res.data);
+      });
+   
+  },[])
 
     useEffect(() => {
       axios.get('http://localhost:8081/admin')
@@ -587,7 +596,7 @@ function AdminDashboard() {
                                           })}
                                        </td>
                                        <td className="px-6 py-4 text-center text-greenColor">
-                                          {order.totalPrice}
+                                       ₱ {order.totalPrice}.00
                                        </td>
                                        <td className="px-6 py-4">
                                           <div className="bg-green-100 text-green-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status}</div>
@@ -704,13 +713,13 @@ function AdminDashboard() {
                                     {food.title}
                               </td>
                               <td class="px-6 py-4"> 
-                                 {food.price}
+                              ₱ {food.price}.00
                               </td>
                               <td class="px-6 py-4">
-                                 {food.sold}
+                                 {food.sold} pc(s)
                               </td>
                               <td class="px-6 py-4"> 
-                                 {food.profit}
+                              ₱ {food.price * food.sold}.00
                               </td>
                            </tr>
                            ))}
@@ -730,20 +739,22 @@ function AdminDashboard() {
                   </div>
 
                   <div className='flex flex-col justify-center space-y-5 items-center overflow-y-auto max-h-full pt-40 pb-10 '>
-                     <div className='relative border-2 border-gray-500 rounded-xl w-3/5 text-center px-2 shadow-xl dark:bg-gray-800 dark:text-gray-300'>
-                        <h1 className='mt-7 text-2xl font-semibold mb-2'>Business Name</h1>
-                        <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value="Jayd's Cafe" disabled></input>
+                     {cmsContent.map(cms =>(
+                        <div key={cms.id} className='relative border-2 border-gray-500 rounded-xl w-3/5 text-center px-2 shadow-xl dark:bg-gray-800 dark:text-gray-300'>
+                        <h1 className='mt-7 text-2xl font-semibold mb-2'>{cms.title}</h1>
+                        <h1 className='mt-7 text-base font-medium mb-2'>
+                           <span className='block'>Date Updated:</span> {new Date(cms.updated_at).toLocaleString('en-US', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                            second: '2-digit'
+                                        })}</h1>
+                        <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value={cms.content} disabled></input>
                       </div>
-
-                      <div className='relative border-2 border-gray-500 rounded-xl w-3/5 text-center px-2 shadow-xl dark:bg-gray-800 dark:text-gray-300'>
-                        <h1 className='mt-7 text-xl font-semibold mb-2'>Cellphone Number</h1>
-                        <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value="09123456789" disabled></input>
-                      </div>
-
-                      <div className='relative border-2 border-gray-500 rounded-xl w-3/5 text-center px-2 shadow-xl dark:bg-gray-800 dark:text-gray-300'>
-                        <h1 className='mt-7 text-xl font-semibold mb-2'>Location</h1>
-                        <input type="text" id="disabled-input" aria-label="disabled input" class="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value="Diamond Village, Salawag, Dasmariñas, Cavite" disabled></input>
-                     </div>
+                     ))}
+                  
                   </div>
                </div>
             </div>
