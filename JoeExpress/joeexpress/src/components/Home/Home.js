@@ -791,7 +791,7 @@ function Home() {
                             hover:scale-105 
                             focus:outline-none 
                             focus:ring-2 
-                            hover:text-white
+                            hover:text-white  
                             focus:ring-[#067741]/50 
                             focus:ring-opacity-50"
                   >
