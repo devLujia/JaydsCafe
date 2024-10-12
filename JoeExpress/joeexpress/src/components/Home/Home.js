@@ -27,6 +27,7 @@ import 'aos/dist/aos.css';
 import Terms from '../UserModal/TermsAndCondition/Terms'
 import ChatComponent from '../UserModal/ChatService/ChatComponent'
 
+
 //const socket = io('http://localhost:3000');
 
 function Home() {
@@ -772,9 +773,39 @@ function Home() {
 
             </>
           ) : (
-            <button onClick={navLogin} class="relative inline-flex items-center gap-2 px-6 py-3 font-semibold text-white bg-gradient-to-r from-[#0e9b6c] via-[#067741] to-[#05633f] ring-2 ring-[#067741]/50 rounded-full shadow-lg overflow-hidden hover:bg-gradient-to-r hover:from-[#05633f] hover:via-[#067741] hover:to-[#0e9b6c] hover:opacity-95 transition-all duration-500 ease-in-out before:absolute before:top-4 before:left-1/2 before:-translate-x-1/2 before:w-[120px] before:h-[120px] before:rounded-full before:bg-gradient-to-b before:from-white/10 before:blur-xl">
-    Login/Sign Up
-</button>
+            <button onClick={navLogin} 
+                      class="flex items-center justify-center bg-[#ffffff] 
+                            hover:bg-[#056e3d] 
+                            text-[#067741] 
+                            font-semibold 
+                            py-3 
+                            px-6 
+                            rounded-full 
+                            border-2 
+                            border-[#067741] 
+                            shadow-md 
+                            transition-all 
+                            duration-300 
+                            ease-in-out 
+                            transform 
+                            hover:scale-105 
+                            focus:outline-none 
+                            focus:ring-2 
+                            hover:text-white
+                            focus:ring-[#067741]/50 
+                            focus:ring-opacity-50"
+                  >
+                      Login / Sign Up
+                  </button>
+
+        
+
+
+
+
+
+        
+
 
 
           )}
@@ -869,9 +900,22 @@ function Home() {
         <h1 class="text-textgreenColor text-8xl font-extrabold pb-2 drop-shadow-lg" id="name">{cmsName}</h1>
         <p class="max-w-[28rem] mb-5 text-md text-gray-600">{cmsAboutUs}</p>
     
-        <div class="">
-          <button onClick={()=>navigate('/menu')} class="bg-greenColor rounded-full py-3 px-5 text-white text-2xl font-light w-fit outline outline-white hover:outline-greenColor hover:bg-white hover:text-textgreenColor transition duration-300">Order Now!</button>
-        </div>  
+      {/* Order Now Button */}
+          <div class="">
+            <button onClick={()=>navigate('/menu')} class="relative inline-flex h-16 active:scale-95 transition overflow-hidden rounded-tl-3xl rounded-br-3xl p-[2px] focus:outline-none hover:scale-105 hover:shadow-xl hover:shadow-[#34d399]/50 duration-300 ease-in-out"
+              >
+                <span
+                  class="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#067741_0%,#34d399_50%,#10b981_100%)] rounded-tl-3xl rounded-br-3xl"
+                >
+                </span>
+                <span
+                  class="relative inline-flex h-full w-full cursor-pointer items-center justify-center rounded-tl-3xl rounded-br-3xl bg-[#067741] px-10 text-lg font-semibold text-white backdrop-blur-3xl gap-2"
+                >
+                  Order Now!
+                </span>
+              </button>
+          </div>  
+
       </div>
       <div class="w-[400px] h-[500px] md:m-auto relative hover:scale-100">
         <img src={cmsBigLogo} alt="" class="w-[400px] h-[400px] z-10 absolute -top-2 -left-28" data-aos="fade-down-right"
