@@ -57,7 +57,7 @@ function EditCms({closeModal, id}) {
         <div className='bg-white w-auto h-auto rounded-lg shadow-lg flex flex-col p-6'>
           
           <div className='flex justify-between items-center mb-4'>
-            <h1 className='text-xl font-bold'>Edit Product</h1>
+            <h1 className='text-xl font-bold'>Edit {cmsData.title}</h1>
             <button 
             onClick={()=> closeModal(false)}
             className='text-white bg-red-500 px-3 py-1 hover:bg-red-600 rounded-sm'>
@@ -103,8 +103,8 @@ function EditCms({closeModal, id}) {
               }
               </div>
                
-              <button type="submit" className="bg-amber-950 hover:bg-amber-900 text-white font-bold py-2 px-4 rounded-lg w-full">
-                Edit product
+              <button type="submit" className="bg-textgreenColor hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-full">
+                Edit {cmsData.title}
               </button>
             </form>
           </div>
