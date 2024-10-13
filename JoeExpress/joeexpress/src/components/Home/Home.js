@@ -851,7 +851,7 @@ function Home() {
             <div id="chat-container" className="fixed bottom-16 right-4 w-96 z-50">
               <div className="bg-cards2 shadow-md rounded-lg max-w-lg w-full">
                 <div className="p-4 border-b bg-textgreenColor text-white rounded-t-lg flex justify-between items-center">
-                  <p className="text-lg font-semibold">JoeBot</p>
+                  <p className="text-lg font-semibold">JaydsBot</p>
                   <button
                     onClick={toggleChatModal}
                     className="text-gray-300 hover:text-gray-400 focus:outline-none focus:text-gray-400"
@@ -876,7 +876,7 @@ function Home() {
                 <div id="chatbox" className="p-4 h-80 overflow-y-auto">
                   <div className="mb-2">
                     <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
-                      👋 Hi there! I'm JoeBot!, your friendly virtual assistant here at JoeExpress.
+                      👋 Hi there! I'm JaydsBot!, your friendly virtual assistant here at JoeExpress.
                       I'm here to make your experience as smooth and enjoyable as possible. Whether you need help finding your favorite milk tea flavor, placing an order, or learning about our latest promotions, I'm just a click away!
                     </p>
                   </div>
