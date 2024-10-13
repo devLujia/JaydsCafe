@@ -836,15 +836,16 @@ function Home() {
         <ChatComponent userId={userId} role={'user'} />
       ) : (
         <>
-          <div className="fixed bottom-0 right-0 mb-4 mr-4 z-50 w-16 h-16">
-            <button
-              id="open-chat"
-              onClick={toggleChatModal}
-              className="bg-textgreenColor text-white py-2 px-4 rounded-full hover:bg-green-800 hover:scale-110 transition duration-300 flex items-center w-16 h-16"
-            >
-              <img src={chat} alt="chat" />
-            </button>
-          </div>
+          <div className="fixed bottom-4 right-4 z-50 w-16 h-16">
+          <button
+            id="open-chat"
+            onClick={toggleChatModal}
+            className="bg-textgreenColor text-white py-2 px-4 rounded-full hover:bg-green-800 hover:scale-110 transition-transform duration-300 flex justify-center items-center w-16 h-16"
+          >
+            <img src={chat} alt="chat" className="w-8 h-8" />
+          </button>
+        </div>
+
 
           {ChatModal && (
             <div id="chat-container" className="fixed bottom-16 right-4 w-96 z-50">
