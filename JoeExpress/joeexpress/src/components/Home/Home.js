@@ -910,6 +910,18 @@ function Home() {
 
     {/* <!-- Land upper --> */}
     <div class="flex lg:flex-row flex-col overflow-hidden bg-jaydsBg text-white py-16 h-fit top-0 items-center" id="about">
+
+      {/* Animated wave */}
+      <div className="absolute bottom-0 left-0 right-0">
+        <svg className="w-full animate-wave" viewBox="0 0 1440 280" xmlns="http://www.w3.org/2000/svg">
+          <path
+            fill="#6B4F4F"
+            fillOpacity="0.2"
+            d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+          ></path>
+        </svg>
+      </div>
+
       <div class="lg:w-1/2 px-32 py-16 md:text-center lg:text-left"
         data-aos="fade-right"
         data-aos-offset="300"
