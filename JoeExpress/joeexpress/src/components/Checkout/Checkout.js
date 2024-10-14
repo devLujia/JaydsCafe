@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import fb from '../image/fb.svg';
 import ig from '../image/ig.svg';
 import yt from '../image/yt.svg';
@@ -9,6 +9,8 @@ import gcash from '../image/gcash_logo.svg';
 import plus from '../image/plus.svg';
 import lock from '../image/lock.svg';
 import axios from 'axios';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
 
 export default function Checkout() {
@@ -35,6 +37,36 @@ export default function Checkout() {
     //         .catch(err => console.log(err));
     // }, [OrdrId]);
 
+    //toast
+    const [isCancelled, setIsCancelled] = useState(false);
+    const timeoutRef = useRef(null);
+
+    const notifyAndProceed = () => {
+        setIsCancelled(false);
+
+        toast.success("Processing your payment...", {
+          position: "top-center",
+          autoClose: 5000,  // Set toast duration to 5 seconds
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          onClose: () => {
+            setIsCancelled(true); // Set state if toast is manually closed
+            clearTimeout(timeoutRef.current);
+          }
+        });
+    
+        // After 5 seconds (5000ms), trigger the checkout function
+        timeoutRef.current = setTimeout(() => {
+            if (!isCancelled) {
+              handleCheckout();
+            } else {
+              console.log("Checkout cancelled");
+            }
+          }, 5000);
+      };
 
     useEffect(() => {
         axios.get('http://localhost:8081/')
@@ -232,13 +264,12 @@ purchase securely.'>
                     <div className='inline-flex items-center justify-center py-4'>
                         <img src={lock} className=' filter grayscale'></img> <h1 className='text-sm text-gray-500'>Secure and encrypted</h1>
                     </div>
-                    
+                    {/*  onClick={()=> handleCheckout()}  */}
                     <div>
-                        <button onClick={()=> handleCheckout()} className='bg-textgreenColor rounded-xl text-white w-full py-5'>
+                        <button onClick={notifyAndProceed} className='bg-textgreenColor rounded-xl text-white w-full py-5'>
                             Pay Now
                         </button>
-
-                        {/* <CheckoutModal show={showModal} onClose={handleCloseModal} /> */}
+                        <ToastContainer />
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 .modalBackground {
     width: 100vw;
-    height: 100vh;
+    height: fit-content;
     background-color: rgba(0, 0, 0, 0.4);
     position: fixed;
     display: flex;
@@ -26,6 +26,8 @@
     text-align: center;
     margin-top: 10px;
     justify-content: space-between;
+    font-size: larger;
+    font-weight: 800;
   }
   
   .titleCloseBtn {
@@ -48,7 +50,6 @@
     align-items: flex-start;
     font-size: 1.7rem;
     text-align: center;
-    padding: 20px;
   }
   
   .modalContainer .footer {
