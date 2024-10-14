@@ -262,7 +262,7 @@ app.get('/foods', (req,res)=>{
     });
     
     app.post('/addAdmin', async (req, res) => {
-        const { pnum, name, email, password, address } = req.body;
+        const { pnum, name, email, role, password, address } = req.body;
     
         try {
             // Check if email already exists
@@ -281,8 +281,8 @@ app.get('/foods', (req,res)=>{
     
                 // Proceed to insert user into database
                 const hashedPassword = await bcrypt.hash(password, 10);
-                const insertQuery = 'INSERT INTO `user` (pnum, name, address, email, password, role, verification_token) VALUES (?, ?, ?, ?, ?, `rider`, ?)';
-                const values = [pnum, name, address, email, hashedPassword, verificationToken];
+                const insertQuery = 'INSERT INTO `user` (pnum, name, address, email, password, role, verification_token) VALUES (?, ?, ?, ?, ?, ?, ?)';
+                const values = [pnum, name, address, email, hashedPassword, role , verificationToken];
     
                 db.query(insertQuery, values, (insertError, result) => {
                     if (insertError) {
@@ -968,7 +968,7 @@ app.post('/adminsignup', async (req, res) => {
 
 app.post('/fetchUserData', (req,res)=>{
 
-    const query = `SELECT id, name , email, role from user WHERE role = 'admin' OR role = 'rider' `
+    const query = `SELECT id, name , email, role from user WHERE role = 'admin' OR role = 'rider' OR role = 'cashier' `
     db.query(query,(err,result) => {
         
         if(err){
@@ -1845,7 +1845,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
         socket.on("join_room",(messageData)=>{
             socket.join(messageData);   
-            console.log(`User ${socket.id} joined room ${messageData}`);
+            console.log(`User ${socket.id} has joined the room ${messageData}`);
         })
     
         socket.on('sendMessage', (messageData) => {

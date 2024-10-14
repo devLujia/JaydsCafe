@@ -37,10 +37,11 @@ function EditCustomerAcc( {closeModal, id} ) {
     <div className='modalBackground z-50' >
       <div className='modalContainer'>
         
-            <div className='title flex'><h1>Edit Customer</h1> <button className='text-white text-center bg-red-500 px-2 hover:bg-red-600 rounded-sm' onClick={()=> closeModal(false)}> X </button> </div>
+            <div className='title flex'><h1>Edit Admin</h1> <button className='text-white text-center bg-red-500 px-2 hover:bg-red-600 rounded-sm' onClick={()=> closeModal(false)}> X </button> </div>
             <div className='body'>
 
             <form className='flex flex-col' onSubmit={handleSubmit}>
+                        
                         <div className='mb-4'>
 
                                 <label for="name" className="text-gray-600 text-lg font-bold tracking-wider">Your Name</label>
@@ -54,6 +55,24 @@ function EditCustomerAcc( {closeModal, id} ) {
                                 placeholder="Your Name" 
                                 required
                                 />
+                        </div>
+                        
+                        <div className='mb-4'>
+                            <label htmlFor="role" className="text-gray-600 text-lg font-bold tracking-wider">Role</label>
+                            <select 
+                                name="role" 
+                                id="role"
+                                value={userdata.role}
+                                onChange={handleInputChange}
+                                className="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
+                                required
+                            >
+                                <option value="">Select your role</option>
+                                <option value="admin">Admin</option>
+                                <option value="rider">rider</option>
+                                <option value="cashier">Cashier</option>
+
+                            </select>
                         </div>
 
                         <div class="mb-4">

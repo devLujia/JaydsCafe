@@ -22,7 +22,7 @@ const ChatComponent = ({ name, room }) => {
     };
   
     joinRoom();
-  }, [name, room]);
+  }, [name,room]);
 
   // const handleJoinRoom = () => {
   //   if (name && room){

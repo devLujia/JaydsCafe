@@ -8,6 +8,7 @@ function AddCustomerAcc({ closeModal }) {
     const [values, setValues] = useState({
         name: '',
         email: '',
+        role: '',
         password: '',
         address: ''
     });
@@ -23,7 +24,7 @@ function AddCustomerAcc({ closeModal }) {
         const err = Validation(values);
         setErrors(err);
 
-        if (!err.name && !err.email && !err.password && !err.address) {
+        if (!err.pnum && !err.name && !err.email && !err.password && !err.address) {
             axios.post('http://localhost:8081/addAdmin', values)
                 .then(res => {
                     closeModal(false)
@@ -41,9 +42,9 @@ function AddCustomerAcc({ closeModal }) {
                 <button className='text-white text-center bg-red-500 px-3 hover:bg-red-600 rounded-md' onClick={()=> closeModal(false)}> X </button> 
             </div>
 
-            <form class="max-w-lg mx-10 className='grid grid-cols-1' onSubmit={handleSubmit}">
+            <form class="max-w-lg mx-10 className='grid grid-cols-1'" onSubmit={handleSubmit}>
                 <div class="mb-5">
-                    <label for="napnumme" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
+                    <label for="pnum" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
                     <input 
                         type="tel" 
                         id="pnum" 
@@ -62,6 +63,23 @@ function AddCustomerAcc({ closeModal }) {
                         required 
                         onChange={handleInput} />
                 </div>
+
+                <div className="mb-5">
+                    <label htmlFor="role" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Admin Role</label>
+                    <select 
+                        id="role" 
+                        className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" 
+                        required 
+                        onChange={handleInput}
+                    >
+                        <option value="">Select a role</option>
+                        <option value="admin">Admin</option>
+                        <option value="rider">Rider</option>
+                        <option value="cashier">Cashier</option>
+                        {/* Add more roles as needed */}
+                    </select>
+                </div>
+
                 <div class="mb-5">
                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                     <input 
