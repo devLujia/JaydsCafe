@@ -11,35 +11,77 @@ import socket from './socketService';
 
 export default function Message() {
 
-   const [messages, setMessages] = useState([]);
-   const [message, setMessage] = useState('');
+   const [currentMessage, setCurrentMessage] = useState('');
+   const [messageList, setMessageList] = useState([]);
    const [isOpen, setIsOpen] = useState(false);
    const navigate = useNavigate();
+   const [data, setData] = useState({
+      name: 'Admin',
+      room: '254kh7vd2k',
+   })
    
    useEffect(() => {
       socket.on('receiveMessage', (messageData) => {
-        setMessages((prevMessages) => [...prevMessages, messageData]);
+        setMessageList((list) => [...list, messageData]);
       });
   
       return () => {
         socket.off('receiveMessage');
       };
+
     }, []);
 
-    const handleSendMessage = () => {
-      const messageData = { role: 'Admin', message };
-      socket.emit('sendMessage', messageData);
-      setMessage('');
-    };
 
-  const sendMessage = () => {
-      if (message.trim()) {
-         // Emit the message to the user (you may want to specify the user)
-         socket.emit('sendMessage', { message, to: 'userId' }); // Replace 'userId' as necessary
-         setMessages((prevMessages) => [...prevMessages, { message, from: 'Admin' }]);
-         setMessage('');
+   useEffect(()=>{
+      if (data.name !== '' && data.room !== ''){
+         socket.emit("join_room", data.room)
       }
-   };
+   },[data])
+
+
+    const sendMessage = async (e) => {
+      e.preventDefault();
+  
+      if (currentMessage.trim() !== '') {
+  
+        const messageData = {
+          author: data.name,
+          room: data.room,
+          message: currentMessage,
+          time:
+          new Date(Date.now()).getHours()+
+          ":" +
+          new Date(Date.now()).getMinutes(),
+  
+        }
+  
+        // Emit message to the server
+        await socket.emit('sendMessage', messageData);
+        setMessageList((prevChat) => [...prevChat,  messageData ]);
+        setCurrentMessage('');
+      }
+      
+      };
+
+      const handleKeyDown = (event) => {
+         if (event.key === 'Enter' && currentMessage.trim() !== '') {
+
+            const messageData = {
+               author: data.name,
+               room: data.room,
+               message: currentMessage,
+               time:
+               new Date(Date.now()).getHours()+
+               ":" +
+               new Date(Date.now()).getMinutes(),
+       
+             }
+
+             socket.emit("send_message", messageData);
+             setMessageList((prevChat) => [...prevChat,  messageData ]);
+             setCurrentMessage('');
+         }
+     };
 
    
     //for dropdown user
@@ -311,20 +353,32 @@ export default function Message() {
                               at praesentium.
                            </div>
                         </div> */}
-                         {messages.map((msg, index) => (
-                              <div key={msg.id || index} className={msg.from === 'Admin' ? 'admin-message text-right' : 'user-message text-left'}>
-                                 <p className={`m-2 rounded-lg py-2 px-4 inline-block ${msg.from === 'Admin' ? 'bg-blue-300 text-black' : 'bg-blue-500 text-white'}`}>
-                                       {msg.from}: {msg.message}
-                                 </p>
-                              </div>
-                           ))}
+                         {messageList.map((messageContent) => {
+                      return (
+                      <div className={`mb-2 ${messageContent.author === "Admin" ? 'text-right' : 'text-left'}`}>
+
+                          <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
+                               {messageContent.author === "Admin" ? `Me: ${messageContent.message}` : `${messageContent.author} : ${messageContent.message}`  }
+                            </p>
+                          {/* {c.from === name ? 
+                          (
+                              
+                          ) : 
+                          (
+                              <p className="bg-blue-300 text-black rounded-lg py-2 px-4 inline-block">
+                                  {c.from !== name ? 'Admin' : c.from}: {c.message}
+                              </p>
+                          )} */}
+                      </div>)
+})}
                         
                      </div>
 
                      <label for="search" class="text-sm font-medium text-gray-900 sr-only dark:text-white">Type Something here.</label>
                      <div class="relative ">
-                        <input type="text" value={message}
-                        onChange={(e) => setMessage(e.target.value)}
+                        <input type="text" value={currentMessage}
+                        onChange={(e) => setCurrentMessage(e.target.value)}
+                        onKeyDown={handleKeyDown}
                         placeholder="Type a message"
                         id="search" class="mb-2 block w-full p-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                         />

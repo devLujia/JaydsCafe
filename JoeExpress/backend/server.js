@@ -15,16 +15,9 @@ const app = express();
 const http = require("http")
 const server = http.createServer(app);
 
-
-const io = new Server(server, {
-    cors:{
-        origin: "http://localhost:3000",
-        methods: ["GET","POST"],
-    }
-});
+const io = new Server(server);
 
 require('dotenv').config();
-
 
 const EMAIL = process.env.EMAIL;
 const PASSWORD = process.env.PASSWORD;
@@ -36,8 +29,6 @@ app.use(cors({
     methods: ["POST","GET"],
     credentials: true 
 }));
-
-
 
 app.use(express.json());
 app.use(cookieParser());
@@ -51,6 +42,7 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24
     }
 }));
+
 
 const storage = multer.diskStorage({
     destination:(req, file, cb)=>{
@@ -1785,7 +1777,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
         const {userId} = req.body
 
-        const query = ` SELECT name, email, pnum, address FROM user WHERE id = ? `
+        const query = ` SELECT name, email, pnum, address, verification_token FROM user WHERE id = ? `
 
         db.query(query, [userId], (err, result) => {
             if (err) {
@@ -1849,16 +1841,22 @@ app.post('/removeProduct',  async (req, res) =>{
     })
 
     io.on('connection', (socket) => {
-        console.log('A user connected:', socket.id);
+        console.log(`User connected: ${socket.id}`);
+
+        socket.on("join_room",(messageData)=>{
+            socket.join(messageData);   
+            console.log(`User ${socket.id} joined room ${messageData}`);
+        })
     
         socket.on('sendMessage', (messageData) => {
             console.log(messageData);
-            // io.emit('receiveMessage', messageData);
+            socket.to(messageData.room).emit('receiveMessage', messageData);
         });
     
         socket.on('disconnect', () => {
             console.log('A user disconnected');
         });
+
     });
 
 
@@ -1867,5 +1865,5 @@ app.post('/removeProduct',  async (req, res) =>{
 // })
 
 server.listen(8081, () => {
-    console.log("Socket.IO server running on port 8081");
+    console.log("Connected");
 });

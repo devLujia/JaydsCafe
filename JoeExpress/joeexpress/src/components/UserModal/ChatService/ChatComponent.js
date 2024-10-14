@@ -2,30 +2,82 @@ import React, { useEffect, useState } from 'react';
 import chatlogo from '../../image/live-chat.png';
 import socket from '../../AdminModule/Message/socketService';
 
-const ChatComponent = ({ userId, role }) => {
+const ChatComponent = ({ name, room }) => {
   const [chatVisible, setChatVisible] = useState(false);
-  const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([]);
+  const [currentMessage, setCurrentMessage] = useState('');
+  const [messageList, setMessageList] = useState([]);
 
   const toggleChat = () => {
     setChatVisible(!chatVisible);
+    // if(chatVisible){
+    //   handleJoinRoom();
+    // }
   };
 
-  const sendMessage = (e) => {
+  useEffect(() => {
+    const joinRoom = async () => {
+      if (name !== '' && room !== '') {
+        await socket.emit("join_room", room);
+      }
+    };
+  
+    joinRoom();
+  }, [name, room]);
+
+  // const handleJoinRoom = () => {
+  //   if (name && room){
+  //     socket.emit("join_room", room)
+  //   }
+  // }
+    
+  
+
+  const sendMessage = async (e) => {
     e.preventDefault();
 
-    if (message.trim()) {
-      // Emit message to the server
-      socket.emit('sendMessage', { message, to: role === 'User' ? 'Admin' : userId });
-      // Add the message to the local chat
-      setMessages((prevChat) => [...prevChat, { message, from: 'Me' }]);
-      setMessage('');
+    if (currentMessage.trim() !== '') {
+
+      const messageData = {
+        author: name,
+        room: room,
+        message: currentMessage,
+        time:
+        new Date(Date.now()).getHours()+
+        ":" +
+        new Date(Date.now()).getMinutes(),
+
+      }
+
+      await socket.emit('sendMessage', messageData);
+      setMessageList((prevChat) => [...prevChat,  messageData ]);
+      setCurrentMessage('');
     }
+    
+    };
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Enter' && currentMessage.trim() !== '') {
+
+         const messageData = {
+            author: name,
+            room: room,
+            message: currentMessage,
+            time:
+            new Date(Date.now()).getHours()+
+            ":" +
+            new Date(Date.now()).getMinutes(),
+    
+          }
+
+          socket.emit("send_message", messageData);
+          setMessageList((prevChat) => [...prevChat,  messageData ]);
+          setCurrentMessage('');
+      }
   };
 
   useEffect(() => {
     socket.on('receiveMessage', (messageData) => {
-      setMessages((prevMessages) => [...prevMessages, messageData]);
+      setMessageList((list) => [...list, messageData]);
     });
 
     return () => {
@@ -82,32 +134,35 @@ const ChatComponent = ({ userId, role }) => {
               </div> */}
 
               {/* Display chat messages */}
-              {messages.map((c, index) => (
-    <div 
-        key={index} 
-        className={`mb-2 ${c.from === 'Me' ? 'text-right' : 'text-left'}`}
-    >
-        {c.from === 'Me' ? 
-        (
-            <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
-                Me: {c.message}
-            </p>
-        ) : 
-        (
-            <p className="bg-blue-300 text-black rounded-lg py-2 px-4 inline-block">
-                {c.from === 'Admin' ? 'Admin' : c.from}: {c.message}
-            </p>
-        )}
-    </div>
-))}
+
+              
+              {messageList.map((messageContent) => {
+                      return (
+                      <div className={`mb-2 ${messageContent.author === name ? 'text-right' : 'text-left'}`}>
+
+                          <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
+                               {messageContent.author === name ? `Me: ${messageContent.message}` : `Admin : ${messageContent.message}`  }
+                            </p>
+                          {/* {c.from === name ? 
+                          (
+                              
+                          ) : 
+                          (
+                              <p className="bg-blue-300 text-black rounded-lg py-2 px-4 inline-block">
+                                  {c.from !== name ? 'Admin' : c.from}: {c.message}
+                              </p>
+                          )} */}
+                      </div>)
+})}
             </div>
 
             <div className="p-4 border-t flex">
               <input
                 type="text"
                 placeholder="Type a message"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
+                value={currentMessage}
+                onChange={(e) => setCurrentMessage(e.target.value)}
+                onKeyDown={handleKeyDown}
                 className="w-full px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <button

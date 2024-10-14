@@ -32,24 +32,8 @@ import socket from '../AdminModule/Message/socketService';
 
 function Home() {
   
-  const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([]);
+  const [categoryId, setCategoryId] = useState('');
 
-  useEffect(() => {
-    socket.on('receiveMessage', (messageData) => {
-      setMessages((prevMessages) => [...prevMessages, messageData]);
-    });
-
-    return () => {
-      socket.off('receiveMessage');
-    };
-  }, []);
-
-  const handleSendMessage = () => {
-    const messageData = { role: 'User', message };
-    socket.emit('sendMessage', messageData);
-    setMessage('');
-  };
   //styles inside the element
   const styleCard = {
     transform: 'scale(1.5)', 
@@ -591,7 +575,9 @@ function Home() {
 
   const [authenticated, setAuthenticated] = useState(false);
   const [foods, setFoods] = useState([]);
+  const [category, setCategory] = useState([]);
   const [menu, setMenu] = useState([]);
+  const [profile, setProfile] = useState([]);
   const navigate = useNavigate();
   
   const handleNavigate = () => {
@@ -599,6 +585,16 @@ function Home() {
   }
   
   axios.defaults.withCredentials = true;
+
+  useEffect(()=>{
+    axios.post('http://localhost:8081/profile', {userId})
+      .then(response => {
+        setProfile(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching profile details:', error);
+      });
+  })
 
   useEffect(() => {
     axios.get('http://localhost:8081/foods')
@@ -609,6 +605,18 @@ function Home() {
         console.error('Error fetching food details:', error);
       });
   }, []);
+
+  useEffect(()=>{
+
+    axios.post('http://localhost:8081/fetchCategory')
+    .then(response => {
+      setCategory(response.data);
+    })
+    .catch(error => {
+      console.error('Error fetching category details:', error);
+    });
+
+  },[])
 
   useEffect(()=>{
     axios.get('http://localhost:8081/menu')
@@ -646,6 +654,10 @@ function Home() {
       })
       .catch(err => console.log(err));
   }, [navigate]);
+
+  const handleCategory = (id) => {
+    setCategoryId(id);
+  }
 
   const handleLogout = async () => {
     try {
@@ -816,24 +828,14 @@ function Home() {
                       Login / Sign Up
                   </button>
 
-        
-
-
-
-
-
-        
-
-
-
           )}
       </div>
     </nav>
     <div class="scroll-progress "></div> {/* <!-- for scroll effect sa taas --> */}
 
     {/* <!-- Chat button / chat box / chat bot --> */}
-    {authenticated ? (
-        <ChatComponent userId={userId} role={'user'} />
+    {authenticated === true ? (
+        <ChatComponent name={profile.name} room={profile.verification_token} />
       ) : (
         <>
           <div className="fixed bottom-4 right-4 z-50 w-16 h-16">
@@ -1040,21 +1042,26 @@ function Home() {
 
       <div class="flex flex-col justify-center items-center">
         <div class="flex flex-wrap flex-row space-x-5 space-y-2">
-          <a href="#offer" class="menu_category" onclick="toggleVisibility('all');"><img src={milk} alt=""></img>All Drinks</a>
-          <a href="#offer" class="menu_category" onclick="toggleVisibility('mt');"><img src={milktea} alt=""></img>Milk Tea</a>
-          <a href="#offer" class="menu_category" onclick="toggleVisibility('ft');"><img src={fruity} alt=""></img>Fruity</a>
-          <a href="#offer" class="menu_category" onclick="toggleVisibility('ic');"><img src={milktea} alt=""></img>Iced Coffee
+            <button class="menu_category" onClick={()=>handleCategory()}><img src={milk} alt=""></img>All Drinks</button>
+          {category.map(categories => (
+            <React.Fragment key={categories.id}>
+              <button class="menu_category" onClick={()=>handleCategory(categories.id)}><img src={milk} alt={categories.title}></img>{categories.title}</button>
+            </React.Fragment>
+          ))}
+          {/* <a href="#offer" class="menu_category" onClick="toggleVisibility('mt');"><img src={milktea} alt=""></img>Milk Tea</a>
+          <a href="#offer" class="menu_category" onClick="toggleVisibility('ft');"><img src={fruity} alt=""></img>Fruity</a>
+          <a href="#offer" class="menu_category" onClick="toggleVisibility('ic');"><img src={milktea} alt=""></img>Iced Coffee
           </a>
-          <a href="#offer" class="menu_category" onclick="toggleVisibility('ao');"><img src={addons}  alt=""></img>Add Ons</a>
-          <a href="#offer" class="menu_category" onclick="toggleVisibility('tea');"><img src={milktea}  alt=""></img>Tea</a>
-          <a href="#offer" class="menu_category" onclick="toggleVisibility('sk');"><img src={milktea}  alt=""></img>Snacks</a>
+          <a href="#offer" class="menu_category" onClick="toggleVisibility('ao');"><img src={addons}  alt=""></img>Add Ons</a>
+          <a href="#offer" class="menu_category" onClick="toggleVisibility('tea');"><img src={milktea}  alt=""></img>Tea</a>
+          <a href="#offer" class="menu_category" onClick="toggleVisibility('sk');"><img src={milktea}  alt=""></img>Snacks</a> */}
         </div>
 
         <div id="all"> {/* <!-- Div For All Items--> */}
           <div class="px-24 py-12 grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-4"> {/* <!-- Card Container--> */}
 
 
-          {menu.slice(0,8).map(menus =>(
+          {menu.filter(menus => (!categoryId || menus.category_id === categoryId)).slice(0,8).map(menus =>(
               
               <div class="flex-shrink-0 m-6 relative overflow-hidden bg-jaydsBg outline outline-greenColor rounded-lg max-w-xs shadow-lg hover:scale-110 duration-500">
               <svg class="absolute bottom-0 left-0 mb-8" viewBox="0 0 375 283" fill="none" style={styleCard}>
@@ -1071,13 +1078,14 @@ function Home() {
                 <div class="relative text-white px-3 pb-6 mt-1 align-baseline">
                   <div class="flex justify-between">
                     <span class="block font-semibold text-xl">{menus.name}</span>
-                    <span class="bg-white rounded-full text-gray-900 text-md font-bold px-3 py-2 leading-none flex items-center">₱{menus.Large}</span>
+                    <span class="bg-white rounded-full text-gray-900 text-md font-bold px-3 py-2 leading-none flex items-center">₱{menus.Large}.00</span>
                   </div>
                   <span class="block opacity-75 -mb-1">Large</span>
                   
                     <button class="flex justify-center items-center mx-auto mt-6 bg-greenColor p-2 rounded-lg hover:scale-110 duration-300">
                       <Link to={'/navlogin'}>Add to Cart</Link>
                     </button>
+                    
                 </div>
               </div>
             </div>))}
@@ -1122,7 +1130,7 @@ function Home() {
         {/* <!-- Add button here --> */}
         <button 
         onClick={()=>(navigate('/menu'))}
-        class="py-2 px-4 bg-greenColor outline outline-white hover:outline-greenColor hover:bg-white hover:text-textgreenColor text-white font-bold rounded-full shadow-md transition duration-300 ease-in-out flex justify-center mx-auto mt-4 mb-5" > 
+        className="py-2 px-4 bg-greenColor outline outline-white hover:outline-greenColor hover:bg-white hover:text-textgreenColor text-white font-bold rounded-full shadow-md transition duration-300 ease-in-out flex justify-center mx-auto mt-4 mb-5" > 
           View All Products
           <svg class="rtl:rotate-180 text-lg w-6 h-6 ms-2"
             aria-hidden="true"
@@ -1132,7 +1140,7 @@ function Home() {
             <path stroke="currentColor"
               stroke-linecap="round"
               stroke-linejoin="round"
-              stroke-width="2"
+              strokeWidth="2"
               d="M1 5h12m0 0L9 1m4 4L9 9"/>
           </svg>
         </button>
@@ -1140,7 +1148,7 @@ function Home() {
     </div>
 
     {/* <!-- About Us --> */}
-    <div class="flex lg:flex-row md:flex-col overflow-hidden bg-greenColor text-white py-10 top-0" id="aboutus">
+    <div className="flex lg:flex-row md:flex-col overflow-hidden bg-greenColor text-white py-10 top-0" id="aboutus">
       <div
         class="p-32 md:text-center lg:text-left"
         data-aos="fade-right"
