@@ -25,6 +25,13 @@ export default function CustomerAccount() {
     const [selectedUserId, setSelectedUserId] = useState(null);
     const [search, setSearch] = useState('');
     const [isOpen, setIsOpen] = useState(false);
+    const [role, setRole] = useState('Admin');
+
+    // Handle role change
+    const handleRoleChange = (event) => {
+        setRole(event.target.value); // Update role based on dropdown selection
+    };
+
     
     const toggleModal = () =>{
         setaddModal(!addModal)
@@ -255,7 +262,7 @@ export default function CustomerAccount() {
             </div>
         </aside>
     
-        <div class="p-4 sm:ml-72 bg-slate-100 hidden sm:block ">
+        <div class="p-4 sm:ml-72 hidden sm:block ">
             <h1 class="font-extrabold text-3xl tracking-wider ms-2 p-5">All users</h1>
             <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
                 <div class="z-10 flex items-center flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900">
@@ -271,21 +278,6 @@ export default function CustomerAccount() {
                         onChange={(e)=> setSearch(e.target.value)}
                         type="text" id="table-search-users" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for Users"/>
                     </div>
-
-                    <div class="h-fit items-center justify-center flex space-x-1 ps-4">
-                        <button title='Settings'>
-                            <img src={settings} alt="settings"/>
-                        </button>
-                        <button title='Delete'>
-                            <img src={trashbin2} alt="trash"/>
-                        </button>
-                        <button title='Question'>
-                            <img src={link} alt="ellipsis"/>
-                        </button>
-                        <button title='More'>
-                            <img src={ellipsis} alt="ellipsis"/>
-                        </button>
-                    </div>
                     <button onClick={toggleModal} type="button" class="ml-auto text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
                         <img src={plus} alt="Plus_Product" class="me-2 md:block"/>
                         <span class="md:block hidden"> Add Admin </span>
@@ -298,12 +290,6 @@ export default function CustomerAccount() {
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr class="text-center">
-                                    <th scope="col" class="p-4">
-                                        <div class="flex items-center">
-                                            <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                            <label for="checkbox-all-search" class="sr-only">checkbox</label>
-                                        </div>
-                                    </th>
                                     <th scope="col" class="px-6 py-3">
                                         NAME
                                     </th>
@@ -329,41 +315,39 @@ export default function CustomerAccount() {
                                 : user.name.toLowerCase().includes(search);    
                             })
                             .map(user => (
-                                    <tr key= {user.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td class="w-5 p-5">
-                                        <div class="flex items-center">
-                                            <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                            <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                                        </div>
-                                    </td>
-                                    <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                <tr key= {user.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center">
+                                   
+                                    <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap justify-center dark:text-white">
                                         <img src={picture} alt="Jese image" class="w-10 h-10 rounded-full"/>
                                         <div class="ps-3">
                                             <div class="text-base font-semibold">{user.name}</div>
                                             
                                         </div>  
                                     </th>
-                                    <td class="px-6 py-5 ">
+                                    <td class="px-6 py-5 items-center text-center">
                                         <div className='text-base'>{user.email}</div>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <div class="flex items-center font-semibold text-green-600">
-                                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> {user.role}
+                                        <div className="flex items-center font-semibold text-green-600 justify-center">
+
+                                            {/* Dropdown for role selection */}
+                                            <select value={role} onChange={handleRoleChange}
+                                                className="bg-transparent text-gray-600 font-semibold p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                                                <option value="Admin">Admin</option>
+                                                <option value="Cook">Cook</option>
+                                                <option value="Rider">Rider</option>
+                                            </select>
                                         </div>
                                     </td>
-                                    <td class="flex items-center px-6 py-4 space-x-2">
-                                        <button onClick={() => handleEditClick(user.id)} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" title='Edit Account'>
+                                    <td class="flex items-center px-6 py-4 space-x-2 justify-center">
+                                        <button onClick={() => handleEditClick(user.id)} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" title='Edit Account'>
                                             <img src={edit} alt="edit" class="px-2 filter invert"/>
                                         </button>
                                         
-                                        <button onClick={toggleAYSModal} type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" title='Delete Account'>
+                                        <button onClick={toggleAYSModal} type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" title='Delete Account'>
                                             <img src={trashbin3} alt="trashbin" class="px-2"/>
                                             {AYSModal && <Areyousure closeModal={setAYSModal} id={user.id}/>}
                                         </button>
-                                        
-                                        
-                                        
-                                        
                                     </td>
                                     
                                 </tr>  
