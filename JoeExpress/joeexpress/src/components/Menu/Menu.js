@@ -324,7 +324,7 @@ const rightNav = () => {
       <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">
         <div class="font-extrabold text-2xl flex items-center">
           {/* <!-- Logo/Title in Navbar --> */}
-          <a href="/" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">{cmsName}</a>
+          <a href="/" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide">{cmsName}</a>
         </div>
 
         <div class="inline-flex items-center justify-center me-2">
@@ -364,36 +364,61 @@ const rightNav = () => {
           </div>
             ) : (<button
               onClick={()=> navigate('/login')}
-              class="btn mr-3 w-40 h-12 text-greenColor text-sm tracking-widest shadow-md cursor-pointer hover:shadow-lg outline  hover:shadow-gray-400 hover:bg-greenColor hover:text-white hover:outline-none ease-in-out transition background-color 0.3s, color 0.3s duration-300">
+              class="flex items-center justify-center bg-[#ffffff] 
+                            hover:bg-[#056e3d] 
+                            text-[#067741] 
+                            font-semibold 
+                            py-3 
+                            px-6 
+                            rounded-full 
+                            border-2 
+                            border-[#067741] 
+                            shadow-md 
+                            transition-all 
+                            duration-300 
+                            ease-in-out 
+                            transform 
+                            hover:scale-105 
+                            focus:outline-none 
+                            focus:ring-2 
+                            hover:text-white  
+                            focus:ring-[#067741]/50 
+                            focus:ring-opacity-50">
               Order Now!
             </button>)
           }
-          
-    
-          
         </div>
+
+
       </nav>
 
       <div class="w-full relative flex justify-center items-center"> {/* <!-- Top Section --> */}
-        <img src={topBG} alt="" class="w-full h-full object-cover"/>
-          <div class="absolute top-0 left-0 w-full h-full"> {/* <!-- buttons and title -->*/}
-            <h1 class="text-2xl md:text-5xl font-bold my-10 text-center"><span class="text-textgreenColor pe-3">Explore our</span>Menu</h1>
+      <img src={topBG} alt="" class="w-full h-full object-cover"/>
+    <div class="absolute top-0 left-0 w-full h-full"> {/* <!-- buttons and title -->*/}
 
-              <div class="justify-center items-center mx-auto px-52 flex-wrap space-x-3 space-y-2 hidden lg:flex">
-              <button  class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
+        {/* Categories Navs */}
+        <div class="justify-center items-center mx-auto px-52 flex-wrap space-x-3 space-y-2 hidden lg:flex mt-10"> {/* Add margin-top here */}
+            <button 
+                class={`${
+                    categorySearch === 0 ? 'bg-greenColor text-white' : 'bg-white text-black'
+                } text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300`}
                 onClick={() => setCategorySearch(0)}
-                >
+            >
                 All Items
-              </button>
-              {/* <!-- buttons will be hidden on medium and below screens --> */}
-              {category.map(cat =>(
-                <button key={cat.id} class="bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300"
-                onClick={() => setCategorySearch(cat.id)}
+            </button>
+
+            {category.map(cat => (
+                <button 
+                    key={cat.id} 
+                    class={`${
+                        categorySearch === cat.id ? 'bg-greenColor text-white' : 'bg-white text-black'
+                    } text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300`}
+                    onClick={() => setCategorySearch(cat.id)}
                 >
-                {cat.title}
-              </button>
-              ))}
-            </div>
+                    {cat.title}
+                </button>
+            ))}
+        </div>
             
             {/* <!-- dropdown category button --> */}
             <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="flex justify-center items-center mx-auto bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300 lg:hidden md:block">
@@ -438,8 +463,9 @@ const rightNav = () => {
       <div class="flex flex-col w-3/4 mx-auto md:items-center"> {/* <!-- Main Container-->*/}
         <div id="mt-series"> 
           <div className="container mx-auto p-4 mt-4"> 
+            {/* Sa All na categories to pre, explore our menu nalang yung heading. */}
             <h1 className="text-5xl font-bold text-center mb-10">
-              <span className="text-textgreenColor">Signature</span> Drinks
+              <span className="text-textgreenColor">Explore</span> Our Menu! 
             </h1>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
