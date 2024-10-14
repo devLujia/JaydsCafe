@@ -586,15 +586,18 @@ function Home() {
   
   axios.defaults.withCredentials = true;
 
-  useEffect(()=>{
-    axios.post('http://localhost:8081/profile', {userId})
-      .then(response => {
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await axios.post('http://localhost:8081/profile', { userId });
         setProfile(response.data);
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('Error fetching profile details:', error);
-      });
-  })
+      }
+    };
+  
+    fetchProfile();
+  }, [userId]);
 
   useEffect(() => {
     axios.get('http://localhost:8081/foods')

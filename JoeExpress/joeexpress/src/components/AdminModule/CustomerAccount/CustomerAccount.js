@@ -280,7 +280,7 @@ export default function CustomerAccount() {
                     </div>
                     <button onClick={toggleModal} type="button" class="ml-auto text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
                         <img src={plus} alt="Plus_Product" class="me-2 md:block"/>
-                        <span class="md:block hidden"> Add Users </span>
+                        <span class="md:block hidden"> Add Admin </span>
                     </button> 
 
                 </div>
@@ -296,9 +296,12 @@ export default function CustomerAccount() {
                                     <th scope="col" class="px-6 py-3 justify-center flex">
                                         ADDRESS
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        STATUS
+                                    <th scope="col" class="px-6 py-3 ">
+                                        Role
                                     </th>
+                                    {/* <th scope="col" class="px-6 py-3">
+                                        STATUS
+                                    </th> */}
                                     <th scope="col" class="px-6 py-3 justify-center flex">
                                         ACTIONS
                                     </th>
