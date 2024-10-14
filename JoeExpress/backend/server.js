@@ -93,8 +93,6 @@ app.get('/admin',(req,res)=>{
 
 
 
-
-
 app.post('/cms', (req, res) => {
     const { title } = req.body;
   
@@ -118,22 +116,14 @@ app.post('/cms', (req, res) => {
 
 app.get('/foods', (req,res)=>{
     
-    const query = 
-    
-    `SELECT f.id, f.name, f.description, f.image_url, fs.size, fs.price 
-    FROM foods f JOIN food_sizes fs ON f.id = fs.food_id 
-    GROUP BY f.id, f.name, f.description, f.image_url 
-    WHERE visible = 1
-    LIMIT 4;`;
-
     const order = `
-                   SELECT count(o.order_id) as totalOrder , f.name, f.description, f.image_url, fs.price 
+                   SELECT count(o.order_id) as totalOrder ,f.id, f.name, f.description, f.image_url, fs.price 
                    FROM foods f 
                    JOIN food_sizes fs on f.id = fs.id 
                    JOIN orders_food of on of.food_id = fs.id 
                    JOIN orders o on o.order_id = of.order_id 
                    WHERE visible = 1
-                   GROUP BY f.name,fs.size, f.description, f.image_url, fs.price 
+                   GROUP BY f.id, f.name,fs.size, f.description, f.image_url, fs.price 
                    order by totalOrder desc limit 4;
                 `
     db.query(order,(err,results)=>{

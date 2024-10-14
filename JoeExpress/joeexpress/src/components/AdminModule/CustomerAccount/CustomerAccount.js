@@ -333,9 +333,9 @@ export default function CustomerAccount() {
                                             {/* Dropdown for role selection */}
                                             <select value={role} onChange={handleRoleChange}
                                                 className="bg-transparent text-gray-600 font-semibold p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
-                                                <option value="Admin">Admin</option>
-                                                <option value="Cook">Cook</option>
-                                                <option value="Rider">Rider</option>
+                                                <option value="admin">Admin</option>
+                                                <option value="cashier">Cashier</option>
+                                                <option value="rider">Rider</option>
                                             </select>
                                         </div>
                                     </td>

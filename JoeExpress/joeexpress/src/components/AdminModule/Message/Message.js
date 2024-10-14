@@ -63,8 +63,9 @@ export default function Message() {
       
       };
 
-      const handleKeyDown = (event) => {
-         if (event.key === 'Enter' && currentMessage.trim() !== '') {
+      const handleKeyDown = (e) => {
+         if (e.key === 'Enter' && currentMessage.trim() !== '') {
+            
 
             const messageData = {
                author: data.name,
