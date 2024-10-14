@@ -155,6 +155,13 @@ export default function Order_New() {
   
       }
 
+
+              //for switch tabs
+              const [activeTab, setActiveTab] = useState('trackOrder');
+
+              const handleTabClick = (tab) => {
+                setActiveTab(tab);
+              };
   return (
     <div className=''>
          {/* <!-- nav --> */}
@@ -297,377 +304,124 @@ export default function Order_New() {
         </aside>
         
         <div class="p-4 sm:ml-72 bg-jaydsBg hidden sm:block">
+            <div class="mb-4 border-b-2  border-gray-300"> {/* <!-- Tabs below--> */}
+                <ul class="flex flex-wrap -mb-px text-md font-semibold text-center " id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">    
+                    <li class="me-2" role="presentation">
+                    <button
+                        className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-greenColor hover:border-textgreenColor ${
+                        activeTab === 'trackOrder' ? 'border-textgreenColor text-greenColor' : 'border-gray-300'
+                        }`}
+                        onClick={() => handleTabClick('trackOrder')}
+                        type="button"
+                        role="tab">
+                        Track Order
+                    </button>
+                    </li>
+
+                    <li class="me-2" role="presentation">
+                    <button
+                        className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-greenColor hover:border-textgreenColor ${
+                        activeTab === 'pendingOrder' ? 'border-textgreenColor text-greenColor' : 'border-gray-300'
+                        }`}
+                        onClick={() => handleTabClick('pendingOrder')}
+                        type="button"
+                        role="tab">     
+                    Pending Order
+                    </button>           
+                    </li>
+
+                    <li class="me-2" role="presentation">
+                    <button
+                        className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-greenColor hover:border-textgreenColor ${
+                        activeTab === 'historyOrder' ? 'border-textgreenColor text-greenColor' : 'border-gray-300'
+                        }`}
+                        onClick={() => handleTabClick('historyOrder')}
+                        type="button"
+                        role="tab">
+                        Order History
+                    </button>                
+                    </li>
+                </ul>
+            </div>
             <div class="relative shadow-xl sm:rounded-lg bg-white">
                 {/* track order */}
-                <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white rounded-t-xl">
-                
-                    <div class="text-center">
-                        <h1 class="text-xl font-bold tracking-wide">Track Orders</h1>
-                    </div>
-                    <label for="table-search" class="sr-only">Search</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                            </svg>
-                        </div>
-                        <input type="text" id="table-search-users" 
-                        class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                        placeholder="Search for Product"/>
-                    </div>
+                {activeTab === 'trackOrder' && (
+                <div>
+                    <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white rounded-t-xl">
                     
-                </div>
-
-                <div class="w-full px-10  mx-auto rounded-lg py-2 mb-16">
-                        <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
-                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg ">
-                                <div class="relative overflow-x-auto max-h-[500px] overflow-y-auto shadow-md sm:rounded-lg">
-                                    {/* Order Tracking */}
-                                    <div className="overflow-x-auto scrollbar-none">{/* To make it scrollable*/}
-                                        <div className="relative max-h-[500px] overflow-y-auto shadow-md sm:rounded-lg">
-                                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                                <thead class="text-xs tracking-widest sticky top-0 text-white uppercase bg-textgreenColor dark:bg-gray-700 dark:text-white">
-                                                    <tr class="text-center">
-                                                        <th scope="col" class="px-6 py-3 ">
-                                                            ID
-                                                        </th>
-                                                        <th scope="col" class="px-6 py-3">
-                                                            Name
-                                                        </th>
-                                                        <th scope="col" class="px-6 py-3">
-                                                            address
-                                                        </th>
-                                                        <th scope="col" class="px-6 py-3">
-                                                            Contact Number
-                                                        </th>
-                                                        <th scope="col" class="px-6 py-3">
-                                                            Date / Time Order Placed
-                                                        </th>
-                                                        <th scope="col" class="px-6 py-3">
-                                                            Price
-                                                        </th>
-                                                        <th scope="col" class="px-6 py-3">
-                                                            Status
-                                                        </th>
-                                                        <th scope="col" class="px-6 py-3">
-                                                            Action
-                                                        </th>
-                                                        <th scope="col" class="px-6 py-3">
-                                                            
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-
-                                                <tbody>
-                                                    {orders.map(order => (
-                                                        <React.Fragment key={order.order_id}>
-                                                        <tr className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                                        <td className="px-6 py-4 text-center text-gray-900 cursor-pointer" onClick={()=> toggleOrderDetails(order.order_id)} title='View Order(s)'>
-                                                            <div className="text-base font-semibold">ORDR#{order.order_id}</div>
-                                                        </td>
-                                                        <td className="px-6 py-4 text-center ">
-                                                            {order.name}
-                                                        </td>
-                                                        <td className="px-6 py-4 text-center">
-                                                            {order.address}
-                                                        </td>
-                                                        <td className="px-6 py-4 text-center">
-                                                            WALA PA
-                                                        </td>
-                                                        <td className="px-6 py-4 text-center">
-                                                            {new Date(order.order_date).toLocaleString('en-US', {
-                                                                year: 'numeric',
-                                                                month: 'long',
-                                                                day: 'numeric',
-                                                                hour: '2-digit',
-                                                                minute: '2-digit',
-                                                                second: '2-digit',
-                                                            })}
-                                                        </td>
-                                                        <td className="px-6 py-4 text-center font-semibold text-green-500">
-                                                            ₱{order.totalPrice}.00
-                                                        </td>
-                                                        <td className="px-6 py-4">
-                                                            {order.status === 'paid' ? 
-                                                            <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status.toUpperCase()}</div> 
-                                                            : order.status === 'on process' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div>
-                                                            : order.status === 'on delivery' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div> 
-                                                            :''}
-                                                            
-                                                        </td>
-                                                        <td className=" px-6 py-4 ">
-                                                            {order.status === 'paid' ? 
-                                                                <button onClick={()=> getTheOrder(order.order_id, order.status)} className='py-2 px-3 bg-yellow-500 text-white rounded-full' >
-                                                                    Mark as 'on process'
-                                                                </button>  
-                                                                : order.status === 'on process' ? 
-                                                                <button onClick={()=> getTheOrder(order.order_id, order.status)} className='py-2 px-3 bg-textgreenColor text-white rounded-full'>
-                                                                    Mark as 'on Delivery'
-                                                                </button>     
-                                                                : ""}
-                                                        </td>
-
-                                                        <td>
-                                                                <button onClick={()=> cancelOrder(order.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title='Delete'>
-                                                                    <img src={del} alt="trash" />
-                                                                </button>
-                                                        </td>
-
-                                                        </tr>
-
-                                                        {expandedOrderId === order.order_id && (
-                                                        <tr>
-                                                            <td colSpan="9" className="bg-gray-100 dark:bg-gray-700">
-                                                                <div className="px-6 py-4">
-                                                                <div className="text-sm text-gray-600 dark:text-gray-300">
-                                                                    <strong>Order Items:</strong>
-                                                                    <ul className="mt-2 space-y-2 list-disc list-inside">
-                                                                    {order.food_details.split(';').map((detail, index) => (
-                                                                    <li key={index} className="py-1 w-full text-left">
-                                                                        {detail.trim()}
-                                                                    </li>
-                                                                    ))}
-                                                                    </ul>
-                                                                </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        )}
-
-                                                        </React.Fragment>
-
-                                                        ))}
-                                                </tbody>
-                                            </table>
-                                        </div>  
-                                    </div>                
-                                </div>
+                        <div class="text-center">
+                            <h1 class="text-xl font-bold tracking-wide">Track Orders</h1>
+                        </div>
+                        <label for="table-search" class="sr-only">Search</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                </svg>
                             </div>
+                            <input type="text" id="table-search-users"
+                            class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Search for Product"/>
                         </div>
-                </div>
-                {/* end of track order */}
-
-                {/* Pending order */}
-                <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white rounded-t-xl">
-                
-                    <div class="text-center">
-                        <h1 class="text-xl font-bold tracking-wide">Pending Orders</h1>
-                    </div>
-                    <label for="table-search" class="sr-only">Search</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                            </svg>
-                        </div>
-                        <input type="text" id="table-search-users" 
-                        class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                        placeholder="Search for Product"/>
-                    </div>
                     
-                </div>
-
-                <div class="w-full px-10  mx-auto rounded-lg py-2 mb-16">
-                        <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
-                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg ">
-                                <div class="relative overflow-x-auto max-h-[500px] overflow-y-auto shadow-md sm:rounded-lg">
-                                    {/* Order Tracking */}
-                                    <div className="overflow-x-auto">{/* To make it scrollable*/}
-                                        <div className="relative max-h-[500px] overflow-y-auto shadow-md sm:rounded-lg">
-                                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                                <thead class="text-xs tracking-widest sticky top-0 text-white uppercase bg-textgreenColor dark:bg-gray-700 dark:text-white">
-                                                    <tr class="text-center">
-                                                        <th scope="col" class="px-6 py-3 ">
-                                                            ID
-                                                        </th>
-                                                        <th scope="col" class="px-6 py-3">
-                                                            Name
-                                                        </th>
-                                                        <th scope="col" class="px-6 py-3">
-                                                            address
-                                                        </th>
-                                                        <th scope="col" class="px-6 py-3">
-                                                            Contact Number
-                                                        </th>
-                                                        <th scope="col" class="px-6 py-3">
-                                                            Date / Time
-                                                        </th>
-                                                        <th scope="col" class="px-6 py-3">
-                                                            Price
-                                                        </th>
-                                                        <th scope="col" class="px-6 py-3">
-                                                            Status
-                                                        </th>
-                                                        <th scope="col" class="px-6 py-3">
-                                                            Action
-                                                        </th>
-                                                        <th scope="col" class="px-6 py-3">
-                                                            
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-
-                                                {/* <tbody>
-                                                    {orders.map(order => (
-                                                        <React.Fragment key={order.order_id}>
-                                                        <tr className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"  onClick={()=> toggleOrderDetails(order.order_id)}>
-                                                        <td className="px-6 py-4 text-center text-gray-900">
-                                                            <div className="text-base font-semibold">ORDR#{order.order_id}</div>
-                                                        </td>
-                                                        <td className="px-6 py-4 text-center ">
-                                                            {order.name}
-                                                        </td>
-                                                        <td className="px-6 py-4 text-center">
-                                                            {order.address}
-                                                        </td>
-                                                        <td className="px-6 py-4 text-center">
-                                                            WALA PA
-                                                        </td>
-                                                        <td className="px-6 py-4 text-center">
-                                                            {new Date(order.order_date).toLocaleString('en-US', {
-                                                                year: 'numeric',
-                                                                month: 'long',
-                                                                day: 'numeric',
-                                                                hour: '2-digit',
-                                                                minute: '2-digit',
-                                                                second: '2-digit',
-                                                            })}
-                                                        </td>
-                                                        <td className="px-6 py-4 text-center font-semibold text-green-500">
-                                                            ₱{order.totalPrice}.00
-                                                        </td>
-                                                        <td className="px-6 py-4">
-                                                            {order.status === 'paid' ? 
-                                                            <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status.toUpperCase()}</div> 
-                                                            : order.status === 'on process' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div>
-                                                            : order.status === 'on delivery' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div> 
-                                                            :''}
-                                                            
-                                                        </td>
-                                                        <td className=" px-6 py-4 ">
-                                                            {order.status === 'paid' ? 
-                                                                <button onClick={()=> getTheOrder(order.order_id, order.status)} className='py-2 px-3 bg-yellow-500 text-white rounded-full' >
-                                                                    Mark as 'on process'
-                                                                </button>  
-                                                                : order.status === 'on process' ? 
-                                                                <button onClick={()=> getTheOrder(order.order_id, order.status)} className='py-2 px-3 bg-textgreenColor text-white rounded-full'>
-                                                                    Mark as 'on Delivery'
-                                                                </button>     
-                                                                : ""}
-                                                        </td>
-
-                                                        <td>
-                                                                <button onClick={()=> cancelOrder(order.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title='Delete'>
-                                                                    <img src={del} alt="trash" />
-                                                                </button>
-                                                        </td>
-
-                                                        </tr>
-
-                                                        {expandedOrderId === order.order_id && (
-                                                        <tr>
-                                                            <td colSpan="9" className="bg-gray-100 dark:bg-gray-700">
-                                                                <div className="px-6 py-4">
-                                                                <div className="text-sm text-gray-600 dark:text-gray-300">
-                                                                    <strong>Order Items:</strong>
-                                                                    <ul className="mt-2 space-y-2 list-disc list-inside">
-                                                                    {order.food_details.split(';').map((detail, index) => (
-                                                                    <li key={index} className="py-1 w-full text-left">
-                                                                        {detail.trim()}
-                                                                    </li>
-                                                                    ))}
-                                                                    </ul>
-                                                                </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        )}
-
-                                                        </React.Fragment>
-
-                                                        ))}
-                                                </tbody> */}
-                                            </table>
-                                        </div>  
-                                    </div>                
-                                </div>
-                            </div>
-                        </div>
-                </div>
-                {/* end of Pending order */}
-                
-                {/* order history */}
-                <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white rounded-t-xl">
-                
-                    <div class="text-center">
-                        <h1 class="text-xl font-bold tracking-wide">Order History</h1>
                     </div>
-                    <label for="table-search" class="sr-only">Search</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                            </svg>
-                        </div>
-                        <input type="text" id="table-search-users" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for Product"/>
-                    </div>
-                    
-                </div>
-
-                <div class="w-full px-10 mx-auto rounded-lg py-4 mb-2">
-                    <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
-                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                                <div className='overflow-x-auto scrollbar-none'>
-                                    <div className='relative max-h-[500px] overflow-y-auto shadow-md sm:rounded-lg'>
-                                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                            <thead class="text-xs sticky top-0 tracking-widest text-white uppercase bg-textgreenColor dark:bg-gray-700 dark:text-gray-400">
-                                                <tr class="text-center dark:text-white">
-                                                    <th scope="col" class="px-6 py-3 ">
-                                                        ID
-                                                    </th>
-                                                    <th scope="col" class="px-6 py-3">
-                                                        Name
-                                                    </th>
-                                                    <th scope="col" class="px-6 py-3">
-                                                        address
-                                                    </th>
-                                                    <th scope="col" class="px-6 py-3">
-                                                        Contact Number
-                                                    </th>
-                                                    <th scope="col" class="px-6 py-3">
-                                                        Date / Time Updated
-                                                    </th>
-                                                    <th scope="col" class="px-6 py-3">
-                                                        Price
-                                                    </th>
-                                                    <th scope="col" class="px-6 py-3">
-                                                        Status
-                                                    </th>
-                                                    <th scope="col" class="px-6 py-3">
-                                                        Action
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {orderHistory.map(orderh => (
-                                                    <React.Fragment key={orderh.order_id}>
-                                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                                            <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white text-center">
-                                                                <div className="text-base font-semibold">ORDR#{orderh.order_id}</div>
+                    <div class="w-full px-10  mx-auto rounded-lg py-2 mb-16">
+                            <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
+                                <div class="relative overflow-x-auto shadow-md sm:rounded-lg ">
+                                    <div class="relative overflow-x-auto max-h-[500px] overflow-y-auto shadow-md sm:rounded-lg">
+                                        {/* Order Tracking */}
+                                        <div className="overflow-x-auto scrollbar-none">{/* To make it scrollable*/}
+                                            <div className="relative max-h-[500px] overflow-y-auto shadow-md sm:rounded-lg">
+                                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                                    <thead class="text-xs tracking-widest sticky top-0 text-white uppercase bg-textgreenColor dark:bg-gray-700 dark:text-white">
+                                                        <tr class="text-center">
+                                                            <th scope="col" class="px-6 py-3 ">
+                                                                ID
                                                             </th>
-                                                            <td className="px-6 py-4 text-center">
-                                                                {orderh.name}
+                                                            <th scope="col" class="px-6 py-3">
+                                                                Name
+                                                            </th>
+                                                            <th scope="col" class="px-6 py-3">
+                                                                address
+                                                            </th>
+                                                            <th scope="col" class="px-6 py-3">
+                                                                Contact Number
+                                                            </th>
+                                                            <th scope="col" class="px-6 py-3">
+                                                                Date / Time Order Placed
+                                                            </th>
+                                                            <th scope="col" class="px-6 py-3">
+                                                                Price
+                                                            </th>
+                                                            <th scope="col" class="px-6 py-3">
+                                                                Status
+                                                            </th>
+                                                            <th scope="col" class="px-6 py-3">
+                                                                Action
+                                                            </th>
+                                                            <th scope="col" class="px-6 py-3">
+                    
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {orders.map(order => (
+                                                            <React.Fragment key={order.order_id}>
+                                                            <tr className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                                            <td className="px-6 py-4 text-center text-gray-900 cursor-pointer" onClick={()=> toggleOrderDetails(order.order_id)} title='View Order(s)'>
+                                                                <div className="text-base font-semibold">ORDR#{order.order_id}</div>
+                                                            </td>
+                                                            <td className="px-6 py-4 text-center ">
+                                                                {order.name}
                                                             </td>
                                                             <td className="px-6 py-4 text-center">
-                                                                {orderh.address}
+                                                                {order.address}
                                                             </td>
-                                                            <td className="px-6 py-4 text-center text-yellow-500 font-medium">
-                                                                {/* Placeholder for status like 'Pending' */}
+                                                            <td className="px-6 py-4 text-center">
                                                                 WALA PA
                                                             </td>
                                                             <td className="px-6 py-4 text-center">
-                                                                {new Date(orderh.update_order_date).toLocaleString('en-US', {
+                                                                {new Date(order.order_date).toLocaleString('en-US', {
                                                                     year: 'numeric',
                                                                     month: 'long',
                                                                     day: 'numeric',
@@ -676,52 +430,348 @@ export default function Order_New() {
                                                                     second: '2-digit',
                                                                 })}
                                                             </td>
-                                                            <td className="px-6 py-4 text-center text-green-500 font-semibold">
-                                                                ₱{orderh.totalPrice.toFixed(2)}
+                                                            <td className="px-6 py-4 text-center font-semibold text-green-500">
+                                                                ₱{order.totalPrice}.00
                                                             </td>
-                                                            <td className="px-6 py-4 text-center">
-                                        
-                                                                {orderh.status === 'completed' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{orderh.status}</div>
-                                                                : <div className="bg-red-100 text-blue-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{orderh.status}</div>}
-                                        
+                                                            <td className="px-6 py-4">
+                                                                {order.status === 'paid' ?
+                                                                <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status.toUpperCase()}</div>
+                                                                : order.status === 'on process' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div>
+                                                                : order.status === 'on delivery' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div>
+                                                                :''}
+                    
                                                             </td>
-                                                            <td className="px-6 py-4 text-center">
-                                                                <button
-                                                                    onClick={() => toggleOrderHistoryDetails(orderh.order_id)}
-                                                                    className="hover:text-blue-500 transition-colors duration-200"
-                                                                    title="View Details"
-                                                                >
-                                                                    <img src={eye} alt="eye icon" className="w-6 h-6 mx-auto" />
-                                                                </button>
+                                                            <td className=" px-6 py-4 ">
+                                                                {order.status === 'paid' ?
+                                                                    <button onClick={()=> getTheOrder(order.order_id, order.status)} className='py-2 px-3 bg-yellow-500 text-white rounded-full' >
+                                                                        Mark as 'on process'
+                                                                    </button>
+                                                                    : order.status === 'on process' ?
+                                                                    <button onClick={()=> getTheOrder(order.order_id, order.status)} className='py-2 px-3 bg-textgreenColor text-white rounded-full'>
+                                                                        Mark as 'on Delivery'
+                                                                    </button>
+                                                                    : ""}
                                                             </td>
-                                                        </tr>
-                                                        {/* Expanded row for food details */}
-                                                        {expandedOrderHistoryId === orderh.order_id && (
-                                                            <tr className="bg-gray-100 dark:bg-gray-700">
-                                                                <td colSpan="8" className="px-6 py-4">
+                                                            <td>
+                                                                    <button onClick={()=> cancelOrder(order.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title='Delete'>
+                                                                        <img src={del} alt="trash" />
+                                                                    </button>
+                                                            </td>
+                                                            </tr>
+                                                            {expandedOrderId === order.order_id && (
+                                                            <tr>
+                                                                <td colSpan="9" className="bg-gray-100 dark:bg-gray-700">
+                                                                    <div className="px-6 py-4">
                                                                     <div className="text-sm text-gray-600 dark:text-gray-300">
                                                                         <strong>Order Items:</strong>
-                                                                        <ul className="mt-2 space-y-1 list-disc list-inside">
-                                                                            {orderh.food_details.split(';').map((detail, index) => (
-                                                                                <li key={index} className="text-left">
-                                                                                    {detail.trim()}
-                                                                                </li>
-                                                                            ))}
+                                                                        <ul className="mt-2 space-y-2 list-disc list-inside">
+                                                                        {order.food_details.split(';').map((detail, index) => (
+                                                                        <li key={index} className="py-1 w-full text-left">
+                                                                            {detail.trim()}
+                                                                        </li>
+                                                                        ))}
                                                                         </ul>
+                                                                    </div>
                                                                     </div>
                                                                 </td>
                                                             </tr>
-                                                        )}
-                                                    </React.Fragment>
-                                                ))}
-                                            </tbody>
-                                        </table>
+                                                            )}
+                                                            </React.Fragment>
+                                                            ))}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+)}
+                {/* end of track order */}
+
+                {/* Pending order */}
+                {activeTab === 'pendingOrder' && (
+                <div>
+                    <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white rounded-t-xl">
+                    
+                        <div class="text-center">
+                            <h1 class="text-xl font-bold tracking-wide">Pending Orders</h1>
+                        </div>
+                        <label for="table-search" class="sr-only">Search</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                </svg>
+                            </div>
+                            <input type="text" id="table-search-users" 
+                            class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                            placeholder="Search for Product"/>
+                        </div>
+                        
+                    </div>
+
+                    <div class="w-full px-10  mx-auto rounded-lg py-2 mb-16">
+                            <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
+                                <div class="relative overflow-x-auto shadow-md sm:rounded-lg ">
+                                    <div class="relative overflow-x-auto max-h-[500px] overflow-y-auto shadow-md sm:rounded-lg">
+                                        {/* Order Tracking */}
+                                        <div className="overflow-x-auto">{/* To make it scrollable*/}
+                                            <div className="relative max-h-[500px] overflow-y-auto shadow-md sm:rounded-lg">
+                                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                                    <thead class="text-xs tracking-widest sticky top-0 text-white uppercase bg-textgreenColor dark:bg-gray-700 dark:text-white">
+                                                        <tr class="text-center">
+                                                            <th scope="col" class="px-6 py-3 ">
+                                                                ID
+                                                            </th>
+                                                            <th scope="col" class="px-6 py-3">
+                                                                Name
+                                                            </th>
+                                                            <th scope="col" class="px-6 py-3">
+                                                                address
+                                                            </th>
+                                                            <th scope="col" class="px-6 py-3">
+                                                                Contact Number
+                                                            </th>
+                                                            <th scope="col" class="px-6 py-3">
+                                                                Date / Time
+                                                            </th>
+                                                            <th scope="col" class="px-6 py-3">
+                                                                Price
+                                                            </th>
+                                                            <th scope="col" class="px-6 py-3">
+                                                                Status
+                                                            </th>
+                                                            <th scope="col" class="px-6 py-3">
+                                                                Action
+                                                            </th>
+                                                            <th scope="col" class="px-6 py-3">
+                                                                
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    {/* <tbody>
+                                                        {orders.map(order => (
+                                                            <React.Fragment key={order.order_id}>
+                                                            <tr className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"  onClick={()=> toggleOrderDetails(order.order_id)}>
+                                                            <td className="px-6 py-4 text-center text-gray-900">
+                                                                <div className="text-base font-semibold">ORDR#{order.order_id}</div>
+                                                            </td>
+                                                            <td className="px-6 py-4 text-center ">
+                                                                {order.name}
+                                                            </td>
+                                                            <td className="px-6 py-4 text-center">
+                                                                {order.address}
+                                                            </td>
+                                                            <td className="px-6 py-4 text-center">
+                                                                WALA PA
+                                                            </td>
+                                                            <td className="px-6 py-4 text-center">
+                                                                {new Date(order.order_date).toLocaleString('en-US', {
+                                                                    year: 'numeric',
+                                                                    month: 'long',
+                                                                    day: 'numeric',
+                                                                    hour: '2-digit',
+                                                                    minute: '2-digit',
+                                                                    second: '2-digit',
+                                                                })}
+                                                            </td>
+                                                            <td className="px-6 py-4 text-center font-semibold text-green-500">
+                                                                ₱{order.totalPrice}.00
+                                                            </td>
+                                                            <td className="px-6 py-4">
+                                                                {order.status === 'paid' ? 
+                                                                <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status.toUpperCase()}</div> 
+                                                                : order.status === 'on process' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div>
+                                                                : order.status === 'on delivery' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div> 
+                                                                :''}
+                                                                
+                                                            </td>
+                                                            <td className=" px-6 py-4 ">
+                                                                {order.status === 'paid' ? 
+                                                                    <button onClick={()=> getTheOrder(order.order_id, order.status)} className='py-2 px-3 bg-yellow-500 text-white rounded-full' >
+                                                                        Mark as 'on process'
+                                                                    </button>  
+                                                                    : order.status === 'on process' ? 
+                                                                    <button onClick={()=> getTheOrder(order.order_id, order.status)} className='py-2 px-3 bg-textgreenColor text-white rounded-full'>
+                                                                        Mark as 'on Delivery'
+                                                                    </button>     
+                                                                    : ""}
+                                                            </td>
+
+                                                            <td>
+                                                                    <button onClick={()=> cancelOrder(order.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title='Delete'>
+                                                                        <img src={del} alt="trash" />
+                                                                    </button>
+                                                            </td>
+
+                                                            </tr>
+
+                                                            {expandedOrderId === order.order_id && (
+                                                            <tr>
+                                                                <td colSpan="9" className="bg-gray-100 dark:bg-gray-700">
+                                                                    <div className="px-6 py-4">
+                                                                    <div className="text-sm text-gray-600 dark:text-gray-300">
+                                                                        <strong>Order Items:</strong>
+                                                                        <ul className="mt-2 space-y-2 list-disc list-inside">
+                                                                        {order.food_details.split(';').map((detail, index) => (
+                                                                        <li key={index} className="py-1 w-full text-left">
+                                                                            {detail.trim()}
+                                                                        </li>
+                                                                        ))}
+                                                                        </ul>
+                                                                    </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            )}
+
+                                                            </React.Fragment>
+
+                                                            ))}
+                                                    </tbody> */}
+                                                </table>
+                                            </div>  
+                                        </div>                
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                )}
+                {/* end of Pending order */}
+                
+                {/* order history */}
+                {activeTab === 'historyOrder' && (
+                <div>
+                    <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white rounded-t-xl">
+                    
+                        <div class="text-center">
+                            <h1 class="text-xl font-bold tracking-wide">Order History</h1>
+                        </div>
+                        <label for="table-search" class="sr-only">Search</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                </svg>
+                            </div>
+                            <input type="text" id="table-search-users" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for Product"/>
+                        </div>
+                    
+                    </div>
+                    <div class="w-full px-10 mx-auto rounded-lg py-4 mb-2">
+                        <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
+                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                                    <div className='overflow-x-auto scrollbar-none'>
+                                        <div className='relative max-h-[500px] overflow-y-auto shadow-md sm:rounded-lg'>
+                                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                                <thead class="text-xs sticky top-0 tracking-widest text-white uppercase bg-textgreenColor dark:bg-gray-700 dark:text-gray-400">
+                                                    <tr class="text-center dark:text-white">
+                                                        <th scope="col" class="px-6 py-3 ">
+                                                            ID
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Name
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            address
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Contact Number
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Date / Time Updated
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Price
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Status
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3">
+                                                            Action
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {orderHistory.map(orderh => (
+                                                        <React.Fragment key={orderh.order_id}>
+                                                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                                                <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white text-center">
+                                                                    <div className="text-base font-semibold">ORDR#{orderh.order_id}</div>
+                                                                </th>
+                                                                <td className="px-6 py-4 text-center">
+                                                                    {orderh.name}
+                                                                </td>
+                                                                <td className="px-6 py-4 text-center">
+                                                                    {orderh.address}
+                                                                </td>
+                                                                <td className="px-6 py-4 text-center text-yellow-500 font-medium">
+                                                                    {/* Placeholder for status like 'Pending' */}
+                                                                    WALA PA
+                                                                </td>
+                                                                <td className="px-6 py-4 text-center">
+                                                                    {new Date(orderh.update_order_date).toLocaleString('en-US', {
+                                                                        year: 'numeric',
+                                                                        month: 'long',
+                                                                        day: 'numeric',
+                                                                        hour: '2-digit',
+                                                                        minute: '2-digit',
+                                                                        second: '2-digit',
+                                                                    })}
+                                                                </td>
+                                                                <td className="px-6 py-4 text-center text-green-500 font-semibold">
+                                                                    ₱{orderh.totalPrice.toFixed(2)}
+                                                                </td>
+                                                                <td className="px-6 py-4 text-center">
+                    
+                                                                    {orderh.status === 'completed' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{orderh.status}</div>
+                                                                    : <div className="bg-red-100 text-blue-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{orderh.status}</div>}
+                    
+                                                                </td>
+                                                                <td className="px-6 py-4 text-center">
+                                                                    <button
+                                                                        onClick={() => toggleOrderHistoryDetails(orderh.order_id)}
+                                                                        className="hover:text-blue-500 transition-colors duration-200"
+                                                                        title="View Details"
+                                                                    >
+                                                                        <img src={eye} alt="eye icon" className="w-6 h-6 mx-auto" />
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                            {/* Expanded row for food details */}
+                                                            {expandedOrderHistoryId === orderh.order_id && (
+                                                                <tr className="bg-gray-100 dark:bg-gray-700">
+                                                                    <td colSpan="8" className="px-6 py-4">
+                                                                        <div className="text-sm text-gray-600 dark:text-gray-300">
+                                                                            <strong>Order Items:</strong>
+                                                                            <ul className="mt-2 space-y-1 list-disc list-inside">
+                                                                                {orderh.food_details.split(';').map((detail, index) => (
+                                                                                    <li key={index} className="text-left">
+                                                                                        {detail.trim()}
+                                                                                    </li>
+                                                                                ))}
+                                                                            </ul>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            )}
+                                                        </React.Fragment>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                )}
                 {/* end of order history */}
             </div>
         </div> 
