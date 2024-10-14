@@ -463,8 +463,9 @@ const rightNav = () => {
       <div class="flex flex-col w-3/4 mx-auto md:items-center"> {/* <!-- Main Container-->*/}
         <div id="mt-series"> 
           <div className="container mx-auto p-4 mt-4"> 
+            {/* Sa All na categories to pre, explore our menu nalang yung heading. */}
             <h1 className="text-5xl font-bold text-center mb-10">
-              <span className="text-textgreenColor">Signature</span> Drinks
+              <span className="text-textgreenColor">Explore</span> Our Menu! 
             </h1>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
