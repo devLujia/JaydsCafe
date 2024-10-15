@@ -393,32 +393,32 @@ const rightNav = () => {
       </nav>
 
       <div class="w-full relative flex justify-center items-center"> {/* <!-- Top Section --> */}
-        <img src={topBG} alt="" class="w-full h-full object-cover"/>
-        <div class="absolute top-0 left-0 w-full h-full"> {/* <!-- buttons and title -->*/}
+    <img src={topBG} alt="" class="w-full h-full object-cover" />
+    <div class="absolute top-0 left-0 w-full h-full"> {/* <!-- buttons and title --> */}
 
-          {/* Categories Navs */}
-          <div class="justify-center items-center mx-auto px-52 flex-wrap space-x-3 space-y-2 hidden lg:flex mt-10"> {/* Add margin-top here */}
-              <button 
-                  class={`${
-                      categorySearch === 0 ? 'bg-greenColor text-white' : 'bg-white text-black'
-                  } text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300`}
-                  onClick={() => setCategorySearch(0)}
-              >
-                  All Items
-              </button>
+        {/* Categories Navs */}
+        <div class="justify-center items-center mx-auto px-52 flex-wrap space-x-3 space-y-2 hidden lg:flex mt-10">
+            <button 
+                className={`${
+                    categorySearch === 0 ? 'bg-greenColor text-white' : 'bg-white text-black'
+                } text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300`}
+                onClick={() => setCategorySearch(0)}
+            >
+                All Items
+            </button>
 
-              {category.map(cat => (
-                  <button 
-                      key={cat.id} 
-                      class={`${
-                          categorySearch === cat.id ? 'bg-greenColor text-white' : 'bg-white text-black'
-                      } text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300`}
-                      onClick={() => setCategorySearch(cat.id)}
-                  >
-                      {cat.title}
-                  </button>
-              ))}
-          </div>
+            {category.map(cat => (
+                <button 
+                    key={cat.id} 
+                    className={`${
+                        categorySearch === cat.id ? 'bg-greenColor text-white' : 'bg-white text-black'
+                    } text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300`}
+                    onClick={() => setCategorySearch(cat.id)}
+                >
+                    {cat.title}
+                </button>
+                ))}
+            </div>
             
           {/* <!-- dropdown category button --> */}
           <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="flex justify-center items-center mx-auto bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300 lg:hidden md:block">
@@ -460,13 +460,39 @@ const rightNav = () => {
         </div>
       </div>
 
-      <div class="flex flex-col w-3/4 mx-auto md:items-center"> {/* <!-- Main Container-->*/}
-        <div id="mt-series"> 
-          <div className="container mx-auto p-4 mt-4"> 
-            {/* Sa All na categories to pre, explore our menu nalang yung heading. */}
-            <h1 className="text-5xl font-bold text-center mb-10">
-              <span className="text-textgreenColor">Explore</span> Our Menu! 
-            </h1>
+      <div class="flex flex-col w-3/4 mx-auto md:items-center"> {/* <!-- Main Container--> */}
+    <div id="mt-series"> 
+        <div className="container mx-auto p-4 mt-4"> 
+
+              {/* Dynamically update the heading based on selected category */}
+              <h1 className="text-5xl font-bold text-center mb-10">
+                  {categorySearch === 0 ? (
+                      // If "All Items" is selected, it will display "Explore Our Menu"
+                      <span>
+                          <span className="text-textgreenColor">Explore</span> Our Menu!
+                      </span>
+                  ) : (
+                      // If another category is selected, style the first word with green and the rest as normal
+                      <span>
+                          {(() => {
+                              const selectedCategory = category.find(cat => cat.id === categorySearch)?.title;
+                              if (selectedCategory) {
+                                  const [firstWord, ...restOfTitle] = selectedCategory.split(' '); // Split the category title
+                                  return (
+                                      <>
+                                          <span className="text-textgreenColor">{firstWord}</span> {/* First word in green */}
+                                          {" "}
+                                          {restOfTitle.join(' ')} {/* Rest of the title */}
+                                          {" "}
+                                      </>
+                                  );
+                              }
+                          })()}
+                      </span>
+                  )}
+              </h1>
+
+
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
               {currentFoods.map((food) => (
