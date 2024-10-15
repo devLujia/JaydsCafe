@@ -14,6 +14,13 @@ export default function OrderRider() {
         setSidebarOpen (!isSidebarOpen);
     };
 
+    //for switch tabs
+    const [activeTab, setActiveTab] = useState('pending');
+
+    const handleTabClick = (tab) => {
+        setActiveTab(tab)
+    };
+
   return (
     <div className='bg-slate-100 dark:bg-gray-700'>
         
@@ -106,381 +113,604 @@ export default function OrderRider() {
 
                 {/* Cards top container */}
                  <div className='w-full flex gap-2'>
-                   <button className='w-full rounded-lg text-gray-500 hover:bg-white font-semibold hover:text-gray-900'>
-                        Pending <span>(1)</span>
-                   </button>
-                   <button className='w-full rounded-lg text-gray-500 bg-white font-semibold hover:text-gray-900'>
-                        Active <span>(3)</span>
-                   </button>
-                   <button className='w-full rounded-lg text-gray-500 hover:bg-white font-semibold hover:text-gray-900'>
-                        Completed <span>(0)</span>
-                   </button>
+                    <button className={`w-full rounded-lg text-gray-500 bg-white font-semibold hover:text-gray-900 ${
+                        activeTab === 'pending' ? 'text-gray-700 bg-slate-300' : 'border-gray-300'
+                        }`}
+                        onClick={() => handleTabClick('pending')}
+                        type="button"
+                        role="tab">
+                        Pending
+                    </button>
+                    <button className={`w-full rounded-lg text-gray-500 bg-white font-semibold hover:text-gray-900 ${
+                        activeTab === 'active' ? 'text-gray-700 bg-slate-300' : 'border-gray-300'
+                        }`}
+                        onClick={() => handleTabClick('active')}
+                        type="button"
+                        role="tab">
+                        Active
+                    </button>
+                    <button className={`w-full rounded-lg text-gray-500 bg-white font-semibold hover:text-gray-900 ${
+                        activeTab === 'complete' ? 'text-gray-700 bg-slate-300' : 'border-gray-300'
+                        }`}
+                        onClick={() => handleTabClick('complete')}
+                        type="button"
+                        role="tab">
+                        Complete
+                    </button>
                  </div>
 
                 {/* main container of pending order */}
-                <div className='w-full h-fit mt-4 space-y-5 '>
-                    {/* pending 1 */}
-                    <div class="group w-full shadow-md bg-white border-2 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600 dark:bg-gray-500 dark:border-gray-800 dark:hover:border-indigo-300">
-                        <div class="relative flex items-center gap-5 mb-6">
-                            <img src={user} alt="Jane avatar"></img>
-                            <div class="grid gap-1"> 
-                                <h5 class="text-gray-900 font-semibold transition-all duration-500 dark:text-gray-100 text-2xl ">Dimbo</h5>
+                
+                {activeTab === 'pending' &&(
+                    <div className='w-full h-fit mt-4 space-y-5 '>
+                        {/* pending 1 */}
+                        <div>
+                            <div class="group w-full shadow-md bg-white border-2 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600 dark:bg-gray-500 dark:border-gray-800 dark:hover:border-indigo-300">
+                                <div class="relative flex items-center gap-5 mb-6">
+                                    <img src={user} alt="Jane avatar"></img>
+                                    <div class="grid gap-1">
+                                        <h5 class="text-gray-900 font-semibold transition-all duration-500 dark:text-gray-100 text-2xl ">Dimbo</h5>
+                                        <div className='flex flex-row shrink-0 gap-2'>
+                                            <img src={loc} className='dark:filter dark:invert'></img>
+                                            <span class="text-sm leading-6 text-gray-500 dark:text-gray-100"> Dasmariñas, Salawag </span>
+                                        </div>
+                                    </div>
+                            
+                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-amber-200 font-semibold '> {/* 1st na indication */}
+                                        <h1 className='text-amber-500'>Pending</h1>
+                                    </div>
+                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-blue-200 font-semibold hidden'> {/* 2st na indication */}
+                                        <h1 className='text-violet-500'>accepted</h1>
+                                    </div>
+                            
+                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-violet-200 font-semibold hidden'> {/* 3st na indication */}
+                                        <h1 className='text-violet-500'>Picked up</h1>
+                                    </div>
+                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-slate-200 font-semibold hidden'> {/* 4st na indication */}
+                                        <h1 className='text-slate-500'>On The Way</h1>
+                                    </div>
+                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-textgreenColor font-semibold hidden'> {/* 5st na indication */}
+                                        <h1 className='text-white'>Delivered</h1>
+                                    </div>
+                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-red-200 font-semibold hidden'>
+                                        <h1 className='text-red-500'>Cancelled</h1>
+                                    </div>
+                                </div>
+                                <div class="flex items-center mb-1 gap-2 text-amber-500 transition-all duration-500 ">
+                                    <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800 dark:text-white"> <span className='font-semibold text-black dark:text-white'>Items: </span> Bubble Milk Tea, Taro Milk Tea</p>
+                                </div>
                                 <div className='flex flex-row shrink-0 gap-2'>
-                                    <img src={loc} className='dark:filter dark:invert'></img>
-                                    <span class="text-sm leading-6 text-gray-500 dark:text-gray-100"> Dasmariñas, Salawag </span>
+                                    <img src={clock}></img>
+                                    <span class="text-sm leading-6 text-gray-500"> Accepted at: 09:42 AM </span>
+                                </div>
+                                <div className='mt-5 flex justify-between flex-wrap gap-y-4'>
+                                    <button className='font-semibold inline-flex justify-center items-center border border-solid border-slate-300 py-2 px-3 rounded-lg gap-2 text-slate-700'>
+                                        <img src={msg} className='dark:filter dark:invert'></img>
+                                        <p className='dark:text-white'>Message</p>
+                                    </button>
+                            
+                                    {/* Pangalawang lalabas */}
+                                    <div className=''>
+                                        <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
+                                            <p>Mark as Picked up</p>
+                                        </button>
+                                    </div>
+                                    {/* pangatlo lalabas */}
+                                    {/* <div className=''>
+                                        <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
+                                            <p>Mark as On The Way</p>
+                                        </button>
+                                    </div> */}
+                                    {/* pang apat lalabas */}
+                                    {/* <div className=''>
+                                        <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
+                                            <p>Mark as Delivered</p>
+                                        </button>
+                                    </div> */}
+                            
                                 </div>
                             </div>
+                        </div>
+
+                        {/* pending 2 */}
+                        <div>
+                            <div class="group w-full shadow-md bg-white border-2 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600 dark:bg-gray-500 dark:border-gray-800 dark:hover:border-indigo-300">
+                                <div class="relative flex items-center gap-5 mb-6">
+                                    <img src={user} alt="Jane avatar"></img>
+                                    <div class="grid gap-1">
+                                        <h5 class="text-gray-900 font-semibold transition-all duration-500 dark:text-gray-100 text-2xl ">Dimbo</h5>
+                                        <div className='flex flex-row shrink-0 gap-2'>
+                                            <img src={loc} className='dark:filter dark:invert'></img>
+                                            <span class="text-sm leading-6 text-gray-500 dark:text-gray-100"> Dasmariñas, Salawag </span>
+                                        </div>
+                                    </div>
                             
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-amber-200 font-semibold '> {/* 1st na indication */}
-                                <h1 className='text-amber-500'>Pending</h1>
-                            </div>
-
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-blue-200 font-semibold hidden'> {/* 2st na indication */}
-                                <h1 className='text-violet-500'>accepted</h1>
-                            </div>
+                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-amber-200 font-semibold '> {/* 1st na indication */}
+                                        <h1 className='text-amber-500'>Pending</h1>
+                                    </div>
+                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-blue-200 font-semibold hidden'> {/* 2st na indication */}
+                                        <h1 className='text-violet-500'>accepted</h1>
+                                    </div>
                             
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-violet-200 font-semibold hidden'> {/* 3st na indication */}
-                                <h1 className='text-violet-500'>Picked up</h1>
-                            </div>
-
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-slate-200 font-semibold hidden'> {/* 4st na indication */}
-                                <h1 className='text-slate-500'>On The Way</h1>
-                            </div>
-
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-textgreenColor font-semibold hidden'> {/* 5st na indication */}
-                                <h1 className='text-white'>Delivered</h1>
-                            </div>
-
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-red-200 font-semibold hidden'>
-                                <h1 className='text-red-500'>Cancelled</h1>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center mb-1 gap-2 text-amber-500 transition-all duration-500 ">
-                            <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800 dark:text-white"> <span className='font-semibold text-black dark:text-white'>Items: </span> Bubble Milk Tea, Taro Milk Tea</p>
-                        </div>
-                        <div className='flex flex-row shrink-0 gap-2'>
-                            <img src={clock}></img>
-                            <span class="text-sm leading-6 text-gray-500"> Accepted at: 09:42 AM </span>
-                        </div>
-
-                        <div className='mt-5 flex justify-between flex-wrap gap-y-4'>
-                            <button className='font-semibold inline-flex justify-center items-center border border-solid border-slate-300 py-2 px-3 rounded-lg gap-2 text-slate-700'>
-                                <img src={msg} className='dark:filter dark:invert'></img>
-                                <p className='dark:text-white'>Message</p>
-                            </button>
-
-                            {/* ito yung unang lalabas */}
-                            <div className='flex justify-between gap-4 flex-wrap'>
-                                <button className='font-normal hover:bg-red-700 transition-all duration-300 bg-red-500 py-2 px-3 rounded-lg gap-2 text-white'>
-                                    <p>Decline</p>
-                                </button>
-                                <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-10 rounded-lg gap-2 text-white'>
-                                    <p>Accept</p>
-                                </button>
-                            </div>
-
-                            {/* Pangalawang lalabas */}
-                            {/* <div className=''>
-                                <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
-                                    <p>Mark as Picked up</p>
-                                </button>
-                            </div> */}
-
-                            {/* pangatlo lalabas */}
-                            {/* <div className=''>
-                                <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
-                                    <p>Mark as On The Way</p>
-                                </button>
-                            </div> */}
-
-                            {/* pang apat lalabas */}
-                            {/* <div className=''>
-                                <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
-                                    <p>Mark as Delivered</p>
-                                </button>
-                            </div> */}
+                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-violet-200 font-semibold hidden'> {/* 3st na indication */}
+                                        <h1 className='text-violet-500'>Picked up</h1>
+                                    </div>
+                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-slate-200 font-semibold hidden'> {/* 4st na indication */}
+                                        <h1 className='text-slate-500'>On The Way</h1>
+                                    </div>
+                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-textgreenColor font-semibold hidden'> {/* 5st na indication */}
+                                        <h1 className='text-white'>Delivered</h1>
+                                    </div>
+                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-red-200 font-semibold hidden'>
+                                        <h1 className='text-red-500'>Cancelled</h1>
+                                    </div>
+                                </div>
+                                <div class="flex items-center mb-1 gap-2 text-amber-500 transition-all duration-500 ">
+                                    <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800 dark:text-white"> <span className='font-semibold text-black dark:text-white'>Items: </span> Bubble Milk Tea, Taro Milk Tea</p>
+                                </div>
+                                <div className='flex flex-row shrink-0 gap-2'>
+                                    <img src={clock}></img>
+                                    <span class="text-sm leading-6 text-gray-500"> Accepted at: 09:42 AM </span>
+                                </div>
+                                <div className='mt-5 flex justify-between flex-wrap gap-y-4'>
+                                    <button className='font-semibold inline-flex justify-center items-center border border-solid border-slate-300 py-2 px-3 rounded-lg gap-2 text-slate-700'>
+                                        <img src={msg} className='dark:filter dark:invert'></img>
+                                        <p className='dark:text-white'>Message</p>
+                                    </button>
                             
+                                    {/* Pangalawang lalabas */}
+                                    <div className=''>
+                                        <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
+                                            <p>Mark as Picked up</p>
+                                        </button>
+                                    </div>
+                                    {/* pangatlo lalabas */}
+                                    {/* <div className=''>
+                                        <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
+                                            <p>Mark as On The Way</p>
+                                        </button>
+                                    </div> */}
+                                    {/* pang apat lalabas */}
+                                    {/* <div className=''>
+                                        <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
+                                            <p>Mark as Delivered</p>
+                                        </button>
+                                    </div> */}
+                            
+                                </div>
+                            </div>
                         </div>
-
+                        
+                        {/* pending 3 */}
+                        <div>
+                            <div class="group w-full shadow-md bg-white border-2 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600 dark:bg-gray-500 dark:border-gray-800 dark:hover:border-indigo-300">
+                                <div class="relative flex items-center gap-5 mb-6">
+                                    <img src={user} alt="Jane avatar"></img>
+                                    <div class="grid gap-1">
+                                        <h5 class="text-gray-900 font-semibold transition-all duration-500 dark:text-gray-100 text-2xl ">Dimbo</h5>
+                                        <div className='flex flex-row shrink-0 gap-2'>
+                                            <img src={loc} className='dark:filter dark:invert'></img>
+                                            <span class="text-sm leading-6 text-gray-500 dark:text-gray-100"> Dasmariñas, Salawag </span>
+                                        </div>
+                                    </div>
+                            
+                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-amber-200 font-semibold '> {/* 1st na indication */}
+                                        <h1 className='text-amber-500'>Pending</h1>
+                                    </div>
+                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-blue-200 font-semibold hidden'> {/* 2st na indication */}
+                                        <h1 className='text-violet-500'>accepted</h1>
+                                    </div>
+                            
+                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-violet-200 font-semibold hidden'> {/* 3st na indication */}
+                                        <h1 className='text-violet-500'>Picked up</h1>
+                                    </div>
+                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-slate-200 font-semibold hidden'> {/* 4st na indication */}
+                                        <h1 className='text-slate-500'>On The Way</h1>
+                                    </div>
+                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-textgreenColor font-semibold hidden'> {/* 5st na indication */}
+                                        <h1 className='text-white'>Delivered</h1>
+                                    </div>
+                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-red-200 font-semibold hidden'>
+                                        <h1 className='text-red-500'>Cancelled</h1>
+                                    </div>
+                                </div>
+                                <div class="flex items-center mb-1 gap-2 text-amber-500 transition-all duration-500 ">
+                                    <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800 dark:text-white"> <span className='font-semibold text-black dark:text-white'>Items: </span> Bubble Milk Tea, Taro Milk Tea</p>
+                                </div>
+                                <div className='flex flex-row shrink-0 gap-2'>
+                                    <img src={clock}></img>
+                                    <span class="text-sm leading-6 text-gray-500"> Accepted at: 09:42 AM </span>
+                                </div>
+                                <div className='mt-5 flex justify-between flex-wrap gap-y-4'>
+                                    <button className='font-semibold inline-flex justify-center items-center border border-solid border-slate-300 py-2 px-3 rounded-lg gap-2 text-slate-700'>
+                                        <img src={msg} className='dark:filter dark:invert'></img>
+                                        <p className='dark:text-white'>Message</p>
+                                    </button>
+                            
+                                    {/* Pangalawang lalabas */}
+                                    <div className=''>
+                                        <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
+                                            <p>Mark as Picked up</p>
+                                        </button>
+                                    </div>
+                                    {/* pangatlo lalabas */}
+                                    {/* <div className=''>
+                                        <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
+                                            <p>Mark as On The Way</p>
+                                        </button>
+                                    </div> */}
+                                    {/* pang apat lalabas */}
+                                    {/* <div className=''>
+                                        <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
+                                            <p>Mark as Delivered</p>
+                                        </button>
+                                    </div> */}
+                            
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                )}
+                
+                {activeTab === 'active' &&(
+                    <div className='w-full h-fit mt-4 space-y-5 '>
+                        {/* accepted */}
+                        <div class="group w-full shadow-md bg-white border-2 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600">
+                            <div class="relative flex items-center gap-5 mb-6">
+                                <img src={user} alt="Jane avatar"></img>
+                                <div class="grid gap-1">
+                                    <h5 class="text-gray-900 font-medium transition-all duration-500  ">Dimbo</h5>
+                                    <div className='flex flex-row shrink-0 gap-2'>
+                                        <img src={loc}></img>
+                                        <span class="text-sm leading-6 text-gray-500"> Dasmariñas, Salawag </span>
+                                    </div>
+                                </div>
+                                
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-amber-200 font-semibold hidden'>
+                                    <h1 className='text-amber-500'>Pending</h1>
+                                </div>
 
-                        {/* accepted 2 */}
-                    <div class="group w-full shadow-md bg-white border-2 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600">
-                        <div class="relative flex items-center gap-5 mb-6">
-                            <img src={user} alt="Jane avatar"></img>
-                            <div class="grid gap-1">
-                                <h5 class="text-gray-900 font-medium transition-all duration-500  ">Dimbo</h5>
-                                <div className='flex flex-row shrink-0 gap-2'>
-                                    <img src={loc}></img>
-                                    <span class="text-sm leading-6 text-gray-500"> Dasmariñas, Salawag </span>
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-blue-200 font-semibold '>
+                                    <h1 className='text-violet-500'>accepted</h1>
+                                </div>
+                                
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-violet-200 font-semibold hidden'>
+                                    <h1 className='text-violet-500'>Picked up</h1>
+                                </div>
+
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-slate-200 font-semibold hidden'>
+                                    <h1 className='text-slate-500'>On The Way</h1>
+                                </div>
+
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-red-200 font-semibold hidden'>
+                                    <h1 className='text-red-500'>Cancelled</h1>
                                 </div>
                             </div>
-                            
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-amber-200 font-semibold hidden'>
-                                <h1 className='text-amber-500'>Pending</h1>
+
+                            <div class="flex items-center mb-1 gap-2 text-amber-500 transition-all duration-500  ">
+                                <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800"> <span className='font-semibold text-black'>Items: </span> Bubble Milk Tea, Taro Milk Tea</p>
+                            </div>
+                            <div className='flex flex-row shrink-0 gap-2'>
+                                <img src={clock}></img>
+                                <span class="text-sm leading-6 text-gray-500"> Dasmariñas, Salawag </span>
                             </div>
 
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-blue-200 font-semibold '>
-                                <h1 className='text-violet-500'>accepted</h1>
-                            </div>
-                            
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-violet-200 font-semibold hidden'>
-                                <h1 className='text-violet-500'>Picked up</h1>
-                            </div>
-
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-slate-200 font-semibold hidden'>
-                                <h1 className='text-slate-500'>On The Way</h1>
-                            </div>
-
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-red-200 font-semibold hidden'>
-                                <h1 className='text-red-500'>Cancelled</h1>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center mb-1 gap-2 text-amber-500 transition-all duration-500  ">
-                            <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800"> <span className='font-semibold text-black'>Items: </span> Bubble Milk Tea, Taro Milk Tea</p>
-                        </div>
-                        <div className='flex flex-row shrink-0 gap-2'>
-                            <img src={clock}></img>
-                            <span class="text-sm leading-6 text-gray-500"> Dasmariñas, Salawag </span>
-                        </div>
-
-                        <div className='mt-5 flex justify-between'>
-                            <button className='font-semibold inline-flex justify-center items-center border border-solid border-slate-300 py-2 px-3 rounded-lg gap-2 text-slate-700'>
-                                <img src={msg}></img>
-                                <p>Message</p>
-                            </button>
-
-                            {/* ito yung unang lalabas */}
-                            {/* <div className='flex justify-between gap-4'>
-                                <button className='font-normal hover:bg-red-700 transition-all duration-300 bg-red-500 py-2 px-3 rounded-lg gap-2 text-white'>
-                                    <p>Decline</p>
+                            <div className='mt-5 flex justify-between'>
+                                <button className='font-semibold inline-flex justify-center items-center border border-solid border-slate-300 py-2 px-3 rounded-lg gap-2 text-slate-700'>
+                                    <img src={msg}></img>
+                                    <p>Message</p>
                                 </button>
-                                <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-10 rounded-lg gap-2 text-white'>
-                                    <p>Accept</p>
-                                </button>
-                            </div> */}
 
-                            {/* Pangalawang lalabas */}
-                            <div className=''>
-                                <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
-                                    <p>Mark as Picked up</p>
-                                </button>
-                            </div>
-                            
-                        </div>
+                                {/* ito yung unang lalabas */}
+                                {/* <div className='flex justify-between gap-4'>
+                                    <button className='font-normal hover:bg-red-700 transition-all duration-300 bg-red-500 py-2 px-3 rounded-lg gap-2 text-white'>
+                                        <p>Decline</p>
+                                    </button>
+                                    <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-10 rounded-lg gap-2 text-white'>
+                                        <p>Accept</p>
+                                    </button>
+                                </div> */}
 
-                    </div>
-
-                    {/* picked up 3 */}
-                    <div class="group w-full shadow-md bg-white border-2 gap-y-5 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600">
-                        <div class="relative flex items-center gap-5 mb-6">
-                            <img src={user} alt="Jane avatar"></img>
-                            <div class="grid gap-1">
-                                <h5 class="text-gray-900 font-medium transition-all duration-500  ">Bryden</h5>
-                                <div className='flex flex-row shrink-0 gap-2'>
-                                    <img src={loc}></img>
-                                    <span class="text-sm leading-6 text-gray-500"> Imus, Buhay na patay </span>
-                                </div>
-                            </div>
-                            
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-blue-200 font-semibold hidden'>
-                                <h1 className='text-violet-500'>accepted</h1>
-                            </div>
-
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-amber-200 font-semibold hidden'>
-                                <h1 className='text-amber-500'>Pending</h1>
-                            </div>
-                            
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-violet-200 font-semibold '>
-                                <h1 className='text-violet-500'>Picked up</h1>
-                            </div>
-
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-slate-200 font-semibold hidden'>
-                                <h1 className='text-slate-500'>On The Way</h1>
-                            </div>
-
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-red-200 font-semibold hidden'>
-                                <h1 className='text-red-500'>Cancelled</h1>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center mb-1 gap-2 text-amber-500 transition-all duration-500  ">
-                            <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800"> <span className='font-semibold text-black'>Items: </span> Bubble Milk Tea, Taro Milk Tea</p>
-                        </div>
-                        <div className='flex flex-row shrink-0 gap-2'>
-                            <img src={clock}></img>
-                            <span class="text-sm leading-6 text-gray-500"> Dasmariñas, Salawag </span>
-                        </div>
-
-                        <div className='mt-5 flex justify-between'>
-                            <button className='font-semibold inline-flex justify-center items-center border border-solid border-slate-300 py-2 px-3 rounded-lg gap-2 text-slate-700'>
-                                <img src={msg}></img>
-                                <p>Message</p>
-                            </button>
-
-                            {/* <div className='flex justify-between gap-4'>
-                                <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-red-500 py-2 px-3 rounded-lg gap-2 text-white'>
-                                    <p>Decline</p>
-                                </button>
-                                <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-10 rounded-lg gap-2 text-white'>
-                                    <p>Accept</p>
-                                </button>
-                            </div> */}
-
-                                {/* pangatlo lalabas */}
-                            <div className=''>
-                                <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
-                                    <p>Mark as On The Way</p>
-                                </button>
-                            </div>
-
-                            
-                        </div>
-
-                    </div>
-
-                    {/* Delivered 4 */}
-                    <div class="group w-full shadow-md bg-white border-2 gap-y-5 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600">
-                        <div class="relative flex items-center gap-5 mb-6">
-                            <img src={user} alt="Jane avatar"></img>
-                            <div class="grid gap-1">
-                                <h5 class="text-gray-900 font-medium transition-all duration-500  ">Bryden</h5>
-                                <div className='flex flex-row shrink-0 gap-2'>
-                                    <img src={loc}></img>
-                                    <span class="text-sm leading-6 text-gray-500"> Imus, Buhay na patay </span>
-                                </div>
-                            </div>
-                            
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-blue-200 font-semibold hidden'>
-                                <h1 className='text-violet-500'>accepted</h1>
-                            </div>
-
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-amber-200 font-semibold hidden'>
-                                <h1 className='text-amber-500'>Pending</h1>
-                            </div>
-                            
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-violet-200 font-semibold hidden'>
-                                <h1 className='text-violet-500'>Picked up</h1>
-                            </div>
-
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-slate-200 font-semibold '>
-                                <h1 className='text-slate-500'>On The Way</h1>
-                            </div>
-
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-red-200 font-semibold hidden'>
-                                <h1 className='text-red-500'>Cancelled</h1>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center mb-1 gap-2 text-amber-500 transition-all duration-500  ">
-                            <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800"> <span className='font-semibold text-black'>Items: </span> Bubble Milk Tea, Taro Milk Tea</p>
-                        </div>
-                        <div className='flex flex-row shrink-0 gap-2'>
-                            <img src={clock}></img>
-                            <span class="text-sm leading-6 text-gray-500"> Dasmariñas, Salawag </span>
-                        </div>
-
-                        <div className='mt-5 flex justify-between'>
-                            <button className='font-semibold inline-flex justify-center items-center border border-solid border-slate-300 py-2 px-3 rounded-lg gap-2 text-slate-700'>
-                                <img src={msg}></img>
-                                <p>Message</p>
-                            </button>
-
-                            {/* <div className='flex justify-between gap-4'>
-                                <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-red-500 py-2 px-3 rounded-lg gap-2 text-white'>
-                                    <p>Decline</p>
-                                </button>
-                                <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-10 rounded-lg gap-2 text-white'>
-                                    <p>Accept</p>
-                                </button>
-                            </div> */}
-
-                                {/* pang apat lalabas */}
+                                {/* Pangalawang lalabas */}
                                 <div className=''>
-                                <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
-                                    <p>Mark as Delivered</p>
-                                </button>
+                                    <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
+                                        <p>Mark as Picked up</p>
+                                    </button>
+                                </div>
+                                
                             </div>
 
-                            
                         </div>
 
-                    </div>
+                        {/* picked up */}
+                        <div class="group w-full shadow-md bg-white border-2 gap-y-5 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600">
+                            <div class="relative flex items-center gap-5 mb-6">
+                                <img src={user} alt="Jane avatar"></img>
+                                <div class="grid gap-1">
+                                    <h5 class="text-gray-900 font-medium transition-all duration-500  ">Bryden</h5>
+                                    <div className='flex flex-row shrink-0 gap-2'>
+                                        <img src={loc}></img>
+                                        <span class="text-sm leading-6 text-gray-500"> Imus, Buhay na patay </span>
+                                    </div>
+                                </div>
+                                
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-blue-200 font-semibold hidden'>
+                                    <h1 className='text-violet-500'>accepted</h1>
+                                </div>
 
-                    {/* Delivered 5 */}
-                    <div class="group w-full shadow-md bg-white border-2 gap-y-5 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600">
-                        <div class="relative flex items-center gap-5 mb-6">
-                            <img src={user} alt="Jane avatar"></img>
-                            <div class="grid gap-1">
-                                <h5 class="text-gray-900 font-medium transition-all duration-500  ">Bryden</h5>
-                                <div className='flex flex-row shrink-0 gap-2'>
-                                    <img src={loc}></img>
-                                    <span class="text-sm leading-6 text-gray-500"> Imus, Buhay na patay </span>
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-amber-200 font-semibold hidden'>
+                                    <h1 className='text-amber-500'>Pending</h1>
+                                </div>
+                                
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-violet-200 font-semibold '>
+                                    <h1 className='text-violet-500'>Picked up</h1>
+                                </div>
+
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-slate-200 font-semibold hidden'>
+                                    <h1 className='text-slate-500'>On The Way</h1>
+                                </div>
+
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-red-200 font-semibold hidden'>
+                                    <h1 className='text-red-500'>Cancelled</h1>
                                 </div>
                             </div>
-                            
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-blue-200 font-semibold hidden'>
-                                <h1 className='text-violet-500'>accepted</h1>
+
+                            <div class="flex items-center mb-1 gap-2 text-amber-500 transition-all duration-500  ">
+                                <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800"> <span className='font-semibold text-black'>Items: </span> Bubble Milk Tea, Taro Milk Tea</p>
+                            </div>
+                            <div className='flex flex-row shrink-0 gap-2'>
+                                <img src={clock}></img>
+                                <span class="text-sm leading-6 text-gray-500"> Dasmariñas, Salawag </span>
                             </div>
 
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-amber-200 font-semibold hidden'>
-                                <h1 className='text-amber-500'>Pending</h1>
-                            </div>
-                            
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-violet-200 font-semibold hidden'>
-                                <h1 className='text-violet-500'>Picked up</h1>
-                            </div>
-
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-slate-200 font-semibold hidden'>
-                                <h1 className='text-slate-500'>On The Way</h1>
-                            </div>
-
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-textgreenColor font-semibold '>
-                                <h1 className='text-white'>Delivered</h1>
-                            </div>
-
-                            <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-red-200 font-semibold hidden'>
-                                <h1 className='text-red-500'>Cancelled</h1>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center mb-1 gap-2 text-amber-500 transition-all duration-500  ">
-                            <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800"> <span className='font-semibold text-black'>Items: </span> Bubble Milk Tea, Taro Milk Tea</p>
-                        </div>
-                        <div className='flex flex-row shrink-0 gap-2'>
-                            <img src={clock}></img>
-                            <span class="text-sm leading-6 text-gray-500"> Dasmariñas, Salawag </span>
-                        </div>
-
-                        <div className='mt-5 flex justify-between'>
-                            <button className='font-semibold inline-flex justify-center items-center border border-solid border-slate-300 py-2 px-3 rounded-lg gap-2 text-slate-700'>
-                                <img src={msg}></img>
-                                <p>Message</p>
-                            </button>
-
-                            {/* <div className='flex justify-between gap-4'>
-                                <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-red-500 py-2 px-3 rounded-lg gap-2 text-white'>
-                                    <p>Decline</p>
+                            <div className='mt-5 flex justify-between'>
+                                <button className='font-semibold inline-flex justify-center items-center border border-solid border-slate-300 py-2 px-3 rounded-lg gap-2 text-slate-700'>
+                                    <img src={msg}></img>
+                                    <p>Message</p>
                                 </button>
-                                <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-10 rounded-lg gap-2 text-white'>
-                                    <p>Accept</p>
-                                </button>
-                            </div> */}
 
-                                {/* pang apat lalabas */}
+                                {/* <div className='flex justify-between gap-4'>
+                                    <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-red-500 py-2 px-3 rounded-lg gap-2 text-white'>
+                                        <p>Decline</p>
+                                    </button>
+                                    <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-10 rounded-lg gap-2 text-white'>
+                                        <p>Accept</p>
+                                    </button>
+                                </div> */}
+
+                                    {/* pangatlo lalabas */}
                                 <div className=''>
-                                <button className='font-semibold border-2 border-solid hover:bg-textgreenColor hover:text-white transition-all duration-300 border-textgreenColor py-2 px-3 rounded-lg gap-2 text-slate-700'>
-                                    <p>View Order Detials</p>
-                                </button>
+                                    <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
+                                        <p>Mark as On The Way</p>
+                                    </button>
+                                </div>
+
+                                
                             </div>
 
-                            
                         </div>
 
                     </div>
-                </div>
+                )}
+                
+                {activeTab === 'complete' &&(
+                    <div className='w-full h-fit mt-4 space-y-5 '>
+                        
+                        {/* Delivered 5 */}
+                        <div class="group w-full shadow-md bg-white border-2 gap-y-5 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600">
+                            <div class="relative flex items-center gap-5 mb-6">
+                                <img src={user} alt="Jane avatar"></img>
+                                <div class="grid gap-1">
+                                    <h5 class="text-gray-900 font-medium transition-all duration-500  ">Bryden</h5>
+                                    <div className='flex flex-row shrink-0 gap-2'>
+                                        <img src={loc}></img>
+                                        <span class="text-sm leading-6 text-gray-500"> Imus, Buhay na patay </span>
+                                    </div>
+                                </div>
+                                
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-blue-200 font-semibold hidden'>
+                                    <h1 className='text-violet-500'>accepted</h1>
+                                </div>
+
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-amber-200 font-semibold hidden'>
+                                    <h1 className='text-amber-500'>Pending</h1>
+                                </div>
+                                
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-violet-200 font-semibold hidden'>
+                                    <h1 className='text-violet-500'>Picked up</h1>
+                                </div>
+
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-slate-200 font-semibold hidden'>
+                                    <h1 className='text-slate-500'>On The Way</h1>
+                                </div>
+
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-textgreenColor font-semibold '>
+                                    <h1 className='text-white'>Delivered</h1>
+                                </div>
+
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-red-200 font-semibold hidden'>
+                                    <h1 className='text-red-500'>Cancelled</h1>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center mb-1 gap-2 text-amber-500 transition-all duration-500  ">
+                                <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800"> <span className='font-semibold text-black'>Items: </span> Bubble Milk Tea, Taro Milk Tea</p>
+                            </div>
+                            <div className='flex flex-row shrink-0 gap-2'>
+                                <img src={clock}></img>
+                                <span class="text-sm leading-6 text-gray-500"> Dasmariñas, Salawag </span>
+                            </div>
+
+                            <div className='mt-5 flex justify-between'>
+                                <button className='font-semibold inline-flex justify-center items-center border border-solid border-slate-300 py-2 px-3 rounded-lg gap-2 text-slate-700'>
+                                    <img src={msg}></img>
+                                    <p>Message</p>
+                                </button>
+
+                                {/* <div className='flex justify-between gap-4'>
+                                    <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-red-500 py-2 px-3 rounded-lg gap-2 text-white'>
+                                        <p>Decline</p>
+                                    </button>
+                                    <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-10 rounded-lg gap-2 text-white'>
+                                        <p>Accept</p>
+                                    </button>
+                                </div> */}
+
+                                    {/* pang apat lalabas */}
+                                    <div className=''>
+                                    <button className='font-semibold border-2 border-solid hover:bg-textgreenColor hover:text-white transition-all duration-300 border-textgreenColor py-2 px-3 rounded-lg gap-2 text-slate-700'>
+                                        <p>View Order Detials</p>
+                                    </button>
+                                </div>
+
+                                
+                            </div>
+
+                        </div>
+                        {/* Delivered 5 */}
+                        <div class="group w-full shadow-md bg-white border-2 gap-y-5 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600">
+                            <div class="relative flex items-center gap-5 mb-6">
+                                <img src={user} alt="Jane avatar"></img>
+                                <div class="grid gap-1">
+                                    <h5 class="text-gray-900 font-medium transition-all duration-500  ">Bryden</h5>
+                                    <div className='flex flex-row shrink-0 gap-2'>
+                                        <img src={loc}></img>
+                                        <span class="text-sm leading-6 text-gray-500"> Imus, Buhay na patay </span>
+                                    </div>
+                                </div>
+                                
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-blue-200 font-semibold hidden'>
+                                    <h1 className='text-violet-500'>accepted</h1>
+                                </div>
+
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-amber-200 font-semibold hidden'>
+                                    <h1 className='text-amber-500'>Pending</h1>
+                                </div>
+                                
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-violet-200 font-semibold hidden'>
+                                    <h1 className='text-violet-500'>Picked up</h1>
+                                </div>
+
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-slate-200 font-semibold hidden'>
+                                    <h1 className='text-slate-500'>On The Way</h1>
+                                </div>
+
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-textgreenColor font-semibold '>
+                                    <h1 className='text-white'>Delivered</h1>
+                                </div>
+
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-red-200 font-semibold hidden'>
+                                    <h1 className='text-red-500'>Cancelled</h1>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center mb-1 gap-2 text-amber-500 transition-all duration-500  ">
+                                <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800"> <span className='font-semibold text-black'>Items: </span> Bubble Milk Tea, Taro Milk Tea</p>
+                            </div>
+                            <div className='flex flex-row shrink-0 gap-2'>
+                                <img src={clock}></img>
+                                <span class="text-sm leading-6 text-gray-500"> Dasmariñas, Salawag </span>
+                            </div>
+
+                            <div className='mt-5 flex justify-between'>
+                                <button className='font-semibold inline-flex justify-center items-center border border-solid border-slate-300 py-2 px-3 rounded-lg gap-2 text-slate-700'>
+                                    <img src={msg}></img>
+                                    <p>Message</p>
+                                </button>
+
+                                {/* <div className='flex justify-between gap-4'>
+                                    <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-red-500 py-2 px-3 rounded-lg gap-2 text-white'>
+                                        <p>Decline</p>
+                                    </button>
+                                    <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-10 rounded-lg gap-2 text-white'>
+                                        <p>Accept</p>
+                                    </button>
+                                </div> */}
+
+                                    {/* pang apat lalabas */}
+                                    <div className=''>
+                                    <button className='font-semibold border-2 border-solid hover:bg-textgreenColor hover:text-white transition-all duration-300 border-textgreenColor py-2 px-3 rounded-lg gap-2 text-slate-700'>
+                                        <p>View Order Detials</p>
+                                    </button>
+                                </div>
+
+                                
+                            </div>
+
+                        </div>
+                        {/* Delivered 5 */}
+                        <div class="group w-full shadow-md bg-white border-2 gap-y-5 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600">
+                            <div class="relative flex items-center gap-5 mb-6">
+                                <img src={user} alt="Jane avatar"></img>
+                                <div class="grid gap-1">
+                                    <h5 class="text-gray-900 font-medium transition-all duration-500  ">Bryden</h5>
+                                    <div className='flex flex-row shrink-0 gap-2'>
+                                        <img src={loc}></img>
+                                        <span class="text-sm leading-6 text-gray-500"> Imus, Buhay na patay </span>
+                                    </div>
+                                </div>
+                                
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-blue-200 font-semibold hidden'>
+                                    <h1 className='text-violet-500'>accepted</h1>
+                                </div>
+
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-amber-200 font-semibold hidden'>
+                                    <h1 className='text-amber-500'>Pending</h1>
+                                </div>
+                                
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-violet-200 font-semibold hidden'>
+                                    <h1 className='text-violet-500'>Picked up</h1>
+                                </div>
+
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-slate-200 font-semibold hidden'>
+                                    <h1 className='text-slate-500'>On The Way</h1>
+                                </div>
+
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-textgreenColor font-semibold '>
+                                    <h1 className='text-white'>Delivered</h1>
+                                </div>
+
+                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-red-200 font-semibold hidden'>
+                                    <h1 className='text-red-500'>Cancelled</h1>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center mb-1 gap-2 text-amber-500 transition-all duration-500  ">
+                                <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800"> <span className='font-semibold text-black'>Items: </span> Bubble Milk Tea, Taro Milk Tea</p>
+                            </div>
+                            <div className='flex flex-row shrink-0 gap-2'>
+                                <img src={clock}></img>
+                                <span class="text-sm leading-6 text-gray-500"> Dasmariñas, Salawag </span>
+                            </div>
+
+                            <div className='mt-5 flex justify-between'>
+                                <button className='font-semibold inline-flex justify-center items-center border border-solid border-slate-300 py-2 px-3 rounded-lg gap-2 text-slate-700'>
+                                    <img src={msg}></img>
+                                    <p>Message</p>
+                                </button>
+
+                                {/* <div className='flex justify-between gap-4'>
+                                    <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-red-500 py-2 px-3 rounded-lg gap-2 text-white'>
+                                        <p>Decline</p>
+                                    </button>
+                                    <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-10 rounded-lg gap-2 text-white'>
+                                        <p>Accept</p>
+                                    </button>
+                                </div> */}
+
+                                    {/* pang apat lalabas */}
+                                    <div className=''>
+                                    <button className='font-semibold border-2 border-solid hover:bg-textgreenColor hover:text-white transition-all duration-300 border-textgreenColor py-2 px-3 rounded-lg gap-2 text-slate-700'>
+                                        <p>View Order Detials</p>
+                                    </button>
+                                </div>
+
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                )}
 
             </div>
         </div>

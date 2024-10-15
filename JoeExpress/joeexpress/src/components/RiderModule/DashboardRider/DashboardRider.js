@@ -206,22 +206,12 @@ export default function DashboardRider() {
                                         <p className='dark:text-white'>Message</p>
                                     </button>
 
-                                    {/* ito yung unang lalabas */}
-                                    <div className='flex justify-between gap-4 flex-wrap'>
-                                        <button className='font-normal hover:bg-red-700 transition-all duration-300 bg-red-500 py-2 px-3 rounded-lg gap-2 text-white'>
-                                            <p>Decline</p>
-                                        </button>
-                                        <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-10 rounded-lg gap-2 text-white'>
-                                            <p>Accept</p>
-                                        </button>
-                                    </div>
-
                                     {/* Pangalawang lalabas */}
-                                    {/* <div className=''>
+                                    <div className=''>
                                         <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
                                             <p>Mark as Picked up</p>
                                         </button>
-                                    </div> */}
+                                    </div>
 
                                     {/* pangatlo lalabas */}
                                     {/* <div className=''>
