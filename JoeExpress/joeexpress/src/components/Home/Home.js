@@ -978,7 +978,7 @@ function Home() {
               <img
                 src={image1}
                 alt="beans"
-                class="absolute top-10 right-0 w-[60px] sm:w-[100px] md:w-[150px] lg:w-[200px] rotate-[-20deg] z-0 opacity-50"
+                class="absolute top-10 right-10 w-[60px] sm:w-[100px] md:w-[150px] lg:w-[200px] rotate-[-20deg] z-0 opacity-50"
               />
             </div>
 
