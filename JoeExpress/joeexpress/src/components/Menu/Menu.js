@@ -422,7 +422,7 @@ const rightNav = () => {
             
           {/* <!-- dropdown category button --> */}
           <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="flex justify-center items-center mx-auto bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300 lg:hidden md:block">
-            Category Menu
+            All Items
           </button>
             
           {/* <!-- category menu --> */}
@@ -430,29 +430,26 @@ const rightNav = () => {
               <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                 
                   <li >
-                  <button class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('mt-series');">MilkTea Series</button>
+                  <button class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('mt-series');">Signature Beverages</button>
                 </li>
 
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('fm-series');">Fresh Milk Series</a>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('fm-series');">Hot Coffee</a>
                 </li>
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('mc-series');">Macchiato Series</a>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('mc-series');">Iced Black Coffee</a>
                 </li>
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('cf-series');">Coffee Series</a>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('cf-series');">Iced Coffee Latte</a>
                 </li>
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('fp-series');">Frappe Series</a>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('fp-series');">Iced Blended</a>
                 </li>
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('ft-series');">Fruity Series</a>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('ft-series');">Milk Tea</a>
                 </li>
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('ml-series');">Milo Series</a>
-                </li>
-                <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('bt-series');">Brewed Tea Series</a>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('ml-series');">Refreshers</a>
                 </li>
               </ul>
           </div>
