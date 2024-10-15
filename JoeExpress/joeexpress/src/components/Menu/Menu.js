@@ -539,9 +539,6 @@ const rightNav = () => {
             <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
               <a href={cmsInstagram} target="_blank" rel="noopener noreferrer"><img src={ig} alt=""></img></a>
             </button>
-            <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-              <a href={cmsLink} target="_blank" rel="noopener noreferrer"><img src={yt} alt=""></img></a>
-            </button>
           </div>
         </div>
 
