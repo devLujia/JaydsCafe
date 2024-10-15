@@ -1,16 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import jayds1 from '../image/jaydsCoffee.svg';
+import jayds2 from '../image/jaydsCoffee2.svg';
 import image1 from '../image/bg_bean.png';
 import milk from '../image/milk(menu).svg';
+import milktea from '../image/milktea(menu).svg';
+import fruity from '../image/fruity(menu).svg';
+import addons from '../image/addons(menu).svg';
+import arrowleft from '../image/arrow left.png';
 import arrowright from '../image/arrow right.png';
 import fb from '../image/fb.svg';
 import ig from '../image/ig.svg';
 import userIcon from '../image/UserAcc.svg';
 import bagIcon from '../image/bag.svg';
-import milktea from '../image/milktea.png';
-// import fruity from '../image/fruity(menu).png';
+import image2 from '../image/bg_bean2.png';
+import image3 from '../image/milktea.png';
 import image11 from '../image/menu.png';
+import aboutUsImage from '../image/AboutUs.png';
+import beansImage from '../image/coffe_bean.png';
 import chat from '../image/chat.svg';
 import MapModal from '../Map/Map';
 import AOS from 'aos';
@@ -18,8 +26,7 @@ import 'aos/dist/aos.css';
 //import { io } from 'socket.io-client';
 import Terms from '../UserModal/TermsAndCondition/Terms'
 import ChatComponent from '../UserModal/ChatService/ChatComponent'
-import AddOrder from '../UserModal/AddOrder'
-//import socket from '../AdminModule/Message/socketService';
+import socket from '../AdminModule/Message/socketService';
 
 //const socket = io('http://localhost:3000');
 
@@ -77,9 +84,7 @@ function Home() {
   const [orderNotif, setOrderNotif] = useState(0);
   const [TermsModal,setTermsModal] = useState(false); //modal
   const [ChatModal,setChatModal] = useState(false); //modal
-  const [selectedFoodId, setSelectedFoodId] = useState(null);
-  const [addAddorderModal,setAddAddorderModal] = useState(false);
-  // const array = [milktea, fruity, milk];
+
   // modal
   const toggleTermsAndCondiotion = () =>{
     setTermsModal(!TermsModal)
@@ -430,6 +435,7 @@ function Home() {
       }
     }
 
+    // Chatbot functionality
     const chatbox = document.getElementById('chatbox');
     const chatContainer = document.getElementById('chat-container');
     const userInput = document.getElementById('user-input');
@@ -656,16 +662,6 @@ function Home() {
     setCategoryId(id);
   }
 
-  const toggleAddAddorderModal = (foodId = null) => {
-    // Set the selected foodId when opening the modal
-    if (foodId) {
-      setSelectedFoodId(foodId);
-    }
-  
-    // Toggle the modal visibility
-    setAddAddorderModal(!addAddorderModal);
-  };
-
   const handleLogout = async () => {
     try {
       const res = await axios.post('http://localhost:8081/logout');
@@ -692,7 +688,6 @@ function Home() {
     {mapModal && <MapModal closeModal ={() => setMapModal(!mapModal)} />}
     {TermsModal && <Terms closeModal={setTermsModal}/>}
     {TermsModal && <Terms closeModal={setTermsModal}/>}
-    {addAddorderModal && <AddOrder closeModal={setAddAddorderModal} foodId={selectedFoodId} />}
 
     {/* <!-- nav --> */}
     <nav class="sticky top-0 bg-white z-20 shadow-lg">
@@ -1025,24 +1020,7 @@ function Home() {
                 </div>
                 ))}
               </div>
-<<<<<<< HEAD
             </div>
-=======
-              <div class=" flex justify-end">
-              <button
-                  onClick={authenticated ? () => toggleAddAddorderModal(food.id) : null} 
-                  className="text-white outline hover:text-black hover:bg-jaydsBg outline-white hover:outline-greenColor font-bold py-2 px-4 rounded-md"
-                >
-                  {authenticated ? 'BUY NOW' : <Link to="/login">Login to Add to Cart</Link>}
-                </button>
-                
-                {/* <button onClick={handleNavigate} 
-                class="text-white outline hover:text-black hover:bg-jaydsBg outline-white hover:outline-greenColor font-bold py-2 px-4 rounded-md" >
-                  BUY NOW
-                </button> */}
-              </div>
-            </div>))}
->>>>>>> cc7081ecfefcab5b78fc6e0c53b35f1fed294528
 
             {/* <!-- Background Coffee (Bottom Left) --> */}
             <div class="relative">
@@ -1072,13 +1050,13 @@ function Home() {
               <button class="menu_category" onClick={()=>handleCategory(categories.id)}><img src={milk} alt={categories.title}></img>{categories.title}</button>
             </React.Fragment>
           ))}
-              {/* <a href="#offer" class="menu_category" onClick="toggleVisibility('mt');"><img src={milktea} alt=""></img>Milk Tea</a>
-              <a href="#offer" class="menu_category" onClick="toggleVisibility('ft');"><img src={fruity} alt=""></img>Fruity</a>
-              <a href="#offer" class="menu_category" onClick="toggleVisibility('ic');"><img src={milktea} alt=""></img>Iced Coffee
-              </a>
-              <a href="#offer" class="menu_category" onClick="toggleVisibility('ao');"><img src={addons}  alt=""></img>Add Ons</a>
-              <a href="#offer" class="menu_category" onClick="toggleVisibility('tea');"><img src={milktea}  alt=""></img>Tea</a>
-              <a href="#offer" class="menu_category" onClick="toggleVisibility('sk');"><img src={milktea}  alt=""></img>Snacks</a> */}
+          {/* <a href="#offer" class="menu_category" onClick="toggleVisibility('mt');"><img src={milktea} alt=""></img>Milk Tea</a>
+          <a href="#offer" class="menu_category" onClick="toggleVisibility('ft');"><img src={fruity} alt=""></img>Fruity</a>
+          <a href="#offer" class="menu_category" onClick="toggleVisibility('ic');"><img src={milktea} alt=""></img>Iced Coffee
+          </a>
+          <a href="#offer" class="menu_category" onClick="toggleVisibility('ao');"><img src={addons}  alt=""></img>Add Ons</a>
+          <a href="#offer" class="menu_category" onClick="toggleVisibility('tea');"><img src={milktea}  alt=""></img>Tea</a>
+          <a href="#offer" class="menu_category" onClick="toggleVisibility('sk');"><img src={milktea}  alt=""></img>Snacks</a> */}
         </div>
 
         <div id="all"> {/* <!-- Div For All Items--> */}
@@ -1102,15 +1080,12 @@ function Home() {
                 <div class="relative text-white px-3 pb-6 mt-1 align-baseline">
                   <div class="flex justify-between">
                     <span class="block font-semibold text-xl">{menus.name}</span>
-                    <span class="bg-white rounded-full text-gray-900 text-md font-bold px-3 py-2 leading-none flex items-center">₱{menus.price}.00</span>
+                    <span class="bg-white rounded-full text-gray-900 text-md font-bold px-3 py-2 leading-none flex items-center">₱{menus.Large}.00</span>
                   </div>
                   <span class="block opacity-75 -mb-1">Large</span>
                   
-                  <button
-                      onClick={authenticated ? () => toggleAddAddorderModal(menus.id) : null} 
-                      className="flex justify-center items-center mx-auto mt-6 bg-greenColor p-2 rounded-lg hover:scale-110 duration-300"
-                    >
-                      {authenticated ? 'Add to Cart' : <Link to="/login">Login to Add to Cart</Link>}
+                    <button class="flex justify-center items-center mx-auto mt-6 bg-greenColor p-2 rounded-lg hover:scale-110 duration-300">
+                      <Link to={'/navlogin'}>Add to Cart</Link>
                     </button>
                     
                 </div>
