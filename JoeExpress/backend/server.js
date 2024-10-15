@@ -83,14 +83,27 @@ app.get('/',(req,res)=>{
 app.get('/admin',(req,res)=>{
     
     if(req.session.name && req.session.role === 'admin'){
-        return res.json({valid:true, name: req.session.name, userId: req.session.userId})
+        return res.json({
+            valid:true, name: req.session.name, userId: req.session.userId, role: req.session.role
+        })
     }
+    else if(req.session.name && req.session.role === 'cashier'){
+        return res.json({
+            valid:true, name: req.session.name, userId: req.session.userId, role: req.session.role
+        })
+    }
+    
+    else if(req.session.name && req.session.role === 'rider'){
+        return res.json({
+            valid:true, name: req.session.name, userId: req.session.userId, role: req.session.role
+        })
+    }
+
     else{
         return res.json({valid: false})
     }
 
 }) 
-
 
 
 app.post('/cms', (req, res) => {
@@ -848,6 +861,22 @@ app.post('/adminlogin',async (req, res) => {
             req.session.name = name;
             req.session.role = 'admin';          
             return res.json({ Login: true });
+        }
+
+        else if (isMatch && data[0].role === 'cashier'){
+            req.session.userId = userData.id;
+            const name = data[0].name;
+            req.session.name = name;
+            req.session.role = 'cashier';          
+            return res.json({ Login: true });
+        }
+        
+        else if (isMatch && data[0].role === 'rider'){
+            req.session.userId = userData.id;
+            const name = data[0].name;
+            req.session.name = name;
+            req.session.role = 'rider';          
+            return res.json({ Login: true});
         }
 
         else{
@@ -1767,7 +1796,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
         const {userId} = req.body
 
-        const query = ` SELECT name, email, pnum, address, verification_token FROM user WHERE id = ? `
+        const query = ` SELECT name, email, pnum, address, role , verification_token FROM user WHERE id = ? `
 
         db.query(query, [userId], (err, result) => {
             if (err) {
@@ -1778,6 +1807,22 @@ app.post('/removeProduct',  async (req, res) =>{
             } 
             
         });
+
+    })
+
+    app.post('/setRoles',(req,res)=>{
+
+        const {roles, user_Id} = req.body
+
+        const query = `UPDATE user SET role = ? where id = ?`
+
+        db.query(query, [roles, user_Id], (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to set role' });
+            }
+            res.json({success: true})          
+        });
+
 
     })
 
