@@ -22,7 +22,7 @@ const ChatComponent = ({ name, room }) => {
     };
   
     joinRoom();
-  }, [name,room]);
+  }, [name,room ]);
 
   // const handleJoinRoom = () => {
   //   if (name && room){
@@ -31,9 +31,7 @@ const ChatComponent = ({ name, room }) => {
   // }
     
   
-
-  const sendMessage = async (e) => {
-    e.preventDefault();
+  const sendMessage = async () => {
 
     if (currentMessage.trim() !== '') {
 
@@ -53,10 +51,11 @@ const ChatComponent = ({ name, room }) => {
       setCurrentMessage('');
     }
     
-    };
+  };
 
-    const handleKeyDown = (event) => {
-      if (event.key === 'Enter' && currentMessage.trim() !== '') {
+    const handleKeyDown = async (e) => {
+      if (e.key === 'Enter' && currentMessage.trim() !== '') {
+        e.preventDefault();
 
          const messageData = {
             author: name,
@@ -69,7 +68,7 @@ const ChatComponent = ({ name, room }) => {
     
           }
 
-          socket.emit("send_message", messageData);
+          await socket.emit("send_message", messageData);
           setMessageList((prevChat) => [...prevChat,  messageData ]);
           setCurrentMessage('');
       }
