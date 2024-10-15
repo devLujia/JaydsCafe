@@ -317,11 +317,10 @@ export default function CustomerAccount() {
                             .map(user => (
                                 <tr key= {user.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center">
                                    
-                                    <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap justify-center dark:text-white">
+                                    <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap justify-start dark:text-white">
                                         <img src={picture} alt="Jese image" class="w-10 h-10 rounded-full"/>
                                         <div class="ps-3">
                                             <div class="text-base font-semibold">{user.name}</div>
-                                            
                                         </div>  
                                     </th>
                                     <td class="px-6 py-5 items-center text-center">

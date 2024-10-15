@@ -393,71 +393,71 @@ const rightNav = () => {
       </nav>
 
       <div class="w-full relative flex justify-center items-center"> {/* <!-- Top Section --> */}
-      <img src={topBG} alt="" class="w-full h-full object-cover"/>
-    <div class="absolute top-0 left-0 w-full h-full"> {/* <!-- buttons and title -->*/}
+        <img src={topBG} alt="" class="w-full h-full object-cover"/>
+        <div class="absolute top-0 left-0 w-full h-full"> {/* <!-- buttons and title -->*/}
 
-        {/* Categories Navs */}
-        <div class="justify-center items-center mx-auto px-52 flex-wrap space-x-3 space-y-2 hidden lg:flex mt-10"> {/* Add margin-top here */}
-            <button 
-                class={`${
-                    categorySearch === 0 ? 'bg-greenColor text-white' : 'bg-white text-black'
-                } text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300`}
-                onClick={() => setCategorySearch(0)}
-            >
-                All Items
-            </button>
+          {/* Categories Navs */}
+          <div class="justify-center items-center mx-auto px-52 flex-wrap space-x-3 space-y-2 hidden lg:flex mt-10"> {/* Add margin-top here */}
+              <button 
+                  class={`${
+                      categorySearch === 0 ? 'bg-greenColor text-white' : 'bg-white text-black'
+                  } text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300`}
+                  onClick={() => setCategorySearch(0)}
+              >
+                  All Items
+              </button>
 
-            {category.map(cat => (
-                <button 
-                    key={cat.id} 
-                    class={`${
-                        categorySearch === cat.id ? 'bg-greenColor text-white' : 'bg-white text-black'
-                    } text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300`}
-                    onClick={() => setCategorySearch(cat.id)}
-                >
-                    {cat.title}
-                </button>
-            ))}
-        </div>
-            
-            {/* <!-- dropdown category button --> */}
-            <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="flex justify-center items-center mx-auto bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300 lg:hidden md:block">
-              Category Menu
-            </button>
-              
-              {/* <!-- category menu --> */}
-              <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                  <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                    
-                      <li >
-                      <button class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('mt-series');">MilkTea Series</button>
-                    </li>
-
-                    <li>
-                      <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('fm-series');">Fresh Milk Series</a>
-                    </li>
-                    <li>
-                      <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('mc-series');">Macchiato Series</a>
-                    </li>
-                    <li>
-                      <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('cf-series');">Coffee Series</a>
-                    </li>
-                    <li>
-                      <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('fp-series');">Frappe Series</a>
-                    </li>
-                    <li>
-                      <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('ft-series');">Fruity Series</a>
-                    </li>
-                    <li>
-                      <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('ml-series');">Milo Series</a>
-                    </li>
-                    <li>
-                      <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('bt-series');">Brewed Tea Series</a>
-                    </li>
-                  </ul>
-              </div>
-          
+              {category.map(cat => (
+                  <button 
+                      key={cat.id} 
+                      class={`${
+                          categorySearch === cat.id ? 'bg-greenColor text-white' : 'bg-white text-black'
+                      } text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300`}
+                      onClick={() => setCategorySearch(cat.id)}
+                  >
+                      {cat.title}
+                  </button>
+              ))}
           </div>
+            
+          {/* <!-- dropdown category button --> */}
+          <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="flex justify-center items-center mx-auto bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300 lg:hidden md:block">
+            Category Menu
+          </button>
+            
+          {/* <!-- category menu --> */}
+          <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                
+                  <li >
+                  <button class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('mt-series');">MilkTea Series</button>
+                </li>
+
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('fm-series');">Fresh Milk Series</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('mc-series');">Macchiato Series</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('cf-series');">Coffee Series</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('fp-series');">Frappe Series</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('ft-series');">Fruity Series</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('ml-series');">Milo Series</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('bt-series');">Brewed Tea Series</a>
+                </li>
+              </ul>
+          </div>
+          
+        </div>
       </div>
 
       <div class="flex flex-col w-3/4 mx-auto md:items-center"> {/* <!-- Main Container-->*/}
