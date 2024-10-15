@@ -299,3 +299,83 @@ nav .link{
 #viewloc{
   background: #067741;
 }
+
+/* Animation for Top Picks of the Today */
+
+@keyframes wave {
+  0% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-10px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  75% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-wave {
+  animation: wave 10s ease-in-out forwards, pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    text-shadow: 0 0 2px rgba(6, 120, 65, 0.3), 
+                 0 0 5px rgba(6, 120, 65, 0.2);
+  }
+  50% {
+    text-shadow: 0 0 5px rgba(6, 120, 65, 0.5), 
+                 0 0 10px rgba(6, 120, 65, 0.4);
+  }
+  100% {
+    text-shadow: 0 0 2px rgba(6, 120, 65, 0.3), 
+                 0 0 5px rgba(6, 120, 65, 0.2);
+  }
+}
+
+.glow-animation {
+  color: #067741;
+  text-shadow: 0 0 1px rgba(6, 120, 65, 0.1), 
+               0 0 2px rgba(6, 120, 65, 0.05);
+  transition: text-shadow 0.3s ease-in-out;
+}
+
+.glow-animation:hover {
+  text-shadow: 0 0 2px rgba(6, 120, 65, 0.2), 
+               0 0 4px rgba(6, 120, 65, 0.1);
+}
+
+
+/* Animation effects for Discover our most loved milk tea flavors, refreshed daily based on what our customers are raving about!*/
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 1.5s ease-in forwards;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+

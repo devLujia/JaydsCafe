@@ -958,81 +958,80 @@ function Home() {
   </div>
 </div>
 
-    {/* <!-- Best Sellers --> */}
-    <div class="bg-white" id="Menu">
-      <h1 class="font-extrabold text-greenColor text-5xl text-center py-8 top-10 z-auto">
-        Top Picks of the Day
-      </h1>
-      <div class="flex justify-center mb-32">
-        <h3 class="text-center text-2xl tracking-wider w-[950px] justify-center text-black">
-          Discover our most loved milk tea flavors, refreshed daily based on what our customers are raving about!
-        </h3>
-      </div>
 
-      {/* <!-- Background Coffee --> */}
-      <div class="relative bg-cover">
-        <img
-          src={image1}
-          alt="beans"
-          class="absolute top-20 right-0 p-14 rotate--20 z-0"
-        />
-      </div>
 
-      {/* <!-- Background Coffee --> */}
-      <div class="relative bg-cover">
-        <img
-          src={image1}
-          alt="beans"
-          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-14 z-0"
-        />
-      </div>
+          {/* <!-- Best Sellers Section --> */}
+          <div class="bg-white min-h-screen pt-14 sm:pt-16 lg:pt-26" id="Menu">
+          <h1 class="font-extrabold text-3xl sm:text-4xl lg:text-5xl text-center py-6 md:py-8 text-green-700 animate-wave glow-animation">
+            Top Picks of the Day
+          </h1>
 
-      {/* <!-- cards --> */}
-      <div class="container mx-auto p-4 flex justify-center">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 py-5"> {/* flex flex-wrap justify-center gap-x-20 gap-y-32 px-32 py-3 */}
+            {/* <!-- Subheading --> */}
+            <div class="flex justify-center mb-6 md:mb-8 px-4">
+              <h3 class="text-center text-sm sm:text-base md:text-lg lg:text-xl tracking-wide w-full md:w-[80%] lg:w-[60%] text-black opacity-0 animate-fade-in">
+                Discover our most loved milk tea flavors, refreshed daily based on what our customers are raving about!
+              </h3>
+            </div>
 
-          {/* <!-- Card 1.2 --> */}
+            {/* <!-- Background Coffee (Top Right) --> */}
+            <div class="relative">
+              <img
+                src={image1}
+                alt="beans"
+                class="absolute top-10 right-0 w-[60px] sm:w-[100px] md:w-[150px] lg:w-[200px] rotate-[-20deg] z-0 opacity-50"
+              />
+            </div>
 
-          {foods.map(food =>(
-            <div key={food.id} class=" z-10 relative flex flex-col p-4 rounded-xl bg-clip-border text-gray-700 shadow-md outline outline-[6px] outline-greenColor hover:bg-greenColor hover:text-white transition duration-300 overflow-visible" data-aos="zoom-in" data-aos-duration="1000" data-aos-easing="ease-out-cubic" >
-            
-              <div class="z-10 relative mx-4 mt-[-130px] h-56 rounded-xl bg-blue-gray-500 bg-clip-border hover:scale-110 duration-500">
-                <img src={food.image_url} alt="" layout="fill" class="object-contain w-full h-full"/>
-              </div>
-              <div>
-                <h1 class="text-2xl font-bold mt-4 mb-2 hover:text-white">
-                  {food.name} 
-                </h1>
-
-                <div class="min-h-32">
-                  <p class="text-start text-xs tracking-wider min-w-36">
-                    {food.description}
-                    </p>
+            {/* <!-- Cards Section --> */}
+            <div class="container mx-auto p-4 max-w-7xl">
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 py-5 pb-12">
+                {/* Map through the food items */}
+                {foods.map((food) => (
+                  <div key={food.id} class="relative flex flex-col p-4 rounded-xl bg-white shadow-lg transition-transform duration-300 hover:shadow-2xl hover:scale-105 group border-2 border-[#067741] before:content-[''] before:absolute before:inset-0 before:rounded-xl before:border-2 before:border-dashed before:border-[#E5F5EE] before:-z-10 transition duration-300 overflow-visible" data-aos="zoom-in" data-aos-duration="1000" data-aos-easing="ease-out-cubic">
+                  {/* Image container */}
+                  <div class="relative mx-auto w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 bg-[#E5F5EE] rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105">
+                    <img src={food.image_url} alt={food.name} class="object-contain w-full h-full transition-transform duration-300"/>
+                  </div>
+                
+                  {/* Food Info */}
+                  <div class="mt-4 text-center">
+                    <h2 class="text-lg sm:text-xl font-semibold mb-2 text-black transition-colors duration-300 hover:text-[#055F32]">
+                      {food.name}
+                    </h2>
+                    <p class="text-sm text-gray-600 transition-opacity duration-300 group-hover:opacity-75">{food.description}</p>
+                    <div class="flex justify-between items-center mt-4">
+                      <span class="text-sm font-bold text-[#067741]">16oz</span>
+                    </div>
+                  </div>
+                
+                  {/* Buy Now Button */}
+                  <div class="flex justify-between items-center mt-4">
+                  <p className="text-2xl font-bold">₱ {food.price}.00</p>
+                  <button
+                    onClick={handleNavigate}
+                    class="relative bg-[#067741] text-white font-semibold py-2 px-4 rounded-full transition-all duration-500 ease-out transform hover:scale-110 hover:bg-gradient-to-r hover:from-[#067741] hover:to-[#055F32] hover:border-2 hover:border-white hover:shadow-[0_0_15px_rgba(6,119,65,0.5)] hover:rotate-1 group"
+                  >
+                    <span class="absolute inset-0 rounded-full opacity-0 bg-white blur-sm transition-opacity duration-500 group-hover:opacity-20"></span>
+                    <span class="relative z-10">Buy Now!</span>
+                  </button>
                 </div>
 
-                <div class="flex justify-between items-center mt-4 w-full">
-                  <span>20ML</span>
+
                 </div>
+                ))}
               </div>
-              <div class=" flex justify-end">
-                <button onClick={handleNavigate} class="text-white outline hover:text-black hover:bg-jaydsBg outline-white hover:outline-greenColor font-bold py-2 px-4 rounded-md" >
-                  BUY NOW
-                </button>
-              </div>
-            </div>))}
+            </div>
 
-        </div>
-      </div>
+            {/* <!-- Background Coffee (Bottom Left) --> */}
+            <div class="relative">
+              <img
+                src={image1}
+                alt="beans"
+                class="absolute bottom-0 left-0 w-[60px] sm:w-[100px] md:w-[150px] lg:w-[200px] z-0 opacity-50"
+              />
+            </div>
+          </div>
 
-      {/* <!-- Background Coffee --> */}
-      <div class="relative bg-cover">
-        <img
-          src={image1}
-          alt="beans"
-          class="absolute bottom-0 left-0 p-14 z-0"
-        />
-      </div>
-    </div>
 
     {/* <!-- Menu offering --> */}
     <div class="bg-exportColor w-full mb-10 relative" id="offer">
