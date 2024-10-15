@@ -606,19 +606,19 @@ function AdminDashboard() {
                               {orders.slice(0, 2).map(order => (
                                  <React.Fragment key={order.order_id}>
                                     <tr className="bg-white border-b hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:hover:text-gray-800">
-                                       <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-gray-300">
+                                       <th scope="row" className="text-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-gray-300">
                                           <div className="text-base font-semibold">ORDR#{order.order_id}</div>
                                        </th>
                                        <td className="px-6 py-4 text-center">
                                           {order.name}
                                        </td>
-                                       <td className="px-6 py-4 text-center">
+                                       <td className="px-4 py-4 text-center">
                                           {order.address}
                                        </td>
-                                       <td className="px-6 py-4 text-center">
+                                       <td className="px-4 py-4 text-center">
                                           {order.pnum}
                                        </td>
-                                       <td className="px-6 py-4 text-center">
+                                       <td className="px-4 py-4 text-center">
                                           {new Date(order.order_date).toLocaleString('en-US', {
                                              year: 'numeric',
                                              month: 'long',
@@ -628,36 +628,28 @@ function AdminDashboard() {
                                              second: '2-digit',
                                           })}
                                        </td>
-                                       <td className="px-6 py-4 text-center text-greenColor">
+                                       <td className="px-4 py-4 text-center text-greenColor">
                                        ₱ {order.totalPrice}.00
                                        </td>
-                                       <td className="px-6 py-4">
+                                       <td className="px-4 py-4">
                                           <div className="bg-green-100 text-green-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status}</div>
                                        </td>
-                                       <td className="flex items-center px-6 py-4 space-x-2">
-                                          <div className="h-fit items-center justify-center flex space-x-3 ps-4 mx-auto">
+                                       <td className=" px-3 py-4 gap-2">
+                                          <div className="flex justify-center gap-4 mx-auto w-full">
 
-                                             {/* nag ddouble kasi nasa loop din ata to so lahat ng naka eye is lalabas yung tooltip */}
                                              <span 
                                                 onMouseEnter={() => setShowTooltip(true)}
                                                 onMouseLeave={() => setShowTooltip(false)}>
-                                                <button onClick={() => toggleOrderDetails(order.order_id)} title='View Order'>
-                                                   <img src={eye} alt="eye" className="w-6 h-6" />
+                                                <button onClick={() => toggleOrderDetails(order.order_id)} title='View Order' className='w-8 h-8 flex items-center justify-center '>
+                                                   <img src={eye} alt="eye"/>
                                                 </button>
                                              </span>
 
-                                             {/* {showTooltip && (
-                                                <div className="absolute z-10 inline-block px-3 py-2 text-sm font-medium text-gray-100 bg-black/40 backdrop-blur-sm rounded-lg shadow-sm border border-white">
-                                                      View Order
-                                                      <div className="tooltip-arrow" />
-                                                </div>
-                                             )} */}
-
-                                             <button className="hover:underline hover:decoration-blue-500" title='Remove'>
+                                             <button className="hover:underline hover:decoration-blue-500 className='w-8 h-8 flex items-center justify-center " title='Remove'   >
                                                 <img src={del} alt="trash" />
                                              </button>
 
-                                             <button onClick={() => getTheOrder(order.order_id, order.status)} title='Done'>
+                                             <button onClick={() => getTheOrder(order.order_id, order.status)} title='Done' className='w-8 h-8 flex items-center justify-center '>
                                                 <img src={check} alt="check"/>
                                              </button>
                                           </div>
