@@ -422,7 +422,7 @@ const rightNav = () => {
             
           {/* <!-- dropdown category button --> */}
           <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="flex justify-center items-center mx-auto bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300 lg:hidden md:block">
-            All Items
+                Browse the Menu
           </button>
             
           {/* <!-- category menu --> */}
