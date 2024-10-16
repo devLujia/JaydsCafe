@@ -320,6 +320,19 @@ nav .link{
   }
 }
 
+/* Dynamic wave for add to cart button in menu landing page */
+.wave-effect {
+  background: linear-gradient(90deg, #067741, #06A377);
+  background-size: 200% 100%;
+  transition: background-position 0.4s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.wave-effect:hover {
+  background-position: 100% 0;
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
 .animate-wave {
   animation: wave 10s ease-in-out forwards, pulse 1.5s infinite;
 }
