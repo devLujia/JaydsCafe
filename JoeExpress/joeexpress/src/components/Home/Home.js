@@ -953,8 +953,23 @@ function Home() {
           </div>  
           </div>
   <div className="w-[400px] h-[500px] md:m-auto relative hover:scale-100">
-    <img src={cmsBigLogo} alt="" className="w-[400px] h-[400px] z-10 absolute -top-2 -left-28" data-aos="fade-down-right" data-aos-duration="1500" data-aos-easing="ease-in-sine"></img>
-    <img src={cmsSmallLogo} alt="" className="w-[400px] h-[400px] absolute top-20 left-16" data-aos="fade-down-left" data-aos-duration="1500" data-aos-easing="ease-in-sine"></img>
+                                  <img
+                                  src={cmsBigLogo}
+                                  alt=""
+                                  className="w-[400px] h-[400px] z-10 absolute -top-2 -left-28 float-animation"
+                                  data-aos="fade-down-right"
+                                  data-aos-duration="2000"
+                                  data-aos-easing="ease-in-sine"
+                                />
+
+                                <img
+                                  src={cmsSmallLogo}
+                                  alt=""
+                                  className="w-[400px] h-[400px] absolute top-20 left-16 float-animation"
+                                  data-aos="fade-down-left"
+                                  data-aos-duration="2000"
+                                  data-aos-easing="ease-in-sine"
+                                />
   </div>
 </div>
 
@@ -989,7 +1004,7 @@ function Home() {
                 {foods.map((food) => (
                   <div key={food.id} class="relative flex flex-col p-4 rounded-xl bg-white shadow-lg transition-transform duration-300 hover:shadow-2xl hover:scale-105 group border-2 border-[#067741] before:content-[''] before:absolute before:inset-0 before:rounded-xl before:border-2 before:border-dashed before:border-[#E5F5EE] before:-z-10 transition duration-300 overflow-visible" data-aos="zoom-in" data-aos-duration="1000" data-aos-easing="ease-out-cubic">
                   {/* Image container */}
-                  <div class="relative mx-auto w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 bg-[#E5F5EE] rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105">
+                  <div class="relative mx-auto w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 bg-gradient-to-t from-[#ece0c8] to-[#f5f2e4] rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-110">
                     <img src={food.image_url} alt={food.name} class="object-contain w-full h-full transition-transform duration-300"/>
                   </div>
                 
@@ -1043,10 +1058,10 @@ function Home() {
 
       <div class="flex flex-col justify-center items-center">
         <div class="flex flex-wrap flex-row space-x-8 space-y-2">
-            <button class="menu_category" onClick={()=>handleCategory()}>All Drinks</button>
+            <button class="menu_category border-2 border-green-700" onClick={()=>handleCategory()}>All Drinks</button>
           {category.map(categories => (
             <React.Fragment key={categories.id}>
-              <button class="menu_category" onClick={()=>handleCategory(categories.id)}>{categories.title}</button>
+              <button class="menu_category border-2 border-green-700" onClick={()=>handleCategory(categories.id)}>{categories.title}</button>
             </React.Fragment>
           ))}
         </div>
@@ -1069,12 +1084,12 @@ function Home() {
                   .map((menus) => (
                     <div
                       key={menus.id}
-                      className="flex-shrink-0 relative overflow-hidden bg-gradient-to-b from-gray-100 to-gray-50 border-2 border-gray-200 rounded-3xl max-w-xs shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-300"
+                      className="flex-shrink-0 relative overflow-hidden bg-gradient-to-b from-gray-100 to-gray-50 border-2 border-[#067741] rounded-3xl max-w-xs shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-300"
                     >
                       {/* Image Container with 3D Effect */}
-                      <div className="relative bg-gradient-to-t from-slate-300 to-white p-6 rounded-t-3xl">
+                      <div className="relative bg-gradient-to-t from-[#ece0c8] to-[#f5f2e4] p-6 rounded-t-3xl">
                         <div className="w-full h-40 flex justify-center items-center">
-                          <div className="p-3 overflow-hidden transform hover:rotate-2 hover:scale-105 transition-transform duration-300">
+                          <div className="p-3 overflow-hidden transform hover:rotate-2 hover:scale-110 transition-transform duration-300">
                             <img className="max-w-none max-h-full" src={menus.image_url} alt={menus.name} />
                           </div>
                         </div>
@@ -1084,7 +1099,7 @@ function Home() {
                       <div className="relative text-gray-800 px-4 pb-6 mt-4">
                         <div className="flex justify-between items-center">
                           <span className="font-semibold text-lg text-gray-900">{menus.name}</span>
-                          <span className="bg-[#E5F5EE] rounded-full text-gray-900 text-md font-extrabold px-3 py-1 shadow-md transform transition-transform duration-300 hover:shadow-xl hover:scale-105">
+                          <span className="bg-gray-200 rounded-full text-gray-900 text-md font-extrabold px-3 py-1 shadow-md transform transition-transform duration-300 hover:shadow-xl hover:scale-105">
                             ₱{menus.Medium}.00
                           </span>
                         </div>

@@ -192,7 +192,7 @@ const Login = () => {
       <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">
         <div class="font-extrabold text-2xl flex items-center">
           {/* <!-- Logo/Title in Navbar --> */}
-          <a href="/" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">{cmsName}</a>
+          <a href="/" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide">{cmsName}</a>
         </div>
 {     /* <!-- Button for Login or Sign Up --> */}
         {/* <div class="inline-flex items-center justify-center me-2">
@@ -211,11 +211,11 @@ const Login = () => {
       </nav>
 
     {/* <!-- Form container --> */}
-      <div class="max-w-md mx-auto p-4 mt-2 mb-4 bg-white rounded-xl shadow-md md:max-w-lg md:p-6 md:pt-4 md:mb-6 lg:max-w-lg lg:p-8 lg:pt-6 lg:mb-8">
+      <div class="max-w-md mx-auto p-4 mt-6 mb-6 bg-white rounded-xl shadow-md md:max-w-lg md:p-6 md:pt-4 md:mb-6 lg:max-w-lg lg:p-8 lg:pt-6 lg:mb-8">
         {/* <!-- Image for login --> */}
-        <div class="flex flex-col justify-center items-center mb-10 py-5">
-          <p class="text-2xl mb-3 tracking-wider">WELCOME TO</p>
-          <h1 class="font-extrabold text-6xl tracking-wider text-textgreenColor">{cmsName}</h1>
+        <div class="flex flex-col justify-center items-center mb-6 py-5">
+          <p class="text-2xl mb-3 font-semibold tracking-wider">WELCOME TO</p>
+          <h1 class="font-extrabold text-6xl text-textgreenColor">{cmsName}</h1>
         </div>
 
         <h2 class="text-2xl font-semibold mb-4 text-gray-600">Login</h2>
@@ -313,9 +313,6 @@ const Login = () => {
             <button type='button' 
             class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
               <a href={cmsInstagram} target="_blank" rel="noopener noreferrer"><img src={ig} alt=""></img></a>
-            </button>
-            <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-              <a href={cmsLink} target="_blank" rel="noopener noreferrer"><img src={yt} alt=""></img></a>
             </button>
           </div>
         </div>

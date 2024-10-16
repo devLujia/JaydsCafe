@@ -490,38 +490,66 @@ const rightNav = () => {
               </h1>
 
 
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
+            {/* Card Menu Page */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20">
               {currentFoods.map((food) => (
-                <div key={food.id} className="rounded-lg p-2 shadow-md relative outline outline-slate-300 hover:scale-95 duration-300 hover:bg-jaydsBg">
-                  <div className="rounded-lg bg-darkgreen p-4 aspect-square overflow-hidden">
-                    <img src={food.image_url} alt="Milk Tea" className="w-full h-full object-contain min-h-52 min-w-52"/>
+                <div
+                  key={food.id}
+                  className="relative overflow-hidden bg-gradient-to-b from-[#E5F5EE] to-white border-2 border-[#067741] rounded-3xl w-[270px] h-auto max-w-[370px]  shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-300 flex flex-col"
+                >
+                  {/* Image Container with 3D Effect */}
+                  <div className="relative bg-gradient-to-t from-[#ece0c8] to-[#f5f2e4] p-6 rounded-t-xl">
+                    <div className="w-full h-[160px] flex justify-center items-center">
+                      <div className="p-2 overflow-hidden transform hover:rotate-2 hover:scale-105 transition-transform duration-300">
+                        <img
+                          className="max-w-none max-h-full object-contain"
+                          src={food.image_url}
+                          alt={food.name}
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <h3 className="text-xl font-semibold mt-4 min-h-10">{food.name}</h3>
-                  <p className="text-gray-400 mt-4 text-sm font-semibold">Starts at</p>
-                  <p className="text-2xl font-bold mb-1">₱ {food.price}.00</p>
 
-                  {authenticated ? (
-                    <button
-                      onClick={() => toggleAddAddorderModal(food.id)}
-                      title="Add to cart"
-                      id="btn-cart"
-                      className="bg-slate-200 p-2 w-fit rounded-full absolute right-7 top-[52%] hover:scale-125 duration-300"
-                    >
-                      <img src={cart2} alt="" className="grayscale md:grayscale-0"/>
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => navigate('/login')}
-                      id="btn-cart"
-                      className="bg-gray-300 p-2 w-fit rounded-full absolute right-8 top-[50%] hover:scale-125 duration-300"
-                    >
-                      <img src={cartMenu} alt=""/>
-                    </button>
-                  )}
+                  {/* Info Section */}
+                  <div className="relative text-gray-800 px-4 pb-4 mt-2 flex-grow">
+                    <div className="flex justify-between items-start mb-2">
+                      <span className="font-bold text-lg text-gray-900 w-3/4 overflow-hidden text-ellipsis whitespace-normal">
+                        {food.name}
+                      </span>
+                      <span className="bg-gray-200 rounded-full text--800 text-md font-semibold px-2 py-1 shadow-sm transform transition-transform duration-300 hover:shadow-md hover:scale-105 whitespace-nowrap">
+
+                        <strong>₱ </strong>{food.price}.00
+                      </span>
+                    </div>
+                    <span className="block text-sm opacity-75 text-gray-700 mb-3">
+                      Medium (22oz)
+                    </span>
+
+                    {/* Add to Cart Button */}
+                    <div className="mt-auto">
+                      {authenticated ? (
+                        <button
+                          onClick={() => toggleAddAddorderModal(food.id)}
+                          className="relative overflow-hidden text-white p-3 rounded-lg w-full text-center bg-gradient-to-r from-[#067741] via-[#45A64B] to-[#067741] shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl group"
+                        >
+                          <span className="absolute inset-0 bg-gradient-to-r from-[#1f4d29] via-[#2b6b36] to-[#1f4d29] transition-transform duration-500 transform group-hover:scale-150 group-hover:rotate-45 opacity-25"></span>
+                          <span className="relative">Add to Cart</span>
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => navigate("/login")}
+                          className="relative overflow-hidden text-white p-3 rounded-lg w-full text-center bg-[#067741] shadow-lg transform transition-transform duration-300 hover:shadow-xl hover:scale-105 group"
+                        >
+                          <span className="absolute inset-0 bg-gradient-to-r from-[#1f4d29] to-[#3b7c4a] transition-transform duration-500 transform group-hover:scale-150 group-hover:rotate-45 opacity-25"></span>
+                          <span className="relative">Add to Cart</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
+
 
             {/* Pagination controls */}
             <div className="flex justify-center items-center space-x-4 mt-10 text-sm">
