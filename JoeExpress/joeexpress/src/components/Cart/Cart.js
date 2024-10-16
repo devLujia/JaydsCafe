@@ -291,8 +291,8 @@ function Cart() {
                 {/* <!-- Right side Infos--> */}
 
                 {items.length > 0 ?
-                <div class=" flex justify-center mx-auto py-20">
-                    <div class="min-w-full sticky top-0 bg-white">
+                <div class=" flex justify-center mx-auto top-14 my-8 lg:fixed lg:right-10 bg-blue-400">
+                    <div class="min-w-full bg-white">
 
                          <div className='outline outline-slate-300 rounded-lg py-4'>
                             <h1 class="text-xl font-bold mb-6 tracking-wider  text-center">Select your delivery method</h1>

@@ -727,7 +727,7 @@ function Home() {
           >
             <li>
               <a
-                href="#"
+                href="#Home"
                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                 >Home</a
               >
@@ -1036,67 +1036,70 @@ function Home() {
     {/* <!-- Menu offering --> */}
     <div class="bg-exportColor w-full mb-10 relative" id="offer">
       <h2
-        class="text-4xl font-semibold text-center mb-4 pt-10 text-textgreenColor">
-        Menu Offering
+        class="text-5xl font-bold text-center mb-4 pt-20 text-textgreenColor">
+        Menu Offerings
       </h2>
-      <p class="text-center mb-10 text-xl text-black">A Delicious Variety of Milk Teas, Snacks, and Special Treats</p>
-
+      <p class="text-center mb-10 text-xl text-black">Discover a Delightful Mix of Milk Teas, Main Coffees, and Refreshing Drinks!</p>
 
       <div class="flex flex-col justify-center items-center">
-        <div class="flex flex-wrap flex-row space-x-5 space-y-2">
-            <button class="menu_category" onClick={()=>handleCategory()}><img src={milk} alt=""></img>All Drinks</button>
+        <div class="flex flex-wrap flex-row space-x-8 space-y-2">
+            <button class="menu_category" onClick={()=>handleCategory()}>All Drinks</button>
           {category.map(categories => (
             <React.Fragment key={categories.id}>
-              <button class="menu_category" onClick={()=>handleCategory(categories.id)}><img src={milk} alt={categories.title}></img>{categories.title}</button>
+              <button class="menu_category" onClick={()=>handleCategory(categories.id)}>{categories.title}</button>
             </React.Fragment>
           ))}
-          {/* <a href="#offer" class="menu_category" onClick="toggleVisibility('mt');"><img src={milktea} alt=""></img>Milk Tea</a>
+        </div>
+
+        {/* <a href="#offer" class="menu_category" onClick="toggleVisibility('mt');"><img src={milktea} alt=""></img>Milk Tea</a>
           <a href="#offer" class="menu_category" onClick="toggleVisibility('ft');"><img src={fruity} alt=""></img>Fruity</a>
           <a href="#offer" class="menu_category" onClick="toggleVisibility('ic');"><img src={milktea} alt=""></img>Iced Coffee
           </a>
           <a href="#offer" class="menu_category" onClick="toggleVisibility('ao');"><img src={addons}  alt=""></img>Add Ons</a>
           <a href="#offer" class="menu_category" onClick="toggleVisibility('tea');"><img src={milktea}  alt=""></img>Tea</a>
           <a href="#offer" class="menu_category" onClick="toggleVisibility('sk');"><img src={milktea}  alt=""></img>Snacks</a> */}
-        </div>
 
-        <div id="all"> {/* <!-- Div For All Items--> */}
-          <div class="px-24 py-12 grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-4"> {/* <!-- Card Container--> */}
+           {/* Div For All Items */}
+            <div id="all">
+              <div className="px-4 py-6 md:px-12 md:py-8 lg:px-24 lg:py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {/* Redesigned 3D Card with Enhanced Color Scheme */}
+                {menu
+                  .filter((menus) => !categoryId || menus.category_id === categoryId)
+                  .slice(0, 8)
+                  .map((menus) => (
+                    <div
+                      key={menus.id}
+                      className="flex-shrink-0 relative overflow-hidden bg-gradient-to-b from-gray-100 to-gray-50 border-2 border-gray-200 rounded-3xl max-w-xs shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-300"
+                    >
+                      {/* Image Container with 3D Effect */}
+                      <div className="relative bg-gradient-to-t from-slate-300 to-white p-6 rounded-t-3xl">
+                        <div className="w-full h-40 flex justify-center items-center">
+                          <div className="p-3 overflow-hidden transform hover:rotate-2 hover:scale-105 transition-transform duration-300">
+                            <img className="max-w-none max-h-full" src={menus.image_url} alt={menus.name} />
+                          </div>
+                        </div>
+                      </div>
 
+                      {/* Info Section with Enhanced Color Scheme */}
+                      <div className="relative text-gray-800 px-4 pb-6 mt-4">
+                        <div className="flex justify-between items-center">
+                          <span className="font-semibold text-lg text-gray-900">{menus.name}</span>
+                          <span className="bg-[#E5F5EE] rounded-full text-gray-900 text-md font-extrabold px-3 py-1 shadow-md transform transition-transform duration-300 hover:shadow-xl hover:scale-105">
+                            ₱{menus.Medium}.00
+                          </span>
+                        </div>
+                        <span className="block text-sm opacity-75 text-gray-700">Medium (22oz)</span>
 
-          {menu.filter(menus => (!categoryId || menus.category_id === categoryId)).slice(0,8).map(menus =>(
-              
-              <div class="flex-shrink-0 m-6 relative overflow-hidden bg-jaydsBg outline outline-greenColor rounded-lg max-w-xs shadow-lg hover:scale-110 duration-500">
-              <svg class="absolute bottom-0 left-0 mb-8" viewBox="0 0 375 283" fill="none" style={styleCard}>
-                <rect x="159.52" y="175" width="152" height="152" rx="8" transform="rotate(-45 159.52 175)" fill="brown"/>
-                <rect y="107.48" width="152" height="152" rx="8" transform="rotate(-45 0 107.48)" fill="red"/>
-              </svg>
-              <div class="relative flex flex-col h-full">
-                <div class="flex-1">
-                  <div class="relative pt-5 px-10 flex items-center justify-center">
-                    <div class="block absolute w-48 h-48 bottom-0 left-0 -mb-24 ml-3" style={styleCard2}></div> {/* <!-- Shadow Effect--> */}
-                    <img class="relative w-40" src="/public/image/caramel.png" alt=""></img>
-                  </div>
-                </div>
-                <div class="relative text-white px-3 pb-6 mt-1 align-baseline">
-                  <div class="flex justify-between">
-                    <span class="block font-semibold text-xl">{menus.name}</span>
-                    <span class="bg-white rounded-full text-gray-900 text-md font-bold px-3 py-2 leading-none flex items-center">₱{menus.Large}.00</span>
-                  </div>
-                  <span class="block opacity-75 -mb-1">Large</span>
-                  
-                    <button class="flex justify-center items-center mx-auto mt-6 bg-greenColor p-2 rounded-lg hover:scale-110 duration-300">
-                      <Link to={'/navlogin'}>Add to Cart</Link>
-                    </button>
-                    
-                </div>
+                        {/* Add to Cart Button with 3D Effect */}
+                        <button className="mt-6 text-white p-3 rounded-lg w-full text-center shadow-lg wave-effect">
+                          <Link to="/Login">Add to Cart</Link>
+                        </button>
+                      </div>
+                    </div>
+                  ))}
               </div>
-            </div>))}
-            
+            </div>
 
-            
-
-          </div>
-        </div>
 
         <div id="mt" style={cardContainers}>
           <div class="flex-shrink-0 m-6 relative overflow-hidden bg-jaydsBg outline outline-greenColor rounded-lg max-w-xs shadow-lg hover:scale-110 duration-500">
@@ -1261,139 +1264,131 @@ function Home() {
     {/* <!-- FAQ --> */}
     <div class="h-screen pt-10">
       <h2
-        class="text-3xl font-extrabold text-black mb-10 flex flex-col justify-center items-center"
+        class="text-4xl pt-20 font-bold text-black mb-10 flex flex-col justify-center items-center"
       >
         Frequently Asked Questions
       </h2>
 
       <div class="flex justify-center items-center">
-        <div
-          id="accordion-color"
-          data-accordion="collapse"
-          data-active-classes="bg-blue-100 dark:bg-gray-800 text-blue-600 dark:text-white"
-          class="w-4/5"
+    <div
+      id="accordion-color"
+      data-accordion="collapse"
+      data-active-classes="bg-[#E6F7EE] text-[#067741] dark:bg-gray-800 dark:text-white"
+      class="w-4/5"
+    >
+      <h2 id="accordion-color-heading-1">
+        <button
+          type="button"
+          class={`flex items-center justify-between w-full p-5 font-medium rtl:text-right ${FAQ1 ? 'text-[#067741] font-bold bg-[#E6F7EE]' : 'text-[#1C1C1C]'} border border-b-0 border-[#067741] rounded-t-xl focus:ring-4 focus:ring-[#067741] dark:focus:ring-[#067741] dark:border-[#067741] dark:text-gray-400 hover:bg-[#E6F7EE] dark:hover:bg-gray-800 gap-3 transition-all duration-300`}
+          onClick={toggleFAQ1}
+          data-accordion-target="#accordion-color-body-1"
+          aria-expanded="true"
+          aria-controls="accordion-color-body-1"
         >
-          <h2 id="accordion-color-heading-1">
-            <button
-              type="button"
-              class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
-              onClick={toggleFAQ1}
-              data-accordion-target="#accordion-color-body-1"
-              aria-expanded="true"
-              aria-controls="accordion-color-body-1"
-            >
-              <span class="text-lg"
-                >How do I place an order on JoeExpress? </span>
-              <svg
-                data-accordion-icon
-                className={`w-3 h-3 transition-transform duration-300 ${FAQ1 ? '' : 'rotate-180'}`}
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 10 6"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5 5 1 1 5"
-                />
-              </svg>
-            </button>
-          </h2>
-          
-            {FAQ1 && (
+          <span class="text-lg">How do I place an order on Jayd'sCafe?</span>
+          <svg
+            data-accordion-icon
+            className={`w-3 h-3 transition-transform duration-300 ${FAQ1 ? 'rotate-180' : ''}`}
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 10 6"
+          >
+            <path
+              stroke="#067741"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5 5 1 1 5"
+            />
+          </svg>
+        </button>
+      </h2>
 
-            <div id="accordion-color-body-1" className="p-5 border border-gray-200 dark:border-gray-700">
-              <p className="text-gray-500 dark:text-gray-400">
-              • You can place an order by browsing our menu, adding items to your cart, and proceeding to checkout.
-              </p>
-            </div>
-
-            )}
-          
-          <h2 id="accordion-color-heading-2">
-            <button
-              type="button"
-              onClick={toggleFAQ2}
-              class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
-              data-accordion-target="#accordion-color-body-2"
-              aria-expanded="false"
-              aria-controls="accordion-color-body-2"
-            >
-              <span class="text-lg">What payment methods do you accept?</span>
-              <svg
-                data-accordion-icon
-                className={`w-3 h-3 transition-transform duration-300 ${FAQ2 ? '' : 'rotate-180'}`}
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 10 6"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5 5 1 1 5"
-                />
-              </svg>
-            </button>
-          </h2>
-
-          {FAQ2 && (
-                <div id="accordion-color-body-2" className="p-5 border border-gray-200 dark:border-gray-700">
-                  <p className="text-gray-500 dark:text-gray-400">
-                  • We offer free delivery for orders over a certain amount. For
-                        orders below this amount, a small delivery fee may apply.
-                        Details will be provided during checkout.
-                  </p>
-                </div>  
-          )}
-
-
-          <h2 id="accordion-color-heading-3">
-            <button
-              type="button"
-              onClick={toggleFAQ3}
-              class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
-              data-accordion-target="#accordion-color-body-3"
-              aria-expanded="false"
-              aria-controls="accordion-color-body-3"
-            >
-              <span class="text-lg">Do you charge for delivery?</span>
-              <svg
-                data-accordion-icon
-                className={`w-3 h-3 transition-transform duration-300 ${FAQ3 ? '' : 'rotate-180'}`}
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 10 6"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5 5 1 1 5"
-                />
-              </svg>
-            </button>
-          </h2>
-          {FAQ3 && (
-                <div id="accordion-color-body-3" className="p-5 border border-gray-200 dark:border-gray-700">
-                  <p className="text-gray-500 dark:text-gray-400">
-                  • We offer free delivery for orders over a certain amount. For
-                        orders below this amount, a small delivery fee may apply.
-                        Details will be provided during checkout.
-                  </p>
-                </div>
-              )}
-          
+      {FAQ1 && (
+        <div id="accordion-color-body-1" className="p-5 border border-[#067741] dark:border-[#067741] transition-all duration-300">
+          <p className="text-[#1C1C1C] dark:text-gray-400">
+            • You can place an order by browsing our menu, adding items to your cart, and proceeding to checkout.
+          </p>
         </div>
+      )}
+
+      <h2 id="accordion-color-heading-2">
+        <button
+          type="button"
+          onClick={toggleFAQ2}
+          class={`flex items-center justify-between w-full p-5 font-medium rtl:text-right ${FAQ2 ? 'text-[#067741] font-bold bg-[#E6F7EE]' : 'text-[#1C1C1C]'} border border-b-0 border-[#067741] focus:ring-4 focus:ring-[#067741] dark:focus:ring-[#067741] dark:border-[#067741] dark:text-gray-400 hover:bg-[#E6F7EE] dark:hover:bg-gray-800 gap-3 transition-all duration-300`}
+          data-accordion-target="#accordion-color-body-2"
+          aria-expanded="false"
+          aria-controls="accordion-color-body-2"
+        >
+          <span class="text-lg">What payment methods do you accept?</span>
+          <svg
+            data-accordion-icon
+            className={`w-3 h-3 transition-transform duration-300 ${FAQ2 ? 'rotate-180' : ''}`}
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 10 6"
+          >
+            <path
+              stroke="#067741"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5 5 1 1 5"
+            />
+          </svg>
+        </button>
+      </h2>
+
+      {FAQ2 && (
+        <div id="accordion-color-body-2" className="p-5 border border-[#067741] dark:border-[#067741] transition-all duration-300">
+          <p className="text-[#1C1C1C] dark:text-gray-400">
+            • We accept payments via Cash on Delivery and GCash.
+          </p>
+        </div>  
+      )}
+
+      <h2 id="accordion-color-heading-3">
+        <button
+          type="button"
+          onClick={toggleFAQ3}
+          class={`flex items-center justify-between w-full p-5 font-medium rtl:text-right ${FAQ3 ? 'text-[#067741] font-bold bg-[#E6F7EE]' : 'text-[#1C1C1C]'} border border-[#067741] focus:ring-4 focus:ring-[#067741] dark:focus:ring-[#067741] dark:border-[#067741] dark:text-gray-400 hover:bg-[#E6F7EE] dark:hover:bg-gray-800 gap-3 transition-all duration-300`}
+          data-accordion-target="#accordion-color-body-3"
+          aria-expanded="false"
+          aria-controls="accordion-color-body-3"
+        >
+          <span class="text-lg">Do you charge for delivery?</span>
+          <svg
+            data-accordion-icon
+            className={`w-3 h-3 transition-transform duration-300 ${FAQ3 ? 'rotate-180' : ''}`}
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 10 6"
+          >
+            <path
+              stroke="#067741"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5 5 1 1 5"
+            />
+          </svg>
+        </button>
+      </h2>
+
+      {FAQ3 && (
+        <div id="accordion-color-body-3" className="p-5 border border-[#067741] dark:border-[#067741] transition-all duration-300">
+          <p className="text-[#1C1C1C] dark:text-gray-400">
+            • We offer free delivery for orders over a certain amount. For orders below this amount, a small delivery fee may apply. Details will be provided during checkout.
+          </p>
+        </div>
+      )}
       </div>
     </div>
+  </div>
 
 
 {/* Contact Us Section on Landing Page */}
