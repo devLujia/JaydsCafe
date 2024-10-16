@@ -727,7 +727,7 @@ function Home() {
           >
             <li>
               <a
-                href="#"
+                href="#Home"
                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                 >Home</a
               >
@@ -1059,44 +1059,47 @@ function Home() {
           <a href="#offer" class="menu_category" onClick="toggleVisibility('tea');"><img src={milktea}  alt=""></img>Tea</a>
           <a href="#offer" class="menu_category" onClick="toggleVisibility('sk');"><img src={milktea}  alt=""></img>Snacks</a> */}
 
-         {/* <!-- Div For All Items--> */}
-        <div id="all">
-        <div class="px-24 py-12 grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-4"> {/* <!-- Card Container--> */}
+           {/* Div For All Items */}
+            <div id="all">
+              <div className="px-4 py-6 md:px-12 md:py-8 lg:px-24 lg:py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {/* Redesigned 3D Card with Enhanced Color Scheme */}
+                {menu
+                  .filter((menus) => !categoryId || menus.category_id === categoryId)
+                  .slice(0, 8)
+                  .map((menus) => (
+                    <div
+                      key={menus.id}
+                      className="flex-shrink-0 relative overflow-hidden bg-gradient-to-b from-gray-100 to-gray-50 border-2 border-gray-200 rounded-3xl max-w-xs shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-300"
+                    >
+                      {/* Image Container with 3D Effect */}
+                      <div className="relative bg-gradient-to-t from-slate-300 to-white p-6 rounded-t-3xl">
+                        <div className="w-full h-40 flex justify-center items-center">
+                          <div className="p-3 overflow-hidden transform hover:rotate-2 hover:scale-105 transition-transform duration-300">
+                            <img className="max-w-none max-h-full" src={menus.image_url} alt={menus.name} />
+                          </div>
+                        </div>
+                      </div>
 
+                      {/* Info Section with Enhanced Color Scheme */}
+                      <div className="relative text-gray-800 px-4 pb-6 mt-4">
+                        <div className="flex justify-between items-center">
+                          <span className="font-semibold text-lg text-gray-900">{menus.name}</span>
+                          <span className="bg-[#E5F5EE] rounded-full text-gray-900 text-md font-extrabold px-3 py-1 shadow-md transform transition-transform duration-300 hover:shadow-xl hover:scale-105">
+                            ₱{menus.Medium}.00
+                          </span>
+                        </div>
+                        <span className="block text-sm opacity-75 text-gray-700">Medium (22oz)</span>
 
-          {menu.filter(menus => (!categoryId || menus.category_id === categoryId)).slice(0,8).map(menus =>(
-              
-              <div class="flex-shrink-0 m-6 relative overflow-hidden bg-jaydsBg outline outline-greenColor rounded-lg max-w-xs shadow-lg hover:scale-110 duration-500">
-              <svg class="absolute bottom-0 left-0 mb-8" viewBox="0 0 375 283" fill="none" style={styleCard}>
-                <rect x="159.52" y="175" width="152" height="152" rx="8" transform="rotate(-45 159.52 175)" fill="brown"/>
-                <rect y="107.48" width="152" height="152" rx="8" transform="rotate(-45 0 107.48)" fill="red"/>
-              </svg>
-              <div class="relative flex flex-col h-full">
-                <div class="flex-1">
-                  <div class="relative pt-5 px-10 flex items-center justify-center">
-                    <div class="block absolute w-48 h-48 bottom-0 left-0 -mb-24 ml-3" style={styleCard2}></div> {/* <!-- Shadow Effect--> */}
-                    <img class="relative w-40" src="/public/image/caramel.png" alt=""></img>
-                  </div>
-                </div>
-                <div class="relative text-white px-3 pb-6 mt-1 align-baseline">
-                  <div class="flex justify-between">
-                    <span class="block font-semibold text-xl">{menus.name}</span>
-                    <span class="bg-white rounded-full text-gray-900 text-md font-bold px-3 py-2 leading-none flex items-center">₱{menus.Large}.00</span>
-                  </div>
-                  <span class="block opacity-75 -mb-1">Large</span>
-                  
-                    <button class="flex justify-center items-center mx-auto mt-6 bg-greenColor p-2 rounded-lg hover:scale-110 duration-300">
-                      <Link to={'/navlogin'}>Add to Cart</Link>
-                    </button>
-                </div>
+                        {/* Add to Cart Button with 3D Effect */}
+                        <button className="mt-6 text-white p-3 rounded-lg w-full text-center shadow-lg wave-effect">
+                          <Link to="/Login">Add to Cart</Link>
+                        </button>
+                      </div>
+                    </div>
+                  ))}
               </div>
-            </div>))}
-            
+            </div>
 
-            
-
-          </div>
-        </div>
 
         <div id="mt" style={cardContainers}>
           <div class="flex-shrink-0 m-6 relative overflow-hidden bg-jaydsBg outline outline-greenColor rounded-lg max-w-xs shadow-lg hover:scale-110 duration-500">
