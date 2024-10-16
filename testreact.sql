@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 15, 2024 at 06:50 AM
+-- Generation Time: Oct 16, 2024 at 05:44 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -99,12 +99,7 @@ CREATE TABLE `cart_items` (
 
 INSERT INTO `cart_items` (`id`, `user_id`, `food_id`, `size`, `price`, `quantity`, `created_at`, `updated_at`, `addons`) VALUES
 (109, 40, 18, 'Medium', 217.00, 1, '2024-09-21 12:23:10', '2024-09-21 12:23:10', 'taengkambing (₱59),cheesesabinimam (₱59),cheesesabinimam (₱50)'),
-(110, 40, 20, 'Large', 109.00, 1, '2024-09-21 12:34:54', '2024-09-21 12:34:54', 'cheesesabinimam (₱50)'),
-(163, 31, 19, 'medium', 49.00, 1, '2024-10-12 03:00:56', '2024-10-12 03:00:56', ''),
-(164, 31, 18, 'medium', 49.00, 1, '2024-10-13 18:12:11', '2024-10-13 18:12:11', ''),
-(165, 31, 19, 'medium', 49.00, 1, '2024-10-13 18:12:47', '2024-10-13 18:12:47', ''),
-(166, 31, 19, 'medium', 49.00, 1, '2024-10-13 18:12:53', '2024-10-13 18:12:53', ''),
-(167, 31, 19, 'medium', 49.00, 1, '2024-10-13 18:15:30', '2024-10-13 18:15:30', '');
+(110, 40, 20, 'Large', 109.00, 1, '2024-09-21 12:34:54', '2024-09-21 12:34:54', 'cheesesabinimam (₱50)');
 
 -- --------------------------------------------------------
 
@@ -125,7 +120,7 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `title`, `image_url`, `active`, `featured`) VALUES
-(1, 'Signature Beverages', 'image/expresso.png', 'true', 'false'),
+(1, 'Signature Drinks', 'image/expresso.png', 'true', 'false'),
 (2, 'Hot Coffee', 'image/milktea.png', 'true', 'false'),
 (3, 'Iced Black Coffee', 'image/fruit.png', 'true', 'false'),
 (4, 'Iced Coffee Latte', 'image/milktea.png', 'true', 'false'),
@@ -156,8 +151,8 @@ INSERT INTO `cms_pages` (`id`, `title`, `content`, `created_at`, `updated_at`, `
 (1, 'Business Name', 'Jayd\'s Cafe', '2024-08-26 03:24:36', '2024-08-31 06:36:10', 'Header'),
 (2, 'About Us', 'Discover the perfect blend of flavors in every cup. From classic milk teas to unique creations, we’ve got something for everyone. Come sip, relax, and enjoy your favorite drink today!', '2024-08-26 03:24:51', '2024-10-12 03:24:46', 'About Us'),
 (3, 'Location', 'https://www.google.com/maps/dir//Jayd\'s+Cafe+BLK+4,+Lot+1+Diamond+Ave+Dasmariñas,+4114+Cavite/@14.3466386,120.9810339,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3397d51753ff9d15:0x1b2216c1440e07a9!2m2!1d120.9810339!2d14.3466386?entry=ttu&g_ep=EgoyMDI0MDkxOC4xIKXMDSoASAFQAw%3D%3D', '2024-08-26 03:25:00', '2024-09-21 15:26:39', 'About Us'),
-(4, 'Facebook', 'https://www.facebook.com/jayds.coffee', '2024-08-26 08:18:13', '2024-10-15 01:17:41', 'footer'),
-(5, 'Instagram', 'https://www.instagram.com/jaydscafe/', '2024-08-26 08:20:23', '2024-10-15 01:18:01', 'footer'),
+(4, 'Facebook', 'https://www.facebook.com/chard.cardosa/', '2024-08-26 08:18:13', '2024-08-30 22:55:31', 'footer'),
+(5, 'Instagram', 'https://www.instagram.com/chardgrey/', '2024-08-26 08:20:23', '2024-08-30 22:55:36', 'footer'),
 (6, 'Link', 'https://github.com/chardgrey', '2024-08-26 08:22:07', '2024-08-30 22:55:40', 'footer'),
 (7, 'Phone Number', '099922292992', '2024-08-26 08:32:30', '2024-08-30 22:55:59', 'contact'),
 (8, 'Tel Number', '83928988', '2024-08-26 08:33:35', '2024-08-30 22:56:03', 'contact'),
@@ -196,10 +191,10 @@ CREATE TABLE `foods` (
 --
 
 INSERT INTO `foods` (`id`, `name`, `description`, `image_url`, `category_id`, `visible`) VALUES
-(17, 'Hot Americano', 'A simple blend of rich espresso and hot water.', '/images/Hot Americano.png', 2, 1),
-(18, 'Hot Cappuccino', 'Mix of rich espresso and steamed milk', '/images/Hot Coffee/Hot Cappuccino 1.png', 2, 1),
-(19, 'Hot Chocolate', 'Made with rich cocoa and steamed milk', '/images/Hot Coffee/Hot Chocolate 1.png', 2, 1),
-(20, 'Hot Coffee Latte', 'A smooth blend of espresso and steamed milk', 'images/Hot Coffee/Hot Coffee Latte 1.png', 2, 1),
+(17, 'Hot Americano', 'Hot Americano', '/images/Hot Americano.png', 2, 1),
+(18, 'Hot Cappuccino', 'Hot Cappuccino', '/images/Hot Coffee/Hot Cappuccino 1.png', 2, 1),
+(19, 'Hot Chocolate', 'Hot Chocolate', '/images/Hot Coffee/Hot Chocolate 1.png', 2, 1),
+(20, 'Hot Coffee Latte', 'Hot Coffee Latte ', 'images/Hot Coffee/Hot Coffee Latte 1.png', 2, 1),
 (21, 'Hot Thai Tea', 'Hot Thai Tea', 'images/Hot Coffee/Hot Thai Tea 1.png', 2, 1),
 (22, 'Caramel Machiato', 'Caramel Machiato', 'images/Signature Drinks/Caramel Machiato 1.png', 1, 1),
 (23, 'Caramel Mocha', 'Caramel Mocha', 'images/Signature Drinks/Caramel Mocha 1.png', 1, 1),
@@ -320,10 +315,32 @@ INSERT INTO `food_sizes` (`id`, `food_id`, `size`, `price`, `date_created`, `dat
 (106, 54, 'Large', 100.00, '2024-08-31 15:17:30', '2024-10-14 08:31:16'),
 (117, 23, 'Medium', 80.00, '2024-08-31 15:17:30', '2024-10-14 08:31:34'),
 (118, 22, 'Large', 100.00, '2024-08-31 15:17:30', '2024-10-14 08:31:44'),
-(149, 17, '', 20.00, '2024-08-31 15:37:30', '2024-09-28 16:50:37'),
+(149, 17, 'small', 20.00, '2024-08-31 15:37:30', '2024-10-14 11:14:24'),
 (177, 113, 'Medium', 113.00, '2024-09-21 08:40:28', '2024-10-14 08:32:19'),
 (178, 18, 'small', 27.00, '2024-09-28 13:54:02', '2024-09-28 13:54:02'),
 (179, 19, 'small', 29.00, '2024-09-28 14:18:55', '2024-09-28 14:18:55');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `messages`
+--
+
+CREATE TABLE `messages` (
+  `id` int(11) NOT NULL,
+  `ticket_id` varchar(255) NOT NULL,
+  `sender_id` int(11) UNSIGNED NOT NULL,
+  `content` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `messages`
+--
+
+INSERT INTO `messages` (`id`, `ticket_id`, `sender_id`, `content`, `created_at`) VALUES
+(3, '2krd4KJw', 31, 'test', '2024-10-16 14:02:03'),
+(4, '2krd4KJw', 31, 'test', '2024-10-16 14:02:34');
 
 -- --------------------------------------------------------
 
@@ -465,6 +482,29 @@ CREATE TABLE `order_addons` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tickets`
+--
+
+CREATE TABLE `tickets` (
+  `id` int(11) NOT NULL,
+  `ticket_id` varchar(255) NOT NULL,
+  `user_id` int(11) UNSIGNED NOT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `status` enum('open','closed') DEFAULT 'open',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tickets`
+--
+
+INSERT INTO `tickets` (`id`, `ticket_id`, `user_id`, `subject`, `status`, `created_at`, `updated_at`) VALUES
+(1, '2krd4KJw', 31, NULL, 'open', '2024-10-16 14:02:02', '2024-10-16 14:02:02');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -494,7 +534,7 @@ INSERT INTO `user` (`id`, `name`, `email`, `password`, `address`, `role`, `creat
 (41, 'chardgrey', 'chardgrey@gmail.com', '$2b$10$5zsQK5v7BQW3WFcpLMBDveWzsV8e6EsUR7751.X3ZU2VhZ4pXcdle', 'Blk p lot 4 DASMARINAS', 'user', '2024-09-28 01:52:33', '2024-09-28 01:52:33', 'dolrv3tepi', 'false', '09278658355'),
 (42, 'leklek', 'leklek@gmail.com', '$2b$10$YZg1R7JAiuRBIxbXuD/HF.Z.Y6fGM7cUPqyD94Zns1pyIEBWLf9K.', 'Blk p lot 4 DASMARINAS', 'admin', '2024-09-28 01:58:05', '2024-09-28 13:14:10', '0473le3c91', 'true', '09278658355'),
 (43, 'tetetetest', 'tetetetest@gmail.com', '$2b$10$2hGDiB5Dhngk.xiEi958kuOhvTVH5NoRhFWU.MYR985VgbIcfQDpC', 'tetetetest', 'user', '2024-10-02 12:27:35', '2024-10-02 12:27:35', 'xdix8ijkbf', 'false', '09278658355'),
-(44, 'binulzahan02', 'binulzahan02@gmail.com', '$2b$10$Z6eau.XVkvkqKX57pRmo0OhkCHYpEVGkEqSFVgMjGgTiWDmaLN32q', 'test', 'rider', '2024-10-14 01:14:45', '2024-10-14 01:14:45', 'j4efvgvccc', 'false', '091234567890'),
+(44, 'binulzahan02', 'binulzahan02@gmail.com', '$2b$10$Z6eau.XVkvkqKX57pRmo0OhkCHYpEVGkEqSFVgMjGgTiWDmaLN32q', 'test', 'cashier', '2024-10-14 01:14:45', '2024-10-15 03:05:47', 'j4efvgvccc', 'false', '091234567890'),
 (45, 'san', 'sam@gmail.com', '$2b$10$78uurnjUIzE8vfH4W.162.niq4ZK3b3WYEvsm5DMTBsjLDUa2K32e', 'san', 'user', '2024-10-14 01:48:59', '2024-10-14 01:48:59', 'v7l31rxyox', 'false', '09218874343');
 
 --
@@ -550,6 +590,14 @@ ALTER TABLE `food_sizes`
   ADD KEY `FK_food_size` (`food_id`);
 
 --
+-- Indexes for table `messages`
+--
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_ticket` (`ticket_id`),
+  ADD KEY `fk_sender` (`sender_id`);
+
+--
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
@@ -572,6 +620,14 @@ ALTER TABLE `order_addons`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_addons_order` (`order_id`),
   ADD KEY `fk_addons_id` (`addon_id`);
+
+--
+-- Indexes for table `tickets`
+--
+ALTER TABLE `tickets`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `ticket_id` (`ticket_id`),
+  ADD KEY `fk_user` (`user_id`);
 
 --
 -- Indexes for table `user`
@@ -599,7 +655,7 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -626,6 +682,12 @@ ALTER TABLE `food_sizes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=187;
 
 --
+-- AUTO_INCREMENT for table `messages`
+--
+ALTER TABLE `messages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
@@ -642,6 +704,12 @@ ALTER TABLE `orders_food`
 --
 ALTER TABLE `order_addons`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tickets`
+--
+ALTER TABLE `tickets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -679,6 +747,13 @@ ALTER TABLE `food_sizes`
   ADD CONSTRAINT `FK_food_size` FOREIGN KEY (`food_id`) REFERENCES `foods` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `messages`
+--
+ALTER TABLE `messages`
+  ADD CONSTRAINT `fk_sender` FOREIGN KEY (`sender_id`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `fk_ticket` FOREIGN KEY (`ticket_id`) REFERENCES `tickets` (`ticket_id`);
+
+--
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
@@ -697,6 +772,12 @@ ALTER TABLE `orders_food`
 ALTER TABLE `order_addons`
   ADD CONSTRAINT `fk_addons_id` FOREIGN KEY (`addon_id`) REFERENCES `addons` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_addons_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `tickets`
+--
+ALTER TABLE `tickets`
+  ADD CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
