@@ -53,6 +53,11 @@ function AddOrder({closeModal, foodId}) {
     
     }
 
+    useEffect(() => {
+        setSweetness(true);
+        toggleAddons(true);
+    }, []);
+    
     const toggleSweetness = () => {
         setSweetness(!sweetness);
     };
@@ -179,7 +184,7 @@ return(
                             ₱{selectedPrice}.00
                             </h2>
 
-                            <div className="bg-white border-2 border-slate-300 rounded-lg p-4 flex items-center justify-between w-72 mb-6">
+                            <div className="bg-white border-2 border-slate-300 rounded-lg p-4 flex items-center justify-evenly w-72 mb-6">
                                 {/* <!-- Small Size --> */}
                                 {sizes.map(size => (
                                             <label key={size.id} className="flex flex-col items-center">
@@ -286,6 +291,60 @@ return(
 
                     {/* right side */}
                     <div className='rounded-r-xl p-3'>
+                        {/* sugar level */}
+                        <h2 id="accordion-color-heading-1">
+                            <button
+                            type="button"
+                            class="flex items-center justify-between w-full mt-3 font-medium rtl:text-right text-gray-500 hover:bg-slate-300 rounded-t-lg px-2 gap-3"
+                            onClick={toggleSweetness}
+                            data-accordion-target="#accordion-color-body-1"
+                            aria-expanded="true"
+                            aria-controls="accordion-color-body-1">
+                            <span class="text-md">Sugar level: </span>
+                            <div className='inline-flex items-center gap-2'>
+                                <svg
+                                    data-accordion-icon
+                                    className={`w-3 h-3 transition-transform duration-300 ${sweetness ? '' : 'rotate-180'}`}
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 10 6">
+                                    <path
+                                    stroke="currentColor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M9 5 5 1 1 5"
+                                    />
+                                </svg>
+                            </div>
+                            </button>
+                        </h2>
+
+                        {sweetness && (
+                            <div id="accordion-color-body-1" className="w-full p-5 max-h-52 overflow-y-auto">
+                                {fetchAddons.filter((addon) => addon.category_id === food.category_id)
+                                .map(addon => (
+                                    
+                                    <div key={addon.id} class="flex justify-between items-center mb-4 border-b-2 border-gray-200 pb-3">
+                                        <div>
+                                            <input
+                                            type="checkbox" 
+                                            name="addons" 
+                                            id={`addon-${addon.id}`}
+                                            onChange={(e) => handleAddons(e, addon)}
+                                            class="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                            <label for="addons1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{addon.name}</label>
+                                        </div>
+                                        <div>
+                                            <p>₱{addon.price}.00</p>
+                                        </div>
+                                    </div>
+                                ))}
+                                 
+                            </div>
+                        )}
+
                         {/* addons Dropdown */}
                         <h2 id="accordion-color-heading-1">
                             <button
@@ -294,8 +353,7 @@ return(
                             onClick={toggleAddons}
                             data-accordion-target="#accordion-color-body-1"
                             aria-expanded="true"
-                            aria-controls="accordion-color-body-1"
-                            >
+                            aria-controls="accordion-color-body-1">
                             <span class="text-md">Add-ons (Choose up to 2) </span>
                             <div className='inline-flex items-center gap-2'>
                                 <p>optional</p>
@@ -323,31 +381,32 @@ return(
                                 {fetchAddons.filter((addon) => addon.category_id === food.category_id)
                                 .map(addon => (
                                     
-                                    <div key={addon.id} class="flex justify-between items-center mb-4 border-b-2 border-gray-200 py-3">
-                                    <div>
-                                        <input
-                                         type="checkbox" 
-                                         name="addons" 
-                                         id={`addon-${addon.id}`}
-                                         onChange={(e) => handleAddons(e, addon)}
-                                         class="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                        <label for="addons1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{addon.name}</label>
+                                    <div key={addon.id} class="flex justify-between items-center mb-4 border-b-2 border-gray-200 pb-3">
+                                        <div>
+                                            <input
+                                            type="checkbox" 
+                                            name="addons" 
+                                            id={`addon-${addon.id}`}
+                                            onChange={(e) => handleAddons(e, addon)}
+                                            class="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                            <label for="addons1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{addon.name}</label>
+                                        </div>
+                                        <div>
+                                            <p>₱{addon.price}.00</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p>₱{addon.price}.00</p>
-                                    </div>
-                                </div>
                             
-                            ))}
+                                ))}
                                  
                             </div>
                         )}
+
                         <div className='flex justify-end items-center mb-4 gap-2 mt-4'>
-                            <button onClick={()=> closeModal(false)} className='text-white w-full bg-red-500 px-4 py-2 hover:bg-red-600 rounded-lg'>
+                            <button onClick={()=> closeModal(false)} className='text-white w-[40%] font-semibold tracking-wider bg-red-500 px-4 py-2 hover:bg-red-600 rounded-lg'>
                                 Cancel
                             </button>
-                            <button onClick={() => handleAddToCart(food)} className='bg-textgreenColor text-white rounded-lg py-2 px-3 w-full'>
-                                Add to order <span className='text-gray-400'>₱{totalPrice}.00</span>
+                            <button onClick={() => handleAddToCart(food)} className='bg-textgreenColor font-semibold tracking-wider text-white rounded-lg py-2 px-3 w-[60%]'>
+                                Add to order <span className='text-gray-200 ms-2'>₱{totalPrice}.00</span>
                             </button>
                         </div>
                     </div>
