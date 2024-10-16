@@ -9,7 +9,7 @@ import axios from 'axios';
 import socket from './socketService';
 
 
-export default function Message() {
+export default function Message({}) {
 
    const [authenticated, setAuthenticated] = useState(false);
    const [userId, setUserId] = useState(null);
@@ -23,15 +23,51 @@ export default function Message() {
       name: 'Admin',
       room: '254kh7vd2k',
    })
-
+   const [ticketId, setTicketId] = useState([]);
+   const [messages, setMessages] = useState([]);
    axios.defaults.withCredentials = true;
+
+
+   useEffect(() => {
+      const getTicketNumber = async () => {
+        try {
+          const response = await axios.post('http://localhost:8081/getTicketId');
+          setTicketId(response.data); 
+          
+        } 
+        catch (error) {
+          console.error('Error fetching ticket ID:', error);
+        }
+
+      };
+    
+      getTicketNumber();
+    }, []);
+    
+
+      const fetchMessages = async (ticket) => {
+        if (ticketId) { 
+          try {
+
+            const response = await axios.post('http://localhost:8081/getMessages',  {ticket} );
+            setMessages(response.data);
+
+            socket.emit('join_room', ticket);
+          } 
+          catch (error) {
+            console.error('Error fetching messages:', error);
+          }
+        }
+      };
+
+    
 
    useEffect(() =>{
       
       axios.post('http://localhost:8081/profile', { userId })
       .then(response=>{
          setProfile(response.data);
-      })
+      }) 
       .catch(error => {
          console.error('Error fetching profile details:', error);
        });
@@ -324,11 +360,11 @@ export default function Message() {
                   <div class="font-semibold text-2xl">Active Conversation</div>
                   <div class="flex flex-row">
                      <div class="text-center me-1">
-                        <h1 class="font-semibold">Lek Ra</h1>
-                        <span class="text-sm">Reply to message</span>
+                        <h1 class="font-semibold">{profile.name}</h1>
+                        <span class="text-sm">{profile.role}</span>
                      </div>
                      <div class="h-12 w-12 p-2 bg-greenColor rounded-full text-white font-semibold flex items-center justify-center">
-                        <h1>LR</h1>
+                        <h1>{profile?.name?.charAt(0).toUpperCase() || ''}</h1>
                      </div>
                   </div>
                </div>
@@ -341,25 +377,32 @@ export default function Message() {
                   <div class="border-b-2 py-4 px-2">
                      <input
                         type="text"
-                        placeholder="search chatting"
+                        placeholder=" Search"
                         class="py-2 px-2 border-2 border-gray-200 rounded-2xl w-full dark:bg-gray-800"
                      />
                   </div>
                   {/* <!-- end search compt --> */}
                   {/* <!-- user list --> */}
-                  <div class="flex flex-row py-3 px-5 justify-center items-center hover:bg-gray-200">
-                     <div class="w-1/4">
-                        <img
-                        src={user}
-                        class="object-cover h-12 w-12 rounded-full"
-                        alt=""
-                        />
+                  {ticketId.map((ticket) => (
+                     <div key={ticket.ticket_id} className="flex flex-row py-3 px-5 justify-center items-center hover:bg-gray-200">
+                        <div onClick={() => fetchMessages(ticket.ticket_id)}> {/* Wrap in an anonymous function */}
+                           <div className="w-1/4">
+                           <img
+                              src={user} // Ensure 'user' is a valid image source
+                              className="object-cover h-12 w-12 rounded-full"
+                              alt=""
+                           />
+                           </div>
+                           <div className="w-full">
+                           <div className="text-md tracking-wider dark:text-white hover:text-gray-900">
+                              {ticket.ticket_id}
+                           </div>
+                           <span className="text-gray-500 text-sm">Asan si Kuya?</span>
+                           </div>
+                        </div>
                      </div>
-                     <div class="w-full">
-                        <div class="text-md tracking-wider dark:text-white hover:text-gray-900">Kristina</div>
-                        <span class="text-gray-500 text-sm">Asan si Kuya?</span>
-                     </div>
-                  </div>
+                     ))}
+
 
                   <div class="flex flex-row py-3 px-5 justify-center items-center hover:bg-gray-200">
                      <div class="w-1/4">
@@ -373,7 +416,9 @@ export default function Message() {
                         <div class="text-md tracking-wider dark:text-white hover:text-gray-900">Lek Ra</div>
                         <span class="text-gray-500 text-sm">Tara kila migz! 9:00 pm ...</span>
                      </div>
+                  
                   </div>
+
                   <div class="flex flex-row py-3 px-5 justify-center items-center hover:bg-gray-200">
                      <div class="w-1/4">
                         <img
@@ -395,53 +440,16 @@ export default function Message() {
                   {/* <!-- message --> */}
                   <div class="w-full px-5 flex flex-col justify-between overflow-auto">
                      <div class="flex flex-col mt-5 ">
-                        {/* <div class="flex justify-start mb-4">
-                           <div class="ml-2 py-3 px-4 bg-blue-200 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white max-w-[50%]">
-                              Tara kila migz! 9:00 pm. sagot ko na hapunan natin!
-                           </div>
-                        </div>
-                        <div class="flex justify-end mb-4">
-                           <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white max-w-[50%]">
-                              Welcome to group everyone !
-                           </div>
-                        </div>
-                        <div class="flex justify-start mb-4"> 
-                           <div class="ml-2 py-3 px-4 bg-blue-200 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white max-w-[50%]">
-                              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
-                              at praesentium, aut ullam delectus odio error sit rem. Architecto
-                              nulla doloribus laborum illo rem enim dolor odio saepe,
-                              consequatur quas?
-                           </div>
-                        </div>
-                        <div class="flex justify-end mb-4">
-                           <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white max-w-[50%]">
-                              Edi wow pukinang ngina ina ka!
-                           </div>
-                        </div>
-                        <div class="flex justify-start mb-4"> 
-                           <div class="ml-2 py-3 px-4 bg-blue-200 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white max-w-[50%]">
-                              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
-                              at praesentium.
-                           </div>
-                        </div> */}
-                         {messageList.map((messageContent) => {
-                      return (
-                      <div className={`mb-2 ${messageContent.author === "Admin" ? 'text-right' : 'text-left'}`}>
-
-                          <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
-                               {messageContent.author === "Admin" ? `Me: ${messageContent.message}` : `${messageContent.author} : ${messageContent.message}`  }
-                            </p>
-                          {/* {c.from === name ? 
-                          (
-                              
-                          ) : 
-                          (
-                              <p className="bg-blue-300 text-black rounded-lg py-2 px-4 inline-block">
-                                  {c.from !== name ? 'Admin' : c.from}: {c.message}
+                        
+                     {messages.map((messageContent) => {
+                        return (
+                           <div key={messageContent.id || messageContent.timestamp} className={`mb-2 flex ${messageContent.author === "Admin" ? 'justify-end' : 'justify-start'}`}>
+                              <p className={`bg-blue-500 text-white rounded-lg py-2 px-4 inline-block`}>
+                              {messageContent.author === "Admin" ? `Me: ${messageContent.message}` : `${messageContent.author}: ${messageContent.message}`}
                               </p>
-                          )} */}
-                      </div>)
-})}
+                           </div>
+                        );
+                        })}
                         
                      </div>
 

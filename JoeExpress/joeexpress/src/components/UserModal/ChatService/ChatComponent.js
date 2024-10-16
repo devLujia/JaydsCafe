@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import chatlogo from '../../image/live-chat.png';
 import socket from '../../AdminModule/Message/socketService';
+import axios from 'axios';
 
-const ChatComponent = ({ name, room }) => {
+const ChatComponent = ({ name, userId }) => {
   const [chatVisible, setChatVisible] = useState(false);
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
+  const [ticketId, setTicketId] = useState('');
+
+  const generateRandomTicketId = () => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let ticketId = '';
+    for (let i = 0; i < 8; i++) {  // You can adjust the length of the ticketId
+      ticketId += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return ticketId;
+  };
 
   const toggleChat = () => {
     setChatVisible(!chatVisible);
@@ -16,42 +27,61 @@ const ChatComponent = ({ name, room }) => {
 
   useEffect(() => {
     const joinRoom = async () => {
-      if (name !== '' && room !== '') {
-        await socket.emit("join_room", room);
+      if (name !== '' && ticketId !== '') {
+        await socket.emit("join_room", ticketId);
       }
     };
   
     joinRoom();
-  }, [name,room ]);
+  }, [name,ticketId ]);
 
   // const handleJoinRoom = () => {
   //   if (name && room){
   //     socket.emit("join_room", room)
   //   }
   // }
+
+  const createNewTicket = async () => {
+    try {
+      const newTicketId = generateRandomTicketId();
+      setTicketId(newTicketId);
+  
+      const response = await axios.post('http://localhost:8081/createTicket', {
+        ticketId: newTicketId,  
+        userId: userId
+      });
+  
+      socket.emit('join_room', newTicketId);
+      console.log('New ticket created with ID:', newTicketId);
+  
+    } catch (error) {
+      console.error('Error creating ticket:', error);
+    }
+  };
     
   
-  const sendMessage = async () => {
-
+  const sendMessage = async (e) => {
     if (currentMessage.trim() !== '') {
+      // e.preventDefault();
 
       const messageData = {
-        author: name,
-        room: room,
-        message: currentMessage,
+       author: name,
+       room : ticketId,
+       userId: userId,
+       message: currentMessage,
         time:
         new Date(Date.now()).getHours()+
         ":" +
         new Date(Date.now()).getMinutes(),
-
       }
 
-      await socket.emit('sendMessage', messageData);
+      // Emit message to the server
+      await socket.emit('send_message', messageData);
       setMessageList((prevChat) => [...prevChat,  messageData ]);
       setCurrentMessage('');
     }
     
-  };
+    };
 
     const handleKeyDown = async (e) => {
       if (e.key === 'Enter' && currentMessage.trim() !== '') {
@@ -59,7 +89,7 @@ const ChatComponent = ({ name, room }) => {
 
          const messageData = {
             author: name,
-            room: room,
+            room: ticketId,
             message: currentMessage,
             time:
             new Date(Date.now()).getHours()+
@@ -74,18 +104,33 @@ const ChatComponent = ({ name, room }) => {
       }
   };
 
-  useEffect(() => {
-    socket.on('receiveMessage', (messageData) => {
-      setMessageList((list) => [...list, messageData]);
-    });
+  // useEffect(() => {
+  //   socket.on('receiveMessage', (messageData) => {
+  //     setMessageList((list) => [...list, messageData]);
+  //   });
 
+  //   return () => {
+  //     socket.off('receiveMessage');
+  //   };
+  // }, []);
+
+  useEffect(() => {
+    // Listen for incoming messages from the server
+    socket.on('receiveMessage', (messageData) => {
+      // Update the message list with the new message
+      setMessageList((prevChat) => [...prevChat, messageData]);
+    });
+  
+    // Cleanup the socket listener when the component unmounts
     return () => {
       socket.off('receiveMessage');
     };
-  }, []);
+  }, [socket]);
   
   return (
     <>
+
+    
       <div className="fixed bottom-0 right-0 mb-4 mr-4 z-50 w-16 h-16">
         <button
           onClick={toggleChat}
@@ -120,10 +165,18 @@ const ChatComponent = ({ name, room }) => {
 
             <div id="chatbox" className="p-4 h-80 overflow-y-auto">
               <div className="mb-2">
-                <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
+                {!ticketId ? <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
                   👋 Hi there! This message will be directed to the admins of Jayd's Cafe.
                   We are here to make your experience as smooth and enjoyable as possible.
                 </p>
+                : 
+                <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
+                  Ticket Created : {ticketId}
+                    <br></br>
+                    <br></br>
+                  👋 Hi there! You are now connected to the admin, Please address your concern
+                </p>
+              }
               </div>
               {/* <div className="mb-2">
                 <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
@@ -142,35 +195,43 @@ const ChatComponent = ({ name, room }) => {
                           <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
                                {messageContent.author === name ? `Me: ${messageContent.message}` : `Admin : ${messageContent.message}`  }
                             </p>
-                          {/* {c.from === name ? 
-                          (
-                              
-                          ) : 
-                          (
-                              <p className="bg-blue-300 text-black rounded-lg py-2 px-4 inline-block">
-                                  {c.from !== name ? 'Admin' : c.from}: {c.message}
-                              </p>
-                          )} */}
                       </div>)
 })}
             </div>
 
-            <div className="p-4 border-t flex">
-              <input
-                type="text"
-                placeholder="Type a message"
-                value={currentMessage}
-                onChange={(e) => setCurrentMessage(e.target.value)}
-                onKeyDown={handleKeyDown}
-                className="w-full px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <button
-                onClick={sendMessage}
-                className="bg-footer text-white px-4 py-2 rounded-r-md hover:bg-amber-700 transition duration-300"
-              >
-                Send
-              </button>
-            </div>
+            {!ticketId ? (
+              <div className="p-4 border-t flex">
+                <button
+                  onClick={createNewTicket}
+                  className="bg-footer text-white px-4 py-2 rounded-md hover:bg-amber-700 transition duration-300"
+                >
+                  Create New Ticket
+                </button>
+                </div>
+              ) : (
+                <div className="p-4 border-t flex">
+                  <input
+                    type="text"
+                    placeholder="Type a message"
+                    value={currentMessage}
+                    onChange={(e) => setCurrentMessage(e.target.value)}
+                    onKeyDown={handleKeyDown} // Allows sending message via 'Enter' key
+                    className="w-full px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <button
+                    onClick={sendMessage}
+                    className="bg-footer text-white px-4 py-2 rounded-r-md hover:bg-amber-700 transition duration-300"
+                  >
+                    Send
+                  </button>
+                </div>
+              )}
+            
+            {/* {!ticketId && (
+                  <button onClick={createNewTicket}>
+                    Create New Ticket
+                  </button>
+                )} */}
           </div>
         </div>
       )}

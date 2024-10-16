@@ -1796,7 +1796,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
         const {userId} = req.body
 
-        const query = ` SELECT name, email, pnum, address, role , verification_token FROM user WHERE id = ? `
+        const query = ` SELECT id, name, email, pnum, address, role , verification_token FROM user WHERE id = ? `
 
         db.query(query, [userId], (err, result) => {
             if (err) {
@@ -1876,24 +1876,88 @@ app.post('/removeProduct',  async (req, res) =>{
     })
 
     io.on('connection', (socket) => {
-        console.log(`User connected: ${socket.id}`);
-
-        socket.on("join_room",(messageData)=>{
-            socket.join(messageData);   
-            console.log(`User ${socket.id} has joined the room ${messageData}`);
-        })
-    
-        socket.on('sendMessage', (messageData) => {
-            console.log(messageData);
-            socket.to(messageData.room).emit('receiveMessage', messageData);
+        console.log('A user connected: ' + socket.id);
+      
+        socket.on('join_room', (ticketId) => {
+          socket.join(ticketId);
+          console.log(`User with ID: ${socket.id} joined room: ${ticketId}`);
         });
-    
+      
+        socket.on('send_message', (messageData) => {
+          const { author, room, userId, message } = messageData;
+      
+          const sql = `INSERT INTO messages (ticket_id, sender_id, content) VALUES (?, ?, ?)`;
+          
+          db.query(sql, [room, userId, message], (err, results) => {
+
+            if (err) {
+              console.error('Error sending message: ' + err.stack);
+              return;
+            }
+      
+            io.to(room).emit('receive_message', {
+              room: room, 
+              userId: userId,
+              message,
+              author, 
+              createdAt: new Date().toLocaleTimeString() 
+            });
+      
+            console.log(`Message sent in room ${room}`);
+          });
+        });
+      
         socket.on('disconnect', () => {
-            console.log('A user disconnected');
+          console.log('User disconnected: ' + socket.id);
         });
+      });
+      
 
+      app.post('/createTicket', (req, res) => {
+        const { ticketId, userId } = req.body;
+      
+        const checkTicketSql = 'SELECT * FROM tickets WHERE ticket_id = ?';
+        db.query(checkTicketSql, [ticketId], (err, results) => {
+          if (err) {
+            return res.status(500).json({ error: 'Database error' });
+          }
+      
+          if (results.length > 0) {
+            return res.status(400).json({ error: 'Ticket ID already exists. Try again.' });
+          }
+      
+          const createTicketSql = 'INSERT INTO tickets (ticket_id, user_id) VALUES (?, ?)';
+          db.query(createTicketSql, [ticketId, userId], (err, results) => {
+            if (err) {
+              return res.status(500).json({ error: 'Error creating ticket' });
+            }
+            res.status(201).json({ message: 'Ticket created successfully', ticketId });
+          });
+        });
+      });
+
+      app.post('/getMessages', (req, res) => {
+        const { ticketId } = req.body;
+      
+        const sql = 'SELECT * FROM messages WHERE ticket_id = ? ORDER BY created_at ASC';
+        db.query(sql, [ticketId], (err, results) => {
+          if (err) {
+            return res.status(500).json({ error: 'Database error' });
+          }
+          res.status(200).json(results);
+        });
+      });
+
+      app.post('/getTicketId', (req, res) => {
+        const sql = 'SELECT id, ticket_id FROM tickets';
+        db.query(sql, (err, results) => {
+            if (err) {
+                return res.status(500).json({ error: 'Database error' });
+            }
+
+            res.json(results);
+        });
     });
-
 
 // app.listen(8081,()=>{
 //     console.log("Connected");

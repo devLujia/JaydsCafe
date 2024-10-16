@@ -838,7 +838,7 @@ function Home() {
 
     {/* <!-- Chat button / chat box / chat bot --> */}
     {authenticated === true ? (
-        <ChatComponent name={profile.name} room={profile.verification_token} />
+        <ChatComponent name={profile.name} userId={profile.id} />
       ) : (
         <>
           <div className="fixed bottom-4 right-4 z-50 w-16 h-16">
