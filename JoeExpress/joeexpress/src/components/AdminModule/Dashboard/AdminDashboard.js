@@ -292,7 +292,7 @@ function AdminDashboard() {
                
                <div class="px-4 py-3 text-sm text-gray-900 flex flex-col items-center justify-end dark:text-white">
                   <div class="font-bold">{profile.name}</div>
-                  <div class="items-center justify-center">{profile.role}</div>
+                  <div class="items-center justify-center">{(profile?.role?.toUpperCase() || '')}</div>
                </div>
 
                <button onClick={toggleDropdown}>

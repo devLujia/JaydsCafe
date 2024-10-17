@@ -174,7 +174,7 @@ export default function CustomerAccount() {
             </button>
             <div class="px-4 py-3 text-sm text-gray-900 dark:text-white flex flex-col items-center">
                 <div class="font-bold">{profile.name}</div>
-                <div class="items-center justify-center">{profile.role}</div>
+                <div class="items-center justify-center">{(profile?.role?.toUpperCase() || '')}</div>
             </div>
             <button onClick={toggleDropdown}>
                 <img id="avatarButton" type="button" class="w-10 h-10 rounded-full cursor-pointer" src={user} alt="User dropdown"/>
