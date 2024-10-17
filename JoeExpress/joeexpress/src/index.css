@@ -300,6 +300,21 @@ nav .link{
   background: #067741;
 }
 
+@keyframes blob {
+  0% {
+    transform: scale(1);
+    border-radius: 50%;
+  }
+  50% {
+    transform: scale(1.1);
+    border-radius: 40%;
+  }
+  100% {
+    transform: scale(1);
+    border-radius: 50%;
+  }
+}
+
 /* Animation for Top Picks of the Today */
 
 @keyframes wave {
@@ -318,6 +333,24 @@ nav .link{
   100% {
     transform: translateY(0);
   }
+}
+
+
+/* Floating Effect for Logo */
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px); /* Adjust the value for higher or lower floating */
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite; /* Adjust duration and easing as needed */
 }
 
 /* Dynamic wave for add to cart button in menu landing page */
