@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 16, 2024 at 05:44 PM
+-- Generation Time: Oct 17, 2024 at 12:18 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -340,7 +340,9 @@ CREATE TABLE `messages` (
 
 INSERT INTO `messages` (`id`, `ticket_id`, `sender_id`, `content`, `created_at`) VALUES
 (3, '2krd4KJw', 31, 'test', '2024-10-16 14:02:03'),
-(4, '2krd4KJw', 31, 'test', '2024-10-16 14:02:34');
+(4, '2krd4KJw', 31, 'test', '2024-10-16 14:02:34'),
+(5, 'FNz5twpd', 31, 'Testing', '2024-10-17 01:43:48'),
+(6, 'h9UCY6NH', 31, 'Test', '2024-10-17 10:15:40');
 
 -- --------------------------------------------------------
 
@@ -373,8 +375,8 @@ INSERT INTO `orders` (`order_id`, `customer_id`, `order_date`, `update_order_dat
 (1918, 31, '2024-10-02 10:16:45', '2024-10-11 16:33:11', 'completed', 354),
 (1919, 31, '2024-10-02 10:20:16', '2024-10-11 16:33:11', 'cancelled', 108),
 (1920, 31, '2024-10-06 01:29:29', '2024-10-11 16:33:11', 'cancelled', 27),
-(1921, 31, '2024-10-07 01:41:09', '2024-10-11 16:33:11', 'on process', 29),
-(1922, 31, '2024-10-07 01:53:32', '2024-10-11 16:33:11', 'on process', 27),
+(1921, 31, '2024-10-07 01:41:09', '2024-10-17 01:00:26', 'on delivery', 29),
+(1922, 31, '2024-10-07 01:53:32', '2024-10-17 01:00:32', 'on delivery', 27),
 (1923, 31, '2024-10-07 02:01:09', '2024-10-11 16:33:11', 'on process', 27),
 (1924, 31, '2024-10-07 02:03:31', '2024-10-11 16:33:11', 'on process', 49),
 (1925, 31, '2024-10-07 02:03:36', '2024-10-11 16:33:11', 'paid', 49),
@@ -500,7 +502,9 @@ CREATE TABLE `tickets` (
 --
 
 INSERT INTO `tickets` (`id`, `ticket_id`, `user_id`, `subject`, `status`, `created_at`, `updated_at`) VALUES
-(1, '2krd4KJw', 31, NULL, 'open', '2024-10-16 14:02:02', '2024-10-16 14:02:02');
+(1, '2krd4KJw', 31, NULL, 'open', '2024-10-16 14:02:02', '2024-10-16 14:02:02'),
+(2, 'FNz5twpd', 31, NULL, 'open', '2024-10-17 01:43:44', '2024-10-17 01:43:44'),
+(3, 'h9UCY6NH', 31, NULL, 'open', '2024-10-17 10:15:06', '2024-10-17 10:15:06');
 
 -- --------------------------------------------------------
 
@@ -685,7 +689,7 @@ ALTER TABLE `food_sizes`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -709,7 +713,7 @@ ALTER TABLE `order_addons`
 -- AUTO_INCREMENT for table `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user`

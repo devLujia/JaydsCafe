@@ -343,6 +343,11 @@ export default function CustomerAccount() {
                         <img src={plus} alt="Plus_Product" class="me-2 md:block"/>
                         <span class="md:block hidden"> Add Admin </span>
                     </button> 
+                    
+                    <button type="button" class="ml-auto text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+                        <img src={plus} alt="Plus_Product" class="me-2 md:block"/>
+                        <span class="md:block hidden"> Add Role </span>
+                    </button> 
 
                 </div>
 
