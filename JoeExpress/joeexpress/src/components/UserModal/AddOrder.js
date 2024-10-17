@@ -167,20 +167,21 @@ return(
                 <div className='grid grid-cols-1 md:grid-cols-2 rounded-lg max-h-screen '>
                     {/* Left side */}
                     <div className='flex flex-col rounded-lg gap-y-4'>
-                        <div className='bg-darkgreen rounded-tl-xl'>
-                            <div className="p-4 w-56 mx-auto aspect-square">
+                        <div className='bg-darkgreen rounded-tl-xl bg-gradient-to-t from-[#ece0c8] to-[#f5f2e4]'>
+                            <div className="p-4 w-56 mx-auto aspect-square ">
                                 <img src={food.image_url} alt="Milk Tea" className="w-full h-full object-contain"/>
                             </div>
                         </div>
                         
                         <div className='text-center p-2 flex justify-center flex-col items-center'>
-                            <h1 className='text-3xl font-bold mb-2'>
-                                {food.name}
-                            </h1>
+                        <h1 className='text-4xl font-bold mb-2 relative text-transparent glow-text'>
+                            {food.name}
+                        </h1>
+
                             <p className='text-md font-normal text-slate-400'>
                                 Starts at
                             </p>
-                            <h2 className='text-2xl mb-4'>
+                            <h2 className='text-3xl mb-4 font-bold'>
                             ₱{selectedPrice}.00
                             </h2>
 
@@ -200,7 +201,7 @@ return(
                                                 <img src={cupsmall} alt="Medium" className="h-8 w-8" />
                                             </div>
                                             <p className={`text-sm font-semibold ${selectedSize === size.size ? 'text-green-500' : ''}`}>{size.size}</p>
-                                            <p className="text-xs text-gray-500">473 ml</p>
+                                            <p className="text-xs text-gray-500">16 oz</p>
                                         </label>
                                             
                                             
@@ -300,7 +301,7 @@ return(
                             data-accordion-target="#accordion-color-body-1"
                             aria-expanded="true"
                             aria-controls="accordion-color-body-1">
-                            <span class="text-md">Sugar level: </span>
+                            <span class="text-md">Sugar Level: </span>
                             <div className='inline-flex items-center gap-2'>
                                 <svg
                                     data-accordion-icon
@@ -356,7 +357,7 @@ return(
                             aria-controls="accordion-color-body-1">
                             <span class="text-md">Add-ons (Choose up to 2) </span>
                             <div className='inline-flex items-center gap-2'>
-                                <p>optional</p>
+                                <p>Optional</p>
                                 <svg
                                     data-accordion-icon
                                     className={`w-3 h-3 transition-transform duration-300 ${addons ? '' : 'rotate-180'}`}
@@ -405,16 +406,20 @@ return(
                             <button onClick={()=> closeModal(false)} className='text-white w-[40%] font-semibold tracking-wider bg-red-500 px-4 py-2 hover:bg-red-600 rounded-lg'>
                                 Cancel
                             </button>
-                            <button onClick={() => handleAddToCart(food)} className='bg-textgreenColor font-semibold tracking-wider text-white rounded-lg py-2 px-3 w-[60%]'>
-                                Add to order <span className='text-gray-200 ms-2'>₱{totalPrice}.00</span>
+                            <button
+                            onClick={() => handleAddToCart(food)}
+                            className='bg-gradient-to-r from-[#1f4d29] via-[#2b6b36] to-[#1f4d29]
+                                        font-semibold tracking-wider text-white 
+                                        rounded-lg py-2 px-3 w-[60%] 
+                                        transition-colors duration-300 
+                                        hover:bg-gradient-to-l hover:from-[#2b6b36] hover:to-[#1f4d29] 
+                                        hover:text-[#d1fae5]'
+                            >
+                            Add to Order <span className='text-gray-200 ms-2'>₱{totalPrice}.00</span>
                             </button>
                         </div>
-                    </div>
-                    
-                </div>
-                
-                
-            
+                    </div>              
+                </div>        
             </div>
         </div>
     </div>

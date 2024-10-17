@@ -349,6 +349,68 @@ nav .link{
   }
 }
 
+/* Very Subtle Glow effect without gradient */
+.glow-text {
+  color: #067741; /* Your primary color */
+  text-shadow: 0 0 2px rgba(6, 119, 65, 0.3), 
+               0 0 4px rgba(6, 119, 65, 0.2), 
+               0 0 6px rgba(6, 119, 65, 0.1);
+  animation: glow-pulse 2s infinite ease-in-out, shine-pulse 4s infinite ease-in-out;
+}
+
+@keyframes glow-pulse {
+  0% {
+    text-shadow: 0 0 2px rgba(6, 119, 65, 0.3), 
+                 0 0 4px rgba(6, 119, 65, 0.2), 
+                 0 0 6px rgba(6, 119, 65, 0.1);
+  }
+  50% {
+    text-shadow: 0 0 3px rgba(6, 119, 65, 0.4), 
+                 0 0 5px rgba(6, 119, 65, 0.3), 
+                 0 0 8px rgba(6, 119, 65, 0.2);
+  }
+  100% {
+    text-shadow: 0 0 2px rgba(6, 119, 65, 0.3), 
+                 0 0 4px rgba(6, 119, 65, 0.2), 
+                 0 0 6px rgba(6, 119, 65, 0.1);
+  }
+}
+
+@keyframes shine-pulse {
+  0% {
+    text-shadow: 0 0 2px rgba(6, 119, 65, 0.3), 
+                 0 0 4px rgba(6, 119, 65, 0.2), 
+                 0 0 6px rgba(6, 119, 65, 0.1);
+  }
+  25% {
+    text-shadow: 0 0 4px rgba(6, 119, 65, 0.5), 
+                 0 0 8px rgba(6, 119, 65, 0.3), 
+                 0 0 12px rgba(6, 119, 65, 0.2);
+  }
+  50% {
+    text-shadow: 0 0 2px rgba(6, 119, 65, 0.3), 
+                 0 0 4px rgba(6, 119, 65, 0.2), 
+                 0 0 6px rgba(6, 119, 65, 0.1);
+  }
+  75% {
+    text-shadow: 0 0 4px rgba(6, 119, 65, 0.5), 
+                 0 0 8px rgba(6, 119, 65, 0.3), 
+                 0 0 12px rgba(6, 119, 65, 0.2);
+  }
+  100% {
+    text-shadow: 0 0 2px rgba(6, 119, 65, 0.3), 
+                 0 0 4px rgba(6, 119, 65, 0.2), 
+                 0 0 6px rgba(6, 119, 65, 0.1);
+  }
+}
+
+
+
+
+
+
+
+
 .float-animation {
   animation: float 3s ease-in-out infinite; /* Adjust duration and easing as needed */
 }
