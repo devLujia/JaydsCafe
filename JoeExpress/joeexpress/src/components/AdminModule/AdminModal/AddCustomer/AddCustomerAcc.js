@@ -6,6 +6,7 @@ import axios from 'axios';
 function AddCustomerAcc({ closeModal }) {
 
     const [values, setValues] = useState({
+        pnum: '',
         name: '',
         email: '',
         role: '',

@@ -181,11 +181,18 @@ export default function Order_New() {
         const [currentPageHistory, setCurrentPageHistory] = useState(1);
         const rowsPerPageHistory = 5;
 
+        const [currentPendingPage, setCurrentPendingPage] = useState(1);
+
         // Calculate total pages
         const totalPages = Math.ceil(orders.length / rowsPerPage); //tracking
         const indexOfLastOrder = currentPage * rowsPerPage;
         const indexOfFirstOrder = indexOfLastOrder - rowsPerPage;
         const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+       
+        const totalPendingPages = Math.ceil(orders.length / rowsPerPage); //tracking
+        const indexOfLastPendingOrder = currentPendingPage * rowsPerPage;
+        const indexOfFirstPendingOrder = indexOfLastPendingOrder - rowsPerPage;
+        const currentPendingOrders = orderHistory.slice(indexOfFirstPendingOrder, indexOfLastPendingOrder);
 
         const totalPagesHistory = Math.ceil(orderHistory.length / rowsPerPageHistory); // history
         const indexOfLastOrderHistory = currentPageHistory * rowsPerPageHistory;
@@ -207,8 +214,20 @@ export default function Order_New() {
 
         // history
         const handleNextPageHistory = () => {
-            if (currentPageHistory < totalPagesHistory) {
+            if (currentPendingPage < totalPendingPages) {
                 setCurrentPageHistory(currentPageHistory + 1);
+            }
+        }; 
+        
+        const handleNextPendingPage = () => {
+            if (currentPendingPage < totalPendingPages) {
+                setCurrentPendingPage(currentPageHistory + 1);
+            }
+        };
+
+        const handlePrevPendingPage = () => {
+            if (currentPendingPage > 1) {
+                setCurrentPendingPage(currentPageHistory - 1);
             }
         };
     
@@ -748,8 +767,8 @@ export default function Order_New() {
                                                             </tr>
                                                         </thead>
 
-                                                        {/* <tbody>
-                                                            {orders.map(order => (
+                                                        <tbody>
+                                                            {currentPendingOrders.filter(order => order.status === 'on delivery').map(order => (
                                                                 <React.Fragment key={order.order_id}>
                                                                 <tr className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"  onClick={()=> toggleOrderDetails(order.order_id)}>
                                                                 <td className="px-6 py-4 text-center text-gray-900">
@@ -786,22 +805,12 @@ export default function Order_New() {
                                                                     
                                                                 </td>
                                                                 <td className=" px-6 py-4 ">
-                                                                    {order.status === 'paid' ? 
-                                                                        <button onClick={()=> getTheOrder(order.order_id, order.status)} className='py-2 px-3 bg-yellow-500 text-white rounded-full' >
-                                                                            Mark as 'on process'
-                                                                        </button>  
-                                                                        : order.status === 'on process' ? 
-                                                                        <button onClick={()=> getTheOrder(order.order_id, order.status)} className='py-2 px-3 bg-textgreenColor text-white rounded-full'>
-                                                                            Mark as 'on Delivery'
-                                                                        </button>     
-                                                                        : ""}
-                                                                </td>
-
-                                                                <td>
-                                                                        <button onClick={()=> cancelOrder(order.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title='Delete'>
+                                                                <button onClick={()=> cancelOrder(order.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title='Delete'>
                                                                             <img src={del} alt="trash" />
                                                                         </button>
                                                                 </td>
+
+                                                                <td></td>
 
                                                                 </tr>
 
@@ -827,7 +836,7 @@ export default function Order_New() {
                                                                 </React.Fragment>
 
                                                                 ))}
-                                                        </tbody> */}
+                                                        </tbody>
                                                     </table>
                                                 </div>  
                                             </div>                
@@ -893,7 +902,7 @@ export default function Order_New() {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {currentOrderHistory.map(orderh => (
+                                                        {currentOrderHistory.filter(orderh => orderh.status !== 'on delivery').map(orderh => (
                                                             <React.Fragment key={orderh.order_id}>
                                                                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                                                     <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white text-center">
@@ -919,7 +928,7 @@ export default function Order_New() {
                                                                         {orderh.status === 'completed' ? (
                                                                             <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{orderh.status}</div>
                                                                         ) : (
-                                                                            <div className="bg-red-100 text-blue-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{orderh.status}</div>
+                                                                            <div className="bg-red-100 text-red-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{orderh.status}</div>
                                                                         )}
                                                                     </td>
                                                                     <td className="px-6 py-4 text-center">
