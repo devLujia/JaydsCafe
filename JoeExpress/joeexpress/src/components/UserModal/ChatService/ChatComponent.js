@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import chatlogo from '../../image/live-chat.png';
+import chatlogo from '../../image/chat.svg';
 import socket from '../../AdminModule/Message/socketService';
 import axios from 'axios';
 
@@ -130,21 +130,22 @@ const ChatComponent = ({ name, userId }) => {
   return (
     <>
 
-    
+      {/* UI of the Chat Button */}
       <div className="fixed bottom-0 right-0 mb-4 mr-4 z-50 w-16 h-16">
         <button
           onClick={toggleChat}
-          className="bg-footer text-white py-2 px-4 rounded-full hover:bg-amber-700 transition duration-300 flex items-center w-16 h-16"
+          className="bg-[#067741] text-white py-2 px-4 rounded-full hover:bg-gradient-to-r hover:from-[#055c34] hover:to-[#067741] hover:scale-110 hover:shadow-xl transition-all duration-300 ease-in-out flex items-center justify-center w-16 h-16"
         >
-          <img src={chatlogo} alt="chat" />
+          <img src={chatlogo} alt="chat" className="w-8 h-8" />
         </button>
       </div>
 
+  
       {chatVisible && (
         <div id="chat-container" className="fixed bottom-16 right-4 w-96 z-50">
           <div className="bg-cards2 shadow-md rounded-lg max-w-lg w-full">
-            <div className="p-4 border-b bg-footer text-white rounded-t-lg flex justify-between items-center">
-              <p className="text-lg font-semibold">JoeBot</p>
+            <div className="p-4 border-b bg-[#067741] text-white rounded-t-lg flex justify-between items-center">
+              <p className="text-lg font-semibold">Jayd'sCafe Admin</p>
               <button onClick={toggleChat} className="text-gray-300 hover:text-gray-400 focus:outline-none focus:text-gray-400">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -174,7 +175,7 @@ const ChatComponent = ({ name, userId }) => {
                   Ticket Created : {ticketId}
                     <br></br>
                     <br></br>
-                  👋 Hi there! You are now connected to the admin, Please address your concern
+                  👋 Hi there! You are now connected to the admin, Please address your concern.
                 </p>
               }
               </div>
@@ -196,14 +197,14 @@ const ChatComponent = ({ name, userId }) => {
                                {messageContent.author === name ? `Me: ${messageContent.message}` : `Admin : ${messageContent.message}`  }
                             </p>
                       </div>)
-})}
+            })}
             </div>
 
             {!ticketId ? (
               <div className="p-4 border-t flex">
                 <button
                   onClick={createNewTicket}
-                  className="bg-footer text-white px-4 py-2 rounded-md hover:bg-amber-700 transition duration-300"
+                  className="bg-[#067741] text-white px-4 py-2 rounded-md hover:bg-gradient-to-r hover:from-[#055c34] hover:to-[#067741] hover:scale-105 hover:shadow-lg transition-all duration-300 ease-in-out"
                 >
                   Create New Ticket
                 </button>
@@ -220,7 +221,7 @@ const ChatComponent = ({ name, userId }) => {
                   />
                   <button
                     onClick={sendMessage}
-                    className="bg-footer text-white px-4 py-2 rounded-r-md hover:bg-amber-700 transition duration-300"
+                    className="bg-[#067741] text-white px-4 py-2 rounded-r-md hover:from-[#055c34] hover:to-[#067741] transition duration-300"
                   >
                     Send
                   </button>
