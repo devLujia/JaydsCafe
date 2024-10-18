@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 18, 2024 at 02:29 PM
+-- Generation Time: Oct 18, 2024 at 04:02 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -172,6 +172,35 @@ INSERT INTO `cms_pages` (`id`, `title`, `content`, `created_at`, `updated_at`, `
 (21, 'Review5', '/images/', '2024-10-11 17:06:36', '2024-10-11 17:06:36', 'Review'),
 (22, 'Review6', '/images/', '2024-10-11 17:06:39', '2024-10-11 17:06:39', 'Review'),
 (23, 'Terms', 'BABALA WAG OORDER PLEASE, FOR THESIS PURPOSES', '2024-10-18 12:20:32', '2024-10-18 12:20:32', 'Terms');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `discount_codes`
+--
+
+CREATE TABLE `discount_codes` (
+  `id` int(11) NOT NULL,
+  `code` varchar(255) NOT NULL,
+  `discount_type` enum('percentage','fixed') NOT NULL,
+  `discount_value` decimal(10,2) NOT NULL,
+  `min_order_value` decimal(10,2) DEFAULT NULL,
+  `max_discount_value` decimal(10,2) DEFAULT NULL,
+  `usage_limit` int(11) DEFAULT 1,
+  `times_used` int(11) DEFAULT 0,
+  `valid_from` date NOT NULL,
+  `valid_until` date NOT NULL,
+  `is_active` tinyint(1) DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `discount_codes`
+--
+
+INSERT INTO `discount_codes` (`id`, `code`, `discount_type`, `discount_value`, `min_order_value`, `max_discount_value`, `usage_limit`, `times_used`, `valid_from`, `valid_until`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 'SUMMER2024', 'percentage', 15.00, 50.00, 100.00, 5, 0, '2024-06-01', '2024-12-31', 1, '2024-10-18 12:54:06', '2024-10-18 13:33:12');
 
 -- --------------------------------------------------------
 
@@ -674,6 +703,13 @@ ALTER TABLE `cms_pages`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `discount_codes`
+--
+ALTER TABLE `discount_codes`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code` (`code`);
+
+--
 -- Indexes for table `foods`
 --
 ALTER TABLE `foods`
@@ -778,6 +814,12 @@ ALTER TABLE `category`
 --
 ALTER TABLE `cms_pages`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `discount_codes`
+--
+ALTER TABLE `discount_codes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `foods`
