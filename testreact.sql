@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 17, 2024 at 12:18 PM
+-- Generation Time: Oct 18, 2024 at 02:29 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -99,7 +99,8 @@ CREATE TABLE `cart_items` (
 
 INSERT INTO `cart_items` (`id`, `user_id`, `food_id`, `size`, `price`, `quantity`, `created_at`, `updated_at`, `addons`) VALUES
 (109, 40, 18, 'Medium', 217.00, 1, '2024-09-21 12:23:10', '2024-09-21 12:23:10', 'taengkambing (₱59),cheesesabinimam (₱59),cheesesabinimam (₱50)'),
-(110, 40, 20, 'Large', 109.00, 1, '2024-09-21 12:34:54', '2024-09-21 12:34:54', 'cheesesabinimam (₱50)');
+(110, 40, 20, 'Large', 109.00, 1, '2024-09-21 12:34:54', '2024-09-21 12:34:54', 'cheesesabinimam (₱50)'),
+(170, 31, 18, 'medium', 160.00, 1, '2024-10-18 11:02:36', '2024-10-18 11:02:36', '');
 
 -- --------------------------------------------------------
 
@@ -169,7 +170,8 @@ INSERT INTO `cms_pages` (`id`, `title`, `content`, `created_at`, `updated_at`, `
 (19, 'Review3', '/images/462538751_1066066354963335_9093822928369937838_n.png', '2024-10-11 16:51:51', '2024-10-11 16:51:51', 'Review'),
 (20, 'Review4', '/images/', '2024-10-11 17:06:32', '2024-10-11 17:06:32', 'Review'),
 (21, 'Review5', '/images/', '2024-10-11 17:06:36', '2024-10-11 17:06:36', 'Review'),
-(22, 'Review6', '/images/', '2024-10-11 17:06:39', '2024-10-11 17:06:39', 'Review');
+(22, 'Review6', '/images/', '2024-10-11 17:06:39', '2024-10-11 17:06:39', 'Review'),
+(23, 'Terms', 'BABALA WAG OORDER PLEASE, FOR THESIS PURPOSES', '2024-10-18 12:20:32', '2024-10-18 12:20:32', 'Terms');
 
 -- --------------------------------------------------------
 
@@ -342,7 +344,63 @@ INSERT INTO `messages` (`id`, `ticket_id`, `sender_id`, `content`, `created_at`)
 (3, '2krd4KJw', 31, 'test', '2024-10-16 14:02:03'),
 (4, '2krd4KJw', 31, 'test', '2024-10-16 14:02:34'),
 (5, 'FNz5twpd', 31, 'Testing', '2024-10-17 01:43:48'),
-(6, 'h9UCY6NH', 31, 'Test', '2024-10-17 10:15:40');
+(6, 'h9UCY6NH', 31, 'Test', '2024-10-17 10:15:40'),
+(7, 'Qg8eta61', 31, 'test', '2024-10-18 06:09:13'),
+(8, 'Qg8eta61', 31, 'test', '2024-10-18 06:09:23'),
+(9, 'Qg8eta61', 31, 'test', '2024-10-18 06:15:11'),
+(10, 'K0oHi9RZ', 31, 'test', '2024-10-18 06:16:19'),
+(11, 'K0oHi9RZ', 31, 'test', '2024-10-18 06:16:44'),
+(12, 'K0oHi9RZ', 42, 'test', '2024-10-18 06:20:05'),
+(13, 'K0oHi9RZ', 31, 'yo', '2024-10-18 06:20:14'),
+(14, 'K0oHi9RZ', 42, 'yo', '2024-10-18 06:20:20'),
+(15, 'K0oHi9RZ', 42, 'test', '2024-10-18 06:22:24'),
+(16, 'jM34SdM0', 42, 'test', '2024-10-18 06:22:37'),
+(17, 'jM34SdM0', 31, 'test', '2024-10-18 06:23:03'),
+(18, 'W2DtopiV', 31, 'test', '2024-10-18 06:23:27'),
+(19, 'W2DtopiV', 42, 'yes?', '2024-10-18 06:23:39'),
+(20, 'W2DtopiV', 31, 'tes', '2024-10-18 06:23:46'),
+(21, 'W2DtopiV', 42, 'yes', '2024-10-18 06:23:52'),
+(22, 'Ue02WztJ', 31, 'Test', '2024-10-18 06:30:43'),
+(23, 'Ue02WztJ', 42, 'test', '2024-10-18 06:31:21'),
+(24, 'Ue02WztJ', 42, 'test', '2024-10-18 06:31:41'),
+(25, 'Ue02WztJ', 42, 'check', '2024-10-18 06:31:51'),
+(26, 'Ue02WztJ', 31, 'yo', '2024-10-18 06:32:02'),
+(27, 'Ue02WztJ', 31, 'Hello po pabili', '2024-10-18 06:32:12'),
+(28, 'Ue02WztJ', 42, 'ng alen', '2024-10-18 06:32:17'),
+(29, 'Ue02WztJ', 31, 'chicken', '2024-10-18 06:32:24'),
+(30, 'Ue02WztJ', 42, 'wala po', '2024-10-18 06:32:30'),
+(31, 'Ue02WztJ', 42, 'test', '2024-10-18 06:48:24'),
+(32, 'Ue02WztJ', 42, 'test', '2024-10-18 06:50:02'),
+(33, 'Ue02WztJ', 31, 'test', '2024-10-18 06:51:05'),
+(34, 'Ue02WztJ', 31, 'test', '2024-10-18 06:51:27'),
+(35, 'Ue02WztJ', 42, 'ayo', '2024-10-18 06:51:46'),
+(36, 'Ue02WztJ', 42, 'gumagana na ?\\', '2024-10-18 06:52:02'),
+(37, 'Ue02WztJ', 31, 'test', '2024-10-18 06:53:45'),
+(38, 'Ue02WztJ', 31, 'gumagana na po\\', '2024-10-18 06:53:53'),
+(39, 'Ue02WztJ', 42, 'test', '2024-10-18 06:56:23'),
+(40, 'Ue02WztJ', 42, 'ayon', '2024-10-18 06:56:26'),
+(41, 'Ue02WztJ', 42, 'test', '2024-10-18 06:57:09'),
+(42, 'Ue02WztJ', 31, 'hello', '2024-10-18 06:57:14'),
+(43, 'Ue02WztJ', 31, 'dyan ka pa po ba', '2024-10-18 06:57:31'),
+(44, 'Ue02WztJ', 42, 'uu', '2024-10-18 06:57:35'),
+(45, 'Ue02WztJ', 42, 'test', '2024-10-18 06:58:42'),
+(46, 'Ue02WztJ', 42, 'helloo po', '2024-10-18 06:58:51'),
+(47, 'Ue02WztJ', 42, 'double tuloy', '2024-10-18 06:59:00'),
+(48, 'Ue02WztJ', 31, 'puking ina', '2024-10-18 06:59:55'),
+(49, 'Ue02WztJ', 31, 'bat double', '2024-10-18 07:00:03'),
+(50, 'Ue02WztJ', 31, 'test', '2024-10-18 07:00:51'),
+(51, 'Ue02WztJ', 31, 'test', '2024-10-18 07:02:05'),
+(52, 'Ue02WztJ', 31, 'menu offerings', '2024-10-18 07:02:15'),
+(53, 'Ue02WztJ', 42, 'test', '2024-10-18 07:02:20'),
+(54, 'Ue02WztJ', 31, 'hala', '2024-10-18 07:02:46'),
+(55, 'Ue02WztJ', 31, 'ello ?', '2024-10-18 07:02:52'),
+(56, 'Ue02WztJ', 42, 'asan ka po', '2024-10-18 07:03:08'),
+(57, 'Ue02WztJ', 31, 'dito lang po', '2024-10-18 07:03:13'),
+(58, 'Ue02WztJ', 31, 'test', '2024-10-18 07:03:39'),
+(59, 'Ue02WztJ', 42, 'testing', '2024-10-18 07:03:44'),
+(60, 'Ue02WztJ', 31, 'test', '2024-10-18 07:04:14'),
+(61, 'Ue02WztJ', 31, 'testing nga e', '2024-10-18 07:04:20'),
+(62, 'Ue02WztJ', 42, 'okayyy dot', '2024-10-18 07:04:27');
 
 -- --------------------------------------------------------
 
@@ -354,6 +412,8 @@ CREATE TABLE `orders` (
   `order_id` int(100) UNSIGNED NOT NULL,
   `customer_id` int(100) UNSIGNED NOT NULL,
   `order_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `deliveryMethod` enum('Pickup','Delivery') NOT NULL,
+  `paymentMethod` varchar(50) NOT NULL,
   `update_order_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` enum('unpaid','paid','on process','on delivery','completed','cancelled') NOT NULL,
   `totalPrice` int(11) NOT NULL
@@ -363,48 +423,50 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`order_id`, `customer_id`, `order_date`, `update_order_date`, `status`, `totalPrice`) VALUES
-(1910, 31, '2024-09-23 07:38:22', '2024-10-11 16:33:11', 'completed', 400),
-(1911, 31, '2024-09-23 07:40:12', '2024-10-11 16:33:11', 'paid', 400),
-(1912, 31, '2024-09-23 07:47:01', '2024-10-11 16:33:11', 'completed', 400),
-(1913, 31, '2024-09-23 09:28:04', '2024-10-11 16:33:11', 'completed', 100),
-(1914, 31, '2024-09-23 10:05:35', '2024-10-11 16:33:11', 'completed', 100),
-(1915, 31, '2024-09-23 17:46:49', '2024-10-11 16:33:11', 'completed', 296),
-(1916, 31, '2024-09-25 15:03:41', '2024-10-11 16:33:11', 'completed', 1389),
-(1917, 31, '2024-10-02 10:12:45', '2024-10-11 16:33:11', 'on delivery', 354),
-(1918, 31, '2024-10-02 10:16:45', '2024-10-11 16:33:11', 'completed', 354),
-(1919, 31, '2024-10-02 10:20:16', '2024-10-11 16:33:11', 'cancelled', 108),
-(1920, 31, '2024-10-06 01:29:29', '2024-10-11 16:33:11', 'cancelled', 27),
-(1921, 31, '2024-10-07 01:41:09', '2024-10-17 01:00:26', 'on delivery', 29),
-(1922, 31, '2024-10-07 01:53:32', '2024-10-17 01:00:32', 'on delivery', 27),
-(1923, 31, '2024-10-07 02:01:09', '2024-10-11 16:33:11', 'on process', 27),
-(1924, 31, '2024-10-07 02:03:31', '2024-10-11 16:33:11', 'on process', 49),
-(1925, 31, '2024-10-07 02:03:36', '2024-10-11 16:33:11', 'paid', 49),
-(1926, 31, '2024-10-07 02:03:51', '2024-10-11 16:33:11', 'on process', 27),
-(1927, 31, '2024-10-07 02:04:15', '2024-10-11 16:33:11', 'on process', 49),
-(1928, 31, '2024-10-07 02:07:14', '2024-10-11 16:33:11', 'on process', 49),
-(1929, 31, '2024-10-07 02:09:20', '2024-10-11 16:33:11', 'paid', 0),
-(1930, 31, '2024-10-07 02:09:35', '2024-10-11 16:33:11', 'paid', 49),
-(1931, 31, '2024-10-07 02:19:45', '2024-10-11 16:33:11', 'paid', 147),
-(1932, 31, '2024-10-07 02:21:43', '2024-10-11 16:33:11', 'paid', 49),
-(1933, 31, '2024-10-07 02:23:08', '2024-10-11 16:33:11', 'paid', 49),
-(1934, 31, '2024-10-07 02:25:20', '2024-10-11 16:33:11', 'paid', 49),
-(1935, 31, '2024-10-07 02:27:05', '2024-10-11 16:33:11', 'paid', 49),
-(1936, 31, '2024-10-07 02:27:12', '2024-10-11 16:33:11', 'paid', 49),
-(1937, 31, '2024-10-07 02:30:30', '2024-10-11 16:33:11', 'paid', 49),
-(1938, 31, '2024-10-07 02:40:24', '2024-10-11 16:33:11', 'paid', 49),
-(1939, 31, '2024-10-07 02:40:32', '2024-10-11 16:33:11', 'paid', 49),
-(1940, 31, '2024-10-07 02:43:40', '2024-10-11 16:33:11', 'paid', 49),
-(1941, 31, '2024-10-07 02:44:16', '2024-10-11 16:33:11', 'paid', 49),
-(1942, 31, '2024-10-07 02:46:41', '2024-10-11 16:33:11', 'paid', 49),
-(1943, 31, '2024-10-07 05:19:14', '2024-10-11 16:33:11', 'paid', 69),
-(1944, 31, '2024-10-07 05:21:48', '2024-10-11 16:33:11', 'paid', 59),
-(1945, 31, '2024-10-07 05:25:29', '2024-10-11 16:33:11', 'paid', 49),
-(1946, 31, '2024-10-07 05:26:07', '2024-10-11 16:33:11', 'paid', 27),
-(1947, 31, '2024-10-07 05:33:19', '2024-10-11 16:33:11', 'paid', 49),
-(1948, 31, '2024-10-07 05:35:29', '2024-10-11 16:33:11', 'paid', 39),
-(1949, 31, '2024-10-07 16:42:46', '2024-10-11 16:33:11', 'paid', 27),
-(1950, 31, '2024-10-11 16:17:18', '2024-10-11 16:33:11', 'paid', 127);
+INSERT INTO `orders` (`order_id`, `customer_id`, `order_date`, `deliveryMethod`, `paymentMethod`, `update_order_date`, `status`, `totalPrice`) VALUES
+(1910, 31, '2024-09-23 07:38:22', 'Pickup', '', '2024-10-11 16:33:11', 'completed', 400),
+(1911, 31, '2024-09-23 07:40:12', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 400),
+(1912, 31, '2024-09-23 07:47:01', 'Pickup', '', '2024-10-11 16:33:11', 'completed', 400),
+(1913, 31, '2024-09-23 09:28:04', 'Pickup', '', '2024-10-11 16:33:11', 'completed', 100),
+(1914, 31, '2024-09-23 10:05:35', 'Pickup', '', '2024-10-11 16:33:11', 'completed', 100),
+(1915, 31, '2024-09-23 17:46:49', 'Pickup', '', '2024-10-11 16:33:11', 'completed', 296),
+(1916, 31, '2024-09-25 15:03:41', 'Pickup', '', '2024-10-11 16:33:11', 'completed', 1389),
+(1917, 31, '2024-10-02 10:12:45', 'Pickup', '', '2024-10-11 16:33:11', 'on delivery', 354),
+(1918, 31, '2024-10-02 10:16:45', 'Pickup', '', '2024-10-11 16:33:11', 'completed', 354),
+(1919, 31, '2024-10-02 10:20:16', 'Pickup', '', '2024-10-11 16:33:11', 'cancelled', 108),
+(1920, 31, '2024-10-06 01:29:29', 'Pickup', '', '2024-10-11 16:33:11', 'cancelled', 27),
+(1921, 31, '2024-10-07 01:41:09', 'Pickup', '', '2024-10-17 01:00:26', 'on delivery', 29),
+(1922, 31, '2024-10-07 01:53:32', 'Pickup', '', '2024-10-17 01:00:32', 'on delivery', 27),
+(1923, 31, '2024-10-07 02:01:09', 'Pickup', '', '2024-10-11 16:33:11', 'on process', 27),
+(1924, 31, '2024-10-07 02:03:31', 'Pickup', '', '2024-10-11 16:33:11', 'on process', 49),
+(1925, 31, '2024-10-07 02:03:36', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49),
+(1926, 31, '2024-10-07 02:03:51', 'Pickup', '', '2024-10-11 16:33:11', 'on process', 27),
+(1927, 31, '2024-10-07 02:04:15', 'Pickup', '', '2024-10-11 16:33:11', 'on process', 49),
+(1928, 31, '2024-10-07 02:07:14', 'Pickup', '', '2024-10-11 16:33:11', 'on process', 49),
+(1929, 31, '2024-10-07 02:09:20', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 0),
+(1930, 31, '2024-10-07 02:09:35', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49),
+(1931, 31, '2024-10-07 02:19:45', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 147),
+(1932, 31, '2024-10-07 02:21:43', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49),
+(1933, 31, '2024-10-07 02:23:08', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49),
+(1934, 31, '2024-10-07 02:25:20', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49),
+(1935, 31, '2024-10-07 02:27:05', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49),
+(1936, 31, '2024-10-07 02:27:12', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49),
+(1937, 31, '2024-10-07 02:30:30', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49),
+(1938, 31, '2024-10-07 02:40:24', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49),
+(1939, 31, '2024-10-07 02:40:32', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49),
+(1940, 31, '2024-10-07 02:43:40', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49),
+(1941, 31, '2024-10-07 02:44:16', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49),
+(1942, 31, '2024-10-07 02:46:41', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49),
+(1943, 31, '2024-10-07 05:19:14', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 69),
+(1944, 31, '2024-10-07 05:21:48', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 59),
+(1945, 31, '2024-10-07 05:25:29', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49),
+(1946, 31, '2024-10-07 05:26:07', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 27),
+(1947, 31, '2024-10-07 05:33:19', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49),
+(1948, 31, '2024-10-07 05:35:29', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 39),
+(1949, 31, '2024-10-07 16:42:46', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 27),
+(1950, 31, '2024-10-11 16:17:18', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 127),
+(1951, 31, '2024-10-18 10:58:45', 'Delivery', 'gcash', '2024-10-18 10:58:45', 'paid', 400),
+(1952, 31, '2024-10-18 11:01:25', 'Delivery', 'gcash', '2024-10-18 11:01:25', 'paid', 199);
 
 -- --------------------------------------------------------
 
@@ -466,7 +528,9 @@ INSERT INTO `orders_food` (`id`, `order_id`, `food_id`, `quantity`, `size`, `add
 (135, 1949, 18, 1, 'small', ''),
 (136, 1950, 113, 1, 'medium', ''),
 (137, 1950, 18, 1, 'medium', ''),
-(138, 1950, 19, 1, 'medium', '');
+(138, 1950, 19, 1, 'medium', ''),
+(139, 1951, 18, 1, 'medium', 'fruit salad (₱39)'),
+(140, 1952, 20, 1, 'medium', 'fruit salad (₱39)');
 
 -- --------------------------------------------------------
 
@@ -479,6 +543,31 @@ CREATE TABLE `order_addons` (
   `order_id` int(11) UNSIGNED NOT NULL,
   `addon_id` int(11) UNSIGNED NOT NULL,
   `quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `riderstats`
+--
+
+CREATE TABLE `riderstats` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `rider_id` int(10) UNSIGNED NOT NULL,
+  `earnings` int(11) NOT NULL,
+  `Orders` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role`
+--
+
+CREATE TABLE `role` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `administer` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -504,7 +593,12 @@ CREATE TABLE `tickets` (
 INSERT INTO `tickets` (`id`, `ticket_id`, `user_id`, `subject`, `status`, `created_at`, `updated_at`) VALUES
 (1, '2krd4KJw', 31, NULL, 'open', '2024-10-16 14:02:02', '2024-10-16 14:02:02'),
 (2, 'FNz5twpd', 31, NULL, 'open', '2024-10-17 01:43:44', '2024-10-17 01:43:44'),
-(3, 'h9UCY6NH', 31, NULL, 'open', '2024-10-17 10:15:06', '2024-10-17 10:15:06');
+(3, 'h9UCY6NH', 31, NULL, 'open', '2024-10-17 10:15:06', '2024-10-17 10:15:06'),
+(4, 'Qg8eta61', 31, NULL, 'open', '2024-10-18 06:08:38', '2024-10-18 06:08:38'),
+(5, 'K0oHi9RZ', 31, NULL, 'open', '2024-10-18 06:16:18', '2024-10-18 06:16:18'),
+(6, 'jM34SdM0', 31, NULL, 'open', '2024-10-18 06:22:29', '2024-10-18 06:22:29'),
+(7, 'W2DtopiV', 31, NULL, 'open', '2024-10-18 06:23:25', '2024-10-18 06:23:25'),
+(8, 'Ue02WztJ', 31, NULL, 'open', '2024-10-18 06:29:40', '2024-10-18 06:29:40');
 
 -- --------------------------------------------------------
 
@@ -538,7 +632,7 @@ INSERT INTO `user` (`id`, `name`, `email`, `password`, `address`, `role`, `creat
 (41, 'chardgrey', 'chardgrey@gmail.com', '$2b$10$5zsQK5v7BQW3WFcpLMBDveWzsV8e6EsUR7751.X3ZU2VhZ4pXcdle', 'Blk p lot 4 DASMARINAS', 'user', '2024-09-28 01:52:33', '2024-09-28 01:52:33', 'dolrv3tepi', 'false', '09278658355'),
 (42, 'leklek', 'leklek@gmail.com', '$2b$10$YZg1R7JAiuRBIxbXuD/HF.Z.Y6fGM7cUPqyD94Zns1pyIEBWLf9K.', 'Blk p lot 4 DASMARINAS', 'admin', '2024-09-28 01:58:05', '2024-09-28 13:14:10', '0473le3c91', 'true', '09278658355'),
 (43, 'tetetetest', 'tetetetest@gmail.com', '$2b$10$2hGDiB5Dhngk.xiEi958kuOhvTVH5NoRhFWU.MYR985VgbIcfQDpC', 'tetetetest', 'user', '2024-10-02 12:27:35', '2024-10-02 12:27:35', 'xdix8ijkbf', 'false', '09278658355'),
-(44, 'binulzahan02', 'binulzahan02@gmail.com', '$2b$10$Z6eau.XVkvkqKX57pRmo0OhkCHYpEVGkEqSFVgMjGgTiWDmaLN32q', 'test', 'cashier', '2024-10-14 01:14:45', '2024-10-15 03:05:47', 'j4efvgvccc', 'false', '091234567890'),
+(44, 'binulzahan02', 'binulzahan02@gmail.com', '$2b$10$Z6eau.XVkvkqKX57pRmo0OhkCHYpEVGkEqSFVgMjGgTiWDmaLN32q', 'test', 'rider', '2024-10-14 01:14:45', '2024-10-18 07:14:21', 'j4efvgvccc', 'false', '091234567890'),
 (45, 'san', 'sam@gmail.com', '$2b$10$78uurnjUIzE8vfH4W.162.niq4ZK3b3WYEvsm5DMTBsjLDUa2K32e', 'san', 'user', '2024-10-14 01:48:59', '2024-10-14 01:48:59', 'v7l31rxyox', 'false', '09218874343');
 
 --
@@ -626,6 +720,18 @@ ALTER TABLE `order_addons`
   ADD KEY `fk_addons_id` (`addon_id`);
 
 --
+-- Indexes for table `riderstats`
+--
+ALTER TABLE `riderstats`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `role`
+--
+ALTER TABLE `role`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tickets`
 --
 ALTER TABLE `tickets`
@@ -659,7 +765,7 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -671,7 +777,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `cms_pages`
 --
 ALTER TABLE `cms_pages`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `foods`
@@ -689,19 +795,19 @@ ALTER TABLE `food_sizes`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1951;
+  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1953;
 
 --
 -- AUTO_INCREMENT for table `orders_food`
 --
 ALTER TABLE `orders_food`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
 
 --
 -- AUTO_INCREMENT for table `order_addons`
@@ -710,10 +816,22 @@ ALTER TABLE `order_addons`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `riderstats`
+--
+ALTER TABLE `riderstats`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `role`
+--
+ALTER TABLE `role`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `user`

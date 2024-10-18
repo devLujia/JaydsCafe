@@ -1946,6 +1946,7 @@ app.post('/removeProduct',  async (req, res) =>{
           }
           res.status(200).json(results);
         });
+
       });
 
       app.post('/getTicketId', (req, res) => {
