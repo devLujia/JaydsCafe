@@ -587,46 +587,100 @@ app.get('/verify/:token', (req, res) => {
 });
 
 app.post('/order', (req, res) => {
-    const { userId, amount, deliveryMethod,paymentMethod } = req.body;
+    const { userId, amount, deliveryMethod, paymentMethod, code } = req.body;
 
-    // Insert into orders table
-    const query = `
-        INSERT INTO orders (customer_id, deliveryMethod , paymentMethod , totalPrice, status) 
-        VALUES (?, ?, ?, ? ,'paid');
-        SELECT LAST_INSERT_ID() as lastOrderId;
-    `;
+    let finalAmount = amount;
 
-    db.query(query, [userId,deliveryMethod, paymentMethod, amount], (err, resInInserting) => {
-        if (err) {
-            return res.json({ success: false, err: "Error inserting order" });
-        }
-
-        const lastOrderId = resInInserting[1][0].lastOrderId;
-
-        // Insert into orders_food with addons
-        const gettingOrder = `
-            INSERT INTO orders_food (order_id, food_id, quantity, addons, size)
-            SELECT ?, food_id, quantity, addons, size
-            FROM cart_items
-            WHERE user_id = ?;
+    const processOrder = () => {
+        
+        const query = `
+            INSERT INTO orders (customer_id, deliveryMethod, paymentMethod, totalPrice, status) 
+            VALUES (?, ?, ?, ? ,'paid');
+            SELECT LAST_INSERT_ID() as lastOrderId;
         `;
 
-        db.query(gettingOrder, [lastOrderId, userId], (err, resInGettingOrder) => {
+        db.query(query, [userId, deliveryMethod, paymentMethod, finalAmount], (err, resInInserting) => {
             if (err) {
-                return res.json({ err: "Error inserting order_food" });
+                return res.json({ success: false, err: "Error inserting order" });
             }
 
-            // Delete from cart_items after order is placed
-            const remove = `DELETE FROM cart_items WHERE user_id = ?`;
-            db.query(remove, [userId], (errInRemove, resInRemove) => {
-                if (errInRemove) {
-                    return res.json({ err: "Error removing items from cart" });
-                }
-            });
+            const lastOrderId = resInInserting[1][0].lastOrderId;
 
-            return res.json({ success: true, lastOrderId });
+            // Insert into orders_food with addons
+            const gettingOrder = `
+                INSERT INTO orders_food (order_id, food_id, quantity, addons, size)
+                SELECT ?, food_id, quantity, addons, size
+                FROM cart_items
+                WHERE user_id = ?;
+            `;
+
+            db.query(gettingOrder, [lastOrderId, userId], (err, resInGettingOrder) => {
+                if (err) {
+                    return res.json({ err: "Error inserting order_food" });
+                }
+
+                // Delete from cart_items after order is placed
+                const remove = `DELETE FROM cart_items WHERE user_id = ?`;
+                db.query(remove, [userId], (errInRemove, resInRemove) => {
+                    if (errInRemove) {
+                        return res.json({ err: "Error removing items from cart" });
+                    }
+
+                    return res.json({ success: true, lastOrderId });
+                });
+            });
         });
-    });
+    };
+
+    if (code) {
+        // Check if the discount code is valid
+        const discountQuery = `
+            SELECT * 
+            FROM discount_codes 
+            WHERE code = ? 
+            AND is_active = 1
+            AND valid_from <= NOW() 
+            AND valid_until >= NOW();
+        `;
+
+        db.query(discountQuery, [code], (err, discountResults) => {
+            if (err) {
+                return res.json({ success: false, err: "Error validating discount code" });
+            }
+
+            if (discountResults.length === 0) {
+                // Invalid or expired discount code
+                return res.json({ success: false, err: "Invalid or expired discount code" });
+            }
+
+            // Apply the discount
+            const discount = discountResults[0];
+            const discountAmount = discount.discount_type === 'percentage'
+                ? (amount * discount.discount_value) / 100
+                : discount.discount_value;
+
+            // Calculate the final amount after discount
+            finalAmount = Math.max(0, amount - discountAmount); // Ensure the final amount doesn't go below zero
+
+            // Update the times_used for the discount code
+            const updateUsage = `
+                UPDATE discount_codes 
+                SET times_used = times_used + 1
+                WHERE id = ?;
+            `;
+            db.query(updateUsage, [discount.id], (err) => {
+                if (err) {
+                    return res.json({ success: false, err: "Error updating discount code usage" });
+                }
+
+                // Proceed to process the order after applying the discount
+                processOrder();
+            });
+        });
+    } else {
+        // No discount code, proceed with the order
+        processOrder();
+    }
 });
 
 app.post('/removeCartItems', (req,res)=>{
@@ -1957,6 +2011,61 @@ app.post('/removeProduct',  async (req, res) =>{
             }
 
             res.json(results);
+        });
+    });
+
+
+    app.post('/validateDiscount', (req, res) => {
+        const { code, totalBill } = req.body;
+
+
+    
+        const sql = 
+        `
+          SELECT * 
+          FROM discount_codes 
+          WHERE code = ? 
+          AND is_active = 1
+          AND valid_from <= NOW() 
+          AND valid_until >= NOW()
+        `;
+    
+        db.query(sql, [code], (err, results) => {
+            
+            if (err) {
+                return res.status(500).json({ success: false, message: 'Database error' });
+            }
+    
+            if (results.length === 0) {
+                return res.status(400).json({ success: false, message: 'Invalid or expired discount code' });
+            }
+    
+            const discount = results[0];
+            let discountAmount = 0;
+    
+            if (discount.min_order_value && totalBill < discount.min_order_value) {
+                return res.status(400).json({
+                    success: false,
+                    message: `Minimum order value is $${discount.min_order_value.toFixed(2)} to apply this discount.`,
+                });
+            }
+    
+            if (discount.discount_type === 'percentage') {
+                discountAmount = (totalBill * discount.discount_value) / 100;
+    
+                if (discount.max_discount_value && discountAmount > discount.max_discount_value) {
+                    discountAmount = discount.max_discount_value;
+                }
+
+            } else if (discount.discount_type === 'fixed') {
+                discountAmount = discount.discount_value;
+            }
+    
+            return res.json({
+                success: true,
+                discountAmount,
+                finalAmount: totalBill - discountAmount,
+            });
         });
     });
 

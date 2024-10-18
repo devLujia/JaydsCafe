@@ -24,18 +24,14 @@ export default function Checkout() {
     const navigate = useNavigate();
     const [paymentIntentId, setPaymentIntentId] = useState(null);
     const [totalBill, setTotalBill] = useState(0);
+    const [discount, setDiscount] = useState(0);
+    const [code, setCode] = useState('');
     const [checkoutUrl, setCheckoutUrl] = useState(null);
     const [profile, setProfile] = useState([])
     const [selectedPayment, setSelectedPayment] = useState('');
-
-    const { OrdrId } = useParams();
     const { riderNote } = location.state || {};
+    const [loading, setLoading] = useState(false);
 
-    // useEffect(() => {
-    //     axios.get(`http://localhost:8081/tracking/${OrdrId}`)
-    //         .then(res => setOrderId(res.data.data))
-    //         .catch(err => console.log(err));
-    // }, [OrdrId]);
 
     //toast
     const [isCancelled, setIsCancelled] = useState(false);
@@ -93,7 +89,7 @@ export default function Checkout() {
             .catch(error => {
                 console.error('Error fetching item details:', error);
             });
-    },[userId,items]);
+    },[userId]);
     
     
     useEffect(() => {
@@ -109,7 +105,7 @@ export default function Checkout() {
 
     const handleCloseModal = () => {
         setShowModal(false);
-        navigate('/');  // Navigate after closing the modal
+        navigate('/'); 
     };
 
     const handleCheckout = async () =>{
@@ -135,7 +131,29 @@ export default function Checkout() {
 
     const handlePaymentChange = (event) => {
         setSelectedPayment(event.target.value);
-      };
+    
+    };
+    
+    const handleSubmit = async (e) => {
+        e.preventDefault(); 
+        if (loading) return;
+
+        setLoading(true);
+
+        try {
+            const response = await axios.post('http://localhost:8081/validateDiscount', {
+                code,
+                totalBill,
+            });
+
+            setDiscount(response.data.discountAmount);
+            setTotalBill(response.data.finalAmount);
+        } catch (error) {
+            console.error('Error validating discount:', error);
+        } finally {
+            setLoading(false); // Reset loading state
+        }
+    };
 
     const handleCreatePaymentIntent = async (id) => {
         try {
@@ -343,12 +361,22 @@ purchase securely.'>
 
                 {/* voucher */}
                 <div className='w-full mt-5'> 
-                    <form class="flex items-center ">   
-                        <label htmlFor="simple-search" class="sr-only">Search</label>
-                            <input type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"  placeholder="Discount code or gift card"/>
+                    <form onSubmit={handleSubmit} className="flex items-center" >   
+                        <label htmlFor="code" className="sr-only">Search</label>
+                        <input 
+                            type="text" 
+                            id="code"
+                            value={code}
+                            onChange={(e) => setCode(e.target.value)}
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"  
+                            placeholder="Discount code or gift card"
+                        />
                         
-                        <button class="p-4 ms-2 text-sm font-medium text-white bg-textgreenColor rounded-lg border border-textgreenColor hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-textgreenColor">
-                            Apply
+                        <button 
+                            type='submit'
+                            className="p-4 ms-2 text-sm font-medium text-white bg-textgreenColor rounded-lg border border-textgreenColor hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-textgreenColor"
+                        >
+                            {loading ? 'Applying...' : 'Apply'}
                         </button>
                     </form>
                 </div>
@@ -374,13 +402,21 @@ purchase securely.'>
                             ₱0.00
                         </p>
                     </div>
+                    <div className='text-sm text-gray-900 flex justify-between'>
+                        <h1>
+                            Discount
+                        </h1>
+                        <p className='text-md font-semibold'>
+                            ₱{discount}.00
+                        </p>
+                    </div>
                     {/* Total */}
                     <div className='text-md text-gray-900 flex justify-between'>
                         <h1>
                             Total
                         </h1>
                         <p className='text-lg font-semibold'>
-                            <span className='text-gray-500 me-2 text-sm'>PHP</span>₱{totalBill}.00
+                            <span className='text-gray-500 me-2 text-sm'>PHP</span>₱{totalBill} .00
                         </p>
                     </div>
                 </div>
