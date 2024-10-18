@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import user from '../../image/UserAcc.svg'
 import notif from '../../image/notif.svg'
 import jaydsLogo from '../../image/jayds cafe Logo.svg';
@@ -11,14 +11,75 @@ import clock from '../../image/clock.svg';
 import msg from '../../image/messagerider.svg';
 
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function DashboardRider() {
 
     const [isSidebarOpen, setSidebarOpen] = useState(false);
+    const [authenticated, setAuthenticated] = useState(false);
+    const [userId, setUserId] = useState(null);
+    const [profile, setProfile] = useState([]);
+    const [role, setRole] = useState(null);
+
+    axios.defaults.withCredentials = true;
+
 
     const toggleSideNav = () => {
         setSidebarOpen (!isSidebarOpen);
     };
+    const navigate = useNavigate();
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+        try {
+           const res = await axios.get('http://localhost:8081/admin');
+           if (res.data.valid === 'rider') {
+           setAuthenticated(true);
+           setUserId(res.data.userId);
+           setRole(res.data.role);
+           } 
+           
+           else {
+           navigate('/riderLogin');
+           }
+        } 
+        
+        
+        catch (err) {
+           console.log(err);
+        }
+        };
+  
+        fetchData();
+        }, [navigate]);
+
+    useEffect(() =>{
+      
+        axios.post('http://localhost:8081/profile', { userId })
+        .then(response=>{
+           setProfile(response.data);
+        })
+        .catch(error => {
+           console.error('Error fetching profile details:', error);
+         });
+  
+      },[userId])
+
+    const handleLogout = async () => {
+        try {
+          const res = await axios.post('http://localhost:8081/logout');
+          if (res.data.success) {
+            // eslint-disable-next-line no-restricted-globals
+            location.reload();
+            navigate('/');
+          } else {
+            console.log('Logout Failed');
+          }
+        } catch (error) {
+          console.error('Error during logout:', error);
+        }
+      };
 
   return (
     <div className='bg-slate-100 dark:bg-gray-700'>
@@ -40,8 +101,8 @@ export default function DashboardRider() {
                     <img src={notif}></img>
                 </button>
                 <div class="px-4 py-3 text-sm text-gray-900 flex flex-col items-center justify-end dark:text-white">
-                    <div class="font-bold">Migz Gomez Go</div>
-                    <div class="items-center justify-center">Rider</div>
+                    <div class="font-bold">{profile.name}</div>
+                    <div class="items-center justify-center">{profile.role}</div>
                 </div>
 
                 <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src={user} alt="User dropdown"/>

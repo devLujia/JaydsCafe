@@ -1,10 +1,65 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import helmet from '../../image/helmet.svg';
 import email from '../../image/email.svg';
 import lock from '../../image/lock(2).svg';
 import google from '../../image/google.png';
+import Validation from '../../Login/LoginValidation';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function LoginRider() {
+
+    const [values, setValues] = useState({
+        email: '',
+        password: ''
+    });
+
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [errors, setErrors] = useState({});
+    const navigation = useNavigate();
+
+    axios.defaults.withCredentials = true;
+
+    const handleInput = (e) => {
+        setValues(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const err = Validation(values);
+        setErrors(err);
+        if (err.email === "" && err.password === "") {
+            axios.post('http://localhost:8081/adminlogin', values)
+                .then(res => {
+                    if (res.data.Login === 'rider') {
+                        navigation('/riderDashboard');
+                    } else {
+                        alert("No record existed");
+                    }
+                })
+                .catch(err => console.log(err));
+        }
+     
+    };
+
+    useEffect(() => {
+        axios.get('http://localhost:8081/')
+            .then(res => {
+                if (res.data.valid) {
+                    navigation('/riderDashboard');
+                } else {
+                    navigation('/riderLogin');
+                }
+            })
+            .catch(err => console.log(err));
+    }, [navigation]);
+
+
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+    };
+
+
   return (
     <div>
         <div className='bg-white flex w-4/5 mx-auto my-4 rounded-lg flex-col lg:flex-row shadow-xl'>
@@ -20,19 +75,29 @@ export default function LoginRider() {
 
             {/* right-side */}
             <div className='my-5 flex-1 p-10'>
-                <form action='#'>
+                <form onSubmit={handleSubmit}>
                     <h1 className='font-bold text-2xl mb-7 tracking-wide'>
                         Sign In to JoeCafe RiderModule 
                     </h1>
                     <div class="mb-4 relative"> {/* <!-- email--> */}
                         <label for="email" class="text-gray-600 text-md font-bold tracking-wider ">Email</label>
-                        <input class="mt-2 shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Ex. Juan Dela Cruz" required/>
+                        <input 
+                        class="mt-2 shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
+                        id="email" type="email" name="email" placeholder="Ex. Juan Dela Cruz" 
+                        value={values.email}
+                        onChange={handleInput} 
+                        required/>
                         <img src={email} className='absolute end-5 top-12 md:block hidden'></img>
                     </div>
 
                     <div class="mb-4 relative"> {/* <!-- password--> */}
-                        <label for="pass" class="text-gray-600 text-md font-bold tracking-wider ">Re-type Password</label>
-                        <input class="mt-2 shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" id="pass" type='password' placeholder="Enter your password" required/>
+                        <label for="pass" class="text-gray-600 text-md font-bold tracking-wider ">Password</label>
+                        <input class="mt-2 shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
+                        name="password"
+                        id="password" type='password' 
+                        value={values.password}
+                        onChange={handleInput} 
+                        placeholder="Enter your password" required/>
                         <img src={lock} className='absolute end-5 top-12 md:block hidden'></img>
                     </div>
 
@@ -40,11 +105,11 @@ export default function LoginRider() {
                             type="submit"
                             value="Sign In"/>
 
-                    <a href="https://www.google.com/">
+                    {/* <a href="https://www.google.com/">
                         <button class="flex items-center justify-center p-2 my-4 w-full leading-10 border-2 text-gray-600 border-gray-300 rounded-lg hover:bg-gray-200 font-semibold focus:outline-none focus:shadow-outline">
                             <img src={google} alt="Google Icon" class="w-16 px-5 md:block hidden"/> Sign in with Google
                         </button>
-                    </a>
+                    </a> */}
 
                     {/* <!-- Don't have an account? --> */}
                     <div className=' text-center'>

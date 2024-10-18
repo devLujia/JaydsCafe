@@ -95,7 +95,7 @@ app.get('/admin',(req,res)=>{
     
     else if(req.session.name && req.session.role === 'rider'){
         return res.json({
-            valid:true, name: req.session.name, userId: req.session.userId, role: req.session.role
+            valid: 'rider', name: req.session.name, userId: req.session.userId, role: req.session.role
         })
     }
 
@@ -587,16 +587,16 @@ app.get('/verify/:token', (req, res) => {
 });
 
 app.post('/order', (req, res) => {
-    const { userId, amount } = req.body;
+    const { userId, amount, deliveryMethod,paymentMethod } = req.body;
 
     // Insert into orders table
     const query = `
-        INSERT INTO orders (customer_id, totalPrice, status) 
-        VALUES (?, ?, 'paid');
+        INSERT INTO orders (customer_id, deliveryMethod , paymentMethod , totalPrice, status) 
+        VALUES (?, ?, ?, ? ,'paid');
         SELECT LAST_INSERT_ID() as lastOrderId;
     `;
 
-    db.query(query, [userId, amount], (err, resInInserting) => {
+    db.query(query, [userId,deliveryMethod, paymentMethod, amount], (err, resInInserting) => {
         if (err) {
             return res.json({ success: false, err: "Error inserting order" });
         }
@@ -868,7 +868,7 @@ app.post('/adminlogin',async (req, res) => {
             const name = data[0].name;
             req.session.name = name;
             req.session.role = 'cashier';          
-            return res.json({ Login: true });
+            return res.json({ Login: 'cashier' });
         }
         
         else if (isMatch && data[0].role === 'rider'){
@@ -876,7 +876,7 @@ app.post('/adminlogin',async (req, res) => {
             const name = data[0].name;
             req.session.name = name;
             req.session.role = 'rider';          
-            return res.json({ Login: true});
+            return res.json({ Login: 'rider'});
         }
 
         else{

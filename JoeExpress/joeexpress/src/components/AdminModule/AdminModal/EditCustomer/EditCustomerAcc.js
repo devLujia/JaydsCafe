@@ -37,10 +37,11 @@ function EditCustomerAcc( {closeModal, id} ) {
     <div className='modalBackground z-50' >
       <div className='modalContainer'>
         
-            <div className='title flex'><h1>Edit Admin Account</h1> <button className='text-white text-center bg-red-500 px-2 hover:bg-red-600 rounded-sm' onClick={()=> closeModal(false)}> X </button> </div>
             <div className='title flex'><h1>Edit Admin</h1> <button className='text-white text-center bg-red-500 px-2 hover:bg-red-600 rounded-sm' onClick={()=> closeModal(false)}> X </button> </div>
             <div className='body'>
-                <form className='flex flex-col' onSubmit={handleSubmit}>
+
+            <form className='flex flex-col' onSubmit={handleSubmit}>
+                        
                         <div className='mb-4'>
 
                                 <label for="name" className="text-gray-600 text-lg font-bold tracking-wider">Your Name</label>
@@ -68,7 +69,7 @@ function EditCustomerAcc( {closeModal, id} ) {
                             >
                                 <option value="">Select your role</option>
                                 <option value="admin">Admin</option>
-                                <option value="rider">rider</option>
+                                <option value="rider">Rider</option>
                                 <option value="cashier">Cashier</option>
 
                             </select>

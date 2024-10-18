@@ -12,7 +12,7 @@ const ChatComponent = ({ name, userId }) => {
   const generateRandomTicketId = () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let ticketId = '';
-    for (let i = 0; i < 8; i++) {  // You can adjust the length of the ticketId
+    for (let i = 0; i < 8; i++) {
       ticketId += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     return ticketId;
@@ -62,7 +62,7 @@ const ChatComponent = ({ name, userId }) => {
   
   const sendMessage = async (e) => {
     if (currentMessage.trim() !== '') {
-      // e.preventDefault();
+      e.preventDefault();
 
       const messageData = {
        author: name,
@@ -87,43 +87,35 @@ const ChatComponent = ({ name, userId }) => {
       if (e.key === 'Enter' && currentMessage.trim() !== '') {
         e.preventDefault();
 
-         const messageData = {
-            author: name,
-            room: ticketId,
-            message: currentMessage,
-            time:
-            new Date(Date.now()).getHours()+
-            ":" +
-            new Date(Date.now()).getMinutes(),
-    
-          }
+      const messageData = {
+       author: name,
+       room : ticketId,
+       userId: userId,
+       message: currentMessage,
+        time:
+        new Date(Date.now()).getHours()+
+        ":" +
+        new Date(Date.now()).getMinutes(),
+      }
 
-          await socket.emit("send_message", messageData);
-          setMessageList((prevChat) => [...prevChat,  messageData ]);
-          setCurrentMessage('');
+      // Emit message to the server
+      await socket.emit('send_message', messageData);
+      setMessageList((prevChat) => [...prevChat,  messageData ]);
+      setCurrentMessage('');
       }
   };
 
-  // useEffect(() => {
-  //   socket.on('receiveMessage', (messageData) => {
-  //     setMessageList((list) => [...list, messageData]);
-  //   });
-
-  //   return () => {
-  //     socket.off('receiveMessage');
-  //   };
-  // }, []);
 
   useEffect(() => {
     // Listen for incoming messages from the server
-    socket.on('receiveMessage', (messageData) => {
+    socket.on('receive_message', (messageData) => {
       // Update the message list with the new message
       setMessageList((prevChat) => [...prevChat, messageData]);
     });
   
     // Cleanup the socket listener when the component unmounts
     return () => {
-      socket.off('receiveMessage');
+      socket.off('receive_message');
     };
   }, [socket]);
   
@@ -189,15 +181,17 @@ const ChatComponent = ({ name, userId }) => {
               {/* Display chat messages */}
 
               
-              {messageList.map((messageContent) => {
-                      return (
-                      <div className={`mb-2 ${messageContent.author === name ? 'text-right' : 'text-left'}`}>
 
-                          <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
-                               {messageContent.author === name ? `Me: ${messageContent.message}` : `Admin : ${messageContent.message}`  }
-                            </p>
-                      </div>)
-            })}
+              
+              {messageList.map((messageContent) => {
+                        return (
+                           <div key={messageContent.id || messageContent.timestamp} className={`mb-2 flex ${messageContent.userId === userId  ? 'justify-end' : 'justify-start'}`}>
+                              <p className={`bg-blue-500 text-white rounded-lg py-2 px-4 inline-block`}>
+                              {messageContent.author === "Admin" ? `Me: ${messageContent.message}` : `${messageContent.author}: ${messageContent.message}`}
+                              </p>
+                           </div>
+                        );
+                        })}
             </div>
 
             {!ticketId ? (

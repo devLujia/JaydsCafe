@@ -19,14 +19,10 @@ export default function Message({}) {
    const [messageList, setMessageList] = useState([]);
    const [isOpen, setIsOpen] = useState(false);
    const navigate = useNavigate();
-   const [data, setData] = useState({
-      name: 'Admin',
-      room: '254kh7vd2k',
-   })
    const [ticketId, setTicketId] = useState([]);
+   const [specificTicketId, setSpecificTicketId] = useState([]);
    const [messages, setMessages] = useState([]);
    axios.defaults.withCredentials = true;
-
 
    useEffect(() => {
       const getTicketNumber = async () => {
@@ -46,21 +42,20 @@ export default function Message({}) {
     
 
       const fetchMessages = async (ticket) => {
-        if (ticketId) { 
+        if (ticket) { 
           try {
+            setSpecificTicketId(ticket)
 
             const response = await axios.post('http://localhost:8081/getMessages',  {ticket} );
             setMessages(response.data);
-
             socket.emit('join_room', ticket);
+            
           } 
           catch (error) {
             console.error('Error fetching messages:', error);
           }
         }
       };
-
-    
 
    useEffect(() =>{
       
@@ -98,67 +93,66 @@ export default function Message({}) {
       fetchData();
       }, [navigate]);
    
-   useEffect(() => {
-      socket.on('receiveMessage', (messageData) => {
-        setMessageList((list) => [...list, messageData]);
-      });
-  
-      return () => {
-        socket.off('receiveMessage');
-      };
+      useEffect(() => {
+         // Listen for incoming messages from the server
+         socket.on('receive_message', (messageData) => {
+           // Update the message list with the new message
+           setMessages((prevChat) => [...prevChat, messageData]);
+         });
+       
+         // Cleanup the socket listener when the component unmounts
+         return () => {
+           socket.off('receive_message');
+         };
+       }, [ticketId]);
 
-    }, []);
+       useEffect(() => {
+         setMessageList(messages); // Set messageList to reflect the current messages
+       }, [messages]);
 
 
-   useEffect(()=>{
-      if (data.name !== '' && data.room !== ''){
-         socket.emit("join_room", data.room)
-      }
-   },[data])
-
-
-    const sendMessage = async (e) => {
-      e.preventDefault();
-  
+   const sendMessage = async (e) => {
       if (currentMessage.trim() !== '') {
+         e.preventDefault();
   
         const messageData = {
-          author: data.name,
-          room: data.room,
-          message: currentMessage,
+         author: profile?.name + " (Admin)",
+         room : specificTicketId,
+         userId: userId,
+         message: currentMessage,
           time:
           new Date(Date.now()).getHours()+
           ":" +
           new Date(Date.now()).getMinutes(),
-  
         }
   
         // Emit message to the server
-        await socket.emit('sendMessage', messageData);
+        await socket.emit('send_message', messageData);
         setMessageList((prevChat) => [...prevChat,  messageData ]);
         setCurrentMessage('');
       }
       
       };
 
-      const handleKeyDown = (e) => {
+      const handleKeyDown = async (e) => {
          if (e.key === 'Enter' && currentMessage.trim() !== '') {
             e.preventDefault();
-
+  
             const messageData = {
-               author: data.name,
-               room: data.room,
+               author: profile?.name + " (Admin)",
+               room : specificTicketId,
+               userId: userId,
                message: currentMessage,
                time:
                new Date(Date.now()).getHours()+
                ":" +
                new Date(Date.now()).getMinutes(),
-       
-             }
-
-             socket.emit("send_message", messageData);
-             setMessageList((prevChat) => [...prevChat,  messageData ]);
-             setCurrentMessage('');
+            }
+      
+            // Emit message to the server
+            await socket.emit('send_message', messageData);
+            setMessageList((prevChat) => [...prevChat,  messageData ]);
+            setCurrentMessage('');
          }
      };
 
@@ -385,7 +379,7 @@ export default function Message({}) {
                   {/* <!-- user list --> */}
                   {ticketId.map((ticket) => (
                      <div key={ticket.ticket_id} className="flex flex-row py-3 px-5 justify-center items-center hover:bg-gray-200">
-                        <div onClick={() => fetchMessages(ticket.ticket_id)}> {/* Wrap in an anonymous function */}
+                        <div onClick={() => fetchMessages(ticket?.ticket_id || '')}>
                            <div className="w-1/4">
                            <img
                               src={user} // Ensure 'user' is a valid image source
@@ -440,16 +434,26 @@ export default function Message({}) {
                   {/* <!-- message --> */}
                   <div class="w-full px-5 flex flex-col justify-between overflow-auto">
                      <div class="flex flex-col mt-5 ">
-                        
-                     {messages.map((messageContent) => {
+
+                     {/* {messages.map((messageContent) => {
                         return (
-                           <div key={messageContent.id || messageContent.timestamp} className={`mb-2 flex ${messageContent.author === "Admin" ? 'justify-end' : 'justify-start'}`}>
+                           <div key={messageContent.id || messageContent.timestamp} className={`mb-2 flex ${messageContent.userId === userId  ? 'justify-end' : 'justify-start'}`}>
                               <p className={`bg-blue-500 text-white rounded-lg py-2 px-4 inline-block`}>
                               {messageContent.author === "Admin" ? `Me: ${messageContent.message}` : `${messageContent.author}: ${messageContent.message}`}
                               </p>
                            </div>
                         );
-                        })}
+                     })} */}
+                        
+                     {messageList.map((messageContent) => {
+                        return (
+                           <div key={messageContent.id || messageContent.timestamp} className={`mb-2 flex ${messageContent.userId === userId  ? 'justify-end' : 'justify-start'}`}>
+                              <p className={`bg-blue-500 text-white rounded-lg py-2 px-4 inline-block`}>
+                              {messageContent.author === "Admin" ? `Me: ${messageContent.message}` : `${messageContent.author}: ${messageContent.message}`}
+                              </p>
+                           </div>
+                        );
+                     })}
                         
                      </div>
 

@@ -26,7 +26,7 @@ export default function Checkout() {
     const [totalBill, setTotalBill] = useState(0);
     const [checkoutUrl, setCheckoutUrl] = useState(null);
     const [profile, setProfile] = useState([])
-
+    const [selectedPayment, setSelectedPayment] = useState('');
 
     const { OrdrId } = useParams();
     const { riderNote } = location.state || {};
@@ -115,7 +115,12 @@ export default function Checkout() {
     const handleCheckout = async () =>{
 
         try{
-            const res = await axios.post('http://localhost:8081/order',{userId, amount: totalBill});
+            const res = await axios.post('http://localhost:8081/order',{
+                userId, 
+                amount: totalBill, 
+                deliveryMethod: riderNote?.option || '' ,
+                paymentMethod: selectedPayment
+            });
             if (res.data.success){
               handleCreatePaymentIntent(res.data.lastOrderId);
             }
@@ -127,6 +132,10 @@ export default function Checkout() {
         }
 
     }
+
+    const handlePaymentChange = (event) => {
+        setSelectedPayment(event.target.value);
+      };
 
     const handleCreatePaymentIntent = async (id) => {
         try {
@@ -238,7 +247,15 @@ export default function Checkout() {
                         <div class="group"> {/* Gcash option */}
                             <label htmlFor="gcash" class="inline-flex px-4 py-3 justify-between items-center w-full text-white bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor hover:bg-gray-100 ">
                                 <div className='inline-flex items-center'>
-                                    <input type="radio" id="gcash" name="hosting" value="gcash" class="peer text-textgreenColor focus:ring-textgreenColor " required />
+                                    <input type="radio" 
+                                    id="gcash" 
+                                    name="payment" 
+                                    value="gcash" 
+                                    class="peer text-textgreenColor focus:ring-textgreenColor " 
+                                    onChange={handlePaymentChange} 
+                                    checked={selectedPayment === 'gcash'}
+                                    required
+                                    />
                                     <h1 className='text-black px-3'>Gcash</h1>
                                     <a data-tooltip-id="my-tooltip" data-tooltip-content="Hello to you too!" title='After clicking "Pay with GCash", you will be redirected to GCash to complete your
 purchase securely.'>
@@ -255,7 +272,14 @@ purchase securely.'>
                         <div class="group"> {/* Cash option */}
                             <label htmlFor="cash" class="inline-flex px-4 py-5 justify-between items-center w-full text-white bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor hover:bg-gray-100 ">
                                 <div className='inline-flex items-center'>
-                                    <input type="radio" id="cash" name="hosting" value="cash" class="peer text-textgreenColor focus:ring-textgreenColor " required />
+                                    <input type="radio" 
+                                    id="cash" 
+                                    name="payment" 
+                                    value="cash" 
+                                    class="peer text-textgreenColor focus:ring-textgreenColor " 
+                                    onChange={handlePaymentChange}
+                                    checked={selectedPayment === 'cash'}
+                                    required/>
                                     {riderNote?.option === 'pickup' ? <h1 className='text-black ps-3'>Cash</h1> : <h1 className='text-black ps-3'>Cash on Delivery</h1>}
                                 </div>
                             </label>
