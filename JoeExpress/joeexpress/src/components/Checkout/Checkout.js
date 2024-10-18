@@ -361,24 +361,27 @@ purchase securely.'>
 
                 {/* voucher */}
                 <div className='w-full mt-5'> 
-                    <form onSubmit={handleSubmit} className="flex items-center" >   
-                        <label htmlFor="code" className="sr-only">Search</label>
-                        <input 
-                            type="text" 
-                            id="code"
-                            value={code}
-                            onChange={(e) => setCode(e.target.value)}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"  
-                            placeholder="Discount code or gift card"
-                        />
-                        
-                        <button 
-                            type='submit'
-                            className="p-4 ms-2 text-sm font-medium text-white bg-textgreenColor rounded-lg border border-textgreenColor hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-textgreenColor"
-                        >
-                            {loading ? 'Applying...' : 'Apply'}
-                        </button>
-                    </form>
+                    {discount > 0 ? 
+                     <p className="flex justify-center">Voucher "{code}" Applied</p>
+                     
+                     :<form onSubmit={handleSubmit} className="flex items-center" >   
+                     <label htmlFor="code" className="sr-only">Search</label>
+                     <input 
+                         type="text" 
+                         id="code"
+                         value={code}
+                         onChange={(e) => setCode(e.target.value)}
+                         className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"  
+                         placeholder="Discount code or gift card"
+                     />
+                     
+                     <button 
+                         type='submit'
+                         className="p-4 ms-2 text-sm font-medium text-white bg-textgreenColor rounded-lg border border-textgreenColor hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-textgreenColor"
+                     >
+                         {loading ? 'Applying...' : 'Apply'}
+                     </button>
+                 </form>}
                 </div>
 
                 {/* Subtotal / Shipping / Total */}
