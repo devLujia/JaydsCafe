@@ -51,6 +51,7 @@ export default function Checkout() {
 
         fetchNameData();
     })
+    
     //toast
     const [isCancelled, setIsCancelled] = useState(false);
     const [remainingTime, setRemainingTime] = useState(5); // Countdown 5 seconds
@@ -68,14 +69,14 @@ export default function Checkout() {
 
     const notifyAndProceed = () => {
         setIsCancelled(false);
-    setRemainingTime(5); // Reset countdown
+        setRemainingTime(5); // Reset countdown
 
     toastId.current = toast.success(
       <>
         <div className='mb-4 text-xl tracking-wide'>Processing your payment...</div>
         <div className='my-2'>You can cancel your order within:</div>
         <div className='w-full flex justify-evenly shrink-0 gap-3'>
-            <button onClick={handleCancel} className='cursor-pointer py-3 px-5 bg-red-600 hover:bg-red-500 font-semibold tracking-wide text-white rounded-md'>
+            <button onClick={handleCloseModal} className='cursor-pointer py-3 px-5 bg-red-600 hover:bg-red-500 font-semibold tracking-wide text-white rounded-md'>
             Cancel
             </button>
         </div>
@@ -83,8 +84,8 @@ export default function Checkout() {
       {
         position: "center",
         autoClose: false, 
-        hideProgressBar: false, // Hide the progress bar since we use countdown numbers
-        closeOnClick: false, // Disable closing by clicking
+        hideProgressBar: false,
+        closeOnClick: true, 
         pauseOnHover: false,
         draggable: true,
         onClose: () => {
@@ -118,7 +119,7 @@ export default function Checkout() {
               <div className='mb-4 text-xl tracking-wide'>Processing your payment...</div>
               <div className='my-2'>You can cancel your order within:</div>
               <div className='w-full flex justify-evenly shrink-0 gap-3'>
-                  <button onClick={handleCancel} className='cursor-pointer py-3 px-5 bg-red-600 hover:bg-red-500 font-semibold tracking-wide text-white rounded-md'>
+                  <button onClick={handleCloseModal} className='cursor-pointer py-3 px-5 bg-red-600 hover:bg-red-500 font-semibold tracking-wide text-white rounded-md'>
                     Cancel
                   </button>
                   <button onClick={handleCheckout} className='cursor-pointer py-3 px-5 bg-textgreenColor hover:bg-green-500 font-semibold tracking-wide text-white rounded-md'>
@@ -183,7 +184,7 @@ export default function Checkout() {
 
     const handleCloseModal = () => {
         setShowModal(false);
-        navigate('/'); 
+        navigate('/cart'); 
     };
 
     const handleCheckout = async () =>{
