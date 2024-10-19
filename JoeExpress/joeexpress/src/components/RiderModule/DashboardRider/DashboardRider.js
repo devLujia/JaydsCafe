@@ -23,6 +23,10 @@ export default function DashboardRider() {
 
     const [cmsName,setCmsName] = useState('');
 
+    const navigate = useNavigate();
+
+    axios.defaults.withCredentials = true;
+
     useEffect(()=>{
 
         const fetchNameData = async () => {
@@ -39,13 +43,12 @@ export default function DashboardRider() {
         fetchNameData();
     })
 
-    axios.defaults.withCredentials = true;
+    
 
 
     const toggleSideNav = () => {
         setSidebarOpen (!isSidebarOpen);
     };
-    const navigate = useNavigate();
 
 
     useEffect(() => {

@@ -6,11 +6,20 @@ import riderLogo from '../../../components/image/logoRider.svg'
 import clock from '../../image/clock.svg';
 import msg from '../../image/messagerider.svg';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function OrderRider() {
 
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const [orders, setOrders] = useState([]);
+    const [userId, setUserId] = useState('');
+    const [authenticated, setAuthenticated] = useState(false);
+    const [profile, setProfile] = useState([]);
+    const [role, setRole] = useState(null);
+
+    const navigate = useNavigate();
+
+    axios.defaults.withCredentials = true;
 
     const toggleSideNav = () => {
         setSidebarOpen (!isSidebarOpen);
@@ -31,6 +40,42 @@ export default function OrderRider() {
   
     ]);
 
+    useEffect(() => {
+        const fetchData = async () => {
+        try {
+           const res = await axios.get('http://localhost:8081/admin');
+           if (res.data.valid === 'rider') {
+           setAuthenticated(true);
+           setUserId(res.data.userId);
+           setRole(res.data.role);
+           } 
+           
+           else {
+           navigate('/riderLogin');
+           }
+        }
+        
+        catch (err) {
+           console.log(err);
+        }
+        };
+  
+        fetchData();
+        
+        }, [navigate]);
+
+    useEffect(() =>{
+      
+        axios.post('http://localhost:8081/profile', { userId })
+        .then(response=>{
+           setProfile(response.data);
+        })
+        .catch(error => {
+           console.error('Error fetching profile details:', error);
+        });
+  
+      },[userId])
+
     const getTheOrder = (id, stats) => {
 
         let newStatus = ''; 
@@ -47,36 +92,44 @@ export default function OrderRider() {
           newStatus = 'pending rider';
         }
 
+        else if (stats === 'pending rider') {
+          newStatus = 'on delivery';
+        }
+
         else if (stats === 'on delivery') {
             newStatus = 'completed';
         }
-
-        
   
         setUpdateOrder(prevState => 
            prevState.map(order => ({
              ...order,
              order_id: id,
              status: newStatus,
+             
            }))
-         );
+        );
   
-        axios.post('http://localhost:8081/updateOrders', {
-            status: newStatus,
-            order_id: id
-        })
-          .then(res => {
-            console.log('Order updated successfully:', res.data);
-          })
-          .catch(err => {
-            console.error('Error updating the order:', err);
-          });
+        if(userId){
+            axios.post('http://localhost:8081/updateOrders', {
+                status: newStatus,
+                order_id: id,
+                riderId: userId
+            })
+              .then(res => {
+                console.log('Order updated successfully:', res.data);
+              })
+              .catch(err => {
+                console.error('Error updating the order:', err);
+              });
+        }
+
+        
   
       }
 
     useEffect(()=>{
 
-        axios.post('http://localhost:8081/orderHistory')
+        axios.post('http://localhost:8081/riderOrderHistory', {userId})
         .then(res => {
             setOrders(res.data);
             })
@@ -226,22 +279,7 @@ export default function OrderRider() {
                                     <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-amber-200 font-semibold '> {/* 1st na indication */}
                                         <h1 className='text-amber-500'>{order.status}</h1>
                                     </div>
-                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-blue-200 font-semibold hidden'> {/* 2st na indication */}
-                                        <h1 className='text-violet-500'>accepted</h1>
-                                    </div>
-                            
-                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-violet-200 font-semibold hidden'> {/* 3st na indication */}
-                                        <h1 className='text-violet-500'>Picked up</h1>
-                                    </div>
-                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-slate-200 font-semibold hidden'> {/* 4st na indication */}
-                                        <h1 className='text-slate-500'>On The Way</h1>
-                                    </div>
-                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-textgreenColor font-semibold hidden'> {/* 5st na indication */}
-                                        <h1 className='text-white'>Delivered</h1>
-                                    </div>
-                                    <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-red-200 font-semibold hidden'>
-                                        <h1 className='text-red-500'>Cancelled</h1>
-                                    </div>
+                                    
                                 </div>
                                 <div class="flex items-center mb-1 gap-2 text-amber-500 transition-all duration-500 ">
                                     <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800 dark:text-white"> <span className='font-semibold text-black dark:text-white'>Items: </span> {order.food_details}</p>
@@ -262,18 +300,7 @@ export default function OrderRider() {
                                             <p>Accept Order</p>
                                         </button>
                                     </div>
-                                    {/* pangatlo lalabas */}
-                                    {/* <div className=''>
-                                        <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
-                                            <p>Mark as On The Way</p>
-                                        </button>
-                                    </div> */}
-                                    {/* pang apat lalabas */}
-                                    {/* <div className=''>
-                                        <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
-                                            <p>Mark as Delivered</p>
-                                        </button>
-                                    </div> */}
+                                    
                             
                                 </div>
                             </div>
@@ -286,7 +313,7 @@ export default function OrderRider() {
                 {activeTab === 'active' &&(
                     <div className='w-full h-fit mt-4 space-y-5 '>
                         {/* accepted */}
-                        {orders.filter((order) => order.status === 'on delivery' ).map(order => (
+                        {orders.filter((order) => order.status === 'on delivery').map(order => (
                             <div key={order.order_id}>
                             <div  class="group w-full shadow-md bg-white border-2 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600 dark:bg-gray-500 dark:border-gray-800 dark:hover:border-indigo-300">
                                 <div class="relative flex items-center gap-5 mb-6">
@@ -345,7 +372,7 @@ export default function OrderRider() {
                                         </button>
                                     </div> */}
                                     {/* pang apat lalabas */}
-                                    
+
                                     <div className=''>
                                         <button onClick={() => getTheOrder(order?.order_id, order?.status)} className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-3 rounded-lg gap-2 text-white'>
                                             <p>Mark as Delivered</p>

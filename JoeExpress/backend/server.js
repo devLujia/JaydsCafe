@@ -943,16 +943,17 @@ app.post('/adminlogin',async (req, res) => {
 
 app.post('/updateOrders', async (req,res)=>{
 
-    const {order_id, status} = req.body
+    const {order_id, status, riderId} = req.body
 
     const query = 
     `
     Update orders 
-    SET status = ?
+    SET status = ?,
+    rider_id = ?
     WHERE order_id = ?
 
     `
-    db.query(query, [status, order_id], (error, result) => {
+    db.query(query, [status, riderId, order_id ], (error, result) => {
 
         if(error){
             return res.status(500).json({ error: 'Database error' });
@@ -960,8 +961,9 @@ app.post('/updateOrders', async (req,res)=>{
         
       })
 
-
 })
+
+
 
 
 app.post('/adminTable', async (req,res) => {
@@ -1702,8 +1704,7 @@ app.post('/removeProduct',  async (req, res) =>{
         });
 
     })
-    
-    
+     
     app.post('/orderHistory', (req,res) =>{
 
         const query = 
@@ -1748,6 +1749,62 @@ app.post('/removeProduct',  async (req, res) =>{
         `
 
         db.query(query, (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to get orders' });
+            }
+            res.json(result)
+        });
+
+    })
+
+    app.post('/riderOrderHistory', (req,res) =>{
+
+        const {userId} = req.body
+
+        const query = 
+        `
+        SELECT 
+            o.order_id, 
+            u.name,
+            u.address,
+            o.customer_id, 
+            o.order_date,
+            o.update_order_date, 
+            o.status,
+            o.totalPrice,
+            o.rider_id,
+            GROUP_CONCAT(
+                CONCAT('Food Name: ',
+                    f.name, ' ( Size: ', 
+                    of.size, ', Quantity: ', 
+                    of.quantity, ', Addons: ', 
+                    IFNULL(of.addons, ''), ')'
+                ) ORDER BY f.name SEPARATOR ', '
+            ) AS food_details
+        FROM 
+            orders o
+        JOIN 
+            orders_food of ON of.order_id = o.order_id
+        JOIN 
+            foods f ON f.id = of.food_id
+        JOIN 
+            user u ON u.id = o.customer_id
+        WHERE o.status IN ('completed', 'cancelled' , 'on delivery' , 'pending rider') AND o.rider_id = ?
+        GROUP BY 
+            o.order_id, 
+            u.name,
+            u.address,
+            o.customer_id, 
+            o.order_date,
+            o.update_order_date, 
+            o.status,
+            o.rider_id
+        ORDER BY 
+            o.update_order_date DESC;
+             
+        `
+
+        db.query(query, [userId] , (err, result) => {
             if (err) {
                 return res.status(500).json({ error: 'Failed to get orders' });
             }
@@ -1873,6 +1930,21 @@ app.post('/removeProduct',  async (req, res) =>{
                 return res.status(500).json({ error: 'Failed to set role' });
             }
             res.json({success: true})          
+        });
+
+
+    })
+    
+    app.post('/getRider',(req,res)=>{
+
+
+        const query = `Select * from user where role = 'rider'`
+
+        db.query(query, (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to set role' });
+            }
+            res.json(result)          
         });
 
 
