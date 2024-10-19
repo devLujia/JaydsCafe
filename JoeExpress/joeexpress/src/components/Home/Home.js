@@ -1050,9 +1050,7 @@ function Home() {
     <div class="bg-exportColor w-full mb-10 relative" id="offer">
     <h2 class="text-5xl font-bold text-center mb-4 pt-20 text-textgreenColor animate-wave glow-animation">
     Menu Offerings
-</h2>
-
-
+    </h2>
 
       <p class="text-center mb-10 text-xl text-black">Discover a Delightful Mix of Milk Teas, Main Coffees, and Refreshing Drinks!</p>
 
@@ -1171,38 +1169,45 @@ function Home() {
       </div>
     </div>
 
-    {/* <!-- About Us --> */}
-    <div className="flex lg:flex-row md:flex-col overflow-hidden bg-greenColor text-white py-10 top-0" id="aboutus">
-      <div
-        class="p-32 md:text-center lg:text-left"
-        data-aos="fade-right"
-        data-aos-offset="300"
-        data-aos-easing="ease-in-sine"
-        data-aos-duration="1500"
-      >
-        <h3 class="font-extrabold text-6xl mb-10">Our Story</h3>
-        <h2 class="font-extrabold text-4xl mb-10">
-          Let Us Introduce Ourselves
-        </h2>
-        <p class="max-w-lg md:m-auto">
-          {cmsAboutUs}
-        </p>
-        {/* <!-- <button
-          type="button"
-          class="mt-12 text-orange-950 hover:text-white border border-orange-950 hover:bg-orange-950 focus:ring-4 focus:outline-none focus:ring-orange-950 font-medium rounded-lg text-lg px-5 py-2.5 text-center me-2 mb-2 dark:border-orange-950 dark:text-orange-950 dark:hover:text-white dark:hover:bg-orange-950 dark:focus:ring-orange-950"
+
+
+      {/* <!-- About Us --> */}
+      <div className="flex flex-col lg:flex-row items-center justify-between bg-green-800 text-white py-16 px-4 lg:px-16" id="aboutus">
+        <div
+          className="lg:w-1/2 max-w-xl flex flex-col justify-center text-center lg:text-left lg:pr-8"
+          data-aos="fade-right"
+          data-aos-offset="300"
+          data-aos-easing="ease-in-sine"
+          data-aos-duration="1500"
         >
-          Order Now!
-        </button> --> */}
+          <h3 className="font-extrabold text-6xl mb-4">Our Story</h3>
+          <h2 className="font-semibold text-3xl mb-4 text-orange-300">
+            Let Us Introduce Ourselves
+          </h2>
+          <p className="mb-6 text-lg leading-relaxed">
+            {cmsAboutUs}
+          </p>
+          <div className="flex justify-start mt-4">
+            <button
+              type="button"
+              className="bg-white focus:ring-4 text-black focus:ring-green-300 font-medium rounded-lg text-lg px-6 py-2.5 w-52"
+            >
+              Order Now!
+            </button>
+          </div>
+        </div>
+        <div className="lg:w-1/2 flex justify-center lg:justify-end p-4 lg:p-8">
+          <img
+            src={cmsAboutUsImage}
+            alt="About Us"
+            className="w-full max-w-lg h-96 object-cover rounded-lg shadow-lg transition-transform duration-300 transform hover:scale-105"  // Set a fixed height for the image
+            data-aos="fade-down-left"
+            data-aos-duration="1500"
+          />
+        </div>
       </div>
-      <img
-        src={cmsAboutUsImage}
-        alt="About Us"
-        id="aboutUsPic"
-        class="w-[550px] h-[591px] md:m-auto hover:scale-100"
-        data-aos="fade-down-left"
-        data-aos-duration="1500"
-      />
-    </div>
+
+
 
     {/* <!-- Reviews --> */}
     <div class="mt-14">
