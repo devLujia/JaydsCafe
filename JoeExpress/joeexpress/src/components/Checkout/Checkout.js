@@ -13,6 +13,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
+// toast.configure();
+
 export default function Checkout() {
 
     let location = useLocation();
@@ -49,37 +51,98 @@ export default function Checkout() {
 
         fetchNameData();
     })
+    
     //toast
     const [isCancelled, setIsCancelled] = useState(false);
+    const [remainingTime, setRemainingTime] = useState(5); // Countdown 5 seconds
     const timeoutRef = useRef(null);
+    const intervalRef = useRef(null);
+    const toastId = useRef(null);
+
+    //eto yung mag ccancel
+    const handleCancel = () => {
+        setIsCancelled(true); 
+        toast.dismiss(); 
+        clearTimeout(timeoutRef.current);
+        clearInterval(intervalRef.current); // Stop cd
+    };
 
     const notifyAndProceed = () => {
         setIsCancelled(false);
+        setRemainingTime(5); // Reset countdown
 
-        toast.success("Processing your payment...", {
-          position: "top-center",
-          autoClose: 5000,  // Set toast duration to 5 seconds
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          onClose: () => {
-            setIsCancelled(true); // Set state if toast is manually closed
-            clearTimeout(timeoutRef.current);
-          }
+    toastId.current = toast.success(
+      <>
+        <div className='mb-4 text-xl tracking-wide'>Processing your payment...</div>
+        <div className='my-2'>You can cancel your order within:</div>
+        <div className='w-full flex justify-evenly shrink-0 gap-3'>
+            <button onClick={handleCloseModal} className='cursor-pointer py-3 px-5 bg-red-600 hover:bg-red-500 font-semibold tracking-wide text-white rounded-md'>
+            Cancel
+            </button>
+        </div>
+      </>,
+      {
+        position: "center",
+        autoClose: false, 
+        hideProgressBar: false,
+        closeOnClick: true, 
+        pauseOnHover: false,
+        draggable: true,
+        onClose: () => {
+          setIsCancelled(true);
+          clearTimeout(timeoutRef.current); // Stop checkout process on close
+          clearInterval(intervalRef.current); // Stop the countdown interval
+        },
+        // Add custom inline styles for centering
+        style: {
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            margin: '0',
+            width: 'auto',
+            textAlign: 'center',
+          },
+      }
+    );
+
+    // Start an interval to update the countdown timer
+    intervalRef.current = setInterval(() => {
+      setRemainingTime((prevTime) => {
+        const newTime = prevTime - 1;
+        
+
+        // Update the toast with the new countdown time
+        toast.update(toastId.current, {
+          render: (
+            <>
+              <div className='mb-4 text-xl tracking-wide'>Processing your payment...</div>
+              <div className='my-2'>You can cancel your order within:</div>
+              <div className='w-full flex justify-evenly shrink-0 gap-3'>
+                  <button onClick={handleCloseModal} className='cursor-pointer py-3 px-5 bg-red-600 hover:bg-red-500 font-semibold tracking-wide text-white rounded-md'>
+                    Cancel
+                  </button>
+                  <button onClick={handleCheckout} className='cursor-pointer py-3 px-5 bg-textgreenColor hover:bg-green-500 font-semibold tracking-wide text-white rounded-md'>
+                    Confirm ({newTime}s remaining)
+                  </button>
+              </div>
+            </>
+          ),
         });
-    
-        // After 5 seconds (5000ms), trigger the checkout function
-        timeoutRef.current = setTimeout(() => {
-            if (!isCancelled) {
-              handleCheckout();
-            } else {
-              console.log("Checkout cancelled");
-            }
-          }, 5000);
-      };
 
+        // If time reaches zero, clear the interval and proceed to checkout
+        if (newTime === 0) {
+          clearInterval(intervalRef.current); // Stop the timer at 0
+          if (!isCancelled) {
+            handleCheckout(); // Proceed to checkout if not cancelled
+          }
+        }
+
+        return newTime;
+      });
+    }, 1000);
+  };
+    
     useEffect(() => {
         axios.get('http://localhost:8081/')
           .then(res => {
@@ -121,7 +184,7 @@ export default function Checkout() {
 
     const handleCloseModal = () => {
         setShowModal(false);
-        navigate('/'); 
+        navigate('/cart'); 
     };
 
     const handleCheckout = async () =>{

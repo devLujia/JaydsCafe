@@ -221,7 +221,7 @@ function Cart() {
                         </h1>
                     </div>
                      {items.map(item => (
-                        <div key={item.id} class="mt-8 w-full p-4 text-left bg-white border-b-4 border-gray-200 rounded-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                        <div key={item.id} class="mt-8 w-full px-4 text-left bg-white border-b-4 border-gray-200 rounded-md sm:mb-10 dark:bg-gray-800 dark:border-gray-700">
 
                             <div class="flex items-center">
                                 <div className='inline-flex '>
@@ -232,16 +232,16 @@ function Cart() {
                                         </svg>
                                     </div>
                                     <div class="flex flex-col justify-center ml-6 min-w-64 max-w-64">
-                                        <h5 class="text-3xl font-bold text-gray-900 dark:text-white max-w-64">{item.food_name}</h5> {/*<!-- Title ng product-->*/}
+                                        <h5 class="text-2xl font-bold text-gray-900 dark:text-white max-w-64">{item.food_name}</h5> {/*<!-- Title ng product-->*/}
                                         <p class="text-base text-gray-500 sm:text-lg dark:text-gray-400 font-semibold">₱{item.price}.00</p> {/*<!-- price ng product-->*/}
-                                        <p class="text-base text-gray-500 sm:text-lg dark:text-gray-400 font-semibold">Size: <span class="font-normal">{item.size}</span></p> {/*<!-- Size ng product-->*/}
+                                        <p class="text-sm text-gray-500 sm:text-lg dark:text-gray-400 font-semibold">Size: <span class="font-normal">{item.size}</span></p> {/*<!-- Size ng product-->*/}
                                         <p class="text-base text-gray-500 sm:text-sm mb-2 dark:text-gray-400 font-semibold pr-5">Addons: <span className='font-normal'>{item.addons}</span></p> {/*<!-- addons ng product-->*/}
                                     </div>
                                 </div>
 
                                 <div class=" items-center justify-center space-y-4 flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
                                     {/* <!-- numper input --> */}
-                                    <div class="py-2 px-3 inline-block bg-white border-2 border-textgreenColor rounded-full dark:bg-neutral-900 dark:border-neutral-700" data-hs-input-number="">
+                                    <div class="py-1 px-2 inline-block bg-white border-2 border-textgreenColor rounded-full dark:bg-neutral-900 dark:border-neutral-700" data-hs-input-number="">
                                         <div class="flex items-center gap-x-1.5">
                                             <button onClick={() => decrement(item.id, (quantity[item.id] || item.quantity))} type="button" id="decrement-btn" class="size-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" tabindex="-1" aria-label="Decrease" data-hs-input-number-decrement="">
                                                 <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
