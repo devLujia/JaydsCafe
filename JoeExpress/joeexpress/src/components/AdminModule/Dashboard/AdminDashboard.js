@@ -38,6 +38,23 @@ function AdminDashboard() {
    axios.defaults.withCredentials = true;
    
    const [showTooltip, setShowTooltip] = useState(false); //For tooltip
+   const [cmsName,setCmsName] = useState('');
+
+    useEffect(()=>{
+
+        const fetchNameData = async () => {
+          try {
+            const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
+            setCmsName(response.data.content || '');
+          } 
+          catch (error) {
+            console.error('Error fetching data:', error);
+          }
+    
+        };
+
+        fetchNameData();
+    })
    
    const [updateOrder, setUpdateOrder] = useState([
       {
@@ -264,7 +281,7 @@ function AdminDashboard() {
       <nav class="sticky top-0 bg-jaydsBg z-20 shadow-none flex justify-between dark:bg-gray-900">
          <div class="font-extrabold text-2xl flex items-center">
                {/* <!-- Logo/Title in Navbar --> */}
-               <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
+               <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">{cmsName}</a>
          </div>
          <div></div>
          {/* <!-- Button for Login or Sign Up --> */}
@@ -325,7 +342,7 @@ function AdminDashboard() {
          <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
          <a href="#" class="flex items-center ps-2.5 mb-5">
             <img src={jaydsLogo} alt="Logo"/>           
-            <span class="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2">Jayd's Cafe</span>
+            <span class="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2">{cmsName}</span>
          </a>
             <ul class="space-y-2 font-medium ">
 

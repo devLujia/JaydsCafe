@@ -27,7 +27,27 @@ export default function CustomerAccount() {
     const [isOpen, setIsOpen] = useState(false);
     // const [roles, setRoles] = useState('');
     const [role, setRole] = useState(null);
+    
+
     const [userRoles, setUserRoles] = useState({});
+
+    const [cmsName,setCmsName] = useState('');
+
+    useEffect(()=>{
+
+        const fetchNameData = async () => {
+          try {
+            const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
+            setCmsName(response.data.content || '');
+          } 
+          catch (error) {
+            console.error('Error fetching data:', error);
+          }
+    
+        };
+
+        fetchNameData();
+    })
 
     // Handle role change
     const handleRoleChange = async (e, user_Id) => {
@@ -205,7 +225,7 @@ export default function CustomerAccount() {
          <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
          <a href="#" class="flex items-center ps-2.5 mb-5">
             <img src={jaydsLogo} alt="Logo"/>           
-            <span class="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2">Jayd's Cafe</span>
+            <span class="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2">{cmsName}</span>
          </a>
             <ul class="space-y-2 font-medium ">
 

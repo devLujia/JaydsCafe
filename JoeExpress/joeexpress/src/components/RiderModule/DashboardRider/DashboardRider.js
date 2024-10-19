@@ -21,6 +21,24 @@ export default function DashboardRider() {
     const [profile, setProfile] = useState([]);
     const [role, setRole] = useState(null);
 
+    const [cmsName,setCmsName] = useState('');
+
+    useEffect(()=>{
+
+        const fetchNameData = async () => {
+          try {
+            const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
+            setCmsName(response.data.content || '');
+          } 
+          catch (error) {
+            console.error('Error fetching data:', error);
+          }
+    
+        };
+
+        fetchNameData();
+    })
+
     axios.defaults.withCredentials = true;
 
 
@@ -116,7 +134,7 @@ export default function DashboardRider() {
                 <div>
                     <button class="flex items-center ps-2.5 mb-5" onClick={toggleSideNav}>
                         <img src={riderLogo} alt="Logo"/>
-                        <span class="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2">Jayd's Cafe</span>
+                        <span class="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2">{cmsName}</span>
                     </button>
                     <ul class="space-y-2 font-medium">
                         <li> {/* <!--Dashboard  -->  text-gray-600 transition duration-75 group-hover:text-white dark:text-gray-400 dark:group-hover:text-white */}

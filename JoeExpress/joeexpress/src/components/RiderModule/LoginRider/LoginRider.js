@@ -17,6 +17,23 @@ export default function LoginRider() {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [errors, setErrors] = useState({});
     const navigation = useNavigate();
+    const [cmsName,setCmsName] = useState('');
+
+    useEffect(()=>{
+
+        const fetchNameData = async () => {
+          try {
+            const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
+            setCmsName(response.data.content || '');
+          } 
+          catch (error) {
+            console.error('Error fetching data:', error);
+          }
+    
+        };
+
+        fetchNameData();
+    })
 
     axios.defaults.withCredentials = true;
 
@@ -66,7 +83,7 @@ export default function LoginRider() {
             
             {/* left-side */}
             <div className='flex justify-center items-center flex-col border-r-2 border-gray-300 flex-1 px-5'>
-                <h2 className='text-2xl font-bold text-center my-5'>Jayd’s Cafe Rider Account</h2>
+                <h2 className='text-2xl font-bold text-center my-5'>{cmsName} Rider Account</h2>
                 <p class="flex justify-center mb-2 max-w-96 text-center">Lorem ipsum dolor sit amet, consectetur
                 adipiscing elit suspendisse.</p>
 
