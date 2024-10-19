@@ -592,7 +592,7 @@ app.post('/order', (req, res) => {
     let finalAmount = amount;
 
     const processOrder = () => {
-        
+
         const query = `
             INSERT INTO orders (customer_id, deliveryMethod, paymentMethod, totalPrice, status) 
             VALUES (?, ?, ?, ? ,'paid');
@@ -633,7 +633,7 @@ app.post('/order', (req, res) => {
     };
 
     if (code) {
-        // Check if the discount code is valid
+        
         const discountQuery = `
             SELECT * 
             FROM discount_codes 
@@ -660,7 +660,7 @@ app.post('/order', (req, res) => {
                 : discount.discount_value;
 
             // Calculate the final amount after discount
-            finalAmount = Math.max(0, amount - discountAmount); // Ensure the final amount doesn't go below zero
+            finalAmount = Math.max(0, amount - discountAmount); 
 
             // Update the times_used for the discount code
             const updateUsage = `

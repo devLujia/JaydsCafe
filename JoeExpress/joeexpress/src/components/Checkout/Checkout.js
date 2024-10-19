@@ -115,7 +115,8 @@ export default function Checkout() {
                 userId, 
                 amount: totalBill, 
                 deliveryMethod: riderNote?.option || '' ,
-                paymentMethod: selectedPayment
+                paymentMethod: selectedPayment,
+                code
             });
             if (res.data.success){
               handleCreatePaymentIntent(res.data.lastOrderId);
@@ -410,7 +411,7 @@ purchase securely.'>
                             Discount
                         </h1>
                         <p className='text-md font-semibold'>
-                            ₱{discount}.00
+                            - ₱{discount}.00
                         </p>
                     </div>
                     {/* Total */}

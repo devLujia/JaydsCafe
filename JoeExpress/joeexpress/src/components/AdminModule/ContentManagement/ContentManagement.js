@@ -485,7 +485,7 @@ export default function ContentManagement() {
                                         })}
                             </h1>
                             <input type="text" id="disabled-input" aria-label="disabled input" className="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value={cms.content} disabled />
-                            <button className='absolute top-2 right-2 p-1 bg-textgreenColor rounded-lg' title={`Edit ${cms.title}`}>
+                            <button onClick={() => handleEditCms(cms.id)} className='absolute top-2 right-2 p-1 bg-textgreenColor rounded-lg' title={`Edit ${cms.title}`}>
                                 <img src={edit} className='filter invert' alt="Edit" />
                             </button>
                         </div>
@@ -521,7 +521,32 @@ export default function ContentManagement() {
                             }
                             
 
-                            <button className='absolute top-2 right-2 p-1 bg-textgreenColor rounded-lg' title={`Edit ${cms.title}`}>
+                            <button onClick={() => handleEditCms(cms.id)} className='absolute top-2 right-2 p-1 bg-textgreenColor rounded-lg' title={`Edit ${cms.title}`}>
+                                <img src={edit} className='filter invert' alt="Edit" />
+                            </button>
+                        </div>
+                    
+                    ))}
+
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+                    {cmsContent.filter(cms => cms.category === "Terms").map(cms => (
+                        
+                        <div key={cms.category} className='relative border-2 border-gray-500 rounded-xl w-full flex flex-col items-center justify-center p-4 shadow-xl text-center'>
+                            <h1 className='mt-5 text-lg font-semibold mb-2'>{cms.title}</h1>
+                            <h1 className='mt-7 text-lg font-normal mb-2'><span className='block'>Date Updated:</span> {new Date(cms.updated_at).toLocaleString('en-US', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                            second: '2-digit'
+                                        })}
+                            </h1>
+                            <input type="text" id="disabled-input" aria-label="disabled input" className="mb-6 bg-white border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed" value={cms.content} disabled />
+
+                            <button onClick={() => handleEditCms(cms.id)} className='absolute top-2 right-2 p-1 bg-textgreenColor rounded-lg' title={`Edit ${cms.title}`}>
                                 <img src={edit} className='filter invert' alt="Edit" />
                             </button>
                         </div>
