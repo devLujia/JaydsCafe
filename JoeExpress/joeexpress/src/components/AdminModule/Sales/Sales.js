@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react'
 import user from '../../image/UserAcc.svg';
 import notif from '../../image/notif.svg';
 import jaydsLogo from '../../image/jayds cafe Logo.svg';
+import Chart from 'react-apexcharts';
 
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import filled from '@material-tailwind/react/theme/components/timeline/timelineIconColors/filled';
 
 export default function Sales() {
 
@@ -59,6 +61,88 @@ export default function Sales() {
         console.error('Error during logout:', error);
         }
     };
+
+    //for charts line graph
+        // Define the options for the chart
+        const chartOptions = {
+          chart: {
+            id: 'basic-bar',
+          },
+          xaxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'], // X-axis labels
+          },
+          stroke: {
+            curve: 'smooth', // Make the line smooth
+          },
+          title: {
+            text: 'Monthly Sales Data',
+            align: 'left',
+          },
+          filled:{
+            type:"gradient",
+            gradient: {
+                shadeIntensity: 1,
+                opacityFrom: 0.7,
+                opacityTo: 0.9,
+                stops: [0, 90, 100]
+              }
+          }
+        };
+      
+        // Define the series (data) for the chart
+        const chartSeries = [
+          {
+            name: 'Weekly', // Series name
+            data: [10, 41, 35, 51, 49, 62, 69], // Data points
+          },
+          {
+            name: 'Yearly', // Series name
+            data: [20, 51, 30, 41, 60, 38, 69], // Data points
+          },
+        ];
+
+    // line graph vertical
+        const chartOptions2 = {
+            chart: {
+            id: 'basic-bar',
+            },
+            xaxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'], // Initial X-axis labels for yearly
+            },
+            title: {
+            text: 'Sales Over Time',
+            align: 'left',
+            },
+        };
+    
+        // Define chart data for weekly and yearly timeframes
+        const weeklyData = [10, 20, 15, 22, 30, 25, 40]; // Weekly
+        const yearlyData = [30, 40, 45, 50, 49, 60, 70]; //Yearly
+        
+        // State to manage the selected timeframe and chart data
+        const [selectedTimeframe, setSelectedTimeframe] = useState('Weekly'); // Default to Yearly
+        const [chartSeries2, setChartSeries2] = useState([
+            {
+            name: 'Sales Over Time',
+            data: weeklyData, // Default to yearly data
+            },
+        ]);
+    
+        // Handle dropdown selection change
+        const handleTimeframeChange = (e) => {
+            const timeframe = e.target.value;
+            setSelectedTimeframe(timeframe);
+        
+            // Update chart data based on the selected timeframe
+            if (timeframe === 'Weekly') {
+            setChartSeries2([{ name: 'Sales Over Time', data: weeklyData }]);
+            chartOptions2.xaxis.categories = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']; // Weekly categories
+            } else {
+            setChartSeries2([{ name: 'Sales Over Time', data: yearlyData }]);
+            chartOptions2.xaxis.categories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']; // Yearly categories
+            }
+        };
+    
 
   return (
     <div>
@@ -191,6 +275,48 @@ export default function Sales() {
             <h1 class="text-md font-semibold text-gray-500 fixed bottom-5">Copyright © 2024 • uixLujiaa • MigzGo • Chard C. • Dale Gab</h1>
             </div>
         </aside>
+
+        <div class="p-4 sm:ml-72 hidden sm:block ">
+        <h2 className='font-bold text-2xl mb-5'>Sales Report</h2>
+            <div className='grid grid-cols-1 md:grid-cols-[65%_34%] gap-2'>
+                <div className="app w-full shadow-lg rounded-lg">
+                    <div className="row">
+                        <div className="mixed-chart">
+                        <Chart
+                            options={chartOptions}
+                            series={chartSeries}
+                            type="area"
+                            width="100%"
+                            height="400"/>
+                        </div>
+                    </div>
+                </div>
+                <div className="app w-full shadow-lg rounded-lg p-4">
+                    {/* Dropdown to select between weekly and yearly */}
+                    <div className="flex justify-end items-center mb-4">
+                        <select
+                        value={selectedTimeframe}
+                        onChange={handleTimeframeChange}
+                        className="border border-gray-300 p-2 rounded-md"
+                        >
+                        <option value="Weekly">Weekly</option>
+                        <option value="Yearly">Yearly</option>
+                        </select>
+                    </div>
+
+                    <div className="row">
+                        <div className="mixed-chart">
+                        <Chart
+                            options={chartOptions2}
+                            series={chartSeries2}
+                            type="bar" // Setting chart type to 'bar' for vertical bar chart
+                            width="100%"
+                            height="300" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
   )
 }
