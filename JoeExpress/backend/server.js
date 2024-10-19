@@ -633,7 +633,7 @@ app.post('/order', (req, res) => {
     };
 
     if (code) {
-        
+
         const discountQuery = `
             SELECT * 
             FROM discount_codes 
@@ -1936,6 +1936,16 @@ app.post('/removeProduct',  async (req, res) =>{
           socket.join(ticketId);
           console.log(`User with ID: ${socket.id} joined room: ${ticketId}`);
         });
+
+
+        socket.on('leave_Room', (room) => {
+            socket.leave(room);
+            console.log(`${socket.id} left room: ${room}`);
+
+        });
+
+          
+
       
         socket.on('send_message', (messageData) => {
           const { author, room, userId, message } = messageData;
@@ -1993,8 +2003,8 @@ app.post('/removeProduct',  async (req, res) =>{
       app.post('/getMessages', (req, res) => {
         const { ticketId } = req.body;
       
-        const sql = 'SELECT * FROM messages WHERE ticket_id = ? ORDER BY created_at ASC';
-        db.query(sql, [ticketId], (err, results) => {
+        const sql = 'SELECT * FROM messages WHERE ticket_id = ? ORDER BY created_at DESC LIMIT 20';
+        db.query(sql, [ticketId ], (err, results) => {
           if (err) {
             return res.status(500).json({ error: 'Database error' });
           }
@@ -2017,7 +2027,6 @@ app.post('/removeProduct',  async (req, res) =>{
 
     app.post('/validateDiscount', (req, res) => {
         const { code, totalBill } = req.body;
-
 
     
         const sql = 

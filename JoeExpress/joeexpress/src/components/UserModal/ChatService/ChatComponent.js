@@ -110,14 +110,17 @@ const ChatComponent = ({ name, userId }) => {
     // Listen for incoming messages from the server
     socket.on('receive_message', (messageData) => {
       // Update the message list with the new message
-      setMessageList((prevChat) => [...prevChat, messageData]);
-    });
+    if (messageData.userId !== userId) {
+    setMessageList((prevChat) => [...prevChat, messageData]);
+    }
+    
+ });
   
     // Cleanup the socket listener when the component unmounts
     return () => {
       socket.off('receive_message');
     };
-  }, [socket]);
+  }, [ticketId]);
   
   return (
     <>

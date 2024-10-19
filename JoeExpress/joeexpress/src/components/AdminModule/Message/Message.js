@@ -20,8 +20,16 @@ export default function Message({}) {
    const [isOpen, setIsOpen] = useState(false);
    const navigate = useNavigate();
    const [ticketId, setTicketId] = useState([]);
-   const [specificTicketId, setSpecificTicketId] = useState([]);
+   const [specificTicketId, setSpecificTicketId] = useState('');
    const [messages, setMessages] = useState([]);
+   const [earliestMessageTimestamp, setEarliestMessageTimestamp] = useState(null);
+   const [hasMore, setHasMore] = useState(true); // To check if more messages are available
+   const [loading, setLoading] = useState(false); // Loading state for backread
+
+
+
+
+
    axios.defaults.withCredentials = true;
 
    useEffect(() => {
@@ -42,20 +50,52 @@ export default function Message({}) {
     
 
       const fetchMessages = async (ticket) => {
-        if (ticket) { 
-          try {
+
+         if(specificTicketId){
+            socket.emit('leave_Room', specificTicketId);
+            socket.on('leave_Room', () => {
+               setMessageList([]);
+            });
+            
+         }
+
+         if (ticket) { 
+            try {
             setSpecificTicketId(ticket)
 
-            const response = await axios.post('http://localhost:8081/getMessages',  {ticket} );
+            const response = await axios.post('http://localhost:8081/getMessages',  {ticketId: ticket} );
             setMessages(response.data);
             socket.emit('join_room', ticket);
             
-          } 
-          catch (error) {
+            } 
+            catch (error) {
             console.error('Error fetching messages:', error);
-          }
-        }
+            }
+         }
+
       };
+
+
+      const loadMoreMessages = () => {
+         if (!loading && hasMore) {
+           setLoading(true);
+           fetchMessages(specificTicketId, earliestMessageTimestamp);
+           setLoading(false);
+         }
+       };
+     
+       const handleScroll = (e) => {
+         if (e.target.scrollTop === 0 && hasMore && !loading) {
+           loadMoreMessages();
+         }
+       };
+
+
+      useEffect(() => {
+         if (specificTicketId) {
+           fetchMessages(specificTicketId);
+         }
+       }, [specificTicketId]);   
 
    useEffect(() =>{
       
@@ -97,8 +137,11 @@ export default function Message({}) {
          // Listen for incoming messages from the server
          socket.on('receive_message', (messageData) => {
            // Update the message list with the new message
-           setMessages((prevChat) => [...prevChat, messageData]);
-         });
+         if (messageData.userId !== userId) {
+         setMessageList((prevChat) => [...prevChat, messageData]);
+         }
+
+      });
        
          // Cleanup the socket listener when the component unmounts
          return () => {
@@ -106,9 +149,9 @@ export default function Message({}) {
          };
        }, [ticketId]);
 
-       useEffect(() => {
-         setMessageList(messages); // Set messageList to reflect the current messages
-       }, [messages]);
+      //  useEffect(() => {
+      //    setMessageList(messages);
+      //  }, [messages]);
 
 
    const sendMessage = async (e) => {
@@ -132,7 +175,7 @@ export default function Message({}) {
         setCurrentMessage('');
       }
       
-      };
+   };
 
       const handleKeyDown = async (e) => {
          if (e.key === 'Enter' && currentMessage.trim() !== '') {
@@ -176,6 +219,8 @@ export default function Message({}) {
       console.error('Error during logout:', error);
       }
   };
+
+  
 
 
   return (
@@ -397,35 +442,6 @@ export default function Message({}) {
                      </div>
                      ))}
 
-
-                  <div class="flex flex-row py-3 px-5 justify-center items-center hover:bg-gray-200">
-                     <div class="w-1/4">
-                        <img
-                        src={user}
-                        class="object-cover h-12 w-12 rounded-full"
-                        alt=""
-                        />
-                     </div>
-                     <div class="w-full">
-                        <div class="text-md tracking-wider dark:text-white hover:text-gray-900">Lek Ra</div>
-                        <span class="text-gray-500 text-sm">Tara kila migz! 9:00 pm ...</span>
-                     </div>
-                  
-                  </div>
-
-                  <div class="flex flex-row py-3 px-5 justify-center items-center hover:bg-gray-200">
-                     <div class="w-1/4">
-                        <img
-                        src={user}
-                        class="object-cover h-12 w-12 rounded-full"
-                        alt=""
-                        />
-                     </div>
-                     <div class="w-full">
-                        <div class="text-md tracking-wider dark:text-white hover:text-gray-900">Sir Axl</div>
-                        <span class="text-gray-500 text-sm">Available pa matcha latte?</span>
-                     </div>
-                  </div>
                   
                   {/* <!-- end user list --> */}
                   </div>
@@ -444,12 +460,38 @@ export default function Message({}) {
                            </div>
                         );
                      })} */}
+
+                  <div onScroll={handleScroll} className="chat-window">
+                        {messages.map((messageContent) => (
+                        <div
+                           key={messageContent.id}
+                           className={`mb-2 flex ${messageContent.sender_id === userId ? 'justify-end' : 'justify-start'}`}
+                        >
+                           <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
+                              {messageContent.sender_id !== userId
+                              ? `Me: ${messageContent.content}`
+                              : `${messageContent.author}: ${messageContent.content}`}
+                           </p>
+                        </div>
+                        ))}
+                        {loading && <p>Loading more messages...</p>}
+                     </div>
+
+                     {messages.map((messageContent) => {
+                        return (
+                           <div key={messageContent.id} className={`mb-2 flex ${messageContent.senderId === userId  ? 'justify-end' : 'justify-start'}`}>
+                              <p className={`bg-blue-500 text-white rounded-lg py-2 px-4 inline-block`}>
+                              {messageContent.senderId !== userId ? `Me: ${messageContent.content}` : `${messageContent.author}: ${messageContent.content}`}
+                              </p>
+                           </div>
+                        );
+                     })}
                         
                      {messageList.map((messageContent) => {
                         return (
                            <div key={messageContent.id || messageContent.timestamp} className={`mb-2 flex ${messageContent.userId === userId  ? 'justify-end' : 'justify-start'}`}>
                               <p className={`bg-blue-500 text-white rounded-lg py-2 px-4 inline-block`}>
-                              {messageContent.author === "Admin" ? `Me: ${messageContent.message}` : `${messageContent.author}: ${messageContent.message}`}
+                              {messageContent.author === profile.name ? `Me: ${messageContent.message}` : `${messageContent.author}: ${messageContent.message}`}
                               </p>
                            </div>
                         );
