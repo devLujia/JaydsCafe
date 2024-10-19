@@ -1457,11 +1457,47 @@ app.post('/removeProduct',  async (req, res) =>{
     
     });
     
-    
     app.post('/totalOrder', (req,res)=>{
         const query = `SELECT Count(*) as totalOrders FROM orders`;
 
         db.query(query,(err,result)=>{
+            if(err){
+                res.json({err: "error"});
+            }
+
+            res.json(result[0]);
+            
+        })
+    });
+
+    app.post('/ridertotalOrder', (req,res)=>{
+
+        const {userId} = req.body
+
+        const query = `SELECT Count(*) as totalOrders FROM orders Where rider_id = ?`;
+
+        db.query(query,[userId],(err,result)=>{
+            if(err){
+                res.json({err: "error"});
+            }
+
+            res.json(result[0]);
+            
+        })
+    });
+
+
+
+    app.post('/weeklyridertotalOrder', (req,res)=>{
+        
+        const {userId} = req.body
+
+        const query = `SELECT COUNT(*) as totalOrders 
+                   FROM orders 
+                   WHERE rider_id = ? 
+                   AND update_order_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND status = 'completed' `;
+
+        db.query(query,[userId],(err,result)=>{
             if(err){
                 res.json({err: "error"});
             }

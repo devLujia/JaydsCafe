@@ -20,6 +20,8 @@ export default function DashboardRider() {
     const [userId, setUserId] = useState(null);
     const [profile, setProfile] = useState([]);
     const [role, setRole] = useState(null);
+    const [totalOrder, setTotalOrder] = useState([]);
+    const [weeklytotalOrder, setWeeklyTotalOrder] = useState([]);
 
     const [cmsName,setCmsName] = useState('');
 
@@ -80,6 +82,30 @@ export default function DashboardRider() {
         axios.post('http://localhost:8081/profile', { userId })
         .then(response=>{
            setProfile(response.data);
+        })
+        .catch(error => {
+           console.error('Error fetching profile details:', error);
+         });
+  
+      },[userId])
+      
+      useEffect(() =>{
+      
+        axios.post('http://localhost:8081/ridertotalOrder', { userId })
+        .then(response=>{
+           setTotalOrder(response.data);
+        })
+        .catch(error => {
+           console.error('Error fetching profile details:', error);
+         });
+  
+      },[userId])
+
+      useEffect(() =>{
+      
+        axios.post('http://localhost:8081/weeklyridertotalOrder', { userId })
+        .then(response=>{
+           setWeeklyTotalOrder(response.data);
         })
         .catch(error => {
            console.error('Error fetching profile details:', error);
@@ -202,7 +228,7 @@ export default function DashboardRider() {
                             <h1>Weekly Deliveries</h1>
                             <img src={bike}></img>
                         </div>
-                        <p className='text-2xl font-bold dark:text-gray-800'>17 </p>
+                        <p className='text-2xl font-bold dark:text-gray-800'>{weeklytotalOrder.totalOrders}</p>
                     </div>
                     {/* Cards 2 */}
                     <div className='bg-white rounded-lg p-5 font-semibold shadow-lg dark:bg-gray-400'>
@@ -218,7 +244,7 @@ export default function DashboardRider() {
                             <h1>Pending Orders</h1>
                             <img src={pending}></img>
                         </div>
-                        <p className='text-2xl font-bold dark:text-gray-800'>2 </p>
+                        <p className='text-2xl font-bold dark:text-gray-800'>{totalOrder.totalOrders}</p>
                     </div>
                  </div>
 
