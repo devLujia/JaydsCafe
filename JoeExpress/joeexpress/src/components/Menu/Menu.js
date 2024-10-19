@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom'
 import Terms from '../UserModal/TermsAndCondition/Terms'
 import MapModal from '../Map/Map';
 import AddOrder from '../UserModal/AddOrder'
+import socket from '../AdminModule/Message/socketService';
 
 function Menu() {
   //styles ng right drawer
@@ -171,19 +172,6 @@ const rightNav = () => {
     }
   };
 
-
-  useEffect(() => {
-    
-    axios.post('http://localhost:8081/orderNotif', { userId })
-      .then(response => {
-        setOrderNotif(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching orderNotif details:', error);
-      });
-
-  },[userId,addAddorderModal]);
-  
   useEffect(() => {
     
     axios.post('http://localhost:8081/fetchCategory')
@@ -257,6 +245,7 @@ const rightNav = () => {
     setMapModal(!mapModal);
   };
 
+
         //burger
         useEffect(() => {
             const burgerBtn = document.getElementById('burger-btn');
@@ -310,6 +299,28 @@ const rightNav = () => {
                 setCurrentPage((prevPage) => prevPage - 1);
               }
             };
+
+
+            useEffect(() => { 
+
+              if (userId) { 
+                  socket.emit('notif', userId);
+          
+                  socket.on('orderNotif', (data) => {
+                      setOrderNotif(data); 
+                  });
+          
+                  return () => {
+          
+                      socket.off('orderNotif');
+                      socket.off('notif');
+                      
+                  };
+              }
+
+          }, [userId,addAddorderModal]); 
+
+          
           
   return (
     <div>
