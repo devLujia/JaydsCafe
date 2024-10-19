@@ -123,9 +123,8 @@ export default function Order_New() {
      
         socket.emit('orderTracking');
      
-        return () => {
+        return () => { 
             socket.off('orders');  
-            socket.off('orderTracking');  
         };
      }, [socket,updateOrder]);
     
