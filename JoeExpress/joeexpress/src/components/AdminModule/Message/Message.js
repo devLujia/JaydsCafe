@@ -436,7 +436,7 @@ export default function Message({}) {
                            <div className="text-md tracking-wider dark:text-white hover:text-gray-900">
                               {ticket.ticket_id}
                            </div>
-                           <span className="text-gray-500 text-sm">Asan si Kuya?</span>
+                           <span className="text-gray-500 text-sm">{ticket?.subject || "No Subject Yet"}</span>
                            </div>
                         </div>
                      </div>
