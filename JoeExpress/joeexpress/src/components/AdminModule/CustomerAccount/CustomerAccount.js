@@ -346,7 +346,7 @@ export default function CustomerAccount() {
         <div class="p-4 sm:ml-72 hidden sm:block ">
             <h1 class="font-extrabold text-3xl tracking-wider ms-2 p-5">All users</h1>
             <div class="relative overflow-x-auto shadow-xl sm:rounded-lg">
-                <div class="z-10 flex items-center flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900">
+                <div class="z-10 flex justify-between items-center flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900">
 
                     <label for="table-search" class="sr-only">Search</label>
                     <div class="relative">
@@ -359,15 +359,17 @@ export default function CustomerAccount() {
                         onChange={(e)=> setSearch(e.target.value)}
                         type="text" id="table-search-users" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for Users"/>
                     </div>
-                    <button onClick={toggleModal} type="button" class="ml-auto text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
-                        <img src={plus} alt="Plus_Product" class="me-2 md:block"/>
-                        <span class="md:block hidden"> Add Admin </span>
-                    </button> 
-                    
-                    <button type="button" class="ml-auto text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
-                        <img src={plus} alt="Plus_Product" class="me-2 md:block"/>
-                        <span class="md:block hidden"> Add Role </span>
-                    </button> 
+                    <div className='space-x-3'>
+                        <button onClick={toggleModal} type="button" class="ml-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+                            <img src={plus} alt="Plus_Product" class="me-2 md:block"/>
+                            <span class="md:block hidden"> Add Admin </span>
+                        </button>
+                        
+                        <button type="button" class="ml-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+                            <img src={plus} alt="Plus_Product" class="me-2 md:block"/>
+                            <span class="md:block hidden"> Add Role </span>
+                        </button>
+                    </div>
 
                 </div>
 
