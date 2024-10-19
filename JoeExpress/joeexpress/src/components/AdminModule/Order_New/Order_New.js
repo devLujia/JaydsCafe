@@ -136,13 +136,17 @@ export default function Order_New() {
      const getTheOrder = (id, stats) => {
 
         let newStatus = ''; 
+
+        if (stats === 'unpaid') {
+            newStatus = 'paid';
+        }
       
-        if (stats === 'paid') {
+        else if (stats === 'paid') {
           newStatus = 'on process';
         } 
         
         else if (stats === 'on process') {
-          newStatus = 'on delivery';
+          newStatus = 'pending rider';
         }
   
         setUpdateOrder(prevState => 
@@ -534,7 +538,7 @@ export default function Order_New() {
                                                                                 <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status.toUpperCase()}</div>
                                                                             ) : order.status === 'on process' ? (
                                                                                 <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div>
-                                                                            ) : order.status === 'on delivery' ? (
+                                                                            ) : order.status === 'pending rider' ? (
                                                                                 <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div>
                                                                             ) : (
                                                                                 ''
@@ -547,7 +551,7 @@ export default function Order_New() {
                                                                                 </button>
                                                                             ) : order.status === 'on process' ? (
                                                                                 <button onClick={() => getTheOrder(order.order_id, order.status)} className="py-2 px-3 bg-textgreenColor text-white rounded-full">
-                                                                                    Mark as 'on Delivery'
+                                                                                    Mark as 'pending rider'
                                                                                 </button>
                                                                             ) : (
                                                                                 ''
@@ -673,7 +677,7 @@ export default function Order_New() {
                                                         </thead>
 
                                                         <tbody>
-                                                            {currentPendingOrders.filter(order => order.status === 'on delivery').map(order => (
+                                                            {currentPendingOrders.filter(order => order.status === 'pending rider' || order.status === 'on delivery').map(order => (
                                                                 <React.Fragment key={order.order_id}>
                                                                 <tr className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"  onClick={()=> toggleOrderDetails(order.order_id)}>
                                                                 <td className="px-6 py-4 text-center text-gray-900">
@@ -704,8 +708,8 @@ export default function Order_New() {
                                                                 <td className="px-6 py-4">
                                                                     {order.status === 'paid' ? 
                                                                     <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status.toUpperCase()}</div> 
-                                                                    : order.status === 'on process' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div>
-                                                                    : order.status === 'on delivery' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div> 
+                                                                    : order.status === 'on delivery' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div>
+                                                                    : order.status === 'pending rider' ? <div className="bg-green-100 text-orange-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div> 
                                                                     :''}
                                                                     
                                                                 </td>
@@ -807,7 +811,7 @@ export default function Order_New() {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {currentOrderHistory.filter(orderh => orderh.status !== 'on delivery').map(orderh => (
+                                                        {currentOrderHistory.filter(orderh => orderh.status !== 'pending rider' && orderh.status !== 'on delivery').map(orderh => (
                                                             <React.Fragment key={orderh.order_id}>
                                                                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                                                     <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white text-center">

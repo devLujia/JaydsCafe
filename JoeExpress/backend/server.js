@@ -1679,8 +1679,7 @@ app.post('/removeProduct',  async (req, res) =>{
             foods f ON f.id = of.food_id
         JOIN 
             user u ON u.id = o.customer_id
-        WHERE 
-            o.status = 'on process' OR o.status = 'paid'
+        WHERE o.status IN ('on process', 'paid')
 
         GROUP BY 
             o.order_id, 
@@ -1734,8 +1733,7 @@ app.post('/removeProduct',  async (req, res) =>{
             foods f ON f.id = of.food_id
         JOIN 
             user u ON u.id = o.customer_id
-        WHERE 
-            o.status = 'completed' or o.status = 'cancelled' or o.status = 'on delivery' 
+        WHERE o.status IN ('completed', 'cancelled' , 'on delivery' , 'pending rider')
         GROUP BY 
             o.order_id, 
             u.name,
