@@ -33,6 +33,8 @@ function AdminDashboard() {
    const [isOpen, setIsOpen] = useState(false);
    const [isNotif, setIsNotif] = useState(false);
    const [role, setRole] = useState(null);
+   const [ticketId, setTicketId] = useState([]);
+
 
    const navigate = useNavigate();
    axios.defaults.withCredentials = true;
@@ -101,6 +103,22 @@ function AdminDashboard() {
       'Notification 2',
       'Notification 3'
    ];
+
+   useEffect(() => {
+      const getTicketNumber = async () => {
+        try {
+          const response = await axios.post('http://localhost:8081/getTicketId');
+          setTicketId(response.data); 
+          
+        } 
+        catch (error) {
+          console.error('Error fetching ticket ID:', error);
+        }
+
+      };
+    
+      getTicketNumber();
+    }, []);
 
    // Function to toggle dropdown
    const toggleNotif = () => {
@@ -522,57 +540,22 @@ function AdminDashboard() {
                   <div class="flex justify-between sticky top-0 bg-white dark:bg-gray-900 dark:text-gray-300">
                      <h1 class="font-bold text-3xl tracking-wide">Chats</h1>
                      <button class="p-2 border-2 border-gray-500 rounded-lg">
-                        <Link to='/Message'>View All Messages</Link>
+                        <a href='/Message'>View All Messages</a>
                      </button>
                   </div>
                   {/* Contacts */}
                   <div class="overflow-y-auto max-h-full pb-2">
-                     <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
+                  {ticketId.map((ticket) => (
+                     <div key={ticket.ticket_id} class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
                         <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
                            <img src={jaydsLogo} alt="User Avatar" class="w-12 h-12 rounded-full"/>
                         </div>
                         <div class="flex-1">
-                           <h2 class="text-lg font-semibold">Alice</h2>
-                           <p class="text-gray-600">Domat ni lekra</p>
+                           <h2 class="text-lg font-semibold">{ticket?.ticket_id || 'NO TICKET ID'}</h2>
+                           <p class="text-gray-600">{ticket?.subject || "No Subject"}</p>
                         </div>
-                     </div>
-                     <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
-                           <img src={jaydsLogo} alt="User Avatar" class="w-12 h-12 rounded-full"/>
-                        </div>
-                        <div class="flex-1">
-                           <h2 class="text-lg font-semibold">Megoy</h2>
-                           <p class="text-gray-600">Isang 1 pc Chicken</p>
-                        </div>
-                     </div>
-                     <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
-                           <img src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato" alt="User Avatar" class="w-12 h-12 rounded-full"/>
-                        </div>
-                        <div class="flex-1">
-                           <h2 class="text-lg font-semibold">Lekra</h2>
-                           <p class="text-gray-600">isang Duk nga po</p>
-                        </div>
-                     </div>
-                     <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
-                           <img src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato" alt="User Avatar" class="w-12 h-12 rounded-full"/>
-                        </div>
-                        <div class="flex-1">
-                           <h2 class="text-lg font-semibold">Alice</h2>
-                           <p class="text-gray-600">Hoorayy!!</p>
-                        </div>
-                     </div>
-                     <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
-                           <img src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato" alt="User Avatar" class="w-12 h-12 rounded-full"/>
-                        </div>
-                        <div class="flex-1">
-                           <h2 class="text-lg font-semibold">Alice</h2>
-                           <p class="text-gray-600">Hoorayy!!</p>
-                        </div>
-                     </div>
-
+                     </div> ))}
+ 
                   </div>
                </div>
             </div>
@@ -585,7 +568,7 @@ function AdminDashboard() {
                         <div class="flex justify-between sticky top-0 bg-white p-3 dark:bg-gray-900 dark:text-gray-300">
                            <h1 class="font-bold text-3xl tracking-wide">Pending Orders</h1>
                            <button class="p-2 border-2 border-gray-500 rounded-lg">
-                              <Link to='/ProductManagement'>View All Products</Link>
+                              <a href='/ProductManagement'>View All Products</a>
                            </button>
                         </div>
 
@@ -776,7 +759,7 @@ function AdminDashboard() {
                   <div class="flex justify-between sticky top-0 bg-white mb-5 z-10 dark:bg-gray-900 ">
                      <h1 class="font-bold text-3xl tracking-wide">Website Content</h1>
                      <button class="p-2 border-2 border-gray-500 rounded-lg">
-                        <Link to='/ContentManagement'>View All Content</Link>
+                        <a href='/ContentManagement'>View All Content</a>
                      </button>
                   </div>
 

@@ -714,6 +714,7 @@ export default function Order_New() {
                                                                     
                                                                 </td>
                                                                 <td className=" px-6 py-4 ">
+                                                                
                                                                 <button onClick={()=> cancelOrder(order.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title='Delete'>
                                                                             <img src={del} alt="trash" />
                                                                         </button>
