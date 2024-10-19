@@ -129,6 +129,9 @@ function Home() {
  
   useEffect(()=>{
 
+
+    console.log(orderNotif)
+
     const fetchNameData = async () => {
       try {
         const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
@@ -629,17 +632,33 @@ function Home() {
       });
   },[])
   
-  useEffect(() => {
-    
-    axios.post('http://localhost:8081/orderNotif', { userId })
-      .then(response => {
-        setOrderNotif(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching orderNotif details:', error);
-      });
+  useEffect(() => { 
+    if (userId) { 
+        socket.emit('notif', userId);
 
-  }, [userId]);
+        socket.on('orderNotif', (data) => {
+            setOrderNotif(data); 
+        });
+
+        return () => {
+            socket.off('orderNotif');  
+        };
+    }
+}, [userId]); 
+
+useEffect(() => {
+  const handleCartUpdate = (data) => {
+      if (data.success) {
+          setOrderNotif(prevCount => prevCount + 1);
+      }
+  };
+
+  socket.on('cartUpdate', handleCartUpdate);
+
+  return () => {
+      socket.off('cartUpdate', handleCartUpdate);
+  };
+}, [socket]);
 
   // tagabalik
 
@@ -1019,7 +1038,7 @@ function Home() {
                 
                   {/* Buy Now Button */}
                   <div class="flex justify-between items-center mt-4">
-                  <p className="text-2xl font-bold">₱ {food.price}.00</p>
+                  <p className="text-2xl font-bold text-black">₱ {food.price}.00</p>
                   <button
                     onClick={handleNavigate}
                     class="relative bg-[#067741] text-white font-semibold py-2 px-4 rounded-full transition-all duration-500 ease-out transform hover:scale-110 hover:bg-gradient-to-r hover:from-[#067741] hover:to-[#055F32] hover:border-2 hover:border-white hover:shadow-[0_0_15px_rgba(6,119,65,0.5)] hover:rotate-1 group"
@@ -1048,18 +1067,30 @@ function Home() {
 
     {/* <!-- Menu offering --> */}
     <div class="bg-exportColor w-full mb-10 relative" id="offer">
-      <h2
-        class="text-5xl font-bold text-center mb-4 pt-20 text-textgreenColor">
-        Menu Offerings
-      </h2>
+    <h2 class="text-5xl font-bold text-center mb-4 pt-20 text-textgreenColor animate-wave glow-animation">
+    Menu Offerings
+</h2>
+
+
+
       <p class="text-center mb-10 text-xl text-black">Discover a Delightful Mix of Milk Teas, Main Coffees, and Refreshing Drinks!</p>
 
       <div class="flex flex-col justify-center items-center">
-        <div class="flex flex-wrap flex-row space-x-8 space-y-2">
-            <button class="menu_category border-2 border-green-700" onClick={()=>handleCategory()}>All Drinks</button>
+        <div class="justify-center items-center mx-auto px-52 flex-wrap space-x-3 space-y-2 hidden lg:flex">
+        <button class="bg-greenColor text-white text-xl rounded-full py-3 px-5
+         hover:bg-white hover:text-black
+         active:bg-white active:text-black active:scale-95
+         focus:bg-white focus:text-black focus:outline-none focus:ring-2 focus:ring-greenColor focus:ring-opacity-50
+         transition-transform duration-300" onClick={() => handleCategory()}>All Drinks</button>
+
+
           {category.map(categories => (
             <React.Fragment key={categories.id}>
-              <button class="menu_category border-2 border-green-700" onClick={()=>handleCategory(categories.id)}>{categories.title}</button>
+              <button class="bg-greenColor text-white text-xl rounded-full py-3 px-5
+         hover:bg-white hover:text-black
+         active:bg-white active:text-black active:scale-95
+         focus:bg-white focus:text-black focus:outline-none focus:ring-2 focus:ring-greenColor focus:ring-opacity-50
+         transition-transform duration-300" onClick={()=>handleCategory(categories.id)}>{categories.title}</button>
             </React.Fragment>
           ))}
         </div>
@@ -1147,20 +1178,14 @@ function Home() {
 
         {/* <!-- Add button here --> */}
         <button 
-        onClick={()=>(navigate('/menu'))}
-        className="py-2 px-4 bg-greenColor outline outline-white hover:outline-greenColor hover:bg-white hover:text-textgreenColor text-white font-bold rounded-full shadow-md transition duration-300 ease-in-out flex justify-center mx-auto mt-4 mb-5" > 
-          View All Products
-          <svg class="rtl:rotate-180 text-lg w-6 h-6 ms-2"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 14 10" >
-            <path stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              strokeWidth="2"
-              d="M1 5h12m0 0L9 1m4 4L9 9"/>
-          </svg>
+        onClick={() => navigate('/menu')}
+        className="py-4 px-6 bg-greenColor outline outline-white 
+                  hover:outline-greenColor hover:bg-white hover:text-textgreenColor 
+                  text-white font-bold text-lg rounded-full shadow-lg 
+                  transition duration-300 ease-in-out flex justify-center mx-auto mt-4 mb-5 
+                  transform hover:scale-105 
+                  animate-pulse" >
+        View All Products
         </button>
       </div>
     </div>

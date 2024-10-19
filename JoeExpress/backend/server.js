@@ -443,6 +443,7 @@ app.get('/items/:foodId', (req, res) => {
             console.error('Error adding item to cart:', err);
             return res.status(500).json({ success: false, message: 'Failed to add item to cart' });
         }
+
         res.status(200).json({ success: true, message: 'Item added to cart', results });
     });
 });
@@ -1153,6 +1154,7 @@ app.post('/fetchAddons', (req,res) =>{
         res.json(result)
 
     })
+
 })
 
 
@@ -1182,15 +1184,6 @@ app.post('/addProduct', upload.single('image_url') , (req, res) =>{
             
         })
 
-        // const lgSizeQuery = `INSERT INTO food_sizes(food_id, size , price) 
-        //                     VALUES (?,'large',?)`
-
-        // db.query(lgSizeQuery, [lastfoodsId,lgprice], (sizeErr, sizeResult)=> {
-        //     if(sizeErr){
-        //         res.json({sizeErr: "Unable to add into food_sizes"})
-        //     }
-            
-        // })
 
     })
 
@@ -1454,7 +1447,6 @@ app.post('/removeProduct',  async (req, res) =>{
             res.json(result[0]);
         })
         
-    
     });
     
     app.post('/totalOrder', (req,res)=>{
@@ -1486,8 +1478,6 @@ app.post('/removeProduct',  async (req, res) =>{
         })
     });
 
-
-
     app.post('/weeklyridertotalOrder', (req,res)=>{
         
         const {userId} = req.body
@@ -1507,20 +1497,7 @@ app.post('/removeProduct',  async (req, res) =>{
         })
     });
 
-    app.post('/orderNotif', (req,res)=>{
-        const {userId} = req.body;
-
-        const query = `SELECT Count(*) as totalOrders FROM cart_items where user_id = ?`;
-
-        db.query(query,[userId],(err,result)=>{
-            if(err){
-                res.json({err: "error"});
-            }
-
-            res.json(result[0]);
-            
-        })
-    });
+    
     
     app.post('/recentorder', async (req,res)=>{
         const query = 'SELECT id, user_id, food_id, quantity, total_price, order_date FROM orders ORDER BY order_date DESC LIMIT 10;';
@@ -2035,6 +2012,25 @@ app.post('/removeProduct',  async (req, res) =>{
 
     })
 
+
+    app.post('/orderNotif', (req,res) =>{
+
+        const {userId} = req.body
+
+        const query = `SELECT Count(*) as totalOrders FROM cart_items WHERE user_id = ?`;
+            
+            db.query(query, [userId], (err, result) => {
+                
+                if (err) {
+                    console.error('Error in database query:', err);
+                    socket.emit('error', { message: 'Database error' });
+                } 
+                res.json(result[0]);
+
+            });
+    })
+
+
     io.on('connection', (socket) => {
         console.log('A user connected: ' + socket.id);
       
@@ -2043,15 +2039,86 @@ app.post('/removeProduct',  async (req, res) =>{
           console.log(`User with ID: ${socket.id} joined room: ${ticketId}`);
         });
 
-
         socket.on('leave_Room', (room) => {
             socket.leave(room);
             console.log(`${socket.id} left room: ${room}`);
 
         });
 
-          
+        socket.on('notif', (userId) => {
 
+            const query = `SELECT Count(*) as totalOrders FROM cart_items WHERE user_id = ?`;
+            
+            db.query(query, [userId], (err, result) => {
+                
+                if (err) {
+                    
+                    socket.emit('error', { message: 'Database error' });
+                }
+                else {
+                
+                    socket.emit('orderNotif', result[0]);
+                }
+
+            });
+            
+        });
+
+
+        socket.on('orderTracking', () => {
+            
+            const query = 
+                    `
+                    SELECT 
+                        o.order_id, 
+                        u.name,
+                        u.address,
+                        u.pnum,
+                        o.customer_id, 
+                        o.order_date, 
+                        o.status,
+                        o.totalPrice, 
+                        GROUP_CONCAT(
+                            CONCAT('Food Name: ',
+                                f.name, ' ( Size: ', 
+                                of.size, ', Quantity: ', 
+                                of.quantity, ', Addons: ', 
+                                IFNULL(of.addons, ''), ')'
+                            ) ORDER BY f.name SEPARATOR ', '
+                        ) AS food_details
+                    FROM 
+                        orders o
+                    JOIN 
+                        orders_food of ON of.order_id = o.order_id
+                    JOIN 
+                        foods f ON f.id = of.food_id
+                    JOIN 
+                        user u ON u.id = o.customer_id
+                    WHERE o.status IN ('on process', 'paid')
+
+                    GROUP BY 
+                        o.order_id, 
+                        u.name,
+                        u.address,
+                        u.pnum,
+                        o.customer_id, 
+                        o.order_date, 
+                        o.status
+                    ORDER BY 
+                        o.order_date ASC;
+                        
+                    `
+
+            db.query(query, (err, result) => {
+                if (err) {
+                    socket.emit('error', { message: 'Database error' });
+                } 
+                else {
+                    socket.emit('orders', result);
+                }
+            });
+         });
+        
       
         socket.on('send_message', (messageData) => {
           const { author, room, userId, message } = messageData;
@@ -2065,7 +2132,7 @@ app.post('/removeProduct',  async (req, res) =>{
               return;
             }
       
-            io.to(room).emit('receive_message', {
+            socket.to(room).emit('receive_message', {
               room: room, 
               userId: userId,
               message,
@@ -2082,7 +2149,7 @@ app.post('/removeProduct',  async (req, res) =>{
         });
       });
       
-
+// 
       app.post('/createTicket', (req, res) => {
         const { ticketId, userId } = req.body;
       
