@@ -33,11 +33,30 @@ function AdminDashboard() {
    const [isOpen, setIsOpen] = useState(false);
    const [isNotif, setIsNotif] = useState(false);
    const [role, setRole] = useState(null);
+   const [ticketId, setTicketId] = useState([]);
+
 
    const navigate = useNavigate();
    axios.defaults.withCredentials = true;
    
    const [showTooltip, setShowTooltip] = useState(false); //For tooltip
+   const [cmsName,setCmsName] = useState('');
+
+    useEffect(()=>{
+
+        const fetchNameData = async () => {
+          try {
+            const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
+            setCmsName(response.data.content || '');
+          } 
+          catch (error) {
+            console.error('Error fetching data:', error);
+          }
+    
+        };
+
+        fetchNameData();
+    })
    
    const [updateOrder, setUpdateOrder] = useState([
       {
@@ -84,6 +103,22 @@ function AdminDashboard() {
       'Notification 2',
       'Notification 3'
    ];
+
+   useEffect(() => {
+      const getTicketNumber = async () => {
+        try {
+          const response = await axios.post('http://localhost:8081/getTicketId');
+          setTicketId(response.data); 
+          
+        } 
+        catch (error) {
+          console.error('Error fetching ticket ID:', error);
+        }
+
+      };
+    
+      getTicketNumber();
+    }, []);
 
    // Function to toggle dropdown
    const toggleNotif = () => {
@@ -264,7 +299,7 @@ function AdminDashboard() {
       <nav class="sticky top-0 bg-jaydsBg z-20 shadow-none flex justify-between dark:bg-gray-900">
          <div class="font-extrabold text-2xl flex items-center">
                {/* <!-- Logo/Title in Navbar --> */}
-               <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
+               <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">{cmsName}</a>
          </div>
          <div></div>
          {/* <!-- Button for Login or Sign Up --> */}
@@ -325,7 +360,7 @@ function AdminDashboard() {
          <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
          <a href="#" class="flex items-center ps-2.5 mb-5">
             <img src={jaydsLogo} alt="Logo"/>           
-            <span class="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2">Jayd's Cafe</span>
+            <span class="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2">{cmsName}</span>
          </a>
             <ul class="space-y-2 font-medium ">
 
@@ -505,57 +540,22 @@ function AdminDashboard() {
                   <div class="flex justify-between sticky top-0 bg-white dark:bg-gray-900 dark:text-gray-300">
                      <h1 class="font-bold text-3xl tracking-wide">Chats</h1>
                      <button class="p-2 border-2 border-gray-500 rounded-lg">
-                        <Link to='/Message'>View All Messages</Link>
+                        <a href='/Message'>View All Messages</a>
                      </button>
                   </div>
                   {/* Contacts */}
                   <div class="overflow-y-auto max-h-full pb-2">
-                     <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
+                  {ticketId.map((ticket) => (
+                     <div key={ticket.ticket_id} class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
                         <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
                            <img src={jaydsLogo} alt="User Avatar" class="w-12 h-12 rounded-full"/>
                         </div>
                         <div class="flex-1">
-                           <h2 class="text-lg font-semibold">Alice</h2>
-                           <p class="text-gray-600">Domat ni lekra</p>
+                           <h2 class="text-lg font-semibold">{ticket?.ticket_id || 'NO TICKET ID'}</h2>
+                           <p class="text-gray-600">{ticket?.subject || "No Subject"}</p>
                         </div>
-                     </div>
-                     <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
-                           <img src={jaydsLogo} alt="User Avatar" class="w-12 h-12 rounded-full"/>
-                        </div>
-                        <div class="flex-1">
-                           <h2 class="text-lg font-semibold">Megoy</h2>
-                           <p class="text-gray-600">Isang 1 pc Chicken</p>
-                        </div>
-                     </div>
-                     <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
-                           <img src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato" alt="User Avatar" class="w-12 h-12 rounded-full"/>
-                        </div>
-                        <div class="flex-1">
-                           <h2 class="text-lg font-semibold">Lekra</h2>
-                           <p class="text-gray-600">isang Duk nga po</p>
-                        </div>
-                     </div>
-                     <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
-                           <img src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato" alt="User Avatar" class="w-12 h-12 rounded-full"/>
-                        </div>
-                        <div class="flex-1">
-                           <h2 class="text-lg font-semibold">Alice</h2>
-                           <p class="text-gray-600">Hoorayy!!</p>
-                        </div>
-                     </div>
-                     <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
-                           <img src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato" alt="User Avatar" class="w-12 h-12 rounded-full"/>
-                        </div>
-                        <div class="flex-1">
-                           <h2 class="text-lg font-semibold">Alice</h2>
-                           <p class="text-gray-600">Hoorayy!!</p>
-                        </div>
-                     </div>
-
+                     </div> ))}
+ 
                   </div>
                </div>
             </div>
@@ -568,7 +568,7 @@ function AdminDashboard() {
                         <div class="flex justify-between sticky top-0 bg-white p-3 dark:bg-gray-900 dark:text-gray-300">
                            <h1 class="font-bold text-3xl tracking-wide">Pending Orders</h1>
                            <button class="p-2 border-2 border-gray-500 rounded-lg">
-                              <Link to='/ProductManagement'>View All Products</Link>
+                              <a href='/ProductManagement'>View All Products</a>
                            </button>
                         </div>
 
@@ -759,7 +759,7 @@ function AdminDashboard() {
                   <div class="flex justify-between sticky top-0 bg-white mb-5 z-10 dark:bg-gray-900 ">
                      <h1 class="font-bold text-3xl tracking-wide">Website Content</h1>
                      <button class="p-2 border-2 border-gray-500 rounded-lg">
-                        <Link to='/ContentManagement'>View All Content</Link>
+                        <a href='/ContentManagement'>View All Content</a>
                      </button>
                   </div>
 

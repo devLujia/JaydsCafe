@@ -587,46 +587,100 @@ app.get('/verify/:token', (req, res) => {
 });
 
 app.post('/order', (req, res) => {
-    const { userId, amount, deliveryMethod,paymentMethod } = req.body;
+    const { userId, amount, deliveryMethod, paymentMethod, code } = req.body;
 
-    // Insert into orders table
-    const query = `
-        INSERT INTO orders (customer_id, deliveryMethod , paymentMethod , totalPrice, status) 
-        VALUES (?, ?, ?, ? ,'paid');
-        SELECT LAST_INSERT_ID() as lastOrderId;
-    `;
+    let finalAmount = amount;
 
-    db.query(query, [userId,deliveryMethod, paymentMethod, amount], (err, resInInserting) => {
-        if (err) {
-            return res.json({ success: false, err: "Error inserting order" });
-        }
+    const processOrder = () => {
 
-        const lastOrderId = resInInserting[1][0].lastOrderId;
-
-        // Insert into orders_food with addons
-        const gettingOrder = `
-            INSERT INTO orders_food (order_id, food_id, quantity, addons, size)
-            SELECT ?, food_id, quantity, addons, size
-            FROM cart_items
-            WHERE user_id = ?;
+        const query = `
+            INSERT INTO orders (customer_id, deliveryMethod, paymentMethod, totalPrice, status) 
+            VALUES (?, ?, ?, ? ,'paid');
+            SELECT LAST_INSERT_ID() as lastOrderId;
         `;
 
-        db.query(gettingOrder, [lastOrderId, userId], (err, resInGettingOrder) => {
+        db.query(query, [userId, deliveryMethod, paymentMethod, finalAmount], (err, resInInserting) => {
             if (err) {
-                return res.json({ err: "Error inserting order_food" });
+                return res.json({ success: false, err: "Error inserting order" });
             }
 
-            // Delete from cart_items after order is placed
-            const remove = `DELETE FROM cart_items WHERE user_id = ?`;
-            db.query(remove, [userId], (errInRemove, resInRemove) => {
-                if (errInRemove) {
-                    return res.json({ err: "Error removing items from cart" });
-                }
-            });
+            const lastOrderId = resInInserting[1][0].lastOrderId;
 
-            return res.json({ success: true, lastOrderId });
+            // Insert into orders_food with addons
+            const gettingOrder = `
+                INSERT INTO orders_food (order_id, food_id, quantity, addons, size)
+                SELECT ?, food_id, quantity, addons, size
+                FROM cart_items
+                WHERE user_id = ?;
+            `;
+
+            db.query(gettingOrder, [lastOrderId, userId], (err, resInGettingOrder) => {
+                if (err) {
+                    return res.json({ err: "Error inserting order_food" });
+                }
+
+                // Delete from cart_items after order is placed
+                const remove = `DELETE FROM cart_items WHERE user_id = ?`;
+                db.query(remove, [userId], (errInRemove, resInRemove) => {
+                    if (errInRemove) {
+                        return res.json({ err: "Error removing items from cart" });
+                    }
+
+                    return res.json({ success: true, lastOrderId });
+                });
+            });
         });
-    });
+    };
+
+    if (code) {
+
+        const discountQuery = `
+            SELECT * 
+            FROM discount_codes 
+            WHERE code = ? 
+            AND is_active = 1
+            AND valid_from <= NOW() 
+            AND valid_until >= NOW();
+        `;
+
+        db.query(discountQuery, [code], (err, discountResults) => {
+            if (err) {
+                return res.json({ success: false, err: "Error validating discount code" });
+            }
+
+            if (discountResults.length === 0) {
+                // Invalid or expired discount code
+                return res.json({ success: false, err: "Invalid or expired discount code" });
+            }
+
+            // Apply the discount
+            const discount = discountResults[0];
+            const discountAmount = discount.discount_type === 'percentage'
+                ? (amount * discount.discount_value) / 100
+                : discount.discount_value;
+
+            // Calculate the final amount after discount
+            finalAmount = Math.max(0, amount - discountAmount); 
+
+            // Update the times_used for the discount code
+            const updateUsage = `
+                UPDATE discount_codes 
+                SET times_used = times_used + 1
+                WHERE id = ?;
+            `;
+            db.query(updateUsage, [discount.id], (err) => {
+                if (err) {
+                    return res.json({ success: false, err: "Error updating discount code usage" });
+                }
+
+                // Proceed to process the order after applying the discount
+                processOrder();
+            });
+        });
+    } else {
+        // No discount code, proceed with the order
+        processOrder();
+    }
 });
 
 app.post('/removeCartItems', (req,res)=>{
@@ -889,16 +943,17 @@ app.post('/adminlogin',async (req, res) => {
 
 app.post('/updateOrders', async (req,res)=>{
 
-    const {order_id, status} = req.body
+    const {order_id, status, riderId} = req.body
 
     const query = 
     `
     Update orders 
-    SET status = ?
+    SET status = ?,
+    rider_id = ?
     WHERE order_id = ?
 
     `
-    db.query(query, [status, order_id], (error, result) => {
+    db.query(query, [status, riderId, order_id ], (error, result) => {
 
         if(error){
             return res.status(500).json({ error: 'Database error' });
@@ -906,8 +961,9 @@ app.post('/updateOrders', async (req,res)=>{
         
       })
 
-
 })
+
+
 
 
 app.post('/adminTable', async (req,res) => {
@@ -1401,11 +1457,47 @@ app.post('/removeProduct',  async (req, res) =>{
     
     });
     
-    
     app.post('/totalOrder', (req,res)=>{
         const query = `SELECT Count(*) as totalOrders FROM orders`;
 
         db.query(query,(err,result)=>{
+            if(err){
+                res.json({err: "error"});
+            }
+
+            res.json(result[0]);
+            
+        })
+    });
+
+    app.post('/ridertotalOrder', (req,res)=>{
+
+        const {userId} = req.body
+
+        const query = `SELECT Count(*) as totalOrders FROM orders Where rider_id = ?`;
+
+        db.query(query,[userId],(err,result)=>{
+            if(err){
+                res.json({err: "error"});
+            }
+
+            res.json(result[0]);
+            
+        })
+    });
+
+
+
+    app.post('/weeklyridertotalOrder', (req,res)=>{
+        
+        const {userId} = req.body
+
+        const query = `SELECT COUNT(*) as totalOrders 
+                   FROM orders 
+                   WHERE rider_id = ? 
+                   AND update_order_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND status = 'completed' `;
+
+        db.query(query,[userId],(err,result)=>{
             if(err){
                 res.json({err: "error"});
             }
@@ -1625,8 +1717,7 @@ app.post('/removeProduct',  async (req, res) =>{
             foods f ON f.id = of.food_id
         JOIN 
             user u ON u.id = o.customer_id
-        WHERE 
-            o.status = 'on process' OR o.status = 'paid'
+        WHERE o.status IN ('on process', 'paid')
 
         GROUP BY 
             o.order_id, 
@@ -1649,8 +1740,7 @@ app.post('/removeProduct',  async (req, res) =>{
         });
 
     })
-    
-    
+     
     app.post('/orderHistory', (req,res) =>{
 
         const query = 
@@ -1680,8 +1770,7 @@ app.post('/removeProduct',  async (req, res) =>{
             foods f ON f.id = of.food_id
         JOIN 
             user u ON u.id = o.customer_id
-        WHERE 
-            o.status = 'completed' or o.status = 'cancelled' or o.status = 'on delivery' 
+        WHERE o.status IN ('completed', 'cancelled' , 'on delivery' , 'pending rider')
         GROUP BY 
             o.order_id, 
             u.name,
@@ -1696,6 +1785,62 @@ app.post('/removeProduct',  async (req, res) =>{
         `
 
         db.query(query, (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to get orders' });
+            }
+            res.json(result)
+        });
+
+    })
+
+    app.post('/riderOrderHistory', (req,res) =>{
+
+        const {userId} = req.body
+
+        const query = 
+        `
+        SELECT 
+            o.order_id, 
+            u.name,
+            u.address,
+            o.customer_id, 
+            o.order_date,
+            o.update_order_date, 
+            o.status,
+            o.totalPrice,
+            o.rider_id,
+            GROUP_CONCAT(
+                CONCAT('Food Name: ',
+                    f.name, ' ( Size: ', 
+                    of.size, ', Quantity: ', 
+                    of.quantity, ', Addons: ', 
+                    IFNULL(of.addons, ''), ')'
+                ) ORDER BY f.name SEPARATOR ', '
+            ) AS food_details
+        FROM 
+            orders o
+        JOIN 
+            orders_food of ON of.order_id = o.order_id
+        JOIN 
+            foods f ON f.id = of.food_id
+        JOIN 
+            user u ON u.id = o.customer_id
+        WHERE o.status IN ('completed', 'cancelled' , 'on delivery' , 'pending rider') AND o.rider_id = ?
+        GROUP BY 
+            o.order_id, 
+            u.name,
+            u.address,
+            o.customer_id, 
+            o.order_date,
+            o.update_order_date, 
+            o.status,
+            o.rider_id
+        ORDER BY 
+            o.update_order_date DESC;
+             
+        `
+
+        db.query(query, [userId] , (err, result) => {
             if (err) {
                 return res.status(500).json({ error: 'Failed to get orders' });
             }
@@ -1825,6 +1970,21 @@ app.post('/removeProduct',  async (req, res) =>{
 
 
     })
+    
+    app.post('/getRider',(req,res)=>{
+
+
+        const query = `Select * from user where role = 'rider'`
+
+        db.query(query, (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to set role' });
+            }
+            res.json(result)          
+        });
+
+
+    })
 
     app.post('/Addons',(req,res)=>{
 
@@ -1882,6 +2042,16 @@ app.post('/removeProduct',  async (req, res) =>{
           socket.join(ticketId);
           console.log(`User with ID: ${socket.id} joined room: ${ticketId}`);
         });
+
+
+        socket.on('leave_Room', (room) => {
+            socket.leave(room);
+            console.log(`${socket.id} left room: ${room}`);
+
+        });
+
+          
+
       
         socket.on('send_message', (messageData) => {
           const { author, room, userId, message } = messageData;
@@ -1939,8 +2109,8 @@ app.post('/removeProduct',  async (req, res) =>{
       app.post('/getMessages', (req, res) => {
         const { ticketId } = req.body;
       
-        const sql = 'SELECT * FROM messages WHERE ticket_id = ? ORDER BY created_at ASC';
-        db.query(sql, [ticketId], (err, results) => {
+        const sql = 'SELECT * FROM messages WHERE ticket_id = ? ORDER BY created_at DESC LIMIT 20';
+        db.query(sql, [ticketId ], (err, results) => {
           if (err) {
             return res.status(500).json({ error: 'Database error' });
           }
@@ -1957,6 +2127,60 @@ app.post('/removeProduct',  async (req, res) =>{
             }
 
             res.json(results);
+        });
+    });
+
+
+    app.post('/validateDiscount', (req, res) => {
+        const { code, totalBill } = req.body;
+
+    
+        const sql = 
+        `
+          SELECT * 
+          FROM discount_codes 
+          WHERE code = ? 
+          AND is_active = 1
+          AND valid_from <= NOW() 
+          AND valid_until >= NOW()
+        `;
+    
+        db.query(sql, [code], (err, results) => {
+            
+            if (err) {
+                return res.status(500).json({ success: false, message: 'Database error' });
+            }
+    
+            if (results.length === 0) {
+                return res.status(400).json({ success: false, message: 'Invalid or expired discount code' });
+            }
+    
+            const discount = results[0];
+            let discountAmount = 0;
+    
+            if (discount.min_order_value && totalBill < discount.min_order_value) {
+                return res.status(400).json({
+                    success: false,
+                    message: `Minimum order value is $${discount.min_order_value.toFixed(2)} to apply this discount.`,
+                });
+            }
+    
+            if (discount.discount_type === 'percentage') {
+                discountAmount = (totalBill * discount.discount_value) / 100;
+    
+                if (discount.max_discount_value && discountAmount > discount.max_discount_value) {
+                    discountAmount = discount.max_discount_value;
+                }
+
+            } else if (discount.discount_type === 'fixed') {
+                discountAmount = discount.discount_value;
+            }
+    
+            return res.json({
+                success: true,
+                discountAmount,
+                finalAmount: totalBill - discountAmount,
+            });
         });
     });
 

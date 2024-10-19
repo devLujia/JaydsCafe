@@ -22,6 +22,9 @@ export default function Order_New() {
     const [profile, setProfile] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [role, setRole] = useState(null);
+    const [riders, setRiders] = useState([]);
+    const [selectedRiders, setSelectedRiders] = useState(0);
+    
     const navigate = useNavigate();
     axios.defaults.withCredentials = true;
 
@@ -60,6 +63,18 @@ export default function Order_New() {
        });
 
     },[userId])
+    
+    useEffect(() =>{
+      
+      axios.post('http://localhost:8081/getRider')
+      .then(response=>{
+         setRiders(response.data);
+      })
+      .catch(error => {
+         console.error('Error fetching profile details:', error);
+       });
+
+    },[])
 
     //for dropdown user
     const toggleDropdown = () => {
@@ -133,16 +148,20 @@ export default function Order_New() {
                 }
      }
 
-     const getTheOrder = (id, stats) => {
+     const getTheOrder = (e, id, stats) => {
 
         let newStatus = ''; 
+
+        if (stats === 'unpaid') {
+            newStatus = 'paid';
+        }
       
-        if (stats === 'paid') {
+        else if (stats === 'paid') {
           newStatus = 'on process';
         } 
         
         else if (stats === 'on process') {
-          newStatus = 'on delivery';
+          newStatus = 'pending rider';
         }
   
         setUpdateOrder(prevState => 
@@ -152,10 +171,13 @@ export default function Order_New() {
              status: newStatus,
            }))
          );
+         
   
         axios.post('http://localhost:8081/updateOrders', {
             status: newStatus,
-            order_id: id
+            order_id: id,
+            riderId: 0
+
         })
           .then(res => {
             console.log('Order updated successfully:', res.data);
@@ -165,6 +187,38 @@ export default function Order_New() {
           });
   
       }
+
+      const getOrderWithRider = (riderId, id, stats) => {
+
+        let newStatus = ''; 
+        
+        if (stats === 'on process') {
+          newStatus = 'pending rider';
+        }
+  
+        setUpdateOrder(prevState => 
+           prevState.map(order => ({
+             ...order,
+             order_id: id,
+             status: newStatus,
+           }))
+         );
+         
+        axios.post('http://localhost:8081/updateOrders', {
+            status: newStatus,
+            order_id: id,
+            riderId: riderId
+
+        })
+          .then(res => {
+            console.log('Order updated successfully:', res.data);
+          })
+          .catch(err => {
+            console.error('Error updating the order:', err);
+          });
+  
+      }
+      
 
         //for switch tabs
         const [activeTab, setActiveTab] = useState('trackOrder');
@@ -534,24 +588,38 @@ export default function Order_New() {
                                                                                 <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status.toUpperCase()}</div>
                                                                             ) : order.status === 'on process' ? (
                                                                                 <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div>
-                                                                            ) : order.status === 'on delivery' ? (
+                                                                            ) : order.status === 'pending rider' ? (
                                                                                 <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div>
                                                                             ) : (
                                                                                 ''
                                                                             )}
                                                                         </td>
                                                                         <td className="px-6 py-4">
-                                                                            {order.status === 'paid' ? (
-                                                                                <button onClick={() => getTheOrder(order.order_id, order.status)} className="py-2 px-3 bg-yellow-500 text-white rounded-full">
-                                                                                    Mark as 'on process'
-                                                                                </button>
-                                                                            ) : order.status === 'on process' ? (
-                                                                                <button onClick={() => getTheOrder(order.order_id, order.status)} className="py-2 px-3 bg-textgreenColor text-white rounded-full">
-                                                                                    Mark as 'on Delivery'
-                                                                                </button>
-                                                                            ) : (
+                                                                                {order.status === 'paid' ? (
+                                                                                    <button onClick={() => getTheOrder(order.order_id, order.status)} className="py-2 px-3 bg-yellow-500 text-white rounded-full">
+                                                                                        Mark as 'on process'
+                                                                                    </button>
+                                                                                ) : order.status === 'on process' ? (
+                                                                                        <div>
+                                                                                            <label htmlFor="rider-select">Choose a rider:</label>
+                                                                                            <select
+                                                                                            onChange={(e) => setSelectedRiders(e.target.value)}
+                                                                                            className="bg-transparent text-gray-600 font-semibold p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                                                                                            >
+                                                                                                <option  value='0'>
+                                                                                                    Select Rider
+                                                                                                </option>
+                                                                                                {riders.map(rider => (
+                                                                                                <option key={rider?.id} value={rider?.id}>
+                                                                                                    {rider?.name}
+                                                                                                </option>
+                                                                                            ))}
+                                                                                            </select>
+                                                                                            <button className="py-2 px-3 bg-yellow-500 text-white rounded-full" onClick={() => getOrderWithRider(selectedRiders, order?.order_id, order?.status)}>Assign Rider</button>
+                                                                                        </div>
+                                                                                ) : (
                                                                                 ''
-                                                                            )}
+                                                                                )}
                                                                         </td>
                                                                         <td>
                                                                             <button onClick={() => cancelOrder(order.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title="Delete">
@@ -673,7 +741,7 @@ export default function Order_New() {
                                                         </thead>
 
                                                         <tbody>
-                                                            {currentPendingOrders.filter(order => order.status === 'on delivery').map(order => (
+                                                            {currentPendingOrders.filter(order => order.status === 'pending rider' || order.status === 'on delivery').map(order => (
                                                                 <React.Fragment key={order.order_id}>
                                                                 <tr className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"  onClick={()=> toggleOrderDetails(order.order_id)}>
                                                                 <td className="px-6 py-4 text-center text-gray-900">
@@ -704,12 +772,13 @@ export default function Order_New() {
                                                                 <td className="px-6 py-4">
                                                                     {order.status === 'paid' ? 
                                                                     <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status.toUpperCase()}</div> 
-                                                                    : order.status === 'on process' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div>
-                                                                    : order.status === 'on delivery' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div> 
+                                                                    : order.status === 'on delivery' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div>
+                                                                    : order.status === 'pending rider' ? <div className="bg-green-100 text-orange-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div> 
                                                                     :''}
                                                                     
                                                                 </td>
                                                                 <td className=" px-6 py-4 ">
+                                                                
                                                                 <button onClick={()=> cancelOrder(order.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title='Delete'>
                                                                             <img src={del} alt="trash" />
                                                                         </button>
@@ -807,7 +876,7 @@ export default function Order_New() {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {currentOrderHistory.filter(orderh => orderh.status !== 'on delivery').map(orderh => (
+                                                        {currentOrderHistory.filter(orderh => orderh.status !== 'pending rider' && orderh.status !== 'on delivery').map(orderh => (
                                                             <React.Fragment key={orderh.order_id}>
                                                                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                                                     <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white text-center">

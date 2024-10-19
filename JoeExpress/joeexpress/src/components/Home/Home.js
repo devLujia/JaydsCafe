@@ -28,8 +28,6 @@ import Terms from '../UserModal/TermsAndCondition/Terms'
 import ChatComponent from '../UserModal/ChatService/ChatComponent'
 import socket from '../AdminModule/Message/socketService';
 
-//const socket = io('http://localhost:3000');
-
 function Home() {
   
   const [categoryId, setCategoryId] = useState('');
@@ -1300,7 +1298,7 @@ function Home() {
           aria-expanded="true"
           aria-controls="accordion-color-body-1"
         >
-          <span class="text-lg">How do I place an order on Jayd'sCafe?</span>
+          <span class="text-lg">How do I place an order on {cmsName}?</span>
           <svg
             data-accordion-icon
             className={`w-3 h-3 transition-transform duration-300 ${FAQ1 ? 'rotate-180' : ''}`}

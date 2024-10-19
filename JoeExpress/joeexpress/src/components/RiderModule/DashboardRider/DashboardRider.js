@@ -20,14 +20,37 @@ export default function DashboardRider() {
     const [userId, setUserId] = useState(null);
     const [profile, setProfile] = useState([]);
     const [role, setRole] = useState(null);
+    const [totalOrder, setTotalOrder] = useState([]);
+    const [weeklytotalOrder, setWeeklyTotalOrder] = useState([]);
+
+    const [cmsName,setCmsName] = useState('');
+
+    const navigate = useNavigate();
 
     axios.defaults.withCredentials = true;
+
+    useEffect(()=>{
+
+        const fetchNameData = async () => {
+          try {
+            const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
+            setCmsName(response.data.content || '');
+          } 
+          catch (error) {
+            console.error('Error fetching data:', error);
+          }
+    
+        };
+
+        fetchNameData();
+    })
+
+    
 
 
     const toggleSideNav = () => {
         setSidebarOpen (!isSidebarOpen);
     };
-    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -59,6 +82,30 @@ export default function DashboardRider() {
         axios.post('http://localhost:8081/profile', { userId })
         .then(response=>{
            setProfile(response.data);
+        })
+        .catch(error => {
+           console.error('Error fetching profile details:', error);
+         });
+  
+      },[userId])
+      
+      useEffect(() =>{
+      
+        axios.post('http://localhost:8081/ridertotalOrder', { userId })
+        .then(response=>{
+           setTotalOrder(response.data);
+        })
+        .catch(error => {
+           console.error('Error fetching profile details:', error);
+         });
+  
+      },[userId])
+
+      useEffect(() =>{
+      
+        axios.post('http://localhost:8081/weeklyridertotalOrder', { userId })
+        .then(response=>{
+           setWeeklyTotalOrder(response.data);
         })
         .catch(error => {
            console.error('Error fetching profile details:', error);
@@ -116,7 +163,7 @@ export default function DashboardRider() {
                 <div>
                     <button class="flex items-center ps-2.5 mb-5" onClick={toggleSideNav}>
                         <img src={riderLogo} alt="Logo"/>
-                        <span class="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2">Jayd's Cafe</span>
+                        <span class="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2">{cmsName}</span>
                     </button>
                     <ul class="space-y-2 font-medium">
                         <li> {/* <!--Dashboard  -->  text-gray-600 transition duration-75 group-hover:text-white dark:text-gray-400 dark:group-hover:text-white */}
@@ -181,7 +228,7 @@ export default function DashboardRider() {
                             <h1>Weekly Deliveries</h1>
                             <img src={bike}></img>
                         </div>
-                        <p className='text-2xl font-bold dark:text-gray-800'>17 </p>
+                        <p className='text-2xl font-bold dark:text-gray-800'>{weeklytotalOrder.totalOrders}</p>
                     </div>
                     {/* Cards 2 */}
                     <div className='bg-white rounded-lg p-5 font-semibold shadow-lg dark:bg-gray-400'>
@@ -197,7 +244,7 @@ export default function DashboardRider() {
                             <h1>Pending Orders</h1>
                             <img src={pending}></img>
                         </div>
-                        <p className='text-2xl font-bold dark:text-gray-800'>2 </p>
+                        <p className='text-2xl font-bold dark:text-gray-800'>{totalOrder.totalOrders}</p>
                     </div>
                  </div>
 
