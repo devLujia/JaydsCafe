@@ -12,6 +12,7 @@ import jaydsLogo from '../image/jayds cafe Logo.svg';
 import eye from '../image/eye(2).svg'
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import socket from '../AdminModule/Message/socketService';
 
 export default function Profile() {
 
@@ -64,18 +65,6 @@ export default function Profile() {
       });
   }, [userId]);
 
-  useEffect(() => {
-    
-    axios.post('http://localhost:8081/orderNotif', { userId })
-      .then(response => {
-        setOrderNotif(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching orderNotif details:', error);
-      });
-
-  }, [userId]);
-
   //for switch tabs
   const [activeTab, setActiveTab] = useState('profile');
 
@@ -83,6 +72,19 @@ export default function Profile() {
     setActiveTab(tab);
   };
  
+  useEffect(() => { 
+    if (userId) { 
+        socket.emit('notif', userId);
+
+        socket.on('orderNotif', (data) => {
+            setOrderNotif(data); 
+        });
+
+        return () => {
+          socket.off('orderNotif');  
+        };
+    }
+}, [userId]); 
 
 
   return (

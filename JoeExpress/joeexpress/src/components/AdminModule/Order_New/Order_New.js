@@ -9,6 +9,8 @@ import user from '../../image/UserAcc.svg';
 import jaydsLogo from '../../image/jayds cafe Logo.svg';
 import del from '../../image/trashbin(2).svg'
 import check from '../../image/check.svg'
+import socket from '../Message/socketService'
+
 
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -104,14 +106,27 @@ export default function Order_New() {
   
     ]);
 
-    useEffect(()=>{
+    // useEffect(()=>{
 
-        axios.post('http://localhost:8081/orderTracking')
-        .then(res=>{
-            setOrders(res.data);
-        });
+    //     axios.post('http://localhost:8081/orderTracking')
+    //     .then(res=>{
+    //         setOrders(res.data);
+    //     });
   
-    })
+    // })
+
+    useEffect(() => { 
+        socket.on('orders', (data) => {
+            console.log('Received orders:', data);
+            setOrders(data); 
+        });
+     
+        socket.emit('orderTracking');
+     
+        return () => { 
+            socket.off('orders');  
+        };
+     }, [socket,updateOrder]);
     
     useEffect(()=>{
 
@@ -148,7 +163,7 @@ export default function Order_New() {
                 }
      }
 
-     const getTheOrder = (e, id, stats) => {
+     const getTheOrder = ( id, stats) => {
 
         let newStatus = ''; 
 

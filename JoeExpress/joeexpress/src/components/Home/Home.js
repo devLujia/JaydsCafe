@@ -129,6 +129,9 @@ function Home() {
  
   useEffect(()=>{
 
+
+    console.log(orderNotif)
+
     const fetchNameData = async () => {
       try {
         const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
@@ -629,17 +632,33 @@ function Home() {
       });
   },[])
   
-  useEffect(() => {
-    
-    axios.post('http://localhost:8081/orderNotif', { userId })
-      .then(response => {
-        setOrderNotif(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching orderNotif details:', error);
-      });
+  useEffect(() => { 
+    if (userId) { 
+        socket.emit('notif', userId);
 
-  }, [userId]);
+        socket.on('orderNotif', (data) => {
+            setOrderNotif(data); 
+        });
+
+        return () => {
+            socket.off('orderNotif');  
+        };
+    }
+}, [userId]); 
+
+useEffect(() => {
+  const handleCartUpdate = (data) => {
+      if (data.success) {
+          setOrderNotif(prevCount => prevCount + 1);
+      }
+  };
+
+  socket.on('cartUpdate', handleCartUpdate);
+
+  return () => {
+      socket.off('cartUpdate', handleCartUpdate);
+  };
+}, [socket]);
 
   // tagabalik
 
