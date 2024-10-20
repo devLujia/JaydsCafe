@@ -42,7 +42,6 @@ export default function Sales() {
 
     },[userId])
 
-    //for dropdown user
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
@@ -62,8 +61,6 @@ export default function Sales() {
         }
     };
 
-    //for charts line graph
-        // Define the options for the chart
         const chartOptions = {
           chart: {
             id: 'basic-bar',

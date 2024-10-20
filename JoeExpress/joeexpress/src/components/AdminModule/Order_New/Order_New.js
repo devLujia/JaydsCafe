@@ -126,7 +126,7 @@ export default function Order_New() {
         return () => { 
             socket.off('orders');  
         };
-     }, [socket,updateOrder]);
+     }, [socket,updateOrder]);  
     
     useEffect(()=>{
 

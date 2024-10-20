@@ -266,6 +266,8 @@ export default function Checkout() {
     },[items]);
 
   return (
+
+
     <div className='bg-white'>
         {/* <!-- nav --> */}
         <nav class="w-full top-0 fixed bg-white z-20 shadow-lg flex justify-evenly">
@@ -621,3 +623,4 @@ purchase securely.'>
     </div>
   )
 }
+
