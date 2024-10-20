@@ -392,126 +392,109 @@ export default function Message({}) {
             </div>
          </aside>
 
-         <div class="p-4 sm:ml-64 md:pl-14 py-2 mb-0 h-fit hidden sm:block">
+         <div className="p-4 sm:ml-64 md:pl-14 py-2 mb-0 hidden sm:block h-[600px]">
             {/* This is chat */}
-            <div class="container mx-auto shadow-lg rounded-lg overflow-auto">
-                  {/* <!-- headaer --> */}
-               <div class="px-5 py-3 flex justify-between items-center bg-white border-b-2 rounded-t-xl dark:bg-gray-900 dark:text-white">
-                  <div class="font-semibold text-2xl">Active Conversation</div>
-                  <div class="flex flex-row">
-                     <div class="text-center me-1">
-                        <h1 class="font-semibold">{profile.name}</h1>
-                        <span class="text-sm">{profile.role}</span>
-                     </div>
-                     <div class="h-12 w-12 p-2 bg-greenColor rounded-full text-white font-semibold flex items-center justify-center">
-                        <h1>{profile?.name?.charAt(0).toUpperCase() || ''}</h1>
-                     </div>
+            <div className="container mx-auto shadow-lg rounded-lg h-[500px]">
+            {/* Header */}
+            <div className="top-0 sticky px-5 py-3 flex justify-between items-center bg-white border-b-2 rounded-t-xl dark:bg-gray-900 dark:text-white">
+               <div className="font-semibold text-2xl">Active Conversation</div>
+               <div className="flex flex-row">
+                  <div className="text-center me-1">
+                  <h1 className="font-semibold">{profile.name}</h1>
+                  <span className="text-sm">{profile.role}</span>
+                  </div>
+                  <div className="h-12 w-12 p-2 bg-greenColor rounded-full text-white font-semibold flex items-center justify-center">
+                  <h1>{profile?.name?.charAt(0).toUpperCase() || ''}</h1>
                   </div>
                </div>
+            </div>
 
-               {/* <!-- Chatting --> */}
-               <div class="flex flex-row justify-between bg-white dark:bg-gray-800">
-                  {/* <!-- chat list --> */}
-                  <div class="flex flex-col w-2/5 border-r-2 overflow-y-auto">
-                  {/* <!-- search compt --> */}
-                  <div class="border-b-2 py-4 px-2">
-                     <input
-                        type="text"
-                        placeholder=" Search"
-                        class="py-2 px-2 border-2 border-gray-200 rounded-2xl w-full dark:bg-gray-800"
-                     />
+            {/* Chatting */}
+            <div className="flex flex-row justify-between bg-white overflow-hidden dark:bg-gray-800 h-full">
+               {/* Chat list */}
+               <div className="flex flex-col w-2/5 border-r-2 h-full">
+                  {/* Search component */}
+                  <div className="border-b-2 py-4 px-2 top-0 sticky">
+                  <input
+                     type="text"
+                     placeholder="Search"
+                     className="py-2 px-2 border-2 border-gray-200 rounded-2xl w-full dark:bg-gray-800"
+                  />
                   </div>
-                  {/* <!-- end search compt --> */}
-                  {/* <!-- user list --> */}
+                  {/* User list */}
+                  <div className="overflow-y-auto flex-grow">
                   {ticketId.map((ticket) => (
                      <div key={ticket.ticket_id} className="flex flex-row py-3 px-5 justify-center hover:bg-gray-200">
-                        <div className='w-full flex' onClick={() => fetchMessages(ticket?.ticket_id || '')}>
-                           <div className="w-1/4">
+                        <div className="w-full flex" onClick={() => fetchMessages(ticket?.ticket_id || '')}>
+                        <div className="w-1/4">
                            <img
                               src={user} // Ensure 'user' is a valid image source
                               className="object-cover h-12 w-12 rounded-full"
                               alt=""
                            />
-                           </div>
-                           <div className="w-full">
+                        </div>
+                        <div className="w-full">
                            <div className="text-md tracking-wider dark:text-white hover:text-gray-900">
                               {ticket.ticket_id}
                            </div>
                            <span className="text-gray-500 text-sm">{ticket?.subject || "No Subject Yet"}</span>
-                           </div>
+                        </div>
                         </div>
                      </div>
-                     ))}
-
+                  ))}
                   </div>
-                  {/* <!-- end chat list --> */}
+               </div>
 
-                  {/* <!-- message --> */}
-                  <div class="w-full px-5 flex flex-col justify-between overflow-auto">
-                     <div class="flex flex-col mt-5 ">
-
-                     {/* {messages.map((messageContent) => {
-                        return (
-                           <div key={messageContent.id || messageContent.timestamp} className={`mb-2 flex ${messageContent.userId === userId  ? 'justify-end' : 'justify-start'}`}>
-                              <p className={`bg-blue-500 text-white rounded-lg py-2 px-4 inline-block`}>
-                              {messageContent.author === "Admin" ? `Me: ${messageContent.message}` : `${messageContent.author}: ${messageContent.message}`}
-                              </p>
-                           </div>
-                        );
-                     })} */}
-
+               {/* Message area */}
+               <div className="w-full px-5 flex flex-col justify-between h-full">
+                  <div className="flex flex-col mt-2 overflow-y-auto h-[calc(100%-60px)]">
+                  {/* Message map */}
                   <div onScroll={handleScroll} className="chat-window">
-                        {messages.map((messageContent) => (
+                     {messages.map((messageContent) => (
                         <div
-                           key={messageContent.id}
-                           className={`mb-2 flex ${messageContent.sender_id === userId ? 'justify-end' : 'justify-start'}`}
+                        key={messageContent.id}
+                        className={`mb-2 flex ${messageContent.sender_id === userId ? 'justify-end' : 'justify-start'}`}
                         >
-                           <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
-                              {messageContent.sender_id !== userId
+                        <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
+                           {messageContent.sender_id !== userId
                               ? `Me: ${messageContent.content}`
                               : `${messageContent.author}: ${messageContent.content}`}
-                           </p>
+                        </p>
                         </div>
-                        ))}
-                        {loading && <p>Loading more messages...</p>}
-                     </div>
-
-                     {messages.map((messageContent) => {
-                        return (
-                           <div key={messageContent.id} className={`mb-2 flex ${messageContent.senderId === userId  ? 'justify-end' : 'justify-start'}`}>
-                              <p className={`bg-blue-500 text-white rounded-lg py-2 px-4 inline-block`}>
-                              {messageContent.senderId !== userId ? `Me: ${messageContent.content}` : `${messageContent.author}: ${messageContent.content}`}
-                              </p>
-                           </div>
-                        );
-                     })}
-                        
-                     {messageList.map((messageContent) => {
-                        return (
-                           <div key={messageContent.id || messageContent.timestamp} className={`mb-2 flex ${messageContent.userId === userId  ? 'justify-end' : 'justify-start'}`}>
-                              <p className={`bg-blue-500 text-white rounded-lg py-2 px-4 inline-block`}>
-                              {messageContent.author === profile.name ? `Me: ${messageContent.message}` : `${messageContent.author}: ${messageContent.message}`}
-                              </p>
-                           </div>
-                        );
-                     })}
-                        
-                     </div>
-
-                     <label for="search" class="text-sm font-medium text-gray-900 sr-only dark:text-white">Type Something here.</label>
-                     <div class="relative ">
-                        <input type="text" value={currentMessage}
-                        onChange={(e) => setCurrentMessage(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        placeholder="Type a message"
-                        id="search" class="mb-2 block w-full p-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                        />
-                        <button onClick={sendMessage} class="text-white absolute end-2.5 bottom-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><img src={send}></img></button>
-                     </div>
+                     ))}
+                     {loading && <p>Loading more messages...</p>}
                   </div>
-                  {/* <!-- end message --> */}
-                 
+
+                  {messages.map((messageContent) => (
+                     <div key={messageContent.id} className={`mb-2 flex ${messageContent.senderId === userId ? 'justify-end' : 'justify-start'}`}>
+                        <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
+                        {messageContent.senderId !== userId ? `Me: ${messageContent.content}` : `${messageContent.author}: ${messageContent.content}`}
+                        </p>
+                     </div>
+                  ))}
                   </div>
+
+                  {/* Message input */}
+                  <label htmlFor="search" className="text-sm font-medium text-gray-900 sr-only dark:text-white">Type Something here.</label>
+                  <div className="relative bottom-0 fixed w-full">
+                  <input
+                     type="text"
+                     value={currentMessage}
+                     onChange={(e) => setCurrentMessage(e.target.value)}
+                     onKeyDown={handleKeyDown}
+                     placeholder="Type a message"
+                     id="search"
+                     className="mb-2 block w-full p-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  />
+                  <button
+                     onClick={sendMessage}
+                     className="text-white absolute end-2.5 bottom-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  >
+                     <img src={send} alt="send icon" />
+                  </button>
+                  </div>
+               </div>
+            </div>
             </div>
          </div>
     </div>
