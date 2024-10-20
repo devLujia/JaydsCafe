@@ -189,7 +189,7 @@ const ChatComponent = ({ name, userId }) => {
               {messageList.map((messageContent) => {
                         return (
                            <div key={messageContent.id || messageContent.timestamp} className={`mb-2 flex ${messageContent.userId === userId  ? 'justify-end' : 'justify-start'}`}>
-                              <p className={`bg-blue-500 text-white rounded-lg py-2 px-4 inline-block`}>
+                              <p className={`bg-blue-500 text-white rounded-lg py-2 px-4 inline-block w-[70%]`}>
                               {messageContent.author === "Admin" ? `Me: ${messageContent.message}` : `${messageContent.author}: ${messageContent.message}`}
                               </p>
                            </div>

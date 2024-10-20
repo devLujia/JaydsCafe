@@ -7,7 +7,7 @@ import Validation from '../../Login/LoginValidation';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-export default function LoginRider() {
+export default function RegistrationRider() {
 
     const [values, setValues] = useState({
         email: '',
@@ -65,7 +65,7 @@ export default function LoginRider() {
                 if (res.data.valid) {
                     navigation('/riderDashboard');
                 } else {
-                    navigation('/riderLogin');
+                    navigation('/riderRegistration');
                 }
             })
             .catch(err => console.log(err));
@@ -94,13 +94,21 @@ export default function LoginRider() {
             <div className='my-5 flex-1 p-10'>
                 <form onSubmit={handleSubmit}>
                     <h1 className='font-bold text-2xl mb-7 tracking-wide'>
-                        <span className='underline'>Sign In</span> to Jayd's RiderModule 
+                        <span className='underline'>Sign Up</span> to Jayd's RiderModule 
                     </h1>
+                    
+                    <div class="mb-4 relative"> {/* <!-- email--> */}
+                        <label for="email" class="text-gray-600 text-md font-bold tracking-wider ">Fullname</label>
+                        <input 
+                        class="mt-2 shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
+                        id="email" type="email" name="email" placeholder="Ex. Juan Dela Cruz" required/>
+                    </div>
+
                     <div class="mb-4 relative"> {/* <!-- email--> */}
                         <label for="email" class="text-gray-600 text-md font-bold tracking-wider ">Email</label>
                         <input 
                         class="mt-2 shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
-                        id="email" type="email" name="email" placeholder="Ex. Juan Dela Cruz" 
+                        id="email" type="email" name="email" placeholder="Ex. JuanDCrus@gmail.com" 
                         value={values.email}
                         onChange={handleInput} 
                         required/>
@@ -138,9 +146,9 @@ export default function LoginRider() {
                         </p>
 
                         <p class="mb-10">
-                            Don't have any account?
+                         Already have an account?
                             <span class="text-blue-500 cursor-pointer font-semibold">
-                                <a href="/RiderRegistration"> Sign up </a>
+                                <a href="/RiderLogin"> Sign up </a>
                             </span>
                         </p>
                     </div>

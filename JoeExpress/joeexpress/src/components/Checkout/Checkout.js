@@ -24,7 +24,6 @@ export default function Checkout() {
     const [userId, setUserId] = useState(null);
     const [authenticated, setAuthenticated] = useState(false);
     const navigate = useNavigate();
-    const [paymentIntentId, setPaymentIntentId] = useState(null);
     const [totalBill, setTotalBill] = useState(0);
     const [discount, setDiscount] = useState(0);
     const [code, setCode] = useState('');
@@ -33,6 +32,8 @@ export default function Checkout() {
     const [selectedPayment, setSelectedPayment] = useState('');
     const { riderNote } = location.state || {};
     const [loading, setLoading] = useState(false);
+    const [STATUS, setSTATUS] = useState(false)
+
 
     const [cmsName,setCmsName] = useState('');
 
@@ -199,6 +200,7 @@ export default function Checkout() {
             });
             if (res.data.success){
               handleCreatePaymentIntent(res.data.lastOrderId);
+              setSTATUS(res.data.success)
             }
             else{
               console.log('Checkout Failed')
@@ -264,6 +266,8 @@ export default function Checkout() {
     },[items]);
 
   return (
+
+
     <div className='bg-white'>
         {/* <!-- nav --> */}
         <nav class="w-full top-0 fixed bg-white z-20 shadow-lg flex justify-evenly">
@@ -619,3 +623,4 @@ purchase securely.'>
     </div>
   )
 }
+
