@@ -336,7 +336,7 @@ export default function Message({}) {
                   </React.Fragment>
                   :''}
 
-                  {role === 'admin' ?
+                  {role === 'admin' || role === 'cashier' ?
                   <><li> {/* <!-- Sales Report --> */}
                   <a href="/Sales" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor  group hover:text-white">
                      <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75  group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">

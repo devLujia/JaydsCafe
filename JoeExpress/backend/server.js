@@ -1002,13 +1002,29 @@ app.post('/adminTable', async (req,res) => {
       })
 })
 
+app.post('/roleSetup', (req,res)=>{
+
+    const query = `SELECT * from role`
+
+    db.query(query,(err,result)=>{
+
+        if(err){
+            return res.status(500).json({ error: 'Database error' });
+        }
+        res.status(200).json(result)
+
+    })
+
+
+})
+
 app.post('/adminsignup', async (req, res) => {
     
     const { fullname, email, password } = req.body;
 
     try {
         // Check if email already exists
-        const checkQuery = `SELECT * FROM admin WHERE email = ? `;
+        const checkQuery = `SELECT * FROM user WHERE email = ? `;
         
         db.query(checkQuery, [email], async (error, resultFromDb) => {
             
@@ -1022,7 +1038,7 @@ app.post('/adminsignup', async (req, res) => {
             }
 
             const hashedPassword = await bcrypt.hash(password, 10);
-            const insertQuery = 'INSERT INTO admin (fullname, email, password) VALUES (?, ?, ?)';
+            const insertQuery = `INSERT INTO user (name, email, password, role) VALUES (?, ?, ?, 'admin')`;
             const values = [fullname, email, hashedPassword];
 
             db.query(insertQuery, values, (insertError, result) => {
@@ -1031,6 +1047,7 @@ app.post('/adminsignup', async (req, res) => {
                     return res.status(500).json({ error: 'Failed to sign up' });
                 }
                 console.log('Admin signed up successfully:', result); 
+                res.status(200).json({success:true})
 
         });
     });
