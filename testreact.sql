@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2024 at 06:45 PM
+-- Generation Time: Oct 20, 2024 at 07:52 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -630,8 +630,16 @@ CREATE TABLE `riderstats` (
 CREATE TABLE `role` (
   `id` int(10) UNSIGNED NOT NULL,
   `title` varchar(100) NOT NULL,
-  `administer` varchar(100) NOT NULL
+  `administer` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `role`
+--
+
+INSERT INTO `role` (`id`, `title`, `administer`) VALUES
+(1, 'admin', 3),
+(2, 'cashier', 2);
 
 -- --------------------------------------------------------
 
@@ -654,11 +662,11 @@ CREATE TABLE `tickets` (
 --
 
 INSERT INTO `tickets` (`id`, `ticket_id`, `user_id`, `subject`, `status`, `created_at`, `updated_at`) VALUES
-(1, '2krd4KJw', 31, NULL, 'open', '2024-10-16 14:02:02', '2024-10-16 14:02:02'),
-(2, 'FNz5twpd', 31, NULL, 'open', '2024-10-17 01:43:44', '2024-10-17 01:43:44'),
-(3, 'h9UCY6NH', 31, NULL, 'open', '2024-10-17 10:15:06', '2024-10-17 10:15:06'),
-(4, 'Qg8eta61', 31, NULL, 'open', '2024-10-18 06:08:38', '2024-10-18 06:08:38'),
-(5, 'K0oHi9RZ', 31, NULL, 'open', '2024-10-18 06:16:18', '2024-10-18 06:16:18'),
+(1, '2krd4KJw', 31, NULL, 'closed', '2024-10-16 14:02:02', '2024-10-20 02:54:31'),
+(2, 'FNz5twpd', 31, NULL, 'open', '2024-10-17 01:43:44', '2024-10-20 02:53:55'),
+(3, 'h9UCY6NH', 31, NULL, 'open', '2024-10-17 10:15:06', '2024-10-20 02:54:16'),
+(4, 'Qg8eta61', 31, NULL, 'open', '2024-10-18 06:08:38', '2024-10-20 02:54:26'),
+(5, 'K0oHi9RZ', 31, NULL, 'closed', '2024-10-18 06:16:18', '2024-10-20 02:53:58'),
 (6, 'jM34SdM0', 31, NULL, 'open', '2024-10-18 06:22:29', '2024-10-18 06:22:29'),
 (7, 'W2DtopiV', 31, NULL, 'open', '2024-10-18 06:23:25', '2024-10-18 06:23:25'),
 (8, 'Ue02WztJ', 31, NULL, 'open', '2024-10-18 06:29:40', '2024-10-18 06:29:40'),
@@ -700,7 +708,8 @@ INSERT INTO `user` (`id`, `name`, `email`, `password`, `address`, `role`, `creat
 (42, 'leklek', 'leklek@gmail.com', '$2b$10$YZg1R7JAiuRBIxbXuD/HF.Z.Y6fGM7cUPqyD94Zns1pyIEBWLf9K.', 'Blk p lot 4 DASMARINAS', 'admin', '2024-09-28 01:58:05', '2024-09-28 13:14:10', '0473le3c91', 'true', '09278658355'),
 (43, 'tetetetest', 'tetetetest@gmail.com', '$2b$10$2hGDiB5Dhngk.xiEi958kuOhvTVH5NoRhFWU.MYR985VgbIcfQDpC', 'tetetetest', 'user', '2024-10-02 12:27:35', '2024-10-02 12:27:35', 'xdix8ijkbf', 'false', '09278658355'),
 (44, 'binulzahan02', 'binulzahan02@gmail.com', '$2b$10$Z6eau.XVkvkqKX57pRmo0OhkCHYpEVGkEqSFVgMjGgTiWDmaLN32q', 'test', 'rider', '2024-10-14 01:14:45', '2024-10-18 07:14:21', 'j4efvgvccc', 'false', '091234567890'),
-(45, 'san', 'sam@gmail.com', '$2b$10$78uurnjUIzE8vfH4W.162.niq4ZK3b3WYEvsm5DMTBsjLDUa2K32e', 'san', 'user', '2024-10-14 01:48:59', '2024-10-14 01:48:59', 'v7l31rxyox', 'false', '09218874343');
+(45, 'san', 'sam@gmail.com', '$2b$10$78uurnjUIzE8vfH4W.162.niq4ZK3b3WYEvsm5DMTBsjLDUa2K32e', 'san', 'user', '2024-10-14 01:48:59', '2024-10-14 01:48:59', 'v7l31rxyox', 'false', '09218874343'),
+(51, 'Lesde Makmak', 'lesdemakmak@gmail.com', '$2b$10$Z6KZ.lMADv8d01vkoVARWOnoR0mVo9GcLwi5O4boGCPmTd4sUWLgO', '', 'cashier', '2024-10-20 04:31:07', '2024-10-20 04:33:32', '', 'false', '');
 
 --
 -- Indexes for dumped tables
@@ -905,7 +914,7 @@ ALTER TABLE `riderstats`
 -- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tickets`
@@ -917,7 +926,7 @@ ALTER TABLE `tickets`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- Constraints for dumped tables
