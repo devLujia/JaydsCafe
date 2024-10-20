@@ -265,7 +265,7 @@ export default function CustomerAccount() {
 
 
 
-                {tier3.includes(role) ?
+                {tier3.includes(profile?.role) ?
                 
                 <li> {/* <!-- Dashboard --> */}
                     <Link to="/dashboard">
@@ -280,7 +280,7 @@ export default function CustomerAccount() {
                 </li> : 
                 ''}
 
-                {tier3.includes(role) || tier2.includes(role) ?
+                {tier3.includes(profile?.role) || tier2.includes(profile?.role) ?
                     <React.Fragment>
                 <li> {/* <!-- Order Management --> */}
                     <a href="/Order" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor group hover:text-white dark:text-white">
@@ -302,7 +302,7 @@ export default function CustomerAccount() {
                 </React.Fragment>
                 :''}
 
-                {tier3.includes(role) || tier2.includes(role)?
+                {tier3.includes(profile?.role) || tier2.includes(profile?.role)?
                 <>
                 <li> {/* <!-- Sales Report --> */}
                         <a href="/Sales" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor dark:text-white group hover:text-white">
@@ -337,7 +337,7 @@ export default function CustomerAccount() {
                 </ul>
     
                 <ul class="pt-5 mt-10 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
-                    {tier3.includes(role) || tier2.includes(role) || tier1.includes(role) ? 
+                    {tier3.includes(profile?.role) || tier2.includes(profile?.role) || tier1.includes(profile?.role) ? 
                     <li> {/* <!-- Inbox --> */}
                     <a href="/Message" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor group hover:text-white dark:text-white">
                         <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75 group-hover:text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
