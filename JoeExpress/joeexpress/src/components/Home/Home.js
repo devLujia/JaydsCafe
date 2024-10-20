@@ -1071,23 +1071,26 @@ useEffect(() => {
     Menu Offerings
     </h2>
 
-      <p class="text-center mb-10 text-xl text-black">Discover a Delightful Mix of Milk Teas, Main Coffees, and Refreshing Drinks!</p>
+      <p class="text-center mb-6 text-xl text-black">Discover a Delightful Mix of Milk Teas, Main Coffees, and Refreshing Drinks!</p>
 
       <div class="flex flex-col justify-center items-center">
         <div class="justify-center items-center mx-auto px-52 flex-wrap space-x-3 space-y-2 hidden lg:flex">
-        <button class="bg-greenColor text-white text-xl rounded-full py-3 px-5
-         hover:bg-white hover:text-black
-         active:bg-white active:text-black active:scale-95
-         focus:bg-white focus:text-black focus:outline-none focus:ring-2 focus:ring-greenColor focus:ring-opacity-50
+        <button class="text-greenColor text-xl rounded-full py-3 px-5
+         border-2 border-greenColor
+         hover:bg-greenColor hover:text-white
+         active:bg-greenColor active:text-white active:scale-95
+         focus:bg-greenColor focus:text-white focus:outline-none focus:ring-2 focus:ring-greenColor focus:ring-opacity-50
          transition-transform duration-300" onClick={() => handleCategory()}>All Drinks</button>
+
 
 
           {category.map(categories => (
             <React.Fragment key={categories.id}>
-              <button class="bg-greenColor text-white text-xl rounded-full py-3 px-5
-         hover:bg-white hover:text-black
-         active:bg-white active:text-black active:scale-95
-         focus:bg-white focus:text-black focus:outline-none focus:ring-2 focus:ring-greenColor focus:ring-opacity-50
+              <button class="text-greenColor text-xl rounded-full py-3 px-5
+         border-2 border-greenColor
+         hover:bg-greenColor hover:text-white
+         active:bg-greenColor active:text-white active:scale-95
+         focus:bg-greenColor focus:text-white focus:outline-none focus:ring-2 focus:ring-greenColor focus:ring-opacity-50
          transition-transform duration-300" onClick={()=>handleCategory(categories.id)}>{categories.title}</button>
             </React.Fragment>
           ))}
@@ -1228,76 +1231,153 @@ useEffect(() => {
 
 
 
-    {/* <!-- Reviews --> */}
-    <div class="mt-14">
-      <h2 class="font-extrabold text-5xl mb-10 text-yellow-950 text-center">
-        Reviews
-      </h2>
-
-      {/* <div class="gallery-wrap">
-        <img
-          src={arrowleft}
-          alt="Right-button"
-          id="backBtn"
-          class="w-12 h-12"/>
-        <div className="gallery">
-        
-          <div className='flex flex-nowrap'>
-            <span className='hover:scale-110 transition-all duration-300'> 
-              <img src={cmsReview1} alt="" />
-            </span>
-            <span className='hover:scale-110 transition-all duration-300'>
-              <img src={cmsReview2} alt="" />
-            </span>
-            <span className='hover:scale-110 transition-all duration-300'>
-              <img src={cmsReview3} alt=""/>
-            </span>
-          </div>
+{/* https://tailwindflex.com/@sameer-sultana/customer-testimonies-grid */}
+   
+    <div class="">
+      
+<section id="testimonies" class="py-20 bg-slate-900">
+    <div class="max-w-6xl mx-8 md:mx-10 lg:mx-20 xl:mx-auto">
+        <div class="transition duration-500 ease-in-out transform scale-100 translate-x-0 translate-y-0 opacity-100">
+            <div class="mb-12 space-y-5 md:mb-16 md:text-center">
+                <div class="inline-block px-3 py-1 text-sm font-semibold text-indigo-100 rounded-lg bg-[#202c47] bg-opacity-60 hover:cursor-pointer hover:bg-opacity-40">
+                    Words from Others
+                </div>
+                <h1 class="mb-5 text-3xl font-semibold md:text-5xl text-center text-textgreenColor animate-wave glow-animation">
+                      Reviews
+                </h1>
+                <p class="text-xl text-gray-100 md:text-2xl text-center">
+                      At Jayd's Cafe, We love hearing from our Customers!
+                </p>
+            </div>
         </div>
-        <img
-          src={arrowright}
-          alt="Right-button"
-          id="nextBtn"
-          class="w-12 h-12"
-        />
-      </div> */}
 
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+            <ul class="space-y-8">
+                <li class="text-sm leading-6">
+                    <div class="relative group">
+                        <div class="absolute transition rounded-lg opacity-25 -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 blur duration-400 group-hover:opacity-100 group-hover:duration-200"></div>
+                        <a href="https://twitter.com/kanyewest" class="cursor-pointer">
+                            <div class="relative p-6 space-y-6 leading-none rounded-lg bg-slate-800 ring-1 ring-gray-900/5">
+                                <div class="flex items-center space-x-4">
+                                    <img src="https://pbs.twimg.com/profile_images/1276461929934942210/cqNhNk6v_400x400.jpg" class="w-12 h-12 bg-center bg-cover border rounded-full" alt="Kanye West"></img>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-white">Kanye West</h3>
+                                        <p class="text-gray-500 text-md">Rapper &amp; Entrepreneur</p>
+                                    </div>
+                                </div>
+                                <p class="leading-normal text-gray-300 text-md">Find God.</p>
+                            </div>
+                        </a>
+                    </div>
+                </li>
+                <li class="text-sm leading-6">
+                    <div class="relative group">
+                        <div class="absolute transition rounded-lg opacity-25 -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 blur duration-400 group-hover:opacity-100 group-hover:duration-200"></div>
+                        <a href="https://twitter.com/tim_cook" class="cursor-pointer">
+                            <div class="relative p-6 space-y-6 leading-none rounded-lg bg-slate-800 ring-1 ring-gray-900/5">
+                                <div class="flex items-center space-x-4">
+                                    <img src="https://pbs.twimg.com/profile_images/1535420431766671360/Pwq-1eJc_400x400.jpg" class="w-12 h-12 bg-center bg-cover border rounded-full" alt="Tim Cook"></img>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-white">Tim Cook</h3>
+                                        <p class="text-gray-500 text-md">CEO of Apple</p>
+                                    </div>
+                                </div>
+                                <p class="leading-normal text-gray-300 text-md">Diam quis enim lobortis scelerisque fermentum dui faucibus in ornare. Donec pretium vulputate sapien nec sagittis aliquam malesuada bibendum.</p>
+                            </div>
+                        </a>
+                    </div>
+                </li>
+                
+            </ul>
+
+            <ul class="hidden space-y-8 sm:block">
+                <li class="text-sm leading-6">
+                    <div class="relative group">
+                        <div class="absolute transition rounded-lg opacity-25 -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 blur duration-400 group-hover:opacity-100 group-hover:duration-200"></div>
+                        <a href="https://twitter.com/paraga" class="cursor-pointer">
+                            <div class="relative p-6 space-y-6 leading-none rounded-lg bg-slate-800 ring-1 ring-gray-900/5">
+                                <div class="flex items-center space-x-4">
+                                    <img src="https://pbs.twimg.com/profile_images/1375285353146327052/y6jeByyD_400x400.jpg" class="w-12 h-12 bg-center bg-cover border rounded-full" alt="Parag Agrawal"></img>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-white">Parag Agrawal</h3>
+                                        <p class="text-gray-500 text-md">CEO of Twitter</p>
+                                    </div>
+                                </div>
+                                <p class="leading-normal text-gray-300 text-md">Enim neque volutpat ac tincidunt vitae semper. Mattis aliquam faucibus purus in massa tempor. Neque vitae tempus quam pellentesque nec. Turpis cursus in hac habitasse platea dictumst.</p>
+                            </div>
+                        </a>
+                    </div>
+                </li>
+               
+            </ul>
+
+            <ul class="hidden space-y-8 lg:block">
+                <li class="text-sm leading-6">
+                    <div class="relative group">
+                        <div class="absolute transition rounded-lg opacity-25 -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 blur duration-400 group-hover:opacity-100 group-hover:duration-200"></div>
+                        <a href="https://twitter.com/satyanadella" class="cursor-pointer">
+                            <div class="relative p-6 space-y-6 leading-none rounded-lg bg-slate-800 ring-1 ring-gray-900/5">
+                                <div class="flex items-center space-x-4">
+                                    <img src="https://pbs.twimg.com/profile_images/1221837516816306177/_Ld4un5A_400x400.jpg" class="w-12 h-12 bg-center bg-cover border rounded-full" alt="Satya Nadella"></img>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-white">Satya Nadella</h3>
+                                        <p class="text-gray-500 text-md">CEO of Microsoft</p>
+                                    </div>
+                                </div>
+                                <p class="leading-normal text-gray-300 text-md">Tortor dignissim convallis aenean et tortor at. At ultrices mi tempus imperdiet nulla malesuada. Id cursus metus aliquam eleifend mi. Quis ipsum suspendisse ultrices gravida dictum fusce ut.</p>
+                            </div>
+                        </a>
+                    </div>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</section>
+
+    
       <div className="relative">
         <button onClick={scrollLeft} className="absolute left-5 z-10 bg-white rounded-full top-1/2">
           <img src={arrowright} className='w-12 h-12 rotate-180'></img>
         </button>
-        <div ref={carouselRef} className="carousel carousel-center rounded-box w-full space-x-10 p-4 overflow-x-auto">
-          <div className="carousel-item">
-            <img
-              src={cmsReview1}
-              className="rounded-box w-full h-full object-contain" />
-          </div>
-          <div className="carousel-item">
-            <img
-              src={cmsReview2}
-              className="rounded-box w-full h-full object-contain" />
-          </div>
-          <div className="carousel-item">
-            <img
-              src={cmsReview3}
-              className="rounded-box w-full h-full object-contain" />
-          </div>
-          <div className="carousel-item">
-            <img
-              src={cmsReview1}
-              className="rounded-box w-full h-full object-contain" />
-          </div>
-          <div className="carousel-item">
-            <img
-              src={cmsReview2}
-              className="rounded-box w-full h-full object-contain" />
-          </div>
-          <div className="carousel-item">
-            <img
-              src={cmsReview3}
-              className="rounded-box w-full h-full object-contain" />
-          </div>
+        <div ref={carouselRef} className="carousel carousel-center rounded-box w-full p-4 overflow-x-auto">
+  <div className="carousel-item flex justify-center mx-1"> {/* Minimal gap */}
+          <img
+            src={cmsReview1}
+            className="rounded-box w-96 h-120 object-contain" // Set height to 120
+          />
         </div>
+        <div className="carousel-item flex justify-center mx-5"> {/* Minimal gap */}
+          <img
+            src={cmsReview2}
+            className="rounded-box w-96 h-120 object-contain" // Set height to 120
+          />
+        </div>
+        <div className="carousel-item flex justify-center mx-5"> {/* Minimal gap */}
+          <img
+            src={cmsReview3}
+            className="rounded-box w-96 h-120 object-contain" // Set height to 120
+          />
+        </div>
+        <div className="carousel-item flex justify-center mx-5"> {/* Minimal gap */}
+          <img
+            src={cmsReview1}
+            className="rounded-box w-96 h-120 object-contain" // Set height to 120
+          />
+        </div>
+        <div className="carousel-item flex justify-center mx-5"> {/* Minimal gap */}
+          <img
+            src={cmsReview2}
+            className="rounded-box w-96 h-120 object-contain" // Set height to 120
+          />
+        </div>
+        <div className="carousel-item flex justify-center mx-5"> {/* Minimal gap */}
+          <img
+            src={cmsReview3}
+            className="rounded-box w-96 h-120 object-contain" // Set height to 120
+          />
+  </div>
+</div>
         <button onClick={scrollRight} className="absolute right-5 z-10 bg-white rounded-full top-1/2">
           <img src={arrowright} className='w-12 h-12'></img>
         </button>
