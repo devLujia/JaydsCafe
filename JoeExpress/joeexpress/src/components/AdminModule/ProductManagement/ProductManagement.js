@@ -388,7 +388,7 @@ function ProductManagement() {
 
 
 
-               {tier3.includes(role) ? <li> {/* <!-- Dashboard --> */}
+               {tier3.includes(profile?.role|| 0) ? <li> {/* <!-- Dashboard --> */}
                <li> {/* <!-- Dashboard --> */}
                     <Link to="/dashboard">
                         <a href="#" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor group hover:text-white">
@@ -402,7 +402,7 @@ function ProductManagement() {
                     </li>
                </li> : ''}
 
-               {tier3.includes(role) || tier2.includes(role) ?
+               {tier3.includes(profile?.role|| 0) || tier2.includes(profile?.role|| 0) ?
                   
                   <React.Fragment>
                   
@@ -438,7 +438,7 @@ function ProductManagement() {
                </React.Fragment>
                :''}
 
-               {tier3.includes(role) ?
+               {tier3.includes(profile?.role|| 0) ?
                <>
                <li> {/* <!-- Customer Account --> */}
                   <a href="/CustomerAccount" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor group hover:text-white">
@@ -463,7 +463,7 @@ function ProductManagement() {
 
             </ul>
             <ul class="pt-5 mt-10 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
-          {tier3.includes(role) || tier2.includes(role) || tier1.includes(role)?
+          {tier3.includes(profile?.role|| 0) || tier2.includes(profile?.role|| 0) || tier1.includes(profile?.role|| 0)?
           
           <li> {/* <!-- Inbox --> */}
                <a href="/Message" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor group hover:text-white">

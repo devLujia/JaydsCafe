@@ -398,7 +398,7 @@ function AdminDashboard() {
 
 
 
-               {tier3.includes(role) ? <li> {/* <!-- Dashboard --> */}
+               {tier3.includes(profile?.role|| 0) ? <li> {/* <!-- Dashboard --> */}
                   <a href="#" class={`flex items-center p-2 rounded-lg bg-greenColor group text-white`}>
                   <svg class="w-5 h-5 transition duration-75 text-white dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
                      <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z"/>
@@ -408,7 +408,7 @@ function AdminDashboard() {
                   </a>
                </li> : ''}
 
-               {tier3.includes(role) || tier2.includes(role) ?
+               {tier3.includes(profile?.role|| 0) || tier2.includes(profile?.role|| 0) ?
                   
                   <React.Fragment>
                   
@@ -445,7 +445,7 @@ function AdminDashboard() {
                </React.Fragment>
                :''}
 
-               {tier3.includes(role) ?
+               {tier3.includes(profile?.role|| 0) ?
                <>
 
                <li> {/* <!-- Customer Account --> */}
@@ -474,7 +474,7 @@ function AdminDashboard() {
    
             <ul class="pt-5 mt-10 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
 
-            {tier3.includes(role) || tier2.includes(role) || tier1.includes(role) ? <li> {/* <!-- Inbox --> */}
+            {tier3.includes(profile?.role|| 0) || tier2.includes(profile?.role|| 0) || tier1.includes(profile?.role|| 0) ? <li> {/* <!-- Inbox --> */}
                <a href="/Message" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor group hover:text-white">
                   <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75 group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                      <path d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Z"/>
@@ -483,7 +483,7 @@ function AdminDashboard() {
                   <span class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span>
                   </a>
                </li> : ''}
-               
+
                <li> {/* <!-- Settings --> */}
                   <a href="/Settings" class="flex items-center p-2 text-gray-600 transition duration-75 rounded-lg hover:bg-greenColor  group hover:text-white">
                   <svg class="flex-shrink-0 w-7 h-7 text-gray-600 transition duration-75  group-hover:text-white " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">

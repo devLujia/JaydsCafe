@@ -10,6 +10,7 @@ import edit from '../../image/edit.svg'
 import plus from '../../image/plus.svg' 
 import picture from '../../image/UserAcc.svg'
 import AddCustomerAcc from '../AdminModal/AddCustomer/AddCustomerAcc.js'
+import AddRole from '../AdminModal/AddRole/AddRole.js'
 import jaydsLogo from '../../image/jayds cafe Logo.svg'
 import Areyousure from '../AdminModal/AYS/Areyousure.js'  
 import EditCustomerAcc from '../AdminModal/EditCustomer/EditCustomerAcc.js'
@@ -19,13 +20,14 @@ import { Link, useNavigate } from 'react-router-dom';
 export default function CustomerAccount() {
 
     const [addModal,setaddModal] = useState(false);
+    const [addRoleModal,setAddRoleModal] = useState(false);
     const [AYSModal,setAYSModal] = useState(false);
     const [editModal,setEditModal] = useState(false);
     const [userData,setUserData] = useState([]);
     const [selectedUserId, setSelectedUserId] = useState(null);
     const [search, setSearch] = useState('');
     const [isOpen, setIsOpen] = useState(false);
-    // const [roles, setRoles] = useState('');
+    const [roles, setRoles] = useState('');
     const [role, setRole] = useState(null);
     
 
@@ -65,6 +67,16 @@ export default function CustomerAccount() {
         });
 
     }, [tier]);
+
+    useEffect(()=>{
+        axios.post('http://localhost:8081/getRole')
+        .then(response=>{
+            setRoles(response.data)
+        })
+        .catch(error => {
+            console.error('Error fetching food details:', error);
+        });
+    },[])
 
     useEffect(()=>{
 
@@ -112,6 +124,9 @@ export default function CustomerAccount() {
 
     const toggleModal = () =>{
         setaddModal(!addModal)
+    }
+    const toggleAddRoleModal = () =>{
+        setAddRoleModal(!addRoleModal)
     }
 
     const toggleAYSModal = () =>{
@@ -217,6 +232,7 @@ export default function CustomerAccount() {
   return (
     <div>
         {addModal && <AddCustomerAcc closeModal={setaddModal}/>}
+        {addRoleModal && <AddRole closeModal={setAddRoleModal}/>}
         {editModal && selectedUserId !== null && (
                 <EditCustomerAcc closeModal={() => setEditModal(false)} id={selectedUserId} />
             )}
@@ -265,7 +281,7 @@ export default function CustomerAccount() {
 
 
 
-            {tier3.includes(role) ?
+            {tier3.includes(profile?.role|| 0) ?
             
             <li> {/* <!-- Dashboard --> */}
                     <Link to="/dashboard">
@@ -282,7 +298,7 @@ export default function CustomerAccount() {
                
                ''}
 
-               {tier3.includes(role) || tier2.includes(role) ?
+               {tier3.includes(profile?.role|| 0) || tier2.includes(profile?.role|| 0) ?
                   
                   <React.Fragment>
                   
@@ -308,7 +324,7 @@ export default function CustomerAccount() {
                </React.Fragment>
                :''}
 
-               {tier3.includes(role) || tier2.includes(role)?
+               {tier3.includes(profile?.role|| 0) || tier2.includes(profile?.role|| 0)?
                <><li> {/* <!-- Sales Report --> */}
                <a href="/Sales" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor  group hover:text-white">
                   <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75  group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -345,7 +361,7 @@ export default function CustomerAccount() {
             </ul>
    
             <ul class="pt-5 mt-10 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
-            {tier3.includes(role) || tier2.includes(role) || tier1.includes(role) ? <li> {/* <!-- Inbox --> */}
+            {tier3.includes(profile?.role|| 0) || tier2.includes(profile?.role|| 0) || tier1.includes(profile?.role|| 0) ? <li> {/* <!-- Inbox --> */}
                <a href="/Message" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor group hover:text-white">
                   <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75 group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                      <path d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Z"/>
@@ -400,7 +416,7 @@ export default function CustomerAccount() {
                             <span class="md:block hidden"> Add Admin </span>
                         </button>
                         
-                        <button type="button" class="ml-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+                        <button onClick={toggleAddRoleModal} type="button" class="ml-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
                             <img src={plus} alt="Plus_Product" class="me-2 md:block"/>
                             <span class="md:block hidden"> Add Role </span>
                         </button>
@@ -458,9 +474,10 @@ export default function CustomerAccount() {
                                                 onChange={(e) => handleRoleChange(e, user.id)}
                                                 className="bg-transparent text-gray-600 font-semibold p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                                             >
-                                                <option value="admin">Admin</option>
-                                                <option value="cashier">Cashier</option>
-                                                <option value="rider">Rider</option>
+                                                {roles.map(rolee => (
+                                                    <option key={rolee.id} value={rolee.id}>{rolee?.title?.toUpperCase()}</option>
+                                                ))}
+
                                             </select>
                                         </div>
                                     </td>

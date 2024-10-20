@@ -392,7 +392,7 @@ export default function Order_New() {
             </a>
                 <ul class="space-y-2 font-medium ">
 
-                {tier3.includes(role) ?
+                {tier3.includes(profile?.role|| 0) ?
                 
                 <li> {/* <!-- Dashboard --> */}
                         <Link to="/dashboard">
@@ -409,7 +409,7 @@ export default function Order_New() {
                 
                 ''}
 
-                {tier3.includes(role)|| tier2.includes(role) ?
+                {tier3.includes(profile?.role|| 0)|| tier2.includes(profile?.role|| 0) ?
                     
                     <React.Fragment>
                     
@@ -446,7 +446,7 @@ export default function Order_New() {
                 </React.Fragment>
                 :''}
 
-                {tier3.includes(role) ?
+                {tier3.includes(profile?.role|| 0) ?
                 <>
 
                 <li> {/* <!-- Customer Account --> */}
@@ -475,7 +475,7 @@ export default function Order_New() {
     
                 <ul class="pt-5 mt-10 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
 
-                {tier3.includes(role) || tier2.includes(role)|| tier1.includes(role) ? 
+                {tier3.includes(profile?.role|| 0) || tier2.includes(profile?.role|| 0)|| tier1.includes(profile?.role|| 0) ? 
                 <li> {/* <!-- Inbox --> */}
                 <a href="/Message" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor group hover:text-white">
                     <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75 group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">

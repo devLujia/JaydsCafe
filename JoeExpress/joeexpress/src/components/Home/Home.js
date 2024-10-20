@@ -1132,7 +1132,7 @@ useEffect(() => {
                             ₱{menus.Medium}.00
                           </span>
                         </div>
-                        <span className="block text-sm opacity-75 text-gray-700">Medium (22oz)</span>
+                        <span className="block text-sm opacity-75 text-gray-700">{menus.size}</span>
 
                         {/* Add to Cart Button with 3D Effect */}
                         <button className="mt-6 text-white p-3 rounded-lg w-full text-center shadow-lg wave-effect">

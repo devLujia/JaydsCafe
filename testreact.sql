@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 20, 2024 at 07:52 AM
+-- Generation Time: Oct 20, 2024 at 10:18 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -639,7 +639,9 @@ CREATE TABLE `role` (
 
 INSERT INTO `role` (`id`, `title`, `administer`) VALUES
 (1, 'admin', 3),
-(2, 'cashier', 2);
+(2, 'cashier', 2),
+(3, 'user', 0),
+(4, 'rider', 0);
 
 -- --------------------------------------------------------
 
@@ -687,7 +689,7 @@ CREATE TABLE `user` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
-  `role` enum('user','admin','rider','cashier') DEFAULT 'user',
+  `role` int(10) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `verification_token` varchar(255) NOT NULL,
@@ -700,16 +702,16 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `name`, `email`, `password`, `address`, `role`, `created_at`, `updated_at`, `verification_token`, `verified`, `pnum`) VALUES
-(29, 'chardsd', 'cilayap482@modotso.com', '$2b$10$/Zy8Kp69PUPEfsaEbUvdFuMl2Hes3J05Kjd3SSWEJE0b1eoaMOZ8G', 'hello 214sd', 'user', '2024-07-23 08:10:42', '2024-07-23 08:15:03', '49hl4jgopk', 'true', ''),
-(30, 'dagangbukid', 'fobedo2401@reebsd.com', '$2b$10$LQfRgTYjqCoUngDsW9sQM.6lKfNq21fEMzVTh6ydb6Orj8uJqQxg.', 'DYAN LANG', 'user', '2024-07-23 08:20:10', '2024-07-23 08:20:10', 'cn0d0eco8k', 'false', ''),
-(31, 'chardgrey', 'cardosarichard@gmail.com', '$2b$10$2CfKaulWCdIfErdXWtxDz.J5PC2CYidnxPHi2sWv822mG8lWKcdmu', 'Blk 99 Lot 99 Dasmarinas Cavite', 'user', '2024-07-24 05:20:33', '2024-10-11 16:41:30', '254kh7vd2k', 'true', '232324'),
-(40, 'Pedro Penduko', 'jobatoc997@ofionk.com', '$2b$10$txPG8S9wWxyQKrWnVhhBd.ABarEi71skq8KM1IWayUX3bEj04cqiu', 'Salawag Diamond Village Blk 10 Lot 4', 'user', '2024-09-21 12:18:09', '2024-09-21 12:18:09', '27o4xjs1ts', 'false', '09278658355'),
-(41, 'chardgrey', 'chardgrey@gmail.com', '$2b$10$5zsQK5v7BQW3WFcpLMBDveWzsV8e6EsUR7751.X3ZU2VhZ4pXcdle', 'Blk p lot 4 DASMARINAS', 'user', '2024-09-28 01:52:33', '2024-09-28 01:52:33', 'dolrv3tepi', 'false', '09278658355'),
-(42, 'leklek', 'leklek@gmail.com', '$2b$10$YZg1R7JAiuRBIxbXuD/HF.Z.Y6fGM7cUPqyD94Zns1pyIEBWLf9K.', 'Blk p lot 4 DASMARINAS', 'admin', '2024-09-28 01:58:05', '2024-09-28 13:14:10', '0473le3c91', 'true', '09278658355'),
-(43, 'tetetetest', 'tetetetest@gmail.com', '$2b$10$2hGDiB5Dhngk.xiEi958kuOhvTVH5NoRhFWU.MYR985VgbIcfQDpC', 'tetetetest', 'user', '2024-10-02 12:27:35', '2024-10-02 12:27:35', 'xdix8ijkbf', 'false', '09278658355'),
-(44, 'binulzahan02', 'binulzahan02@gmail.com', '$2b$10$Z6eau.XVkvkqKX57pRmo0OhkCHYpEVGkEqSFVgMjGgTiWDmaLN32q', 'test', 'rider', '2024-10-14 01:14:45', '2024-10-18 07:14:21', 'j4efvgvccc', 'false', '091234567890'),
-(45, 'san', 'sam@gmail.com', '$2b$10$78uurnjUIzE8vfH4W.162.niq4ZK3b3WYEvsm5DMTBsjLDUa2K32e', 'san', 'user', '2024-10-14 01:48:59', '2024-10-14 01:48:59', 'v7l31rxyox', 'false', '09218874343'),
-(51, 'Lesde Makmak', 'lesdemakmak@gmail.com', '$2b$10$Z6KZ.lMADv8d01vkoVARWOnoR0mVo9GcLwi5O4boGCPmTd4sUWLgO', '', 'cashier', '2024-10-20 04:31:07', '2024-10-20 04:33:32', '', 'false', '');
+(29, 'chardsd', 'cilayap482@modotso.com', '$2b$10$/Zy8Kp69PUPEfsaEbUvdFuMl2Hes3J05Kjd3SSWEJE0b1eoaMOZ8G', 'hello 214sd', 3, '2024-07-23 08:10:42', '2024-10-20 06:17:28', '49hl4jgopk', 'true', ''),
+(30, 'dagangbukid', 'fobedo2401@reebsd.com', '$2b$10$LQfRgTYjqCoUngDsW9sQM.6lKfNq21fEMzVTh6ydb6Orj8uJqQxg.', 'DYAN LANG', 3, '2024-07-23 08:20:10', '2024-10-20 06:17:28', 'cn0d0eco8k', 'false', ''),
+(31, 'chardgrey', 'cardosarichard@gmail.com', '$2b$10$2CfKaulWCdIfErdXWtxDz.J5PC2CYidnxPHi2sWv822mG8lWKcdmu', 'Blk 99 Lot 99 Dasmarinas Cavite', 3, '2024-07-24 05:20:33', '2024-10-20 06:17:28', '254kh7vd2k', 'true', '232324'),
+(40, 'Pedro Penduko', 'jobatoc997@ofionk.com', '$2b$10$txPG8S9wWxyQKrWnVhhBd.ABarEi71skq8KM1IWayUX3bEj04cqiu', 'Salawag Diamond Village Blk 10 Lot 4', 3, '2024-09-21 12:18:09', '2024-10-20 06:17:28', '27o4xjs1ts', 'false', '09278658355'),
+(41, 'chardgrey', 'chardgrey@gmail.com', '$2b$10$5zsQK5v7BQW3WFcpLMBDveWzsV8e6EsUR7751.X3ZU2VhZ4pXcdle', 'Blk p lot 4 DASMARINAS', 3, '2024-09-28 01:52:33', '2024-10-20 06:17:28', 'dolrv3tepi', 'false', '09278658355'),
+(42, 'leklek', 'leklek@gmail.com', '$2b$10$YZg1R7JAiuRBIxbXuD/HF.Z.Y6fGM7cUPqyD94Zns1pyIEBWLf9K.', 'Blk p lot 4 DASMARINAS', 1, '2024-09-28 01:58:05', '2024-10-20 06:18:02', '0473le3c91', 'true', '09278658355'),
+(43, 'tetetetest', 'tetetetest@gmail.com', '$2b$10$2hGDiB5Dhngk.xiEi958kuOhvTVH5NoRhFWU.MYR985VgbIcfQDpC', 'tetetetest', 3, '2024-10-02 12:27:35', '2024-10-20 06:17:28', 'xdix8ijkbf', 'false', '09278658355'),
+(44, 'binulzahan02', 'binulzahan02@gmail.com', '$2b$10$Z6eau.XVkvkqKX57pRmo0OhkCHYpEVGkEqSFVgMjGgTiWDmaLN32q', 'test', 4, '2024-10-14 01:14:45', '2024-10-20 07:47:11', 'j4efvgvccc', 'false', '091234567890'),
+(45, 'san', 'sam@gmail.com', '$2b$10$78uurnjUIzE8vfH4W.162.niq4ZK3b3WYEvsm5DMTBsjLDUa2K32e', 'san', 3, '2024-10-14 01:48:59', '2024-10-20 06:17:28', 'v7l31rxyox', 'false', '09218874343'),
+(51, 'Lesde Makmak', 'lesdemakmak@gmail.com', '$2b$10$Z6KZ.lMADv8d01vkoVARWOnoR0mVo9GcLwi5O4boGCPmTd4sUWLgO', '', 2, '2024-10-20 04:31:07', '2024-10-20 06:17:53', '', 'false', '');
 
 --
 -- Indexes for dumped tables
@@ -826,7 +828,8 @@ ALTER TABLE `tickets`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `role_id` (`role`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -914,7 +917,7 @@ ALTER TABLE `riderstats`
 -- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tickets`
@@ -989,6 +992,12 @@ ALTER TABLE `order_addons`
 --
 ALTER TABLE `tickets`
   ADD CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+--
+-- Constraints for table `user`
+--
+ALTER TABLE `user`
+  ADD CONSTRAINT `role_id` FOREIGN KEY (`role`) REFERENCES `role` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

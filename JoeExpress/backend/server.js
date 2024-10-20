@@ -71,7 +71,7 @@ function generateToken() {
 
 app.get('/',(req,res)=>{
     
-    if(req.session.name && req.session.role === 'user'){
+    if(req.session.name && req.session.role === 3){
         return res.json({valid:true, name: req.session.name, userId: req.session.userId})
     }
     else{
@@ -82,18 +82,18 @@ app.get('/',(req,res)=>{
 
 app.get('/admin',(req,res)=>{
     
-    if(req.session.name && req.session.role === 'admin'){
+    if(req.session.name && req.session.role === 1){
         return res.json({
             valid:true, name: req.session.name, userId: req.session.userId, role: req.session.role
         })
     }
-    else if(req.session.name && req.session.role === 'cashier'){
+    else if(req.session.name && req.session.role === 2){
         return res.json({
             valid:true, name: req.session.name, userId: req.session.userId, role: req.session.role
         })
     }
     
-    else if(req.session.name && req.session.role === 'rider'){
+    else if(req.session.name && req.session.role === 4){
         return res.json({
             valid: 'rider', name: req.session.name, userId: req.session.userId, role: req.session.role
         })
@@ -312,9 +312,7 @@ app.get('/menu', (req ,res )=>{
             f.description,
             f.image_url,
             fs.size,
-            fs.price,
-            MAX(CASE WHEN fs.size = 'large' THEN fs.price END) AS Large,
-            MAX(CASE WHEN fs.size = 'medium' THEN fs.price END) AS Medium       
+            fs.price    
         FROM
             foods f
         JOIN
@@ -322,13 +320,7 @@ app.get('/menu', (req ,res )=>{
         WHERE
             visible = 1  
         GROUP BY
-        f.id, f.name, f.description, f.image_url;
-         
-            
-            `
-            
-            
-            ;
+        f.id, f.name, f.description, f.image_url;`;
     
         db.query(query, (err,results)=>{
             if(err) {
@@ -527,11 +519,11 @@ app.post('/menuOption', (req, res) => {
             return res.status(401).json({ error: 'Account not verified. Please check your email for verification instructions.' });
         }
         
-        if (isMatch && data[0].role === 'user'){
+        if (isMatch && data[0].role === 3){
             req.session.userId = userData.id;
             const name = data[0].name;
             req.session.name = name;
-            req.session.role = 'user';          
+            req.session.role = 3;          
             return res.json({ Login: true });
         }
 
@@ -910,28 +902,28 @@ app.post('/adminlogin',async (req, res) => {
             return res.status(401).json({ error: 'Account not verified. Please check your email for verification instructions.' });
         }
         
-        if (isMatch && data[0].role === 'admin'){
+        if (isMatch && data[0].role === 1){
             req.session.userId = userData.id;
             const name = data[0].name;
             req.session.name = name;
-            req.session.role = 'admin';          
+            req.session.role = 1;          
             return res.json({ Login: true });
         }
 
-        else if (isMatch && data[0].role === 'cashier'){
+        else if (isMatch && data[0].role === 2){
             req.session.userId = userData.id;
             const name = data[0].name;
             req.session.name = name;
-            req.session.role = 'cashier';          
-            return res.json({ Login: 'cashier' });
+            req.session.role = 2;          
+            return res.json({ Login: 2 });
         }
         
-        else if (isMatch && data[0].role === 'rider'){
+        else if (isMatch && data[0].role === 4){
             req.session.userId = userData.id;
             const name = data[0].name;
             req.session.name = name;
-            req.session.role = 'rider';          
-            return res.json({ Login: 'rider'});
+            req.session.role = 4;          
+            return res.json({ Login: 4});
         }
 
         else{
@@ -1015,7 +1007,6 @@ app.post('/roleSetup', (req,res)=>{
 
     })
 
-
 })
 
 app.post('/adminsignup', async (req, res) => {
@@ -1038,7 +1029,7 @@ app.post('/adminsignup', async (req, res) => {
             }
 
             const hashedPassword = await bcrypt.hash(password, 10);
-            const insertQuery = `INSERT INTO user (name, email, password, role) VALUES (?, ?, ?, 'admin')`;
+            const insertQuery = `INSERT INTO user (name, email, password, role) VALUES (?, ?, ?, '1')`;
             const values = [fullname, email, hashedPassword];
 
             db.query(insertQuery, values, (insertError, result) => {
@@ -1061,7 +1052,7 @@ app.post('/adminsignup', async (req, res) => {
 
 app.post('/fetchUserData', (req,res)=>{
 
-    const query = `SELECT id, name , email, role from user WHERE role = 'admin' OR role = 'rider' OR role = 'cashier' `
+    const query = `SELECT id, name , email, role from user WHERE role = 1 OR role = 4 OR role = 2 `
     db.query(query,(err,result) => {
         
         if(err){
@@ -1944,7 +1935,21 @@ app.post('/removeProduct',  async (req, res) =>{
 
         const {userId} = req.body
 
-        const query = ` SELECT id, name, email, pnum, address, role , verification_token FROM user WHERE id = ? `
+        const query = 
+        ` SELECT 
+        u.id, 
+        u.name, 
+        u.email, 
+        u.pnum, 
+        u.address, 
+        r.title as role,
+        u.verification_token 
+    FROM 
+        user u 
+    INNER JOIN 
+        role r ON u.role = r.id
+    WHERE 
+        u.id = ?;`
 
         db.query(query, [userId], (err, result) => {
             if (err) {
@@ -1977,13 +1982,44 @@ app.post('/removeProduct',  async (req, res) =>{
     app.post('/getRider',(req,res)=>{
 
 
-        const query = `Select * from user where role = 'rider'`
+        const query = `Select * from user where role = 4`
 
         db.query(query, (err, result) => {
             if (err) {
                 return res.status(500).json({ error: 'Failed to set role' });
             }
             res.json(result)          
+        });
+
+
+    })
+    
+    app.post('/getRole',(req,res)=>{
+
+
+        const query = `Select * from role`
+
+        db.query(query, (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to set role' });
+            }
+            res.json(result)          
+        });
+
+
+    })
+    
+    app.post('/addRole',(req,res)=>{
+
+        const {title, administer} = req.body
+
+        const query = `Insert into role (title, administer) VALUES (?, ?)`
+
+        db.query(query,[title, administer], (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to set role' });
+            }
+            res.json('Insert Success')          
         });
 
 
