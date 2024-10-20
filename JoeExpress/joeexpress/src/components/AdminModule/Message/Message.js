@@ -437,7 +437,7 @@ export default function Message({}) {
                   {/* User list */}
                   <div className="overflow-y-auto flex-grow">
                   {ticketId.map((ticket) => (
-                     <div key={ticket.ticket_id} className="flex flex-row py-3 px-5 justify-center hover:bg-gray-200">
+                     <div key={ticket.ticket_id} className="flex flex-row py-3 px-3 justify-center hover:bg-gray-200">
                         <div className="w-full flex" onClick={() => fetchMessages(ticket?.ticket_id || '')}>
                         <div className="w-1/4">
                            <img
@@ -446,7 +446,7 @@ export default function Message({}) {
                               alt=""
                            />
                         </div>
-                        <div className="w-full">
+                        <div className="w-full px-2">
                            <div className="text-md tracking-wider dark:text-white hover:text-gray-900">
                               {ticket.ticket_id}
                            </div>
@@ -456,7 +456,7 @@ export default function Message({}) {
 
                         <button 
                            onClick={() => closeTicket(ticket.status === "open" ? "closed" : "open", ticket.ticket_id)} 
-                           className="flex items-center justify-center px-2 border-2 border-gray-200 bg-textgreenColor rounded-2xl dark:text-white hover:text-gray-900"
+                           className="flex items-center text-sm px-2 text-white justify-center border-2 border-gray-200 bg-textgreenColor rounded-2xl dark:text-white hover:text-gray-900"
                            >
                            <span className="whitespace-nowrap">
                               {ticket.status === "open" ? "Closed" : "Open"} Ticket
