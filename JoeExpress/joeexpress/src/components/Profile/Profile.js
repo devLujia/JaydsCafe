@@ -54,7 +54,7 @@ export default function Profile() {
         console.error('Error fetching orders:', error);
       });
   }, [userId]);
-  
+ 
   useEffect(() => {
     axios.post('http://localhost:8081/profile', { userId })
       .then(res => {
@@ -118,9 +118,9 @@ export default function Profile() {
             <img src={bg_pic} alt="" class="w-full h-full object-fill max-w-full max-h-full rounded-t-2xl"/>
           </div>
 
-          <button class="rounded-full bg-greenColor hover:bg-slate-700 top-0 absolute ml-6 mt-6 p-4">
+          {/* <button class="rounded-full bg-greenColor hover:bg-slate-700 top-0 absolute ml-6 mt-6 p-4">
             <img src={camera} alt=""/>
-          </button>
+          </button> */}
 
           <div class="flex overflow-x-hidden mb-6 ml-16 items-center absolute bottom-0 gap-3"> {/* <!-- container ng profile pic --> */}
             <div class="object-contain w-36 h-36 rounded-full bottom-0"data-popover-target="popover-user-profile" type="button">
@@ -240,7 +240,7 @@ export default function Profile() {
                                         {order.address}
                                      </td>
                                      <td className="px-6 py-4 text-center">
-                                        WALA PA
+                                        {order.pnum}
                                      </td>
                                      <td className="px-6 py-4 text-center">
                                         {new Date(order.order_date).toLocaleString('en-US', {
@@ -260,13 +260,21 @@ export default function Profile() {
                                           {/* status */}
                                           {order.status === 'paid' ? (
                                             <div className="bg-green-100 text-green-500 font-semibold w-fit py-1 px-4 rounded-3xl">
-                                              Paid - On Process
+                                              Paid - on queue
                                             </div>
-                                          ) : order.status === 'pending' ? (
+                                          ) : order.status === 'on process' ? (
                                             <div className="bg-yellow-100 text-yellow-500 font-semibold w-fit py-1 px-4 rounded-3xl">
-                                              Pending
+                                              On process
                                             </div>
-                                          ) : order.status === 'completed' ? (
+                                          ) : order.status === 'pending rider' ? (
+                                            <div className="bg-red-100 text-green-500 font-semibold w-fit py-1 px-4 rounded-3xl">
+                                              Waiting for your Rider
+                                            </div>
+                                          ): order.status === 'on delivery' ? (
+                                            <div className="bg-red-100 text-green-500 font-semibold w-fit py-1 px-4 rounded-3xl">
+                                              On delivery
+                                            </div>
+                                          ): order.status === 'completed' ? (
                                             <div className="bg-red-100 text-green-500 font-semibold w-fit py-1 px-4 rounded-3xl">
                                               Completed
                                             </div>
@@ -294,7 +302,7 @@ export default function Profile() {
                                                  <strong>Order Items:</strong>
                                                  <ul className="mt-2 space-y-2">
                                                     <li className="py-1 w-full text-left">
-                                                       {order.food_name}
+                                                       {order.food_details}
                                                     </li>
                                                  </ul>
                                               </div>

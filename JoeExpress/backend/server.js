@@ -1002,13 +1002,29 @@ app.post('/adminTable', async (req,res) => {
       })
 })
 
+app.post('/roleSetup', (req,res)=>{
+
+    const query = `SELECT * from role`
+
+    db.query(query,(err,result)=>{
+
+        if(err){
+            return res.status(500).json({ error: 'Database error' });
+        }
+        res.status(200).json(result)
+
+    })
+
+
+})
+
 app.post('/adminsignup', async (req, res) => {
     
     const { fullname, email, password } = req.body;
 
     try {
         // Check if email already exists
-        const checkQuery = `SELECT * FROM admin WHERE email = ? `;
+        const checkQuery = `SELECT * FROM user WHERE email = ? `;
         
         db.query(checkQuery, [email], async (error, resultFromDb) => {
             
@@ -1022,7 +1038,7 @@ app.post('/adminsignup', async (req, res) => {
             }
 
             const hashedPassword = await bcrypt.hash(password, 10);
-            const insertQuery = 'INSERT INTO admin (fullname, email, password) VALUES (?, ?, ?)';
+            const insertQuery = `INSERT INTO user (name, email, password, role) VALUES (?, ?, ?, 'admin')`;
             const values = [fullname, email, hashedPassword];
 
             db.query(insertQuery, values, (insertError, result) => {
@@ -1031,6 +1047,7 @@ app.post('/adminsignup', async (req, res) => {
                     return res.status(500).json({ error: 'Failed to sign up' });
                 }
                 console.log('Admin signed up successfully:', result); 
+                res.status(200).json({success:true})
 
         });
     });
@@ -1871,38 +1888,47 @@ app.post('/removeProduct',  async (req, res) =>{
         const {userId} = req.body
 
         const query = 
-        `
-        SELECT 
-            o.order_id, 
-            u.name,
-            u.address,
-            o.customer_id, 
-            o.order_date, 
-            o.status,
-            o.totalPrice, 
-            o.customer_id,
-            GROUP_CONCAT(f.name ORDER BY f.name) AS food_name
-        FROM 
-            orders o
-        JOIN 
-            orders_food of ON of.order_id = o.order_id
-        JOIN 
-            foods f ON f.id = of.food_id
-        JOIN 
-            user u ON u.id = o.customer_id
-        WHERE 
-            o.customer_id = ?
-        GROUP BY 
-            o.order_id, 
-            u.name,
-            u.address,
-            o.customer_id, 
-            o.order_date, 
-            o.status
-        ORDER BY 
-            o.order_date DESC;
-             
-        `
+                    `
+                    SELECT 
+                        o.order_id,
+                        u.id, 
+                        u.name,
+                        u.address,
+                        u.pnum,
+                        o.customer_id, 
+                        o.order_date, 
+                        o.status,
+                        o.totalPrice, 
+                        GROUP_CONCAT(
+                            CONCAT('Food Name: ',
+                                f.name, ' ( Size: ', 
+                                of.size, ', Quantity: ', 
+                                of.quantity, ', Addons: ', 
+                                IFNULL(of.addons, ''), ')'
+                            ) ORDER BY f.name SEPARATOR ', '
+                        ) AS food_details
+                    FROM 
+                        orders o
+                    JOIN 
+                        orders_food of ON of.order_id = o.order_id
+                    JOIN 
+                        foods f ON f.id = of.food_id
+                    JOIN 
+                        user u ON u.id = o.customer_id
+                    WHERE o.status IN ('on process', 'paid') AND u.id = ?
+
+                    GROUP BY 
+                        o.order_id, 
+                        u.name,
+                        u.address,
+                        u.pnum,
+                        o.customer_id, 
+                        o.order_date, 
+                        o.status
+                    ORDER BY 
+                        o.order_date ASC;
+                        
+                    `
 
         db.query(query,[userId], (err, result) => {
             if (err) {
@@ -2150,6 +2176,23 @@ app.post('/removeProduct',  async (req, res) =>{
       });
       
 // 
+
+      app.post('/closeTicket', (req, res) =>{
+
+        const {status, ticketId} = req.body
+
+
+        const sql = 'UPDATE tickets set status = ? where ticket_id = ?';
+        db.query(sql, [status, ticketId], (err,result) =>{
+            if(err){
+                return res.status(500).json({ error: 'Database error' });
+            }
+            res.status(200).json({success: true, status: "UPDATE SUCCESSFULLY"});
+        })
+
+      })
+
+
       app.post('/createTicket', (req, res) => {
         const { ticketId, userId } = req.body;
       
@@ -2176,7 +2219,12 @@ app.post('/removeProduct',  async (req, res) =>{
       app.post('/getMessages', (req, res) => {
         const { ticketId } = req.body;
       
-        const sql = 'SELECT * FROM messages WHERE ticket_id = ? ORDER BY created_at DESC LIMIT 20';
+        const sql = `SELECT messages.*
+                    FROM messages
+                    JOIN tickets ON messages.ticket_id = tickets.ticket_id
+                    WHERE messages.ticket_id = ?
+                    ORDER BY tickets.status = 'close', messages.created_at DESC;`;
+
         db.query(sql, [ticketId ], (err, results) => {
           if (err) {
             return res.status(500).json({ error: 'Database error' });
@@ -2187,7 +2235,7 @@ app.post('/removeProduct',  async (req, res) =>{
       });
 
       app.post('/getTicketId', (req, res) => {
-        const sql = 'SELECT id, ticket_id FROM tickets';
+        const sql = `SELECT id, status, ticket_id, created_at FROM tickets ORDER BY status = 'closed' ASC, created_at DESC `;
         db.query(sql, (err, results) => {
             if (err) {
                 return res.status(500).json({ error: 'Database error' });
@@ -2201,7 +2249,6 @@ app.post('/removeProduct',  async (req, res) =>{
     app.post('/validateDiscount', (req, res) => {
         const { code, totalBill } = req.body;
 
-    
         const sql = 
         `
           SELECT * 

@@ -25,6 +25,7 @@ export default function Message({}) {
    const [earliestMessageTimestamp, setEarliestMessageTimestamp] = useState(null);
    const [hasMore, setHasMore] = useState(true); // To check if more messages are available
    const [loading, setLoading] = useState(false); // Loading state for backread
+   const [update, setUpdate] = useState(false)
 
 
 
@@ -32,6 +33,7 @@ export default function Message({}) {
 
    axios.defaults.withCredentials = true;
 
+   
    useEffect(() => {
       const getTicketNumber = async () => {
         try {
@@ -42,12 +44,11 @@ export default function Message({}) {
         catch (error) {
           console.error('Error fetching ticket ID:', error);
         }
-
+   
       };
     
       getTicketNumber();
-    }, []);
-    
+    }, [update,messageList]);
 
       const fetchMessages = async (ticket) => {
 
@@ -219,6 +220,18 @@ export default function Message({}) {
       console.error('Error during logout:', error);
       }
   };
+  
+  const closeTicket = (status,ticket) =>{
+
+   axios.post('http://localhost:8081/closeTicket',{status: status,ticketId: ticket})
+   .then(res=>{
+      alert(res.data.status)
+      setUpdate(res.data.success)
+   })
+
+  }
+
+  
 
   
 
@@ -323,7 +336,7 @@ export default function Message({}) {
                   </React.Fragment>
                   :''}
 
-                  {role === 'admin' ?
+                  {role === 'admin' || role === 'cashier' ?
                   <><li> {/* <!-- Sales Report --> */}
                   <a href="/Sales" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor  group hover:text-white">
                      <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75  group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -440,7 +453,16 @@ export default function Message({}) {
                            <span className="text-gray-500 text-sm">{ticket?.subject || "No Subject Yet"}</span>
                         </div>
                         </div>
-                     </div>
+
+                        <button 
+                           onClick={() => closeTicket(ticket.status === "open" ? "closed" : "open", ticket.ticket_id)} 
+                           className="flex items-center justify-center px-2 border-2 border-gray-200 bg-textgreenColor rounded-2xl dark:text-white hover:text-gray-900"
+                           >
+                           <span className="whitespace-nowrap">
+                              {ticket.status === "open" ? "Closed" : "Open"} Ticket
+                           </span>
+                        </button>                 
+                        </div>
                   ))}
                   </div>
                </div>

@@ -48,9 +48,11 @@ function ProductManagement() {
     const [foodId, setFoodId] = useState(null);
     const [profile, setProfile] = useState([]);
     const [sizes, setSizes] = useState([]);
+    const [tier1,setTier1] = useState([])
+    const [tier2,setTier2] = useState([])
+    const [tier3,setTier3] = useState([])
+    const [tier,setTier] = useState([])
 
-    const [editCategoryModal,setEditCategoryModal] = useState(false);
-    const [selectedCategoryId, setCategoryId] = useState(null);
     axios.defaults.withCredentials = true;
 
     const handleSelectChange = (event) => {
@@ -68,11 +70,6 @@ function ProductManagement() {
 
     const toggleAddCategoryModal = () =>{
         setAddCategoryModal(!addCategoryModal)
-    }
-    
-    const toggleRemoveCategoryModal = () =>{
-
-        setRemoveCategoryModal(!removeCategoryModal)
     }
 
     const toggleRemoveProductModal = (id) =>{
@@ -97,6 +94,37 @@ function ProductManagement() {
         setAddonsId(id); 
         setEditAddonsModal(true);
     };
+
+    useEffect(() => {
+
+      setTier3([]);
+      setTier2([]);
+      setTier1([]);
+  
+      tier.forEach(tiers => {
+        if (tiers.administer === 3) {
+          setTier3(prev => [...prev, tiers.title]);
+        } else if (tiers.administer === 2) {
+          setTier2(prev => [...prev, tiers.title]);
+        } else {
+          setTier1(prev => [...prev, tiers.title]);
+        }
+      });
+
+    }, [tier]);
+
+
+
+    useEffect(()=>{
+      axios.post('http://localhost:8081/roleSetup')
+        .then(response=>{
+            setTier(response.data)
+        })
+        .catch(error => {
+            console.error('Error fetching food details:', error);
+        });
+    },[])
+
     
     useEffect(()=>{
         axios.post('http://localhost:8081/productResult')
@@ -360,7 +388,7 @@ function ProductManagement() {
 
 
 
-               {role === 'admin' ? <li> {/* <!-- Dashboard --> */}
+               {tier3.includes(role) ? <li> {/* <!-- Dashboard --> */}
                <li> {/* <!-- Dashboard --> */}
                     <Link to="/dashboard">
                         <a href="#" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor group hover:text-white">
@@ -374,7 +402,7 @@ function ProductManagement() {
                     </li>
                </li> : ''}
 
-               {role === 'admin' || role === 'cashier' ?
+               {tier3.includes(role) || tier2.includes(role) ?
                   
                   <React.Fragment>
                   
@@ -396,11 +424,7 @@ function ProductManagement() {
                         </a>
                     </li>
 
-               </React.Fragment>
-               :''}
-
-               {role === 'admin' ?
-               <><li> {/* <!-- Sales Report --> */}
+                    <li> {/* <!-- Sales Report --> */}
                <a href="/Sales" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor  group hover:text-white">
                   <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75  group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                      <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z"/>
@@ -411,6 +435,11 @@ function ProductManagement() {
                </a>
                </li>
 
+               </React.Fragment>
+               :''}
+
+               {tier3.includes(role) ?
+               <>
                <li> {/* <!-- Customer Account --> */}
                   <a href="/CustomerAccount" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor group hover:text-white">
                      <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75 group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
@@ -427,11 +456,16 @@ function ProductManagement() {
                      </svg>
                      <span class="flex-1 ms-3 whitespace-nowrap">Content Management</span>
                   </a>
-               </li></>
+               </li>
+               </>
                :
                ''}
 
-               {role === 'admin' || role === 'cashier' ? <li> {/* <!-- Inbox --> */}
+            </ul>
+            <ul class="pt-5 mt-10 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
+          {tier3.includes(role) || tier2.includes(role) || tier1.includes(role)?
+          
+          <li> {/* <!-- Inbox --> */}
                <a href="/Message" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor group hover:text-white">
                   <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75 group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                      <path d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Z"/>
@@ -439,11 +473,11 @@ function ProductManagement() {
                   <span class="flex-1 ms-3 whitespace-nowrap">Inbox</span>
                   <span class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span>
                   </a>
-               </li> : ''}
-
-            </ul>
+               </li>
+               : null
+               }
    
-            <ul class="pt-5 mt-10 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
+            
                <li> {/* <!-- Settings --> */}
                   <a href="/Settings" class="flex items-center p-2 text-gray-600 transition duration-75 rounded-lg hover:bg-greenColor  group hover:text-white">
                   <svg class="flex-shrink-0 w-7 h-7 text-gray-600 transition duration-75  group-hover:text-white " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
