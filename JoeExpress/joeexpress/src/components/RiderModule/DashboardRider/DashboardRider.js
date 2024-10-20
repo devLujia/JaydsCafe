@@ -57,7 +57,7 @@ export default function DashboardRider() {
         const fetchData = async () => {
         try {
            const res = await axios.get('http://localhost:8081/admin');
-           if (res.data.valid === 'rider') {
+           if (res.data.valid) {
            setAuthenticated(true);
            setUserId(res.data.userId);
            setRole(res.data.role);
