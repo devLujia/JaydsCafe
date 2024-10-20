@@ -14,17 +14,47 @@ export default function Sales() {
     const [userId, setUserId] = useState(null);
     const [profile, setProfile] = useState([]);
     const navigate = useNavigate();
+    const [allOrder, setAllOrder] = useState([])
     const [isOpen, setIsOpen] = useState(false);
     const [role, setRole] = useState(null);
     axios.defaults.withCredentials = true;
 
     const [cmsName,setCmsName] = useState('');
 
-
     const [tier1,setTier1] = useState([])
     const [tier2,setTier2] = useState([])
     const [tier3,setTier3] = useState([])
     const [tier,setTier] = useState([])
+    
+    const [weeklyData, setWeeklyData] = useState([]);
+
+    const [monthlyData, setMonthlyData] = useState([]);
+    const [chartSeries, setChartSeries] = useState([]);
+    const [chartOptions, setChartOptions] = useState({
+        chart: {
+            id: 'basic-bar',
+        },
+        xaxis: {
+            categories: [], // Initially empty, will be populated
+        },
+        stroke: {
+            curve: 'smooth', // Make the line smooth
+        },
+        title: {
+            text: 'Monthly Sales Data',
+            align: 'left',
+        },
+        filled: {
+            type: "gradient",
+            gradient: {
+                shadeIntensity: 1,
+                opacityFrom: 0.7,
+                opacityTo: 0.9,
+                stops: [0, 90, 100]
+            }
+        }
+    });
+
 
     useEffect(()=>{
         axios.post('http://localhost:8081/roleSetup')
@@ -80,6 +110,23 @@ export default function Sales() {
 
     useEffect(()=>{
 
+        const allOrder = async () =>{
+            try{
+                const res = await axios.get('http://localhost:8081/allorder');
+                setAllOrder(res)
+            }
+            catch(err){
+                console.log(err);
+            }
+        }
+
+        allOrder();
+    },[])
+
+
+
+    useEffect(()=>{
+
         const fetchNameData = async () => {
             try {
             const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
@@ -125,84 +172,137 @@ export default function Sales() {
         }
     };
 
-        const chartOptions = {
-          chart: {
-            id: 'basic-bar',
-          },
-          xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'], // X-axis labels
-          },
-          stroke: {
-            curve: 'smooth', // Make the line smooth
-          },
-          title: {
-            text: 'Monthly Sales Data',
-            align: 'left',
-          },
-          filled:{
-            type:"gradient",
-            gradient: {
-                shadeIntensity: 1,
-                opacityFrom: 0.7,
-                opacityTo: 0.9,
-                stops: [0, 90, 100]
-              }
-          }
-        };
+        // const chartOptions = {
+        //   chart: {
+        //     id: 'basic-bar',
+        //   },
+        //   xaxis: {
+        //     categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        //   },
+        //   stroke: {
+        //     curve: 'smooth', // Make the line smooth
+        //   },
+        //   title: {
+        //     text: 'Monthly Sales Data',
+        //     align: 'left',
+        //   },
+        //   filled:{
+        //     type:"gradient",
+        //     gradient: {
+        //         shadeIntensity: 1,
+        //         opacityFrom: 0.7,
+        //         opacityTo: 0.9,
+        //         stops: [0, 90, 100]
+        //       }
+        //   }
+        // };
       
         // Define the series (data) for the chart
-        const chartSeries = [
-          {
-            name: 'Weekly', // Series name
-            data: [10, 41, 35, 51, 49, 62, 69], // Data points
-          },
-          {
-            name: 'Yearly', // Series name
-            data: [20, 51, 30, 41, 60, 38, 69], // Data points
-          },
-        ];
+        // const chartSeries = [
+        //   {
+        //     name: 'Weekly', // Series name
+        //     data: [10, 41, 35, 51, 49, 62, 69], // Data points
+        //   },
+        //   {
+        //     name: 'Yearly', // Series name
+        //     data: [20, 51, 30, 41, 60, 38, 69], // Data points
+        //   },
+        // ];
 
+        
     // line graph vertical
-        const chartOptions2 = {
-            chart: {
+    const chartOptions2 = {
+        chart: {
             id: 'basic-bar',
-            },
-            xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'], // Initial X-axis labels for yearly
-            },
-            title: {
-            text: 'Sales Over Time',
+        },
+        xaxis: {
+            categories: [],
+        },
+        title: {
+            text: 'Weekly Sales',
             align: 'left',
-            },
-        };
+        },
+    };
     
-        // Define chart data for weekly and yearly timeframes
-        const weeklyData = [10, 20, 15, 22, 30, 25, 40]; // Weekly
-        const yearlyData = [30, 40, 45, 50, 49, 60, 70]; //Yearly
+        // // Define chart data for weekly and yearly timeframes
+        // const weeklyData = [10, 20, 15, 22, 30, 25, 40]; // Weekly
+        // const yearlyData = [30, 40, 45, 50, 49, 60, 70]; //Yearly
+
         
         // State to manage the selected timeframe and chart data
         const [selectedTimeframe, setSelectedTimeframe] = useState('Weekly'); // Default to Yearly
         const [chartSeries2, setChartSeries2] = useState([
             {
             name: 'Sales Over Time',
-            data: weeklyData, // Default to yearly data
+            data: weeklyData?.map(item => item?.week_number), // Default to yearly data
             },
         ]);
-    
-        // Handle dropdown selection change
+        
         const handleTimeframeChange = (e) => {
             const timeframe = e.target.value;
             setSelectedTimeframe(timeframe);
         
-            // Update chart data based on the selected timeframe
             if (timeframe === 'Weekly') {
-            setChartSeries2([{ name: 'Sales Over Time', data: weeklyData }]);
-            chartOptions2.xaxis.categories = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']; // Weekly categories
-            } else {
-            setChartSeries2([{ name: 'Sales Over Time', data: yearlyData }]);
-            chartOptions2.xaxis.categories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']; // Yearly categories
+                const revenueData = weeklyData.map(item => item.total_revenue);
+                const weekNumbers = weeklyData.map(item => `Week no. ${item.week_number}`);
+                setChartSeries2([{ name: 'Weekly sales', data: revenueData }]);
+                chartOptions2.xaxis.categories = weekNumbers; // Set week numbers for x-axis
+            } 
+            else if (timeframe === 'Monthly') {
+
+                const revenueData = monthlyData.map(item => item.total_revenue);
+            
+                setChartSeries2([{ name: 'Monthly Sales', data: revenueData }]);
+            
+                const monthlyCategories = monthlyData.map(item => {
+                    const month = item.Month_number; // Get the month number
+                    return new Date(0, month - 1).toLocaleString('default', { month: 'short' });
+                });
+            
+                chartOptions2.xaxis.categories = monthlyCategories;
             }
         };
+
+        useEffect(() => {
+            axios.post('http://localhost:8081/data')
+              .then(response => {
+                setWeeklyData(response.data);
+                
+                const initialRevenueData = response.data.map(item => item.total_revenue);
+                const initialWeekNumbers = response.data.map(item => item.week_number);
+                setChartSeries2([{ name: 'Sales Over Time', data: initialRevenueData }]);
+                chartOptions2.xaxis.categories = initialWeekNumbers;
+              })
+              .catch(error => {
+                console.error('Error fetching data:', error);
+              });
+
+              
+          }, []);
+
+          useEffect(() => {
+            axios.post('http://localhost:8081/dataMonthly')
+                .then(response => {
+                    setMonthlyData(response.data);
+                    // Process the data for the chart
+                    const months = response.data.map(item => {
+                        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                        return monthNames[item.Month_number - 1]; // Convert month number to month name
+                    });
+                    const revenues = response.data.map(item => item.total_revenue);
+                    
+                    setChartSeries([{ name: 'Monthly Revenue', data: revenues }]);
+                    setChartOptions(prevOptions => ({
+                        ...prevOptions,
+                        xaxis: {
+                            categories: months, // Set the month names as categories
+                        }
+                    }));
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }, []);
     
 
   return (
@@ -387,7 +487,7 @@ export default function Sales() {
                         className="border border-gray-300 p-2 rounded-md"
                         >
                         <option value="Weekly">Weekly</option>
-                        <option value="Yearly">Yearly</option>
+                        <option value="Monthly">Monthly</option>
                         </select>
                     </div>
 

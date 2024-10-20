@@ -124,6 +124,67 @@ app.post('/cms', (req, res) => {
       }
     });
   });
+  
+  app.post('/data', async (req, res) => {
+    try {
+
+        const weeklyResults = `
+            SELECT 
+                WEEK(order_date) AS week_number, 
+                YEAR(order_date) AS year, 
+                SUM(totalPrice) AS total_revenue
+            FROM orders
+            GROUP BY year, week_number
+            ORDER BY year DESC, week_number ASC
+            LIMIT 7
+        `;
+
+        db.query(weeklyResults, (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ error: 'Database query error' }); // Respond with an error
+            }
+                res.json(result);
+        });
+
+
+    } catch (error) {
+        // console.error('Error details:', error);  // Log the error details
+        res.status(500).send('Error retrieving data');
+    }
+});
+
+app.post('/dataMonthly', async (req, res) => {
+    try {
+
+        const montlyResult = `
+            SELECT 
+                MONTH(order_date) AS Month_number, 
+                YEAR(order_date) AS year, 
+                SUM(totalPrice) AS total_revenue
+            FROM orders
+            GROUP BY year, Month_number
+            ORDER BY year DESC, Month_number ASC
+            LIMIT 12;
+        `;
+
+        db.query(montlyResult, (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ error: 'Database query error' });
+            }
+                res.json(result);
+        });
+
+
+    } catch (error) {
+
+        res.status(500).send('Error retrieving data');
+    }
+});
+
+
+
 
 
 
