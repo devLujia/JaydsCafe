@@ -88,7 +88,7 @@ function AdminDashboard() {
         };
 
         fetchNameData();
-    })
+    },[])
    
    const [updateOrder, setUpdateOrder] = useState([
       {

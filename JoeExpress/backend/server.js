@@ -95,7 +95,7 @@ app.get('/admin',(req,res)=>{
     
     else if(req.session.name && req.session.role === 4){
         return res.json({
-            valid: 'rider', name: req.session.name, userId: req.session.userId, role: req.session.role
+            valid: true, name: req.session.name, userId: req.session.userId, role: req.session.role
         })
     }
 
@@ -968,7 +968,7 @@ app.post('/adminlogin',async (req, res) => {
             const name = data[0].name;
             req.session.name = name;
             req.session.role = 1;          
-            return res.json({ Login: true });
+            return res.json({ Login: 1 });
         }
 
         else if (isMatch && data[0].role === 2){
@@ -984,7 +984,7 @@ app.post('/adminlogin',async (req, res) => {
             const name = data[0].name;
             req.session.name = name;
             req.session.role = 4;          
-            return res.json({ Login: 4});
+            return res.json({ Login: "rider"});
         }
 
         else{
@@ -1090,7 +1090,7 @@ app.post('/adminsignup', async (req, res) => {
             }
 
             const hashedPassword = await bcrypt.hash(password, 10);
-            const insertQuery = `INSERT INTO user (name, email, password, role) VALUES (?, ?, ?, '1')`;
+            const insertQuery = `INSERT INTO user (name, email, password, role) VALUES (?, ?, ?, 1)`;
             const values = [fullname, email, hashedPassword];
 
             db.query(insertQuery, values, (insertError, result) => {
@@ -1113,7 +1113,20 @@ app.post('/adminsignup', async (req, res) => {
 
 app.post('/fetchUserData', (req,res)=>{
 
-    const query = `SELECT id, name , email, role from user WHERE role = 1 OR role = 4 OR role = 2 `
+    const query = `SELECT 
+                        user.id, 
+                        user.name, 
+                        user.email, 
+                        role.title as role
+                    FROM 
+                        user 
+                    JOIN 
+                        role 
+                    ON 
+                        user.role = role.id 
+                    WHERE 
+                        user.role IN (1, 2, 4);
+`
     db.query(query,(err,result) => {
         
         if(err){
