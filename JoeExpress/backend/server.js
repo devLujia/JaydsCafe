@@ -401,7 +401,7 @@ app.post('/itemGetter', (req, res) => {
         c.food_id,
         f.name AS food_name,
         fs.price,
-        f.image_url AS food_image_url,
+        f.image_url,
         c.size,
         c.price AS food_price,
         c.addons,
@@ -822,7 +822,7 @@ app.post('/webhook', (req, res) => {
   
 app.post('/create-payment-intent/:id', async (req, res) => {
     const { amount, description, userId } = req.body;
-    const orderId = req.params.id; // Use the correct variable name
+    const orderId = req.params.id;
 
     try {
         // Create payment intent
@@ -861,7 +861,7 @@ app.post('/create-payment-intent/:id', async (req, res) => {
                         amount: amount * 100, // Amount in cents
                         redirect: {
                             success: `http://localhost:3000/paymentSuccess/${orderId}`, // Use the orderId from params
-                            failed: 'http://localhost:3000/payment-failed', // Redirect on failure
+                            failed: 'http://localhost:3000/checkout', // Redirect on failure
                         },
                         type: 'gcash', // Payment type
                         currency: 'PHP', // Currency
