@@ -191,6 +191,9 @@ export default function Checkout() {
     const handleCheckout = async () =>{
 
         try{
+            
+            if(selectedPayment !== ''){
+
             const res = await axios.post('http://localhost:8081/order',{
                 userId, 
                 amount: totalBill, 
@@ -198,14 +201,25 @@ export default function Checkout() {
                 paymentMethod: selectedPayment,
                 code
             });
-            if (res.data.success){
+
+            if (res.data.success && selectedPayment === 'gcash' ){
               handleCreatePaymentIntent(res.data.lastOrderId);
               setSTATUS(res.data.success)
             }
+
+            else if (res.data.success && selectedPayment === 'cash') {
+                alert("Ordered Successfully Placed");
+                navigate(`/paymentSuccess/${res.data.lastOrderId}`)
+            }
+
             else{
               console.log('Checkout Failed')
             }
-           } catch (error) {
+
+           } 
+        }
+
+           catch (error) {
             console.error('Error during checkout:', error);
         }
 
