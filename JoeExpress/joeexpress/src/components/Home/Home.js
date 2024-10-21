@@ -1,24 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import jayds1 from '../image/jaydsCoffee.svg';
-import jayds2 from '../image/jaydsCoffee2.svg';
+import AnnMarfega from '../image/AnnMarfega.png'
+import IaMae from '../image/IaMae.jpg'
+import Angelou from '../image/Angelou.jpg'
 import image1 from '../image/bg_bean.png';
-import milk from '../image/milk(menu).svg';
-import milktea from '../image/milktea(menu).svg';
-import fruity from '../image/fruity(menu).svg';
-import addons from '../image/addons(menu).svg';
-import arrowleft from '../image/arrow left.png';
-import arrowright from '../image/arrow right.png';
 import fb from '../image/fb.svg';
 import ig from '../image/ig.svg';
 import userIcon from '../image/UserAcc.svg';
 import bagIcon from '../image/bag.svg';
-import image2 from '../image/bg_bean2.png';
-import image3 from '../image/milktea.png';
 import image11 from '../image/menu.png';
-import aboutUsImage from '../image/AboutUs.png';
-import beansImage from '../image/coffe_bean.png';
 import chat from '../image/chat.svg';
 import MapModal from '../Map/Map';
 import AOS from 'aos';
@@ -56,7 +47,6 @@ function Home() {
   const [FAQ1, setFAQ1] = useState(false);
   const [FAQ2, setFAQ2] = useState(false);
   const [FAQ3, setFAQ3] = useState(false);
-  
   const [mapModal, setMapModal] = useState(false);
   const [cmsName,setCmsName] = useState('');
   const [cmsReview1,setReview1] = useState(null);
@@ -121,7 +111,7 @@ function Home() {
   const toggleFAQ3 = () => {
     setFAQ3(!FAQ3);
   };
-  
+
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -1075,31 +1065,25 @@ useEffect(() => {
 
       <div class="flex flex-col justify-center items-center">
         <div class="justify-center items-center mx-auto px-52 flex-wrap space-x-3 space-y-2 hidden lg:flex">
-        <button class="bg-greenColor text-white text-xl rounded-full py-3 px-5
-         hover:bg-white hover:text-black
-         active:bg-white active:text-black active:scale-95
-         focus:bg-white focus:text-black focus:outline-none focus:ring-2 focus:ring-greenColor focus:ring-opacity-50
+        <button class="border-2 border-[#067741] bg-white text-black text-xl rounded-full py-3 px-5
+         hover:bg-[#067741] hover:text-white
+         hover:shadow-lg hover:scale-105
+         active:bg-[#067741] active:text-white active:scale-95
+         focus:bg-[#067741] focus:text-white focus:outline-none focus:ring-2 focus:ring-[#067741] focus:ring-opacity-50
          transition-transform duration-300" onClick={() => handleCategory()}>All Drinks</button>
 
 
           {category.map(categories => (
             <React.Fragment key={categories.id}>
-              <button class="bg-greenColor text-white text-xl rounded-full py-3 px-5
-         hover:bg-white hover:text-black
-         active:bg-white active:text-black active:scale-95
-         focus:bg-white focus:text-black focus:outline-none focus:ring-2 focus:ring-greenColor focus:ring-opacity-50
+              <button class="border-2 border-[#067741] bg-white text-black text-xl rounded-full py-3 px-5
+         hover:bg-[#067741] hover:text-white
+         hover:shadow-lg hover:scale-105
+         active:bg-[#067741] active:text-white active:scale-95
+         focus:bg-[#067741] focus:text-white focus:outline-none focus:ring-2 focus:ring-[#067741] focus:ring-opacity-50
          transition-transform duration-300" onClick={()=>handleCategory(categories.id)}>{categories.title}</button>
             </React.Fragment>
           ))}
         </div>
-
-        {/* <a href="#offer" class="menu_category" onClick="toggleVisibility('mt');"><img src={milktea} alt=""></img>Milk Tea</a>
-          <a href="#offer" class="menu_category" onClick="toggleVisibility('ft');"><img src={fruity} alt=""></img>Fruity</a>
-          <a href="#offer" class="menu_category" onClick="toggleVisibility('ic');"><img src={milktea} alt=""></img>Iced Coffee
-          </a>
-          <a href="#offer" class="menu_category" onClick="toggleVisibility('ao');"><img src={addons}  alt=""></img>Add Ons</a>
-          <a href="#offer" class="menu_category" onClick="toggleVisibility('tea');"><img src={milktea}  alt=""></img>Tea</a>
-          <a href="#offer" class="menu_category" onClick="toggleVisibility('sk');"><img src={milktea}  alt=""></img>Snacks</a> */}
 
            {/* Div For All Items */}
             <div id="all">
@@ -1141,7 +1125,6 @@ useEffect(() => {
                   ))}
               </div>
             </div>
-
 
         <div id="mt" style={cardContainers}>
           <div class="flex-shrink-0 m-6 relative overflow-hidden bg-jaydsBg outline outline-greenColor rounded-lg max-w-xs shadow-lg hover:scale-110 duration-500">
@@ -1190,160 +1173,93 @@ useEffect(() => {
 
 
 
-      {/* <!-- About Us --> */}
-      <div className="flex flex-col lg:flex-row items-center justify-between bg-green-800 text-white py-16 px-4 lg:px-16" id="aboutus">
-        <div
-          className="lg:w-1/2 max-w-xl flex flex-col justify-center text-center lg:text-left lg:pr-8"
-          data-aos="fade-right"
-          data-aos-offset="300"
-          data-aos-easing="ease-in-sine"
-          data-aos-duration="1500"
-        >
-          <h3 className="font-extrabold text-6xl mb-4">Our Story</h3>
-          <h2 className="font-semibold text-3xl mb-4 text-orange-300">
-            Let Us Introduce Ourselves
-          </h2>
-          <p className="mb-6 text-lg leading-relaxed">
-            {cmsAboutUs}
-          </p>
-          <div className="flex justify-start mt-4">
-            <button
-              type="button"
-              className="bg-white focus:ring-4 text-black focus:ring-green-300 font-medium rounded-lg text-lg px-6 py-2.5 w-52"
-            >
-              Order Now!
-            </button>
+      {/* Testimonials or Review Section */}
+      <section className="py-14 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto">
+            <span className="text-black text-xl font-medium block mb-3">Reviews</span>
+            <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-textgreenColor animate-wave glow-animation">What Customers Say</h1>
+            <div className="border w-20 mx-auto my-8 border-[#067741]"></div>
+          </div>
+
+          <div className="mt-14">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Card 1 */}
+              <div className="bg-gray-50 shadow-md rounded-lg p-4 transition-transform duration-300 hover:scale-105 hover:shadow-lg ">
+                <div className="text-center">
+                  <img
+                    src={AnnMarfega}
+                    alt="Ann Marfega"
+                    className="rounded-full h-24 w-24 mx-auto mb-5 border-2 border-[#067741]"
+                  />
+                  <h5 className="text-lg mb-2 font-semibold text-black">Anne Marfega</h5>
+                  <p className="text-gray-700 font-light">
+                    It's my first time to order with them, and I'm so glad I did! The best yung halo halo, ganito yung way nang paggawa ng halohalo for personal consumption, walang sahog na tinipid, bawat sangkap may lasa at masarap! Magiging suki nyo po ako for sure! Thanks again Jayd's cafe!
+                  </p>
+                </div>
+              </div>
+
+              {/* Card 2 */}
+              <div className="bg-gray-50 shadow-md rounded-lg p-4 transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                <div className="text-center">
+                  <img
+                    src={IaMae}
+                    alt="Ia Mae Toribio Buenconsejo"
+                    className="rounded-full h-24 w-24 mx-auto mb-5 border-2 border-[#067741]"
+                  />
+                  <h5 className="text-lg mb-2 font-semibold text-black">Ia Mae Toribio Buenconsejo</h5>
+                  <p className="text-gray-700 font-light">
+                    Jayd's has been our go-to for our coffee and non-coffee drink cravings kaya naman paulit-ulit parin kami na dito bumibili ng iced drinks. Lahat ng drinks na na-try namin sa kanila, nagustuhan namin. My top faves are their Iced Hazelnut Latte, Iced Milo Shaken Espresso, Tres Leche, Cocoa Lava, Halo-halo (super sarap and creamy).
+                  </p>
+                </div>
+              </div>
+
+              {/* Card 3 */}
+              <div className="bg-gray-50 shadow-md rounded-lg p-4 transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                <div className="text-center">
+                  <img
+                    src={Angelou}
+                    alt="Angielou Macacado"
+                    className="rounded-full h-24 w-24 mx-auto mb-5 border-2 border-[#067741]"
+                  />
+                  <h5 className="text-lg mb-2 font-semibold text-black">Angielou Macacado</h5>
+                  <p className="text-gray-700 font-light">
+                    You know it's good if you're already a repeat customer. I love the coffee here, it's consistently delicious and the shop delivers in a timely manner which makes it the best choice for coffee delivery. Convenient location, Good for working and Best iced coffee!
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="lg:w-1/2 flex justify-center lg:justify-end p-4 lg:p-8">
-          <img
-            src={cmsAboutUsImage}
-            alt="About Us"
-            className="w-full max-w-lg h-96 object-cover rounded-lg shadow-lg transition-transform duration-300 transform hover:scale-105"  // Set a fixed height for the image
-            data-aos="fade-down-left"
-            data-aos-duration="1500"
-          />
-        </div>
-      </div>
+      </section>
 
 
+ {/* <!-- FAQ --> */}
+<div class="h-screen pt-10">
+  <h2 class="text-4xl pt-20 font-bold text-green mb-10 flex flex-col justify-center items-center animate-wave glow-animation">
+    Frequently Asked Questions
+  </h2>
 
-    {/* <!-- Reviews --> */}
-    <div class="mt-14">
-      <h2 class="font-extrabold text-5xl mb-10 text-yellow-950 text-center">
-        Reviews
-      </h2>
-
-      {/* <div class="gallery-wrap">
-        <img
-          src={arrowleft}
-          alt="Right-button"
-          id="backBtn"
-          class="w-12 h-12"/>
-        <div className="gallery">
-        
-          <div className='flex flex-nowrap'>
-            <span className='hover:scale-110 transition-all duration-300'> 
-              <img src={cmsReview1} alt="" />
-            </span>
-            <span className='hover:scale-110 transition-all duration-300'>
-              <img src={cmsReview2} alt="" />
-            </span>
-            <span className='hover:scale-110 transition-all duration-300'>
-              <img src={cmsReview3} alt=""/>
-            </span>
-          </div>
-        </div>
-        <img
-          src={arrowright}
-          alt="Right-button"
-          id="nextBtn"
-          class="w-12 h-12"
-        />
-      </div> */}
-
-      <div className="relative">
-        <button onClick={scrollLeft} className="absolute left-5 z-10 bg-white rounded-full top-1/2">
-          <img src={arrowright} className='w-12 h-12 rotate-180'></img>
-        </button>
-        <div ref={carouselRef} className="carousel carousel-center rounded-box w-full space-x-10 p-4 overflow-x-auto">
-          <div className="carousel-item">
-            <img
-              src={cmsReview1}
-              className="rounded-box w-full h-full object-contain" />
-          </div>
-          <div className="carousel-item">
-            <img
-              src={cmsReview2}
-              className="rounded-box w-full h-full object-contain" />
-          </div>
-          <div className="carousel-item">
-            <img
-              src={cmsReview3}
-              className="rounded-box w-full h-full object-contain" />
-          </div>
-          <div className="carousel-item">
-            <img
-              src={cmsReview1}
-              className="rounded-box w-full h-full object-contain" />
-          </div>
-          <div className="carousel-item">
-            <img
-              src={cmsReview2}
-              className="rounded-box w-full h-full object-contain" />
-          </div>
-          <div className="carousel-item">
-            <img
-              src={cmsReview3}
-              className="rounded-box w-full h-full object-contain" />
-          </div>
-        </div>
-        <button onClick={scrollRight} className="absolute right-5 z-10 bg-white rounded-full top-1/2">
-          <img src={arrowright} className='w-12 h-12'></img>
-        </button>
-      </div>
-    </div>
-
-    {/* <!-- FAQ --> */}
-    <div class="h-screen pt-10">
-      <h2
-        class="text-4xl pt-20 font-bold text-black mb-10 flex flex-col justify-center items-center"
-      >
-        Frequently Asked Questions
-      </h2>
-
-      <div class="flex justify-center items-center">
+  <div class="flex justify-center items-center">
     <div
       id="accordion-color"
       data-accordion="collapse"
       data-active-classes="bg-[#E6F7EE] text-[#067741] dark:bg-gray-800 dark:text-white"
       class="w-4/5"
     >
+      {/* Existing FAQs */}
       <h2 id="accordion-color-heading-1">
         <button
           type="button"
-          class={`flex items-center justify-between w-full p-5 font-medium rtl:text-right ${FAQ1 ? 'text-[#067741] font-bold bg-[#E6F7EE]' : 'text-[#1C1C1C]'} border border-b-0 border-[#067741] rounded-t-xl focus:ring-4 focus:ring-[#067741] dark:focus:ring-[#067741] dark:border-[#067741] dark:text-gray-400 hover:bg-[#E6F7EE] dark:hover:bg-gray-800 gap-3 transition-all duration-300`}
+          class={`flex items-center justify-between w-full p-5 font-medium rtl:text-right ${FAQ1 ? 'text-[#067741] font-bold bg-[#E6F7EE]' : 'text-[#1C1C1C]'}`}
           onClick={toggleFAQ1}
           data-accordion-target="#accordion-color-body-1"
           aria-expanded="true"
           aria-controls="accordion-color-body-1"
         >
           <span class="text-lg">How do I place an order on {cmsName}?</span>
-          <svg
-            data-accordion-icon
-            className={`w-3 h-3 transition-transform duration-300 ${FAQ1 ? 'rotate-180' : ''}`}
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 10 6"
-          >
-            <path
-              stroke="#067741"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 5 5 1 1 5"
-            />
+          <svg data-accordion-icon className={`w-3 h-3 transition-transform duration-300 ${FAQ1 ? 'rotate-180' : ''}`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+            <path stroke="#067741" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5" />
           </svg>
         </button>
       </h2>
@@ -1360,27 +1276,14 @@ useEffect(() => {
         <button
           type="button"
           onClick={toggleFAQ2}
-          class={`flex items-center justify-between w-full p-5 font-medium rtl:text-right ${FAQ2 ? 'text-[#067741] font-bold bg-[#E6F7EE]' : 'text-[#1C1C1C]'} border border-b-0 border-[#067741] focus:ring-4 focus:ring-[#067741] dark:focus:ring-[#067741] dark:border-[#067741] dark:text-gray-400 hover:bg-[#E6F7EE] dark:hover:bg-gray-800 gap-3 transition-all duration-300`}
+          class={`flex items-center justify-between w-full p-5 font-medium rtl:text-right ${FAQ2 ? 'text-[#067741] font-bold bg-[#E6F7EE]' : 'text-[#1C1C1C]'}`}
           data-accordion-target="#accordion-color-body-2"
           aria-expanded="false"
           aria-controls="accordion-color-body-2"
         >
           <span class="text-lg">What payment methods do you accept?</span>
-          <svg
-            data-accordion-icon
-            className={`w-3 h-3 transition-transform duration-300 ${FAQ2 ? 'rotate-180' : ''}`}
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 10 6"
-          >
-            <path
-              stroke="#067741"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 5 5 1 1 5"
-            />
+          <svg data-accordion-icon className={`w-3 h-3 transition-transform duration-300 ${FAQ2 ? 'rotate-180' : ''}`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+            <path stroke="#067741" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5" />
           </svg>
         </button>
       </h2>
@@ -1390,34 +1293,21 @@ useEffect(() => {
           <p className="text-[#1C1C1C] dark:text-gray-400">
             • We accept payments via Cash on Delivery and GCash.
           </p>
-        </div>  
+        </div>
       )}
 
       <h2 id="accordion-color-heading-3">
         <button
           type="button"
           onClick={toggleFAQ3}
-          class={`flex items-center justify-between w-full p-5 font-medium rtl:text-right ${FAQ3 ? 'text-[#067741] font-bold bg-[#E6F7EE]' : 'text-[#1C1C1C]'} border border-[#067741] focus:ring-4 focus:ring-[#067741] dark:focus:ring-[#067741] dark:border-[#067741] dark:text-gray-400 hover:bg-[#E6F7EE] dark:hover:bg-gray-800 gap-3 transition-all duration-300`}
+          class={`flex items-center justify-between w-full p-5 font-medium rtl:text-right ${FAQ3 ? 'text-[#067741] font-bold bg-[#E6F7EE]' : 'text-[#1C1C1C]'}`}
           data-accordion-target="#accordion-color-body-3"
           aria-expanded="false"
           aria-controls="accordion-color-body-3"
         >
           <span class="text-lg">Do you charge for delivery?</span>
-          <svg
-            data-accordion-icon
-            className={`w-3 h-3 transition-transform duration-300 ${FAQ3 ? 'rotate-180' : ''}`}
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 10 6"
-          >
-            <path
-              stroke="#067741"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 5 5 1 1 5"
-            />
+          <svg data-accordion-icon className={`w-3 h-3 transition-transform duration-300 ${FAQ3 ? 'rotate-180' : ''}`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+            <path stroke="#067741" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5" />
           </svg>
         </button>
       </h2>
@@ -1429,20 +1319,19 @@ useEffect(() => {
           </p>
         </div>
       )}
-      </div>
     </div>
   </div>
-
+</div>
 
 {/* Contact Us Section on Landing Page */}
-<div className="relative isolate bg-white px-6 py-24 sm:py-32 lg:px-8" id="contactUs">
+<div className="relative isolate bg-white px-6 py-24 sm:py-32 lg:px-8 " id="contactUs">
   <div className="absolute inset-x-0 top-0 -z-10 h-full w-full overflow-hidden" aria-hidden="true">
     <div className="absolute inset-x-0 -top-32 sm:-top-48 transform-gpu blur-3xl" style={{ zIndex: '-1' }}>
       <div className="relative left-1/2 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-green-300 to-green-500 opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]" style={{ clipPath: "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)" }}></div>
     </div>
   </div>
   <div className="mx-auto max-w-2xl text-center">
-    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4">Contact Us!</h2>
+    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4 animate-wave glow-animation">Contact Us!</h2>
     <p className="mt-4 text-lg leading-8 text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
   </div>
   <form action="#" method="POST" className="mx-auto mt-16 max-w-xl sm:mt-20">
