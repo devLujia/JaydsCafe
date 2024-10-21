@@ -401,7 +401,7 @@ app.post('/itemGetter', (req, res) => {
         c.food_id,
         f.name AS food_name,
         fs.price,
-        f.image_url AS food_image_url,
+        f.image_url,
         c.size,
         c.price AS food_price,
         c.addons,
