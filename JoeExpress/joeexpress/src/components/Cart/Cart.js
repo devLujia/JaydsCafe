@@ -262,7 +262,14 @@ function Cart() {
                                                 </svg>
                                             </button>
 
-                                            <input id="input-number" class="p-0 w-6 bg-transparent border-0 text-gray-800 text-center focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none dark:text-white" type="number" aria-roledescription="Number field" onChange={(e) => handleInput(e, item.id)} value={(quantity[item.id]||item.quantity)} data-hs-input-number-input="" />
+                                            <input id="input-number" 
+                                            class="p-0 w-6 bg-transparent border-0 text-gray-800 text-center focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none dark:text-white" 
+                                            disabled
+                                            type="number" 
+                                            aria-roledescription="Number field" 
+                                            onChange={(e) => handleInput(e, item.id)} 
+                                            value={(quantity[item.id]||item.quantity)} 
+                                            data-hs-input-number-input="" />
 
                                             <button onClick={() => increment(item.id, (quantity[item.id]|| item.quantity))} type="button" id={`input-number-${item.id}`} class="size-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" tabindex="-1" aria-label="Increase" data-hs-input-number-increment="">
                                                 <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
