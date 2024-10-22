@@ -16,7 +16,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 // toast.configure();
 
 export default function Checkout() {
-
+ 
     let location = useLocation();
 
     const [showModal, setShowModal] = useState(false);
@@ -299,12 +299,12 @@ export default function Checkout() {
         <section class="grid grid-cols-1 md:grid-cols-2 p-4 pt-24 mx-32">
             {/* Left Side */}
             <div className='w-full px-10'>
-                <Link to="/cart" class="text-2xl font-bold hover:underline"> <img src={arrowLeft} alt="" class="inline-block w-4 h-4 me-2"/>Back to Cart</Link>
+                <Link to="/cart" class="text-1xl font-semibold hover:underline text-black"> <img src={arrowLeft} alt="" class="inline-block w-4 h-3 me-2 "/>Back to Cart</Link>
                 
 
                 <div className='text-left my-8'>
-                    <p className=' text-gray-600'>Delivery method:
-                        <span className='text-2xl font-bold block underline'>{riderNote?.option.toUpperCase()}</span></p>
+                    <p className=' text-gray-600'>Delivery Method:
+                        <span className='text-2xl font-bold block underline text-black'>{riderNote?.option.toUpperCase()}</span></p>
                 </div>
 
 
@@ -316,7 +316,7 @@ export default function Checkout() {
                 {/* ship to section */}
                 {riderNote?.option === 'delivery'? <div className='border-b-2 border-textgreenColor my-2 pb-4'>
                     <div className='flex justify-between mb-3'>
-                        <h1 className='text-gray-400 font-semibold'>Ship to</h1>
+                        <h1 className='text-gray-600 font-semibold'>Ship to</h1>
                         <button className='p-2 bg-cards rounded-lg'>
                             <img src={arrowUp}></img>
                         </button>
@@ -406,7 +406,7 @@ purchase securely.'>
                     </div>
                     {/*  onClick={()=> handleCheckout()}  */}
                     <div>
-                        <button onClick={notifyAndProceed} className='bg-textgreenColor rounded-xl text-white w-full py-5'>
+                        <button onClick={notifyAndProceed} className='bg-textgreenColor rounded-xl text-white w-full py-5 font-semibold text-lg'>
                             Pay Now
                         </button>
                         <ToastContainer />
@@ -415,7 +415,7 @@ purchase securely.'>
             </div>
 
             {/* right side */}
-            <div className='w-full px-16'>
+            <div className='w-full px-16 bg-gray-100'>
                 <div className='mt-10 space-y-4 h-96 overflow-hidden overflow-y-auto py-4'> {/* Main container */}
 
                     {items.map(item => (
