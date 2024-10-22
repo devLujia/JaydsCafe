@@ -29,6 +29,7 @@ function Cart() {
     const [cmsFacebook,setCmsFacebook] = useState('');
     const [cmsInstagram,setCmsInstagram] = useState('');
     const [mapModal, setMapModal] = useState(false);
+    const [TermsModal,setTermsModal] = useState(false); //modal
 
     const handleMapModal = () => {
         setMapModal(!mapModal);
