@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import AnnMarfega from '../image/AnnMarfega.png'
-import IaMae from '../image/IaMae.jpg'
-import Angelou from '../image/Angelou.jpg'
+import AnnMarfega from '../image/AnnMarfega.svg'
+import IaMae from '../image/IaMae.svg'
+import Angelou from '../image/Angelou.svg'
 import image1 from '../image/bg_bean.png';
 import fb from '../image/fb.svg';
 import ig from '../image/ig.svg';
@@ -25,20 +25,20 @@ function Home() {
 
     const faqs = [
         {
-            question: "How to create an account?",
-            answer: "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.",
+            question: "What payment methods do you accept?",
+            answer: "We accept various payment methods, including cash, and popular mobile wallet like GCash for your convenience.",
         },
         {
-            question: "How can I make payment using Paypal?",
-            answer: "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.",
+            question: "What are your operating hours?",
+            answer: "Our coffee shop is open from 3pm to 9pm daily. Please check our website or social media for any updates on holiday hours or special events.",
         },
         {
-            question: "Can I cancel my plan?",
-            answer: "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.",
+            question: "Do you offer takeout and delivery services?",
+            answer: "Yes, we offer both takeout and delivery services. You can place your order in-store or through our website and popular delivery apps for your convenience.",
         },
         {
-            question: "How can I reach support?",
-            answer: "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.",
+            question: "Do you offer loyalty programs or discounts?",
+            answer: "Yes, we have a loyalty program that rewards our customers with points for every purchase. You can redeem these points for discounts or free items. Check with our staff for details on how to avail!",
         },
     ];
 
@@ -1209,13 +1209,16 @@ useEffect(() => {
     data-aos-easing="ease-in-sine"
     data-aos-duration="1500"
   >
-    <h3 className="font-extrabold text-5xl mb-8 text-center lg:text-left ml-0 lg:ml-6 animate-wave glow-animation">Our Story</h3>
-    <h2 className="font-extrabold text-4xl mb-6 text-center lg:text-left ml-0 lg:ml-6 text-black">Let Us Introduce Ourselves</h2>
-    <p className="max-w-lg mb-6 text-lg leading-relaxed text-center lg:text-left ml-0 lg:ml-6 text-black italic">
+    <h3 className="font-extrabold text-5xl mb-8 text-center lg:text-left ml-14 animate-wave glow-animation">Our Story</h3>
+    <h2 className="font-extrabold text-4xl mb-6 text-center lg:text-left ml-14 text-black">Let Us Introduce Ourselves</h2>
+    <p className="max-w-lg mb-6 text-lg leading-relaxed text-center lg:text-left ml-14 text-black italic">
       {cmsAboutUs}
     </p>
     <div className="pt-6">
-      <button onClick={() => navigate('/menu')} className="relative inline-flex h-16 active:scale-95 transition overflow-hidden rounded-tl-3xl rounded-br-3xl p-[2px] focus:outline-none hover:scale-105 hover:shadow-xl hover:shadow-[#34d399]/50 duration-300 ease-in-out">
+      <button 
+        onClick={() => navigate('/menu')} 
+        className="relative inline-flex h-16 active:scale-95 transition overflow-hidden rounded-tl-3xl rounded-br-3xl p-[2px] focus:outline-none hover:scale-105 hover:shadow-xl hover:shadow-[#34d399]/50 duration-300 ease-in-out ml-14"
+      >
         <span
           className="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#067741_0%,#34d399_50%,#10b981_100%)] rounded-tl-3xl rounded-br-3xl"
         />
@@ -1241,6 +1244,8 @@ useEffect(() => {
 
 
 
+
+
 {/* Testimonials or Review Section */}
 <section className="py-10 bg-[#067741]">
   <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -1258,9 +1263,9 @@ useEffect(() => {
             <img
               src={AnnMarfega}
               alt="Ann Marfega"
-              className="rounded-full h-24 w-24 mx-auto mb-5 border-2 border-[#067741]"
+              className="rounded-full h-24 w-24 mx-auto mb-5"
             />
-            <h5 className="text-lg mb-2 font-semibold text-black">Anne Marfega</h5>
+            <h5 className="text-lg mb-2 font-semibold text-black">Anne</h5>
             <p className="text-gray-700 font-light">
               It's my first time to order with them, and I'm so glad I did! The best yung halo halo, ganito yung way nang paggawa ng halohalo for personal consumption, walang sahog na tinipid, bawat sangkap may lasa at masarap! Magiging suki nyo po ako for sure! Thanks again Jayd's cafe!
             </p>
@@ -1273,9 +1278,9 @@ useEffect(() => {
             <img
               src={IaMae}
               alt="Ia Mae Toribio Buenconsejo"
-              className="rounded-full h-24 w-24 mx-auto mb-5 border-2 border-[#067741]"
+              className="rounded-full h-24 w-24 mx-auto mb-5"
             />
-            <h5 className="text-lg mb-2 font-semibold text-black">Ia Mae Toribio Buenconsejo</h5>
+            <h5 className="text-lg mb-2 font-semibold text-black">Ia Mae</h5>
             <p className="text-gray-700 font-light">
               Jayd's has been our go-to for our coffee and non-coffee drink cravings kaya naman paulit-ulit parin kami na dito bumibili ng iced drinks. Lahat ng drinks na na-try namin sa kanila, nagustuhan namin. My top faves are their Iced Hazelnut Latte, Iced Milo Shaken Espresso, Tres Leche, Cocoa Lava, Halo-halo (super sarap and creamy).
             </p>
@@ -1288,9 +1293,9 @@ useEffect(() => {
             <img
               src={Angelou}
               alt="Angielou Macacado"
-              className="rounded-full h-24 w-24 mx-auto mb-5 border-2 border-[#067741]"
+              className="rounded-full h-24 w-24 mx-auto mb-5 "
             />
-            <h5 className="text-lg mb-2 font-semibold text-black">Angielou Macacado</h5>
+            <h5 className="text-lg mb-2 font-semibold text-black">Angielou</h5>
             <p className="text-gray-700 font-light">
               You know it's good if you're already a repeat customer. I love the coffee here, it's consistently delicious and the shop delivers in a timely manner which makes it the best choice for coffee delivery. Convenient location, Good for working and Best iced coffee!
             </p>
@@ -1341,7 +1346,7 @@ useEffect(() => {
                                       <p>
                                           {faq.answer}{' '}
                                         {' '}
-                                          do amet sint. Velit officia consequat duis enim velit mollit.
+                                          
                                       </p>
                                   </div>
                               </div>
