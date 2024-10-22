@@ -263,13 +263,13 @@ function Cart() {
                 {items.length > 0 ?
                 <div class=" px-16 overflow-hidden overflow-y-auto"> 
                     <div className='md:flex justify-between px-4 mt-5 text-xl font-semibold hidden top-0 sticky bg-white'>
-                        <input id="bordered-checkbox-1" type="checkbox" value="" name="bordered-checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" title='Select all products in Cart'/>
+                        <input id="bordered-checkbox-1" type="checkbox" value="" name="bordered-checkbox" class="w-4 h-4 text-green-700 bg-gray-100 border-gray-300 rounded focus:ring-green-700 dark:focus:ring-green-700 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" title='Select all products in Cart'/>
                 
                         <h1>
                             Product
                         </h1>
                         <h1>
-                            Quality
+                            Quantity
                         </h1>
                         <h1>
                             Total
@@ -283,14 +283,14 @@ function Cart() {
                                 type="checkbox" 
                                 value="" 
                                 name="bordered-checkbox" 
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" 
+                                class="w-4 h-4 text-green-700 bg-gray-100 border-gray-300 rounded focus:ring-green-700 dark:focus:ring-green-700 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" 
                                 title={'Select '+ item.food_name || 'No Name Available'} 
                                 />
                 
                                 <div className='inline-flex '>
                                     <div className='max-w-32 max-h-32 min-w-32 flex justify-center items-center ms-2'>
                                         {item.image_url ?
-                                        <img src={item.image_url} alt={item.name} className='max-w-32 max-h-32'></img> : 
+                                        <img src={item.image_url} alt={item.name} className='max-w-20 max-h-20'></img> : 
                                          <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <circle cx="50" cy="50" r="50" fill="#ECE8DD" />
                                             <path d="M42.8439 20.125V17.5938C42.8439 15.5798 43.5452 13.6483 44.7935 12.2242C46.0418 10.8001 47.7348 10 49.5001 10H58.3751C58.9636 10 59.5279 10.2667 59.944 10.7414C60.3601 11.2161 60.5939 11.8599 60.5939 12.5312C60.5939 13.2026 60.3601 13.8464 59.944 14.3211C59.5279 14.7958 58.9636 15.0625 58.3751 15.0625H49.5001C48.9117 15.0625 48.3474 15.3292 47.9313 15.8039C47.5152 16.2786 47.2814 16.9224 47.2814 17.5938V20.125H69.4689C71.1651 20.1228 72.7981 20.8595 74.0342 22.1846C75.2704 23.5097 76.0165 25.3232 76.1202 27.2547C76.2238 29.1862 75.6772 31.09 74.592 32.5772C73.5067 34.0644 71.9647 35.0229 70.281 35.2568L67.5297 81.2192C67.4533 82.4987 66.954 83.6975 66.1328 84.5733C65.3116 85.449 64.2297 85.9366 63.1055 85.9375H35.8948C34.7699 85.9379 33.6868 85.4509 32.8647 84.575C32.0425 83.6991 31.5426 82.4996 31.4662 81.2192L28.7193 35.2568C27.0356 35.0229 25.4936 34.0644 24.4083 32.5772C23.3231 31.09 22.7765 29.1862 22.8801 27.2547C22.9838 25.3232 23.7299 23.5097 24.9661 22.1846C26.2022 20.8595 27.8352 20.1228 29.5314 20.125H42.8439ZM33.1701 35.3125L35.8948 80.875H63.1055L63.4383 75.2759C59.9143 74.2542 56.8161 71.8548 54.683 68.4955C52.55 65.1362 51.5174 61.0297 51.765 56.8912C52.0125 52.7527 53.5246 48.8444 56.0379 45.8468C58.5512 42.8492 61.9065 40.9523 65.5195 40.4864L65.8302 35.3125H33.1701ZM29.5314 30.25H69.4689C70.0574 30.25 70.6217 29.9833 71.0378 29.5086C71.4539 29.0339 71.6876 28.3901 71.6876 27.7188C71.6876 27.0474 71.4539 26.4036 71.0378 25.9289C70.6217 25.4542 70.0574 25.1875 69.4689 25.1875H29.5314C28.943 25.1875 28.3786 25.4542 27.9625 25.9289C27.5464 26.4036 27.3126 27.0474 27.3126 27.7188C27.3126 28.3901 27.5464 29.0339 27.9625 29.5086C28.3786 29.9833 28.943 30.25 29.5314 30.25ZM63.7445 70.1071L65.2089 45.6552C62.7911 46.1698 60.5918 47.5864 58.9566 49.6823C57.3214 51.7783 56.3431 54.4347 56.1755 57.2341C56.0078 60.0334 56.6604 62.817 58.0305 65.1472C59.4006 67.4774 61.4106 69.2221 63.7445 70.1071Z" fill="black" />
@@ -434,7 +434,10 @@ function Cart() {
                             </div>
 
                             <div class="flex items-center justify-end pt-5">
-                                <h1 class="text-4xl font-bold text-gray-800 p-2">
+                                    <h1 class="text-lg font-semibold text-gray-800 p-2">
+                                        Estimated Total:
+                                    </h1>
+                                    <h1 class="text-4xl font-bold text-black p-2">
                                     ₱{totalBill}.00
                                 </h1>
 
