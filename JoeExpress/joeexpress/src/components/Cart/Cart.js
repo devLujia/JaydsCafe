@@ -569,7 +569,7 @@ function Cart() {
                 <div class="border-y-2 border-gray-400 w-4/5 p-10">
                 {/* <!-- container footer--> */}
                 <div class="flex justify-between w-full">
-                <h1 class="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold">{cmsName}</h1>
+                <h1 class="text-white text-4xl font-bold">{cmsName}</h1>
                     <div class="flex gap-2">
                     <button type='button' 
                     class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">

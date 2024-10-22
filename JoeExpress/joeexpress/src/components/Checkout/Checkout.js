@@ -287,7 +287,7 @@ export default function Checkout() {
         <nav class="w-full top-0 fixed bg-white z-20 shadow-lg flex justify-evenly">
             <div class="font-extrabold text-2xl flex items-center">
                 {/* <!-- Logo/Title in Navbar --> */}
-                <a href="/menu" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">{cmsName}</a>
+                <a href="/menu" class="flex items-center text-greenColor ms-2 text-2xl tracking-wide">{cmsName}</a>
             </div>
             <div></div>
             {/* <!-- Button for Login or Sign Up --> */}
@@ -406,7 +406,7 @@ purchase securely.'>
                     </div>
                     {/*  onClick={()=> handleCheckout()}  */}
                     <div>
-                        <button onClick={notifyAndProceed} className='bg-textgreenColor rounded-xl text-white w-full py-5 font-semibold text-lg'>
+                        <button onClick={notifyAndProceed} className='bg-gradient-to-r from-[#1f4d29] via-[#2b6b36] to-[#1f4d29] hover:scale-105 duration-300 rounded-xl text-white w-full py-5 font-semibold text-lg'>
                             Pay Now
                         </button>
                         <ToastContainer />
@@ -512,12 +512,12 @@ purchase securely.'>
                         </p>
                     </div>
                     {/* Total */}
-                    <div className='text-md text-gray-900 flex justify-between'>
+                    <div className='text-md text-gray-900 flex justify-between pb-10'>
                         <h1>
                             Total
                         </h1>
-                        <p className='text-lg font-semibold'>
-                            <span className='text-gray-500 me-2 text-sm'>PHP</span>₱{totalBill} .00
+                        <p className='text-xl font-bold'>
+                            <span className='text-black me-2 text-xl'></span>₱{totalBill}.00
                         </p>
                     </div>
                 </div>
@@ -531,16 +531,13 @@ purchase securely.'>
             <div class="border-y-2 border-gray-400 w-4/5 p-10">
             {/* <!-- container footer--> */}
             <div class="flex justify-between w-full">
-                <h1 class="text-white text-5xl font-bold">{cmsName}</h1>
+                <h1 class="text-white text-4xl font-bold">{cmsName}</h1>
                 <div class="flex gap-2">
                 <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
                     <img src={fb} alt=""></img>
                 </button>
                 <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
                     <img src={ig} alt=""></img>
-                </button>
-                <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-                    <img src={yt} alt=""></img>
                 </button>
                 </div>
             </div>
