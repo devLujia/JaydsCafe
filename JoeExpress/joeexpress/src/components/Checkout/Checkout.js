@@ -424,7 +424,7 @@ purchase securely.'>
                             
                             {/* Product image */}
                             <div className='w-24 h-24 px-2 rounded-lg bg-textgreenColor overflow-hidden me-4 relative'>
-                                <img src={item.food_image_url} className='object-contain h-full w-full' alt={item.food_name} />
+                                <img src={item.image_url} className='object-contain h-full w-full' alt={item.food_name} />
 
                                 {/* Quantity badge */}
                                 <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-black/50 rounded-full top-1 end-1">
