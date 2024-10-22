@@ -8,6 +8,8 @@ import del from '../image/delete.svg'
 import motor from '../image/motor.svg'
 import store from '../image/store.svg'
 import logo from '../image/logo.png'
+import fb from '../image/fb.svg';
+import ig from '../image/ig.svg';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Del from '../UserModal/Delete/DeleteModal'
@@ -78,6 +80,8 @@ function Cart() {
             [name]: value,
         }));
     };
+    
+    
 
     // modal
     const toggleDeleteModal = (id) =>{
@@ -250,7 +254,7 @@ function Cart() {
 
             <nav class="sticky top-0 bg-white z-20">
                 <div class="font-extrabold text-xl flex items-center py-1">
-                    <a href="/menu" class="flex items-center w-96 h-10 hover:scale-110 hover:cursor-pointer hover:brightness-110 transition duration-200 hover:text-yellow-950"> <img src={arrowLeft} alt="Arrow Back" class=" w-14 h-14 mx-4" />Back to Menu</a>
+                    <a href="/menu" class="flex items-center w-96 h-10 hover:cursor-pointer hover:scale-110 hover:brightness-110 transition duration-20 text-black"> <img src={arrowLeft} alt="Arrow Back" class=" w-10 h-10 mx-4 " />Back to Menu</a>
                 </div>
             </nav>
 
@@ -415,17 +419,15 @@ function Cart() {
                 )}
                 
                 {/* <!--button --> */}
-                <div class="w-full py-5 mt-5"> 
-                    <button 
+                <div class="w-full py-5 mt-5 flex justify-center"> 
+                <button 
                     // onClick={() => handlePayment(item.id, quantity[item.id])}
-                    
                     onClick={()=> navigate('/checkout', { state: { riderNote } })}
                     data-modal-target="default-modal" 
                     data-modal-toggle="default-modal"
-                    class="w-full px-10 bg-greenColor text-white font-bold text-lg rounded-full py-3 flex items-center justify-center hover:bg-green-600 transition duration-300 ease-in-out shadow-lg">
-                        Review payment and address
-                    </button> 
-                    
+                    class="px-8 w-auto max-w-xs bg-gradient-to-r from-[#1f4d29] via-[#2b6b36] to-[#1f4d29] hover:scale-105 text-white font-bold text-lg rounded-full py-3 flex items-center justify-center hover:bg-green-600 transition duration-300 ease-in-out shadow-lg">
+                        Proceed to Payment
+                </button>
                 </div>
             </div>
                 </div> : "" }

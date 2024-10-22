@@ -413,9 +413,9 @@ return(
                                         rounded-lg py-2 px-3 w-[60%] 
                                         transition-colors duration-300 
                                         hover:bg-gradient-to-l hover:from-[#2b6b36] hover:to-[#1f4d29] 
-                                        hover:text-[#d1fae5]'
+                                        '
                             >
-                            Add to Order <span className='text-gray-200 ms-2'>₱{totalPrice}.00</span>
+                            Add to Order <span className='text-white ms-2'>₱{totalPrice}.00</span>
                             </button>
                         </div>
                     </div>              
