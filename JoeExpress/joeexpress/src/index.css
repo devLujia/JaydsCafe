@@ -269,6 +269,7 @@ nav .link{
     }
   }
   
+  
 .menu_category{
   background-color: #F3ECE6;
   display: flex;
@@ -347,6 +348,18 @@ nav .link{
   100% {
     transform: translateY(0);
   }
+}
+
+/* Shaking Animation for View All Products */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  10% { transform: translateX(-4px); }  /* Increased shake */
+  20% { transform: translateX(4px); }   /* Increased shake */
+  30% { transform: translateX(0); }      /* Pause */
+  40% { transform: translateX(-4px); }  /* Increased shake */
+  50% { transform: translateX(4px); }   /* Increased shake */
+  60% { transform: translateX(0); }      /* Pause */
+  100% { transform: translateX(0); }
 }
 
 
