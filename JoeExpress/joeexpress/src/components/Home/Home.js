@@ -1,24 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import jayds1 from '../image/jaydsCoffee.svg';
-import jayds2 from '../image/jaydsCoffee2.svg';
+import AnnMarfega from '../image/AnnMarfega.svg'
+import IaMae from '../image/IaMae.svg'
+import Angelou from '../image/Angelou.svg'
 import image1 from '../image/bg_bean.png';
-import milk from '../image/milk(menu).svg';
-import milktea from '../image/milktea(menu).svg';
-import fruity from '../image/fruity(menu).svg';
-import addons from '../image/addons(menu).svg';
-import arrowleft from '../image/arrow left.png';
-import arrowright from '../image/arrow right.png';
 import fb from '../image/fb.svg';
 import ig from '../image/ig.svg';
 import userIcon from '../image/UserAcc.svg';
 import bagIcon from '../image/bag.svg';
-import image2 from '../image/bg_bean2.png';
-import image3 from '../image/milktea.png';
 import image11 from '../image/menu.png';
-import aboutUsImage from '../image/AboutUs.png';
-import beansImage from '../image/coffe_bean.png';
 import chat from '../image/chat.svg';
 import MapModal from '../Map/Map';
 import AOS from 'aos';
@@ -29,6 +20,31 @@ import ChatComponent from '../UserModal/ChatService/ChatComponent'
 import socket from '../AdminModule/Message/socketService';
 
 function Home() {
+
+  const [openIndex, setOpenIndex] = useState(null);
+
+    const faqs = [
+        {
+            question: "What payment methods do you accept?",
+            answer: "We accept various payment methods, including cash, and popular mobile wallet like GCash for your convenience.",
+        },
+        {
+            question: "What are your operating hours?",
+            answer: "Our coffee shop is open from 3pm to 9pm daily. Please check our website or social media for any updates on holiday hours or special events.",
+        },
+        {
+            question: "Do you offer takeout and delivery services?",
+            answer: "Yes, we offer both takeout and delivery services. You can place your order in-store or through our website and popular delivery apps for your convenience.",
+        },
+        {
+            question: "Do you offer loyalty programs or discounts?",
+            answer: "Yes, we have a loyalty program that rewards our customers with points for every purchase. You can redeem these points for discounts or free items. Check with our staff for details on how to avail!",
+        },
+    ];
+
+    const toggleFAQ = (index) => {
+        setOpenIndex(openIndex === index ? null : index);
+    };
   
   const [categoryId, setCategoryId] = useState('');
 
@@ -47,6 +63,7 @@ function Home() {
   const cardContainers = {
     display: 'none',
   }
+  
 
   const [visibleCategory, setVisibleCategory] = useState('all'); // Default visible category
 
@@ -56,7 +73,6 @@ function Home() {
   const [FAQ1, setFAQ1] = useState(false);
   const [FAQ2, setFAQ2] = useState(false);
   const [FAQ3, setFAQ3] = useState(false);
-  
   const [mapModal, setMapModal] = useState(false);
   const [cmsName,setCmsName] = useState('');
   const [cmsReview1,setReview1] = useState(null);
@@ -121,7 +137,7 @@ function Home() {
   const toggleFAQ3 = () => {
     setFAQ3(!FAQ3);
   };
-  
+
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -951,7 +967,9 @@ useEffect(() => {
         data-aos-duration="1500">
         <p class="text-black font-semibold tracking-wider text-3xl pb-1 drop-shadow-2xl">WELCOME TO </p>
         <h1 class="text-textgreenColor text-8xl font-extrabold pb-2 drop-shadow-lg" id="name">{cmsName}</h1>
-        <p class="max-w-[28rem] mb-5 text-md text-gray-600">{cmsAboutUs}</p>
+        <p class="max-w-[28rem] mb-5 text-md text-gray-600">
+        Discover the perfect blend of flavors in every cup. From classic milk teas to unique creations, we’ve got something for everyone. Come sip, relax, and enjoy your favorite drink today!
+        </p>
     
       {/* Order Now Button */}
           <div class="">
@@ -1071,38 +1089,29 @@ useEffect(() => {
     Menu Offerings
     </h2>
 
-      <p class="text-center mb-6 text-xl text-black">Discover a Delightful Mix of Milk Teas, Main Coffees, and Refreshing Drinks!</p>
+      <p class="text-center mb-10 text-xl text-black">Discover a Delightful Mix of Milk Teas, Main Coffees, and Refreshing Drinks!</p>
 
       <div class="flex flex-col justify-center items-center">
         <div class="justify-center items-center mx-auto px-52 flex-wrap space-x-3 space-y-2 hidden lg:flex">
-        <button class="text-greenColor text-xl rounded-full py-3 px-5
-         border-2 border-greenColor
-         hover:bg-greenColor hover:text-white
-         active:bg-greenColor active:text-white active:scale-95
-         focus:bg-greenColor focus:text-white focus:outline-none focus:ring-2 focus:ring-greenColor focus:ring-opacity-50
+        <button class="border-2 border-[#067741] bg-white text-black text-xl rounded-full py-3 px-5
+         hover:bg-[#067741] hover:text-white
+         hover:shadow-lg hover:scale-105
+         active:bg-[#067741] active:text-white active:scale-95
+         focus:bg-[#067741] focus:text-white focus:outline-none focus:ring-2 focus:ring-[#067741] focus:ring-opacity-50
          transition-transform duration-300" onClick={() => handleCategory()}>All Drinks</button>
-
 
 
           {category.map(categories => (
             <React.Fragment key={categories.id}>
-              <button class="text-greenColor text-xl rounded-full py-3 px-5
-         border-2 border-greenColor
-         hover:bg-greenColor hover:text-white
-         active:bg-greenColor active:text-white active:scale-95
-         focus:bg-greenColor focus:text-white focus:outline-none focus:ring-2 focus:ring-greenColor focus:ring-opacity-50
+              <button class="border-2 border-[#067741] bg-white text-black text-xl rounded-full py-3 px-5
+         hover:bg-[#067741] hover:text-white
+         hover:shadow-lg hover:scale-105
+         active:bg-[#067741] active:text-white active:scale-95
+         focus:bg-[#067741] focus:text-white focus:outline-none focus:ring-2 focus:ring-[#067741] focus:ring-opacity-50
          transition-transform duration-300" onClick={()=>handleCategory(categories.id)}>{categories.title}</button>
             </React.Fragment>
           ))}
         </div>
-
-        {/* <a href="#offer" class="menu_category" onClick="toggleVisibility('mt');"><img src={milktea} alt=""></img>Milk Tea</a>
-          <a href="#offer" class="menu_category" onClick="toggleVisibility('ft');"><img src={fruity} alt=""></img>Fruity</a>
-          <a href="#offer" class="menu_category" onClick="toggleVisibility('ic');"><img src={milktea} alt=""></img>Iced Coffee
-          </a>
-          <a href="#offer" class="menu_category" onClick="toggleVisibility('ao');"><img src={addons}  alt=""></img>Add Ons</a>
-          <a href="#offer" class="menu_category" onClick="toggleVisibility('tea');"><img src={milktea}  alt=""></img>Tea</a>
-          <a href="#offer" class="menu_category" onClick="toggleVisibility('sk');"><img src={milktea}  alt=""></img>Snacks</a> */}
 
            {/* Div For All Items */}
             <div id="all">
@@ -1130,7 +1139,7 @@ useEffect(() => {
                         <div className="flex justify-between items-center">
                           <span className="font-semibold text-lg text-gray-900">{menus.name}</span>
                           <span className="bg-gray-200 rounded-full text-gray-900 text-md font-extrabold px-3 py-1 shadow-md transform transition-transform duration-300 hover:shadow-xl hover:scale-105">
-                            ₱{menus.Medium}.00
+                            ₱{menus.price}.00
                           </span>
                         </div>
                         <span className="block text-sm opacity-75 text-gray-700">{menus.size}</span>
@@ -1144,7 +1153,6 @@ useEffect(() => {
                   ))}
               </div>
             </div>
-
 
         <div id="mt" style={cardContainers}>
           <div class="flex-shrink-0 m-6 relative overflow-hidden bg-jaydsBg outline outline-greenColor rounded-lg max-w-xs shadow-lg hover:scale-110 duration-500">
@@ -1179,351 +1187,192 @@ useEffect(() => {
 
         {/* <!-- Add button here --> */}
         <button 
-        onClick={() => navigate('/menu')}
-        className="py-4 px-6 bg-greenColor outline outline-white 
-                  hover:outline-greenColor hover:bg-white hover:text-textgreenColor 
-                  text-white font-bold text-lg rounded-full shadow-lg 
-                  transition duration-300 ease-in-out flex justify-center mx-auto mt-4 mb-5 
-                  transform hover:scale-105 
-                  animate-pulse" >
-        View All Products
-        </button>
+          onClick={() => navigate('/menu')}
+          className="py-4 px-6 bg-greenColor outline outline-white 
+                    text-white font-bold text-lg rounded-full shadow-lg 
+                    transition duration-300 ease-in-out flex justify-center mx-auto mt-4 mb-5 hover:outline-greenColor hover:bg-white hover:text-textgreenColor"
+          style={{
+              animation: 'shake 1.5s ease-in-out infinite',
+          }}>
+          View All Products
+      </button>
       </div>
     </div>
-
-
-
-      {/* <!-- About Us --> */}
-      <div className="flex flex-col lg:flex-row items-center justify-between bg-green-800 text-white py-16 px-4 lg:px-16" id="aboutus">
-        <div
-          className="lg:w-1/2 max-w-xl flex flex-col justify-center text-center lg:text-left lg:pr-8"
-          data-aos="fade-right"
-          data-aos-offset="300"
-          data-aos-easing="ease-in-sine"
-          data-aos-duration="1500"
-        >
-          <h3 className="font-extrabold text-6xl mb-4">Our Story</h3>
-          <h2 className="font-semibold text-3xl mb-4 text-orange-300">
-            Let Us Introduce Ourselves
-          </h2>
-          <p className="mb-6 text-lg leading-relaxed">
-            {cmsAboutUs}
-          </p>
-          <div className="flex justify-start mt-4">
-            <button
-              type="button"
-              className="bg-white focus:ring-4 text-black focus:ring-green-300 font-medium rounded-lg text-lg px-6 py-2.5 w-52"
-            >
-              Order Now!
-            </button>
-          </div>
-        </div>
-        <div className="lg:w-1/2 flex justify-center lg:justify-end p-4 lg:p-8">
-          <img
-            src={cmsAboutUsImage}
-            alt="About Us"
-            className="w-full max-w-lg h-96 object-cover rounded-lg shadow-lg transition-transform duration-300 transform hover:scale-105"  // Set a fixed height for the image
-            data-aos="fade-down-left"
-            data-aos-duration="1500"
-          />
-        </div>
-      </div>
-
-
-
-{/* https://tailwindflex.com/@sameer-sultana/customer-testimonies-grid */}
-   
-    <div class="">
-      
-<section id="testimonies" class="py-20 bg-slate-900">
-    <div class="max-w-6xl mx-8 md:mx-10 lg:mx-20 xl:mx-auto">
-        <div class="transition duration-500 ease-in-out transform scale-100 translate-x-0 translate-y-0 opacity-100">
-            <div class="mb-12 space-y-5 md:mb-16 md:text-center">
-                <div class="inline-block px-3 py-1 text-sm font-semibold text-indigo-100 rounded-lg bg-[#202c47] bg-opacity-60 hover:cursor-pointer hover:bg-opacity-40">
-                    Words from Others
-                </div>
-                <h1 class="mb-5 text-3xl font-semibold md:text-5xl text-center text-textgreenColor animate-wave glow-animation">
-                      Reviews
-                </h1>
-                <p class="text-xl text-gray-100 md:text-2xl text-center">
-                      At Jayd's Cafe, We love hearing from our Customers!
-                </p>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-            <ul class="space-y-8">
-                <li class="text-sm leading-6">
-                    <div class="relative group">
-                        <div class="absolute transition rounded-lg opacity-25 -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 blur duration-400 group-hover:opacity-100 group-hover:duration-200"></div>
-                        <a href="https://twitter.com/kanyewest" class="cursor-pointer">
-                            <div class="relative p-6 space-y-6 leading-none rounded-lg bg-slate-800 ring-1 ring-gray-900/5">
-                                <div class="flex items-center space-x-4">
-                                    <img src="https://pbs.twimg.com/profile_images/1276461929934942210/cqNhNk6v_400x400.jpg" class="w-12 h-12 bg-center bg-cover border rounded-full" alt="Kanye West"></img>
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-white">Kanye West</h3>
-                                        <p class="text-gray-500 text-md">Rapper &amp; Entrepreneur</p>
-                                    </div>
-                                </div>
-                                <p class="leading-normal text-gray-300 text-md">Find God.</p>
-                            </div>
-                        </a>
-                    </div>
-                </li>
-                <li class="text-sm leading-6">
-                    <div class="relative group">
-                        <div class="absolute transition rounded-lg opacity-25 -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 blur duration-400 group-hover:opacity-100 group-hover:duration-200"></div>
-                        <a href="https://twitter.com/tim_cook" class="cursor-pointer">
-                            <div class="relative p-6 space-y-6 leading-none rounded-lg bg-slate-800 ring-1 ring-gray-900/5">
-                                <div class="flex items-center space-x-4">
-                                    <img src="https://pbs.twimg.com/profile_images/1535420431766671360/Pwq-1eJc_400x400.jpg" class="w-12 h-12 bg-center bg-cover border rounded-full" alt="Tim Cook"></img>
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-white">Tim Cook</h3>
-                                        <p class="text-gray-500 text-md">CEO of Apple</p>
-                                    </div>
-                                </div>
-                                <p class="leading-normal text-gray-300 text-md">Diam quis enim lobortis scelerisque fermentum dui faucibus in ornare. Donec pretium vulputate sapien nec sagittis aliquam malesuada bibendum.</p>
-                            </div>
-                        </a>
-                    </div>
-                </li>
-                
-            </ul>
-
-            <ul class="hidden space-y-8 sm:block">
-                <li class="text-sm leading-6">
-                    <div class="relative group">
-                        <div class="absolute transition rounded-lg opacity-25 -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 blur duration-400 group-hover:opacity-100 group-hover:duration-200"></div>
-                        <a href="https://twitter.com/paraga" class="cursor-pointer">
-                            <div class="relative p-6 space-y-6 leading-none rounded-lg bg-slate-800 ring-1 ring-gray-900/5">
-                                <div class="flex items-center space-x-4">
-                                    <img src="https://pbs.twimg.com/profile_images/1375285353146327052/y6jeByyD_400x400.jpg" class="w-12 h-12 bg-center bg-cover border rounded-full" alt="Parag Agrawal"></img>
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-white">Parag Agrawal</h3>
-                                        <p class="text-gray-500 text-md">CEO of Twitter</p>
-                                    </div>
-                                </div>
-                                <p class="leading-normal text-gray-300 text-md">Enim neque volutpat ac tincidunt vitae semper. Mattis aliquam faucibus purus in massa tempor. Neque vitae tempus quam pellentesque nec. Turpis cursus in hac habitasse platea dictumst.</p>
-                            </div>
-                        </a>
-                    </div>
-                </li>
-               
-            </ul>
-
-            <ul class="hidden space-y-8 lg:block">
-                <li class="text-sm leading-6">
-                    <div class="relative group">
-                        <div class="absolute transition rounded-lg opacity-25 -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 blur duration-400 group-hover:opacity-100 group-hover:duration-200"></div>
-                        <a href="https://twitter.com/satyanadella" class="cursor-pointer">
-                            <div class="relative p-6 space-y-6 leading-none rounded-lg bg-slate-800 ring-1 ring-gray-900/5">
-                                <div class="flex items-center space-x-4">
-                                    <img src="https://pbs.twimg.com/profile_images/1221837516816306177/_Ld4un5A_400x400.jpg" class="w-12 h-12 bg-center bg-cover border rounded-full" alt="Satya Nadella"></img>
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-white">Satya Nadella</h3>
-                                        <p class="text-gray-500 text-md">CEO of Microsoft</p>
-                                    </div>
-                                </div>
-                                <p class="leading-normal text-gray-300 text-md">Tortor dignissim convallis aenean et tortor at. At ultrices mi tempus imperdiet nulla malesuada. Id cursus metus aliquam eleifend mi. Quis ipsum suspendisse ultrices gravida dictum fusce ut.</p>
-                            </div>
-                        </a>
-                    </div>
-                </li>
-                
-            </ul>
-        </div>
-    </div>
-</section>
-
     
-      <div className="relative">
-        <button onClick={scrollLeft} className="absolute left-5 z-10 bg-white rounded-full top-1/2">
-          <img src={arrowright} className='w-12 h-12 rotate-180'></img>
-        </button>
-        <div ref={carouselRef} className="carousel carousel-center rounded-box w-full p-4 overflow-x-auto">
-  <div className="carousel-item flex justify-center mx-1"> {/* Minimal gap */}
-          <img
-            src={cmsReview1}
-            className="rounded-box w-96 h-120 object-contain" // Set height to 120
-          />
-        </div>
-        <div className="carousel-item flex justify-center mx-5"> {/* Minimal gap */}
-          <img
-            src={cmsReview2}
-            className="rounded-box w-96 h-120 object-contain" // Set height to 120
-          />
-        </div>
-        <div className="carousel-item flex justify-center mx-5"> {/* Minimal gap */}
-          <img
-            src={cmsReview3}
-            className="rounded-box w-96 h-120 object-contain" // Set height to 120
-          />
-        </div>
-        <div className="carousel-item flex justify-center mx-5"> {/* Minimal gap */}
-          <img
-            src={cmsReview1}
-            className="rounded-box w-96 h-120 object-contain" // Set height to 120
-          />
-        </div>
-        <div className="carousel-item flex justify-center mx-5"> {/* Minimal gap */}
-          <img
-            src={cmsReview2}
-            className="rounded-box w-96 h-120 object-contain" // Set height to 120
-          />
-        </div>
-        <div className="carousel-item flex justify-center mx-5"> {/* Minimal gap */}
-          <img
-            src={cmsReview3}
-            className="rounded-box w-96 h-120 object-contain" // Set height to 120
-          />
+
+{/* <!-- About Us --> */}
+<div className="flex flex-col lg:flex-row overflow-hidden bg-white text-greenColor py-10" id="aboutus">
+  <div
+    className="lg:w-1/2 p-10 md:text-center lg:text-left flex flex-col justify-center items-center lg:items-start"
+    data-aos="fade-right"
+    data-aos-offset="300"
+    data-aos-easing="ease-in-sine"
+    data-aos-duration="1500"
+  >
+    <h3 className="font-extrabold text-5xl mb-8 text-center lg:text-left ml-14 animate-wave glow-animation">Our Story</h3>
+    <h2 className="font-extrabold text-4xl mb-6 text-center lg:text-left ml-14 text-black">Let Us Introduce Ourselves</h2>
+    <p className="max-w-lg mb-6 text-lg leading-relaxed text-center lg:text-left ml-14 text-black italic">
+      {cmsAboutUs}
+    </p>
+    <div className="pt-6">
+      <button 
+        onClick={() => navigate('/menu')} 
+        className="relative inline-flex h-16 active:scale-95 transition overflow-hidden rounded-tl-3xl rounded-br-3xl p-[2px] focus:outline-none hover:scale-105 hover:shadow-xl hover:shadow-[#34d399]/50 duration-300 ease-in-out ml-14"
+      >
+        <span
+          className="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#067741_0%,#34d399_50%,#10b981_100%)] rounded-tl-3xl rounded-br-3xl"
+        />
+        <span
+          className="relative inline-flex h-full w-full cursor-pointer items-center justify-center rounded-tl-3xl rounded-br-3xl bg-[#067741] px-10 text-lg font-semibold text-white backdrop-blur-3xl gap-2"
+        >
+          Order Now!
+        </span>
+      </button>
+    </div>
+  </div>
+  <div className="lg:w-1/2 p-10 flex justify-center items-center">
+    <img
+      src={cmsAboutUsImage}
+      alt="About Us"
+      id="aboutUsPic"
+      className="w-[450px] max-h-[591px] h-auto hover:scale-105 transition-transform duration-300 rounded-lg"  
+      data-aos="fade-down-left"
+      data-aos-duration="1500"
+    />
   </div>
 </div>
-        <button onClick={scrollRight} className="absolute right-5 z-10 bg-white rounded-full top-1/2">
-          <img src={arrowright} className='w-12 h-12'></img>
-        </button>
-      </div>
+
+
+
+
+
+{/* Testimonials or Review Section */}
+<section className="py-10 bg-[#067741]">
+  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="text-center max-w-3xl mx-auto">
+      <span className="text-white text-lg font-medium block mb-2">Reviews</span>
+      <h1 className="text-3xl sm:text-4xl font-bold mb-3 text-white animate-wave">What Customers Say</h1>
+      <div className="border w-16 mx-auto my-6 border-white"></div>
     </div>
 
-    {/* <!-- FAQ --> */}
-    <div class="h-screen pt-10">
-      <h2
-        class="text-4xl pt-20 font-bold text-black mb-10 flex flex-col justify-center items-center"
-      >
-        Frequently Asked Questions
-      </h2>
-
-      <div class="flex justify-center items-center">
-    <div
-      id="accordion-color"
-      data-accordion="collapse"
-      data-active-classes="bg-[#E6F7EE] text-[#067741] dark:bg-gray-800 dark:text-white"
-      class="w-4/5"
-    >
-      <h2 id="accordion-color-heading-1">
-        <button
-          type="button"
-          class={`flex items-center justify-between w-full p-5 font-medium rtl:text-right ${FAQ1 ? 'text-[#067741] font-bold bg-[#E6F7EE]' : 'text-[#1C1C1C]'} border border-b-0 border-[#067741] rounded-t-xl focus:ring-4 focus:ring-[#067741] dark:focus:ring-[#067741] dark:border-[#067741] dark:text-gray-400 hover:bg-[#E6F7EE] dark:hover:bg-gray-800 gap-3 transition-all duration-300`}
-          onClick={toggleFAQ1}
-          data-accordion-target="#accordion-color-body-1"
-          aria-expanded="true"
-          aria-controls="accordion-color-body-1"
-        >
-          <span class="text-lg">How do I place an order on {cmsName}?</span>
-          <svg
-            data-accordion-icon
-            className={`w-3 h-3 transition-transform duration-300 ${FAQ1 ? 'rotate-180' : ''}`}
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 10 6"
-          >
-            <path
-              stroke="#067741"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 5 5 1 1 5"
+    <div className="mt-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* Card 1 */}
+        <div className="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 hover:scale-105 hover:shadow-lg max-w-sm mx-auto">
+          <div className="text-center">
+            <img
+              src={AnnMarfega}
+              alt="Ann Marfega"
+              className="rounded-full h-24 w-24 mx-auto mb-5"
             />
-          </svg>
-        </button>
-      </h2>
-
-      {FAQ1 && (
-        <div id="accordion-color-body-1" className="p-5 border border-[#067741] dark:border-[#067741] transition-all duration-300">
-          <p className="text-[#1C1C1C] dark:text-gray-400">
-            • You can place an order by browsing our menu, adding items to your cart, and proceeding to checkout.
-          </p>
+            <h5 className="text-lg mb-2 font-semibold text-black">Anne</h5>
+            <p className="text-gray-700 font-light">
+              It's my first time to order with them, and I'm so glad I did! The best yung halo halo, ganito yung way nang paggawa ng halohalo for personal consumption, walang sahog na tinipid, bawat sangkap may lasa at masarap! Magiging suki nyo po ako for sure! Thanks again Jayd's cafe!
+            </p>
+          </div>
         </div>
-      )}
 
-      <h2 id="accordion-color-heading-2">
-        <button
-          type="button"
-          onClick={toggleFAQ2}
-          class={`flex items-center justify-between w-full p-5 font-medium rtl:text-right ${FAQ2 ? 'text-[#067741] font-bold bg-[#E6F7EE]' : 'text-[#1C1C1C]'} border border-b-0 border-[#067741] focus:ring-4 focus:ring-[#067741] dark:focus:ring-[#067741] dark:border-[#067741] dark:text-gray-400 hover:bg-[#E6F7EE] dark:hover:bg-gray-800 gap-3 transition-all duration-300`}
-          data-accordion-target="#accordion-color-body-2"
-          aria-expanded="false"
-          aria-controls="accordion-color-body-2"
-        >
-          <span class="text-lg">What payment methods do you accept?</span>
-          <svg
-            data-accordion-icon
-            className={`w-3 h-3 transition-transform duration-300 ${FAQ2 ? 'rotate-180' : ''}`}
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 10 6"
-          >
-            <path
-              stroke="#067741"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 5 5 1 1 5"
+        {/* Card 2 */}
+        <div className="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 hover:scale-105 hover:shadow-lg max-w-sm mx-auto">
+          <div className="text-center">
+            <img
+              src={IaMae}
+              alt="Ia Mae Toribio Buenconsejo"
+              className="rounded-full h-24 w-24 mx-auto mb-5"
             />
-          </svg>
-        </button>
-      </h2>
-
-      {FAQ2 && (
-        <div id="accordion-color-body-2" className="p-5 border border-[#067741] dark:border-[#067741] transition-all duration-300">
-          <p className="text-[#1C1C1C] dark:text-gray-400">
-            • We accept payments via Cash on Delivery and GCash.
-          </p>
-        </div>  
-      )}
-
-      <h2 id="accordion-color-heading-3">
-        <button
-          type="button"
-          onClick={toggleFAQ3}
-          class={`flex items-center justify-between w-full p-5 font-medium rtl:text-right ${FAQ3 ? 'text-[#067741] font-bold bg-[#E6F7EE]' : 'text-[#1C1C1C]'} border border-[#067741] focus:ring-4 focus:ring-[#067741] dark:focus:ring-[#067741] dark:border-[#067741] dark:text-gray-400 hover:bg-[#E6F7EE] dark:hover:bg-gray-800 gap-3 transition-all duration-300`}
-          data-accordion-target="#accordion-color-body-3"
-          aria-expanded="false"
-          aria-controls="accordion-color-body-3"
-        >
-          <span class="text-lg">Do you charge for delivery?</span>
-          <svg
-            data-accordion-icon
-            className={`w-3 h-3 transition-transform duration-300 ${FAQ3 ? 'rotate-180' : ''}`}
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 10 6"
-          >
-            <path
-              stroke="#067741"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 5 5 1 1 5"
-            />
-          </svg>
-        </button>
-      </h2>
-
-      {FAQ3 && (
-        <div id="accordion-color-body-3" className="p-5 border border-[#067741] dark:border-[#067741] transition-all duration-300">
-          <p className="text-[#1C1C1C] dark:text-gray-400">
-            • We offer free delivery for orders over a certain amount. For orders below this amount, a small delivery fee may apply. Details will be provided during checkout.
-          </p>
+            <h5 className="text-lg mb-2 font-semibold text-black">Ia Mae</h5>
+            <p className="text-gray-700 font-light">
+              Jayd's has been our go-to for our coffee and non-coffee drink cravings kaya naman paulit-ulit parin kami na dito bumibili ng iced drinks. Lahat ng drinks na na-try namin sa kanila, nagustuhan namin. My top faves are their Iced Hazelnut Latte, Iced Milo Shaken Espresso, Tres Leche, Cocoa Lava, Halo-halo (super sarap and creamy).
+            </p>
+          </div>
         </div>
-      )}
+
+        {/* Card 3 */}
+        <div className="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 hover:scale-105 hover:shadow-lg max-w-sm mx-auto">
+          <div className="text-center">
+            <img
+              src={Angelou}
+              alt="Angielou Macacado"
+              className="rounded-full h-24 w-24 mx-auto mb-5 "
+            />
+            <h5 className="text-lg mb-2 font-semibold text-black">Angielou</h5>
+            <p className="text-gray-700 font-light">
+              You know it's good if you're already a repeat customer. I love the coffee here, it's consistently delicious and the shop delivers in a timely manner which makes it the best choice for coffee delivery. Convenient location, Good for working and Best iced coffee!
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+</section>
+
+
+
+      {/* New FAQS */}
+      <section className="py-10 bg-gray-50 sm:py-16 lg:py-24">
+                  <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
+                      <div className="max-w-2xl mx-auto text-center">
+                          <h2 className="text-2xl font-bold leading-tight text-black sm:text-3xl lg:text-4xl animate-wave glow-animation">
+                              Frequently Asked Questions
+                          </h2>
+                          <p className="max-w-xl mx-auto mt-4 text-base leading-relaxed text-gray-600">
+                              Discover answers to the most common inquiries from our users.
+                          </p>
+                      </div>
+
+                      <div className="max-w-3xl mx-auto mt-8 space-y-4 md:mt-16">
+                          {faqs.map((faq, index) => (
+                              <div
+                                  key={index}
+                                  className={`transition-all duration-200 bg-white border border-gray-200 shadow-lg cursor-pointer hover:bg-gray-50 rounded-md ${openIndex === index ? 'border-green-500' : ''}`}
+                              >
+                                  <button
+                                      type="button"
+                                      className="flex items-center justify-between w-full px-4 py-5 sm:p-6"
+                                      onClick={() => toggleFAQ(index)}
+                                  >
+                                      <span className="flex text-lg font-semibold text-black">{faq.question}</span>
+                                      <svg
+                                          className={`w-6 h-6 text-gray-400 ${openIndex === index ? 'rotate-0' : 'rotate-180'}`}
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          fill="none"
+                                          viewBox="0 0 24 24"
+                                          stroke="currentColor"
+                                      >
+                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                                      </svg>
+                                  </button>
+                                  <div className={`px-4 pb-5 sm:px-6 sm:pb-6 ${openIndex === index ? 'block' : 'hidden'}`}>
+                                      <p>
+                                          {faq.answer}{' '}
+                                        {' '}
+                                          
+                                      </p>
+                                  </div>
+                              </div>
+                          ))}
+                      </div>
+
+                      <p className="text-center text-gray-600 text-base mt-9">
+                            Didn’t find the answer you are looking for? {' '}
+                          <a href="#contactUs" title="" className="font-medium text-[#067741] transition-all duration-200 hover:[#067741] focus:text-[#067741] hover:underline">
+                              Contact our support
+                          </a>
+                      </p>
+                  </div>
+              </section>
 
 
 {/* Contact Us Section on Landing Page */}
-<div className="relative isolate bg-white px-6 py-24 sm:py-32 lg:px-8" id="contactUs">
+<div className="relative isolate bg-white px-6 py-24 sm:py-32 lg:px-8 " id="contactUs">
   <div className="absolute inset-x-0 top-0 -z-10 h-full w-full overflow-hidden" aria-hidden="true">
     <div className="absolute inset-x-0 -top-32 sm:-top-48 transform-gpu blur-3xl" style={{ zIndex: '-1' }}>
       <div className="relative left-1/2 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-green-300 to-green-500 opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]" style={{ clipPath: "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)" }}></div>
     </div>
   </div>
   <div className="mx-auto max-w-2xl text-center">
-    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4">Contact Us!</h2>
-    <p className="mt-4 text-lg leading-8 text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4 animate-wave glow-animation">Contact Us!</h2>
+    <p className="mt-4 text-lg leading-8 text-gray-600">We'd love to hear from you! Reach out for inquiries, feedback, or support.</p>
   </div>
   <form action="#" method="POST" className="mx-auto mt-16 max-w-xl sm:mt-20">
     <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
@@ -1556,8 +1405,55 @@ useEffect(() => {
       <button type="submit" className="block w-full rounded-md bg-[#067741] px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#067741]">Submit</button>
     </div>
   </form>
-</div>
+ <div className="px-4 mx-auto sm:px-4 md:px-6 lg:px-8 max-w-full sm:max-w-xl md:max-w-3xl lg:max-w-7xl pt-8 sm:pt-12 md:pt-16 lg:pt-20 mt-6 sm:mt-8 md:mt-12 lg:mt-16">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-y-12 lg:gap-x-8 xl:gap-x-20">
+        {/* Call Us */}
+        <div className="flex flex-col items-center p-6 bg-white border-2 border-green-700 shadow-lg rounded-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+          <svg className="flex-shrink-0 w-10 h-10 text-[#067741] mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1"
+              d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+            />
+          </svg>
+          <p className="text-xl font-medium text-gray-900">(+63) 926 015 9202</p>
+        </div>
 
+        {/* Email Us */}
+        <div className="flex flex-col items-center p-6 bg-white  border-2 border-green-700  shadow-lg rounded-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+          <svg className="flex-shrink-0 w-10 h-10 text-[#067741] mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1"
+              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+            />
+          </svg>
+          <p className="text-xl font-medium text-gray-900">jaydscoffee@gmail.com</p>
+        </div>
+
+        {/* Location */}
+        <div className="flex flex-col items-center p-6 bg-white  border-2 border-green-700 shadow-lg rounded-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+          <svg className="flex-shrink-0 w-10 h-10 text-[#067741] mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1"
+              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+            />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1"
+              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+            />
+          </svg>
+          <p className="text-lg font-medium leading-relaxed text-gray-900 text-center">B4 L1 Diamond Village Salawag Dasmariñas, Philippines.</p>
+        </div>
+      </div>
+    </div>
+</div>
 
 
 
@@ -1567,7 +1463,7 @@ useEffect(() => {
       <div class="border-y-2 border-gray-400 w-4/5 p-10">
         {/* <!-- container footer--> */}
         <div class="flex justify-between w-full">
-          <h1 class="text-white text-5xl font-bold">{cmsName}</h1>
+        <h1 class="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold">{cmsName}</h1>
           <div class="flex gap-2">
             <button type='button' 
             class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">

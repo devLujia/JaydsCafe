@@ -191,27 +191,17 @@ function Signup() {
       <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">
         <div class="font-extrabold text-2xl flex items-center">
           {/* <!-- Logo/Title in Navbar --> */}
-          <a href="/" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
+          <a href="/" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide">Jayd's Cafe</a>
         </div>
 
         <div class="inline-flex items-center justify-center me-2">
-          {/* <!-- Button for Login or Sign Up --> */}
-          <button
-            class="btn mr-3 w-40 h-12 text-greenColor text-sm tracking-widest shadow-md cursor-pointer hover:shadow-lg outline  hover:shadow-gray-400 hover:bg-greenColor hover:text-white hover:outline-none ease-in-out transition background-color 0.3s, color 0.3s duration-300">
-            Order Now!
-          </button>
-    
-          {/* <div class="inline-flex w-fit h-fit space-x-2">
-            <img src={userIcon} alt=""/>
-            <img src={bagIcon} alt=""/>
-          </div> */}
         </div>
       </nav>
 
       {/* <!-- Form container --> */}
       <div class="max-w-md mx-auto p-4 mt-2 mb-4 bg-white rounded-xl shadow-md md:max-w-lg md:p-6 md:pt-4 md:mb-6 lg:max-w-lg lg:p-8 lg:pt-6 lg:mb-8">
 
-          <h2 class="text-3xl font-extrabold mb-6 text-black tracking-wider">Register</h2>
+          <h2 class="text-3xl font-bold mb-6 text-black tracking-wider">Register</h2>
     
           {/* <!-- Form fields --> */}
           <form onSubmit={handleSubmit}>
@@ -287,23 +277,14 @@ function Signup() {
           <div class="mb-6 flex items-center"> {/* <!-- Checkbox Input-->*/}
               <input type="checkbox" id="TAC" class="w-5 h-5 mr-5" required/>
               <label for="TAC" class="text-gray-500 text-md font-bold tracking-wider">
-                  I Agree To 
+                I agree to the
               </label>
               <span class="text-blue-500 text-lg cursor-pointer font-bold pl-2 hover:underline" onClick={toggleTermsAndCondiotion}>Terms & conditions</span>
           </div>
 
           <button class="bg-greenColor hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-full leading-10 mb-10"  type="submit">Register Account</button>
 
-          <p class="mb-10">I already have an account <span class="text-blue-500 cursor-pointer font-semibold"><a href="/login">Log In now</a></span></p>
-          
-          {/* <!-- or sign in with --> */}
-            <div class="flex items-center mb-4">
-              <hr class="w-full border-t border-gray-300"/>
-              <span class="px-10 text-gray-400 text-center">or</span>
-              <hr class="w-full border-t border-gray-300"/>
-            </div>
-
-          <a href="https://www.google.com/"><button class="flex items-center justify-center p-2 mt-10 w-full leading-10 border-2 border-gray-300 rounded-lg hover:bg-gray-200 font-semibold focus:outline-none focus:shadow-outline"><img src={google} alt="Google Icon" class="w-16 px-5"/>Register with Google</button></a>
+          <p class="">I already have an account <span class="text-blue-500 cursor-pointer font-semibold"><a href="/login">Sign In</a></span></p>
           
           </form>
       </div>
