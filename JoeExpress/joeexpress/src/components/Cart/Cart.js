@@ -14,6 +14,8 @@ import Del from '../UserModal/Delete/DeleteModal'
 
 function Cart() {
 
+    const [TermsModal,setTermsModal] = useState(false); //modal
+
     const [authenticated, setAuthenticated] = useState(false);
     const [userId, setUserId] = useState(null);
     const [items, setItems] = useState([]);
@@ -359,77 +361,113 @@ function Cart() {
                     </button>
                 </div>}
 
-                {/* <!-- Right side Infos--> */}
 
-                {items.length > 0 ?
-                <div class=" flex justify-center mx-auto top-14 my-8 lg:right-10 bg-blue-400">
-                    <div class="min-w-full bg-white">
+               {/* <!-- Right side Infos--> */}
+                {items.length > 0 ? (
+                    <div class="flex justify-center mx-auto top-14 my-8 lg:right-10"> 
+                        <div class="min-w-full"> 
+                            <div className='outline outline-slate-300 rounded-lg py-4'>
+                                <h1 class="text-lg font-bold mb-6 tracking-wider text-center">Select your Delivery Method</h1>
 
-                         <div className='outline outline-slate-300 rounded-lg py-4'>
-                            <h1 class="text-xl font-bold mb-6 tracking-wider  text-center">Select your delivery method</h1>
+                                <form action="">
+                                <ul className="grid gap-2 md:grid-cols-2 px-16 text-center" required>
+                                        <li>
+                                            <input
+                                                type="radio"
+                                                id="pickup"
+                                                onChange={handleChange}
+                                                name="option"
+                                                value="pickup"
+                                                className="hidden peer"
+                                                required
+                                                defaultChecked
+                                            />
+                                            <label
+                                                htmlFor="pickup"
+                                                className="inline-block items-center justify-center py-3 w-full text-gray-500 bg-white border border-slate-300 rounded-lg cursor-pointer transition duration-300 ease-in-out
+                                                    dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700
+                                                    peer-checked:border-textgreenColor peer-checked:bg-[#f0fff4] peer-checked:text-black hover:text-gray-600 hover:bg-gray-100 dark:hover:text-gray-300"
+                                            >
+                                                <img src={store} alt="" className="mx-auto mb-2" />
+                                                <div className="block">
+                                                    <div className="w-full text-md font-semibold">Pick Up</div>
+                                                </div>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <input
+                                                type="radio"
+                                                id="delivery"
+                                                onChange={handleChange}
+                                                name="option"
+                                                value="delivery"
+                                                className="hidden peer"
+                                                required
+                                            />
+                                            <label
+                                                htmlFor="delivery"
+                                                className="inline-block items-center justify-center py-3 w-full text-gray-500 bg-white border border-slate-300 rounded-lg cursor-pointer transition duration-300 ease-in-out
+                                                    dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700
+                                                    peer-checked:border-textgreenColor peer-checked:bg-[#f0fff4] peer-checked:text-black hover:text-gray-600 hover:bg-gray-100 dark:hover:text-gray-300"
+                                            >
+                                                <img src={motor} alt="" className="mx-auto mb-2" />
+                                                <div className="block">
+                                                    <div className="w-full text-md font-semibold">Local Delivery</div>
+                                                </div>
+                                            </label>
+                                        </li>
+                                    </ul>
 
-                            <form action="">
-                                <ul class="grid gap-2 md:grid-cols-2 px-14 text-center" required>
-                                     <li>
-                                        <input type="radio" id="pickup" onChange={handleChange} name="option" value="pickup" class="hidden peer" required defaultChecked />
-                                        <label for="pickup" class="inline-block items-center justify-center py-3 w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-textgreenColor peer-checked:border-textgreenColor peer-checked:text-textgreenColor hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-                                            <img src={store} alt="" class="mx-auto mb-2" />
-                                            <div class="block">
-                                                <div class="w-full text- font-semibold">Pick Up</div>
-                                            </div>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input type="radio" id="delivery" onChange={handleChange} name="option" value="delivery" class="hidden peer" required />
-                                        <label for="delivery" class="inline-block items-center justify-center py-3 w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-textgreenColor peer-checked:border-textgreenColor peer-checked:text-textgreenColor hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-                                            <img src={motor} alt="" class="mx-auto mb-2" />
-                                            <div class="block">
-                                                <div class="w-full text-md font-semibold">Local Delivery</div>
-                                            </div>
-                                        </label>
-                                    </li>
-                                    
-                                </ul>
-                                
-                                {/* lalabas lang kapag local delivery yung clinick */}
-                                <div className='px-4'>
-                                    <label for="instruction" class="block mb-2 pl-1 text-lg font-medium text-gray-700 mt-8">Dropoff Instructions (Option)</label>
-                                    <textarea name="instruction" id="instruction" value={riderNote.instruction} onChange={handleChange} placeholder="Add Instruction for the rider" class="w-full min-h-32 rounded-lg p-2 border-2 border-slate-300"></textarea>
+                                    {/* Visible only when Local Delivery is clicked */}
+                                    <div className='px-4'>
+                                        <label for="instruction" class="block mb-2 pl-1 text-md font-medium text-gray-700 mt-8">Dropoff Instructions (Optional)</label>
+                                        <textarea 
+                                    name="instruction" 
+                                    id="instruction" 
+                                    value={riderNote.instruction} 
+                                    onChange={handleChange} 
+                                    placeholder="Add Instruction for the rider" 
+                                    class="w-full min-h-32 rounded-lg p-2 border-2 border-green-700  focus:border-green-700" 
+                                ></textarea>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="flex items-center justify-end pt-5">
+                                <h1 class="text-4xl font-bold text-gray-800 p-2">
+                                    ₱{totalBill}.00
+                                </h1>
+
+                                <span class="inline-flex items-center justify-center w-6 h-6 ms-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full" 
+                                    onMouseEnter={() => setShowTooltip(true)}
+                                    onMouseLeave={() => setShowTooltip(false)}>
+                                    i
+                                </span>
+                            </div>
+
+                            {showTooltip && (
+                                <div className="absolute z-10 inline-block px-3 py-2 text-sm font-medium text-gray-100 bg-black/40 backdrop-blur-sm rounded-lg shadow-sm border border-white dark:bg-gray-700/30 dark:border-gray-600/20">
+                                    Taxes, discounts, and shipping calculated at checkout.
+                                    <div className="tooltip-arrow" />
                                 </div>
+                            )}
 
-                            </form>
-                        </div> 
-
-                <div class="flex items-center justify-end pt-5">
-                    <h1 class="text-3xl font-extrabold tracking-wider">₱{totalBill}.00</h1>
-                    <span class="inline-flex items-center justify-center w-6 h-6 ms-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full" 
-                    onMouseEnter={() => setShowTooltip(true)}
-                    onMouseLeave={() => setShowTooltip(false)}>
-                        i
-                    </span>
-                </div>
-                
-                {showTooltip && (
-                    <div className="absolute z-10 inline-block px-3 py-2 text-sm font-medium text-gray-100 bg-black/40 backdrop-blur-sm rounded-lg shadow-sm border border-white dark:bg-gray-700/30 dark:border-gray-600/20">
-                        Taxes, discounts, and shipping calculated at checkout.
-                        <div className="tooltip-arrow" />
+                            {/* Button Section */}
+                            <div class="w-full py-5 mt-5 flex justify-center"> 
+                                <button 
+                                    // onClick={() => handlePayment(item.id, quantity[item.id])}
+                                    onClick={() => navigate('/checkout', { state: { riderNote } })}
+                                    data-modal-target="default-modal" 
+                                    data-modal-toggle="default-modal"
+                                    class="px-8 w-auto max-w-xs bg-gradient-to-r from-[#1f4d29] via-[#2b6b36] to-[#1f4d29] hover:scale-105 text-white font-bold text-lg rounded-full py-3 flex items-center justify-center hover:bg-green-600 transition duration-300 ease-in-out shadow-lg">
+                                    Proceed to Payment
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                )}
+                ) : ""}
+                </section>
                 
-                {/* <!--button --> */}
-                <div class="w-full py-5 mt-5 flex justify-center"> 
-                <button 
-                    // onClick={() => handlePayment(item.id, quantity[item.id])}
-                    onClick={()=> navigate('/checkout', { state: { riderNote } })}
-                    data-modal-target="default-modal" 
-                    data-modal-toggle="default-modal"
-                    class="px-8 w-auto max-w-xs bg-gradient-to-r from-[#1f4d29] via-[#2b6b36] to-[#1f4d29] hover:scale-105 text-white font-bold text-lg rounded-full py-3 flex items-center justify-center hover:bg-green-600 transition duration-300 ease-in-out shadow-lg">
-                        Proceed to Payment
-                </button>
-                </div>
-            </div>
-                </div> : "" }
-            </section>
 
             {/* <!-- List or reciept -->
             <!-- Modal for Receipt --> */}
