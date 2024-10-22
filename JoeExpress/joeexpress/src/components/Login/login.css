@@ -83,5 +83,7 @@ nav .link{
 
 .menu li a:hover::after{width: 100%;}
 
-
+.input-error {
+    border: 2px solid red;
+}
 

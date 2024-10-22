@@ -803,20 +803,20 @@ useEffect(() => {
                 </button>
 
                 {isOpen && (
-              <div className="absolute right-24 mt-8 w-48 bg-white border rounded-lg shadow-lg z-10">
-                <ul className="py-2">
-                  <li onClick={()=>navigate('/profile')} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    Profile
-                  </li>
-                  <li
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </li>
-                </ul>
-              </div>
-            )}
+                  <div className="absolute right-24 mt-8 w-48 bg-white border rounded-lg shadow-lg z-10">
+                    <ul className="py-2">
+                      <li onClick={()=>navigate('/profile')} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                        Profile
+                      </li>
+                      <li
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                        onClick={handleLogout}
+                      >
+                        Logout
+                      </li>
+                    </ul>
+                  </div>
+                )}
 
                   <Link to={'/cart'} className="relative inline-block">
                     <img src={bagIcon} alt="bag" className="w-8 h-8" title='Cart' /> {/* Adjust size as needed */}
@@ -946,148 +946,148 @@ useEffect(() => {
       )}
     
 
-{/* <!-- Land upper --> */}
-<div className="relative flex lg:flex-row flex-col overflow-hidden bg-jaydsBg text-white py-16 h-fit top-0 items-center" id="about">
+    {/* <!-- Land upper --> */}
+    <div className="relative flex lg:flex-row flex-col overflow-hidden bg-jaydsBg text-white py-16 h-fit top-0 items-center" id="about">
 
-  {/* Animated wave */}
-  <div className="absolute bottom-0 left-0 right-0">
-    <svg className="w-full h-auto animate-wave" viewBox="0 0 1440 280" xmlns="http://www.w3.org/2000/svg">
-      <path
-        fill="#6B4F4F"
-        fillOpacity="0.2"
-        d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-      ></path>
-    </svg>
-  </div>
+      {/* Animated wave */}
+      <div className="absolute bottom-0 left-0 right-0">
+        <svg className="w-full h-auto animate-wave" viewBox="0 0 1440 280" xmlns="http://www.w3.org/2000/svg">
+          <path
+            fill="#6B4F4F"
+            fillOpacity="0.2"
+            d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+          ></path>
+        </svg>
+      </div>
 
-  <div class="lg:w-1/2 px-32 py-16 md:text-center lg:text-left"
-        data-aos="fade-right"
-        data-aos-offset="300"
-        data-aos-easing="ease-in-sine"
-        data-aos-duration="1500">
-        <p class="text-black font-semibold tracking-wider text-3xl pb-1 drop-shadow-2xl">WELCOME TO </p>
-        <h1 class="text-textgreenColor text-8xl font-extrabold pb-2 drop-shadow-lg" id="name">{cmsName}</h1>
-        <p class="max-w-[28rem] mb-5 text-md text-gray-600">
-        Discover the perfect blend of flavors in every cup. From classic milk teas to unique creations, we’ve got something for everyone. Come sip, relax, and enjoy your favorite drink today!
-        </p>
-    
-      {/* Order Now Button */}
-          <div class="">
-            <button onClick={()=>navigate('/menu')} class="relative inline-flex h-16 active:scale-95 transition overflow-hidden rounded-tl-3xl rounded-br-3xl p-[2px] focus:outline-none hover:scale-105 hover:shadow-xl hover:shadow-[#34d399]/50 duration-300 ease-in-out"
-              >
-                <span
-                  class="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#067741_0%,#34d399_50%,#10b981_100%)] rounded-tl-3xl rounded-br-3xl"
-                >
-                </span>
-                <span
-                  class="relative inline-flex h-full w-full cursor-pointer items-center justify-center rounded-tl-3xl rounded-br-3xl bg-[#067741] px-10 text-lg font-semibold text-white backdrop-blur-3xl gap-2"
-                >
-                  Order Now!
-                </span>
-              </button>
-          </div>  
-          </div>
-  <div className="w-[400px] h-[500px] md:m-auto relative hover:scale-100">
-                                  <img
-                                  src={cmsBigLogo}
-                                  alt=""
-                                  className="w-[400px] h-[400px] z-10 absolute -top-2 -left-28 float-animation"
-                                  data-aos="fade-down-right"
-                                  data-aos-duration="2000"
-                                  data-aos-easing="ease-in-sine"
-                                />
-
-                                <img
-                                  src={cmsSmallLogo}
-                                  alt=""
-                                  className="w-[400px] h-[400px] absolute top-20 left-16 float-animation"
-                                  data-aos="fade-down-left"
-                                  data-aos-duration="2000"
-                                  data-aos-easing="ease-in-sine"
-                                />
-  </div>
-</div>
-
-
-
-          {/* <!-- Best Sellers Section --> */}
-          <div class="bg-white min-h-screen pt-14 sm:pt-16 lg:pt-26" id="Menu">
-          <h1 class="font-extrabold text-3xl sm:text-4xl lg:text-5xl text-center py-6 md:py-8 text-green-700 animate-wave glow-animation">
-            Top Picks of the Day
-          </h1>
-
-            {/* <!-- Subheading --> */}
-            <div class="flex justify-center mb-6 md:mb-8 px-4">
-              <h3 class="text-center text-sm sm:text-base md:text-lg lg:text-xl tracking-wide w-full md:w-[80%] lg:w-[60%] text-black opacity-0 animate-fade-in">
-                Discover our most loved milk tea flavors, refreshed daily based on what our customers are raving about!
-              </h3>
-            </div>
-
-            {/* <!-- Background Coffee (Top Right) --> */}
-            <div class="relative">
-              <img
-                src={image1}
-                alt="beans"
-                class="absolute top-10 right-10 w-[60px] sm:w-[100px] md:w-[150px] lg:w-[200px] rotate-[-20deg] z-0 opacity-50"
-              />
-            </div>
-
-            {/* <!-- Cards Section --> */}
-            <div class="container mx-auto p-4 max-w-7xl">
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 py-5 pb-12">
-                {/* Map through the food items */}
-                {foods.map((food) => (
-                  <div key={food.id} class="relative flex flex-col p-4 rounded-xl bg-white shadow-lg transition-transform duration-300 hover:shadow-2xl hover:scale-105 group border-2 border-[#067741] before:content-[''] before:absolute before:inset-0 before:rounded-xl before:border-2 before:border-dashed before:border-[#E5F5EE] before:-z-10 transition duration-300 overflow-visible" data-aos="zoom-in" data-aos-duration="1000" data-aos-easing="ease-out-cubic">
-                  {/* Image container */}
-                  <div class="relative mx-auto w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 bg-gradient-to-t from-[#ece0c8] to-[#f5f2e4] rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-110">
-                    <img src={food.image_url} alt={food.name} class="object-contain w-full h-full transition-transform duration-300"/>
-                  </div>
-                
-                  {/* Food Info */}
-                  <div class="mt-4 text-center">
-                    <h2 class="text-lg sm:text-xl font-semibold mb-2 text-black transition-colors duration-300 hover:text-[#055F32]">
-                      {food.name}
-                    </h2>
-                    <p class="text-sm text-gray-600 transition-opacity duration-300 group-hover:opacity-75">{food.description}</p>
-                    <div class="flex justify-between items-center mt-4">
-                      <span class="text-sm font-bold text-[#067741]">16oz</span>
-                    </div>
-                  </div>
-                
-                  {/* Buy Now Button */}
-                  <div class="flex justify-between items-center mt-4">
-                  <p className="text-2xl font-bold text-black">₱ {food.price}.00</p>
-                  <button
-                    onClick={handleNavigate}
-                    class="relative bg-[#067741] text-white font-semibold py-2 px-4 rounded-full transition-all duration-500 ease-out transform hover:scale-110 hover:bg-gradient-to-r hover:from-[#067741] hover:to-[#055F32] hover:border-2 hover:border-white hover:shadow-[0_0_15px_rgba(6,119,65,0.5)] hover:rotate-1 group"
+      <div class="lg:w-1/2 px-32 py-16 md:text-center lg:text-left"
+            data-aos="fade-right"
+            data-aos-offset="300"
+            data-aos-easing="ease-in-sine"
+            data-aos-duration="1500">
+            <p class="text-black font-semibold tracking-wider text-3xl pb-1 drop-shadow-2xl">WELCOME TO </p>
+            <h1 class="text-textgreenColor text-8xl font-extrabold pb-2 drop-shadow-lg" id="name">{cmsName}</h1>
+            <p class="max-w-[28rem] mb-5 text-md text-gray-600">
+            Discover the perfect blend of flavors in every cup. From classic milk teas to unique creations, we’ve got something for everyone. Come sip, relax, and enjoy your favorite drink today!
+            </p>
+        
+          {/* Order Now Button */}
+              <div class="">
+                <button onClick={()=>navigate('/menu')} class="relative inline-flex h-16 active:scale-95 transition overflow-hidden rounded-tl-3xl rounded-br-3xl p-[2px] focus:outline-none hover:scale-105 hover:shadow-xl hover:shadow-[#34d399]/50 duration-300 ease-in-out"
                   >
-                    <span class="absolute inset-0 rounded-full opacity-0 bg-white blur-sm transition-opacity duration-500 group-hover:opacity-20"></span>
-                    <span class="relative z-10">Buy Now!</span>
+                    <span
+                      class="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#067741_0%,#34d399_50%,#10b981_100%)] rounded-tl-3xl rounded-br-3xl"
+                    >
+                    </span>
+                    <span
+                      class="relative inline-flex h-full w-full cursor-pointer items-center justify-center rounded-tl-3xl rounded-br-3xl bg-[#067741] px-10 text-lg font-semibold text-white backdrop-blur-3xl gap-2"
+                    >
+                      Order Now!
+                    </span>
                   </button>
-                </div>
+              </div>  
+              </div>
+      <div className="w-[400px] h-[500px] md:m-auto relative hover:scale-100">
+                                      <img
+                                      src={cmsBigLogo}
+                                      alt=""
+                                      className="w-[400px] h-[400px] z-10 absolute -top-2 -left-28 float-animation"
+                                      data-aos="fade-down-right"
+                                      data-aos-duration="2000"
+                                      data-aos-easing="ease-in-sine"
+                                    />
+
+                                    <img
+                                      src={cmsSmallLogo}
+                                      alt=""
+                                      className="w-[400px] h-[400px] absolute top-20 left-16 float-animation"
+                                      data-aos="fade-down-left"
+                                      data-aos-duration="2000"
+                                      data-aos-easing="ease-in-sine"
+                                    />
+      </div>
+    </div>
 
 
-                </div>
-                ))}
+
+    {/* <!-- Best Sellers Section --> */}
+    <div class="bg-white min-h-screen pt-14 sm:pt-16 lg:pt-26" id="Menu">
+    <h1 class="font-extrabold text-3xl sm:text-4xl lg:text-5xl text-center py-6 md:py-8 text-green-700 animate-wave glow-animation">
+      Top Picks of the Day
+    </h1>
+
+      {/* <!-- Subheading --> */}
+      <div class="flex justify-center mb-6 md:mb-8 px-4">
+        <h3 class="text-center text-sm sm:text-base md:text-lg lg:text-xl tracking-wide w-full md:w-[80%] lg:w-[60%] text-black opacity-0 animate-fade-in">
+          Discover our most loved milk tea flavors, refreshed daily based on what our customers are raving about!
+        </h3>
+      </div>
+
+      {/* <!-- Background Coffee (Top Right) --> */}
+      <div class="relative">
+        <img
+          src={image1}
+          alt="beans"
+          class="absolute top-10 right-10 w-[60px] sm:w-[100px] md:w-[150px] lg:w-[200px] rotate-[-20deg] z-0 opacity-50"
+        />
+      </div>
+
+      {/* <!-- Cards Section --> */}
+      <div class="container mx-auto p-4 max-w-7xl">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 py-5 pb-12">
+          {/* Map through the food items */}
+          {foods.map((food) => (
+            <div key={food.id} class="relative flex flex-col p-4 rounded-xl bg-white shadow-lg transition-transform duration-300 hover:shadow-2xl hover:scale-105 group border-2 border-[#067741] before:content-[''] before:absolute before:inset-0 before:rounded-xl before:border-2 before:border-dashed before:border-[#E5F5EE] before:-z-10 transition duration-300 overflow-visible" data-aos="zoom-in" data-aos-duration="1000" data-aos-easing="ease-out-cubic">
+            {/* Image container */}
+            <div class="relative mx-auto w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 bg-gradient-to-t from-[#ece0c8] to-[#f5f2e4] rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-110">
+              <img src={food.image_url} alt={food.name} class="object-contain w-full h-full transition-transform duration-300"/>
+            </div>
+          
+            {/* Food Info */}
+            <div class="mt-4 text-center">
+              <h2 class="text-lg sm:text-xl font-semibold mb-2 text-black transition-colors duration-300 hover:text-[#055F32]">
+                {food.name}
+              </h2>
+              <p class="text-sm text-gray-600 transition-opacity duration-300 group-hover:opacity-75">{food.description}</p>
+              <div class="flex justify-between items-center mt-4">
+                <span class="text-sm font-bold text-[#067741]">16oz</span>
               </div>
             </div>
-
-            {/* <!-- Background Coffee (Bottom Left) --> */}
-            <div class="relative">
-              <img
-                src={image1}
-                alt="beans"
-                class="absolute bottom-0 left-0 w-[60px] sm:w-[100px] md:w-[150px] lg:w-[200px] z-0 opacity-50"
-              />
-            </div>
+          
+            {/* Buy Now Button */}
+            <div class="flex justify-between items-center mt-4">
+            <p className="text-2xl font-bold text-black">₱ {food.price}.00</p>
+            <button
+              onClick={handleNavigate}
+              class="relative bg-[#067741] text-white font-semibold py-2 px-4 rounded-full transition-all duration-500 ease-out transform hover:scale-110 hover:bg-gradient-to-r hover:from-[#067741] hover:to-[#055F32] hover:border-2 hover:border-white hover:shadow-[0_0_15px_rgba(6,119,65,0.5)] hover:rotate-1 group"
+            >
+              <span class="absolute inset-0 rounded-full opacity-0 bg-white blur-sm transition-opacity duration-500 group-hover:opacity-20"></span>
+              <span class="relative z-10">Buy Now!</span>
+            </button>
           </div>
+
+
+          </div>
+          ))}
+        </div>
+      </div>
+
+      {/* <!-- Background Coffee (Bottom Left) --> */}
+      <div class="relative">
+        <img
+          src={image1}
+          alt="beans"
+          class="absolute bottom-0 left-0 w-[60px] sm:w-[100px] md:w-[150px] lg:w-[200px] z-0 opacity-50"
+        />
+      </div>
+    </div>
 
 
     {/* <!-- Menu offering --> */}
     <div class="bg-exportColor w-full mb-10 relative" id="offer">
-    <h2 class="text-5xl font-bold text-center mb-4 pt-20 text-textgreenColor animate-wave glow-animation">
-    Menu Offerings
-    </h2>
+      <h2 class="text-5xl font-bold text-center mb-4 pt-20 text-textgreenColor animate-wave glow-animation">
+      Menu Offerings
+      </h2>
 
       <p class="text-center mb-10 text-xl text-black">Discover a Delightful Mix of Milk Teas, Main Coffees, and Refreshing Drinks!</p>
 
@@ -1200,262 +1200,254 @@ useEffect(() => {
     </div>
     
 
-{/* <!-- About Us --> */}
-<div className="flex flex-col lg:flex-row overflow-hidden bg-white text-greenColor py-10" id="aboutus">
-  <div
-    className="lg:w-1/2 p-10 md:text-center lg:text-left flex flex-col justify-center items-center lg:items-start"
-    data-aos="fade-right"
-    data-aos-offset="300"
-    data-aos-easing="ease-in-sine"
-    data-aos-duration="1500"
-  >
-    <h3 className="font-extrabold text-5xl mb-8 text-center lg:text-left ml-14 animate-wave glow-animation">Our Story</h3>
-    <h2 className="font-extrabold text-4xl mb-6 text-center lg:text-left ml-14 text-black">Let Us Introduce Ourselves</h2>
-    <p className="max-w-lg mb-6 text-lg leading-relaxed text-center lg:text-left ml-14 text-black italic">
-      {cmsAboutUs}
-    </p>
-    <div className="pt-6">
-      <button 
-        onClick={() => navigate('/menu')} 
-        className="relative inline-flex h-16 active:scale-95 transition overflow-hidden rounded-tl-3xl rounded-br-3xl p-[2px] focus:outline-none hover:scale-105 hover:shadow-xl hover:shadow-[#34d399]/50 duration-300 ease-in-out ml-14"
+    {/* <!-- About Us --> */}
+    <div className="flex flex-col lg:flex-row overflow-hidden bg-white text-greenColor py-10" id="aboutus">
+      <div
+        className="lg:w-1/2 p-10 md:text-center lg:text-left flex flex-col justify-center items-center lg:items-start"
+        data-aos="fade-right"
+        data-aos-offset="300"
+        data-aos-easing="ease-in-sine"
+        data-aos-duration="1500"
       >
-        <span
-          className="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#067741_0%,#34d399_50%,#10b981_100%)] rounded-tl-3xl rounded-br-3xl"
+        <h3 className="font-extrabold text-5xl mb-8 text-center lg:text-left ml-14 animate-wave glow-animation">Our Story</h3>
+        <h2 className="font-extrabold text-4xl mb-6 text-center lg:text-left ml-14 text-black">Let Us Introduce Ourselves</h2>
+        <p className="max-w-lg mb-6 text-lg leading-relaxed text-center lg:text-left ml-14 text-black italic">
+          {cmsAboutUs}
+        </p>
+        <div className="pt-6">
+          <button 
+            onClick={() => navigate('/menu')} 
+            className="relative inline-flex h-16 active:scale-95 transition overflow-hidden rounded-tl-3xl rounded-br-3xl p-[2px] focus:outline-none hover:scale-105 hover:shadow-xl hover:shadow-[#34d399]/50 duration-300 ease-in-out ml-14"
+          >
+            <span
+              className="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#067741_0%,#34d399_50%,#10b981_100%)] rounded-tl-3xl rounded-br-3xl"
+            />
+            <span
+              className="relative inline-flex h-full w-full cursor-pointer items-center justify-center rounded-tl-3xl rounded-br-3xl bg-[#067741] px-10 text-lg font-semibold text-white backdrop-blur-3xl gap-2"
+            >
+              Order Now!
+            </span>
+          </button>
+        </div>
+      </div>
+      <div className="lg:w-1/2 p-10 flex justify-center items-center">
+        <img
+          src={cmsAboutUsImage}
+          alt="About Us"
+          id="aboutUsPic"
+          className="w-[450px] max-h-[591px] h-auto hover:scale-105 transition-transform duration-300 rounded-lg"  
+          data-aos="fade-down-left"
+          data-aos-duration="1500"
         />
-        <span
-          className="relative inline-flex h-full w-full cursor-pointer items-center justify-center rounded-tl-3xl rounded-br-3xl bg-[#067741] px-10 text-lg font-semibold text-white backdrop-blur-3xl gap-2"
-        >
-          Order Now!
-        </span>
-      </button>
-    </div>
-  </div>
-  <div className="lg:w-1/2 p-10 flex justify-center items-center">
-    <img
-      src={cmsAboutUsImage}
-      alt="About Us"
-      id="aboutUsPic"
-      className="w-[450px] max-h-[591px] h-auto hover:scale-105 transition-transform duration-300 rounded-lg"  
-      data-aos="fade-down-left"
-      data-aos-duration="1500"
-    />
-  </div>
-</div>
-
-
-
-
-
-{/* Testimonials or Review Section */}
-<section className="py-10 bg-[#067741]">
-  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-    <div className="text-center max-w-3xl mx-auto">
-      <span className="text-white text-lg font-medium block mb-2">Reviews</span>
-      <h1 className="text-3xl sm:text-4xl font-bold mb-3 text-white animate-wave">What Customers Say</h1>
-      <div className="border w-16 mx-auto my-6 border-white"></div>
+      </div>
     </div>
 
-    <div className="mt-10">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {/* Card 1 */}
-        <div className="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 hover:scale-105 hover:shadow-lg max-w-sm mx-auto">
-          <div className="text-center">
-            <img
-              src={AnnMarfega}
-              alt="Ann Marfega"
-              className="rounded-full h-24 w-24 mx-auto mb-5"
-            />
-            <h5 className="text-lg mb-2 font-semibold text-black">Anne</h5>
-            <p className="text-gray-700 font-light">
-              It's my first time to order with them, and I'm so glad I did! The best yung halo halo, ganito yung way nang paggawa ng halohalo for personal consumption, walang sahog na tinipid, bawat sangkap may lasa at masarap! Magiging suki nyo po ako for sure! Thanks again Jayd's cafe!
-            </p>
-          </div>
+    {/* Testimonials or Review Section */}
+    <section className="py-10 bg-[#067741]">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-3xl mx-auto">
+          <span className="text-white text-lg font-medium block mb-2">Reviews</span>
+          <h1 className="text-3xl sm:text-4xl font-bold mb-3 text-white animate-wave">What Customers Say</h1>
+          <div className="border w-16 mx-auto my-6 border-white"></div>
         </div>
 
-        {/* Card 2 */}
-        <div className="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 hover:scale-105 hover:shadow-lg max-w-sm mx-auto">
-          <div className="text-center">
-            <img
-              src={IaMae}
-              alt="Ia Mae Toribio Buenconsejo"
-              className="rounded-full h-24 w-24 mx-auto mb-5"
-            />
-            <h5 className="text-lg mb-2 font-semibold text-black">Ia Mae</h5>
-            <p className="text-gray-700 font-light">
-              Jayd's has been our go-to for our coffee and non-coffee drink cravings kaya naman paulit-ulit parin kami na dito bumibili ng iced drinks. Lahat ng drinks na na-try namin sa kanila, nagustuhan namin. My top faves are their Iced Hazelnut Latte, Iced Milo Shaken Espresso, Tres Leche, Cocoa Lava, Halo-halo (super sarap and creamy).
-            </p>
-          </div>
-        </div>
+        <div className="mt-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Card 1 */}
+            <div className="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 hover:scale-105 hover:shadow-lg max-w-sm mx-auto">
+              <div className="text-center">
+                <img
+                  src={AnnMarfega}
+                  alt="Ann Marfega"
+                  className="rounded-full h-24 w-24 mx-auto mb-5"
+                />
+                <h5 className="text-lg mb-2 font-semibold text-black">Anne</h5>
+                <p className="text-gray-700 font-light">
+                  It's my first time to order with them, and I'm so glad I did! The best yung halo halo, ganito yung way nang paggawa ng halohalo for personal consumption, walang sahog na tinipid, bawat sangkap may lasa at masarap! Magiging suki nyo po ako for sure! Thanks again Jayd's cafe!
+                </p>
+              </div>
+            </div>
 
-        {/* Card 3 */}
-        <div className="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 hover:scale-105 hover:shadow-lg max-w-sm mx-auto">
-          <div className="text-center">
-            <img
-              src={Angelou}
-              alt="Angielou Macacado"
-              className="rounded-full h-24 w-24 mx-auto mb-5 "
-            />
-            <h5 className="text-lg mb-2 font-semibold text-black">Angielou</h5>
-            <p className="text-gray-700 font-light">
-              You know it's good if you're already a repeat customer. I love the coffee here, it's consistently delicious and the shop delivers in a timely manner which makes it the best choice for coffee delivery. Convenient location, Good for working and Best iced coffee!
-            </p>
+            {/* Card 2 */}
+            <div className="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 hover:scale-105 hover:shadow-lg max-w-sm mx-auto">
+              <div className="text-center">
+                <img
+                  src={IaMae}
+                  alt="Ia Mae Toribio Buenconsejo"
+                  className="rounded-full h-24 w-24 mx-auto mb-5"
+                />
+                <h5 className="text-lg mb-2 font-semibold text-black">Ia Mae</h5>
+                <p className="text-gray-700 font-light">
+                  Jayd's has been our go-to for our coffee and non-coffee drink cravings kaya naman paulit-ulit parin kami na dito bumibili ng iced drinks. Lahat ng drinks na na-try namin sa kanila, nagustuhan namin. My top faves are their Iced Hazelnut Latte, Iced Milo Shaken Espresso, Tres Leche, Cocoa Lava, Halo-halo (super sarap and creamy).
+                </p>
+              </div>
+            </div>
+
+            {/* Card 3 */}
+            <div className="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 hover:scale-105 hover:shadow-lg max-w-sm mx-auto">
+              <div className="text-center">
+                <img
+                  src={Angelou}
+                  alt="Angielou Macacado"
+                  className="rounded-full h-24 w-24 mx-auto mb-5 "
+                />
+                <h5 className="text-lg mb-2 font-semibold text-black">Angielou</h5>
+                <p className="text-gray-700 font-light">
+                  You know it's good if you're already a repeat customer. I love the coffee here, it's consistently delicious and the shop delivers in a timely manner which makes it the best choice for coffee delivery. Convenient location, Good for working and Best iced coffee!
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
+
+    {/* New FAQS */}
+    <section className="py-10 bg-gray-50 sm:py-16 lg:py-24">
+        <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
+            <div className="max-w-2xl mx-auto text-center">
+                <h2 className="text-2xl font-bold leading-tight text-black sm:text-3xl lg:text-4xl animate-wave glow-animation">
+                    Frequently Asked Questions
+                </h2>
+                <p className="max-w-xl mx-auto mt-4 text-base leading-relaxed text-gray-600">
+                    Discover answers to the most common inquiries from our users.
+                </p>
+            </div>
+
+            <div className="max-w-3xl mx-auto mt-8 space-y-4 md:mt-16">
+                {faqs.map((faq, index) => (
+                    <div
+                        key={index}
+                        className={`transition-all duration-200 bg-white border border-gray-200 shadow-lg cursor-pointer hover:bg-gray-50 rounded-md ${openIndex === index ? 'border-green-500' : ''}`}
+                    >
+                        <button
+                            type="button"
+                            className="flex items-center justify-between w-full px-4 py-5 sm:p-6"
+                            onClick={() => toggleFAQ(index)}
+                        >
+                            <span className="flex text-lg font-semibold text-black">{faq.question}</span>
+                            <svg
+                                className={`w-6 h-6 text-gray-400 ${openIndex === index ? 'rotate-0' : 'rotate-180'}`}
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div className={`px-4 pb-5 sm:px-6 sm:pb-6 ${openIndex === index ? 'block' : 'hidden'}`}>
+                            <p>
+                                {faq.answer}{' '}
+                              {' '}
+                                
+                            </p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            <p className="text-center text-gray-600 text-base mt-9">
+                  Didn’t find the answer you are looking for? {' '}
+                <a href="#contactUs" title="" className="font-medium text-[#067741] transition-all duration-200 hover:[#067741] focus:text-[#067741] hover:underline">
+                    Contact our support
+                </a>
+            </p>
+        </div>
+    </section>
 
 
-
-      {/* New FAQS */}
-      <section className="py-10 bg-gray-50 sm:py-16 lg:py-24">
-                  <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
-                      <div className="max-w-2xl mx-auto text-center">
-                          <h2 className="text-2xl font-bold leading-tight text-black sm:text-3xl lg:text-4xl animate-wave glow-animation">
-                              Frequently Asked Questions
-                          </h2>
-                          <p className="max-w-xl mx-auto mt-4 text-base leading-relaxed text-gray-600">
-                              Discover answers to the most common inquiries from our users.
-                          </p>
-                      </div>
-
-                      <div className="max-w-3xl mx-auto mt-8 space-y-4 md:mt-16">
-                          {faqs.map((faq, index) => (
-                              <div
-                                  key={index}
-                                  className={`transition-all duration-200 bg-white border border-gray-200 shadow-lg cursor-pointer hover:bg-gray-50 rounded-md ${openIndex === index ? 'border-green-500' : ''}`}
-                              >
-                                  <button
-                                      type="button"
-                                      className="flex items-center justify-between w-full px-4 py-5 sm:p-6"
-                                      onClick={() => toggleFAQ(index)}
-                                  >
-                                      <span className="flex text-lg font-semibold text-black">{faq.question}</span>
-                                      <svg
-                                          className={`w-6 h-6 text-gray-400 ${openIndex === index ? 'rotate-0' : 'rotate-180'}`}
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          fill="none"
-                                          viewBox="0 0 24 24"
-                                          stroke="currentColor"
-                                      >
-                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                                      </svg>
-                                  </button>
-                                  <div className={`px-4 pb-5 sm:px-6 sm:pb-6 ${openIndex === index ? 'block' : 'hidden'}`}>
-                                      <p>
-                                          {faq.answer}{' '}
-                                        {' '}
-                                          
-                                      </p>
-                                  </div>
-                              </div>
-                          ))}
-                      </div>
-
-                      <p className="text-center text-gray-600 text-base mt-9">
-                            Didn’t find the answer you are looking for? {' '}
-                          <a href="#contactUs" title="" className="font-medium text-[#067741] transition-all duration-200 hover:[#067741] focus:text-[#067741] hover:underline">
-                              Contact our support
-                          </a>
-                      </p>
-                  </div>
-              </section>
-
-
-{/* Contact Us Section on Landing Page */}
-<div className="relative isolate bg-white px-6 py-24 sm:py-32 lg:px-8 " id="contactUs">
-  <div className="absolute inset-x-0 top-0 -z-10 h-full w-full overflow-hidden" aria-hidden="true">
-    <div className="absolute inset-x-0 -top-32 sm:-top-48 transform-gpu blur-3xl" style={{ zIndex: '-1' }}>
-      <div className="relative left-1/2 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-green-300 to-green-500 opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]" style={{ clipPath: "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)" }}></div>
-    </div>
-  </div>
-  <div className="mx-auto max-w-2xl text-center">
-    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4 animate-wave glow-animation">Contact Us!</h2>
-    <p className="mt-4 text-lg leading-8 text-gray-600">We'd love to hear from you! Reach out for inquiries, feedback, or support.</p>
-  </div>
-  <form action="#" method="POST" className="mx-auto mt-16 max-w-xl sm:mt-20">
-    <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-      <div>
-        <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">First name</label>
-        <div className="mt-2.5">
-          <input type="text" name="first-name" id="first-name" autoComplete="given-name" className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#067741] sm:text-sm sm:leading-6" />
+    {/* Contact Us Section on Landing Page */}
+    <div className="relative isolate bg-white px-6 py-24 sm:py-32 lg:px-8 " id="contactUs">
+      <div className="absolute inset-x-0 top-0 -z-10 h-full w-full overflow-hidden" aria-hidden="true">
+        <div className="absolute inset-x-0 -top-32 sm:-top-48 transform-gpu blur-3xl" style={{ zIndex: '-1' }}>
+          <div className="relative left-1/2 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-green-300 to-green-500 opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]" style={{ clipPath: "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)" }}></div>
         </div>
       </div>
-      <div>
-        <label htmlFor="last-name" className="block text-sm font-semibold leading-6 text-gray-900">Last name</label>
-        <div className="mt-2.5">
-          <input type="text" name="last-name" id="last-name" autoComplete="family-name" className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#067741] sm:text-sm sm:leading-6" />
-        </div>
+      <div className="mx-auto max-w-2xl text-center">
+        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4 animate-wave glow-animation">Contact Us!</h2>
+        <p className="mt-4 text-lg leading-8 text-gray-600">We'd love to hear from you! Reach out for inquiries, feedback, or support.</p>
       </div>
-      <div className="sm:col-span-2">
-        <label htmlFor="email" className="block text-sm font-semibold leading-6 text-gray-900">Email</label>
-        <div className="mt-2.5">
-          <input type="email" name="email" id="email" autoComplete="email" className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#067741] sm:text-sm sm:leading-6" />
+      <form action="#" method="POST" className="mx-auto mt-16 max-w-xl sm:mt-20">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+          <div>
+            <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">First name</label>
+            <div className="mt-2.5">
+              <input type="text" name="first-name" id="first-name" autoComplete="given-name" className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#067741] sm:text-sm sm:leading-6" />
+            </div>
+          </div>
+          <div>
+            <label htmlFor="last-name" className="block text-sm font-semibold leading-6 text-gray-900">Last name</label>
+            <div className="mt-2.5">
+              <input type="text" name="last-name" id="last-name" autoComplete="family-name" className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#067741] sm:text-sm sm:leading-6" />
+            </div>
+          </div>
+          <div className="sm:col-span-2">
+            <label htmlFor="email" className="block text-sm font-semibold leading-6 text-gray-900">Email</label>
+            <div className="mt-2.5">
+              <input type="email" name="email" id="email" autoComplete="email" className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#067741] sm:text-sm sm:leading-6" />
+            </div>
+          </div>
+          <div className="sm:col-span-2">
+            <label htmlFor="message" className="block text-sm font-semibold leading-6 text-gray-900">Message</label>
+            <div className="mt-2.5">
+              <textarea name="message" id="message" rows="4" className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#067741] sm:text-sm sm:leading-6"></textarea>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="sm:col-span-2">
-        <label htmlFor="message" className="block text-sm font-semibold leading-6 text-gray-900">Message</label>
-        <div className="mt-2.5">
-          <textarea name="message" id="message" rows="4" className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#067741] sm:text-sm sm:leading-6"></textarea>
+        <div className="mt-10">
+          <button type="submit" className="block w-full rounded-md bg-[#067741] px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#067741]">Submit</button>
         </div>
-      </div>
+      </form>
+    <div className="px-4 mx-auto sm:px-4 md:px-6 lg:px-8 max-w-full sm:max-w-xl md:max-w-3xl lg:max-w-7xl pt-8 sm:pt-12 md:pt-16 lg:pt-20 mt-6 sm:mt-8 md:mt-12 lg:mt-16">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-y-12 lg:gap-x-8 xl:gap-x-20">
+            {/* Call Us */}
+            <div className="flex flex-col items-center p-6 bg-white border-2 border-green-700 shadow-lg rounded-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+              <svg className="flex-shrink-0 w-10 h-10 text-[#067741] mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1"
+                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                />
+              </svg>
+              <p className="text-xl font-medium text-gray-900">(+63) 926 015 9202</p>
+            </div>
+
+            {/* Email Us */}
+            <div className="flex flex-col items-center p-6 bg-white  border-2 border-green-700  shadow-lg rounded-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+              <svg className="flex-shrink-0 w-10 h-10 text-[#067741] mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1"
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                />
+              </svg>
+              <p className="text-xl font-medium text-gray-900">jaydscoffee@gmail.com</p>
+            </div>
+
+            {/* Location */}
+            <div className="flex flex-col items-center p-6 bg-white  border-2 border-green-700 shadow-lg rounded-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+              <svg className="flex-shrink-0 w-10 h-10 text-[#067741] mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1"
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1"
+                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+              <p className="text-lg font-medium leading-relaxed text-gray-900 text-center">B4 L1 Diamond Village Salawag Dasmariñas, Philippines.</p>
+            </div>
+          </div>
+        </div>
     </div>
-    <div className="mt-10">
-      <button type="submit" className="block w-full rounded-md bg-[#067741] px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#067741]">Submit</button>
-    </div>
-  </form>
- <div className="px-4 mx-auto sm:px-4 md:px-6 lg:px-8 max-w-full sm:max-w-xl md:max-w-3xl lg:max-w-7xl pt-8 sm:pt-12 md:pt-16 lg:pt-20 mt-6 sm:mt-8 md:mt-12 lg:mt-16">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-y-12 lg:gap-x-8 xl:gap-x-20">
-        {/* Call Us */}
-        <div className="flex flex-col items-center p-6 bg-white border-2 border-green-700 shadow-lg rounded-lg transition-transform transform hover:scale-105 hover:shadow-xl">
-          <svg className="flex-shrink-0 w-10 h-10 text-[#067741] mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1"
-              d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-            />
-          </svg>
-          <p className="text-xl font-medium text-gray-900">(+63) 926 015 9202</p>
-        </div>
-
-        {/* Email Us */}
-        <div className="flex flex-col items-center p-6 bg-white  border-2 border-green-700  shadow-lg rounded-lg transition-transform transform hover:scale-105 hover:shadow-xl">
-          <svg className="flex-shrink-0 w-10 h-10 text-[#067741] mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1"
-              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-            />
-          </svg>
-          <p className="text-xl font-medium text-gray-900">jaydscoffee@gmail.com</p>
-        </div>
-
-        {/* Location */}
-        <div className="flex flex-col items-center p-6 bg-white  border-2 border-green-700 shadow-lg rounded-lg transition-transform transform hover:scale-105 hover:shadow-xl">
-          <svg className="flex-shrink-0 w-10 h-10 text-[#067741] mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1"
-              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1"
-              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-            />
-          </svg>
-          <p className="text-lg font-medium leading-relaxed text-gray-900 text-center">B4 L1 Diamond Village Salawag Dasmariñas, Philippines.</p>
-        </div>
-      </div>
-    </div>
-</div>
-
-
 
     {/* <!-- Contact Us on Footer --> */}
     <footer class="bg-[#1A1A1A] w-full h-1/4  py-7 flex flex-col justify-center items-center" id="footer">

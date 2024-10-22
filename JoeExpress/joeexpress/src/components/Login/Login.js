@@ -165,27 +165,26 @@ const Login = () => {
     }, [navigation]);
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        const err = Validation(values);
-        setErrors(err);
-        if (err.email === "" && err.password === "") {
-            axios.post('http://localhost:8081/login', values)
-                .then(res => {
-                    if (res.data.Login) {
-                        navigation('/');
-                    } else {
-                        alert("No record existed");
-                    }
-                })
-                .catch(err => console.log(err));
-        }
-    };
+      e.preventDefault();
+      const err = Validation(values);
+      setErrors(err);
+  
+      if (err.email === "" && err.password === "") {
+          axios.post('http://localhost:8081/login', values)
+              .then(res => {
+                  if (res.data.Login) {
+                      navigation('/');
+                  } else {
+                      setErrors({ ...err, general: "Invalid Input! incorrect Email or Password" });  // Set a general error message
+                  }
+              })
+              .catch(err => console.log(err));
+      }
+  };
 
 
     return (
     <div className="bg-background">
-      
-
       
     {TermsModal && <Terms closeModal={setTermsModal}/>}
 
@@ -195,7 +194,7 @@ const Login = () => {
           {/* <!-- Logo/Title in Navbar --> */}
           <a href="/" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide">{cmsName}</a>
         </div>
-{     /* <!-- Button for Login or Sign Up --> */}
+{/* <!-- Button for Login or Sign Up --> */}
         {/* <div class="inline-flex items-center justify-center me-2">
           
           <button
@@ -227,7 +226,7 @@ const Login = () => {
             {/* <!-- Email Input--> */}
 
             <input
-              class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline"
+              className={`shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline ${errors.email ? 'input-error' : ''}`}
               id="email"
               type="email"
               name="email"
@@ -235,13 +234,14 @@ const Login = () => {
               value={values.email}
               onChange={handleInput}
             />
+            {errors.email && <p>{errors.email}</p>}
           </div>
 
           <div class="bg-white w-full max-w-full rounded-md mx-auto mt-300 flex items-center">
             {/* <!-- password Input--> */}
             <div class="relative w-full">
               <input
-                class="w-full outline-0 text-gray-600 shadow appearance-none border rounded py-2 px-3 mb-10 leading-10 focus:outline-none focus:shadow-outline"
+                className={`w-full outline-0 text-gray-600 shadow appearance-none border rounded py-2 px-3 mb-10 leading-10 focus:outline-none focus:shadow-outline ${errors.password ? 'input-error' : ''}`}
                 id="password"
                 type={passwordVisible ? 'text' : 'password'}
                 name="password"
@@ -250,6 +250,7 @@ const Login = () => {
                 onChange={handleInput}
                 required
               />
+              {errors.password && <p>{errors.password}</p>}
 
               <img
                 onClick={togglePasswordVisibility}
@@ -261,20 +262,39 @@ const Login = () => {
               />
             </div>
           </div>
-
+          {errors.general && <p style={{ color: 'red' }}>{errors.general}</p>}
           <input
-            class="bg-greenColor hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-full leading-10 mb-10"
+            class="bg-greenColor hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-full leading-10 mb-10 cursor-pointer"
             type="submit"
             value="Sign In"
           />
 
-          <p class="">
+          <p class="mb-10">
             {/* <!-- Don't have an account? --> */}
             Don't have an account?
             <span class="text-blue-500 cursor-pointer font-semibold">
               <a href="/signup"> Click Here </a>
             </span>
           </p>
+
+          {/* <!-- or sign in with --> */}
+          <div class="flex items-center mb-4">
+            <hr class="w-full border-t border-gray-300" />
+            <span class="px-5 text-gray-400 w-full"> or sign in with </span>
+            <hr class="w-full border-t border-gray-300" />
+          </div>
+
+          <a href="https://www.google.com/"
+            ><button
+              class="flex items-center justify-center p-2 mt-10 w-full leading-10 border-2 border-gray-300 rounded-lg hover:bg-gray-200 font-semibold focus:outline-none focus:shadow-outline"
+            >
+              <img
+                src={google}
+                alt="Google Icon"
+                class="w-16 px-5"
+              />Google
+            </button></a
+          >
         </form>
       </div>
 
