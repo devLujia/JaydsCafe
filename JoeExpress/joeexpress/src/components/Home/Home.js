@@ -1139,7 +1139,7 @@ useEffect(() => {
                         <div className="flex justify-between items-center">
                           <span className="font-semibold text-lg text-gray-900">{menus.name}</span>
                           <span className="bg-gray-200 rounded-full text-gray-900 text-md font-extrabold px-3 py-1 shadow-md transform transition-transform duration-300 hover:shadow-xl hover:scale-105">
-                            ₱{menus.Medium}.00
+                            ₱{menus.price}.00
                           </span>
                         </div>
                         <span className="block text-sm opacity-75 text-gray-700">{menus.size}</span>
