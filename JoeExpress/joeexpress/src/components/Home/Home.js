@@ -776,7 +776,7 @@ useEffect(() => {
               </a>
             </li>
             <li>
-              <a href="#Menu" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+              <a href="/Menu" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                 Menu
               </a>
             </li>
@@ -791,9 +791,9 @@ useEffect(() => {
               </a>
             </li>
             <li>
-              <a onClick={navLogin}  className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">
+              <button onClick={navLogin}  className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">
                 Login / Sign Up
-              </a>
+              </button>
             </li>
             
           </ul>
