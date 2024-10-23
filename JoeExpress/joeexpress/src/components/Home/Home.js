@@ -21,6 +21,39 @@ import socket from '../AdminModule/Message/socketService';
 
 function Home() {
 
+  const reviews = [
+    {
+      name: "John",
+      date: "September 12, 2024",
+      comment: "highly recommended ,very affordable and quality Ng drinks very generous Ng serving."
+    },
+    {
+      name: "Jia",
+      date: "September 10, 2024",
+      comment: "A must try coffee shop! 💯 Thank you sa masarap at affordable na kape, Jayd’s Cafe! 🤎."
+    },
+    {
+      name: "Anne",
+      date: "April 9, 2024",
+      comment: "It's my first time to order with them, and I'm so glad I did! The best yung halo halo, ganito yung way nang paggawa ng halohalo for personal consumption, walang sahog na tinipid, bawat sangkap may lasa at masarap! Magiging suki nyo po ako for sure! Thanks again Jayd's cafe!"
+    },
+    {
+      name: "Ia Mae",
+      date: "February 23, 2024",
+      comment: "Jayd's has been our go-to for our coffee and non-coffee drink cravings kaya naman paulit-ulit parin kami na dito bumibili ng iced drinks. Lahat ng drinks na na-try namin sa kanila, nagustuhan namin."
+    },
+    {
+      name: "Angelou",
+      date: "February 15, 2024",
+      comment: "You know it's good if you're already a repeat customer. I love the coffee here, it's consistently delicious and the shop delivers in a timely manner which makes it the best choice for coffee delivery. Convenient location ·Good for working ·Best iced coffee"
+    },
+    {
+      name: "Ems",
+      date: "August 23, 2023",
+      comment: "Affordable and delicious milk tea 😊 thanks for the fast response and delivery"
+    }
+  ]
+
   const [openIndex, setOpenIndex] = useState(null);
 
     const faqs = [
@@ -973,19 +1006,19 @@ useEffect(() => {
         </svg>
       </div>
 
-      <div class="lg:w-1/2 px-32 py-16 md:text-center lg:text-left"
+      <div class="lg:w-1/2 px-32 pt-4 pb-16 md:text-center lg:text-left"
             data-aos="fade-right"
             data-aos-offset="300"
             data-aos-easing="ease-in-sine"
             data-aos-duration="1500">
-            <p class="text-black font-bold tracking-wider text-3xl pb-1 drop-shadow-2xl" id="name">WELCOME TO </p>
-            <h1 class="text-textgreenColor text-8xl font-extrabold pb-2 drop-shadow-lg" id="name">{cmsName}</h1>
-            <p class="max-w-[28rem] mb-5 text-lg text-gray-600">
+            <p class="text-black font-bold tracking-wider text-3xl pb-1 drop-shadow-2xl text-center md:text-left" id="name">WELCOME TO</p>
+            <h1 class="text-textgreenColor text-8xl font-extrabold pb-2 drop-shadow-lg text-center md:text-left" id="name">{cmsName}</h1>
+            <p class="max-w-[28rem] mb-5 text-lg text-gray-600 text-center md:text-left">
             Discover the perfect blend of flavors in every cup. From classic milk teas to unique creations, we’ve got something for everyone. Come sip, relax, and enjoy your favorite drink today!
             </p>
         
           {/* Order Now Button */}
-              <div class="">
+              <div class="text-center md:text-left">
               <button
                         onClick={() => navigate('/menu')}
                         className="relative inline-flex h-16 active:scale-95 transition overflow-hidden rounded-tl-3xl rounded-br-3xl p-[2px] focus:outline-none hover:scale-105 hover:shadow-xl hover:shadow-[#34d399]/50 duration-300 ease-in-out"
@@ -1003,15 +1036,15 @@ useEffect(() => {
                       </button>
                 </div>  
               </div>
-      <div className="w-[400px] h-[500px] md:m-auto relative hover:scale-100">
+        <div className="w-[400px] h-[500px] md:m-auto relative hover:scale-100">
                                       <img
-                                      src={cmsBigLogo}
-                                      alt=""
-                                      className="w-[400px] h-[400px] z-10 absolute -top-2 -left-28 float-animation"
-                                      data-aos="fade-down-right"
-                                      data-aos-duration="2000"
-                                      data-aos-easing="ease-in-sine"
-                                    />
+                                    src={cmsBigLogo}
+                                    alt=""
+                                    className="w-[400px] h-[400px] z-10 absolute -top-2 -left-20 sm:-left-28 md:-left-28 float-animation" // Adjust position for mobile
+                                    data-aos="fade-down-right"
+                                    data-aos-duration="2000"
+                                    data-aos-easing="ease-in-sine"
+                                  />
 
                                     <img
                                       src={cmsSmallLogo}
@@ -1021,8 +1054,8 @@ useEffect(() => {
                                       data-aos-duration="2000"
                                       data-aos-easing="ease-in-sine"
                                     />
-      </div>
-    </div>
+              </div>
+            </div>
 
 
 
@@ -1123,11 +1156,11 @@ useEffect(() => {
 
     {/* <!-- Menu offering --> */}
     <div class="bg-exportColor w-full mb-10 relative" id="offer">
-      <h2 class="text-5xl font-bold text-center mb-4 pt-20 text-textgreenColor animate-wave glow-animation">
+      <h2 class="font-extrabold text-3xl sm:text-4xl lg:text-5xl text-center py-6 md:py-8 text-green-700 animate-wave glow-animation">
       Menu Offerings
       </h2>
 
-      <p class="text-center mb-10 text-xl text-black">Discover a Delightful Mix of Milk Teas, Main Coffees, and Refreshing Drinks!</p>
+      <p class="text-center text-sm sm:text-base md:text-lg lg:text-xl tracking-wide w-full md:w-[80%] lg:w-[60%] text-black opacity-0 animate-fade-in">Discover a Delightful Mix of Milk Teas, Main Coffees, and Refreshing Drinks!</p>
 
       <div class="flex flex-col justify-center items-center">
         <div class="justify-center items-center mx-auto px-52 flex-wrap space-x-3 space-y-2 hidden lg:flex">
@@ -1247,26 +1280,27 @@ useEffect(() => {
         data-aos-easing="ease-in-sine"
         data-aos-duration="1500"
       >
-        <h3 className="font-extrabold text-5xl mb-8 text-center lg:text-left ml-14 animate-wave glow-animation">Our Story</h3>
-        <h2 className="font-extrabold text-4xl mb-6 text-center lg:text-left ml-14 text-black">Let Us Introduce Ourselves</h2>
-        <p className="max-w-lg mb-6 text-lg leading-relaxed text-center lg:text-left ml-14 text-black italic">
+        <h3 className="font-extrabold text-5xl mb-8 text-center animate-wave glow-animation">Our Story</h3>
+        <h2 className="font-extrabold text-4xl mb-6 text-center text-black">Let Us Introduce Ourselves</h2>
+        <p className="max-w-lg mb-6 text-lg md:text-left leading-relaxed text-center text-black italic">
           {cmsAboutUs}
         </p>
-        <div className="pt-6">
-          <button 
-            onClick={() => navigate('/menu')} 
-            className="relative inline-flex h-16 active:scale-95 transition overflow-hidden rounded-tl-3xl rounded-br-3xl p-[2px] focus:outline-none hover:scale-105 hover:shadow-xl hover:shadow-[#34d399]/50 duration-300 ease-in-out ml-14"
+        <div className="pt-4 text-center md:text-left">
+        <button 
+          onClick={() => navigate('/menu')} 
+          className="relative inline-flex h-16 active:scale-95 transition overflow-hidden rounded-tl-3xl rounded-br-3xl p-[2px] focus:outline-none hover:scale-105 hover:shadow-xl hover:shadow-[#34d399]/50 duration-300 ease-in-out"
+        >
+          <span
+            className="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#067741_0%,#34d399_50%,#10b981_100%)] rounded-tl-3xl rounded-br-3xl"
+          />
+          <span
+            className="relative inline-flex h-full w-full cursor-pointer items-center justify-center rounded-tl-3xl rounded-br-3xl bg-[#067741] px-10 text-lg font-semibold text-white backdrop-blur-3xl gap-2"
           >
-            <span
-              className="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#067741_0%,#34d399_50%,#10b981_100%)] rounded-tl-3xl rounded-br-3xl"
-            />
-            <span
-              className="relative inline-flex h-full w-full cursor-pointer items-center justify-center rounded-tl-3xl rounded-br-3xl bg-[#067741] px-10 text-lg font-semibold text-white backdrop-blur-3xl gap-2"
-            >
-              Order Now!
-            </span>
-          </button>
-        </div>
+            Order Now!
+          </span>
+        </button>
+      </div>
+
       </div>
       <div className="lg:w-1/2 p-10 flex justify-center items-center">
         <img
@@ -1280,65 +1314,45 @@ useEffect(() => {
       </div>
     </div>
 
-    {/* Testimonials or Review Section */}
-    <section className="py-10 bg-[#067741]">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto">
-          <span className="text-white text-lg font-medium block mb-2">Reviews</span>
-          <h1 className="text-3xl sm:text-4xl font-bold mb-3 text-white animate-wave">What Customers Say</h1>
-          <div className="border w-16 mx-auto my-6 border-white"></div>
-        </div>
-
-        <div className="mt-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {/* Card 1 */}
-            <div className="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 hover:scale-105 hover:shadow-lg max-w-sm mx-auto">
-              <div className="text-center">
-                <img
-                  src={AnnMarfega}
-                  alt="Ann Marfega"
-                  className="rounded-full h-24 w-24 mx-auto mb-5"
-                />
-                <h5 className="text-lg mb-2 font-semibold text-black">Anne</h5>
-                <p className="text-gray-700 font-light">
-                  It's my first time to order with them, and I'm so glad I did! The best yung halo halo, ganito yung way nang paggawa ng halohalo for personal consumption, walang sahog na tinipid, bawat sangkap may lasa at masarap! Magiging suki nyo po ako for sure! Thanks again Jayd's cafe!
+    {/* Reviews Section */}
+    <div className="container mx-auto px-4 py-8 bg-[#F5F5F0]">
+    <div className="text-center max-w-3xl mx-auto">
+          <h1 className="text-3xl sm:text-5xl font-bold mt-4 mb-3 glow-animation animate-wave">Reviews</h1>
+          <p className="max-w-xl mx-auto mt-4 mb-4 text-base leading-relaxed text-gray-600">
+                    What Customer Says
                 </p>
+          </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {reviews.map((review, index) => (
+          <div key={index} className="bg-white shadow-lg rounded-lg p-6 flex flex-col h-full">
+            <div className="flex flex-row items-center gap-4 mb-4">
+              <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+                <img
+                  src={`data:image/svg+xml,${encodeURIComponent(`
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="24" cy="24" r="24" fill="#E2E8F0"/>
+                      <circle cx="24" cy="19" r="8" fill="#94A3B8"/>
+                      <path d="M11 40C11 40 15 32 24 32C33 32 37 40 37 40" stroke="#94A3B8" stroke-width="4" stroke-linecap="round"/>
+                    </svg>
+                  `)}`}
+                  alt="Anonymous user"
+                  className="w-full h-full object-cover rounded-full"
+                />
+                <div className="hidden">{review.name.split(' ').map(n => n[0]).join('')}</div>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold">{review.name}</h3>
+                <p className="text-sm text-gray-500">{review.date}</p>
               </div>
             </div>
-
-            {/* Card 2 */}
-            <div className="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 hover:scale-105 hover:shadow-lg max-w-sm mx-auto">
-              <div className="text-center">
-                <img
-                  src={IaMae}
-                  alt="Ia Mae Toribio Buenconsejo"
-                  className="rounded-full h-24 w-24 mx-auto mb-5"
-                />
-                <h5 className="text-lg mb-2 font-semibold text-black">Ia Mae</h5>
-                <p className="text-gray-700 font-light">
-                  Jayd's has been our go-to for our coffee and non-coffee drink cravings kaya naman paulit-ulit parin kami na dito bumibili ng iced drinks. Lahat ng drinks na na-try namin sa kanila, nagustuhan namin. My top faves are their Iced Hazelnut Latte, Iced Milo Shaken Espresso, Tres Leche, Cocoa Lava, Halo-halo (super sarap and creamy).
-                </p>
-              </div>
-            </div>
-
-            {/* Card 3 */}
-            <div className="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 hover:scale-105 hover:shadow-lg max-w-sm mx-auto">
-              <div className="text-center">
-                <img
-                  src={Angelou}
-                  alt="Angielou Macacado"
-                  className="rounded-full h-24 w-24 mx-auto mb-5 "
-                />
-                <h5 className="text-lg mb-2 font-semibold text-black">Angielou</h5>
-                <p className="text-gray-700 font-light">
-                  You know it's good if you're already a repeat customer. I love the coffee here, it's consistently delicious and the shop delivers in a timely manner which makes it the best choice for coffee delivery. Convenient location, Good for working and Best iced coffee!
-                </p>
-              </div>
+            <div className="flex-grow">
+              <p className="text-sm">{review.comment}</p>
             </div>
           </div>
-        </div>
+        ))}
       </div>
-    </section>
+    </div>
+
 
     {/* New FAQS */}
     <section className="py-10 bg-gray-50 sm:py-16 lg:py-24">
@@ -1393,6 +1407,8 @@ useEffect(() => {
             </p>
         </div>
     </section>
+
+
 
 
     {/* Contact Us Section on Landing Page */}
@@ -1493,7 +1509,9 @@ useEffect(() => {
       <div class="border-y-2 border-gray-400 w-4/5 p-10">
         {/* <!-- container footer--> */}
         <div class="flex justify-between w-full">
-        <h1 class="text-white text-xl sm:text-1xl md:text-2xl lg:text-3xl xl:text-4xl font-bold">{cmsName}</h1>
+        <h1 class="text-white text-3xl sm:text-4xl font-bold">
+          {cmsName}
+        </h1>
           <div class="flex gap-2">
             <button type='button' 
             class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
@@ -1512,21 +1530,23 @@ useEffect(() => {
       </div>
 
 
-      <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center justify-between">
-        <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">Copyright © 2024. For Thesis Purposes Only.</span >
+      <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between text-center md:text-left">
+      <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400 block md:inline-block mb-2 md:mb-0">
+        Copyright © 2024. Capstone Inc.
+      </span>
 
-        <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0" >
-          <li class="footer-links">
-            <a href="#footer" class="hover:underline me-4 md:me-6" data-modal-target="default-modal" data-modal-toggle="default-modal">Refund Policy</a>
-          </li>
-          <li class="footer-links">
-            <a href="#footer" class="hover:underline me-4 md:me-6">Privacy Policy</a>
-          </li>
-          <li class="footer-links">
-            <a href="#footer" class="hover:underline me-4 md:me-6"  onClick={toggleTermsAndCondiotion}>Terms and Conditions</a>
-          </li>
-        </ul>
-      </div>
+      <ul class="flex flex-wrap justify-center md:justify-end items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
+        <li class="footer-links">
+          <a href="#footer" class="hover:underline me-4 md:me-6" data-modal-target="default-modal" data-modal-toggle="default-modal">Refund Policy</a>
+        </li>
+        <li class="footer-links">
+          <a href="#footer" class="hover:underline me-4 md:me-6">Privacy Policy</a>
+        </li>
+        <li class="footer-links">
+          <a href="#footer" class="hover:underline me-4 md:me-6" onClick={toggleTermsAndCondiotion}>Terms and Conditions</a>
+        </li>
+      </ul>
+    </div>
 
       {/* <!-- Refund Policy modal --> */}
       <div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">

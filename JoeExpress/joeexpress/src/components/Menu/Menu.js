@@ -591,7 +591,7 @@ const rightNav = () => {
       <div class="border-y-2 border-gray-400 w-4/5 p-10">
         {/* <!-- container footer--> */}
         <div class="flex justify-between w-full">
-        <h1 class="text-white text-3xl sm:text-5xl font-bold">
+        <h1 class="text-white text-3xl sm:text-4xl font-bold">
           {cmsName}
         </h1>
           <div class="flex gap-2">
@@ -611,24 +611,23 @@ const rightNav = () => {
 
       </div>
 
-
       <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between text-center md:text-left">
-  <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400 block md:inline-block mb-2 md:mb-0">
-    Copyright © 2024. Capstone Inc.
-  </span>
+      <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400 block md:inline-block mb-2 md:mb-0">
+        Copyright © 2024. Capstone Inc.
+      </span>
 
-  <ul class="flex flex-wrap justify-center md:justify-end items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
-    <li class="footer-links">
-      <a href="#footer" class="hover:underline me-4 md:me-6" data-modal-target="default-modal" data-modal-toggle="default-modal">Refund Policy</a>
-    </li>
-    <li class="footer-links">
-      <a href="#footer" class="hover:underline me-4 md:me-6">Privacy Policy</a>
-    </li>
-    <li class="footer-links">
-      <a href="#footer" class="hover:underline me-4 md:me-6" onClick={toggleTermsAndCondiotion}>Terms and Conditions</a>
-    </li>
-  </ul>
-</div>
+      <ul class="flex flex-wrap justify-center md:justify-end items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
+        <li class="footer-links">
+          <a href="#footer" class="hover:underline me-4 md:me-6" data-modal-target="default-modal" data-modal-toggle="default-modal">Refund Policy</a>
+        </li>
+        <li class="footer-links">
+          <a href="#footer" class="hover:underline me-4 md:me-6">Privacy Policy</a>
+        </li>
+        <li class="footer-links">
+          <a href="#footer" class="hover:underline me-4 md:me-6" onClick={toggleTermsAndCondiotion}>Terms and Conditions</a>
+        </li>
+      </ul>
+    </div>
 
 
       {/* <!-- Refund Policy modal --> */}
