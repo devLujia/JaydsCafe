@@ -714,6 +714,13 @@ useEffect(() => {
     navigate('/login');
   };
 
+  const [isOpenBurger, setIsOpenBurger] = useState(false);
+
+  // Function to toggle the dropdown visibility
+  const toggleDropdownBurger = () => {
+    setIsOpenBurger(!isOpenBurger);
+  };
+
   return (
   
     <div class="bg-jaydsBg">
@@ -728,13 +735,24 @@ useEffect(() => {
         {/* <!-- Logo/Title in Navbar --> */}
         <a href="#" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide">{cmsName}</a>
       </div>
-      <span class="menu">
-        <ul class="nav_links md:hidden sm:hidden lg:flex lg:flex-row lg:justify-between">
-          <li class="link"><a href="#">Home</a></li>
-          <li class="link"><a onClick={handleNavigate}>Menu</a></li>
-          <li class="link"><a href="#aboutus">About Us</a></li>
-          <li class="link"><a href="#contactUs">Contact Us</a></li>
-        </ul>
+      
+      <span className="menu">
+        <div class="items-center justify-between hidden w-full lg:flex md:w-auto md:order-1" id="navbar-sticky">
+          <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <li>
+              <a href="#" class="block py-2 px-3 text-gray-900 rounded md:bg-transparent md:p-0 " aria-current="page">Home</a>
+            </li>
+            <li>
+              <a onClick={handleNavigate} class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0  dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Menu</a>
+            </li>
+            <li>
+              <a href="#aboutus" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0  dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About Us</a>
+            </li>
+            <li>
+              <a href="#contactUs" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0  dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact Us</a>
+            </li>
+          </ul>
+        </div>
       </span>
 
       <div class="flex items-center">
@@ -742,55 +760,41 @@ useEffect(() => {
         <button
           class="burger lg:hidden mr-3"
           id="burger-btn"
-          data-dropdown-toggle="dropdownHover"
-          data-dropdown-trigger="hover"
+          onClick={toggleDropdownBurger}
           type="button"
         >
           <img src={image11} alt="" />
         </button>
 
         {/* <!-- Dropdown menu --> */}
-        <div
-          id="dropdownHover"
-          class="hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-        >
-          <ul
-            class="py-2 text-sm text-gray-700 dark:text-gray-200"
-            aria-labelledby="burger-btn"
-          >
+        {isOpenBurger && (
+        <div id="dropdownHover" className="absolute bg-white divide-y z-50 top-12 right-56 divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+          <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="burger-btn">
             <li>
-              <a
-                href="#Home"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >Home</a
-              >
+              <a href="#Home" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                Home
+              </a>
             </li>
             <li>
-              <a
-                href="#Menu"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >Menu</a
-              >
+              <a href="#Menu" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                Menu
+              </a>
             </li>
             <li>
-              <a
-                href="#about"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >About Us</a
-              >
+              <a href="#about" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                About Us
+              </a>
             </li>
             <li>
-              <a
-                href="#footer"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >Contact Us</a
-              >
+              <a href="#footer" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                Contact Us
+              </a>
             </li>
           </ul>
         </div>
+      )}
 
         {/* <!-- Button for Login or Sign Up --> */}
-
 
         {authenticated ? (
           
