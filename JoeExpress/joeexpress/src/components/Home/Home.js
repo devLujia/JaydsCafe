@@ -714,6 +714,13 @@ useEffect(() => {
     navigate('/login');
   };
 
+  const [isOpenBurger, setIsOpenBurger] = useState(false);
+
+  // Function to toggle the dropdown visibility
+  const toggleDropdownBurger = () => {
+    setIsOpenBurger(!isOpenBurger);
+  };
+
   return (
   
     <div class="bg-jaydsBg">
@@ -728,69 +735,72 @@ useEffect(() => {
         {/* <!-- Logo/Title in Navbar --> */}
         <a href="#" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide">{cmsName}</a>
       </div>
-      <span class="menu">
-        <ul class="nav_links md:hidden sm:hidden lg:flex lg:flex-row lg:justify-between">
-          <li class="link"><a href="#">Home</a></li>
-          <li class="link"><a onClick={handleNavigate}>Menu</a></li>
-          <li class="link"><a href="#aboutus">About Us</a></li>
-          <li class="link"><a href="#contactUs">Contact Us</a></li>
-        </ul>
+      
+      <span className="menu">
+        <div class="items-center justify-between hidden w-full lg:flex md:w-auto md:order-1" id="navbar-sticky">
+          <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <li>
+              <a href="#" class="block py-2 px-3 text-gray-900 rounded md:bg-transparent md:p-0 " aria-current="page">Home</a>
+            </li>
+            <li>
+              <a onClick={handleNavigate} class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0  dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Menu</a>
+            </li>
+            <li>
+              <a href="#aboutus" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0  dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About Us</a>
+            </li>
+            <li>
+              <a href="#contactUs" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0  dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact Us</a>
+            </li>
+          </ul>
+        </div>
       </span>
 
-      <div class="flex items-center">
+      <div class="flex items-center relative">
         {/* <!-- drawer Burger and show --> */}
         <button
           class="burger lg:hidden mr-3"
           id="burger-btn"
-          data-dropdown-toggle="dropdownHover"
-          data-dropdown-trigger="hover"
+          onClick={toggleDropdownBurger}
           type="button"
         >
           <img src={image11} alt="" />
         </button>
 
         {/* <!-- Dropdown menu --> */}
-        <div
-          id="dropdownHover"
-          class="hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-        >
-          <ul
-            class="py-2 text-sm text-gray-700 dark:text-gray-200"
-            aria-labelledby="burger-btn"
-          >
+        {isOpenBurger && (
+        <div id="dropdownHover" className="absolute bg-white divide-y z-50 top-7 right-10 divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+          <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="burger-btn">
             <li>
-              <a
-                href="#Home"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >Home</a
-              >
+              <a href="#Home" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                Home
+              </a>
             </li>
             <li>
-              <a
-                href="#Menu"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >Menu</a
-              >
+              <a href="#Menu" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                Menu
+              </a>
             </li>
             <li>
-              <a
-                href="#about"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >About Us</a
-              >
+              <a href="#about" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                About Us
+              </a>
             </li>
             <li>
-              <a
-                href="#footer"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >Contact Us</a
-              >
+              <a href="#footer" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                Contact Us
+              </a>
             </li>
+            <li>
+              <a onClick={navLogin}  className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">
+                Login / Sign Up
+              </a>
+            </li>
+            
           </ul>
         </div>
+      )}
 
         {/* <!-- Button for Login or Sign Up --> */}
-
 
         {authenticated ? (
           
@@ -840,7 +850,7 @@ useEffect(() => {
             </>
           ) : (
             <button onClick={navLogin} 
-                      class="flex items-center justify-center bg-[#ffffff] 
+                      class="lg:flex items-center justify-center bg-[#ffffff] 
                             hover:bg-[#056e3d] 
                             text-[#067741] 
                             font-semibold 
@@ -855,11 +865,13 @@ useEffect(() => {
                             ease-in-out 
                             transform 
                             hover:scale-105 
-                            focus:outline-none 
+                            focus:outline-none  
                             focus:ring-2 
                             hover:text-white  
                             focus:ring-[#067741]/50 
-                            focus:ring-opacity-50"
+                            focus:ring-opacity-50
+                            hidden"
+                            
                   >
                       Login / Sign Up
                   </button>
@@ -946,6 +958,7 @@ useEffect(() => {
       )}
     
 
+
     {/* <!-- Land upper --> */}
     <div className="relative flex lg:flex-row flex-col overflow-hidden bg-jaydsBg text-white py-16 h-fit top-0 items-center" id="about">
 
@@ -965,27 +978,30 @@ useEffect(() => {
             data-aos-offset="300"
             data-aos-easing="ease-in-sine"
             data-aos-duration="1500">
-            <p class="text-black font-semibold tracking-wider text-3xl pb-1 drop-shadow-2xl">WELCOME TO </p>
+            <p class="text-black font-bold tracking-wider text-3xl pb-1 drop-shadow-2xl" id="name">WELCOME TO </p>
             <h1 class="text-textgreenColor text-8xl font-extrabold pb-2 drop-shadow-lg" id="name">{cmsName}</h1>
-            <p class="max-w-[28rem] mb-5 text-md text-gray-600">
+            <p class="max-w-[28rem] mb-5 text-lg text-gray-600">
             Discover the perfect blend of flavors in every cup. From classic milk teas to unique creations, we’ve got something for everyone. Come sip, relax, and enjoy your favorite drink today!
             </p>
         
           {/* Order Now Button */}
               <div class="">
-                <button onClick={()=>navigate('/menu')} class="relative inline-flex h-16 active:scale-95 transition overflow-hidden rounded-tl-3xl rounded-br-3xl p-[2px] focus:outline-none hover:scale-105 hover:shadow-xl hover:shadow-[#34d399]/50 duration-300 ease-in-out"
-                  >
-                    <span
-                      class="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#067741_0%,#34d399_50%,#10b981_100%)] rounded-tl-3xl rounded-br-3xl"
-                    >
-                    </span>
-                    <span
-                      class="relative inline-flex h-full w-full cursor-pointer items-center justify-center rounded-tl-3xl rounded-br-3xl bg-[#067741] px-10 text-lg font-semibold text-white backdrop-blur-3xl gap-2"
-                    >
-                      Order Now!
-                    </span>
-                  </button>
-              </div>  
+              <button
+                        onClick={() => navigate('/menu')}
+                        className="relative inline-flex h-16 active:scale-95 transition overflow-hidden rounded-tl-3xl rounded-br-3xl p-[2px] focus:outline-none hover:scale-105 hover:shadow-xl hover:shadow-[#34d399]/50 duration-300 ease-in-out"
+                      >
+                        <span className="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#067741_0%,#34d399_50%,#10b981_100%)] rounded-tl-3xl rounded-br-3xl"></span>
+                        
+                        <span className="relative inline-flex h-full w-full cursor-pointer items-center justify-center rounded-tl-3xl rounded-br-3xl bg-[#067741] px-10 text-lg font-semibold text-white backdrop-blur-3xl gap-2">
+                          Order Now!
+                        </span>
+                        
+                        {/* Shining Effect */}
+                        <span className="absolute top-0 left-0 right-0 bottom-0 pointer-events-none">
+                          <div className="absolute inset-0 rounded-full bg-white opacity-30 animate-shine"></div>
+                        </span>
+                      </button>
+                </div>  
               </div>
       <div className="w-[400px] h-[500px] md:m-auto relative hover:scale-100">
                                       <img
@@ -1010,77 +1026,99 @@ useEffect(() => {
 
 
 
-    {/* <!-- Best Sellers Section --> */}
-    <div class="bg-white min-h-screen pt-14 sm:pt-16 lg:pt-26" id="Menu">
-    <h1 class="font-extrabold text-3xl sm:text-4xl lg:text-5xl text-center py-6 md:py-8 text-green-700 animate-wave glow-animation">
-      Top Picks of the Day
-    </h1>
+        {/* <!-- Best Sellers Section --> */}
+        <div class="bg-white min-h-screen pt-14 sm:pt-16 lg:pt-26 flex flex-col items-center" id="Menu">
+          <h1 class="font-extrabold text-3xl sm:text-4xl lg:text-5xl text-center py-6 md:py-8 text-green-700 animate-wave glow-animation">
+            Top Picks of the Day
+          </h1>
 
-      {/* <!-- Subheading --> */}
-      <div class="flex justify-center mb-6 md:mb-8 px-4">
-        <h3 class="text-center text-sm sm:text-base md:text-lg lg:text-xl tracking-wide w-full md:w-[80%] lg:w-[60%] text-black opacity-0 animate-fade-in">
-          Discover our most loved milk tea flavors, refreshed daily based on what our customers are raving about!
-        </h3>
-      </div>
-
-      {/* <!-- Background Coffee (Top Right) --> */}
-      <div class="relative">
-        <img
-          src={image1}
-          alt="beans"
-          class="absolute top-10 right-10 w-[60px] sm:w-[100px] md:w-[150px] lg:w-[200px] rotate-[-20deg] z-0 opacity-50"
-        />
-      </div>
-
-      {/* <!-- Cards Section --> */}
-      <div class="container mx-auto p-4 max-w-7xl">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 py-5 pb-12">
-          {/* Map through the food items */}
-          {foods.map((food) => (
-            <div key={food.id} class="relative flex flex-col p-4 rounded-xl bg-white shadow-lg transition-transform duration-300 hover:shadow-2xl hover:scale-105 group border-2 border-[#067741] before:content-[''] before:absolute before:inset-0 before:rounded-xl before:border-2 before:border-dashed before:border-[#E5F5EE] before:-z-10 transition duration-300 overflow-visible" data-aos="zoom-in" data-aos-duration="1000" data-aos-easing="ease-out-cubic">
-            {/* Image container */}
-            <div class="relative mx-auto w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 bg-gradient-to-t from-[#ece0c8] to-[#f5f2e4] rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-110">
-              <img src={food.image_url} alt={food.name} class="object-contain w-full h-full transition-transform duration-300"/>
-            </div>
-          
-            {/* Food Info */}
-            <div class="mt-4 text-center">
-              <h2 class="text-lg sm:text-xl font-semibold mb-2 text-black transition-colors duration-300 hover:text-[#055F32]">
-                {food.name}
-              </h2>
-              <p class="text-sm text-gray-600 transition-opacity duration-300 group-hover:opacity-75">{food.description}</p>
-              <div class="flex justify-between items-center mt-4">
-                <span class="text-sm font-bold text-[#067741]">16oz</span>
-              </div>
-            </div>
-          
-            {/* Buy Now Button */}
-            <div class="flex justify-between items-center mt-4">
-            <p className="text-2xl font-bold text-black">₱ {food.price}.00</p>
-            <button
-              onClick={handleNavigate}
-              class="relative bg-[#067741] text-white font-semibold py-2 px-4 rounded-full transition-all duration-500 ease-out transform hover:scale-110 hover:bg-gradient-to-r hover:from-[#067741] hover:to-[#055F32] hover:border-2 hover:border-white hover:shadow-[0_0_15px_rgba(6,119,65,0.5)] hover:rotate-1 group"
-            >
-              <span class="absolute inset-0 rounded-full opacity-0 bg-white blur-sm transition-opacity duration-500 group-hover:opacity-20"></span>
-              <span class="relative z-10">Buy Now!</span>
-            </button>
+          {/* <!-- Subheading --> */}
+          <div class="flex justify-center mb-6 md:mb-8 px-4">
+            <h3 class="text-center text-sm sm:text-base md:text-lg lg:text-xl tracking-wide w-full md:w-[80%] lg:w-[60%] text-black opacity-0 animate-fade-in">
+              Discover our most loved milk tea flavors, refreshed daily based on what our customers are raving about!
+            </h3>
           </div>
 
+                  {/* <!-- Background Coffee Images --> */}
+                  <div class="relative w-full flex justify-center">
+                    <img
+                      src={image1}
+                      alt="beans"
+                      class="absolute top-12 left-32 w-[40px] sm:w-[80px] md:w-[120px] lg:w-[170px] rotate-[17deg] z-0 opacity-50"
+                    />
+                    <img
+                      src={image1}
+                      alt="beans"
+                      class="absolute top-8 right-36 w-[60px] sm:w-[110px] md:w-[140px] lg:w-[210px] rotate-[34deg] z-0 opacity-50"
+                    />
+                    <img
+                      src={image1}
+                      alt="beans"
+                      class="absolute bottom-16 left-28 w-[30px] sm:w-[70px] md:w-[110px] lg:w-[160px] rotate-[-12deg] z-0 opacity-50"
+                    />
+                    <img
+                      src={image1}
+                      alt="beans"
+                      class="absolute bottom-10 right-20 w-[80px] sm:w-[120px] md:w-[150px] lg:w-[220px] rotate-[43deg] z-0 opacity-50"
+                    />
+                    <img
+                      src={image1}
+                      alt="beans"
+                      class="absolute bottom-50 right-1/3 w-[40px] sm:w-[90px] md:w-[130px] lg:w-[180px] rotate-[-38deg] z-0 opacity-50"
+                    />
+                    <img
+                      src={image1}
+                      alt="beans"
+                      class="absolute top-36 right-1/4 w-[50px] sm:w-[100px] md:w-[140px] lg:w-[200px] rotate-[-11deg] z-0 opacity-50"
+                    />
+                  </div>
 
+              {/* <!-- Cards Section --> */}
+                <div class="container mx-auto p-4 max-w-7xl">
+                  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 py-5 pb-12">
+                    {/* Map through the food items */}
+                    {foods.map((food) => (
+                <div
+                  key={food.id}
+                  className="relative flex flex-col p-4 rounded-2xl bg-white text-black shadow-lg hover:shadow-2xl hover:scale-105 group border-2 border-[#067741] before:content-[''] before:absolute before:inset-0 before:rounded-2xl before:border-2 before:border-solid before:border-[#E5F5EE] before:-z-10 transition duration-300 overflow-visible"
+                  data-aos="zoom-in"
+                  data-aos-duration="1000"
+                  data-aos-easing="ease-out-cubic"
+                >
+                  {/* Image container */}
+                  <div className="relative mx-auto w-full max-w-xs sm:max-w-sm md:max-w-md bg-gradient-to-t from-[#ece0c8] to-[#f5f2e4] rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-110">
+                    <img src={food.image_url} alt={food.name} className="object-contain w-full h-28 sm:h-36 md:h-40 transition-transform duration-300 " />
+                  </div>
+
+                  {/* Food Info */}
+                  <div className="mt-4 text-center">
+                    <h2 className="text-lg sm:text-xl font-semibold mb-2 transition-colors duration-300 group-hover:text-white">
+                      {food.name}
+                    </h2>
+                    <p className="text-sm text-gray-600 transition-opacity duration-300 group-hover:text-gray-300 group-hover:opacity-75">{food.description}</p>
+                    <div className="flex justify-between items-center mt-4">
+                      <span className="text-sm font-bold transition-colors duration-300 group-hover:text-white">16oz</span>
+                    </div>
+                  </div>
+
+                  {/* Buy Now Button */}
+                  <div className="flex justify-between items-center mt-4">
+                    <p className="text-2xl font-bold transition-colors duration-300 group-hover:text-white">₱ {food.price}.00</p>
+                    <button
+                      onClick={handleNavigate}
+                      className="relative bg-[#067741] text-white font-semibold py-2 px-4 rounded-full transition-all duration-500 ease-out transform hover:scale-110 hover:bg-gradient-to-r hover:from-[#067741] hover:to-[#055F32] hover:border-2 hover:border-white hover:shadow-[0_0_15px_rgba(6,119,65,0.5)] hover:rotate-1 group"
+                    >
+                      <span className="absolute inset-0 rounded-full opacity-0 bg-white blur-sm transition-opacity duration-500 group-hover:opacity-20"></span>
+                      <span className="relative z-10">Buy Now!</span>
+                    </button>
+                  </div>
+                </div>
+                ))}
+            </div>
           </div>
-          ))}
         </div>
-      </div>
 
-      {/* <!-- Background Coffee (Bottom Left) --> */}
-      <div class="relative">
-        <img
-          src={image1}
-          alt="beans"
-          class="absolute bottom-0 left-0 w-[60px] sm:w-[100px] md:w-[150px] lg:w-[200px] z-0 opacity-50"
-        />
-      </div>
-    </div>
+
 
 
     {/* <!-- Menu offering --> */}
@@ -1399,7 +1437,7 @@ useEffect(() => {
           <button type="submit" className="block w-full rounded-md bg-[#067741] px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#067741]">Submit</button>
         </div>
       </form>
-    <div className="px-4 mx-auto sm:px-4 md:px-6 lg:px-8 max-w-full sm:max-w-xl md:max-w-3xl lg:max-w-7xl pt-8 sm:pt-12 md:pt-16 lg:pt-20 mt-6 sm:mt-8 md:mt-12 lg:mt-16">
+    <div className="px-4 mx-auto sm:px-4 md:px-6 lg:px-8 max-w-full sm:max-w-xl md:max-w-3xl lg:max-w-7xl pt-8 sm:pt-12 md:pt-16 lg:pt-20 mt-6 sm:mt-8 md:mt-12 lg:mt-16 bg-gray-50">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-y-12 lg:gap-x-8 xl:gap-x-20">
             {/* Call Us */}
             <div className="flex flex-col items-center p-6 bg-white border-2 border-green-700 shadow-lg rounded-lg transition-transform transform hover:scale-105 hover:shadow-xl">
@@ -1455,7 +1493,7 @@ useEffect(() => {
       <div class="border-y-2 border-gray-400 w-4/5 p-10">
         {/* <!-- container footer--> */}
         <div class="flex justify-between w-full">
-        <h1 class="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold">{cmsName}</h1>
+        <h1 class="text-white text-xl sm:text-1xl md:text-2xl lg:text-3xl xl:text-4xl font-bold">{cmsName}</h1>
           <div class="flex gap-2">
             <button type='button' 
             class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
@@ -1475,7 +1513,7 @@ useEffect(() => {
 
 
       <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center justify-between">
-        <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">Copyright © 2024. Capstone Inc.</span >
+        <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">Copyright © 2024. For Thesis Purposes Only.</span >
 
         <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0" >
           <li class="footer-links">

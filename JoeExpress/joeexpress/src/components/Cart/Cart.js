@@ -254,14 +254,17 @@ function Cart() {
 
             <nav class="sticky top-0 bg-white z-20">
                 <div class="font-extrabold text-xl flex items-center py-1">
-                    <a href="/menu" class="flex items-center w-96 h-10 hover:cursor-pointer hover:scale-110 hover:brightness-110 transition duration-20 text-black"> <img src={arrowLeft} alt="Arrow Back" class=" w-10 h-10 mx-4 " />Back to Menu</a>
+                    <a href="/menu" class="flex items-center h-10 hover:cursor-pointer hover:scale-110 hover:brightness-110 transition duration-20 text-black w-fit"> 
+                        <img src={arrowLeft} alt="Arrow Back" class=" w-10 h-10 mx-4 " />
+                        Back to Menu
+                    </a>
                 </div>
             </nav>
 
-            <section class="grid grid-cols-1 md:h-[900px] lg:grid-cols-[70%_30%] w-full h-screen"> {/* this let the 2 div 70/30 ratio */}
+            <section class="grid grid-cols-1 md:h-[900px] lg:grid-cols-[70%_30%] w-full"> {/* this let the 2 div 70/30 ratio */}
                 {/* <!-- Left side cards--> */}
                 {items.length > 0 ?
-                <div class=" px-16 overflow-hidden overflow-y-auto"> 
+                <div class=" px-16 overflow-hidden overflow-x-auto overflow-y-auto min-h-40"> 
                     <div className='md:flex justify-between px-4 mt-5 text-xl font-semibold hidden top-0 sticky bg-white'>
                         <input id="bordered-checkbox-1" type="checkbox" value="" name="bordered-checkbox" class="w-4 h-4 text-green-700 bg-gray-100 border-gray-300 rounded focus:ring-green-700 dark:focus:ring-green-700 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" title='Select all products in Cart'/>
                 

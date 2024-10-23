@@ -215,7 +215,7 @@ const Login = () => {
         {/* <!-- Image for login --> */}
         <div class="flex flex-col justify-center items-center mb-6 py-5">
           <p class="text-2xl mb-3 font-semibold tracking-wider">WELCOME TO</p>
-          <h1 class="font-extrabold text-6xl text-textgreenColor">{cmsName}</h1>
+          <h1 class="font-extrabold text-6xl text-textgreenColor text-center">{cmsName}</h1>
         </div>
 
         <h2 class="text-2xl font-semibold mb-4 text-gray-600">Login</h2>
@@ -269,33 +269,15 @@ const Login = () => {
             value="Sign In"
           />
 
-          <p class="mb-10">
+          <p class="">
             {/* <!-- Don't have an account? --> */}
             Don't have an account?
             <span class="text-blue-500 cursor-pointer font-semibold">
               <a href="/signup"> Click Here </a>
             </span>
           </p>
-
-          {/* <!-- or sign in with --> */}
-          <div class="flex items-center mb-4">
-            <hr class="w-full border-t border-gray-300" />
-            <span class="px-5 text-gray-400 w-full"> or sign in with </span>
-            <hr class="w-full border-t border-gray-300" />
-          </div>
-
-          <a href="https://www.google.com/"
-            ><button
-              class="flex items-center justify-center p-2 mt-10 w-full leading-10 border-2 border-gray-300 rounded-lg hover:bg-gray-200 font-semibold focus:outline-none focus:shadow-outline"
-            >
-              <img
-                src={google}
-                alt="Google Icon"
-                class="w-16 px-5"
-              />Google
-            </button></a
-          >
         </form>
+
       </div>
 
    {/* <!-- Contact Us --> */}
@@ -304,7 +286,7 @@ const Login = () => {
         <div class="border-y-2 border-gray-400 w-4/5 p-10">
           {/* <!-- container footer--> */}
           <div class="flex justify-between w-full">
-          <h1 class="text-white text-5xl font-bold">{cmsName}</h1>
+          <h1 class="text-white text-4xl font-bold">{cmsName}</h1>
           <div class="flex gap-2">
             <button type='button' 
             class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
