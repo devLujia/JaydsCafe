@@ -638,7 +638,7 @@ const rightNav = () => {
       {/* <!-- Contact Us --> */}
       <footer class="bg-[#1A1A1A] w-full  h-1/4 mt-5 py-7 flex flex-col justify-center items-center" id="footer">
 
-<<<<<<< HEAD
+
       <div class="border-y-2 border-gray-400 w-4/5 p-10">
         {/* <!-- container footer--> */}
         <div class="flex justify-between w-full">
@@ -656,34 +656,19 @@ const rightNav = () => {
               <a href={cmsInstagram} target="_blank" rel="noopener noreferrer"><img src={ig} alt=""></img></a>
             </button>
 =======
-        <div class="border-y-2 border-gray-400 w-4/5 p-10">
-          {/* <!-- container footer--> */}
-          <div class="flex justify-between w-full">
-            <h1 class="text-white text-5xl font-bold">{cmsName}</h1>
-            <div class="flex gap-2">
-              <button type='button' 
-              class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-              <a href={cmsFacebook} target="_blank" rel="noopener noreferrer">
-                <img src={fb} alt="Facebook" />
-              </a>
-              </button>
-              <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-                <a href={cmsInstagram} target="_blank" rel="noopener noreferrer"><img src={ig} alt=""></img></a>
-              </button>
-            </div>
->>>>>>> edcf02794bcb845c00a5557a2579939816d2ca0a
+        
           </div>
 
         <button onClick={handleMapModal} class="rounded-full text-white w-fit px-6 py-2 mt-7" id="viewloc">View Location</button>
 
         </div>
 
-<<<<<<< HEAD
+
       <button onClick={handleMapModal} class="rounded-full text-white w-fit px-6 py-2 mt-7" id="viewloc">View Location</button>
 
       </div>
 =======
->>>>>>> edcf02794bcb845c00a5557a2579939816d2ca0a
+
 
       <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between text-center md:text-left">
       <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400 block md:inline-block mb-2 md:mb-0">
