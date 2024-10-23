@@ -215,7 +215,7 @@ const Login = () => {
         {/* <!-- Image for login --> */}
         <div class="flex flex-col justify-center items-center mb-6 py-5">
           <p class="text-2xl mb-3 font-semibold tracking-wider">WELCOME TO</p>
-          <h1 class="font-extrabold text-6xl text-textgreenColor">{cmsName}</h1>
+          <h1 class="font-extrabold text-6xl text-textgreenColor text-center">{cmsName}</h1>
         </div>
 
         <h2 class="text-2xl font-semibold mb-4 text-gray-600">Login</h2>

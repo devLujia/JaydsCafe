@@ -755,7 +755,7 @@ useEffect(() => {
         </div>
       </span>
 
-      <div class="flex items-center">
+      <div class="flex items-center relative">
         {/* <!-- drawer Burger and show --> */}
         <button
           class="burger lg:hidden mr-3"
@@ -768,7 +768,7 @@ useEffect(() => {
 
         {/* <!-- Dropdown menu --> */}
         {isOpenBurger && (
-        <div id="dropdownHover" className="absolute bg-white divide-y z-50 top-12 right-56 divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+        <div id="dropdownHover" className="absolute bg-white divide-y z-50 top-7 right-10 divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
           <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="burger-btn">
             <li>
               <a href="#Home" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
@@ -790,6 +790,12 @@ useEffect(() => {
                 Contact Us
               </a>
             </li>
+            <li>
+              <a onClick={navLogin}  className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">
+                Login / Sign Up
+              </a>
+            </li>
+            
           </ul>
         </div>
       )}
@@ -844,7 +850,7 @@ useEffect(() => {
             </>
           ) : (
             <button onClick={navLogin} 
-                      class="flex items-center justify-center bg-[#ffffff] 
+                      class="lg:flex items-center justify-center bg-[#ffffff] 
                             hover:bg-[#056e3d] 
                             text-[#067741] 
                             font-semibold 
@@ -859,11 +865,13 @@ useEffect(() => {
                             ease-in-out 
                             transform 
                             hover:scale-105 
-                            focus:outline-none 
+                            focus:outline-none  
                             focus:ring-2 
                             hover:text-white  
                             focus:ring-[#067741]/50 
-                            focus:ring-opacity-50"
+                            focus:ring-opacity-50
+                            hidden"
+                            
                   >
                       Login / Sign Up
                   </button>
