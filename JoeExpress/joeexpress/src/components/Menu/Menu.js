@@ -320,7 +320,19 @@ const rightNav = () => {
 
           }, [userId,addAddorderModal]); 
 
-          
+          const [isDropdownOpenCategory, setDropdownOpenCategory] = useState(false);
+
+          // Function to toggle the dropdown
+          const toggleDropdownCategory = () => {
+            setDropdownOpenCategory(!isDropdownOpenCategory);
+          };
+        
+          // Function to handle category selection (optional)
+          const handleCategoryClick = (categoryId) => {
+            console.log(`${categoryId} selected`);
+            // Optionally, close the dropdown after selection
+            setDropdownOpenCategory(false);
+          };
           
   return (
     <div>
@@ -434,45 +446,83 @@ const rightNav = () => {
             </div>
             
           {/* <!-- dropdown category button --> */}
-          <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="flex justify-center items-center mx-auto bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300 lg:hidden md:block">
+          <button 
+              id="dropdownDefaultButton" 
+              onClick={toggleDropdownCategory}
+              class="relative flex justify-center items-center mx-auto bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300 lg:hidden md:block">
                 Browse the Menu
           </button>
             
           {/* <!-- category menu --> */}
-          <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                
-                  <li >
-                  <button class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('mt-series');">Signature Beverages</button>
-                </li>
-
+          {isDropdownOpenCategory && (
+            <div id="dropdown" className=" z-10 absolute left-1/2 transform -translate-x-1/2 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+              <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('fm-series');">Hot Coffee</a>
-                </li>
-                <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('mc-series');">Iced Black Coffee</a>
+                  <button
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    onClick={() => handleCategoryClick('signature-beverages')}
+                  >
+                    Signature Beverages
+                  </button>
                 </li>
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('cf-series');">Iced Coffee Latte</a>
+                  <button
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    onClick={() => handleCategoryClick('hot-coffee')}
+                  >
+                    Hot Coffee
+                  </button>
                 </li>
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('fp-series');">Iced Blended</a>
+                  <button
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    onClick={() => handleCategoryClick('iced-black-coffee')}
+                  >
+                    Iced Black Coffee
+                  </button>
                 </li>
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('ft-series');">Milk Tea</a>
+                  <button
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    onClick={() => handleCategoryClick('iced-coffee-latte')}
+                  >
+                    Iced Coffee Latte
+                  </button>
                 </li>
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="toggleVisibility('ml-series');">Refreshers</a>
+                  <button
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    onClick={() => handleCategoryClick('iced-blended')}
+                  >
+                    Iced Blended
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    onClick={() => handleCategoryClick('milk-tea')}
+                  >
+                    Milk Tea
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    onClick={() => handleCategoryClick('refreshers')}
+                  >
+                    Refreshers
+                  </button>
                 </li>
               </ul>
-          </div>
+            </div>
+          )}
           
         </div>
       </div>
 
       <div class="flex flex-col w-3/4 mx-auto md:items-center"> {/* <!-- Main Container--> */}
-    <div id="mt-series"> 
-        <div className="container mx-auto p-4 mt-4"> 
+        <div id="mt-series"> 
+          <div className="container mx-auto p-4 mt-4"> 
 
               {/* Dynamically update the heading based on selected category */}
               <h1 className="text-5xl font-bold text-center mb-10">
@@ -586,8 +636,9 @@ const rightNav = () => {
       </div>
 
       {/* <!-- Contact Us --> */}
-    <footer class="bg-[#1A1A1A] w-full  h-1/4 mt-5 py-7 flex flex-col justify-center items-center" id="footer">
+      <footer class="bg-[#1A1A1A] w-full  h-1/4 mt-5 py-7 flex flex-col justify-center items-center" id="footer">
 
+<<<<<<< HEAD
       <div class="border-y-2 border-gray-400 w-4/5 p-10">
         {/* <!-- container footer--> */}
         <div class="flex justify-between w-full">
@@ -604,12 +655,35 @@ const rightNav = () => {
             <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
               <a href={cmsInstagram} target="_blank" rel="noopener noreferrer"><img src={ig} alt=""></img></a>
             </button>
+=======
+        <div class="border-y-2 border-gray-400 w-4/5 p-10">
+          {/* <!-- container footer--> */}
+          <div class="flex justify-between w-full">
+            <h1 class="text-white text-5xl font-bold">{cmsName}</h1>
+            <div class="flex gap-2">
+              <button type='button' 
+              class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
+              <a href={cmsFacebook} target="_blank" rel="noopener noreferrer">
+                <img src={fb} alt="Facebook" />
+              </a>
+              </button>
+              <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
+                <a href={cmsInstagram} target="_blank" rel="noopener noreferrer"><img src={ig} alt=""></img></a>
+              </button>
+            </div>
+>>>>>>> edcf02794bcb845c00a5557a2579939816d2ca0a
           </div>
+
+        <button onClick={handleMapModal} class="rounded-full text-white w-fit px-6 py-2 mt-7" id="viewloc">View Location</button>
+
         </div>
 
+<<<<<<< HEAD
       <button onClick={handleMapModal} class="rounded-full text-white w-fit px-6 py-2 mt-7" id="viewloc">View Location</button>
 
       </div>
+=======
+>>>>>>> edcf02794bcb845c00a5557a2579939816d2ca0a
 
       <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between text-center md:text-left">
       <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400 block md:inline-block mb-2 md:mb-0">
@@ -630,76 +704,76 @@ const rightNav = () => {
     </div>
 
 
-      {/* <!-- Refund Policy modal --> */}
-      <div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-w-2xl max-h-full">
-            {/* <!-- Modal content --> */}
-            <div class="relative bg-jaydsBg rounded-lg shadow dark:bg-gray-700">
-                {/* <!-- Modal header --> */}
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
-                    <h3 class="text-2xl font-bold text-gray-900 ">
-                        Refund Policy
-                    </h3>
-                    <button type="button" class="text-gray-400 bg-transparent hover:bg-white hover:text-greenColor rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                {/* <!-- Modal body --> */}
-                <div class="p-4 md:p-5 space-y-4">
-                    <p class="text-base leading-relaxed text-gray-500">
-                      We do not accept returns or exchanges however, if you are unhappy with your order, kindly give us a call at +639771931022 and
-                      let us know how we can better serve you.
-                    </p>
-                    <p class="text-base leading-relaxed text-gray-500">
-                      Refunds We will notify you once we've received and inspected your return, and let you know if the refund was approved or not. If
-                      approved, you'll be automatically refunded on your original payment method. Please remember it can takes 7-10 days for your
-                      bank or credit card company to process and post the refund too.
-                    </p>
-                </div>
-            </div>
+        {/* <!-- Refund Policy modal --> */}
+        <div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+          <div class="relative p-4 w-full max-w-2xl max-h-full">
+              {/* <!-- Modal content --> */}
+              <div class="relative bg-jaydsBg rounded-lg shadow dark:bg-gray-700">
+                  {/* <!-- Modal header --> */}
+                  <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
+                      <h3 class="text-2xl font-bold text-gray-900 ">
+                          Refund Policy
+                      </h3>
+                      <button type="button" class="text-gray-400 bg-transparent hover:bg-white hover:text-greenColor rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
+                          <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                          </svg>
+                          <span class="sr-only">Close modal</span>
+                      </button>
+                  </div>
+                  {/* <!-- Modal body --> */}
+                  <div class="p-4 md:p-5 space-y-4">
+                      <p class="text-base leading-relaxed text-gray-500">
+                        We do not accept returns or exchanges however, if you are unhappy with your order, kindly give us a call at +639771931022 and
+                        let us know how we can better serve you.
+                      </p>
+                      <p class="text-base leading-relaxed text-gray-500">
+                        Refunds We will notify you once we've received and inspected your return, and let you know if the refund was approved or not. If
+                        approved, you'll be automatically refunded on your original payment method. Please remember it can takes 7-10 days for your
+                        bank or credit card company to process and post the refund too.
+                      </p>
+                  </div>
+              </div>
+          </div>
         </div>
-      </div>
 
-      {/* <!-- Modal for Terms and Condition --> */}
-      <div id="default-modal3" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-w-2xl max-h-full">
+        {/* <!-- Modal for Terms and Condition --> */}
+        <div id="default-modal3" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+          <div class="relative p-4 w-full max-w-2xl max-h-full">
 
-            {/* <!-- Modal content --> */}
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                {/* <!-- Modal header --> */}
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                        Terms of Service
-                    </h3>
-                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal3">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                {/* <!-- Modal body --> */}
-                <div class="p-4 md:p-5 space-y-4">
-                    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                        With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
-                    </p>
-                    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                        The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-                    </p>
-                </div>
-                {/* <!-- Modal footer --> */}
-                <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button id="accept-button" data-modal-hide="default-modal3" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
-                    <button data-modal-hide="default-modal3" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
-                </div>
-            </div>
+              {/* <!-- Modal content --> */}
+              <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                  {/* <!-- Modal header --> */}
+                  <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                      <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                          Terms of Service
+                      </h3>
+                      <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal3">
+                          <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                          </svg>
+                          <span class="sr-only">Close modal</span>
+                      </button>
+                  </div>
+                  {/* <!-- Modal body --> */}
+                  <div class="p-4 md:p-5 space-y-4">
+                      <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                          With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
+                      </p>
+                      <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                          The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
+                      </p>
+                  </div>
+                  {/* <!-- Modal footer --> */}
+                  <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                      <button id="accept-button" data-modal-hide="default-modal3" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
+                      <button data-modal-hide="default-modal3" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
+                  </div>
+              </div>
+          </div>
         </div>
-      </div>
 
-    </footer>
+      </footer>
     
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>{/* <!-- AOS Animation--> */}
     </div>

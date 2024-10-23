@@ -2353,7 +2353,7 @@ app.post('/removeProduct',  async (req, res) =>{
                     JOIN tickets t ON m.ticket_id = t.ticket_id
                     JOIN user u ON m.sender_id = u.id
                     WHERE m.ticket_id = ?
-                    ORDER BY t.status = 'close', m.created_at DESC;
+                    ORDER BY t.status = 'close', m.created_at ASC;
                     
                     
                     `;

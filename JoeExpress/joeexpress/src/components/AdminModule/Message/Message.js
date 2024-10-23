@@ -504,12 +504,12 @@ export default function Message({}) {
                         <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
                            {messageContent.sender_id !== userId
                               ? `Me: ${messageContent.content}`
-                              : `${messageContent.author}: ${messageContent.content}`}
+                              : `${messageContent.name}: ${messageContent.content}`}
                         </p>
                         </div>
                      ))}
                      {loading && <p>Loading more messages...</p>}
-                     
+
                   </div>
 
                   {/* {messages.map((messageContent) => (
