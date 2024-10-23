@@ -2304,36 +2304,59 @@ app.post('/removeProduct',  async (req, res) =>{
 
 
       app.post('/createTicket', (req, res) => {
-        const { ticketId, userId } = req.body;
+        const { ticketId, userId, subject } = req.body;
       
-        const checkTicketSql = 'SELECT * FROM tickets WHERE ticket_id = ?';
-        db.query(checkTicketSql, [ticketId], (err, results) => {
+        const checkTicketSql = 'SELECT * FROM tickets WHERE ticket_id = ? ';
+        db.query(checkTicketSql, [ticketId, subject], (err, results) => {
           if (err) {
             return res.status(500).json({ error: 'Database error' });
           }
       
           if (results.length > 0) {
-            return res.status(400).json({ error: 'Ticket ID already exists. Try again.' });
-          }
-      
-          const createTicketSql = 'INSERT INTO tickets (ticket_id, user_id) VALUES (?, ?)';
-          db.query(createTicketSql, [ticketId, userId], (err, results) => {
-            if (err) {
-              return res.status(500).json({ error: 'Error creating ticket' });
+            
+            const updateTicket = 'UPDATE tickets set subject = ? where ticket_id = ? AND user_id = ?';
+
+            db.query(updateTicket, [subject,ticketId,userId]), (err, results)=>{
+                if (err) {
+                    return res.status(500).json({ error: 'Error updating ticket' });
+                  }
+                  res.status(201).json({ message: 'Ticket updated successfully', ticketId });
             }
-            res.status(201).json({ message: 'Ticket created successfully', ticketId });
-          });
+            
+            return res.status(200).json({ success: 'Ticket subject updated' });
+
+          }
+
+          else{
+
+            const createTicketSql = 'INSERT INTO tickets (ticket_id, user_id, subject) VALUES (?, ?, ?)';
+            db.query(createTicketSql, [ticketId, userId, subject], (err, results) => {
+              if (err) {
+                return res.status(500).json({ error: 'Error creating ticket' });
+              }
+              res.status(201).json({ message: 'Ticket created successfully', ticketId });
+            });
+    
+          }
+
+
         });
+          
       });
 
       app.post('/getMessages', (req, res) => {
         const { ticketId } = req.body;
       
-        const sql = `SELECT messages.*
-                    FROM messages
-                    JOIN tickets ON messages.ticket_id = tickets.ticket_id
-                    WHERE messages.ticket_id = ?
-                    ORDER BY tickets.status = 'close', messages.created_at DESC;`;
+        const sql = `
+                    SELECT m.id, u.name, m.sender_id, m.ticket_id, m.content, m.created_at
+                    FROM messages m
+                    JOIN tickets t ON m.ticket_id = t.ticket_id
+                    JOIN user u ON m.sender_id = u.id
+                    WHERE m.ticket_id = ?
+                    ORDER BY t.status = 'close', m.created_at ASC;
+                    
+                    
+                    `;
 
         db.query(sql, [ticketId ], (err, results) => {
           if (err) {

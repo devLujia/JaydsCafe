@@ -347,7 +347,10 @@ const rightNav = () => {
       <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">
         <div class="font-extrabold text-2xl flex items-center">
           {/* <!-- Logo/Title in Navbar --> */}
-          <a href="/" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide">{cmsName}</a>
+          <a href="/" class="flex items-center text-greenColor ms-2 sm:ms-5 text-lg sm:text-2xl tracking-wide">
+          {cmsName}
+        </a>
+
         </div>
 
         <div class="inline-flex items-center justify-center me-2">
@@ -388,25 +391,24 @@ const rightNav = () => {
             ) : (<button
               onClick={()=> navigate('/login')}
               class="flex items-center justify-center bg-[#ffffff] 
-                            hover:bg-[#056e3d] 
-                            text-[#067741] 
-                            font-semibold 
-                            py-3 
-                            px-6 
-                            rounded-full 
-                            border-2 
-                            border-[#067741] 
-                            shadow-md 
-                            transition-all 
-                            duration-300 
-                            ease-in-out 
-                            transform 
-                            hover:scale-105 
-                            focus:outline-none 
-                            focus:ring-2 
-                            hover:text-white  
-                            focus:ring-[#067741]/50 
-                            focus:ring-opacity-50">
+              hover:bg-[#056e3d] 
+              text-[#067741] 
+              font-semibold 
+              py-2 px-4 sm:py-3 sm:px-6 
+              rounded-full 
+              border-2 
+              border-[#067741] 
+              shadow-md 
+              transition-all 
+              duration-300 
+              ease-in-out 
+              transform hover:scale-105 
+              focus:outline-none 
+              focus:ring-2 
+              hover:text-white  
+              focus:ring-[#067741]/50 
+              focus:ring-opacity-50 
+              text-sm sm:text-base">
               Order Now!
             </button>)
           }
@@ -658,21 +660,24 @@ const rightNav = () => {
         </div>
 
 
-        <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center justify-between">
-          <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">Copyright © 2024. Capstone Inc.</span >
+      <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between text-center md:text-left">
+  <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400 block md:inline-block mb-2 md:mb-0">
+    Copyright © 2024. Capstone Inc.
+  </span>
 
-          <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0" >
-            <li class="footer-links">
-              <a href="#footer" class="hover:underline me-4 md:me-6" data-modal-target="default-modal" data-modal-toggle="default-modal">Refund Policy</a>
-            </li>
-            <li class="footer-links">
-              <a href="#footer" class="hover:underline me-4 md:me-6">Privacy Policy</a>
-            </li>
-            <li class="footer-links">
-              <a href="#footer" class="hover:underline me-4 md:me-6"  onClick={toggleTermsAndCondiotion}>Terms and Conditions</a>
-            </li>
-          </ul>
-        </div>
+  <ul class="flex flex-wrap justify-center md:justify-end items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
+    <li class="footer-links">
+      <a href="#footer" class="hover:underline me-4 md:me-6" data-modal-target="default-modal" data-modal-toggle="default-modal">Refund Policy</a>
+    </li>
+    <li class="footer-links">
+      <a href="#footer" class="hover:underline me-4 md:me-6">Privacy Policy</a>
+    </li>
+    <li class="footer-links">
+      <a href="#footer" class="hover:underline me-4 md:me-6" onClick={toggleTermsAndCondiotion}>Terms and Conditions</a>
+    </li>
+  </ul>
+</div>
+
 
         {/* <!-- Refund Policy modal --> */}
         <div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">

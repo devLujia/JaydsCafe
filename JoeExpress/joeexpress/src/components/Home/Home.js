@@ -776,7 +776,7 @@ useEffect(() => {
               </a>
             </li>
             <li>
-              <a href="#Menu" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+              <a href="/Menu" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                 Menu
               </a>
             </li>
@@ -791,9 +791,9 @@ useEffect(() => {
               </a>
             </li>
             <li>
-              <a onClick={navLogin}  className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">
+              <button onClick={navLogin}  className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">
                 Login / Sign Up
-              </a>
+              </button>
             </li>
             
           </ul>
@@ -883,7 +883,7 @@ useEffect(() => {
 
     {/* <!-- Chat button / chat box / chat bot --> */}
     {authenticated === true ? (
-        <ChatComponent name={profile.name} userId={profile.id} />
+        <ChatComponent name={profile?.name} userId={profile?.id} ticketId={profile?.verification_token} />
       ) : (
         <>
           <div className="fixed bottom-4 right-4 z-50 w-16 h-16">
