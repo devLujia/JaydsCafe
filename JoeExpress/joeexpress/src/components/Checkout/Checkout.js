@@ -16,7 +16,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 // toast.configure();
 
 export default function Checkout() {
-
+ 
     let location = useLocation();
 
     const [showModal, setShowModal] = useState(false);
@@ -287,7 +287,7 @@ export default function Checkout() {
         <nav class="w-full top-0 fixed bg-white z-20 shadow-lg flex justify-evenly">
             <div class="font-extrabold text-2xl flex items-center">
                 {/* <!-- Logo/Title in Navbar --> */}
-                <a href="/menu" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">{cmsName}</a>
+                <a href="/menu" class="flex items-center text-greenColor ms-2 text-2xl tracking-wide">{cmsName}</a>
             </div>
             <div></div>
             {/* <!-- Button for Login or Sign Up --> */}
@@ -299,12 +299,12 @@ export default function Checkout() {
         <section class="grid grid-cols-1 md:grid-cols-2 p-4 pt-24 mx-32">
             {/* Left Side */}
             <div className='w-full px-10'>
-                <Link to="/cart" class="text-2xl font-bold hover:underline"> <img src={arrowLeft} alt="" class="inline-block w-4 h-4 me-2"/>Back to Cart</Link>
+                <Link to="/cart" class="text-1xl font-semibold hover:underline text-black"> <img src={arrowLeft} alt="" class="inline-block w-4 h-3 me-2 "/>Back to Cart</Link>
                 
 
                 <div className='text-left my-8'>
-                    <p className=' text-gray-600'>Delivery method:
-                        <span className='text-2xl font-bold block underline'>{riderNote?.option.toUpperCase()}</span></p>
+                    <p className=' text-gray-600'>Delivery Method:
+                        <span className='text-2xl font-bold block underline text-black'>{riderNote?.option.toUpperCase()}</span></p>
                 </div>
 
 
@@ -316,7 +316,7 @@ export default function Checkout() {
                 {/* ship to section */}
                 {riderNote?.option === 'delivery'? <div className='border-b-2 border-textgreenColor my-2 pb-4'>
                     <div className='flex justify-between mb-3'>
-                        <h1 className='text-gray-400 font-semibold'>Ship to</h1>
+                        <h1 className='text-gray-600 font-semibold'>Ship to</h1>
                         <button className='p-2 bg-cards rounded-lg'>
                             <img src={arrowUp}></img>
                         </button>
@@ -406,7 +406,7 @@ purchase securely.'>
                     </div>
                     {/*  onClick={()=> handleCheckout()}  */}
                     <div>
-                        <button onClick={notifyAndProceed} className='bg-textgreenColor rounded-xl text-white w-full py-5'>
+                        <button onClick={notifyAndProceed} className='bg-gradient-to-r from-[#1f4d29] via-[#2b6b36] to-[#1f4d29] hover:scale-105 duration-300 rounded-xl text-white w-full py-5 font-semibold text-lg'>
                             Pay Now
                         </button>
                         <ToastContainer />
@@ -415,7 +415,7 @@ purchase securely.'>
             </div>
 
             {/* right side */}
-            <div className='w-full px-16'>
+            <div className='w-full px-16 bg-gray-100'>
                 <div className='mt-10 space-y-4 h-96 overflow-hidden overflow-y-auto py-4'> {/* Main container */}
 
                     {items.map(item => (
@@ -512,12 +512,12 @@ purchase securely.'>
                         </p>
                     </div>
                     {/* Total */}
-                    <div className='text-md text-gray-900 flex justify-between'>
+                    <div className='text-md text-gray-900 flex justify-between pb-10'>
                         <h1>
                             Total
                         </h1>
-                        <p className='text-lg font-semibold'>
-                            <span className='text-gray-500 me-2 text-sm'>PHP</span>₱{totalBill} .00
+                        <p className='text-xl font-bold'>
+                            <span className='text-black me-2 text-xl'></span>₱{totalBill}.00
                         </p>
                     </div>
                 </div>
@@ -531,16 +531,13 @@ purchase securely.'>
             <div class="border-y-2 border-gray-400 w-4/5 p-10">
             {/* <!-- container footer--> */}
             <div class="flex justify-between w-full">
-                <h1 class="text-white text-5xl font-bold">{cmsName}</h1>
+                <h1 class="text-white text-4xl font-bold">{cmsName}</h1>
                 <div class="flex gap-2">
                 <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
                     <img src={fb} alt=""></img>
                 </button>
                 <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
                     <img src={ig} alt=""></img>
-                </button>
-                <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-                    <img src={yt} alt=""></img>
                 </button>
                 </div>
             </div>

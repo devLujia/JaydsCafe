@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 22, 2024 at 05:17 AM
+-- Generation Time: Oct 22, 2024 at 01:35 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -39,14 +39,14 @@ CREATE TABLE `addons` (
 --
 
 INSERT INTO `addons` (`id`, `name`, `price`, `category_id`) VALUES
-(1, 'taengkambing', 59.00, 1),
-(2, 'bilobilo', 79.00, 1),
-(3, 'fruit salad', 39.00, 2),
-(4, 'karton', 34.00, 3),
-(5, 'cheesesabinimam', 59.00, 4),
-(6, 'cheesesabinimam', 50.00, 5),
-(7, 'test-bibingka', 79.00, 7),
-(19, 'Cheese', 30.00, 34);
+(1, 'Crystal', 59.00, 1),
+(2, 'Cream Cheese\r\n', 79.00, 1),
+(3, 'Coffee Jelly', 39.00, 2),
+(4, 'Crushed Oreo', 34.00, 3),
+(5, 'Cream Puff', 59.00, 4),
+(6, 'Cheesecake', 50.00, 5),
+(7, 'Chia Seeds', 79.00, 7),
+(19, 'Brown Sugar Jelly', 30.00, 34);
 
 -- --------------------------------------------------------
 
@@ -100,7 +100,9 @@ CREATE TABLE `cart_items` (
 
 INSERT INTO `cart_items` (`id`, `user_id`, `food_id`, `size`, `price`, `quantity`, `created_at`, `updated_at`, `addons`) VALUES
 (109, 40, 18, 'Medium', 217.00, 1, '2024-09-21 12:23:10', '2024-09-21 12:23:10', 'taengkambing (₱59),cheesesabinimam (₱59),cheesesabinimam (₱50)'),
-(110, 40, 20, 'Large', 109.00, 1, '2024-09-21 12:34:54', '2024-09-21 12:34:54', 'cheesesabinimam (₱50)');
+(110, 40, 20, 'Large', 109.00, 1, '2024-09-21 12:34:54', '2024-09-21 12:34:54', 'cheesesabinimam (₱50)'),
+(184, 45, 22, 'Medium', 133.00, 1, '2024-10-22 05:45:19', '2024-10-22 08:43:01', ''),
+(186, 45, 18, 'medium', 160.00, 1, '2024-10-22 09:02:37', '2024-10-22 09:02:37', '');
 
 -- --------------------------------------------------------
 
@@ -854,7 +856,7 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=184;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=190;
 
 --
 -- AUTO_INCREMENT for table `category`

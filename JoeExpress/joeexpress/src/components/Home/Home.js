@@ -965,9 +965,9 @@ useEffect(() => {
             data-aos-offset="300"
             data-aos-easing="ease-in-sine"
             data-aos-duration="1500">
-            <p class="text-black font-semibold tracking-wider text-3xl pb-1 drop-shadow-2xl">WELCOME TO </p>
+            <p class="text-black font-bold tracking-wider text-3xl pb-1 drop-shadow-2xl" id="name">WELCOME TO </p>
             <h1 class="text-textgreenColor text-8xl font-extrabold pb-2 drop-shadow-lg" id="name">{cmsName}</h1>
-            <p class="max-w-[28rem] mb-5 text-md text-gray-600">
+            <p class="max-w-[28rem] mb-5 text-lg text-gray-600">
             Discover the perfect blend of flavors in every cup. From classic milk teas to unique creations, we’ve got something for everyone. Come sip, relax, and enjoy your favorite drink today!
             </p>
         
