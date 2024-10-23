@@ -113,7 +113,12 @@ function ProductManagement() {
 
     }, [tier]);
 
+    const [isOpenDiscount, setIsOpenDiscount] = useState(false);
 
+    // Toggle dropdown visibility
+    const toggleDropdownDiscount = () => {
+      setIsOpenDiscount(!isOpenDiscount);
+    };
 
     useEffect(()=>{
       axios.post('http://localhost:8081/roleSetup')
@@ -517,6 +522,7 @@ function ProductManagement() {
                   <option value="Product">Product</option>
                   <option value="Addons">Addons</option>
                   <option value="Category">Category</option>
+                  <option value="Discount">Discount</option>
                 </select>
               </div>
 
@@ -563,7 +569,16 @@ function ProductManagement() {
             <img src={plus} alt="Plus_Category" className="me-2 md:block" />
             <span className="md:block hidden"> Add Category </span>
           </button>
-        ) : null}
+        ) : selectedValue === 'Discount' ? (
+          <button 
+            onClick={toggleAddProductModal} 
+            type="button" 
+            className="ml-auto text-white bg-textgreenColor hover:bg-green-900 focus:ring-2 focus:outline-none focus:ring-green-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+          >
+            <img src={plus} alt="Plus_Product" className="me-2 md:block" />
+            <span className="md:block hidden"> Add Discount </span>
+          </button>
+        ) :null}
 
             
             </div>
@@ -713,7 +728,142 @@ function ProductManagement() {
                   </div>
                 </div>
               </div>
-            ) : (
+            ) : selectedValue === 'Discount' ? (
+              <div className="relative shadow-xl sm:rounded-lg mx-auto w-full max-w-7xl">
+                
+                <div className="bg-white rounded-b-xl mb-20">
+                  <div className="text-center">
+                    <h1 className="text-5xl font-semibold tracking-wider">Voucher / Discounts</h1>
+                  </div>
+
+                 <div className='py-8 px-10'>
+                  <form action="">
+                      <div class="grid md:grid-cols-2 grid-cols-1 gap-x-8">
+                        <div class="relative mb-6">
+                          <input type="text" id="default-search" class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none " placeholder="Name..." required=""/>
+                        </div>
+                        <div class="relative mb-6">
+                          <input type="text" id="default-search" class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none " placeholder="Email Address..." required=""/>
+                        </div>
+                      </div>
+                      <div class="grid md:grid-cols-2 grid-cols-1 gap-x-8">
+                        <div class="relative mb-6">
+                          <input type="text" id="default-search" class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none " placeholder="Phone Number..." required=""/>
+                        </div>
+                        <div class="relative mb-6">
+                          <input type="text" id="default-search" class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none " placeholder="City , Country..." required=""/>
+                        </div>
+                      </div>
+                      <div class="relative mb-6">
+                        <input type="text" id="default-search" class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none " placeholder="Tpoic..." required=""/>
+                      </div>
+                      <div class="relative mb-6">
+                        <textarea type="text" id="default-search" class="block w-full h-40 px-5 py-2.5 bg-white leading-7 resize-none text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-2xl placeholder-gray-400 focus:outline-none " placeholder="Your Message..." required=""></textarea>
+                      </div>
+                      
+                      <div>
+                        <button
+                          id="dropdownRadioHelperButton"
+                          onClick={toggleDropdownDiscount} // Toggle dropdown on click
+                          className="text-gray-400 bg-white hover:bg-gray-100 outline outline-1 outline-gray-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                          type="button" >
+                          Select Discount Voucher
+                          <svg
+                            className="w-2.5 h-2.5 ms-3"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 10 6">
+                            <path
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="m1 1 4 4 4-4"/>
+                          </svg>
+                        </button>
+
+                        {/* Dropdown menu */}
+                        <div
+                          id="dropdownRadioHelper"
+                          className={`z-10 ${isOpenDiscount ? 'block' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow w-60 dark:bg-gray-700 dark:divide-gray-600`}
+                        >
+                          <ul className="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownRadioHelperButton">
+                            <li>
+                              <div className="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                                <div className="flex items-center h-5">
+                                  <input
+                                    id="helper-radio-4"
+                                    name="helper-radio"
+                                    type="radio"
+                                    value="individual"
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                                  />
+                                </div>
+                                <div className="ms-2 text-sm">
+                                  <label htmlFor="helper-radio-4" className="font-medium text-gray-900 dark:text-gray-300">
+                                    <div>Individual</div>
+                                    <p id="helper-radio-text-4" className="text-xs font-normal text-gray-500 dark:text-gray-300">
+                                      Some helpful instruction goes over here.
+                                    </p>
+                                  </label>
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                              <div className="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                                <div className="flex items-center h-5">
+                                  <input
+                                    id="helper-radio-5"
+                                    name="helper-radio"
+                                    type="radio"
+                                    value="company"
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                                  />
+                                </div>
+                                <div className="ms-2 text-sm">
+                                  <label htmlFor="helper-radio-5" className="font-medium text-gray-900 dark:text-gray-300">
+                                    <div>Company</div>
+                                    <p id="helper-radio-text-5" className="text-xs font-normal text-gray-500 dark:text-gray-300">
+                                      Some helpful instruction goes over here.
+                                    </p>
+                                  </label>
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                              <div className="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                                <div className="flex items-center h-5">
+                                  <input
+                                    id="helper-radio-6"
+                                    name="helper-radio"
+                                    type="radio"
+                                    value="non-profit"
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                                  />
+                                </div>
+                                <div className="ms-2 text-sm">
+                                  <label htmlFor="helper-radio-6" className="font-medium text-gray-900 dark:text-gray-300">
+                                    <div>Non profit</div>
+                                    <p id="helper-radio-text-6" className="text-xs font-normal text-gray-500 dark:text-gray-300">
+                                      Some helpful instruction goes over here.
+                                    </p>
+                                  </label>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      
+                      <div class="flex items-center justify-center">
+                        <button class="w-52 h-12 bg-indigo-600 hover:bg-indigo-800 transition-all duration-700 rounded-full shadow-xs text-white text-base font-semibold leading-6">Send Message</button>
+                      </div>
+                    </form>
+                 </div>
+                </div>
+              </div>
+            ) :  (
               <div className="relative shadow-xl sm:rounded-lg mx-auto w-full max-w-7xl">
                 <div className="bg-white rounded-b-xl mb-20">
                   <div className="text-center">
