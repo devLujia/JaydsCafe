@@ -83,7 +83,7 @@ const rightNav = () => {
     const fetchNameData = async () => {
       try {
         const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
-        setCmsName(response.data.content || '');
+        setCmsName(response.data?.content || '');
       } 
       catch (error) {
         console.error('Error fetching data:', error);
@@ -95,7 +95,7 @@ const rightNav = () => {
 
       try{
         const response = await axios.post ('http://localhost:8081/cms', {title: 'Small Logo'});
-        setSmallLogo(response.data.content || '')
+        setSmallLogo(response.data?.content || '')
       }
       catch (error) {
         console.error('Error fetching data:', error);
@@ -199,7 +199,7 @@ const rightNav = () => {
   const fetchFacebookLinkData = async () => {
     try {
       const response = await axios.post('http://localhost:8081/cms', {title: 'Facebook'});
-      setCmsFacebook(response.data.content || '');
+      setCmsFacebook(response.data?.content || '');
     } 
     catch (error) {
       console.error('Error fetching data:', error);
@@ -210,7 +210,7 @@ const rightNav = () => {
   const fetchInstagramLinkData = async () => {
     try {
       const response = await axios.post('http://localhost:8081/cms', {title: 'Instagram'});
-      setCmsInstagram(response.data.content || '');
+      setCmsInstagram(response.data?.content || '');
     } 
     catch (error) {
       console.error('Error fetching data:', error);
@@ -221,7 +221,7 @@ const rightNav = () => {
   const fetchLinkData = async () => {
     try {
       const response = await axios.post('http://localhost:8081/cms', {title: 'Link'});
-      setCmsLink(response.data.content || '');
+      setCmsLink(response.data?.content || '');
     } 
     catch (error) {
       console.error('Error fetching data:', error);
@@ -233,7 +233,7 @@ const rightNav = () => {
 
     try{
       const response = await axios.post ('http://localhost:8081/cms', {title: 'Location'});
-      setLocation(response.data.content || '')
+      setLocation(response.data?.content || '')
     }
     catch (error) {
       console.error('Error fetching data:', error);

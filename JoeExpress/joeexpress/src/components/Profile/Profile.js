@@ -404,12 +404,12 @@ export default function Profile() {
 
                   <div class="border-y-2 py-8  w-[80%] flex flex-col mx-auto"> {/* <!-- Main div for information--> */}
                     <div class="flex flex-col justify-start items-start text-xl space-y-2"> {/* <!-- information details--> */}
-                      <h1 class="font-semibold">Lekra Mabangis</h1>
-                      <p class="text-md">STI</p>
+                      <h1 class="font-semibold">{profile.address}</h1>
+                      {/* <p class="text-md">STI</p>
                       <p class="text-md">Para streets 69</p>
                       <p class="text-md">Cavite, 4114</p>
                       <p class="text-md">Philippines</p>
-                      <p class="text-md">09826738461</p>
+                      <p class="text-md">09826738461</p> */}
                     </div>
                     <div class="flex w-full justify-between items-center mt-5">
                       <div class="space-x-2 text-lg">
@@ -528,35 +528,39 @@ export default function Profile() {
                       <div class="flex justify-between items-center" >
                         <h1 class="text-4xl py-5">Account</h1>
                         <div class="gap-3 space-y-2">
-                          <button class="me-3.5 outline outline-2 outline-greenColor text-textgreenColor px-8 py-2 text-lg rounded-xl inline-flex justify-center items-center hover:scale-110 duration-300">
+                          {/* <button class="me-3.5 outline outline-2 outline-greenColor text-textgreenColor px-8 py-2 text-lg rounded-xl inline-flex justify-center items-center hover:scale-110 duration-300">
                             Discard
                           </button> 
                           <button class="outline outline-2 outline-greenColor bg-greenColor text-white px-8 py-2 text-lg rounded-xl inline-flex justify-center items-center hover:scale-110 duration-300">
                             Update Info
-                          </button> 
+                          </button>  */}
                         </div>
                       </div>
                       <p class="pb-5">View and edit your personal info below.</p>
                   </div>
     
         {/* <!-- Display Info --> */}
-                  <div class="border-b-2 mt-3 pb-5"> 
-                    <div class="flex justify-between items-center" >
+                  {/* <div class="border-b-2 mt-3 pb-5"> 
+                     <div class="flex justify-between items-center" >
                       <h1 class="text-2xl py-5">Display info</h1>
                     </div>
-                    <p class="pb-10">This information will be visible to all members of this site.</p>
+                    <p class="pb-10">This information will be visible to all members of this site.</p> 
 
                     <form action="#">
                         <div class="col-span-2 sm:col-span-1">
                           <label for="postal" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">Display name <span class="text-red-600">*</span></label>
-                          <input type="text" name="postal" id="postal" class="w-2/5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Juan Dela Cruz" required/>
+                          <input type="text" name="postal" 
+                          id="postal" 
+                          class="w-2/5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 
+                          focus:border-primary-600 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400
+                           dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder={profile.name} required/>
                         </div>
-                    </form>
+                    </form> 
                     
-                  </div> 
+                  </div>  */}
 
         {/* <!-- Personal Info --> */}
-                  <div class="border-b-2 mt-3"> 
+                  <div class="border-b-2"> 
                     <div class="flex justify-between items-center">
                       <h1 class="text-2xl py-5">Personal info</h1>
                     </div>
@@ -565,13 +569,18 @@ export default function Profile() {
                     <form action="#">
                       <div class="grid gap-4 mb-6 grid-cols-2">
                         <div class="col-span-2 sm:col-span-1">
-                          <label for="fname" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">First name <span class="text-red-600">*</span></label>
+                          <label for="fname" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">Fullname <span class="text-red-600">*</span></label>
                           <div class="inline-flex w-full">
-                            <input type="text" name="fname" id="fname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 me-2" placeholder="Juan" required=""/>
+                            <input type="text" 
+                            name="fname" 
+                            id="fname" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 
+                            focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 
+                            dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 me-2" placeholder={profile.name} required=""/>
                             <img src={lock} alt=""/>
                           </div>
                         </div>
-                        <div class="col-span-2 sm:col-span-1">
+                        {/* <div class="col-span-2 sm:col-span-1">
                           <label for="lname" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">Last name <span class="text-red-600">*</span></label>
                           <div class="inline-flex w-full">
                             <input type="text" name="lname" id="lname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 me-2" placeholder="Dela Cruz" required=""/>
@@ -584,7 +593,7 @@ export default function Profile() {
                             <input type="text" name="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 me-2" placeholder="09123564789" required=""/>
                             <img src={lock} alt=""/>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
 
                       <div class="space-x-3 mb-5 grid grid-flow-col justify-end">
@@ -606,13 +615,13 @@ export default function Profile() {
                     <div>
                       <div class="mb-4">
                         <p class="text-md">Login Email:</p>
-                        <p class="text-md">MabangisSiMamAnna@gmail.com</p>
+                        <p class="text-md">{profile.email}</p>
                         <a href="#" class="text-md hover:underline">Change Email</a>
                       </div>
   
                       <div class="pt-10 mb-4">
                         <p class="text-md">Password:</p>
-                        <p class="text-md">● ● ● ● ● ●</p>
+                        <p class="text-md">●●●●●●●●</p>
                         <a href="#" class="text-md hover:underline">Change Password</a>
                       </div>
                     </div>

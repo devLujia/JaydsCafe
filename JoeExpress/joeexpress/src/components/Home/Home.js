@@ -184,7 +184,7 @@ function Home() {
     const fetchNameData = async () => {
       try {
         const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
-        setCmsName(response.data.content || '');
+        setCmsName(response.data?.content || '');
       } 
       catch (error) {
         console.error('Error fetching data:', error);
@@ -195,7 +195,7 @@ function Home() {
     const fetchReview1Data = async () => {
       try {
         const response = await axios.post('http://localhost:8081/cms', {title: 'Review1'});
-        setReview1(response.data.content || '');
+        setReview1(response.data?.content || '');
       } 
       catch (error) {
         console.error('Error fetching data:', error);
@@ -206,7 +206,8 @@ function Home() {
     const fetchReview2Data = async () => {
       try {
         const response = await axios.post('http://localhost:8081/cms', {title: 'Review2'});
-        setReview2(response.data.content || '');
+        setReview2(response.data?.content || '');
+        
       } 
       catch (error) {
         console.error('Error fetching data:', error);
@@ -217,7 +218,7 @@ function Home() {
     const fetchReview3Data = async () => {
       try {
         const response = await axios.post('http://localhost:8081/cms', {title: 'Review3'});
-        setReview3(response.data.content || '');
+        setReview3(response.data?.content || '');
       } 
       catch (error) {
         console.error('Error fetching data:', error);
@@ -228,7 +229,7 @@ function Home() {
     const fetchMilkTeaPriceData = async () => {
       try {
         const response = await axios.post('http://localhost:8081/cms', {title: 'Milktea Price'});
-        setCmsMilkTeaPrice(response.data.content || '');
+        setCmsMilkTeaPrice(response.data?.content || '');
       } 
       catch (error) {
         console.error('Error fetching data:', error);
@@ -238,7 +239,7 @@ function Home() {
     const fetchCoffeePriceData = async () => {
       try {
         const response = await axios.post('http://localhost:8081/cms', {title: 'Coffee Price'});
-        setCmsCoffeePrice(response.data.content || '');
+        setCmsCoffeePrice(response.data?.content || '');
       } 
       catch (error) {
         console.error('Error fetching data:', error);
@@ -248,7 +249,7 @@ function Home() {
     const fetchSnackPriceData = async () => {
       try {
         const response = await axios.post('http://localhost:8081/cms', {title: 'Snack Price'});
-        setCmsSnackPrice(response.data.content || '');
+        setCmsSnackPrice(response.data?.content || '');
       } 
       catch (error) {
         console.error('Error fetching data:', error);
@@ -261,7 +262,7 @@ function Home() {
 
       try{
         const response = await axios.post ('http://localhost:8081/cms', {title: 'About Us'});
-        setAboutUs(response.data.content || '')
+        setAboutUs(response.data?.content || '')
       }
       catch (error) {
         console.error('Error fetching data:', error);
@@ -273,7 +274,7 @@ function Home() {
 
       try{
         const response = await axios.post ('http://localhost:8081/cms', {title: 'Operation hours'});
-        setOperationHour(response.data.content || '')
+        setOperationHour(response.data?.content || '')
       }
       catch (error) {
         console.error('Error fetching data:', error);
@@ -285,7 +286,7 @@ function Home() {
 
       try{
         const response = await axios.post ('http://localhost:8081/cms', {title: 'Operation Days'});
-        setOperationDays(response.data.content || '')
+        setOperationDays(response.data?.content || '')
       }
       catch (error) {
         console.error('Error fetching data:', error);
@@ -297,7 +298,7 @@ function Home() {
 
       try{
         const response = await axios.post ('http://localhost:8081/cms', {title: 'Small Logo'});
-        setSmallLogo(response.data.content || '')
+        setSmallLogo(response.data?.content || '')
       }
       catch (error) {
         console.error('Error fetching data:', error);
@@ -308,7 +309,7 @@ function Home() {
     const fetchBigLogo = async () => {
       try {
         const response = await axios.post('http://localhost:8081/cms', {title: 'Big Logo'});
-        setBigLogo(response.data.content || '');
+        setBigLogo(response.data?.content || '');
       } 
       catch (error) {
         console.error('Error fetching data:', error);
@@ -319,7 +320,7 @@ function Home() {
     const fetchAboutUsImage = async () => {
       try {
         const response = await axios.post('http://localhost:8081/cms', {title: 'Store Image'});
-        setAboutUsImage(response.data.content || '');
+        setAboutUsImage(response.data?.content || '');
       } 
       catch (error) {
         console.error('Error fetching data:', error);
@@ -330,7 +331,7 @@ function Home() {
     const fetchFacebookLinkData = async () => {
       try {
         const response = await axios.post('http://localhost:8081/cms', {title: 'Facebook'});
-        setCmsFacebook(response.data.content || '');
+        setCmsFacebook(response.data?.content || '');
       } 
       catch (error) {
         console.error('Error fetching data:', error);
@@ -341,7 +342,7 @@ function Home() {
     const fetchInstagramLinkData = async () => {
       try {
         const response = await axios.post('http://localhost:8081/cms', {title: 'Instagram'});
-        setCmsInstagram(response.data.content || '');
+        setCmsInstagram(response.data?.content || '');
       } 
       catch (error) {
         console.error('Error fetching data:', error);
@@ -352,7 +353,7 @@ function Home() {
     const fetchLinkData = async () => {
       try {
         const response = await axios.post('http://localhost:8081/cms', {title: 'Link'});
-        setCmsLink(response.data.content || '');
+        setCmsLink(response.data?.content || '');
       } 
       catch (error) {
         console.error('Error fetching data:', error);
@@ -364,7 +365,7 @@ function Home() {
 
       try{
         const response = await axios.post ('http://localhost:8081/cms', {title: 'Location'});
-        setLocation(response.data.content || '')
+        setLocation(response.data?.content || '')
       }
       catch (error) {
         console.error('Error fetching data:', error);
@@ -375,7 +376,7 @@ function Home() {
     const fetchPhoneData = async () => {
       try {
         const response = await axios.post('http://localhost:8081/cms', {title: 'Phone Number'});
-        setCmsPhone(response.data.content || '');
+        setCmsPhone(response.data?.content || '');
       } 
       catch (error) {
         console.error('Error fetching data:', error);
@@ -386,7 +387,7 @@ function Home() {
     const fetchTelData = async () => {
       try {
         const response = await axios.post('http://localhost:8081/cms', {title: 'Tel Number'});
-        setCmsTel(response.data.content || '');
+        setCmsTel(response.data?.content || '');
       } 
       catch (error) {
         console.error('Error fetching data:', error);
