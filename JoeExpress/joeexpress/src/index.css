@@ -362,6 +362,31 @@ nav .link{
   100% { transform: translateX(0); }
 }
 
+/* Shining Effect on Order Now Button in Home Page */
+@keyframes shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shine {
+  animation: shine 1.5s infinite;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 100%);
+}
+
+/* Hover Effects for DSS */
+.group:hover {
+  background-color: #067741 ;
+}
+.group:hover .group-hover\:text-white {
+  color: white; 
+}
+.group:hover .group-hover\:text-white {
+  color: white;
+}
 
 
 /* Very Subtle Glow effect without gradient */
