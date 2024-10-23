@@ -1041,7 +1041,7 @@ useEffect(() => {
         <img
         src={cmsBigLogo}
         alt=""
-        className="w-[400px] h-[400px] z-10 absolute -top-2 -left-28 float-animation"
+        className="w-[400px] h-[400px] z-10 absolute -top-2 -left-20 sm:-left-28 md:-left-28 float-animation"
         data-aos="fade-down-right"
         data-aos-duration="2000"
         data-aos-easing="ease-in-sine"
