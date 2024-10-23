@@ -1004,23 +1004,23 @@ useEffect(() => {
                 </div>  
               </div>
       <div className="w-[400px] h-[500px] md:m-auto relative hover:scale-100">
-                                      <img
-                                      src={cmsBigLogo}
-                                      alt=""
-                                      className="w-[400px] h-[400px] z-10 absolute -top-2 -left-28 float-animation"
-                                      data-aos="fade-down-right"
-                                      data-aos-duration="2000"
-                                      data-aos-easing="ease-in-sine"
-                                    />
+        <img
+        src={cmsBigLogo}
+        alt=""
+        className="w-[400px] h-[400px] z-10 absolute -top-2 -left-28 float-animation"
+        data-aos="fade-down-right"
+        data-aos-duration="2000"
+        data-aos-easing="ease-in-sine"
+        />
 
-                                    <img
-                                      src={cmsSmallLogo}
-                                      alt=""
-                                      className="w-[400px] h-[400px] absolute top-20 left-16 float-animation"
-                                      data-aos="fade-down-left"
-                                      data-aos-duration="2000"
-                                      data-aos-easing="ease-in-sine"
-                                    />
+        <img
+        src={cmsSmallLogo}
+        alt=""
+        className="w-[400px] h-[400px] absolute top-20 left-16 float-animation"
+        data-aos="fade-down-left"
+        data-aos-duration="2000"
+        data-aos-easing="ease-in-sine"
+        />
       </div>
     </div>
 
