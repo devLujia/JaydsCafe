@@ -1,7 +1,7 @@
 import React from 'react'
 import Login from './components/Login/Login'
 import Signup from './components/Signup/Signup'
-import {BrowserRouter, Routes ,Route ,Switch } from 'react-router-dom'
+import {BrowserRouter, Routes ,Route } from 'react-router-dom'
 import Home from './components/Home/Home'
 import Menu from './components/Menu/Menu'
 import Cart from './components/Cart/Cart'
