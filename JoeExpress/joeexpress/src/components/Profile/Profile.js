@@ -193,7 +193,7 @@ export default function Profile() {
             {activeTab === 'order' && (
               <div class="p-4 rounded-lg my-7 bg-gray-50 dark:bg-gray-800 min-h-[500px]" id="order" role="tabpanel" aria-labelledby="Order-tab"> 
                   <div>
-                    <div class="mb-10 py-5 px-20">
+                    <div class="mb-10 py-5 px-20 overflow-hidden overflow-x-auto">
                       <h1 class="text-4xl mb-5">My Orders</h1>
                       <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                               <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

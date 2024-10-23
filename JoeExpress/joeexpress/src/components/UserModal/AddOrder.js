@@ -164,7 +164,7 @@ return(
             <div className='bg-white w-full max-w-fit md:max-w-4xl max-h-full rounded-xl shadow-lg flex flex-col'>
 
                 {/* Main Container */}
-                <div className='grid grid-cols-1 md:grid-cols-2 rounded-lg max-h-screen '>
+                <div className='grid grid-cols-1 md:grid-cols-2 rounded-lg max-h-96 lg:max-h-screen overflow-hidden overflow-y-auto'>
                     {/* Left side */}
                     <div className='flex flex-col rounded-lg gap-y-4'>
                         <div className='bg-darkgreen rounded-tl-xl bg-gradient-to-t from-[#ece0c8] to-[#f5f2e4]'>
