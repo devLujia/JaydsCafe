@@ -3,20 +3,23 @@ import chatlogo from '../../image/chat.svg';
 import socket from '../../AdminModule/Message/socketService';
 import axios from 'axios';
 
-const ChatComponent = ({ name, userId }) => {
+const ChatComponent = ({ name, userId, ticketId }) => {
   const [chatVisible, setChatVisible] = useState(false);
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
-  const [ticketId, setTicketId] = useState('');
+  // const [ticketId, setTicketId] = useState('');
+  const [subject, setSubject] = useState('');
+  const [success, setSuccess] = useState(null);
 
-  const generateRandomTicketId = () => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let ticketId = '';
-    for (let i = 0; i < 8; i++) {
-      ticketId += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    return ticketId;
-  };
+
+  // const generateRandomTicketId = () => {
+  //   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  //   let ticketId = '';
+  //   for (let i = 0; i < 8; i++) {
+  //     ticketId += characters.charAt(Math.floor(Math.random() * characters.length));
+  //   }
+  //   return ticketId;
+  // };
 
   const toggleChat = () => {
     setChatVisible(!chatVisible);
@@ -33,7 +36,7 @@ const ChatComponent = ({ name, userId }) => {
     };
   
     joinRoom();
-  }, [name,ticketId ]);
+  }, [name,ticketId]);
 
   // const handleJoinRoom = () => {
   //   if (name && room){
@@ -43,16 +46,17 @@ const ChatComponent = ({ name, userId }) => {
 
   const createNewTicket = async () => {
     try {
-      const newTicketId = generateRandomTicketId();
-      setTicketId(newTicketId);
+      // setTicketId(ticket);
   
       const response = await axios.post('http://localhost:8081/createTicket', {
-        ticketId: newTicketId,  
-        userId: userId
+        ticketId: ticketId,  
+        userId: userId,
+        subject: subject,
       });
+      setSuccess(response.data.message)
   
-      socket.emit('join_room', newTicketId);
-      console.log('New ticket created with ID:', newTicketId);
+      socket.emit('join_room', ticketId);
+      console.log('New ticket created with ID:', ticketId);
   
     } catch (error) {
       console.error('Error creating ticket:', error);
@@ -120,7 +124,7 @@ const ChatComponent = ({ name, userId }) => {
     return () => {
       socket.off('receive_message');
     };
-  }, [ticketId]);
+  }, [userId]);
   
   return (
     <>
@@ -140,7 +144,7 @@ const ChatComponent = ({ name, userId }) => {
         <div id="chat-container" className="fixed bottom-16 right-4 w-96 z-50">
           <div className="bg-cards2 shadow-md rounded-lg max-w-lg w-full">
             <div className="p-4 border-b bg-[#067741] text-white rounded-t-lg flex justify-between items-center">
-              <p className="text-lg font-semibold">Jayd'sCafe Admin</p>
+              <p className="text-lg font-semibold">Jayd'sCafe Admin ({subject})</p>
               <button onClick={toggleChat} className="text-gray-300 hover:text-gray-400 focus:outline-none focus:text-gray-400">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -167,10 +171,30 @@ const ChatComponent = ({ name, userId }) => {
                 </p>
                 : 
                 <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
-                  Ticket Created : {ticketId}
+                  {success === null ? 
+              <div className=" border-t flex">
+                  <input
+                      type='text'
+                      placeholder="Please state your concern"
+                      value={subject}
+                      onChange={(e) => setSubject(e.target.value)}
+                      className="w-full px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+
+                  <button
+                    onClick={createNewTicket}
+                    className="bg-[#067741] text-white px-4 py-2 rounded-md hover:bg-gradient-to-r hover:from-[#055c34] hover:to-[#067741] hover:scale-105 hover:shadow-lg transition-all duration-300 ease-in-out"
+                  >
+                    Add Subject Name
+                  </button>
+              </div>: 
+              ''}
+                  Conversation Id : {ticketId} 
+                  
                     <br></br>
                     <br></br>
                   👋 Hi there! You are now connected to the admin, Please address your concern.
+                    {success}
                 </p>
               }
               </div>
@@ -182,10 +206,7 @@ const ChatComponent = ({ name, userId }) => {
               </div> */}
 
               {/* Display chat messages */}
-
-              
-
-              
+  
               {messageList.map((messageContent) => {
                         return (
                            <div key={messageContent.id || messageContent.timestamp} className={`mb-2 flex ${messageContent.userId === userId  ? 'justify-end' : 'justify-start'}`}>
@@ -199,11 +220,19 @@ const ChatComponent = ({ name, userId }) => {
 
             {!ticketId ? (
               <div className="p-4 border-t flex">
+                <input
+                    type='text'
+                    placeholder="Please state your concern"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+
                 <button
                   onClick={createNewTicket}
                   className="bg-[#067741] text-white px-4 py-2 rounded-md hover:bg-gradient-to-r hover:from-[#055c34] hover:to-[#067741] hover:scale-105 hover:shadow-lg transition-all duration-300 ease-in-out"
                 >
-                  Create New Ticket
+                  Open a Ticket
                 </button>
                 </div>
               ) : (

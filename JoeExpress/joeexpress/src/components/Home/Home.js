@@ -883,7 +883,7 @@ useEffect(() => {
 
     {/* <!-- Chat button / chat box / chat bot --> */}
     {authenticated === true ? (
-        <ChatComponent name={profile.name} userId={profile.id} />
+        <ChatComponent name={profile?.name} userId={profile?.id} ticketId={profile?.verification_token} />
       ) : (
         <>
           <div className="fixed bottom-4 right-4 z-50 w-16 h-16">

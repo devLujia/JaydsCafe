@@ -96,6 +96,7 @@ export default function Message({}) {
             setSpecificTicketId(ticket)
 
             const response = await axios.post('http://localhost:8081/getMessages',  {ticketId: ticket} );
+
             setMessages(response.data);
             socket.emit('join_room', ticket);
             
@@ -494,6 +495,7 @@ export default function Message({}) {
                   <div className="flex flex-col mt-2 overflow-y-auto h-[calc(100%-60px)]">
                   {/* Message map */}
                   <div onScroll={handleScroll} className="chat-window">
+
                      {messages.map((messageContent) => (
                         <div
                         key={messageContent.id}
@@ -507,15 +509,26 @@ export default function Message({}) {
                         </div>
                      ))}
                      {loading && <p>Loading more messages...</p>}
+                     
                   </div>
 
-                  {messages.map((messageContent) => (
+                  {/* {messages.map((messageContent) => (
                      <div key={messageContent.id} className={`mb-2 flex ${messageContent.senderId === userId ? 'justify-end' : 'justify-start'}`}>
                         <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
                         {messageContent.senderId !== userId ? `Me: ${messageContent.content}` : `${messageContent.author}: ${messageContent.content}`}
                         </p>
                      </div>
-                  ))}
+                  ))} */}
+
+               {messageList.map((messageContent) => {
+                        return (
+                           <div key={messageContent.id || messageContent.timestamp} className={`mb-2 flex ${messageContent.userId === userId  ? 'justify-end' : 'justify-start'}`}>
+                              <p className={`bg-blue-500 text-white rounded-lg py-2 px-4 inline-block`}>
+                              {messageContent.author === "Admin" ? `Me: ${messageContent.message}` : `${messageContent.author}: ${messageContent.message}`}
+                              </p>
+                           </div>
+                        );
+                        })}
                   </div>
 
                   {/* Message input */}
