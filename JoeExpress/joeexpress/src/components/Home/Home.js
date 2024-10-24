@@ -695,10 +695,25 @@ function Home() {
   }, [userId,foods]);
 
   useEffect(() => {
-    // Shuffle and slice the array to show a random number of items (e.g., 3 random items)
+
     const shuffled = shuffleArray(foodsSpecial);
-    setRandomizedFoodsSpecial(shuffled.slice(0, 4)); // Adjust the number of items to display here
-  }, [foodsSpecial]);
+    let newRandomized = shuffled.slice(0, 4);
+    
+    const existingNames = new Set(newRandomized.map(food => food.name));
+
+    if (newRandomized.length < 4) {
+      foods.forEach(food => {
+        if (!existingNames.has(food.name) && newRandomized.length < 4) {
+          newRandomized.push(food);
+          existingNames.add(food.name); 
+        }
+      });
+    }
+
+    setRandomizedFoodsSpecial(newRandomized);
+  }, [foodsSpecial, foods]);
+
+
 
   useEffect(()=>{
 
@@ -1196,7 +1211,7 @@ useEffect(() => {
                 
                 : 
 
-                (randomizedFoodsSpecial.map((foods) => (
+                (randomizedFoodsSpecial.slice(0,4).map((foods) => (
                   <div
                     key={foods.id}
                     className="relative flex flex-col p-4 rounded-2xl bg-white text-black shadow-lg hover:shadow-2xl hover:scale-105 group border-2 border-[#067741] before:content-[''] before:absolute before:inset-0 before:rounded-2xl before:border-2 before:border-solid before:border-[#E5F5EE] before:-z-10 transition duration-300 overflow-visible"
