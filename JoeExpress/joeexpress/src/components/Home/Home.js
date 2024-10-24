@@ -1164,8 +1164,8 @@ useEffect(() => {
       </h2>
 
       <p class="text-center text-sm sm:text-base md:text-lg lg:text-xl tracking-wide w-full md:w-[80%] lg:w-[60%] mx-auto text-black opacity-0 animate-fade-in mb-4 lg:mb-8">
-  Discover a Delightful Mix of Milk Teas, Main Coffees, and Refreshing Drinks!
-</p>
+        Discover a Delightful Mix of Milk Teas, Main Coffees, and Refreshing Drinks!
+      </p>
 
 
       <div class="flex flex-col justify-center items-center">

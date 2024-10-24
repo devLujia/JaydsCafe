@@ -290,9 +290,9 @@ return(
                         </div>
                     </div>
 
-                    {/* right side */}
-                    <div className='rounded-r-xl p-3'>
-                        {/* sugar level */}
+                    {/* Right side */}
+                    <div className='rounded-r-xl p-3 bg-gray-100'>
+                        {/* Sugar level */}
                         <h2 id="accordion-color-heading-1">
                             <button
                             type="button"
