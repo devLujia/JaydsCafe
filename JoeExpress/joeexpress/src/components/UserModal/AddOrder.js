@@ -19,6 +19,7 @@ function AddOrder({closeModal, foodId}) {
     const [quantity,setQuantity] = useState(1);
     const [selectedSize, setSelectedSize] = useState(null);
     const [selectedAddons, setSelectedAddons] = useState([]);
+    const [count, setCount] = useState(0);
     
     const [values, setValues] = useState({
         name: '',
@@ -27,10 +28,12 @@ function AddOrder({closeModal, foodId}) {
     
     const handleIncrement = () => {
         setQuantity(prevQuantity => prevQuantity + 1);
-      };
+    };
       
     const handleDecrement = () => {
-    setQuantity(prevQuantity => prevQuantity - 1);
+        if (quantity > 1) {
+            setQuantity(prevQuantity => prevQuantity - 1); 
+        }
     };
 
     useEffect(() => {
@@ -415,7 +418,7 @@ return(
                                         hover:bg-gradient-to-l hover:from-[#2b6b36] hover:to-[#1f4d29] 
                                         '
                             >
-                            Add to Order <span className='text-white ms-2'>₱{totalPrice}.00</span>
+                            Add to Order <span className='text-white ms-2'>₱{quantity && (totalPrice * quantity)}.00</span>
                             </button>
                         </div>
                     </div>              

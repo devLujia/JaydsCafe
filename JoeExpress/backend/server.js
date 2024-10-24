@@ -184,10 +184,6 @@ app.post('/dataMonthly', async (req, res) => {
 });
 
 
-
-
-
-
 app.get('/foods', (req,res)=>{
     
     try {
@@ -212,10 +208,7 @@ app.get('/foods', (req,res)=>{
     } catch (error) {
         console.log(error)
     }
-    
-
-    
-      
+       
 });
 
 
@@ -1679,7 +1672,7 @@ app.post('/removeProduct',  async (req, res) =>{
     app.post('/addAddress', (req,res)=>{
 
         const {second_address, userId} = req.body
-        
+
         const query = `Update user set seconday_address = ? where id ?`
 
         db.query(query,[second_address, userId], (err,result)=>{
