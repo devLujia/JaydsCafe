@@ -124,7 +124,7 @@ export default function Profile() {
 
     {/* <!-- Main body --> */}
      <div class=" w-full h-full mt-10 flex flex-col justify-center items-center"> 
-        <div class="h-64 rounded-t-2xl px-20 w-full relative drop-shadow-sm">
+        <div class="h-64 rounded-t-2xl lg:px-20 w-full relative drop-shadow-sm">
         <div class="w-full h-full rounded-t-2xl bg-[#067741]"> 
           </div>
 
@@ -151,7 +151,7 @@ export default function Profile() {
       </div>
         </div>
 
-        <div class="w-full px-20"> {/* <!-- main container of tabs--> */}
+        <div class="w-full lg:px-20"> {/* <!-- main container of tabs--> */}
           <div class="mb-4 border-b-2  border-gray-300"> {/* <!-- Tabs below--> */}
             <ul class="flex flex-wrap -mb-px text-md font-semibold text-center " id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">    
                 <li class="me-2" role="presentation">
@@ -208,7 +208,7 @@ export default function Profile() {
             {activeTab === 'order' && (
               <div class="p-4 rounded-lg my-7 bg-gray-50 dark:bg-gray-800 min-h-[500px]" id="order" role="tabpanel" aria-labelledby="Order-tab"> 
                   <div>
-                    <div class="mb-10 py-5 px-20 overflow-hidden overflow-x-auto">
+                    <div class="mb-10 py-5 lg:px-20 overflow-hidden overflow-x-auto">
                       <h1 class="text-4xl mb-5">My Orders</h1>
                       <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                               <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
