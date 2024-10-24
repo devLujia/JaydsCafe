@@ -1163,7 +1163,10 @@ useEffect(() => {
       Menu Offerings
       </h2>
 
-      <p class="text-center text-sm sm:text-base md:text-lg lg:text-xl tracking-wide w-full md:w-[80%] lg:w-[60%] text-black opacity-0 animate-fade-in">Discover a Delightful Mix of Milk Teas, Main Coffees, and Refreshing Drinks!</p>
+      <p class="text-center text-sm sm:text-base md:text-lg lg:text-xl tracking-wide w-full md:w-[80%] lg:w-[60%] mx-auto text-black opacity-0 animate-fade-in mb-4 lg:mb-8">
+  Discover a Delightful Mix of Milk Teas, Main Coffees, and Refreshing Drinks!
+</p>
+
 
       <div class="flex flex-col justify-center items-center">
         <div class="justify-center items-center mx-auto px-52 flex-wrap space-x-3 space-y-2 hidden lg:flex">
