@@ -291,7 +291,7 @@ return(
                     </div>
 
                     {/* Right side */}
-                    <div className='rounded-r-xl p-3 bg-gray-100'>
+                    <div className='rounded-r-xl p-3 bg-gray-50'>
                         {/* Sugar level */}
                         <h2 id="accordion-color-heading-1">
                             <button
