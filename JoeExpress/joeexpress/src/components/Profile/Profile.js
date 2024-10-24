@@ -114,26 +114,30 @@ export default function Profile() {
     {/* <!-- Main body --> */}
      <div class=" w-full h-full mt-10 flex flex-col justify-center items-center"> 
         <div class="h-64 rounded-t-2xl px-20 w-full relative drop-shadow-sm">
-          <div class="object-contain w-full h-full rounded-t-2xl"> {/* <!-- container ng cover photo --> */}
-            <img src={bg_pic} alt="" class="w-full h-full object-fill max-w-full max-h-full rounded-t-2xl"/>
+        <div class="w-full h-full rounded-t-2xl bg-[#067741]"> 
           </div>
 
           {/* <button class="rounded-full bg-greenColor hover:bg-slate-700 top-0 absolute ml-6 mt-6 p-4">
             <img src={camera} alt=""/>
           </button> */}
 
-          <div class="flex overflow-x-hidden mb-6 ml-16 items-center absolute bottom-0 gap-3"> {/* <!-- container ng profile pic --> */}
-            <div class="object-contain w-36 h-36 rounded-full bottom-0"data-popover-target="popover-user-profile" type="button">
-              <img src={gwen} alt="" class="w-full h-full object-fill max-w-full max-h-full rounded-full"/>
-            </div>
 
-            <h1 class="text-white text-2xl tracking-wider">{profile.name}</h1>
+      <div class="flex flex-col items-center overflow-x-hidden mb-6 ml-16 absolute bottom-0 gap-3 md:items-start md:flex-row"> {/* <!-- container ng profile pic --> */}
+        <div class="object-contain w-24 h-24 md:w-36 md:h-36 rounded-full" data-popover-target="popover-user-profile" type="button">
+          <img src={`data:image/svg+xml,${encodeURIComponent(`
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="24" cy="24" r="24" fill="#E2E8F0"/>
+                  <circle cx="24" cy="19" r="8" fill="#94A3B8"/>
+                  <path d="M11 40C11 40 15 32 24 32C33 32 37 40 37 40" stroke="#94A3B8" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+              `)}`} alt="Anonymous Avatar" class="w-full h-full object-fill max-w-full max-h-full rounded-full"/>
+        </div>
 
-            <div class="object-contain w-36 h-36 rounded-full bottom-0 invisible" data-popover id="popover-user-profile">
-              <img src={camera} alt="" class="w-full h-full object-fill max-w-full max-h-full rounded-full"/>
-            </div>
-
-          </div>
+        <div class="flex flex-col items-center space-y-2 text-center md:items-start md:text-left lg:items-start lg:text-left md:mt-4 lg:mt-6">
+          <h1 class="text-white text-4xl tracking-wider font-extrabold">{profile.name}</h1>
+          <p class="text-white text-base tracking-wider">{profile.email}</p>
+        </div>
+      </div>
         </div>
 
         <div class="w-full px-20"> {/* <!-- main container of tabs--> */}
