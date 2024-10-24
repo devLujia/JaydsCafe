@@ -680,7 +680,7 @@ const rightNav = () => {
           <a href="#footer" class="hover:underline me-4 md:me-6" onClick={toggleTermsAndCondiotion}>Terms and Conditions</a>
         </li>
       </ul>
-    </div>
+      </div>
 
 
         {/* <!-- Refund Policy modal --> */}

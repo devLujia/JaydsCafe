@@ -92,10 +92,10 @@ export default function Profile() {
     
     <div className='bg-jaydsBg'>
     {/* <!-- Nav --> */}
-    <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-evenly ">
+    <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">
       <div class="font-extrabold text-2xl items-center">
         {/* <!-- Logo/Title in Navbar --> */}
-        <a href="/" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
+        <a href="/" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide">Jayd's Cafe</a>
       </div>
 
         <div>
@@ -638,14 +638,13 @@ export default function Profile() {
       <div class="border-y-2 border-gray-400 w-4/5 p-10">
         {/* <!-- container footer--> */}
         <div class="flex justify-between w-full">
-          <h1 class="text-white text-5xl font-bold">Jayd's Cafe</h1>
+        <h1 class="text-white text-3xl sm:text-4xl font-bold">
+          Jayd's Cafe
+        </h1>
 
           <div class="flex gap-2">
             <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
               <img src={fb} alt=""/>
-            </button>
-            <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-              <img src={yt} alt=""/>
             </button>
             <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
               <img src={ig} alt=""/>
@@ -657,16 +656,18 @@ export default function Profile() {
       </div>
 
 
-      <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center justify-between">
-        <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">Copyright © 2024. Capstone Inc.</span >
+      <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between text-center md:text-left">
+      <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400 block md:inline-block mb-2 md:mb-0">
+        Copyright © 2024. Capstone Inc.
+      </span>
 
-        <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0" >
-          <li class="footer-links">
-            <a href="#footer" class="hover:underline me-4 md:me-6" data-modal-target="default-modal" data-modal-toggle="default-modal">Refund Policy</a>
-          </li>
-          <li class="footer-links">
-            <a href="#footer" class="hover:underline me-4 md:me-6">Privacy Policy</a>
-          </li>
+      <ul class="flex flex-wrap justify-center md:justify-end items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
+        <li class="footer-links">
+          <a href="#footer" class="hover:underline me-4 md:me-6" data-modal-target="default-modal" data-modal-toggle="default-modal">Refund Policy</a>
+        </li>
+        <li class="footer-links">
+          <a href="#footer" class="hover:underline me-4 md:me-6">Privacy Policy</a>
+        </li>
           <li class="footer-links">
             <a href="#footer" class="hover:underline me-4 md:me-6" data-modal-target="default-modal3" data-modal-toggle="default-modal3">Terms and Conditions</a>
           </li>
