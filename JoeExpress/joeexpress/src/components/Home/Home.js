@@ -701,6 +701,8 @@ function Home() {
     
     const existingNames = new Set(newRandomized.map(food => food.name));
 
+    setRandomizedFoodsSpecial(shuffled)
+
     if (newRandomized.length < 4) {
       foods.forEach(food => {
         if (!existingNames.has(food.name) && newRandomized.length < 4) {
@@ -708,9 +710,9 @@ function Home() {
           existingNames.add(food.name); 
         }
       });
+      setRandomizedFoodsSpecial(newRandomized);
     }
 
-    setRandomizedFoodsSpecial(newRandomized);
   }, [foodsSpecial, foods]);
 
 

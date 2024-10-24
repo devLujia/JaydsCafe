@@ -276,6 +276,7 @@ const rightNav = () => {
             // Filtered food items based on category search
             const filteredFoods = foods.filter((food) => {
               return categorySearch === 0 ? food : food.category_id === categorySearch;
+              
             });
           
             // Calculate total pages
@@ -427,7 +428,10 @@ const rightNav = () => {
                 className={`${
                     categorySearch === 0 ? 'bg-greenColor text-white' : 'bg-white text-black'
                 } text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300`}
-                onClick={() => setCategorySearch(0)}
+                onClick={() => {
+                  setCategorySearch(0);   
+                  setCurrentPage(1);           
+                }}
             >
                 All Items
             </button>
@@ -438,7 +442,10 @@ const rightNav = () => {
                     className={`${
                         categorySearch === cat.id ? 'bg-greenColor text-white' : 'bg-white text-black'
                     } text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300`}
-                    onClick={() => setCategorySearch(cat.id)}
+                    onClick={() => {
+                      setCategorySearch(cat.id);   
+                      setCurrentPage(1);           
+                    }}
                 >
                     {cat.title}
                 </button>
