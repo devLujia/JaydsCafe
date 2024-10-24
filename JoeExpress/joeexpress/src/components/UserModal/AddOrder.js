@@ -82,7 +82,9 @@ function AddOrder({closeModal, foodId}) {
     };
 
     const totalAddonsPrice = selectedAddons.reduce((sum, addon) => sum + addon.price, 0);
-    const totalPrice = selectedPrice + totalAddonsPrice * quantity;
+    
+    const totalPrice = selectedPrice + totalAddonsPrice || 0 * quantity;
+
     // Fetch the food item details
     // useEffect(() => {
     //     axios.get(`http://localhost:8081/items/${foodId}`)
