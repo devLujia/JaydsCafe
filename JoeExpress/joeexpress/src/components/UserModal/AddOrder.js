@@ -141,7 +141,7 @@ function AddOrder({closeModal, foodId}) {
         }
     };
 
-//alert 
+//Alert 
     const handleAddToCart = async (food) => {
         try {
             await addToCartApi(food, userId);
@@ -346,7 +346,7 @@ return(
                             </div>
                         )}
 
-                        {/* addons Dropdown */}
+                        {/* Addons Dropdown */}
                         <h2 id="accordion-color-heading-1">
                             <button
                             type="button"
