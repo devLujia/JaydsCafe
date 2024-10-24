@@ -21,6 +21,17 @@ import socket from '../AdminModule/Message/socketService';
 
 function Home() {
 
+
+
+  const shuffleArray = (array) => {
+    let shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+    return shuffledArray;
+  };
+
   const reviews = [
     {
       name: "John",
@@ -626,6 +637,9 @@ function Home() {
 
   const [authenticated, setAuthenticated] = useState(false);
   const [foods, setFoods] = useState([]);
+  const [foodsSpecial, setFoodsSpecial] = useState([]);
+  const [randomizedFoodsSpecial, setRandomizedFoodsSpecial] = useState([]);
+  const [ordered, setOrdered] = useState(false);
   const [category, setCategory] = useState([]);
   const [menu, setMenu] = useState([]);
   const [profile, setProfile] = useState([]);
@@ -659,6 +673,32 @@ function Home() {
         console.error('Error fetching food details:', error);
       });
   }, []);
+  
+  useEffect(() => {
+    const fetchFoodsSpecial = async () => {
+      try {
+        const response = await axios.post('http://localhost:8081/foodsSpecial', { userId });
+        const { ordered, results } = response.data;
+
+        if (ordered) {
+          setFoodsSpecial(results);
+          setOrdered(true);
+        } else {
+          setFoodsSpecial(foods)
+        }
+      } catch (error) {
+        console.error("Error fetching foods:", error);
+      }
+    };
+
+    fetchFoodsSpecial();
+  }, [userId,foods]);
+
+  useEffect(() => {
+    // Shuffle and slice the array to show a random number of items (e.g., 3 random items)
+    const shuffled = shuffleArray(foodsSpecial);
+    setRandomizedFoodsSpecial(shuffled.slice(0, 4)); // Adjust the number of items to display here
+  }, [foodsSpecial]);
 
   useEffect(()=>{
 
@@ -1113,7 +1153,10 @@ useEffect(() => {
                 <div class="container mx-auto p-4 max-w-7xl">
                   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 py-5 pb-12">
                     {/* Map through the food items */}
-                    {foods.map((food) => (
+                
+                {!authenticated ? 
+                
+                (foods.map((food) => (
                 <div
                   key={food.id}
                   className="relative flex flex-col p-4 rounded-2xl bg-white text-black shadow-lg hover:shadow-2xl hover:scale-105 group border-2 border-[#067741] before:content-[''] before:absolute before:inset-0 before:rounded-2xl before:border-2 before:border-solid before:border-[#E5F5EE] before:-z-10 transition duration-300 overflow-visible"
@@ -1149,9 +1192,54 @@ useEffect(() => {
                     </button>
                   </div>
                 </div>
-                ))}
+                )))
+                
+                : 
+
+                (randomizedFoodsSpecial.map((foods) => (
+                  <div
+                    key={foods.id}
+                    className="relative flex flex-col p-4 rounded-2xl bg-white text-black shadow-lg hover:shadow-2xl hover:scale-105 group border-2 border-[#067741] before:content-[''] before:absolute before:inset-0 before:rounded-2xl before:border-2 before:border-solid before:border-[#E5F5EE] before:-z-10 transition duration-300 overflow-visible"
+                    data-aos="zoom-in"
+                    data-aos-duration="1000"
+                    data-aos-easing="ease-out-cubic"
+                  >
+                    {/* Image container */}
+                    <div className="relative mx-auto w-full max-w-xs sm:max-w-sm md:max-w-md bg-gradient-to-t from-[#ece0c8] to-[#f5f2e4] rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-110">
+                      <img src={foods.image_url} alt={foods.name} className="object-contain w-full h-28 sm:h-36 md:h-40 transition-transform duration-300 " />
+                    </div>
+  
+                    {/* Food Info */}
+                    <div className="mt-4 text-center">
+                      <h2 className="text-lg sm:text-xl font-semibold mb-2 transition-colors duration-300 group-hover:text-white">
+                        {foods.name}
+                      </h2>
+                      <p className="text-sm text-gray-600 transition-opacity duration-300 group-hover:text-gray-300 group-hover:opacity-75">{foods.description}</p>
+                      <div className="flex justify-between items-center mt-4">
+                        <span className="text-sm font-bold transition-colors duration-300 group-hover:text-white">16oz</span>
+                      </div>
+                    </div>
+  
+                    {/* Buy Now Button */}
+                    <div className="flex justify-between items-center mt-4">
+                      <p className="text-2xl font-bold transition-colors duration-300 group-hover:text-white">₱ {foods.price}.00</p>
+                      <button
+                        onClick={handleNavigate}
+                        className="relative bg-[#067741] text-white font-semibold py-2 px-4 rounded-full transition-all duration-500 ease-out transform hover:scale-110 hover:bg-gradient-to-r hover:from-[#067741] hover:to-[#055F32] hover:border-2 hover:border-white hover:shadow-[0_0_15px_rgba(6,119,65,0.5)] hover:rotate-1 group"
+                      >
+                        <span className="absolute inset-0 rounded-full opacity-0 bg-white blur-sm transition-opacity duration-500 group-hover:opacity-20"></span>
+                        <span className="relative z-10">Buy Now!</span>
+                      </button>
+                    </div>
+                  </div>
+                  )))
+                
+                }
+
+
+
             </div>
-          </div>
+          </div>  
         </div>
 
 

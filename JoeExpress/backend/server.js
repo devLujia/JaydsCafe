@@ -190,10 +190,12 @@ app.post('/dataMonthly', async (req, res) => {
 
 app.get('/foods', (req,res)=>{
     
-    const order = `
-                   SELECT count(o.order_id) as totalOrder ,f.id, f.name, f.description, f.image_url, fs.price 
+    try {
+        const order = `
+                   SELECT count(o.order_id) as totalOrder ,f.id, f.name, f.description, f.image_url, fs.price , c.title
                    FROM foods f 
                    JOIN food_sizes fs on f.id = fs.id 
+                   JOIN category c on f.category_id = c.id
                    JOIN orders_food of on of.food_id = fs.id 
                    JOIN orders o on o.order_id = of.order_id 
                    WHERE visible = 1
@@ -207,10 +209,55 @@ app.get('/foods', (req,res)=>{
         res.json(results);
         
     });
+    } catch (error) {
+        console.log(error)
+    }
+    
 
     
       
+});
+
+
+app.post('/foodsSpecial', (req, res) => {
+
+    const { userId } = req.body;
+
+    const order = `
+        SELECT 
+            c.title AS category_title,
+            f.id AS food_id, 
+            f.name, 
+            f.description, 
+            f.image_url, 
+            fs.price, 
+            COUNT(o.order_id) AS total_orders_per_category
+        FROM category c
+        JOIN foods f ON c.id = f.category_id
+        JOIN food_sizes fs ON f.id = fs.food_id
+        LEFT JOIN orders_food of ON of.food_id = fs.food_id
+        LEFT JOIN orders o ON o.order_id = of.order_id
+        LEFT JOIN user u ON o.customer_id = u.id
+        WHERE f.visible = 1
+        AND u.id = ?
+        GROUP BY c.title, f.id
+        ORDER BY total_orders_per_category DESC, c.title, f.name;
+    `;
+
+    db.query(order, [userId], (err, results) => {
+        if (err) {
+            return res.json({ err: "error" });
+        }
+
+        if (results.length === 0) {
+            return res.json({ ordered: false });
+        }
+
+        res.json({ ordered: true, results });
     });
+});
+
+
     
     app.post('/signup', async (req, res) => {
         const { pnum, name, email, password, address } = req.body;
