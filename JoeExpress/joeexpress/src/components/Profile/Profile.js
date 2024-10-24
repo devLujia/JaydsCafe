@@ -22,6 +22,7 @@ export default function Profile() {
   const [userId, setUserId] = useState(null);
   const [profile, setProfile] = useState([]);
   const [orderNotif, setOrderNotif] = useState(0);
+  const [address, setAddress] = useState('');
 
   const navigate = useNavigate();
 
@@ -56,7 +57,7 @@ export default function Profile() {
   }, [userId]);
  
   useEffect(() => {
-    axios.post('http://localhost:8081/profile', { userId })
+    axios.post('http://localhost:8081/profile',  { userId})
       .then(res => {
         setProfile(res.data);
       })
@@ -71,6 +72,16 @@ export default function Profile() {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
+  const addAddress = () =>{
+    axios.post('http://localhost:8081/addAddress',  {address})
+    .then(res => {
+      res.data.success && alert("Update Successfully");
+    })
+    .catch(error => {
+      console.error('Error fetching profile:', error);
+    });
+  }
  
   useEffect(() => { 
     if (userId) { 
@@ -432,7 +443,7 @@ export default function Profile() {
                   </div>
 
                   <div class="w-[80%] flex flex-col justify-center items-start mx-auto">
-                    <button class="bg-greenColor rounded-xl px-6 text-md text-white py-3 mt-3 w-fit hover:bg-green-700"  data-modal-target="crud-modal" data-modal-toggle="crud-modal" >Add New Address</button>
+                    <button onClick={addAddress} class="bg-greenColor rounded-xl px-6 text-md text-white py-3 mt-3 w-fit hover:bg-green-700"  data-modal-target="crud-modal" data-modal-toggle="crud-modal" >Add New Address</button>
                   </div>
                   
                 </div>

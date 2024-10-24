@@ -1676,6 +1676,21 @@ app.post('/removeProduct',  async (req, res) =>{
 
     // })
 
+    app.post('/addAddress', (req,res)=>{
+
+        const {second_address, userId} = req.body
+        
+        const query = `Update user set seconday_address = ? where id ?`
+
+        db.query(query,[second_address, userId], (err,result)=>{
+            if(err){
+                res.json({err:"ERROR"});
+            }
+            res.json({success: true})
+                
+        })
+    })
+
     app.post('/fetchCategory', (req,res)=>{
         const query = "Select * from category"
             
@@ -2058,19 +2073,19 @@ app.post('/removeProduct',  async (req, res) =>{
 
         const query = 
         ` SELECT 
-        u.id, 
-        u.name, 
-        u.email, 
-        u.pnum, 
-        u.address, 
-        r.title as role,
-        u.verification_token 
-    FROM 
-        user u 
-    INNER JOIN 
-        role r ON u.role = r.id
-    WHERE 
-        u.id = ?;`
+                u.id, 
+                u.name, 
+                u.email, 
+                u.pnum, 
+                u.address, 
+                r.title as role,
+                u.verification_token 
+            FROM 
+                user u 
+            INNER JOIN 
+                role r ON u.role = r.id
+            WHERE 
+                u.id = ?;`
 
         db.query(query, [userId], (err, result) => {
             if (err) {
