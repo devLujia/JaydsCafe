@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 22, 2024 at 01:35 PM
+-- Generation Time: Oct 24, 2024 at 02:51 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,14 +39,14 @@ CREATE TABLE `addons` (
 --
 
 INSERT INTO `addons` (`id`, `name`, `price`, `category_id`) VALUES
-(1, 'Crystal', 59.00, 1),
-(2, 'Cream Cheese\r\n', 79.00, 1),
-(3, 'Coffee Jelly', 39.00, 2),
-(4, 'Crushed Oreo', 34.00, 3),
-(5, 'Cream Puff', 59.00, 4),
-(6, 'Cheesecake', 50.00, 5),
-(7, 'Chia Seeds', 79.00, 7),
-(19, 'Brown Sugar Jelly', 30.00, 34);
+(1, 'taengkambing', 59.00, 1),
+(2, 'bilobilo', 79.00, 1),
+(3, 'fruit salad', 39.00, 2),
+(4, 'karton', 34.00, 3),
+(5, 'cheesesabinimam', 59.00, 4),
+(6, 'cheesesabinimam', 50.00, 5),
+(7, 'test-bibingka', 79.00, 7),
+(19, 'Cheese', 30.00, 34);
 
 -- --------------------------------------------------------
 
@@ -101,8 +101,7 @@ CREATE TABLE `cart_items` (
 INSERT INTO `cart_items` (`id`, `user_id`, `food_id`, `size`, `price`, `quantity`, `created_at`, `updated_at`, `addons`) VALUES
 (109, 40, 18, 'Medium', 217.00, 1, '2024-09-21 12:23:10', '2024-09-21 12:23:10', 'taengkambing (₱59),cheesesabinimam (₱59),cheesesabinimam (₱50)'),
 (110, 40, 20, 'Large', 109.00, 1, '2024-09-21 12:34:54', '2024-09-21 12:34:54', 'cheesesabinimam (₱50)'),
-(184, 45, 22, 'Medium', 133.00, 1, '2024-10-22 05:45:19', '2024-10-22 08:43:01', ''),
-(186, 45, 18, 'medium', 160.00, 1, '2024-10-22 09:02:37', '2024-10-22 09:02:37', '');
+(214, 31, 18, 'medium', 160.00, 5, '2024-10-24 09:43:58', '2024-10-24 09:44:01', '');
 
 -- --------------------------------------------------------
 
@@ -152,7 +151,7 @@ CREATE TABLE `cms_pages` (
 
 INSERT INTO `cms_pages` (`id`, `title`, `content`, `created_at`, `updated_at`, `category`) VALUES
 (1, 'Business Name', 'Jayd\'s Cafe', '2024-08-26 03:24:36', '2024-08-31 06:36:10', 'Header'),
-(2, 'About Us', 'Our warm and inviting atmosphere is designed to make you feel right at home. Our friendly staff is passionate about serving the best coffee and treats in town At Jayd\'s Cafe, we believe in creating more than just great coffee; we strive to foster a sense of community where everyone feels valued. So, come in, take a seat, and enjoy a moment of peace in your busy day. We can\'t wait to serve you!', '2024-08-26 03:24:51', '2024-10-22 03:10:29', 'About Us'),
+(2, 'About Us', 'Discover the perfect blend of flavors in every cup. From classic milk teas to unique creations, we’ve got something for everyone. Come sip, relax, and enjoy your favorite drink today!', '2024-08-26 03:24:51', '2024-10-12 03:24:46', 'About Us'),
 (3, 'Location', 'https://www.google.com/maps/dir//Jayd\'s+Cafe+BLK+4,+Lot+1+Diamond+Ave+Dasmariñas,+4114+Cavite/@14.3466386,120.9810339,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3397d51753ff9d15:0x1b2216c1440e07a9!2m2!1d120.9810339!2d14.3466386?entry=ttu&g_ep=EgoyMDI0MDkxOC4xIKXMDSoASAFQAw%3D%3D', '2024-08-26 03:25:00', '2024-09-21 15:26:39', 'About Us'),
 (4, 'Facebook', 'https://www.facebook.com/chard.cardosa/', '2024-08-26 08:18:13', '2024-08-30 22:55:31', 'footer'),
 (5, 'Instagram', 'https://www.instagram.com/chardgrey/', '2024-08-26 08:20:23', '2024-08-30 22:55:36', 'footer'),
@@ -164,7 +163,7 @@ INSERT INTO `cms_pages` (`id`, `title`, `content`, `created_at`, `updated_at`, `
 (11, 'Milktea Price', '39 to 49 Pesos', '2024-08-31 23:20:15', '2024-08-31 23:20:15', 'Price'),
 (12, 'Coffee Price', '49 to 69 Pesos', '2024-08-31 23:20:38', '2024-08-31 23:20:38', 'Price'),
 (13, 'Snack Price', '39 to 59 Pesos', '2024-08-31 23:21:02', '2024-08-31 23:21:02', 'Price'),
-(14, 'Store Image', '/images/aboutUsPicture.jpg', '2024-08-31 23:32:07', '2024-10-22 03:13:50', 'image'),
+(14, 'Store Image', '/images/content_1725147459433.png', '2024-08-31 23:32:07', '2024-08-31 23:37:39', 'image'),
 (15, 'Operation hours', '10:00AM - 9:00PM', '2024-08-31 23:43:38', '2024-08-31 23:43:38', 'About Us'),
 (16, 'Operation days', 'Monday - Sunday', '2024-08-31 23:44:02', '2024-08-31 23:44:02', 'About Us'),
 (17, 'Review1', '/images/462534247_1771802123587897_6128529856494394845_n.png', '2024-10-11 16:50:21', '2024-10-11 16:50:21', 'Review'),
@@ -461,7 +460,39 @@ INSERT INTO `messages` (`id`, `ticket_id`, `sender_id`, `content`, `created_at`)
 (89, 'S2v0WJB1', 31, 'Hello', '2024-10-19 06:09:40'),
 (90, 'S2v0WJB1', 42, 'hello din', '2024-10-19 06:09:45'),
 (91, 'S2v0WJB1', 31, 'San ka ya', '2024-10-19 06:09:50'),
-(92, 'S2v0WJB1', 42, 'Dito langs', '2024-10-19 06:10:08');
+(92, 'S2v0WJB1', 42, 'Dito langs', '2024-10-19 06:10:08'),
+(94, '', 42, 'Hello', '2024-10-23 05:06:37'),
+(96, '254kh7vd2k', 31, 'test', '2024-10-23 05:07:21'),
+(97, '254kh7vd2k', 31, 'test', '2024-10-23 05:21:32'),
+(98, '254kh7vd2k', 31, 'Test', '2024-10-23 05:31:53'),
+(99, '2krd4KJw', 42, 'Yo', '2024-10-23 05:32:05'),
+(100, '2krd4KJw', 42, 'Yo', '2024-10-23 05:32:08'),
+(101, '254kh7vd2k', 42, 'yooo', '2024-10-23 05:32:20'),
+(102, '254kh7vd2k', 31, 'Hello', '2024-10-23 05:33:39'),
+(103, '254kh7vd2k', 31, 'bakalako', '2024-10-23 05:37:29'),
+(104, '254kh7vd2k', 31, 'Test', '2024-10-23 05:39:41'),
+(105, '254kh7vd2k', 31, 'test', '2024-10-23 05:41:59'),
+(106, '254kh7vd2k', 42, 'yooo', '2024-10-23 05:42:08'),
+(107, '254kh7vd2k', 42, 'di ko kita', '2024-10-23 05:42:12'),
+(108, '254kh7vd2k', 42, 'Yo', '2024-10-23 05:43:02'),
+(109, '254kh7vd2k', 42, 'asdasd', '2024-10-23 05:43:08'),
+(110, '254kh7vd2k', 42, 'Test', '2024-10-23 05:43:11'),
+(111, '254kh7vd2k', 42, 'He', '2024-10-23 05:43:47'),
+(112, '254kh7vd2k', 42, 'yoo', '2024-10-23 05:45:27'),
+(113, '254kh7vd2k', 42, 'ayown', '2024-10-23 05:45:50'),
+(114, '254kh7vd2k', 42, 'apata', '2024-10-23 05:47:08'),
+(115, '254kh7vd2k', 42, 'tanginamo', '2024-10-23 05:47:13'),
+(116, '254kh7vd2k', 31, 'aba', '2024-10-23 05:47:18'),
+(117, '254kh7vd2k', 31, 'muthafucke', '2024-10-23 05:47:23'),
+(118, '254kh7vd2k', 42, 'test lang po ito', '2024-10-23 05:47:30'),
+(119, '254kh7vd2k', 42, 'sorry', '2024-10-23 05:47:31'),
+(120, '254kh7vd2k', 42, 'Yoooo', '2024-10-23 14:15:41'),
+(121, '254kh7vd2k', 42, 'Testing', '2024-10-23 14:15:51'),
+(122, '254kh7vd2k', 31, 'Yow', '2024-10-23 15:09:26'),
+(123, '254kh7vd2k', 42, 'yo ?', '2024-10-23 15:09:46'),
+(124, '254kh7vd2k', 31, 'kita mo to ?', '2024-10-23 15:09:52'),
+(125, '254kh7vd2k', 42, 'test 11:11pm ', '2024-10-23 15:11:41'),
+(126, '254kh7vd2k', 42, 'PUTANGINA MO', '2024-10-23 15:13:19');
 
 -- --------------------------------------------------------
 
@@ -530,7 +561,42 @@ INSERT INTO `orders` (`order_id`, `customer_id`, `order_date`, `deliveryMethod`,
 (1951, 31, '2024-10-18 10:58:45', 'Delivery', 'gcash', '2024-10-18 10:58:45', 'paid', 400, 0),
 (1952, 31, '2024-10-18 11:01:25', 'Delivery', 'gcash', '2024-10-18 11:01:25', 'paid', 199, 0),
 (1953, 31, '2024-10-19 04:46:40', 'Delivery', '', '2024-10-19 04:46:40', 'paid', 136, 0),
-(1954, 31, '2024-10-19 04:49:23', 'Delivery', '', '2024-10-19 04:49:23', 'paid', 144, 0);
+(1954, 31, '2024-10-19 04:49:23', 'Delivery', '', '2024-10-19 04:49:23', 'paid', 144, 0),
+(1955, 31, '2024-10-21 00:55:50', 'Delivery', '', '2024-10-21 00:55:50', 'paid', 199, NULL),
+(1956, 31, '2024-10-21 00:55:50', 'Delivery', '', '2024-10-21 00:55:50', 'paid', 199, NULL),
+(1957, 31, '2024-10-21 00:55:58', 'Delivery', '', '2024-10-21 00:55:58', 'paid', 199, NULL),
+(1958, 31, '2024-10-21 00:56:34', 'Pickup', '', '2024-10-21 00:56:34', 'paid', 199, NULL),
+(1959, 31, '2024-10-21 00:56:35', 'Pickup', '', '2024-10-21 00:56:35', 'paid', 199, NULL),
+(1960, 31, '2024-10-21 00:56:36', 'Pickup', '', '2024-10-21 00:56:36', 'paid', 199, NULL),
+(1961, 31, '2024-10-21 00:56:36', 'Pickup', '', '2024-10-21 00:56:36', 'paid', 199, NULL),
+(1962, 31, '2024-10-21 00:56:36', 'Pickup', '', '2024-10-21 00:56:36', 'paid', 199, NULL),
+(1963, 31, '2024-10-21 00:56:38', 'Pickup', '', '2024-10-21 00:56:38', 'paid', 199, NULL),
+(1964, 31, '2024-10-21 00:57:09', 'Delivery', '', '2024-10-21 00:57:09', 'paid', 199, NULL),
+(1965, 31, '2024-10-21 00:57:11', 'Delivery', '', '2024-10-21 00:57:11', 'paid', 199, NULL),
+(1966, 31, '2024-10-21 01:12:21', 'Delivery', '', '2024-10-21 01:12:21', 'paid', 160, NULL),
+(1967, 31, '2024-10-21 01:13:42', 'Delivery', 'gcash', '2024-10-21 01:13:42', 'paid', 133, NULL),
+(1968, 31, '2024-10-21 01:14:48', 'Delivery', 'gcash', '2024-10-21 01:14:48', 'paid', 160, NULL),
+(1969, 31, '2024-10-21 01:14:58', 'Delivery', 'cash', '2024-10-21 01:14:58', 'paid', 0, NULL),
+(1970, 31, '2024-10-21 01:15:01', 'Delivery', 'cash', '2024-10-21 01:15:01', 'paid', 0, NULL),
+(1971, 31, '2024-10-21 01:16:57', 'Delivery', 'gcash', '2024-10-21 01:16:57', 'paid', 160, NULL),
+(1972, 31, '2024-10-21 01:26:04', 'Pickup', 'gcash', '2024-10-21 01:26:04', 'paid', 160, NULL),
+(1973, 31, '2024-10-21 01:27:09', 'Pickup', 'cash', '2024-10-21 01:27:09', 'paid', 160, NULL),
+(1974, 31, '2024-10-21 01:27:14', 'Pickup', 'cash', '2024-10-21 01:27:14', 'paid', 160, NULL),
+(1975, 31, '2024-10-21 01:30:29', 'Delivery', '', '2024-10-21 01:30:29', 'paid', 160, NULL),
+(1976, 31, '2024-10-21 01:32:10', 'Pickup', '', '2024-10-21 01:32:10', 'paid', 160, NULL),
+(1977, 31, '2024-10-21 01:32:13', 'Pickup', '', '2024-10-21 01:32:13', 'paid', 160, NULL),
+(1978, 31, '2024-10-21 01:32:15', 'Pickup', '', '2024-10-21 01:32:15', 'paid', 160, NULL),
+(1979, 31, '2024-10-21 01:32:50', 'Pickup', '', '2024-10-21 01:32:50', 'paid', 160, NULL),
+(1980, 31, '2024-10-21 01:32:52', 'Pickup', '', '2024-10-21 01:32:52', 'paid', 160, NULL),
+(1981, 31, '2024-10-21 01:33:12', 'Pickup', '', '2024-10-21 01:33:12', 'paid', 160, NULL),
+(1982, 31, '2024-10-21 01:34:33', 'Pickup', '', '2024-10-21 01:34:33', 'paid', 160, NULL),
+(1983, 31, '2024-10-21 01:35:34', 'Pickup', 'cash', '2024-10-21 01:35:34', 'paid', 160, NULL),
+(1984, 31, '2024-10-21 01:35:38', 'Pickup', 'cash', '2024-10-21 01:35:38', 'paid', 160, NULL),
+(1985, 31, '2024-10-21 01:37:32', 'Pickup', 'cash', '2024-10-21 01:37:32', 'paid', 160, NULL),
+(1986, 31, '2024-10-21 01:38:44', 'Delivery', 'cash', '2024-10-21 01:38:44', 'paid', 160, NULL),
+(1987, 31, '2024-10-21 01:39:07', 'Delivery', 'gcash', '2024-10-21 01:39:07', 'paid', 160, NULL),
+(1988, 31, '2024-10-21 01:40:08', 'Delivery', 'gcash', '2024-10-21 01:40:08', 'paid', 160, NULL),
+(1989, 45, '2024-10-24 09:00:55', 'Delivery', 'gcash', '2024-10-24 09:00:55', 'paid', 160, NULL);
 
 -- --------------------------------------------------------
 
@@ -596,7 +662,27 @@ INSERT INTO `orders_food` (`id`, `order_id`, `food_id`, `quantity`, `size`, `add
 (139, 1951, 18, 1, 'medium', 'fruit salad (₱39)'),
 (140, 1952, 20, 1, 'medium', 'fruit salad (₱39)'),
 (141, 1953, 18, 1, 'medium', ''),
-(142, 1954, 20, 1, 'medium', 'fruit salad (₱39)');
+(142, 1954, 20, 1, 'medium', 'fruit salad (₱39)'),
+(143, 1955, 18, 1, 'medium', 'fruit salad (₱39)'),
+(144, 1958, 18, 1, 'medium', 'fruit salad (₱39)'),
+(145, 1964, 20, 1, 'medium', 'fruit salad (₱39)'),
+(146, 1966, 18, 1, 'medium', ''),
+(147, 1967, 24, 1, 'medium', ''),
+(148, 1968, 18, 1, 'medium', ''),
+(149, 1971, 19, 1, 'medium', ''),
+(150, 1972, 18, 1, 'medium', ''),
+(151, 1973, 18, 1, 'medium', ''),
+(152, 1975, 18, 1, 'medium', ''),
+(153, 1976, 18, 1, 'medium', ''),
+(154, 1979, 18, 1, 'medium', ''),
+(155, 1981, 18, 1, 'medium', ''),
+(156, 1982, 18, 1, 'medium', ''),
+(157, 1983, 18, 1, 'medium', ''),
+(158, 1985, 18, 1, 'medium', ''),
+(159, 1986, 19, 1, 'medium', ''),
+(160, 1987, 18, 1, 'medium', ''),
+(161, 1988, 19, 1, 'medium', ''),
+(162, 1989, 18, 1, 'medium', '');
 
 -- --------------------------------------------------------
 
@@ -609,6 +695,36 @@ CREATE TABLE `order_addons` (
   `order_id` int(11) UNSIGNED NOT NULL,
   `addon_id` int(11) UNSIGNED NOT NULL,
   `quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_msg`
+--
+
+CREATE TABLE `order_msg` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `order_id` int(11) UNSIGNED NOT NULL,
+  `sender_id` int(10) UNSIGNED NOT NULL,
+  `content` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_msg_id`
+--
+
+CREATE TABLE `order_msg_id` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `ticked_id` varchar(255) NOT NULL,
+  `user_id` int(11) UNSIGNED NOT NULL,
+  `subject` int(11) DEFAULT NULL,
+  `status` enum('open','closed') NOT NULL DEFAULT 'open',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -678,7 +794,10 @@ INSERT INTO `tickets` (`id`, `ticket_id`, `user_id`, `subject`, `status`, `creat
 (9, 'EvE7n4l6', 31, NULL, 'open', '2024-10-19 05:15:01', '2024-10-19 05:15:01'),
 (10, '48Xpqxk9', 31, NULL, 'open', '2024-10-19 05:19:30', '2024-10-19 05:19:30'),
 (11, 'sxg8tplo', 31, NULL, 'open', '2024-10-19 05:57:59', '2024-10-19 05:57:59'),
-(12, 'S2v0WJB1', 31, NULL, 'open', '2024-10-19 06:09:15', '2024-10-19 06:09:15');
+(12, 'S2v0WJB1', 31, NULL, 'open', '2024-10-19 06:09:15', '2024-10-19 06:09:15'),
+(13, '', 31, NULL, 'open', '2024-10-23 05:06:06', '2024-10-23 05:06:06'),
+(14, '254kh7vd2k', 31, 'test', 'open', '2024-10-23 05:07:19', '2024-10-23 15:09:24'),
+(21, '254kh7svd2k', 31, 'test', 'open', '2024-10-23 05:24:29', '2024-10-23 05:24:29');
 
 -- --------------------------------------------------------
 
@@ -692,6 +811,7 @@ CREATE TABLE `user` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
+  `seconday_address` varchar(255) NOT NULL,
   `role` int(10) UNSIGNED DEFAULT 3,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -704,19 +824,19 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `name`, `email`, `password`, `address`, `role`, `created_at`, `updated_at`, `verification_token`, `verified`, `pnum`) VALUES
-(29, 'chardsd', 'cilayap482@modotso.com', '$2b$10$/Zy8Kp69PUPEfsaEbUvdFuMl2Hes3J05Kjd3SSWEJE0b1eoaMOZ8G', 'hello 214sd', 3, '2024-07-23 08:10:42', '2024-10-20 06:17:28', '49hl4jgopk', 'true', ''),
-(30, 'dagangbukid', 'fobedo2401@reebsd.com', '$2b$10$LQfRgTYjqCoUngDsW9sQM.6lKfNq21fEMzVTh6ydb6Orj8uJqQxg.', 'DYAN LANG', 3, '2024-07-23 08:20:10', '2024-10-20 06:17:28', 'cn0d0eco8k', 'false', ''),
-(31, 'chardgrey', 'cardosarichard@gmail.com', '$2b$10$2CfKaulWCdIfErdXWtxDz.J5PC2CYidnxPHi2sWv822mG8lWKcdmu', 'Blk 99 Lot 99 Dasmarinas Cavite', 3, '2024-07-24 05:20:33', '2024-10-20 06:17:28', '254kh7vd2k', 'true', '232324'),
-(40, 'Pedro Penduko', 'jobatoc997@ofionk.com', '$2b$10$txPG8S9wWxyQKrWnVhhBd.ABarEi71skq8KM1IWayUX3bEj04cqiu', 'Salawag Diamond Village Blk 10 Lot 4', 3, '2024-09-21 12:18:09', '2024-10-20 06:17:28', '27o4xjs1ts', 'false', '09278658355'),
-(41, 'chardgrey', 'chardgrey@gmail.com', '$2b$10$5zsQK5v7BQW3WFcpLMBDveWzsV8e6EsUR7751.X3ZU2VhZ4pXcdle', 'Blk p lot 4 DASMARINAS', 3, '2024-09-28 01:52:33', '2024-10-20 06:17:28', 'dolrv3tepi', 'false', '09278658355'),
-(42, 'leklek', 'leklek@gmail.com', '$2b$10$YZg1R7JAiuRBIxbXuD/HF.Z.Y6fGM7cUPqyD94Zns1pyIEBWLf9K.', 'Blk p lot 4 DASMARINAS', 1, '2024-09-28 01:58:05', '2024-10-20 06:18:02', '0473le3c91', 'true', '09278658355'),
-(43, 'tetetetest', 'tetetetest@gmail.com', '$2b$10$2hGDiB5Dhngk.xiEi958kuOhvTVH5NoRhFWU.MYR985VgbIcfQDpC', 'tetetetest', 3, '2024-10-02 12:27:35', '2024-10-20 06:17:28', 'xdix8ijkbf', 'false', '09278658355'),
-(44, 'binulzahan02', 'binulzahan02@gmail.com', '$2b$10$Z6eau.XVkvkqKX57pRmo0OhkCHYpEVGkEqSFVgMjGgTiWDmaLN32q', 'test', 4, '2024-10-14 01:14:45', '2024-10-20 07:47:11', 'j4efvgvccc', 'false', '091234567890'),
-(45, 'san', 'sam@gmail.com', '$2b$10$78uurnjUIzE8vfH4W.162.niq4ZK3b3WYEvsm5DMTBsjLDUa2K32e', 'san', 3, '2024-10-14 01:48:59', '2024-10-20 06:17:28', 'v7l31rxyox', 'false', '09218874343'),
-(51, 'Lesde Makmak', 'lesdemakmak@gmail.com', '$2b$10$Z6KZ.lMADv8d01vkoVARWOnoR0mVo9GcLwi5O4boGCPmTd4sUWLgO', '', 2, '2024-10-20 04:31:07', '2024-10-20 06:17:53', '', 'false', ''),
-(52, 'Pedro Pedro', 'cardosarichard222@gmail.com', '$2b$10$9.Um0SaaqJtlGjeIHFZY7uplj5ui5uMLqc7zqhL/5gXY0whQpMrFK', 'Pedro Pedro Pedro Pedro', NULL, '2024-10-20 13:59:47', '2024-10-20 13:59:47', 'v4riomqx5q', 'false', '09278658333'),
-(53, 'Enter Fullname', 'enterfullname@gmail.com', '$2b$10$zCILmiPdvYYNBGijSGw2XOgG.dctEhoSNB9TvTHiJbyevc.TreFJi', '', 1, '2024-10-20 14:03:05', '2024-10-20 14:03:05', '', 'false', '');
+INSERT INTO `user` (`id`, `name`, `email`, `password`, `address`, `seconday_address`, `role`, `created_at`, `updated_at`, `verification_token`, `verified`, `pnum`) VALUES
+(29, 'chardsd', 'cilayap482@modotso.com', '$2b$10$/Zy8Kp69PUPEfsaEbUvdFuMl2Hes3J05Kjd3SSWEJE0b1eoaMOZ8G', 'hello 214sd', '', 3, '2024-07-23 08:10:42', '2024-10-20 06:17:28', '49hl4jgopk', 'true', ''),
+(30, 'dagangbukid', 'fobedo2401@reebsd.com', '$2b$10$LQfRgTYjqCoUngDsW9sQM.6lKfNq21fEMzVTh6ydb6Orj8uJqQxg.', 'DYAN LANG', '', 3, '2024-07-23 08:20:10', '2024-10-20 06:17:28', 'cn0d0eco8k', 'false', ''),
+(31, 'chardgrey', 'cardosarichard@gmail.com', '$2b$10$2CfKaulWCdIfErdXWtxDz.J5PC2CYidnxPHi2sWv822mG8lWKcdmu', 'Blk 99 Lot 99 Dasmarinas Cavite', '', 3, '2024-07-24 05:20:33', '2024-10-20 06:17:28', '254kh7vd2k', 'true', '232324'),
+(40, 'Pedro Penduko', 'jobatoc997@ofionk.com', '$2b$10$txPG8S9wWxyQKrWnVhhBd.ABarEi71skq8KM1IWayUX3bEj04cqiu', 'Salawag Diamond Village Blk 10 Lot 4', '', 3, '2024-09-21 12:18:09', '2024-10-20 06:17:28', '27o4xjs1ts', 'false', '09278658355'),
+(41, 'chardgrey', 'chardgrey@gmail.com', '$2b$10$5zsQK5v7BQW3WFcpLMBDveWzsV8e6EsUR7751.X3ZU2VhZ4pXcdle', 'Blk p lot 4 DASMARINAS', '', 3, '2024-09-28 01:52:33', '2024-10-20 06:17:28', 'dolrv3tepi', 'false', '09278658355'),
+(42, 'leklek', 'leklek@gmail.com', '$2b$10$YZg1R7JAiuRBIxbXuD/HF.Z.Y6fGM7cUPqyD94Zns1pyIEBWLf9K.', 'Blk p lot 4 DASMARINAS', '', 1, '2024-09-28 01:58:05', '2024-10-20 06:18:02', '0473le3c91', 'true', '09278658355'),
+(43, 'tetetetest', 'tetetetest@gmail.com', '$2b$10$2hGDiB5Dhngk.xiEi958kuOhvTVH5NoRhFWU.MYR985VgbIcfQDpC', 'tetetetest', '', 3, '2024-10-02 12:27:35', '2024-10-20 06:17:28', 'xdix8ijkbf', 'false', '09278658355'),
+(44, 'binulzahan02', 'binulzahan02@gmail.com', '$2b$10$Z6eau.XVkvkqKX57pRmo0OhkCHYpEVGkEqSFVgMjGgTiWDmaLN32q', 'test', '', 4, '2024-10-14 01:14:45', '2024-10-20 07:47:11', 'j4efvgvccc', 'false', '091234567890'),
+(45, 'san', 'sam@gmail.com', '$2b$10$78uurnjUIzE8vfH4W.162.niq4ZK3b3WYEvsm5DMTBsjLDUa2K32e', 'san', '', 3, '2024-10-14 01:48:59', '2024-10-20 06:17:28', 'v7l31rxyox', 'false', '09218874343'),
+(51, 'Lesde Makmak', 'lesdemakmak@gmail.com', '$2b$10$Z6KZ.lMADv8d01vkoVARWOnoR0mVo9GcLwi5O4boGCPmTd4sUWLgO', '', '', 2, '2024-10-20 04:31:07', '2024-10-20 06:17:53', '', 'false', ''),
+(52, 'Pedro Pedro', 'cardosarichard222@gmail.com', '$2b$10$9.Um0SaaqJtlGjeIHFZY7uplj5ui5uMLqc7zqhL/5gXY0whQpMrFK', 'Pedro Pedro Pedro Pedro', '', NULL, '2024-10-20 13:59:47', '2024-10-20 13:59:47', 'v4riomqx5q', 'false', '09278658333'),
+(53, 'Enter Fullname', 'enterfullname@gmail.com', '$2b$10$zCILmiPdvYYNBGijSGw2XOgG.dctEhoSNB9TvTHiJbyevc.TreFJi', '', '', 1, '2024-10-20 14:03:05', '2024-10-20 14:03:05', '', 'false', '');
 
 --
 -- Indexes for dumped tables
@@ -810,6 +930,21 @@ ALTER TABLE `order_addons`
   ADD KEY `fk_addons_id` (`addon_id`);
 
 --
+-- Indexes for table `order_msg`
+--
+ALTER TABLE `order_msg`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_orderId` (`order_id`),
+  ADD KEY `fk_senderId` (`sender_id`);
+
+--
+-- Indexes for table `order_msg_id`
+--
+ALTER TABLE `order_msg_id`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_userId` (`user_id`);
+
+--
 -- Indexes for table `riderstats`
 --
 ALTER TABLE `riderstats`
@@ -856,7 +991,7 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=190;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=215;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -892,25 +1027,37 @@ ALTER TABLE `food_sizes`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1955;
+  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1990;
 
 --
 -- AUTO_INCREMENT for table `orders_food`
 --
 ALTER TABLE `orders_food`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=163;
 
 --
 -- AUTO_INCREMENT for table `order_addons`
 --
 ALTER TABLE `order_addons`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `order_msg`
+--
+ALTER TABLE `order_msg`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `order_msg_id`
+--
+ALTER TABLE `order_msg_id`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `riderstats`
@@ -928,7 +1075,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -991,6 +1138,19 @@ ALTER TABLE `orders_food`
 ALTER TABLE `order_addons`
   ADD CONSTRAINT `fk_addons_id` FOREIGN KEY (`addon_id`) REFERENCES `addons` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_addons_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `order_msg`
+--
+ALTER TABLE `order_msg`
+  ADD CONSTRAINT `fk_orderId` FOREIGN KEY (`order_id`) REFERENCES `order_msg_id` (`id`),
+  ADD CONSTRAINT `fk_senderId` FOREIGN KEY (`sender_id`) REFERENCES `user` (`id`);
+
+--
+-- Constraints for table `order_msg_id`
+--
+ALTER TABLE `order_msg_id`
+  ADD CONSTRAINT `fk_userId` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Constraints for table `tickets`
