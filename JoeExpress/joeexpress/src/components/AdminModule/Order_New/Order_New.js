@@ -284,6 +284,7 @@ export default function Order_New() {
         const rowsPerPageHistory = 5;
 
         const [currentPendingPage, setCurrentPendingPage] = useState(1);
+        const rowsPerPagePending = 4;
 
         // Calculate total pages
         const totalPages = Math.ceil(orders.length / rowsPerPage); //tracking
@@ -291,7 +292,7 @@ export default function Order_New() {
         const indexOfFirstOrder = indexOfLastOrder - rowsPerPage;
         const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
        
-        const totalPendingPages = Math.ceil(orders.length / rowsPerPage); //tracking
+        const totalPendingPages = Math.ceil(orderHistory.length / rowsPerPagePending); //tracking
         const indexOfLastPendingOrder = currentPendingPage * rowsPerPage;
         const indexOfFirstPendingOrder = indexOfLastPendingOrder - rowsPerPage;
         const currentPendingOrders = orderHistory.slice(indexOfFirstPendingOrder, indexOfLastPendingOrder);
@@ -338,6 +339,8 @@ export default function Order_New() {
                 setCurrentPageHistory(currentPageHistory - 1);
             }
         };
+
+
   return (
     <div className=''>
          {/* <!-- nav --> */}
@@ -862,6 +865,26 @@ export default function Order_New() {
                                                 </div>  
                                             </div>                
                                         </div>
+
+                                        <div className="flex justify-between items-center px-6 py-4 font-semibold">
+                                        <button
+                                            onClick={handleNextPendingPage}
+                                            disabled={currentPendingPage === 1}
+                                            className={`px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-slate-200 ${currentPendingPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                        >
+                                            Previous
+                                        </button>
+                                        <span className="text-gray-700">
+                                            Page {currentPendingPage} of {totalPendingPages}
+                                        </span>
+                                        <button
+                                            onClick={handlePrevPendingPage}
+                                            disabled={currentPendingPage === totalPendingPages}
+                                            className={`px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-slate-200 ${currentPendingPage === totalPendingPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                        >
+                                            Next
+                                        </button>
+                                    </div>
                                     </div>
                                 </div>
                         </div>

@@ -287,7 +287,7 @@ function AdminDashboard() {
           setOrders(res.data);
       });
 
-  })
+  },[])
 
    const toggleOrderDetails = (orderId) => {
       setExpandedOrderId(expandedOrderId === orderId ? null : orderId);

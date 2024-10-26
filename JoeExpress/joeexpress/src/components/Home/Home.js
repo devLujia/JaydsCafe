@@ -670,8 +670,8 @@ function Home() {
         setFoods(response.data);
       })
       .catch(error => {
-        console.error('Error fetching food details:', error);
-      });
+        console.error('Error fetching food details:', error.response || error.message);
+      });      
   }, []);
   
   useEffect(() => {
@@ -686,6 +686,7 @@ function Home() {
         } else {
           setFoodsSpecial(foods)
         }
+        
       } catch (error) {
         console.error("Error fetching foods:", error);
       }

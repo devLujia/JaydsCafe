@@ -689,7 +689,7 @@ app.post('/order', (req, res) => {
 
         const query = `
             INSERT INTO orders (customer_id, deliveryMethod, paymentMethod, totalPrice, status) 
-            VALUES (?, ?, ?, ? ,'paid');
+            VALUES (?, ?, ?, ? ,'unpaid');
             SELECT LAST_INSERT_ID() as lastOrderId;
         `;
 
@@ -745,6 +745,7 @@ app.post('/order', (req, res) => {
             if (discountResults.length === 0) {
                 // Invalid or expired discount code
                 return res.json({ success: false, err: "Invalid or expired discount code" });
+
             }
 
             // Apply the discount
@@ -928,6 +929,27 @@ app.post('/create-payment-intent/:id', async (req, res) => {
     }
 });
 
+app.post('/setTopaid', (req, res) => {
+    
+    const { OrderId } = req.body; 
+    const query = `UPDATE orders SET status = 'paid' WHERE order_id = ? AND paymentMethod = 'gcash'`;
+
+    db.query(query, [OrderId], (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: "Error updating order status to 'paid'" });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: "Order not found or payment method not matched" });
+        }
+
+        // Successfully updated order status
+        res.json({ message: "Order status updated to 'paid'", result });
+    });
+});
+
+
+
 
 
 
@@ -1024,7 +1046,7 @@ app.post('/adminlogin',async (req, res) => {
             const name = data[0].name;
             req.session.name = name;
             req.session.role = 4;          
-            return res.json({ Login: "rider"});
+            return res.json({ Login: 4});
         }
 
         else{
@@ -1056,8 +1078,6 @@ app.post('/updateOrders', async (req,res)=>{
       })
 
 })
-
-
 
 
 app.post('/adminTable', async (req,res) => {
