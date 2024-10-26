@@ -12,7 +12,8 @@ const multer = require('multer')
 const path = require('path')
 const { Server } = require("socket.io");
 const app = express();
-const http = require("http")
+const http = require("http");
+const { error } = require("console");
 const server = http.createServer(app);
 
 const io = new Server(server);
@@ -64,6 +65,14 @@ const db = mysql.createConnection({
     database: "testreact",
     multipleStatements: true
 })
+
+db.connect((error) => {
+    if (error) {
+      console.error("Database connection failed:", error);
+      return;
+    }
+    console.log("Successfully connected to the database.");
+  });
 
 function generateToken() {
     return Math.random().toString(36).substr(2, 10);
