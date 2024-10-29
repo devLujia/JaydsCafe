@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2024 at 02:51 PM
+-- Generation Time: Oct 29, 2024 at 03:16 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -153,17 +153,13 @@ INSERT INTO `cms_pages` (`id`, `title`, `content`, `created_at`, `updated_at`, `
 (1, 'Business Name', 'Jayd\'s Cafe', '2024-08-26 03:24:36', '2024-08-31 06:36:10', 'Header'),
 (2, 'About Us', 'Discover the perfect blend of flavors in every cup. From classic milk teas to unique creations, we’ve got something for everyone. Come sip, relax, and enjoy your favorite drink today!', '2024-08-26 03:24:51', '2024-10-12 03:24:46', 'About Us'),
 (3, 'Location', 'https://www.google.com/maps/dir//Jayd\'s+Cafe+BLK+4,+Lot+1+Diamond+Ave+Dasmariñas,+4114+Cavite/@14.3466386,120.9810339,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3397d51753ff9d15:0x1b2216c1440e07a9!2m2!1d120.9810339!2d14.3466386?entry=ttu&g_ep=EgoyMDI0MDkxOC4xIKXMDSoASAFQAw%3D%3D', '2024-08-26 03:25:00', '2024-09-21 15:26:39', 'About Us'),
-(4, 'Facebook', 'https://www.facebook.com/chard.cardosa/', '2024-08-26 08:18:13', '2024-08-30 22:55:31', 'footer'),
-(5, 'Instagram', 'https://www.instagram.com/chardgrey/', '2024-08-26 08:20:23', '2024-08-30 22:55:36', 'footer'),
-(6, 'Link', 'https://github.com/chardgrey', '2024-08-26 08:22:07', '2024-08-30 22:55:40', 'footer'),
+(4, 'Facebook', 'https://www.facebook.com/jayds.coffee', '2024-08-26 08:18:13', '2024-10-29 13:58:35', 'footer'),
+(5, 'Instagram', 'https://www.instagram.com/jaydscafe/', '2024-08-26 08:20:23', '2024-10-29 13:59:09', 'footer'),
 (7, 'Phone Number', '099922292992', '2024-08-26 08:32:30', '2024-08-30 22:55:59', 'contact'),
 (8, 'Tel Number', '83928988', '2024-08-26 08:33:35', '2024-08-30 22:56:03', 'contact'),
 (9, 'Small Logo', '/images/jaydsCoffee2.svg', '2024-08-31 05:41:38', '2024-09-15 02:19:42', 'image'),
 (10, 'Big Logo', '/images/jaydsCoffee.svg', '2024-08-31 12:59:23', '2024-09-15 02:19:37', 'image'),
-(11, 'Milktea Price', '39 to 49 Pesos', '2024-08-31 23:20:15', '2024-08-31 23:20:15', 'Price'),
-(12, 'Coffee Price', '49 to 69 Pesos', '2024-08-31 23:20:38', '2024-08-31 23:20:38', 'Price'),
-(13, 'Snack Price', '39 to 59 Pesos', '2024-08-31 23:21:02', '2024-08-31 23:21:02', 'Price'),
-(14, 'Store Image', '/images/content_1725147459433.png', '2024-08-31 23:32:07', '2024-08-31 23:37:39', 'image'),
+(14, 'Store Image', '/images/aboutUsPicture.jpg', '2024-08-31 23:32:07', '2024-10-29 14:00:31', 'image'),
 (15, 'Operation hours', '10:00AM - 9:00PM', '2024-08-31 23:43:38', '2024-08-31 23:43:38', 'About Us'),
 (16, 'Operation days', 'Monday - Sunday', '2024-08-31 23:44:02', '2024-08-31 23:44:02', 'About Us'),
 (17, 'Review1', '/images/462534247_1771802123587897_6128529856494394845_n.png', '2024-10-11 16:50:21', '2024-10-11 16:50:21', 'Review'),
@@ -172,7 +168,7 @@ INSERT INTO `cms_pages` (`id`, `title`, `content`, `created_at`, `updated_at`, `
 (20, 'Review4', '/images/', '2024-10-11 17:06:32', '2024-10-11 17:06:32', 'Review'),
 (21, 'Review5', '/images/', '2024-10-11 17:06:36', '2024-10-11 17:06:36', 'Review'),
 (22, 'Review6', '/images/', '2024-10-11 17:06:39', '2024-10-11 17:06:39', 'Review'),
-(23, 'Terms', 'SABI NI MAM MAG LAGAY NG BABALA WAG OORDER PLEASE, FOR THESIS PURPOSES', '2024-10-18 12:20:32', '2024-10-19 05:02:50', 'Terms');
+(23, 'Terms', 'Our website is currently part of an ongoing thesis project and is still under development. Some features may be incomplete or may not function as expected. We appreciate your understanding and patience as we work to improve the site. Thank you for visiting!', '2024-10-18 12:20:32', '2024-10-29 13:57:54', 'Terms');
 
 -- --------------------------------------------------------
 
@@ -223,31 +219,31 @@ CREATE TABLE `foods` (
 --
 
 INSERT INTO `foods` (`id`, `name`, `description`, `image_url`, `category_id`, `visible`) VALUES
-(17, 'Hot Americano', 'Hot Americano', '/images/Hot Americano.png', 2, 1),
-(18, 'Hot Cappuccino', 'Hot Cappuccino', '/images/Hot Coffee/Hot Cappuccino 1.png', 2, 1),
-(19, 'Hot Chocolate', 'Hot Chocolate', '/images/Hot Coffee/Hot Chocolate 1.png', 2, 1),
-(20, 'Hot Coffee Latte', 'Hot Coffee Latte ', 'images/Hot Coffee/Hot Coffee Latte 1.png', 2, 1),
-(21, 'Hot Thai Tea', 'Hot Thai Tea', 'images/Hot Coffee/Hot Thai Tea 1.png', 2, 1),
-(22, 'Caramel Machiato', 'Caramel Machiato', 'images/Signature Drinks/Caramel Machiato 1.png', 1, 1),
-(23, 'Caramel Mocha', 'Caramel Mocha', 'images/Signature Drinks/Caramel Mocha 1.png', 1, 1),
-(24, 'Cloud Hazelnut', 'Cloud Hazelnut', 'images/Signature Drinks/cloud hazelnut 1.png', 1, 1),
-(25, 'Cocoa Lava', 'Cocoa Lava', 'images/Signature Drinks/Cocoa Lava 1.png', 1, 1),
-(26, 'Salted Caramel', 'Salted Caramel', 'images/Signature Drinks/Salted Caramel.png', 1, 1),
-(27, 'Strawberry Milk', 'Strawberry Milk', 'images/Signature Drinks/Strawberry Milk 1.png', 1, 1),
-(28, 'Black Coffee', 'Black Coffee', 'images/Iced Black Coffee/black coffee 1.png', 3, 1),
-(29, 'Black Coffee with Cream', 'Black Coffee with Cream', 'images/Iced Black Coffee/Black Coffee with Cream 1.png', 3, 1),
-(30, 'Biscoffee Latte', 'Biscoffee Latte', 'images/Iced Coffee Latte/Biscoffee Latte.png', 4, 1),
-(31, 'Cappuccino', 'Cappuccino', 'images/Iced Coffee Latte/Cappuccino.png', 4, 1),
-(32, 'Coffee Latte', 'Coffee Latte', 'images/Iced Coffee Latte/Coffee Latte.png', 4, 1),
-(33, 'Hazelnut Latte', 'Hazelnut Latte', 'images/Iced Coffee Latte/Hazelnut Latte.png', 4, 1),
-(34, 'Hot Chocolate', 'Hot Chocolate', 'images/Iced Coffee Latte/Hot Chocolate.png', 4, 1),
-(35, 'Hot Thai Tea', 'Hot Thai Tea', 'images/Iced Coffee Latte/Hot Thai Tea.png', 4, 1),
-(36, 'Matcha Latte', 'Matcha Latte', 'images/Iced Coffee Latte/Matcha Latte.png', 4, 1),
-(37, 'Spanish Latte', 'Spanish Latte', 'images/Iced Coffee Latte/Spanish Latte.png', 4, 1),
-(38, 'Caramel Ice Blended', 'Caramel Ice Blended', 'images/Iced Blended/Caramel Ice Blended.png', 5, 1),
-(39, 'Cookies & Cream Ice Blended', 'Cookies & Cream Ice Blended', 'images/Iced Blended/Cookies & Cream Ice Blended.png', 5, 1),
-(40, 'Java Chip Ice Blended', 'Java Chip Ice Blended', 'images/Iced Blended/Java Chip Ice Blended.png', 5, 1),
-(41, 'Matcha Ice Blended', 'Matcha Ice Blended', 'images/Iced Blended/Matcha Ice Blended.png', 5, 1),
+(17, 'Hot Americano', 'Classic espresso with hot water for a bold flavor.\r\n', '/images/Hot Americano.png', 2, 1),
+(18, 'Hot Cappuccino', 'Espresso topped with steamed milk foam.\r\n', '/images/Hot Coffee/Hot Cappuccino 1.png', 2, 1),
+(19, 'Hot Chocolate', 'Warm, rich cocoa drink.', '/images/Hot Coffee/Hot Chocolate 1.png', 2, 1),
+(20, 'Hot Coffee Latte', 'Espresso with steamed milk and light foam.', 'images/Hot Coffee/Hot Coffee Latte 1.png', 2, 1),
+(21, 'Hot Thai Tea', 'Spiced black tea with milk for a sweet, creamy taste.\r\n', 'images/Hot Coffee/Hot Thai Tea 1.png', 2, 1),
+(22, 'Caramel Machiato', 'Espresso with caramel and steamed milk.', 'images/Signature Drinks/Caramel Machiato 1.png', 1, 1),
+(23, 'Caramel Mocha', 'Espresso, chocolate, and caramel blend.', 'images/Signature Drinks/Caramel Mocha 1.png', 1, 1),
+(24, 'Cloud Hazelnut', 'Creamy hazelnut-flavored coffee.\r\n', 'images/Signature Drinks/cloud hazelnut 1.png', 1, 1),
+(25, 'Cocoa Lava', 'Intense, rich chocolate drink.\r\n', 'images/Signature Drinks/Cocoa Lava 1.png', 1, 1),
+(26, 'Salted Caramel', 'Sweet caramel with a hint of salt.', 'images/Signature Drinks/Salted Caramel.png', 1, 1),
+(27, 'Strawberry Milk', 'Sweet strawberry-flavored milk drink.', 'images/Signature Drinks/Strawberry Milk 1.png', 1, 1),
+(28, 'Black Coffee', 'Pure, strong coffee with no additives.', 'images/Iced Black Coffee/black coffee 1.png', 3, 1),
+(29, 'Black Coffee with Cream', 'Black coffee with a creamy finish.\r\n', 'images/Iced Black Coffee/Black Coffee with Cream 1.png', 3, 1),
+(30, 'Biscoffee Latte', 'Coffee with a hint of biscuit flavor.\r\n', 'images/Iced Coffee Latte/Biscoffee Latte.png', 4, 1),
+(31, 'Cappuccino', 'Espresso with steamed milk and foam.', 'images/Iced Coffee Latte/Cappuccino.png', 4, 1),
+(32, 'Coffee Latte', 'Balanced espresso and steamed milk.', 'images/Iced Coffee Latte/Coffee Latte.png', 4, 1),
+(33, 'Hazelnut Latte', 'Espresso with hazelnut-flavored milk.', 'images/Iced Coffee Latte/Hazelnut Latte.png', 4, 1),
+(34, 'Hot Chocolate', 'Classic hot cocoa drink.', 'images/Iced Coffee Latte/Hot Chocolate.png', 4, 1),
+(35, 'Hot Thai Tea', 'Spiced black tea with milk (duplicate).', 'images/Iced Coffee Latte/Hot Thai Tea.png', 4, 1),
+(36, 'Matcha Latte', 'Smooth matcha green tea with milk.', 'images/Iced Coffee Latte/Matcha Latte.png', 4, 1),
+(37, 'Spanish Latte', 'Espresso with a touch of condensed milk.', 'images/Iced Coffee Latte/Spanish Latte.png', 4, 1),
+(38, 'Caramel Ice Blended', 'Icy caramel-flavored blended drink.', 'images/Iced Blended/Caramel Ice Blended.png', 5, 1),
+(39, 'Cookies & Cream Ice Blended', 'Creamy, cookie-flavored icy drink.', 'images/Iced Blended/Cookies & Cream Ice Blended.png', 5, 1),
+(40, 'Java Chip Ice Blended', ' Coffee with chocolate chips blended in.', 'images/Iced Blended/Java Chip Ice Blended.png', 5, 1),
+(41, 'Matcha Ice Blended', 'Refreshing matcha green tea blended with ice.', 'images/Iced Blended/Matcha Ice Blended.png', 5, 1),
 (42, 'Mocha Ice Blended', 'Mocha Ice Blended', 'images/Iced Blended/Mocha Ice Blended.png', 5, 1),
 (43, 'Salted Caramel Ice Blended', 'Salted Caramel Ice Blended', 'images/Iced Blended/Salted Caramel Ice Blended.png', 5, 1),
 (44, 'Strawberries & Cream Ice Blended', 'Strawberries & Cream Ice Blended', 'images/Iced Blended/Strawberries & Cream Ice Blended.png', 5, 1),
