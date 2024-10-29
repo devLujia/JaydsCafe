@@ -119,13 +119,19 @@ export default function Checkout() {
             <>
               <div className='mb-4 text-xl tracking-wide'>Processing your payment...</div>
               <div className='my-2'>You can cancel your order within:</div>
-              <div className='w-full flex justify-evenly shrink-0 gap-3'>
-                  <button onClick={handleCloseModal} className='cursor-pointer py-3 px-5 bg-red-600 hover:bg-red-500 font-semibold tracking-wide text-white rounded-md'>
+              <div className='w-full flex flex-col sm:flex-row justify-evenly items-center gap-3'>
+                <button
+                    onClick={handleCloseModal}
+                    className='flex-1 min-w-[120px] sm:w-auto cursor-pointer py-3 px-5 bg-red-600 hover:bg-red-500 font-semibold tracking-wide text-white rounded-md text-center'
+                >
                     Cancel
-                  </button>
-                  <button onClick={handleCheckout} className='cursor-pointer py-3 px-5 bg-textgreenColor hover:bg-green-500 font-semibold tracking-wide text-white rounded-md'>
+                </button>
+                <button
+                    onClick={handleCheckout}
+                    className='flex-1 min-w-[120px] sm:w-auto cursor-pointer py-3 px-5 bg-textgreenColor hover:bg-green-500 font-semibold tracking-wide text-white rounded-md text-center'
+                >
                     Confirm ({newTime}s remaining)
-                  </button>
+                </button>
               </div>
             </>
           ),

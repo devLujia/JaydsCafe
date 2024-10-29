@@ -823,7 +823,7 @@ useEffect(() => {
 
 
       {/* <!-- Thesis Disclaimer --> */}
-      <div class="fixed top-0 w-full bg-gray-200 text-center text-xs font-medium py-2 text-black z-30">
+      <div class="fixed top-0 w-full bg-gray-200 text-center text-sm font-medium py-2 text-black z-30">
             This website is for thesis purposes only and is currently under development.
       </div>
 

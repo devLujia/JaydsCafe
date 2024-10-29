@@ -127,7 +127,7 @@ useEffect(() => {
         </nav>
 
         <div className=' flex justify-center items-center my-auto h-screen' >
-            <div className='bg-white w-1/3 mt-20 flex flex-col justify-center items-center rounded-t-lg py-2 px-7 shadow-2xl  border-b-4 border-[#29a645]'>
+            <div className='bg-white w-4/5 lg:w-1/3 mt-20 flex flex-col justify-center items-center rounded-t-lg py-2 px-7 shadow-2xl  border-b-4 border-[#29a645]'>
                 <div className='mb-2'>
                     <img src={check}></img>
                 </div>
@@ -162,7 +162,7 @@ useEffect(() => {
         <footer class="bg-[#1A1A1A] w-full h-1/4 mt-5 py-7 flex flex-col justify-center items-center"  id="footer">
             <div class="border-y-2 border-gray-400 w-4/5 p-10">
             {/* <!-- container footer--> */}
-            <div class="flex justify-between w-full">
+            <div class="flex justify-between flex-wrap gap-y-3 w-full">
                 <h1 class="text-white text-5xl font-bold">{cmsName}</h1>
                 <div class="flex gap-2">
                 <button type='button' 
