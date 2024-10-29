@@ -821,8 +821,14 @@ useEffect(() => {
     {TermsModal && <Terms closeModal={setTermsModal}/>}
     {TermsModal && <Terms closeModal={setTermsModal}/>}
 
+
+      {/* <!-- Thesis Disclaimer --> */}
+      <div class="fixed top-0 w-full bg-gray-200 text-center text-xs font-medium py-2 text-black z-30">
+            This website is for thesis purposes only and is currently under development.
+      </div>
+
     {/* <!-- nav --> */}
-    <nav class="sticky top-0 bg-white z-20 shadow-lg">
+    <nav class="sticky top-8 bg-white z-20 shadow-lg">
       <div class="font-extrabold text-2xl flex items-center">
         {/* <!-- Logo/Title in Navbar --> */}
         <a href="#" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide">{cmsName}</a>
