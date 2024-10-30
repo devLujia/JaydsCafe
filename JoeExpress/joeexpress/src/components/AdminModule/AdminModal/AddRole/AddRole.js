@@ -1,13 +1,11 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 function AddRole({ closeModal }) {
-
     const [values, setValues] = useState({
-        title: '',
-        administer: ''
-
-    })
+    title: '',
+    administer: '',
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -21,55 +19,69 @@ function AddRole({ closeModal }) {
         
     };
 
-  return (
-    <div className='modalBackground h-fit'>
-        <div className='modalContainer h-fit'>
-            <div className='flex justify-between mb-5'>
-                <h1 className='text-2xl font-bold'>Add Admin</h1> 
-                <button className='text-white text-center bg-red-500 px-3 hover:bg-red-600 rounded-md' onClick={()=> closeModal(false)}> X </button> 
+    const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setValues((prevValues) => ({
+        ...prevValues,
+        [name]: value,
+    }));
+    };
+
+    return (
+    <div className='fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50'>
+        <div className='bg-white w-[500px] rounded-lg shadow-lg flex flex-col p-6'>
+        <div className='flex justify-between items-center mb-4'>
+            <h1 className='text-xl font-bold'>Add Admin Role</h1>
+            <button 
+            onClick={() => closeModal(false)}
+            className='text-white bg-red-500 px-3 py-1 hover:bg-red-600 rounded-lg'>
+            X
+            </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className='flex flex-col'>
+            {/* Role Title */}
+            <div className='mb-4'>
+            <label htmlFor='role' className='flex text-gray-600 text-sm font-bold tracking-wider'>Role Title</label>
+            <input
+                type='text'
+                id='role'
+                name='title'
+                value={values.title}
+                onChange={handleInputChange}
+                className='shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline'
+                placeholder='Role Title'
+                required
+            />
             </div>
 
-            <form class="max-w-lg mx-10 className='grid grid-cols-1'" onSubmit={handleSubmit}>
-                <div class="mb-5">
-                    <label for="role" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role Title</label>
-                    <input 
-                        type="text" 
-                        id="role"
-                        name="role"
-                        value={values.title}  
-                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" 
-                        placeholder="Ex. 09123459678" 
-                        required 
-                        onChange={(e) => setValues({...values, title: e.target.value})}
-                    />
-                    
-                </div>
+            {/* Administer Level */}
+            <div className='mb-4'>
+            <label htmlFor='administer' className='flex text-gray-600 text-sm font-bold tracking-wider'>Admin Level</label>
+            <select
+                name='administer'
+                id='administer'
+                onChange={handleInputChange}
+                value={values.administer}
+                required
+                className='shadow appearance-none border rounded w-full text-gray-700 focus:outline-none focus:shadow-outline'
+            >
+                <option value='' disabled>Select Admin Level</option>
+                <option value='1'>Level 1</option>
+                <option value='2'>Level 2</option>
+                <option value='3'>Level 3</option>
+            </select>
+            </div>
 
-                <div class="mb-5">
-                    <label for="administer" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role Administer</label>
-                    <select 
-                        id="administer" 
-                        name="administer"
-                        value={values.administer} 
-                        className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" 
-                        required 
-                        onChange={(e) => setValues({...values, administer: e.target.value})}
-                    >
-                        <option value="" disabled>Select Level</option>
-                        <option value="1">Level 1</option>
-                        <option value="2">Level 2</option>
-                        <option value="3">Level 3</option>
-                    </select>
-                </div>
-                
-
-                <div className='flex justify-center'>
-                    <button type="submit" class="mx-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add Role</button>
-                </div>
-            </form>
+            <div className='flex items-center justify-center mt-6'>
+            <button type='submit' className='bg-amber-950 hover:bg-amber-900 text-white font-bold py-2 px-4 rounded-lg w-full'>
+                Add Role
+            </button>
+            </div>
+        </form>
         </div>
     </div>
-  )
+    );
 }
 
-export default AddRole
+export default AddRole;

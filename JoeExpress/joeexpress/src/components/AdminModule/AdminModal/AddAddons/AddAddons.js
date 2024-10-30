@@ -9,6 +9,7 @@ function AddAddons({closeModal}) {
     price: '',
     category_id: ''
   });
+  const [error,setError] = useState({});
 
   const handleInput = (e) => {
     setValues({
@@ -17,15 +18,42 @@ function AddAddons({closeModal}) {
     });
   };
 
-  const handleSubmit = (e) =>{
+  const handleSubmit = async (e) =>{
     e.preventDefault();
 
-    axios.post('http://localhost:8081/addAddons', values)
-        .then(res =>{
-            if(res.data.Success === true){
-              closeModal(false)
-            }
-        })
+    if (!values.name || !values.price || !values.category_id) {
+      const error = {};
+  
+      if (!values.name) {
+          error.name = "Name is required";
+      }
+      if (!values.price) {
+          error.price = "Description is required";
+      }
+      if (!values.category_id) {
+          error.category_id = "Category is required";
+      }
+  
+      setError(error);
+      return;
+    }
+
+    setError({})
+
+    if (typeof values.price !== 'number' && !Number.isFinite(values.price) && isNaN(Number(values.price))) {
+      const errors = { ...error, price: "Must be a valid number" };
+      setError(errors);
+      return;
+    }
+  
+    try {
+      const res = await axios.post('http://localhost:8081/addAddons', {values});
+      if (res.data.Success) {
+          closeModal(false);
+      }
+    } catch (error) {
+      console.error("Error adding addons:", error);
+    }
         
   }
 
@@ -66,6 +94,7 @@ function AddAddons({closeModal}) {
                   placeholder="Add-Ons Name" 
                   required
                 />
+                {error.name && <span className="error-message text-red-600">{error.name}</span>}
               </div>                        
       
               <div className='mb-4'>
@@ -79,7 +108,8 @@ function AddAddons({closeModal}) {
                   placeholder="₱69" 
                   required
                 />
-                
+                {error.price && <span className="error-message text-red-600">{error.price}</span>}
+
               </div>
               
               <div className='mb-4'>
@@ -108,6 +138,7 @@ function AddAddons({closeModal}) {
                     ))
                   )}
                 </select>
+                {error.categories && <span className="error-message text-red-600">{error.categories}</span>}
               </div>      
       
               <button type="submit" className="bg-greenColor hover:bg-green-800 text-white font-bold py-2 px-4 rounded-lg w-full">

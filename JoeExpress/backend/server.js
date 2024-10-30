@@ -27,7 +27,7 @@ const PAYMONGO_PUBLIC_KEY = process.env.PAYMONGO_PUBLIC_KEY;
 
 app.use(cors({
     origin:"http://localhost:3000",
-    methods: ["POST","GET"],
+    methods: ["POST","GET","DELETE"],
     credentials: true 
 }));
 
@@ -101,7 +101,6 @@ app.get('/admin',(req,res)=>{
             valid:true, name: req.session.name, userId: req.session.userId, role: req.session.role
         })
     }
-    
     else if(req.session.name && req.session.role === 4){
         return res.json({
             valid: true, name: req.session.name, userId: req.session.userId, role: req.session.role
@@ -259,8 +258,6 @@ app.post('/foodsSpecial', (req, res) => {
     });
 });
 
-
-    
     app.post('/signup', async (req, res) => {
         const { pnum, name, email, password, address } = req.body;
     
@@ -1418,8 +1415,8 @@ app.post('/removeProduct',  async (req, res) =>{
             if(err){
                 res.json({err: "Unable to delete into addons"})
             }
-            
         })
+        res.json({Success:true})
     })
     
     app.post('/removeCategory',(req,res)=>{
@@ -1728,7 +1725,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
     app.post('/addAddons',(req,res)=>{
 
-        const {name, price, category_id} = req.body;
+        const {name, price, category_id} = req.body.values;
         
         const query = `Insert into addons (name, price, category_id) VALUES
         (?, ?, ?)`
@@ -1738,7 +1735,7 @@ app.post('/removeProduct',  async (req, res) =>{
             if(err){
                 res.json({err:"ERROR"});
             }
-            res.json({Sucess: true})
+            res.json({Success: true})
              
         })
 
@@ -2121,21 +2118,30 @@ app.post('/removeProduct',  async (req, res) =>{
 
     })
 
-    app.post('/setRoles',(req,res)=>{
-
-        const {roles, user_Id} = req.body
-
-        const query = `UPDATE user SET role = ? where id = ?`
-
+    app.post('/setRoles', (req, res) => {
+        const { roles, user_Id } = req.body;
+    
+        // Validate input
+        if (!roles || !user_Id) {
+            return res.status(400).json({ error: 'Roles and user ID are required.' });
+        }
+    
+        const query = `UPDATE user SET role = ? WHERE id = ?`;
+    
         db.query(query, [roles, user_Id], (err, result) => {
             if (err) {
-                return res.status(500).json({ error: 'Failed to set role' });
+                console.error("Database query error:", err); // Log detailed error
+                return res.status(500).json({ error: 'Failed to set role. Please try again.' });
             }
-            res.json({success: true})          
+            
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ error: 'User not found.' }); // Handle case where user does not exist
+            }
+    
+            res.json({ success: true, message: 'Role updated successfully.' });
         });
-
-
-    })
+    });
+    
     
     app.post('/getRider',(req,res)=>{
 
@@ -2185,7 +2191,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
     app.post('/Addons',(req,res)=>{
 
-        const query = `Select * from addons`
+        const query = `Select a.id, a.name, a.price, a.category_id, c.title as category from addons a JOIN category c ON c.id = a.category_id`
 
         db.query(query, (err, results) => {
             if (err) {
@@ -2514,6 +2520,58 @@ app.post('/removeProduct',  async (req, res) =>{
             });
         });
     });
+
+    app.post('/addDiscount', (req,res)=>{
+        const {code,type,value,min_order,max_discount_value,limit, valid_from, valid_until} = req.body.discount;
+
+        const sql = 
+        `Insert INTO discount_codes (code, discount_type, discount_value, min_order_value,max_discount_value, usage_limit, valid_from, valid_until)
+        VALUES (?,?,?,?,?,?,?,?)
+        `
+        
+        db.query(sql, [code, type, value, min_order, max_discount_value, limit, valid_from, valid_until], (err, result) => {
+            if (err) {
+                console.error("Database error:", err);
+                return res.status(500).json({ error: 'Failed to add discount code. Please try again later.' });
+            }
+    
+            res.status(201).json({ message: 'Discount code added successfully!' });
+        });
+    })
+
+
+    app.get('/fetchDiscount', (req, res) => {
+        const sql = `SELECT * FROM discount_codes`;
+    
+        db.query(sql, (err, result) => {
+            if (err) {
+                console.error("Database error:", err);
+                return res.status(500).json({ error: 'Failed to fetch discount codes. Please try again later.' });
+            }
+            res.json(result);
+        });
+    });
+
+    app.delete('/removeDiscount/:id', (req, res) => {
+        const { id } = req.params;
+    
+        // SQL query to delete the discount code by ID
+        const sql = 'DELETE FROM discount_codes WHERE id = ?';
+    
+        db.query(sql, [id], (err, result) => {
+            if (err) {
+                console.error("Database error:", err);
+                return res.status(500).json({ error: 'Failed to delete discount code. Please try again later.' });
+            }
+    
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ error: 'Discount code not found.' });
+            }
+    
+            res.status(200).json({ message: 'Discount code deleted successfully.' });
+        });
+    });
+    
 
 // app.listen(8081,()=>{
 //     console.log("Connected");

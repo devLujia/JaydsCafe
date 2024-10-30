@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Validation from '../../../Signup/SignupValidation';
-import './addCustomerAcc.css'
 import axios from 'axios';
 
 function AddCustomerAcc({ closeModal }) {

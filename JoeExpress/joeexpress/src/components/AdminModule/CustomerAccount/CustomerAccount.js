@@ -10,6 +10,7 @@ import edit from '../../image/edit.svg'
 import plus from '../../image/plus.svg' 
 import picture from '../../image/UserAcc.svg'
 import AddCustomerAcc from '../AdminModal/AddCustomer/AddCustomerAcc.js'
+import AddRole from '../AdminModal/AddRole/AddRole.js'
 import jaydsLogo from '../../image/jayds cafe Logo.svg'
 import Areyousure from '../AdminModal/AYS/Areyousure.js'  
 import EditCustomerAcc from '../AdminModal/EditCustomer/EditCustomerAcc.js'
@@ -19,14 +20,15 @@ import { Link, useNavigate } from 'react-router-dom';
 export default function CustomerAccount() {
 
     const [addModal,setaddModal] = useState(false);
+    const [addRoleModal,setAddRoleModal] = useState(false);
     const [AYSModal,setAYSModal] = useState(false);
     const [editModal,setEditModal] = useState(false);
     const [userData,setUserData] = useState([]);
     const [selectedUserId, setSelectedUserId] = useState(null);
     const [search, setSearch] = useState('');
     const [isOpen, setIsOpen] = useState(false);
-    // const [roles, setRoles] = useState('');
-    const [role, setRole] = useState(null);
+    const [role, setRole] = useState('');
+    const [getRole, setgetRole] = useState([]);
     
 
     const [userRoles, setUserRoles] = useState({});
@@ -47,6 +49,16 @@ export default function CustomerAccount() {
             console.error('Error fetching food details:', error);
         });
     },[])
+    
+    useEffect(()=>{
+        axios.post('http://localhost:8081/getRole')
+        .then(response=>{
+            setgetRole(response.data)
+        })
+        .catch(error => {
+            console.error('Error fetching food details:', error);
+        });
+    },[addRoleModal])
 
     useEffect(() => {
 
@@ -84,34 +96,45 @@ export default function CustomerAccount() {
 
     // Handle role change
     const handleRoleChange = async (e, user_Id) => {
-        const newRole = e.target.value;
-     
+        const newRoleId = e.target.value; // This captures the ID of the selected option
+        const newRole = getRole.find(gRole => gRole.id === newRoleId)?.title; // Get the corresponding title
+    
+        // Update state to reflect the selected role title
         setUserRoles(prevState => ({
             ...prevState,
-            [user_Id]: newRole
+            [user_Id]: newRole // Store the title for display
         }));
     
         try {
+            // Make the API call to set the new role for the user
             const response = await axios.post('http://localhost:8081/setRoles', {
-                roles: newRole,
-                user_Id: user_Id
+                roles: newRoleId, // Send the title as the new role
+                user_Id: user_Id // User ID
             });
     
-            if (response.status === 200) {
+            if (response.data.success) {
                 console.log("Role updated successfully");
-                alert("Role updated successfully")
+                alert("Role updated successfully");
             } else {
-                console.log("Failed to update role");
+                console.error("Failed to update role: ", response.data);
+                alert("Failed to update role. Please try again.");
             }
         } catch (error) {
-            console.error("Error updating role:", error);
+            console.error("Error updating role:", error.response ? error.response.data : error);
+            alert("An error occurred while updating the role. Please try again.");
         }
-    
     };
+    
+    
+    
+    
     
 
     const toggleModal = () =>{
         setaddModal(!addModal)
+    }
+    const toggleAddRoleModal = () =>{
+        setAddRoleModal(!addRoleModal)
     }
 
     const toggleAYSModal = () =>{
@@ -217,6 +240,7 @@ export default function CustomerAccount() {
   return (
     <div>
         {addModal && <AddCustomerAcc closeModal={setaddModal}/>}
+        {addRoleModal && <AddRole closeModal={setAddRoleModal}/>}
         {editModal && selectedUserId !== null && (
                 <EditCustomerAcc closeModal={() => setEditModal(false)} id={selectedUserId} />
             )}
@@ -392,7 +416,7 @@ export default function CustomerAccount() {
                             <span class="md:block hidden"> Add Admin </span>
                         </button>
                         
-                        <button type="button" class="ml-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+                        <button type="button" onClick={toggleAddRoleModal} class="ml-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-yellow-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
                             <img src={plus} alt="Plus_Product" class="me-2 md:block"/>
                             <span class="md:block hidden"> Add Role </span>
                         </button>
@@ -446,14 +470,23 @@ export default function CustomerAccount() {
 
                                             {/* Dropdown for role selection */}
                                             <select
-                                                value={userRoles[user.id] || user.role}
+                                                value={userRoles[user.id] || user.role} // Default to current or selected role
                                                 onChange={(e) => handleRoleChange(e, user.id)}
                                                 className="bg-transparent text-gray-600 font-semibold p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                                             >
-                                                <option value="admin">Admin</option>
-                                                <option value="cashier">Cashier</option>
-                                                <option value="rider">Rider</option>
+                                                {getRole.length > 0 ? (
+                                                    getRole.map(gRole => (
+                                                        <option key={gRole.id} value={gRole.id}> {/* Use gRole.id as value */}
+                                                            {gRole.title} {/* Display the title */}
+                                                        </option>
+                                                    ))
+                                                ) : (
+                                                    <option value="" disabled>
+                                                        No roles available
+                                                    </option>
+                                                )}
                                             </select>
+
                                         </div>
                                     </td>
                                     <td class="flex items-center px-6 py-4 space-x-2 justify-center">

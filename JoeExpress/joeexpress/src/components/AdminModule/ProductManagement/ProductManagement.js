@@ -5,6 +5,7 @@ import edit from '../../image/edit.svg'
 import plus from '../../image/plus.svg'
 import AddProd from '../AdminModal/AddProd/AddProd'
 import AddCategory from '../AdminModal/AddCategory/AddCategory'
+import AddDiscount from '../AdminModal/AddDiscount/AddDiscount'
 import RemoveCategory from '../AdminModal/RemoveCategory/RemoveCategory'
 import RemoveProduct from '../AdminModal/RemoveProduct/RemoveProduct'
 import axios from 'axios'
@@ -15,12 +16,14 @@ import AddSize from '../AdminModal/AddSize/AddSize'
 import hiddenImage from '../../image/hidden.png';
 import user from '../../image/UserAcc.svg';
 import jaydsLogo from '../../image/jayds cafe Logo.svg';
+import Confirm from '../AdminModal/Alerts/Confirm'
+import Error from '../AdminModal/Alerts/Error'
 
 import { Link, useNavigate } from 'react-router-dom';
 
 function ProductManagement() {
 
-    
+    const [showConfirm, setShowConfirm] = useState(false);
     const navigate = useNavigate();
     const [foods,setFoods] = useState([]);
     const [addons,setAddons] = useState([]);
@@ -28,7 +31,10 @@ function ProductManagement() {
     const [search, setSearch] = useState('');
     const [addonSearch, setAddonSearch] = useState('');
     const [role, setRole] = useState(null);
+    
 
+    const [discounts, setDiscounts]= useState([])
+    const [addDiscountModal,setAddDiscountModal] = useState(false)
     const [addProductModal,setAddProductModal] = useState(false);
     const [addCategoryModal,setAddCategoryModal] = useState(false);
     const [removeCategoryModal,setRemoveCategoryModal] = useState(false);
@@ -45,13 +51,13 @@ function ProductManagement() {
     const [addSizeModal,setAddSizeModal] = useState(false);
     const [authenticated, setAuthenticated] = useState(false);
     const [userId, setUserId] = useState(null);
-    const [foodId, setFoodId] = useState(null);
     const [profile, setProfile] = useState([]);
     const [sizes, setSizes] = useState([]);
     const [tier1,setTier1] = useState([])
     const [tier2,setTier2] = useState([])
     const [tier3,setTier3] = useState([])
     const [tier,setTier] = useState([])
+    
 
     axios.defaults.withCredentials = true;
 
@@ -79,6 +85,9 @@ function ProductManagement() {
 
     const toggleAddProductModal = () =>{
         setAddProductModal(!addProductModal)
+    }
+    const toggleAddDiscountModal = () =>{
+        setAddDiscountModal(!addDiscountModal)
     }
     const handleEditProduct = (id) => {
         setProductId(id); 
@@ -139,7 +148,7 @@ function ProductManagement() {
         .catch(error => {
             console.error('Error fetching food details:', error);
         });
-    },[])
+    },[addProductModal,removeProductModal,editProductModal])
     
     useEffect(() => {
       const fetchSizes = async () => {
@@ -194,7 +203,7 @@ function ProductManagement() {
         .catch(error => {
             console.error('Error fetching addons details:', error);
         });
-    },[])
+    },[addAddonsModal, editAddonsModal])
     
     useEffect(()=>{
         axios.post('http://localhost:8081/fetchCategory')
@@ -204,7 +213,7 @@ function ProductManagement() {
         .catch(error => {
             console.error('Error fetching addons details:', error);
         });
-    },[])
+    },[addCategoryModal])
 
     useEffect(() => {
       const fetchData = async () => {
@@ -242,6 +251,43 @@ function ProductManagement() {
 
     },[userId])
 
+    useEffect(() => {
+      const fetchDiscounts = async () => {
+          try {
+              const response = await axios.get('http://localhost:8081/fetchDiscount');
+              setDiscounts(response.data);
+          } catch (error) {
+              console.error('Error fetching discount codes:', error);
+              alert('Failed to fetch discount codes. Please try again later.'); // User-friendly message
+          }
+      };
+  
+      fetchDiscounts();
+  }, [addDiscountModal]);
+  
+  
+      const removeDiscount = async (id) => {
+        if (window.confirm('Are you sure you want to delete this discount code?')) {
+          try {
+            console.log(id);
+            const response = await axios.delete(`http://localhost:8081/removeDiscount/${id}`);
+            alert(response.data.message);
+            setDiscounts((prevDiscounts) => prevDiscounts.filter(discount => discount.id !== id));
+          } catch (error) {
+            if (error.response) {
+              alert(error.response.data.error); // Show error message from the backend
+            } else {
+              console.error("Error deleting discount:", error);
+              alert('An error occurred while deleting the discount code.');
+            }
+          }
+        } // Closing bracket for the if statement
+      };
+ 
+        
+  
+      
+
 
     // useEffect(()=>{
     //             const button = document.querySelector('[data-collapse-toggle="dropdown-example"]');
@@ -268,19 +314,39 @@ function ProductManagement() {
 
     }
     
-    const handleRemoveAddons = (id) => {
-
-        axios.post('http://localhost:8081/removeAddons', { id });
-        const updatedAddons = addons.filter((addon) => addon.id !== id);
-        setAddons(updatedAddons);
-
-    }
+    const handleRemoveAddons = async (id) => {
+      try {
+          const res = await axios.post('http://localhost:8081/removeAddons', { id });
+          
+          if (res.data.Success) {
+              const updatedAddons = addons.filter((addon) => addon.id !== id);
+              setAddons(updatedAddons);
+          }
+      } catch (error) {
+          console.error("Error removing addon:", error);
+      }
+    };
+  
     
-    const handleRemoveCategory = (id) => {
+    const handleRemoveCategory = async (id) => {
 
-        axios.post('http://localhost:8081/removeCategory', { id })
-        const updatedAddons = categories.filter((category) => category.id !== id);
-        setCategories(updatedAddons);
+      if (foods.some(food => food.category_id === id)) {
+        alert("Unable to remove: 'Category is set on product, delete product first'")
+        return;
+      }
+
+      try {
+        const res = await axios.post('http://localhost:8081/removeCategory', { id });
+        
+        if (res.data.success) {
+          const updatedCategory = categories.filter((category) => category.id !== id);
+          setCategories(updatedCategory);
+        }
+
+      } 
+        catch (error) {
+        console.error("Error removing addon:", error);
+      }
         
     }
 
@@ -313,9 +379,17 @@ function ProductManagement() {
   return (
 
     <div>
+
+        {showConfirm && (
+          <Confirm
+            message="Unable to remove: 'Category is set on product, delete product first'"
+            type="error"
+          />
+        )}
         {addAddonsModal && <AddAddons closeModal={setAddAddonsModal}/>}
+        {addDiscountModal && <AddDiscount closeModal={setAddDiscountModal}/>}
         
-        {removeCategoryModal && <RemoveCategory closeModal={setRemoveCategoryModal}/>}
+        {/* {removeCategoryModal && <RemoveCategory closeModal={setRemoveCategoryModal}/>} */}
         {/* {removeProductModal && <RemoveProduct closeModal={setRemoveProductModal}/>} */}
         {addCategoryModal && <AddCategory closeModal={setAddCategoryModal}/>}
         {addProductModal && <AddProd closeModal={setAddProductModal}/>}
@@ -571,7 +645,7 @@ function ProductManagement() {
           </button>
         ) : selectedValue === 'Discount' ? (
           <button 
-            onClick={toggleAddProductModal} 
+            onClick={toggleAddDiscountModal} 
             type="button" 
             className="ml-auto text-white bg-textgreenColor hover:bg-green-900 focus:ring-2 focus:outline-none focus:ring-green-600 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
           >
@@ -693,8 +767,9 @@ function ProductManagement() {
                             <div key={addon.id} className="rounded-lg p-3 shadow-2xl relative outline outline-gray-500 hover:scale-95 duration-300 hover:bg-jaydsBg">
                               <div className="text-center">
                                 <h3 className="text-xl font-semibold mt-4 min-h-15">{addon.name}</h3>
+                                <h3 className="text-md font-light min-h-4">({addon.category})</h3>
                                 <p className="text-md font-normal mt-1">
-                                  <span className="text-xl font-semibold mt-1">Price: </span> ₱ {addon.price}
+                                  <span className="text-xl font-semibold mt-1">Price: </span> ₱ {addon.price}.00
                                 </p>
                               </div>
 
@@ -731,137 +806,77 @@ function ProductManagement() {
             ) : selectedValue === 'Discount' ? (
               <div className="relative shadow-xl sm:rounded-lg mx-auto w-full max-w-7xl">
                 
-                <div className="bg-white rounded-b-xl mb-20">
-                  <div className="text-center">
-                    <h1 className="text-5xl font-semibold tracking-wider">Voucher / Discounts</h1>
-                  </div>
+                
+                <div class="overflow-x-auto">
+  <table class="min-w-full bg-white border border-gray-300">
+    <thead>
+      <tr class="bg-gray-200 text-gray-700">
+        <th class="py-2 px-4 border">Discount Code</th>
+        <th class="py-2 px-4 border">Discount Type</th>
+        <th class="py-2 px-4 border">Discount Value</th>
+        <th class="py-2 px-4 border">Min Order Value</th>
+        <th class="py-2 px-4 border">Max Discount Value</th>
+        <th class="py-2 px-4 border">Usage Limit</th>
+        <th class="py-2 px-4 border">Times used</th>
+        <th class="py-2 px-4 border">Valid from</th>
+        <th class="py-2 px-4 border">Valid until</th>    
+        <th class="py-2 px-4 border">Created at</th>
+        {/* <th class="py-2 px-4 border">Updated at</th> */}
+        <th class="py-2 px-4 border">Action</th>
+        <th class="py-2 px-4 border">Is Active</th>
+      </tr>
+    </thead>
+    <tbody>
+     
+      {discounts.map(disc =>(
+        
+        
+        <tr key={disc.id} class="hover:bg-gray-100">
+        <td class="py-2 px-4 border">{disc.code}</td>
+        <td class="py-2 px-4 border">{disc.discount_type}</td>
+        <td class="py-2 px-4 border">{disc.discount_value}%</td>
+        <td class="py-2 px-4 border">₱ {disc.min_order_value}.00</td>
+        <td class="py-2 px-4 border">₱ {disc.max_discount_value}.00</td>
+        <td class="py-2 px-4 border">{disc.usage_limit}</td>
+        <td class="py-2 px-4 border">{disc.times_used}</td>
+        <td class="py-2 px-4 border">
+          {new Date(disc.valid_from).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+          })}
+        </td>
+        <td class="py-2 px-4 border">
+          {new Date(disc.valid_until).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+          })}
+        </td>
+        {/* <td class="py-2 px-4 border">{disc.update}</td> */}
+        <td class="py-2 px-4 border">
+          {new Date(disc.created_at).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+          })}
+        </td>
+        <td class="py-2 px-4 border">{disc.is_active === 1 ? "True": "False" }</td>
+        <td class="py-2 px-4 border">
+          <button class="bg-blue-500 text-white rounded px-2 py-1">Edit</button>
+          <button onClick={()=>removeDiscount(disc.id)} class="bg-red-500 text-white rounded px-2 py-1">Delete</button>
+        </td>
+        
+      </tr>
+    
+    
+    ))}
+      
+    </tbody>
+  </table>
+</div>
 
-                 <div className='py-8 px-10'>
-                  <form action="">
-                      <div class="grid md:grid-cols-2 grid-cols-1 gap-x-8">
-                        <div class="relative mb-6">
-                          <input type="text" id="default-search" class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none " placeholder="Name..." required=""/>
-                        </div>
-                        <div class="relative mb-6">
-                          <input type="text" id="default-search" class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none " placeholder="Email Address..." required=""/>
-                        </div>
-                      </div>
-                      <div class="grid md:grid-cols-2 grid-cols-1 gap-x-8">
-                        <div class="relative mb-6">
-                          <input type="text" id="default-search" class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none " placeholder="Phone Number..." required=""/>
-                        </div>
-                        <div class="relative mb-6">
-                          <input type="text" id="default-search" class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none " placeholder="City , Country..." required=""/>
-                        </div>
-                      </div>
-                      <div class="relative mb-6">
-                        <input type="text" id="default-search" class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none " placeholder="Tpoic..." required=""/>
-                      </div>
-                      <div class="relative mb-6">
-                        <textarea type="text" id="default-search" class="block w-full h-40 px-5 py-2.5 bg-white leading-7 resize-none text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-2xl placeholder-gray-400 focus:outline-none " placeholder="Your Message..." required=""></textarea>
-                      </div>
-                      
-                      <div>
-                        <button
-                          id="dropdownRadioHelperButton"
-                          onClick={toggleDropdownDiscount} // Toggle dropdown on click
-                          className="text-gray-400 bg-white hover:bg-gray-100 outline outline-1 outline-gray-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                          type="button" >
-                          Select Discount Voucher
-                          <svg
-                            className="w-2.5 h-2.5 ms-3"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 10 6">
-                            <path
-                              stroke="currentColor"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="m1 1 4 4 4-4"/>
-                          </svg>
-                        </button>
 
-                        {/* Dropdown menu */}
-                        <div
-                          id="dropdownRadioHelper"
-                          className={`z-10 ${isOpenDiscount ? 'block' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow w-60 dark:bg-gray-700 dark:divide-gray-600`}
-                        >
-                          <ul className="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownRadioHelperButton">
-                            <li>
-                              <div className="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                                <div className="flex items-center h-5">
-                                  <input
-                                    id="helper-radio-4"
-                                    name="helper-radio"
-                                    type="radio"
-                                    value="individual"
-                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                                  />
-                                </div>
-                                <div className="ms-2 text-sm">
-                                  <label htmlFor="helper-radio-4" className="font-medium text-gray-900 dark:text-gray-300">
-                                    <div>Individual</div>
-                                    <p id="helper-radio-text-4" className="text-xs font-normal text-gray-500 dark:text-gray-300">
-                                      Some helpful instruction goes over here.
-                                    </p>
-                                  </label>
-                                </div>
-                              </div>
-                            </li>
-                            <li>
-                              <div className="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                                <div className="flex items-center h-5">
-                                  <input
-                                    id="helper-radio-5"
-                                    name="helper-radio"
-                                    type="radio"
-                                    value="company"
-                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                                  />
-                                </div>
-                                <div className="ms-2 text-sm">
-                                  <label htmlFor="helper-radio-5" className="font-medium text-gray-900 dark:text-gray-300">
-                                    <div>Company</div>
-                                    <p id="helper-radio-text-5" className="text-xs font-normal text-gray-500 dark:text-gray-300">
-                                      Some helpful instruction goes over here.
-                                    </p>
-                                  </label>
-                                </div>
-                              </div>
-                            </li>
-                            <li>
-                              <div className="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                                <div className="flex items-center h-5">
-                                  <input
-                                    id="helper-radio-6"
-                                    name="helper-radio"
-                                    type="radio"
-                                    value="non-profit"
-                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                                  />
-                                </div>
-                                <div className="ms-2 text-sm">
-                                  <label htmlFor="helper-radio-6" className="font-medium text-gray-900 dark:text-gray-300">
-                                    <div>Non profit</div>
-                                    <p id="helper-radio-text-6" className="text-xs font-normal text-gray-500 dark:text-gray-300">
-                                      Some helpful instruction goes over here.
-                                    </p>
-                                  </label>
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      
-                      <div class="flex items-center justify-center">
-                        <button class="w-52 h-12 bg-indigo-600 hover:bg-indigo-800 transition-all duration-700 rounded-full shadow-xs text-white text-base font-semibold leading-6">Send Message</button>
-                      </div>
-                    </form>
-                 </div>
-                </div>
               </div>
             ) :  (
               <div className="relative shadow-xl sm:rounded-lg mx-auto w-full max-w-7xl">
@@ -895,6 +910,7 @@ function ProductManagement() {
                         >
                           <img src={trashbin2} alt="delete" className="w-12 h-12" />
                         </button>
+                        
                       </div>
                     </div>
                   ))}
@@ -904,6 +920,9 @@ function ProductManagement() {
         </div>
       </div>
     )}
+
+
+
   </div>
 </div>
 

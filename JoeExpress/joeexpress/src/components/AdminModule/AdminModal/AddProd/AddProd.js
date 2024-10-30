@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import './addprod.css'
 import axios from 'axios'
 
 
