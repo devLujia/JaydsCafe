@@ -199,7 +199,7 @@ function Signup() {
       </nav>
 
       {/* <!-- Form container --> */}
-      <div class="max-w-md mx-auto p-4 mt-2 mb-4 bg-white rounded-xl shadow-md md:max-w-lg md:p-6 md:pt-4 md:mb-6 lg:max-w-lg lg:p-8 lg:pt-6 lg:mb-8">
+      <div class="max-w-md lg:mx-auto mx-5 p-4 mt-2 mb-4 bg-white rounded-xl shadow-md md:max-w-lg md:p-6 md:pt-4 md:mb-6 lg:max-w-lg lg:p-8 lg:pt-6 lg:mb-8">
 
           <h2 class="text-3xl font-bold mb-6 text-black tracking-wider">Register</h2>
     
