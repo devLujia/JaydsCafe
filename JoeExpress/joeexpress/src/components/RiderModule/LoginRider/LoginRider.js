@@ -48,7 +48,7 @@ export default function LoginRider() {
         if (err.email === "" && err.password === "") {
             axios.post('http://localhost:8081/adminlogin', values)
                 .then(res => {
-                    if (res.data.Login === "rider") {
+                    if (res.data.Login === 4) {
                         navigation('/riderDashboard');
                     } else {
                         alert("No record existed");

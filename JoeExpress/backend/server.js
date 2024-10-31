@@ -1522,29 +1522,42 @@ app.post('/removeProduct',  async (req, res) =>{
  
     })
         
-        app.post('/updateAddons' , (req,res) => {
-
-        const { name , price, AddonsId } = req.body;
-
-        const query = 
-        `
-        Update addons
-        SET name = ?, 
-        price = ? 
-
-        WHERE 
-        id = ?
-        `
-
-        db.query (query,[name , price, AddonsId], (err,result) => {
-            if (err){
-                res.json({err: "Unable to update into Addons"})
+    app.post('/updateAddons', (req, res) => {
+        const { name, price, AddonsId } = req.body;
+    
+        const query = `
+            UPDATE addons
+            SET name = ?, 
+                price = ? 
+            WHERE id = ?
+        `;
+    
+        db.query(query, [name, price, AddonsId], (err, result) => {
+            if (err) {
+                console.error('Database error:', err); // Log the error for debugging
+                return res.status(500).json({ err: "Unable to update into Addons" });
             }
-            res.json({success: true})
-         
-        })
- 
-        })
+            res.json({ success: true });
+        });
+    });
+
+
+    app.post('/setAddonsVisibility',(req,res)=>{
+        const {id} = req.body
+        
+        const query = `Update addons set visible = !visible where id = ?`
+
+        db.query(query, [id], (err, result) => {
+            if (err) {
+                console.error('Database error:', err); // Log the error for debugging
+                return res.status(500).json({ err: "Unable to update into Addons" });
+            }
+
+            res.json({ success: true });
+        });
+
+    })
+    
         
         app.post('/updateCategory' , (req,res) => {
 
@@ -1823,7 +1836,7 @@ app.post('/removeProduct',  async (req, res) =>{
                 return res.status(500).json({ error: 'Failed to update visibility' });
             }
     
-            res.json({ message: 'Visibility updated successfully' });
+            res.json({success: true, message: 'Visibility updated successfully' });
         });
 
     })
@@ -2191,7 +2204,21 @@ app.post('/removeProduct',  async (req, res) =>{
 
     app.post('/Addons',(req,res)=>{
 
-        const query = `Select a.id, a.name, a.price, a.category_id, c.title as category from addons a JOIN category c ON c.id = a.category_id`
+        const query = `Select a.id, a.name, a.price, a.category_id, c.title as category from addons a JOIN category c ON c.id = a.category_id where a.visible = 1 `
+
+        db.query(query, (err, results) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to get addons' });
+            }
+            res.json(results);
+            
+        });
+
+    })
+    
+    app.post('/AdminAddons',(req,res)=>{
+
+        const query = `Select a.id, a.name, a.price, a.category_id, a.visible , c.title as category from addons a JOIN category c ON c.id = a.category_id `
 
         db.query(query, (err, results) => {
             if (err) {

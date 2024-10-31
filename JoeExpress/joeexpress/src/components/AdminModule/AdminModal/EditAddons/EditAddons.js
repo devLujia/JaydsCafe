@@ -17,6 +17,7 @@ function EditAddons({closeModal, id}) {
     };
 
     useEffect(() => {
+      console.log('Addons ID:', id);
         if (id) {
             setValues(prevValues => ({ ...prevValues, AddonsId: id }));
             axios.post('http://localhost:8081/fetchAddons', { id })
@@ -32,31 +33,48 @@ function EditAddons({closeModal, id}) {
         }
       }, [id]);
   
-      const handleSubmit = (e) => {
+      const handleSubmit = async (e) => {
         e.preventDefault();
-        const formData = new FormData();
     
-        // Append form values to FormData
-        formData.append('name', values.name);
-        formData.append('price', values.price);
-        formData.append('AddonsId', values.AddonsId);
-    
-        axios.post('http://localhost:8081/updateAddons', {
-            name: values.name,
-            price: values.price,
-            AddonsId: values.AddonsId,
-        })
-        .then(res => {
-            if(res.data.success === true){
-                alert('Addons updated successfully');
-                closeModal(false);
+        if (!values.name || !values.price || !values.AddonsId || isNaN(values.price) || values.price <= 0) {
+            if (!values.name) {
+                alert("Name is required.");
+                return;
             }
-        })
-        .catch(err => {
+            if (!values.price) {
+                alert("Price is required.");
+                return;
+            }
+            if (isNaN(values.price) || values.price <= 0) {
+                alert("Please enter a valid price greater than 0.");
+                return;
+            }
+            if (!values.AddonsId) {
+                alert("Addons ID is required.");
+                return;
+            }
+        }
+    
+        try {
+            // API call to update addons
+              const res = await axios.post('http://localhost:8081/updateAddons', {
+                  name: values.name,
+                  price: values.price,
+                  AddonsId: values.AddonsId,
+              });
+
+              if (res.data.success) {
+                  alert('Addons updated successfully');
+                  closeModal(false);
+              } else {
+                  alert('Failed to update addons. Please try again.');
+              }
+        } catch (err) {
             console.error('Error updating addons:', err);
             alert('Failed to update addons. Please try again.');
-        });
+        }
     };
+    
     
   
     return (
@@ -92,7 +110,7 @@ function EditAddons({closeModal, id}) {
                 <div className='mb-4'>
                   <label htmlFor="price" className="flex text-gray-600 text-sm font-bold tracking-wider">Price</label>
                   <input 
-                    type="text" 
+                    type="number" 
                     name="price" 
                     id="price"
                     value={values.price}

@@ -44,12 +44,11 @@ export default function OrderRider() {
         const fetchData = async () => {
         try {
            const res = await axios.get('http://localhost:8081/admin');
-           if (res.data.valid === 'rider') {
+           if (res.data.valid) {
            setAuthenticated(true);
            setUserId(res.data.userId);
            setRole(res.data.role);
            } 
-           
            else {
            navigate('/riderLogin');
            }
@@ -448,148 +447,7 @@ export default function OrderRider() {
                             </div>
                             </div>
 ))}
-                        {/* Delivered 5 */}
-                        <div class="group w-full shadow-md bg-white border-2 gap-y-5 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600">
-                            <div class="relative flex items-center gap-5 mb-6">
-                                <img src={user} alt="Jane avatar"></img>
-                                <div class="grid gap-1">
-                                    <h5 class="text-gray-900 font-medium transition-all duration-500  ">Bryden</h5>
-                                    <div className='flex flex-row shrink-0 gap-2'>
-                                        <img src={loc}></img>
-                                        <span class="text-sm leading-6 text-gray-500"> Imus, Buhay na patay </span>
-                                    </div>
-                                </div>
-                                
-                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-blue-200 font-semibold hidden'>
-                                    <h1 className='text-violet-500'>accepted</h1>
-                                </div>
-
-                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-amber-200 font-semibold hidden'>
-                                    <h1 className='text-amber-500'>Pending</h1>
-                                </div>
-                                
-                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-violet-200 font-semibold hidden'>
-                                    <h1 className='text-violet-500'>Picked up</h1>
-                                </div>
-
-                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-slate-200 font-semibold hidden'>
-                                    <h1 className='text-slate-500'>On The Way</h1>
-                                </div>
-
-                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-textgreenColor font-semibold '>
-                                    <h1 className='text-white'>Delivered</h1>
-                                </div>
-
-                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-red-200 font-semibold hidden'>
-                                    <h1 className='text-red-500'>Cancelled</h1>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center mb-1 gap-2 text-amber-500 transition-all duration-500  ">
-                                <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800"> <span className='font-semibold text-black'>Items: </span> Bubble Milk Tea, Taro Milk Tea</p>
-                            </div>
-                            <div className='flex flex-row shrink-0 gap-2'>
-                                <img src={clock}></img>
-                                <span class="text-sm leading-6 text-gray-500"> Dasmariñas, Salawag </span>
-                            </div>
-
-                            <div className='mt-5 flex justify-between'>
-                                <button className='font-semibold inline-flex justify-center items-center border border-solid border-slate-300 py-2 px-3 rounded-lg gap-2 text-slate-700'>
-                                    <img src={msg}></img>
-                                    <p>Message</p>
-                                </button>
-
-                                {/* <div className='flex justify-between gap-4'>
-                                    <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-red-500 py-2 px-3 rounded-lg gap-2 text-white'>
-                                        <p>Decline</p>
-                                    </button>
-                                    <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-10 rounded-lg gap-2 text-white'>
-                                        <p>Accept</p>
-                                    </button>
-                                </div> */}
-
-                                    {/* pang apat lalabas */}
-                                    <div className=''>
-                                    <button className='font-semibold border-2 border-solid hover:bg-textgreenColor hover:text-white transition-all duration-300 border-textgreenColor py-2 px-3 rounded-lg gap-2 text-slate-700'>
-                                        <p>View Order Detials</p>
-                                    </button>
-                                </div>
-
-                                
-                            </div>
-
-                        </div>
-                        {/* Delivered 5 */}
-                        <div class="group w-full shadow-md bg-white border-2 gap-y-5 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600">
-                            <div class="relative flex items-center gap-5 mb-6">
-                                <img src={user} alt="Jane avatar"></img>
-                                <div class="grid gap-1">
-                                    <h5 class="text-gray-900 font-medium transition-all duration-500  ">Bryden</h5>
-                                    <div className='flex flex-row shrink-0 gap-2'>
-                                        <img src={loc}></img>
-                                        <span class="text-sm leading-6 text-gray-500"> Imus, Buhay na patay </span>
-                                    </div>
-                                </div>
-                                
-                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-blue-200 font-semibold hidden'>
-                                    <h1 className='text-violet-500'>accepted</h1>
-                                </div>
-
-                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-amber-200 font-semibold hidden'>
-                                    <h1 className='text-amber-500'>Pending</h1>
-                                </div>
-                                
-                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-violet-200 font-semibold hidden'>
-                                    <h1 className='text-violet-500'>Picked up</h1>
-                                </div>
-
-                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-slate-200 font-semibold hidden'>
-                                    <h1 className='text-slate-500'>On The Way</h1>
-                                </div>
-
-                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-textgreenColor font-semibold '>
-                                    <h1 className='text-white'>Delivered</h1>
-                                </div>
-
-                                <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-red-200 font-semibold hidden'>
-                                    <h1 className='text-red-500'>Cancelled</h1>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center mb-1 gap-2 text-amber-500 transition-all duration-500  ">
-                                <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800"> <span className='font-semibold text-black'>Items: </span> Bubble Milk Tea, Taro Milk Tea</p>
-                            </div>
-                            <div className='flex flex-row shrink-0 gap-2'>
-                                <img src={clock}></img>
-                                <span class="text-sm leading-6 text-gray-500"> Dasmariñas, Salawag </span>
-                            </div>
-
-                            <div className='mt-5 flex justify-between'>
-                                <button className='font-semibold inline-flex justify-center items-center border border-solid border-slate-300 py-2 px-3 rounded-lg gap-2 text-slate-700'>
-                                    <img src={msg}></img>
-                                    <p>Message</p>
-                                </button>
-
-                                {/* <div className='flex justify-between gap-4'>
-                                    <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-red-500 py-2 px-3 rounded-lg gap-2 text-white'>
-                                        <p>Decline</p>
-                                    </button>
-                                    <button className='font-normal hover:bg-blue-700 transition-all duration-300 bg-textgreenColor py-2 px-10 rounded-lg gap-2 text-white'>
-                                        <p>Accept</p>
-                                    </button>
-                                </div> */}
-
-                                    {/* pang apat lalabas */}
-                                    <div className=''>
-                                    <button className='font-semibold border-2 border-solid hover:bg-textgreenColor hover:text-white transition-all duration-300 border-textgreenColor py-2 px-3 rounded-lg gap-2 text-slate-700'>
-                                        <p>View Order Detials</p>
-                                    </button>
-                                </div>
-
-                                
-                            </div>
-
-                        </div>
+                        
                     </div>
                 )}
 

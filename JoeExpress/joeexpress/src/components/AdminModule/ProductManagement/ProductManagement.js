@@ -41,10 +41,12 @@ function ProductManagement() {
     const [removeProductModal,setRemoveProductModal] = useState(false);
     const [editProductModal,setEditProductModal] = useState(false);
     const [editAddonsModal,setEditAddonsModal] = useState(false);
+    // const [editCategoryModal,setEditCategoryModal] = useState(false);
     const [selectedProductId, setProductId] = useState(null);
     const [selectedRemoveableProductId, setRemoveableProductId] = useState(null);
     const [selectedValue, setSelectedValue] = useState('Product');
     const [selectedAddonsId, setAddonsId] = useState(null);
+    // const [selectedCategoryId, setCategoryId] = useState(null);
     
     const [isOpen, setIsOpen] = useState(false);
     const [addAddonsModal,setAddAddonsModal] = useState(false);
@@ -99,10 +101,10 @@ function ProductManagement() {
         setEditAddonsModal(true);
     };
     
-    const handleEditCategory = (id) => {
-        setAddonsId(id); 
-        setEditAddonsModal(true);
-    };
+    // const handleEditCategory = (id) => {
+    //     setAddonsId(id); 
+    //     setEditAddonsModal(true);
+    // };
 
     useEffect(() => {
 
@@ -196,7 +198,7 @@ function ProductManagement() {
   };
     
     useEffect(()=>{
-        axios.post('http://localhost:8081/Addons')
+        axios.post('http://localhost:8081/AdminAddons')
         .then(response =>{
             setAddons(response.data)
         })
@@ -284,27 +286,6 @@ function ProductManagement() {
         } // Closing bracket for the if statement
       };
  
-        
-  
-      
-
-
-    // useEffect(()=>{
-    //             const button = document.querySelector('[data-collapse-toggle="dropdown-example"]');
-    //             const dropdown = document.getElementById('dropdown-example');
-
-    //             button.addEventListener('click', () => {
-    //             dropdown.classList.toggle('hidden');
-    //             });
-
-    //             // Dropdown sa Avatar
-    //         const avatarButton = document.getElementById('avatarButton');
-    //         const userDropdown = document.getElementById('userDropdown');
-
-    //         avatarButton.addEventListener('click', () => {
-    //         userDropdown.classList.toggle('hidden');
-    //         });
-    // })
 
     const handleRemoveProduct = (id) => {
 
@@ -350,9 +331,33 @@ function ProductManagement() {
         
     }
 
-    const handleHide = (id) =>{
-        axios.post('http://localhost:8081/hideProduct', {id})
+    const handleHide = async (id) =>{
         
+        const result = await axios.post('http://localhost:8081/hideProduct', {id});
+        if(result.data.success){
+          alert(result.data.message);
+          setFoods((prevFoods) =>
+            prevFoods.map((food) =>
+              food.id === id ? { ...food, visible: food.visible === 1 ? 0 : 1 } : food
+            )
+        );
+
+
+
+        }
+        
+    }
+    const handleHideAddons = async (id) =>{
+        const result = await axios.post('http://localhost:8081/setAddonsVisibility', {id});
+        if(result.data.success){
+          alert(`Update successfully`);
+          setAddons((prevAddons) =>
+            prevAddons.map((addon) =>
+                addon.id === id ? { ...addon, visible: addon.visible === 1 ? 0 : 1 } : addon
+            )
+        );
+        }
+
     }
     
       //pagination 
@@ -409,8 +414,9 @@ function ProductManagement() {
         {editAddonsModal && selectedAddonsId !== null && (
             <EditAddons closeModal={() => setEditAddonsModal(false)} id={selectedAddonsId} />
         )}
+
         {/* {editCategoryModal && selectedCategoryId !== null && (
-            <EditCategory closeModal={() => setEditCategoryModal(false)} id={selectedCategoryId} />
+            <EditCategory closeModal={() => setEditCategoryModal(false)} id={selectedProductId} />
         )} */}
 
         {/* <!-- nav --> */}
@@ -671,12 +677,22 @@ function ProductManagement() {
                         
                           {currentItems.map((food) => (
                             <div key={food.id} className="rounded-3xl p-3 shadow-2xl relative border-2 border-gray-300 hover:scale-95 duration-300 hover:bg-jaydsBg">
+                              <div className="visibility-status">
+                                  {food.visible === 1 ? (
+                                      <span className="text-green-500 font-semibold">Visible</span>
+                                  ) : (
+                                      <span className="text-red-500 font-semibold">Hidden</span>
+                                  )}
+                              </div>
+                              
                               <div className="rounded-full bg-slate-200 p-4 aspect-square overflow-hidden items-center flex justify-center w-4/5 mx-auto">
                                 <img src={food.image_url} alt="Milk Tea" className="w-full h-full object-contain" />
                               </div>
 
                               <div className="text-center">
                                 <h3 className="text-auto font-bold mt-4 min-h-15">{food.name}</h3>
+
+                                
                                 {sizes[food.id]?.map(size =>(
                                   <React.Fragment key={size.id}>
                                   <p className="text-auto text-sm font-semibold mt-1 text-gray-500">
@@ -766,6 +782,13 @@ function ProductManagement() {
                           .map(addon => (
                             <div key={addon.id} className="rounded-lg p-3 shadow-2xl relative outline outline-gray-500 hover:scale-95 duration-300 hover:bg-jaydsBg">
                               <div className="text-center">
+                              <div className="visibility-status">
+                                  {addon.visible === 1 ? (
+                                      <span className="text-green-500 font-semibold">Visible</span>
+                                  ) : (
+                                      <span className="text-red-500 font-semibold">Hidden</span>
+                                  )}
+                              </div>
                                 <h3 className="text-xl font-semibold mt-4 min-h-15">{addon.name}</h3>
                                 <h3 className="text-md font-light min-h-4">({addon.category})</h3>
                                 <p className="text-md font-normal mt-1">
@@ -789,7 +812,7 @@ function ProductManagement() {
                         </button>
 
                                 <button 
-                                  onClick={() => handleHide(addon.id)}
+                                  onClick={() => handleHideAddons(addon.id)}
                                   className="hover:scale-110 duration-300" 
                                   title='Hide Addons'
                                 >
@@ -897,12 +920,12 @@ function ProductManagement() {
                               </div>
 
                       <div className="flex justify-center mt-4 space-x-2">
-                        <button 
+                        {/* <button 
                           onClick={() => handleEditCategory(category.id)}
                           className="hover:scale-110 duration-300"
                         >
                           <img src={edit} alt="edit" className="w-10 h-10" />
-                        </button>
+                        </button> */}
 
                         <button
                           onClick={() => handleRemoveCategory(category.id)}

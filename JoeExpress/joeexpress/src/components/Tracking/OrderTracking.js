@@ -20,9 +20,46 @@ function OrderTracking() {
     const [authenticated, setAuthenticated] = useState(false);
     const [userId, setUserId] = useState(null);
     const navigate = useNavigate();
-    const [order, setOrder] = useState([])
+    const [order, setOrder] = useState([]);
+    const [randomizedFoodsSpecial, setRandomizedFoodsSpecial] = useState([]);
+    const [foodsSpecial, setFoodsSpecial] = useState([]);
+    const [foods, setFoods] = useState([]);
+    const [ordered, setOrdered] = useState(false);
+
+
     
     const { OrdrID } = useParams();
+
+    const shuffleArray = (array) => {
+        let shuffledArray = [...array];
+        for (let i = shuffledArray.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+        }
+        return shuffledArray;
+      };
+
+
+    useEffect(() => {
+        const fetchFoodsSpecial = async () => {
+          try {
+            const response = await axios.post('http://localhost:8081/foodsSpecial', { userId });
+            const { ordered, results } = response.data;
+    
+            if (ordered) {
+              setFoodsSpecial(results);
+              setOrdered(true);
+            } else {
+              setFoodsSpecial(foods)
+            }
+            
+          } catch (error) {
+            console.error("Error fetching foods:", error);
+          }
+        };
+    
+        fetchFoodsSpecial();
+      }, [userId,foods]);
 
 
     useEffect(() => {
@@ -38,6 +75,39 @@ function OrderTracking() {
 
         fetchOrderDetails();
     }, [OrdrID]);
+
+
+    useEffect(() => {
+        axios.get('http://localhost:8081/foods')
+          .then(response => {
+            setFoods(response.data);
+          })
+          .catch(error => {
+            console.error('Error fetching food details:', error.response || error.message);
+          });      
+      }, []);
+
+    useEffect(() => {
+
+        const shuffled = shuffleArray(foodsSpecial);
+        let newRandomized = shuffled.slice(0, 4);
+        
+        const existingNames = new Set(newRandomized.map(food => food.name));
+    
+        setRandomizedFoodsSpecial(shuffled)
+    
+        if (newRandomized.length < 4) {
+          foods.forEach(food => {
+            if (!existingNames.has(food.name) && newRandomized.length < 4) {
+              newRandomized.push(food);
+              existingNames.add(food.name); 
+            }
+          });
+          setRandomizedFoodsSpecial(newRandomized);
+        }
+    
+      }, [foodsSpecial, foods]);
+    
 
     // useEffect(() => {
     //     axios.get('http://localhost:8081/')
@@ -93,8 +163,8 @@ function OrderTracking() {
                 </div>
                 <div>
                     <p class="text-2xl text-center">
-                    Estimated Time: 
-                    <span class="block text-center">30 minutes</span>
+                    Current Status:
+                    <span class="block text-center">{order.status?.toUpperCase()}</span>
                     </p>
                 </div>
             </div>
@@ -176,72 +246,47 @@ function OrderTracking() {
             </div>
 
             {/* <!-- You might like --> */}
-            <div className='w-full bg-jaydsBg mt-16'>
-                <div className='text-center py-10'>
-                    <h1 className='text-6xl font-extrabold tracking-wide'>
-                        <span className='text-[#90c63f]'>You </span> might like
-                    </h1>
-                </div>
+            <div className="w-full bg-jaydsBg mt-16">
+    <div className="text-center py-10">
+        <h1 className="text-6xl font-extrabold tracking-wide">
+            <span className="text-[#90c63f]">You </span> might like
+        </h1>
+    </div>
 
-                <div id="fm-series">
-                    <div class="container p-4 mt-4 pb-10 grid items-center justify-center w-full" > 
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+    <div id="fm-series">
+        <div className="container p-4 mt-4 pb-10 grid items-center justify-center w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                {randomizedFoodsSpecial.slice(0, 4).map((foods) => (
+                    <div
+                        key={foods.id}
+                        className="w-full h-fit rounded-lg p-4 min-w-48 max-w-52 shadow-md relative bg-[#fdf8e0] hover:scale-95 duration-300"
+                    >
+                        {/* Image container */}
+                        <div className="rounded-full w-full h-full bg-[#fdf8e0] p-4 aspect-square mx-auto">
+                            <img
+                                src={foods.image_url}
+                                alt={foods.name}
+                                className="w-full h-full object-contain"
+                            />
+                        </div>
+                        <h3 className="text-xl font-semibold mt-2 min-h-16">{foods.name}</h3>
+                        <p className="text-gray-600 mt-2">Starts at</p>
+                        <p className="text-2xl font-bold mt-1">₱ {foods.price}.00</p>
 
-                            <div class="w-full h-fit rounded-lg p-4 min-w-48 max-w-52 shadow-md relative bg-[#fdf8e0] hover:scale-95 duration-300 hover:bg-[#fdf8e0]"> {/* <!-- card 1 --> */}
-                                <div class="rounded-full w-full h-full bg-[#fdf8e0] p-4 aspect-square mx-auto">
-                                    <img src={jayds} alt="Milk Tea" class="w-full h-full object-contain"/>
-                                </div>
-                                <h3 class="text-xl font-semibold mt-2 min-h-16">Galunggong</h3>
-                                <p class="text-gray-600 mt-2">Starts at</p>
-                                <p class="text-2xl font-bold mt-1">₱ 65.00</p>
-                                
-                                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[37%] hover:scale-125 duration-300">
-                                <img src={cart} alt=""/>
-                                </button>
-                            </div>
-                
-                            <div class="w-full h-fit rounded-lg p-4 min-w-48 max-w-52 shadow-md relative bg-[#fdf8e0] hover:scale-95 duration-300 hover:bg-[#fdf8e0]"> {/* <!-- card 1 --> */}
-                                <div class="rounded-full w-full h-full bg-[#fdf8e0] p-4 aspect-square mx-auto">
-                                    <img src={jayds} alt="Milk Tea" class="w-full h-full object-contain"/>
-                                </div>
-                                <h3 class="text-xl font-semibold mt-2 min-h-16">Galunggong</h3>
-                                <p class="text-gray-600 mt-2">Starts at</p>
-                                <p class="text-2xl font-bold mt-1">₱ 65.00</p>
-                                
-                                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[37%] hover:scale-125 duration-300">
-                                <img src={cart} alt=""/>
-                                </button>
-                            </div>
-
-                            <div class="w-full h-fit rounded-lg p-4 min-w-48 max-w-52 shadow-md relative bg-[#fdf8e0] hover:scale-95 duration-300 hover:bg-[#fdf8e0]"> {/* <!-- card 1 --> */}
-                                <div class="rounded-full w-full h-full bg-[#fdf8e0] p-4 aspect-square mx-auto">
-                                    <img src={jayds} alt="Milk Tea" class="w-full h-full object-contain"/>
-                                </div>
-                                <h3 class="text-xl font-semibold mt-2 min-h-16">Galunggong</h3>
-                                <p class="text-gray-600 mt-2">Starts at</p>
-                                <p class="text-2xl font-bold mt-1">₱ 65.00</p>
-                                
-                                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[37%] hover:scale-125 duration-300">
-                                <img src={cart} alt=""/>
-                                </button>
-                            </div>
-
-                            <div class="w-full h-fit rounded-lg p-4 min-w-48 max-w-52 shadow-md relative bg-[#fdf8e0] hover:scale-95 duration-300 hover:bg-[#fdf8e0]"> {/* <!-- card 1 --> */}
-                                <div class="rounded-full w-full h-full bg-[#fdf8e0] p-4 aspect-square mx-auto">
-                                    <img src={jayds} alt="Milk Tea" class="w-full h-full object-contain"/>
-                                </div>
-                                <h3 class="text-xl font-semibold mt-2 min-h-16">Galunggong</h3>
-                                <p class="text-gray-600 mt-2">Starts at</p>
-                                <p class="text-2xl font-bold mt-1">₱ 65.00</p>
-                                
-                                <button class="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[37%] hover:scale-125 duration-300">
-                                <img src={cart} alt=""/>
-                                </button>
-                            </div>
-                        </div> 
+                        {/* Buy Now Button */}
+                        <button
+                            onClick={()=>navigate('/cart')}
+                            className="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[37%] hover:scale-125 duration-300"
+                        >
+                            <img src={cart} alt="Add to Cart" />
+                        </button>
                     </div>
-                </div>
+                ))}
             </div>
+        </div>
+    </div>
+</div>
+
         </section>
 
         

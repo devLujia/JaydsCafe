@@ -629,9 +629,7 @@ function AdminDashboard() {
                                     <th scope="col" class="px-6 py-3">
                                           Status
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
-                                          Action
-                                    </th>
+                        
                                  </tr>
                               </thead>
 
@@ -667,7 +665,7 @@ function AdminDashboard() {
                                        <td className="px-4 py-4">
                                           <div className="bg-green-100 text-green-500 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status}</div>
                                        </td>
-                                       <td className=" px-3 py-4 gap-2">
+                                       {/* <td className=" px-3 py-4 gap-2">
                                           <div className="flex justify-center gap-4 mx-auto w-full">
 
                                              <span 
@@ -686,7 +684,7 @@ function AdminDashboard() {
                                                 <img src={check} alt="check"/>
                                              </button>
                                           </div>
-                                       </td>
+                                       </td> */}
                                     </tr>
                                     
                                     {expandedOrderId === order.order_id && (
