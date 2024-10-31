@@ -56,7 +56,6 @@ export default function LoginRider() {
                 })
                 .catch(err => console.log(err));
         }
-     
     };
 
     useEffect(() => {

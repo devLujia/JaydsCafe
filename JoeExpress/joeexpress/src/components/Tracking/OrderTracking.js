@@ -151,7 +151,35 @@ function OrderTracking() {
                 <div className='w-28 h-28 bg-slate-200 rounded-md mb-5'>
                     <img src={americano} className='object-contain h-full w-full'></img>
                 </div>
-                <h2 class="font-bold text-3xl tracking-wide">Thank you, your order is processing...</h2>
+                {order.status === 'unpaid' ? (
+                    <h2 className="font-bold text-3xl tracking-wide">
+                        Thank you for your order! It has been placed and is awaiting payment.
+                    </h2>
+                ) : order.status === 'paid' ? (
+                    <h2 className="font-bold text-3xl tracking-wide">
+                        Thank you! Your order has been placed and is currently in the queue.
+                    </h2>
+                ) : order.status === 'on process' ? (
+                    <h2 className="font-bold text-3xl tracking-wide">
+                        Thank you! Your order is being prepared.
+                    </h2>
+                ) : order.status === 'pending rider' ? (
+                    <h2 className="font-bold text-3xl tracking-wide">
+                        Thank you! Your order is in the queue, waiting for a rider.
+                    </h2>
+                ) : order.status === 'on delivery' ? (
+                    <h2 className="font-bold text-3xl tracking-wide">
+                        Thank you! Your order is on its way.
+                    </h2>
+                ) : order.status === 'completed' ? (
+                    <h2 className="font-bold text-3xl tracking-wide">
+                        Thank you! Your order has been successfully completed.
+                    </h2>
+                ) :  (
+                    <h2 className="font-bold text-3xl tracking-wide">
+                        We're sorry! Your order has been cancelled.
+                    </h2>
+                ) }
             </div>
             
             <div class="flex justify-evenly items-center mb-24">

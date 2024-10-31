@@ -116,7 +116,9 @@ export default function Editpage() {
                 foodId: food.id,
                 size: selectedSize,
                 price: totalPrice,
-                addons: addonsDetails, // Send names and prices of add-ons
+                addons: addonsDetails,
+                // quantity: quantity,
+                // sugar: sugar, // Send names and prices of add-ons
             });
             
             return response.data;

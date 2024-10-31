@@ -19,6 +19,7 @@ function AddOrder({closeModal, foodId}) {
     const [quantity,setQuantity] = useState(1);
     const [selectedSize, setSelectedSize] = useState(null);
     const [selectedAddons, setSelectedAddons] = useState([]);
+    const [sugar, setSugar] = useState('100')
     const [count, setCount] = useState(0);
     
     const [values, setValues] = useState({
@@ -134,7 +135,8 @@ function AddOrder({closeModal, foodId}) {
                 size: selectedSize,
                 price: totalPrice,
                 addons: addonsDetails,
-                quantity: quantity, // Send names and prices of add-ons
+                quantity: quantity,
+                sugar: sugar, // Send names and prices of add-ons
             });
             
             return response.data;
@@ -328,69 +330,78 @@ return(
                         </h2>
 
                         {sweetness && (
-                                <div id="accordion-color-body-1" className="w-full p-5 max-h-52 overflow-y-auto">
-                                    <div className="flex justify-between items-center mb-4 border-b-2 border-gray-200 ">
-                                        <div>
-                                            <input
-                                                type="radio"
-                                                name="sweetness"
-                                                id={`addon-sweetness-0`}
-                                                // onChange={(e) => handleAddons(e, addon)}
-                                                className="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                            />
-                                            <label htmlFor="addon-sweetness-0" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">0 % Sweetness</label>
-                                        </div>
-                                    </div>
-                                    <div className="flex justify-between items-center mb-4 border-b-2 border-gray-200 ">
-                                        <div>
-                                            <input
-                                                type="radio"
-                                                name="sweetness"
-                                                id={`addon-sweetness-1`}
-                                                // onChange={(e) => handleAddons(e, addon)}
-                                                className="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                            />
-                                            <label htmlFor="addon-sweetness-1" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">25 % Sweetness</label>
-                                        </div>
-                                    </div>
-                                    <div className="flex justify-between items-center mb-4 border-b-2 border-gray-200 ">
-                                        <div>
-                                            <input
-                                                type="radio"
-                                                name="sweetness"
-                                                id={`addon-sweetness-2`}
-                                                // onChange={(e) => handleAddons(e, addon)}
-                                                className="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                            />
-                                            <label htmlFor="addon-sweetness-2" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">50 % Sweetness</label>
-                                        </div>
-                                    </div>
-                                    <div className="flex justify-between items-center mb-4 border-b-2 border-gray-200 ">
-                                        <div>
-                                            <input
-                                                type="radio"
-                                                name="sweetness"
-                                                id={`addon-sweetness-3`}
-                                                // onChange={(e) => handleAddons(e, addon)}
-                                                className="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                            />
-                                            <label htmlFor="addon-sweetness-3" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">75 % Sweetness</label>
-                                        </div>
-                                    </div>
-                                    <div className="flex justify-between items-center mb-4 border-b-2 border-gray-200 ">
-                                        <div>
-                                            <input
-                                                type="radio"
-                                                name="sweetness"
-                                                id={`addon-sweetness-4`}
-                                                defaultChecked
-                                                // onChange={(e) => handleAddons(e, addon)}
-                                                className="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                            />
-                                            <label htmlFor="addon-sweetness-4" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">100 % Sweetness</label>
-                                        </div>
-                                    </div>
-                                </div>
+                               <div id="accordion-color-body-1" className="w-full p-5 max-h-52 overflow-y-auto">
+                               <div className="flex justify-between items-center mb-4 border-b-2 border-gray-200 ">
+                                   <div>
+                                       <input
+                                           type="radio"
+                                           name="sweetness"
+                                           id="addon-sweetness-0"
+                                           value="0"
+                                           checked={sugar === '0'}
+                                           onChange={(e) => setSugar(e.target.value)}
+                                           className="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                       />
+                                       <label htmlFor="addon-sweetness-0" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">0 % Sweetness</label>
+                                   </div>
+                               </div>
+                               <div className="flex justify-between items-center mb-4 border-b-2 border-gray-200 ">
+                                   <div>
+                                       <input
+                                           type="radio"
+                                           name="sweetness"
+                                           id="addon-sweetness-1"
+                                           value="25"
+                                           checked={sugar === '25'}
+                                           onChange={(e) => setSugar(e.target.value)}
+                                           className="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                       />
+                                       <label htmlFor="addon-sweetness-1" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">25 % Sweetness</label>
+                                   </div>
+                               </div>
+                               <div className="flex justify-between items-center mb-4 border-b-2 border-gray-200 ">
+                                   <div>
+                                       <input
+                                           type="radio"
+                                           name="sweetness"
+                                           id="addon-sweetness-2"
+                                           value="50"
+                                           checked={sugar === '50'}
+                                           onChange={(e) => setSugar(e.target.value)}
+                                           className="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                       />
+                                       <label htmlFor="addon-sweetness-2" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">50 % Sweetness</label>
+                                   </div>
+                               </div>
+                               <div className="flex justify-between items-center mb-4 border-b-2 border-gray-200 ">
+                                   <div>
+                                       <input
+                                           type="radio"
+                                           name="sweetness"
+                                           id="addon-sweetness-3"
+                                           value="75"
+                                           checked={sugar === '75'}
+                                           onChange={(e) => setSugar(e.target.value)}
+                                           className="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                       />
+                                       <label htmlFor="addon-sweetness-3" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">75 % Sweetness</label>
+                                   </div>
+                               </div>
+                               <div className="flex justify-between items-center mb-4 border-b-2 border-gray-200 ">
+                                   <div>
+                                       <input
+                                           type="radio"
+                                           name="sweetness"
+                                           id="addon-sweetness-4"
+                                           value="100"
+                                           checked={sugar === '100'}
+                                           onChange={(e) => setSugar(e.target.value)}
+                                           className="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                       />
+                                       <label htmlFor="addon-sweetness-4" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">100 % Sweetness</label>
+                                   </div>
+                               </div>
+                           </div>
                             )}
 
 

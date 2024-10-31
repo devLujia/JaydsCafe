@@ -451,7 +451,8 @@ app.post('/itemGetter', (req, res) => {
         c.size,
         c.price AS food_price,
         c.addons,
-        c.quantity
+        c.quantity,
+        c.sugar_level
     FROM
         cart_items c 
     JOIN foods f ON
@@ -531,13 +532,13 @@ app.get('/items/:foodId', (req, res) => {
   })
 
   app.post('/cart_items', (req, res) => {
-    const { foodId, size, price, addons, quantity } = req.body;
+    const { foodId, size, price, addons, quantity, sugar } = req.body;
     const userId = req.session.userId;
 
     // Insert the add-ons names directly
-    const query = 'INSERT INTO cart_items (user_id, food_id, size, price, addons, quantity) VALUES (?, ?, ?, ?, ?, ?)';
+    const query = 'INSERT INTO cart_items (user_id, food_id, size, price, addons, quantity, sugar_level) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
-    db.query(query, [userId, foodId, size, price, addons, quantity], (err, results) => {
+    db.query(query, [userId, foodId, size, price, addons, quantity, sugar], (err, results) => {
         if (err) {
             console.error('Error adding item to cart:', err);
             return res.status(500).json({ success: false, message: 'Failed to add item to cart' });
@@ -708,8 +709,8 @@ app.post('/order', (req, res) => {
 
             // Insert into orders_food with addons
             const gettingOrder = `
-                INSERT INTO orders_food (order_id, food_id, quantity, addons, size)
-                SELECT ?, food_id, quantity, addons, size
+                INSERT INTO orders_food (order_id, food_id, quantity, addons, size, sugar_level)
+                SELECT ?, food_id, quantity, addons, size, sugar_level
                 FROM cart_items
                 WHERE user_id = ?;
             `;
@@ -2330,7 +2331,8 @@ app.post('/removeProduct',  async (req, res) =>{
                         o.customer_id, 
                         o.order_date, 
                         o.status,
-                        o.totalPrice, 
+                        o.totalPrice,
+                        of.sugar_level, 
                         GROUP_CONCAT(
                             CONCAT('Food Name: ',
                                 f.name, ' ( Size: ', 
@@ -2347,7 +2349,7 @@ app.post('/removeProduct',  async (req, res) =>{
                         foods f ON f.id = of.food_id
                     JOIN 
                         user u ON u.id = o.customer_id
-                    WHERE o.status IN ('on process', 'paid')
+                    WHERE o.status IN ('on process', 'paid','unpaid')
 
                     GROUP BY 
                         o.order_id, 
