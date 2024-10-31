@@ -25,13 +25,35 @@ function AddSize({closeModal,id}) {
         });
     };
 
-    const handleSubmit = () =>{
+    const handleSubmit = async () => {
+      // Validation checks
+      if (!values.size || !values.price || isNaN(values.price) || values.price <= 0) {
 
-        axios.post('http://localhost:8081/addSize', values)
-            .then(res =>{
-                closeModal(false)
-            })
+          if (!values.size) {
+              alert("Size is required.");
+              return;
+          }
+          if (!values.price) {
+              alert("Price is required.");
+              return;
+          }
+          if (isNaN(values.price) || values.price <= 0) {
+              alert("Please enter a valid price greater than 0.");
+              return;
+          }
       }
+  
+      try {
+          // If all validations pass, proceed with the API call
+          const res = await axios.post('http://localhost:8081/addSize', values);
+          alert("Size added successfully!");
+          closeModal(false);
+      } catch (err) {
+          console.log(err);
+      }
+
+    };
+  
 
 
 

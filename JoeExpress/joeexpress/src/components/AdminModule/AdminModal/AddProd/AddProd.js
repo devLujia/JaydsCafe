@@ -31,7 +31,46 @@ function AddProd({ closeModal }) {
 
         const handleSubmit = (e) => {
           e.preventDefault();
+
+          if (!values.name || !values.description || !values.image_url || !values.category_id || !values.sizeName || !values.price || isNaN(values.price) || values.price <= 0) {
+
+            if (!values.name) {
+              alert("Name is required.");
+              return;
+            }
+            
+            if (!values.description) {
+              alert("Description is required.");
+              return;
+            }
+            
+            if (!values.image_url) {
+              alert("Image URL is required.");
+              return;
+            }
+            
+            if (!values.category_id) {
+              alert("Category ID is required.");
+              return;
+            }
+            
+            if (!values.sizeName) {
+              alert("Size name is required.");
+              return;
+            }
+            
+            if (!values.price) {
+              alert("Price is required.");
+              return;
+            }
+            
+            if (isNaN(values.price) || values.price <= 0) {
+              alert("Please enter a valid price greater than 0.");
+              return;
+            }
           
+          }
+             
           const formData = new FormData();
       
           formData.append('name', values.name);
@@ -49,7 +88,7 @@ function AddProd({ closeModal }) {
           .catch(err=> console.log(err));
 
           closeModal(false);
-      }
+        }
       
 
         useEffect(()=>{

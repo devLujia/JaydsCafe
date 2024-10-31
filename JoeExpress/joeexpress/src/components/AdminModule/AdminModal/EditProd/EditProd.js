@@ -108,6 +108,33 @@ function EditProd({closeModal, id}) {
         const handleSubmit = (e) => {
                 e.preventDefault();
 
+                if(!values.name || !values.description || !values.image_url || !values.category_id || !values.foodId || !values.sizes || !Array.isArray(values.sizes) || values.sizes.length === 0){
+                  if (!values.name) {
+                    alert("Name is required.");
+                    return;
+                  }
+                  if (!values.description) {
+                    alert("Description is required.");
+                    return;
+                  }
+                  if (!values.image_url) {
+                    alert("Image URL is required.");
+                    return;
+                  }
+                  if (!values.category_id) {
+                    alert("Category ID is required.");
+                    return;
+                  }
+                  if (!values.foodId) {
+                    alert("Food ID is required.");
+                    return;
+                  }
+                  if (!values.sizes || !Array.isArray(values.sizes) || values.sizes.length === 0) {
+                    alert("At least one size must be provided.");
+                    return;
+                  }
+                }
+
                 const formData = new FormData();
                 formData.append('name', values.name);
                 formData.append('description', values.description);
