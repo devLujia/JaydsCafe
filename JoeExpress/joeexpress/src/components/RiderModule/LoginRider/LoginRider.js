@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import helmet from '../../image/helmet.svg';
 import email from '../../image/email.svg';
 import lock from '../../image/lock(2).svg';
-import google from '../../image/google.png';
 import Validation from '../../Login/LoginValidation';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';

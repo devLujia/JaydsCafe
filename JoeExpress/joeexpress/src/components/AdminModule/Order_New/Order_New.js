@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import trashbin2 from '../../image/trashbin(2).svg'
 import notif from '../../image/notif.svg'
-import plus from '../../image/plus.svg'
 import axios from 'axios'
 import eye from '../../image/eye(2).svg'
-import download from '../../image/download.svg'
 import user from '../../image/UserAcc.svg';
 import jaydsLogo from '../../image/jayds cafe Logo.svg';
 import del from '../../image/trashbin(2).svg'
-import check from '../../image/check.svg'
 import socket from '../Message/socketService'
 
 

@@ -1179,8 +1179,7 @@ useEffect(() => {
                     {/* Map through the food items */}
                 
                 {!authenticated ? 
-                
-                (foods.map((food) => (
+                (foods.map(food => (
                 <div
                   key={food.id}
                   className="relative flex flex-col p-4 rounded-2xl bg-white text-black shadow-lg hover:shadow-2xl hover:scale-105 group border-2 border-[#067741] before:content-[''] before:absolute before:inset-0 before:rounded-2xl before:border-2 before:border-solid before:border-[#E5F5EE] before:-z-10 transition duration-300 overflow-visible"

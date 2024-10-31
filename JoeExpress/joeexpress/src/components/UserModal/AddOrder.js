@@ -1,9 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import americano from '../image/americano.png'
-import caramel from '../image/milktea.png'
 import cupsmall from '../image/cup(small).svg'
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';//alert 
 
 function AddOrder({closeModal, foodId}) {

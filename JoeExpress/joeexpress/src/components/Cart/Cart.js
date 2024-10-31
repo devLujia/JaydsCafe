@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import arrowRight from '../image/arrow right.png'
-import arrowLeft from '../image/arrow left.png'
+import React, { useEffect, useState } from 'react';
+import arrowLeft from '../image/arrow left.png';
 import fb from '../image/fb.svg';
 import ig from '../image/ig.svg';
-import edit from '../image/edit.svg'
-import del from '../image/delete.svg'
-import motor from '../image/motor.svg'
-import store from '../image/store.svg'
-import logo from '../image/logo.png'
+import del from '../image/delete.svg';
+import motor from '../image/motor.svg';
+import store from '../image/store.svg';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Del from '../UserModal/Delete/DeleteModal'
+import Del from '../UserModal/Delete/DeleteModal';
 
 function Cart() {
 

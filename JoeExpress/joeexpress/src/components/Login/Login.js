@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Validation from './LoginValidation';
 import axios from 'axios';
 import fb from '../image/fb.svg';
 import ig from '../image/ig.svg';
-import yt from '../image/yt.svg';
-import logo from '../image/logo.png';
-import menuIcon from '../image/menu.png';
-import userIcon from '../image/UserAcc.svg';
-import bagIcon from '../image/bag.svg';
-import google from '../image/google.png'
 import hidden from '../image/hidden.png'
 import './login.css'
 
@@ -234,7 +228,7 @@ const Login = () => {
               value={values.email}
               onChange={handleInput}
             />
-            {errors.email && <p>{errors.email}</p>}
+            {errors.email && <p className='text-red-700'>{errors.email}</p>}
           </div>
 
           <div class="bg-white w-full max-w-full rounded-md mx-auto mt-300 flex items-center">
@@ -250,7 +244,7 @@ const Login = () => {
                 onChange={handleInput}
                 required
               />
-              {errors.password && <p>{errors.password}</p>}
+              {errors.password && <p className='text-red-700'>{errors.password}</p>}
 
               <img
                 onClick={togglePasswordVisibility}
@@ -262,7 +256,7 @@ const Login = () => {
               />
             </div>
           </div>
-          {errors.general && <p style={{ color: 'red' }}>{errors.general}</p>}
+          {errors.general && <p className='text-red-700'>{errors.general}</p>}
           <input
             class="bg-greenColor hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-full leading-10 mb-10 cursor-pointer"
             type="submit"

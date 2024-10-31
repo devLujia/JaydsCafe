@@ -9,12 +9,6 @@ import order from '../../image/order(dashboard).svg'
 import product from '../../image/product(dashboard).svg'
 import customer from '../../image/customer(dashboard).svg'
 import user from '../../image/UserAcc.svg'
-import eye from '../../image/eye(2).svg'
-import del from '../../image/trashbin(2).svg'
-import check from '../../image/check.svg'
-import edit from '../../image/edit.svg'
-import arrowDOWN from '../../image/arrowdown.svg'
-import settings from '../../image/settings.svg'
 
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -471,7 +465,7 @@ function AdminDashboard() {
    
             <ul class="pt-5 mt-10 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
 
-            {tier3.includes(profile?.role|| 0) || tier2.includes(profile?.role|| 0) || tier1.includes(profile?.role|| 0) ? 
+            {tier3.includes(profile?.role|| 0) || tier2.includes(profile?.role|| 0) ? 
                <li> {/* <!-- Inbox --> */}
                   <a href="/Message" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor group hover:text-white dark:text-white">
                      <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75 group-hover:text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -505,6 +499,7 @@ function AdminDashboard() {
       </aside>
 
       <div class="p-4 sm:ml-64 pt-5 hidden sm:block dark:bg-[#3f3f3f]">
+      {tier3.includes(profile?.role|| 0) ?
          <div class="p-4 ml-8">
 
             {/* Overview & Chats*/}
@@ -815,7 +810,8 @@ function AdminDashboard() {
                </div>
             </div>
          </div>
-      </div>
+         : <h1 className='ml-24'>You aren't authorize in this section</h1>}
+      </div> 
       
     </div>
   )

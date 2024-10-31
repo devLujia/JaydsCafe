@@ -29,9 +29,13 @@ function AdminLogin() {
         if (err.email === "" && err.password === "") {
             axios.post('http://localhost:8081/adminlogin', values)
                 .then(res => {
-                    if (res.data.Login) {
+                    if (res.data.Login === 1) {
                         navigation('/dashboard');
-                    } else {
+                    } 
+                    else if (res.data.Login === 2){
+                        navigation('/order');
+                    }
+                    else {
                         alert("No record existed");
                     }
                 })

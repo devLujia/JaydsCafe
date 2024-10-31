@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import cup1 from '../image/cup(small).svg';
-import cup2 from '../image/cup(large).svg';
 import arrowLeft from '../image/arrow left.svg';
-import jaydscoffee from '../image/jaydsCoffee.svg';
-import cart from '../image/cart.svg';
 import bagIcon from '../image/bag.svg';
-import caramel from '../image/milktea.png'
 import cupsmall from '../image/cup(small).svg'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
