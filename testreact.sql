@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 29, 2024 at 03:16 PM
+-- Generation Time: Nov 01, 2024 at 01:09 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,6 +31,7 @@ CREATE TABLE `addons` (
   `id` int(11) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
   `price` decimal(10,2) NOT NULL,
+  `visible` tinyint(1) NOT NULL DEFAULT 1,
   `category_id` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -38,15 +39,14 @@ CREATE TABLE `addons` (
 -- Dumping data for table `addons`
 --
 
-INSERT INTO `addons` (`id`, `name`, `price`, `category_id`) VALUES
-(1, 'taengkambing', 59.00, 1),
-(2, 'bilobilo', 79.00, 1),
-(3, 'fruit salad', 39.00, 2),
-(4, 'karton', 34.00, 3),
-(5, 'cheesesabinimam', 59.00, 4),
-(6, 'cheesesabinimam', 50.00, 5),
-(7, 'test-bibingka', 79.00, 7),
-(19, 'Cheese', 30.00, 34);
+INSERT INTO `addons` (`id`, `name`, `price`, `visible`, `category_id`) VALUES
+(1, 'Pearls', 10.00, 1, 1),
+(2, 'Esspresso Shot', 24.00, 1, 1),
+(4, 'Cream Cheese', 15.00, 1, 3),
+(5, 'Whipped Cream', 15.00, 1, 4),
+(6, 'Milk', 30.00, 1, 5),
+(7, 'test-bibingka', 79.00, 1, 7),
+(19, 'Cheese', 30.00, 1, 34);
 
 -- --------------------------------------------------------
 
@@ -91,17 +91,17 @@ CREATE TABLE `cart_items` (
   `quantity` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `addons` varchar(100) NOT NULL
+  `addons` varchar(100) NOT NULL,
+  `sugar_level` enum('100','75','50','25','0') NOT NULL DEFAULT '100'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `cart_items`
 --
 
-INSERT INTO `cart_items` (`id`, `user_id`, `food_id`, `size`, `price`, `quantity`, `created_at`, `updated_at`, `addons`) VALUES
-(109, 40, 18, 'Medium', 217.00, 1, '2024-09-21 12:23:10', '2024-09-21 12:23:10', 'taengkambing (₱59),cheesesabinimam (₱59),cheesesabinimam (₱50)'),
-(110, 40, 20, 'Large', 109.00, 1, '2024-09-21 12:34:54', '2024-09-21 12:34:54', 'cheesesabinimam (₱50)'),
-(214, 31, 18, 'medium', 160.00, 5, '2024-10-24 09:43:58', '2024-10-24 09:44:01', '');
+INSERT INTO `cart_items` (`id`, `user_id`, `food_id`, `size`, `price`, `quantity`, `created_at`, `updated_at`, `addons`, `sugar_level`) VALUES
+(109, 40, 18, 'Medium', 217.00, 1, '2024-09-21 12:23:10', '2024-09-21 12:23:10', 'taengkambing (₱59),cheesesabinimam (₱59),cheesesabinimam (₱50)', '100'),
+(110, 40, 20, 'Large', 109.00, 1, '2024-09-21 12:34:54', '2024-09-21 12:34:54', 'cheesesabinimam (₱50)', '100');
 
 -- --------------------------------------------------------
 
@@ -346,7 +346,11 @@ INSERT INTO `food_sizes` (`id`, `food_id`, `size`, `price`, `date_created`, `dat
 (149, 17, 'small', 20.00, '2024-08-31 15:37:30', '2024-10-14 11:14:24'),
 (177, 113, 'Medium', 113.00, '2024-09-21 08:40:28', '2024-10-14 08:32:19'),
 (178, 18, 'small', 27.00, '2024-09-28 13:54:02', '2024-09-28 13:54:02'),
-(179, 19, 'small', 29.00, '2024-09-28 14:18:55', '2024-09-28 14:18:55');
+(179, 19, 'small', 29.00, '2024-09-28 14:18:55', '2024-09-28 14:18:55'),
+(188, 29, 'Venti', 120.00, '2024-10-31 05:04:44', '2024-10-31 05:04:44'),
+(189, 21, 'Large', 120.00, '2024-10-31 05:08:41', '2024-10-31 05:08:41'),
+(190, 21, 'Venti', 180.00, '2024-10-31 05:09:06', '2024-10-31 05:09:06'),
+(191, 28, 'Venti', 120.00, '2024-10-31 05:11:53', '2024-10-31 05:11:53');
 
 -- --------------------------------------------------------
 
@@ -488,7 +492,18 @@ INSERT INTO `messages` (`id`, `ticket_id`, `sender_id`, `content`, `created_at`)
 (123, '254kh7vd2k', 42, 'yo ?', '2024-10-23 15:09:46'),
 (124, '254kh7vd2k', 31, 'kita mo to ?', '2024-10-23 15:09:52'),
 (125, '254kh7vd2k', 42, 'test 11:11pm ', '2024-10-23 15:11:41'),
-(126, '254kh7vd2k', 42, 'PUTANGINA MO', '2024-10-23 15:13:19');
+(126, '254kh7vd2k', 42, 'PUTANGINA MO', '2024-10-23 15:13:19'),
+(127, '254kh7vd2k', 42, 'Ayo', '2024-10-31 17:22:40'),
+(128, '254kh7vd2k', 31, 'test', '2024-10-31 17:22:46'),
+(129, '254kh7vd2k', 42, 'spam', '2024-10-31 17:22:51'),
+(130, '254kh7vd2k', 31, 'bastos', '2024-10-31 17:22:54'),
+(131, '254kh7vd2k', 31, 'ayooo', '2024-10-31 17:23:01'),
+(132, '254kh7vd2k', 42, 'ayoooo', '2024-10-31 17:23:04'),
+(133, '254kh7vd2k', 31, 'huhuhuhuhu', '2024-10-31 17:23:11'),
+(134, '254kh7vd2k', 31, 'bat di ka nagana sa deployment', '2024-10-31 17:23:18'),
+(141, '254kh7vd2k', 31, 'test', '2024-11-01 11:13:54'),
+(142, '254kh7vd2k', 31, 'yo', '2024-11-01 11:14:04'),
+(143, '254kh7vd2k', 42, 'test', '2024-11-01 11:14:07');
 
 -- --------------------------------------------------------
 
@@ -513,86 +528,10 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `customer_id`, `order_date`, `deliveryMethod`, `paymentMethod`, `update_order_date`, `status`, `totalPrice`, `rider_id`) VALUES
-(1910, 31, '2024-09-23 07:38:22', 'Pickup', '', '2024-10-11 16:33:11', 'completed', 400, 0),
-(1911, 31, '2024-09-23 07:40:12', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 400, 0),
-(1912, 31, '2024-09-23 07:47:01', 'Pickup', '', '2024-10-11 16:33:11', 'completed', 400, 0),
-(1913, 31, '2024-09-23 09:28:04', 'Pickup', '', '2024-10-11 16:33:11', 'completed', 100, 0),
-(1914, 31, '2024-09-23 10:05:35', 'Pickup', '', '2024-10-11 16:33:11', 'completed', 100, 0),
-(1915, 31, '2024-09-23 17:46:49', 'Pickup', '', '2024-10-11 16:33:11', 'completed', 296, 0),
-(1916, 31, '2024-09-25 15:03:41', 'Pickup', '', '2024-10-11 16:33:11', 'completed', 1389, 0),
-(1917, 31, '2024-10-02 10:12:45', 'Pickup', '', '2024-10-11 16:33:11', 'on delivery', 354, 0),
-(1918, 31, '2024-10-02 10:16:45', 'Pickup', '', '2024-10-11 16:33:11', 'completed', 354, 0),
-(1919, 31, '2024-10-02 10:20:16', 'Pickup', '', '2024-10-11 16:33:11', 'cancelled', 108, 0),
-(1920, 31, '2024-10-06 01:29:29', 'Pickup', '', '2024-10-11 16:33:11', 'cancelled', 27, 0),
-(1921, 31, '2024-10-07 01:41:09', 'Pickup', '', '2024-10-17 01:00:26', 'on delivery', 29, 0),
-(1922, 31, '2024-10-07 01:53:32', 'Pickup', '', '2024-10-19 09:11:30', 'completed', 27, 0),
-(1923, 31, '2024-10-07 02:01:09', 'Pickup', '', '2024-10-19 13:34:30', 'completed', 27, 44),
-(1924, 31, '2024-10-07 02:03:31', 'Pickup', '', '2024-10-19 13:00:09', 'pending rider', 49, 44),
-(1925, 31, '2024-10-07 02:03:36', 'Pickup', '', '2024-10-19 13:05:55', 'pending rider', 49, 44),
-(1926, 31, '2024-10-07 02:03:51', 'Pickup', '', '2024-10-19 13:04:04', 'on delivery', 27, 44),
-(1927, 31, '2024-10-07 02:04:15', 'Pickup', '', '2024-10-19 16:40:24', 'pending rider', 49, 44),
-(1928, 31, '2024-10-07 02:07:14', 'Pickup', '', '2024-10-19 13:05:43', 'pending rider', 49, 44),
-(1929, 31, '2024-10-07 02:09:20', 'Pickup', '', '2024-10-19 13:05:58', 'pending rider', 35, 44),
-(1930, 31, '2024-10-07 02:09:35', 'Pickup', '', '2024-10-19 15:56:59', 'on process', 49, 0),
-(1931, 31, '2024-10-07 02:19:45', 'Pickup', '', '2024-10-19 16:37:54', 'on process', 147, 0),
-(1932, 31, '2024-10-07 02:21:43', 'Pickup', '', '2024-10-19 16:38:18', 'on process', 49, 0),
-(1933, 31, '2024-10-07 02:23:08', 'Pickup', '', '2024-10-19 16:38:27', 'pending rider', 49, 44),
-(1934, 31, '2024-10-07 02:25:20', 'Pickup', '', '2024-10-19 16:42:53', 'on process', 49, 0),
-(1935, 31, '2024-10-07 02:27:05', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49, 0),
-(1936, 31, '2024-10-07 02:27:12', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49, 0),
-(1937, 31, '2024-10-07 02:30:30', 'Pickup', '', '2024-10-19 16:43:04', 'on process', 49, 0),
-(1938, 31, '2024-10-07 02:40:24', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49, 0),
-(1939, 31, '2024-10-07 02:40:32', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49, 0),
-(1940, 31, '2024-10-07 02:43:40', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49, 0),
-(1941, 31, '2024-10-07 02:44:16', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49, 0),
-(1942, 31, '2024-10-07 02:46:41', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49, 0),
-(1943, 31, '2024-10-07 05:19:14', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 69, 0),
-(1944, 31, '2024-10-07 05:21:48', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 59, 0),
-(1945, 31, '2024-10-07 05:25:29', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49, 0),
-(1946, 31, '2024-10-07 05:26:07', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 27, 0),
-(1947, 31, '2024-10-07 05:33:19', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 49, 0),
-(1948, 31, '2024-10-07 05:35:29', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 39, 0),
-(1949, 31, '2024-10-07 16:42:46', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 27, 0),
-(1950, 31, '2024-10-11 16:17:18', 'Pickup', '', '2024-10-11 16:33:11', 'paid', 127, 0),
-(1951, 31, '2024-10-18 10:58:45', 'Delivery', 'gcash', '2024-10-18 10:58:45', 'paid', 400, 0),
-(1952, 31, '2024-10-18 11:01:25', 'Delivery', 'gcash', '2024-10-18 11:01:25', 'paid', 199, 0),
-(1953, 31, '2024-10-19 04:46:40', 'Delivery', '', '2024-10-19 04:46:40', 'paid', 136, 0),
-(1954, 31, '2024-10-19 04:49:23', 'Delivery', '', '2024-10-19 04:49:23', 'paid', 144, 0),
-(1955, 31, '2024-10-21 00:55:50', 'Delivery', '', '2024-10-21 00:55:50', 'paid', 199, NULL),
-(1956, 31, '2024-10-21 00:55:50', 'Delivery', '', '2024-10-21 00:55:50', 'paid', 199, NULL),
-(1957, 31, '2024-10-21 00:55:58', 'Delivery', '', '2024-10-21 00:55:58', 'paid', 199, NULL),
-(1958, 31, '2024-10-21 00:56:34', 'Pickup', '', '2024-10-21 00:56:34', 'paid', 199, NULL),
-(1959, 31, '2024-10-21 00:56:35', 'Pickup', '', '2024-10-21 00:56:35', 'paid', 199, NULL),
-(1960, 31, '2024-10-21 00:56:36', 'Pickup', '', '2024-10-21 00:56:36', 'paid', 199, NULL),
-(1961, 31, '2024-10-21 00:56:36', 'Pickup', '', '2024-10-21 00:56:36', 'paid', 199, NULL),
-(1962, 31, '2024-10-21 00:56:36', 'Pickup', '', '2024-10-21 00:56:36', 'paid', 199, NULL),
-(1963, 31, '2024-10-21 00:56:38', 'Pickup', '', '2024-10-21 00:56:38', 'paid', 199, NULL),
-(1964, 31, '2024-10-21 00:57:09', 'Delivery', '', '2024-10-21 00:57:09', 'paid', 199, NULL),
-(1965, 31, '2024-10-21 00:57:11', 'Delivery', '', '2024-10-21 00:57:11', 'paid', 199, NULL),
-(1966, 31, '2024-10-21 01:12:21', 'Delivery', '', '2024-10-21 01:12:21', 'paid', 160, NULL),
-(1967, 31, '2024-10-21 01:13:42', 'Delivery', 'gcash', '2024-10-21 01:13:42', 'paid', 133, NULL),
-(1968, 31, '2024-10-21 01:14:48', 'Delivery', 'gcash', '2024-10-21 01:14:48', 'paid', 160, NULL),
-(1969, 31, '2024-10-21 01:14:58', 'Delivery', 'cash', '2024-10-21 01:14:58', 'paid', 0, NULL),
-(1970, 31, '2024-10-21 01:15:01', 'Delivery', 'cash', '2024-10-21 01:15:01', 'paid', 0, NULL),
-(1971, 31, '2024-10-21 01:16:57', 'Delivery', 'gcash', '2024-10-21 01:16:57', 'paid', 160, NULL),
-(1972, 31, '2024-10-21 01:26:04', 'Pickup', 'gcash', '2024-10-21 01:26:04', 'paid', 160, NULL),
-(1973, 31, '2024-10-21 01:27:09', 'Pickup', 'cash', '2024-10-21 01:27:09', 'paid', 160, NULL),
-(1974, 31, '2024-10-21 01:27:14', 'Pickup', 'cash', '2024-10-21 01:27:14', 'paid', 160, NULL),
-(1975, 31, '2024-10-21 01:30:29', 'Delivery', '', '2024-10-21 01:30:29', 'paid', 160, NULL),
-(1976, 31, '2024-10-21 01:32:10', 'Pickup', '', '2024-10-21 01:32:10', 'paid', 160, NULL),
-(1977, 31, '2024-10-21 01:32:13', 'Pickup', '', '2024-10-21 01:32:13', 'paid', 160, NULL),
-(1978, 31, '2024-10-21 01:32:15', 'Pickup', '', '2024-10-21 01:32:15', 'paid', 160, NULL),
-(1979, 31, '2024-10-21 01:32:50', 'Pickup', '', '2024-10-21 01:32:50', 'paid', 160, NULL),
-(1980, 31, '2024-10-21 01:32:52', 'Pickup', '', '2024-10-21 01:32:52', 'paid', 160, NULL),
-(1981, 31, '2024-10-21 01:33:12', 'Pickup', '', '2024-10-21 01:33:12', 'paid', 160, NULL),
-(1982, 31, '2024-10-21 01:34:33', 'Pickup', '', '2024-10-21 01:34:33', 'paid', 160, NULL),
-(1983, 31, '2024-10-21 01:35:34', 'Pickup', 'cash', '2024-10-21 01:35:34', 'paid', 160, NULL),
-(1984, 31, '2024-10-21 01:35:38', 'Pickup', 'cash', '2024-10-21 01:35:38', 'paid', 160, NULL),
-(1985, 31, '2024-10-21 01:37:32', 'Pickup', 'cash', '2024-10-21 01:37:32', 'paid', 160, NULL),
-(1986, 31, '2024-10-21 01:38:44', 'Delivery', 'cash', '2024-10-21 01:38:44', 'paid', 160, NULL),
-(1987, 31, '2024-10-21 01:39:07', 'Delivery', 'gcash', '2024-10-21 01:39:07', 'paid', 160, NULL),
-(1988, 31, '2024-10-21 01:40:08', 'Delivery', 'gcash', '2024-10-21 01:40:08', 'paid', 160, NULL),
-(1989, 45, '2024-10-24 09:00:55', 'Delivery', 'gcash', '2024-10-24 09:00:55', 'paid', 160, NULL);
+(1991, 31, '2024-10-31 16:47:24', 'Delivery', 'gcash', '2024-10-31 17:04:26', 'paid', 160, 0),
+(1992, 31, '2024-10-31 16:53:08', 'Pickup', 'gcash', '2024-10-31 16:53:08', 'unpaid', 160, NULL),
+(1993, 31, '2024-10-31 16:53:08', 'Pickup', 'gcash', '2024-10-31 17:06:13', 'paid', 160, 0),
+(1994, 31, '2024-10-31 16:54:45', 'Delivery', 'gcash', '2024-10-31 17:11:54', 'completed', 160, 44);
 
 -- --------------------------------------------------------
 
@@ -606,79 +545,19 @@ CREATE TABLE `orders_food` (
   `food_id` int(50) UNSIGNED NOT NULL,
   `quantity` int(11) NOT NULL,
   `size` varchar(100) NOT NULL,
-  `addons` varchar(255) NOT NULL
+  `addons` varchar(255) NOT NULL,
+  `sugar_level` enum('100','75','50','25','0') NOT NULL DEFAULT '100'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `orders_food`
 --
 
-INSERT INTO `orders_food` (`id`, `order_id`, `food_id`, `quantity`, `size`, `addons`) VALUES
-(98, 1910, 20, 1, 'Medium', 'fruit salad (₱39),karton (₱34)'),
-(99, 1912, 23, 2, 'Medium', 'bilobilo (₱79),karton (₱34),cheesesabinimam (₱50)'),
-(100, 1913, 22, 1, 'Large', 'fruit salad (₱39),cheesesabinimam (₱59),test-bibingka (₱79)'),
-(101, 1914, 19, 1, 'Medium', 'karton (₱34),cheesesabinimam (₱59),test-bibingka (₱79)'),
-(102, 1915, 19, 2, 'Large', 'fruit salad (₱39),cheesesabinimam (₱50)'),
-(103, 1916, 18, 4, 'Large', 'taengkambing (₱59),bilobilo (₱79)'),
-(104, 1916, 18, 1, 'Medium', 'taengkambing (₱59),bilobilo (₱79)'),
-(105, 1917, 54, 3, 'Medium', 'cheesesabinimam (₱59)'),
-(106, 1918, 19, 3, 'Large', 'taengkambing (₱59)'),
-(107, 1919, 18, 1, 'Medium', 'taengkambing (₱59)'),
-(108, 1920, 18, 1, 'small', ''),
-(109, 1921, 19, 1, 'small', ''),
-(110, 1922, 18, 1, 'small', ''),
-(111, 1923, 18, 1, 'small', ''),
-(112, 1924, 20, 1, 'medium', ''),
-(113, 1926, 18, 1, 'small', ''),
-(114, 1927, 18, 1, 'medium', ''),
-(115, 1928, 18, 1, 'medium', ''),
-(116, 1930, 18, 1, 'medium', ''),
-(117, 1931, 17, 1, 'medium', ''),
-(118, 1931, 17, 1, 'medium', ''),
-(119, 1931, 17, 1, 'medium', ''),
-(120, 1932, 17, 1, 'medium', ''),
-(121, 1933, 18, 1, 'medium', ''),
-(122, 1934, 18, 1, 'medium', ''),
-(123, 1935, 20, 1, 'medium', ''),
-(124, 1937, 18, 1, 'medium', ''),
-(125, 1938, 17, 1, 'medium', ''),
-(126, 1940, 17, 1, 'medium', ''),
-(127, 1941, 17, 1, 'medium', ''),
-(128, 1942, 18, 1, 'medium', ''),
-(129, 1943, 54, 1, 'large', ''),
-(130, 1944, 17, 1, 'large', ''),
-(131, 1945, 18, 1, 'medium', ''),
-(132, 1946, 18, 1, 'small', ''),
-(133, 1947, 18, 1, 'medium', ''),
-(134, 1948, 26, 1, 'medium', ''),
-(135, 1949, 18, 1, 'small', ''),
-(136, 1950, 113, 1, 'medium', ''),
-(137, 1950, 18, 1, 'medium', ''),
-(138, 1950, 19, 1, 'medium', ''),
-(139, 1951, 18, 1, 'medium', 'fruit salad (₱39)'),
-(140, 1952, 20, 1, 'medium', 'fruit salad (₱39)'),
-(141, 1953, 18, 1, 'medium', ''),
-(142, 1954, 20, 1, 'medium', 'fruit salad (₱39)'),
-(143, 1955, 18, 1, 'medium', 'fruit salad (₱39)'),
-(144, 1958, 18, 1, 'medium', 'fruit salad (₱39)'),
-(145, 1964, 20, 1, 'medium', 'fruit salad (₱39)'),
-(146, 1966, 18, 1, 'medium', ''),
-(147, 1967, 24, 1, 'medium', ''),
-(148, 1968, 18, 1, 'medium', ''),
-(149, 1971, 19, 1, 'medium', ''),
-(150, 1972, 18, 1, 'medium', ''),
-(151, 1973, 18, 1, 'medium', ''),
-(152, 1975, 18, 1, 'medium', ''),
-(153, 1976, 18, 1, 'medium', ''),
-(154, 1979, 18, 1, 'medium', ''),
-(155, 1981, 18, 1, 'medium', ''),
-(156, 1982, 18, 1, 'medium', ''),
-(157, 1983, 18, 1, 'medium', ''),
-(158, 1985, 18, 1, 'medium', ''),
-(159, 1986, 19, 1, 'medium', ''),
-(160, 1987, 18, 1, 'medium', ''),
-(161, 1988, 19, 1, 'medium', ''),
-(162, 1989, 18, 1, 'medium', '');
+INSERT INTO `orders_food` (`id`, `order_id`, `food_id`, `quantity`, `size`, `addons`, `sugar_level`) VALUES
+(165, 1991, 18, 1, 'Medium', '', '100'),
+(166, 1992, 18, 1, 'medium', '', '100'),
+(167, 1993, 18, 1, 'medium', '', '100'),
+(168, 1994, 18, 1, 'medium', '', '100');
 
 -- --------------------------------------------------------
 
@@ -707,6 +586,13 @@ CREATE TABLE `order_msg` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `order_msg`
+--
+
+INSERT INTO `order_msg` (`id`, `order_id`, `sender_id`, `content`, `created_at`) VALUES
+(5, 1994, 44, 'test', '2024-11-01 11:54:39');
+
 -- --------------------------------------------------------
 
 --
@@ -715,7 +601,7 @@ CREATE TABLE `order_msg` (
 
 CREATE TABLE `order_msg_id` (
   `id` int(10) UNSIGNED NOT NULL,
-  `ticked_id` varchar(255) NOT NULL,
+  `ticked_id` int(10) UNSIGNED NOT NULL,
   `user_id` int(11) UNSIGNED NOT NULL,
   `subject` int(11) DEFAULT NULL,
   `status` enum('open','closed') NOT NULL DEFAULT 'open',
@@ -792,7 +678,7 @@ INSERT INTO `tickets` (`id`, `ticket_id`, `user_id`, `subject`, `status`, `creat
 (11, 'sxg8tplo', 31, NULL, 'open', '2024-10-19 05:57:59', '2024-10-19 05:57:59'),
 (12, 'S2v0WJB1', 31, NULL, 'open', '2024-10-19 06:09:15', '2024-10-19 06:09:15'),
 (13, '', 31, NULL, 'open', '2024-10-23 05:06:06', '2024-10-23 05:06:06'),
-(14, '254kh7vd2k', 31, 'test', 'open', '2024-10-23 05:07:19', '2024-10-23 15:09:24'),
+(14, '254kh7vd2k', 31, 'Yo', 'open', '2024-10-23 05:07:19', '2024-11-01 11:13:51'),
 (21, '254kh7svd2k', 31, 'test', 'open', '2024-10-23 05:24:29', '2024-10-23 05:24:29');
 
 -- --------------------------------------------------------
@@ -987,7 +873,7 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=215;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=219;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -1017,25 +903,25 @@ ALTER TABLE `foods`
 -- AUTO_INCREMENT for table `food_sizes`
 --
 ALTER TABLE `food_sizes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=187;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=192;
 
 --
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1990;
+  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1995;
 
 --
 -- AUTO_INCREMENT for table `orders_food`
 --
 ALTER TABLE `orders_food`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=163;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=169;
 
 --
 -- AUTO_INCREMENT for table `order_addons`
@@ -1047,7 +933,7 @@ ALTER TABLE `order_addons`
 -- AUTO_INCREMENT for table `order_msg`
 --
 ALTER TABLE `order_msg`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `order_msg_id`
@@ -1139,7 +1025,6 @@ ALTER TABLE `order_addons`
 -- Constraints for table `order_msg`
 --
 ALTER TABLE `order_msg`
-  ADD CONSTRAINT `fk_orderId` FOREIGN KEY (`order_id`) REFERENCES `order_msg_id` (`id`),
   ADD CONSTRAINT `fk_senderId` FOREIGN KEY (`sender_id`) REFERENCES `user` (`id`);
 
 --
