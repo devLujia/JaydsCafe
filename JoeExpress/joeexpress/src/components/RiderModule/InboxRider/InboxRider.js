@@ -1,48 +1,171 @@
-import React,{useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import user from '../../image/UserAcc.svg'
 import notif from '../../image/notif.svg'
 import riderLogo from '../../../components/image/logoRider.svg'
 import send from '../../image/send.svg'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import Profile from '../../Profile/Profile';
+import socket from '../../AdminModule/Message/socketService';
+import axios from 'axios'
 
 
 export default function InboxRider() {
-  
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
-  const toggleSideNav = () => {
+
+   const [currentMessage, setCurrentMessage] = useState('');
+   const [messageList, setMessageList] = useState([]);
+   const [specificOrderId, setSpecificOrderId] = useState(null);
+   const [isSidebarOpen, setSidebarOpen] = useState(false);
+   const [orderId, setOrderId] = useState([]);
+   const [profile, setProfile] = useState([]);
+   const [authenticated, setAuthenticated] = useState(false);
+   const [userId, setUserId] = useState(null);
+   const navigate = useNavigate();
+   const [role, setRole] = useState([]);
+   const [messages, setMessages] = useState([]);
+
+   axios.defaults.withCredentials = true;
+
+   const toggleSideNav = () => {
       setSidebarOpen (!isSidebarOpen);
-  };
+   };
 
-  const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState('');
-  const socket = io('http://localhost:3000');
+   const sendMessage = async (e) => {
+      if (currentMessage.trim() !== '') {
+         e.preventDefault();
 
-  useEffect(() => {
-     
-     socket.emit('join', { userId: 'adminId', role: 'admin' });
+         const messageData = {
+            author: `${profile?.name} (Rider)`,
+            room: specificOrderId,
+            userId: userId,
+            message: currentMessage,
+            time:
+          new Date(Date.now()).getHours()+
+          ":" +
+          new Date(Date.now()).getMinutes(),
+         };
 
-     // Listen for incoming messages
-     socket.on('receiveMessage', (data) => {
-         setMessages((prevMessages) => [...prevMessages, data]);
-     });
+         // Emit message to the server
+         await socket.emit('send_message_rider', messageData);
+         setMessageList((prevChat) => [...prevChat, messageData]);
+         setCurrentMessage('');
+      }
+   };
 
-     // Cleanup on component unmount
-     return () => {
-         socket.off('receiveMessage');
-     };
-  }, []);
 
- const sendMessage = () => {
-     if (message.trim()) {
-        // Emit the message to the user (you may want to specify the user)
-        socket.emit('sendMessage', { message, to: 'userId' }); // Replace 'userId' as necessary
-        setMessages((prevMessages) => [...prevMessages, { message, from: 'Admin' }]);
-        setMessage('');
-     }
-  };
+   const handleKeyDown = async (e) => {
+      if (e.key === 'Enter' && currentMessage.trim() !== '') {
+         e.preventDefault();
+
+         const messageData = {
+            author: `${profile?.name} (Rider)`,
+            room: specificOrderId,
+            userId: userId,
+            message: currentMessage,
+            time: `${new Date(Date.now()).getHours()}:${new Date(Date.now()).getMinutes()}`
+         };
+
+         // Emit message to the server
+         await socket.emit('send_message_rider', messageData);
+         setMessageList((prevChat) => [...prevChat, messageData]);
+         setCurrentMessage('');
+      }
+   };
+
+   useEffect(() => {
+      // Listen for incoming messages from the server
+      socket.on('receive_message', (messageData) => {
+         // Only add message if it was sent by someone else
+         if (messageData.userId !== userId) {
+            setMessageList((prevChat) => [...prevChat, messageData]);
+         }
+      });
+
+      // Cleanup the socket listener when the component unmounts
+      return () => {
+         socket.off('receive_message');
+      };
+
+   }, [userId]);
+
+   useEffect(() => {
+      const getOrderId = async () => {
+          try {
+              const response = await axios.post('http://localhost:8081/getOrderId', { userId: userId });
+               setOrderId(response.data);
+              
+          } catch (error) {
+              console.error('Error fetching order ID:', error);
+          }
+      };
+  
+      getOrderId();
+  }, [userId]);
+
+   const fetchMessages = async (order) => {
+      
+      if (specificOrderId) {
+         socket.emit('leave_Room', specificOrderId);
+         socket.on('leave_Room', () => {
+            setMessageList([]);
+         });
+      }
+
+      if (order) {
+         try {
+            setSpecificOrderId(order);
+
+            const response = await axios.post('http://localhost:8081/getRiderMessages', { ticketId: order });
+            setMessageList(response.data);
+            socket.emit('join_room_rider', order);
+         } catch (error) {
+            console.error('Error fetching messages:', error);
+         }
+      }
+   };
+
+   useEffect(() =>{
+
+      axios.post('http://localhost:8081/profile', {userId:userId} )
+      .then(response=>{
+         setProfile(response.data);
+      }) 
+      .catch(error => {
+         console.error('Error fetching profile details:', error);
+      });
+
+},[userId])
+
+useEffect(() => {
+   const fetchData = async () => {
+   try {
+      const res = await axios.get('http://localhost:8081/admin');
+      if (res.data.valid) {
+      setAuthenticated(true);
+      setUserId(res.data.userId);
+      setRole(res.data.role);
+      } 
+      
+      else {
+      navigate('/riderLogin');
+      }
+   } 
+   
+   
+   catch (err) {
+      console.log(err);
+   }
+   };
+
+   fetchData();
+   }, [navigate]);
+
+   useEffect(() => {
+      if (specificOrderId) {
+        fetchMessages(specificOrderId);
+      }
+    }, [specificOrderId]);  
 
 
   return (
@@ -162,7 +285,10 @@ export default function InboxRider() {
                   </div>
                   {/* <!-- end search compt --> */}
                   {/* <!-- user list --> */}
-                  <div class="flex flex-row py-3 px-5 justify-center items-center hover:bg-gray-200">
+                  
+                  {orderId.map((order) =>( 
+                     
+                     <div onClick={() => fetchMessages(order?.order_id || '')} class="flex flex-row py-3 px-5 justify-center items-center hover:bg-gray-200">
                      <div class="w-1/4">
                         <img
                         src={user}
@@ -171,10 +297,10 @@ export default function InboxRider() {
                         />
                      </div>
                      <div class="w-full">
-                        <div class="text-md tracking-wider dark:text-white hover:text-gray-900">Kristina</div>
+                        <div class="text-md tracking-wider dark:text-white hover:text-gray-900">{order.id}</div>
                         <span class="text-gray-500 text-sm">Asan si Kuya?</span>
                      </div>
-                  </div>
+                  </div> ))}
 
                   <div class="flex flex-row py-3 px-5 justify-center items-center hover:bg-gray-200">
                      <div class="w-1/4">
@@ -258,12 +384,26 @@ export default function InboxRider() {
 
                      <label for="search" class="text-sm font-medium text-gray-900 sr-only dark:text-white">Type Something here.</label>
                      <div class="relative ">
-                        <input type="text" value={message}
+                     <form onSubmit={sendMessage}>
+            <input
+               type="text"
+               value={currentMessage}
+               onChange={(e) => setCurrentMessage(e.target.value)}
+               onKeyDown={handleKeyDown}
+               placeholder="Type your message..."
+               class="mb-2 block w-full p-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+            />
+            <button type="submit">Send</button>
+         </form>
+                        {/* <input type="text" value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         placeholder="Type a message"
-                        id="search" class="mb-2 block w-full p-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                        id="search" 
+                        class="mb-2 block w-full p-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                         />
                         <button onClick={sendMessage} class="text-white absolute end-2.5 bottom-3 bg-textgreenColor hover:bg-green-800 focus:ring-2 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><img src={send}></img></button>
+                      */}
+                     
                      </div>
                   </div>
                   {/* <!-- end message --> */}

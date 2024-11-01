@@ -2293,10 +2293,14 @@ app.post('/removeProduct',  async (req, res) =>{
           console.log(`User with ID: ${socket.id} joined room: ${ticketId}`);
         });
 
+        socket.on('join_room_rider', (orderId) => {
+            socket.join(orderId);
+            console.log(`Rider with ID: ${socket.id} joined order room: ${orderId}`);
+        });
+
         socket.on('leave_Room', (room) => {
             socket.leave(room);
             console.log(`${socket.id} left room: ${room}`);
-
         });
 
         socket.on('notif', (userId) => {
@@ -2398,6 +2402,30 @@ app.post('/removeProduct',  async (req, res) =>{
             console.log(`Message sent in room ${room}`);
           });
         });
+        
+        socket.on('send_message_rider', async (messageData) => {
+            const { author, room, userId, message } = messageData;
+      
+          const sql = `INSERT INTO order_msg (order_id, sender_id, content) VALUES (?, ?, ?)`;
+          
+          db.query(sql, [room, userId, message], (err, results) => {
+
+            if (err) {
+              console.error('Error sending message: ' + err.stack);
+              return;
+            }
+      
+            socket.to(room).emit('receive_message', {
+              room: room, 
+              userId: userId,
+              message,
+              author, 
+              createdAt: new Date().toLocaleTimeString() 
+            });
+      
+            console.log(`Message sent in room ${room}`);
+          });
+         });
       
         socket.on('disconnect', () => {
           console.log('User disconnected: ' + socket.id);
@@ -2485,19 +2513,72 @@ app.post('/removeProduct',  async (req, res) =>{
         });
 
       });
+      
+      
+      app.post('/getRiderMessages', (req, res) => {
+        const { ticketId } = req.body;
+      
+        const sql = `
+                    SELECT om.id, u.name, om.sender_id, om.order_id, om.content, om.created_at
+                    FROM order_msg om
+                    JOIN orders o ON om.order_id = o.order_id
+                    JOIN user u ON om.sender_id = u.id
+                    WHERE om.order_id = ?
+                    ORDER BY o.status = 'close', om.created_at ASC;
+                    
+                    
+                    `;
 
-      app.post('/getTicketId', (req, res) => {
-        const sql = `SELECT id, status, ticket_id, created_at FROM tickets ORDER BY status = 'closed' ASC, created_at DESC `;
-        db.query(sql, (err, results) => {
+        db.query(sql, [ticketId ], (err, results) => {
+          if (err) {
+            return res.status(500).json({ error: 'Database error' });
+          }
+          res.status(200).json(results);
+        });
+
+      });
+
+      
+
+      app.post('/getOrderId', (req, res) => {
+        const {userId} = req.body;
+
+        const sql = `SELECT order_id FROM orders where rider_id = ? ORDER BY order_date DESC `;
+
+        db.query(sql,[userId], (err, results) => {
             if (err) {
                 return res.status(500).json({ error: 'Database error' });
             }
 
+            if (results.length === 0) {
+                return res.status(404).json({ message: 'No results found' });
+            }
+
             res.json(results);
         });
+        
     });
+    
+    
+    app.post('/getTicketId', (req, res) => {
+        const {userId} = req.body;
 
+        const sql = `SELECT id, status, ticket_id, created_at FROM tickets ORDER BY status = 'closed' ASC, created_at DESC `;
 
+        db.query(sql,[userId], (err, results) => {
+            if (err) {
+                return res.status(500).json({ error: 'Database error' });
+            }
+
+            if (results.length === 0) {
+                return res.status(404).json({ message: 'No results found' });
+            }
+
+            res.json(results);
+        });
+        
+    });
+    
     app.post('/validateDiscount', (req, res) => {
         const { code, totalBill } = req.body;
 

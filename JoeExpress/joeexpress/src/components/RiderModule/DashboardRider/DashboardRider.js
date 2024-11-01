@@ -45,9 +45,6 @@ export default function DashboardRider() {
         fetchNameData();
     })
 
-    
-
-
     const toggleSideNav = () => {
         setSidebarOpen (!isSidebarOpen);
     };
@@ -119,14 +116,14 @@ export default function DashboardRider() {
           if (res.data.success) {
             // eslint-disable-next-line no-restricted-globals
             location.reload();
-            navigate('/');
+            navigate('/riderLogin');
           } else {
             console.log('Logout Failed');
           }
         } catch (error) {
           console.error('Error during logout:', error);
         }
-      };
+    };
 
   return (
     <div className='bg-slate-100 dark:bg-gray-700'>

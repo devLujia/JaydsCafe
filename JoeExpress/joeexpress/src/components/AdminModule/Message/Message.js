@@ -112,7 +112,7 @@ export default function Message({}) {
       const loadMoreMessages = () => {
          if (!loading && hasMore) {
            setLoading(true);
-           fetchMessages(specificTicketId, earliestMessageTimestamp);
+           fetchMessages(specificTicketId);
            setLoading(false);
          }
        };
@@ -130,17 +130,17 @@ export default function Message({}) {
          }
        }, [specificTicketId]);   
 
-   useEffect(() =>{
-      
-      axios.post('http://localhost:8081/profile', { userId })
-      .then(response=>{
-         setProfile(response.data);
-      }) 
-      .catch(error => {
-         console.error('Error fetching profile details:', error);
-       });
+      useEffect(() =>{
+         
+         axios.post('http://localhost:8081/profile', { userId })
+         .then(response=>{
+            setProfile(response.data);
+         }) 
+         .catch(error => {
+            console.error('Error fetching profile details:', error);
+         });
 
-    },[userId])
+      },[userId])
 
    useEffect(() => {
       const fetchData = async () => {
@@ -180,7 +180,7 @@ export default function Message({}) {
          return () => {
            socket.off('receive_message');
          };
-       }, [ticketId]);
+       }, [ticketId,userId]);
 
       //  useEffect(() => {
       //    setMessageList(messages);
@@ -192,11 +192,11 @@ export default function Message({}) {
          e.preventDefault();
   
         const messageData = {
-         author: profile?.name + " (Admin)",
-         room : specificTicketId,
-         userId: userId,
-         message: currentMessage,
-          time:
+            author: profile?.name + " (Admin)",
+            room : specificTicketId,
+            userId: userId,
+            message: currentMessage,
+            time:
           new Date(Date.now()).getHours()+
           ":" +
           new Date(Date.now()).getMinutes(),
