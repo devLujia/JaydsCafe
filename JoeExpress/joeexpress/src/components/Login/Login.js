@@ -205,74 +205,72 @@ const Login = () => {
       </nav>
 
     {/* <!-- Form container --> */}
-      <div class="max-w-md lg:mx-auto mx-5 p-4 mt-6 mb-6 bg-white rounded-xl shadow-md md:max-w-lg md:p-6 md:pt-4 md:mb-6 lg:max-w-lg lg:p-8 lg:pt-6 lg:mb-8">
-        {/* <!-- Image for login --> */}
-        <div class="flex flex-col justify-center items-center mb-6 py-5">
-          <p class="text-2xl mb-3 font-semibold tracking-wider">WELCOME TO</p>
-          <h1 class="font-extrabold text-6xl text-textgreenColor text-center">{cmsName}</h1>
-        </div>
+<div class="max-w-md lg:mx-auto mx-5 p-4 mt-6 mb-6 bg-white rounded-xl shadow-md md:max-w-lg md:p-6 md:pt-4 md:mb-6 lg:max-w-lg lg:p-8 lg:pt-6 lg:mb-8">
+  {/* <!-- Image for login --> */}
+  <div class="flex flex-col justify-center items-center mb-6 py-5">
+    <p class="text-lg sm:text-xl md:text-2xl mb-3 font-semibold tracking-wider">WELCOME TO</p>
+    <h1 class="font-extrabold text-4xl sm:text-5xl md:text-6xl text-textgreenColor text-center">{cmsName}</h1>
+  </div>
 
-        <h2 class="text-2xl font-semibold mb-4 text-gray-600">Login</h2>
+  <h2 class="text-xl sm:text-2xl md:text-3xl font-semibold mb-4 text-gray-600">Login</h2>
 
-        {/* <!-- Form fields --> */}
-        <form onSubmit={handleSubmit} action="/menu">
-          <div class="mb-4">
-            {/* <!-- Email Input--> */}
+  {/* <!-- Form fields --> */}
+  <form onSubmit={handleSubmit} action="/menu">
+    <div class="mb-4">
+      {/* <!-- Email Input--> */}
+      <input
+        className={`shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline ${errors.email ? 'input-error' : ''}`}
+        id="email"
+        type="email"
+        name="email"
+        placeholder="Enter email"
+        value={values.email}
+        onChange={handleInput}
+      />
+      {errors.email && <p className='text-sm text-red-700'>{errors.email}</p>}
+    </div>
 
-            <input
-              className={`shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline ${errors.email ? 'input-error' : ''}`}
-              id="email"
-              type="email"
-              name="email"
-              placeholder="Enter email"
-              value={values.email}
-              onChange={handleInput}
-            />
-            {errors.email && <p className='text-red-700'>{errors.email}</p>}
-          </div>
+    <div class="bg-white w-full max-w-full rounded-md mx-auto flex items-center">
+      {/* <!-- password Input--> */}
+      <div class="relative w-full">
+        <input
+          className={`w-full outline-0 text-gray-600 shadow appearance-none border rounded py-2 px-3 mb-10 leading-10 focus:outline-none focus:shadow-outline ${errors.password ? 'input-error' : ''}`}
+          id="password"
+          type={passwordVisible ? 'text' : 'password'}
+          name="password"
+          placeholder="Enter password"    
+          value={values.password}
+          onChange={handleInput}
+          required
+        />
+        {errors.password && <p className='text-sm text-red-700'>{errors.password}</p>}
 
-          <div class="bg-white w-full max-w-full rounded-md mx-auto mt-300 flex items-center">
-            {/* <!-- password Input--> */}
-            <div class="relative w-full">
-              <input
-                className={`w-full outline-0 text-gray-600 shadow appearance-none border rounded py-2 px-3 mb-10 leading-10 focus:outline-none focus:shadow-outline ${errors.password ? 'input-error' : ''}`}
-                id="password"
-                type={passwordVisible ? 'text' : 'password'}
-                name="password"
-                placeholder="Enter password"    
-                value={values.password}
-                onChange={handleInput}
-                required
-              />
-              {errors.password && <p className='text-red-700'>{errors.password}</p>}
-
-              <img
-                onClick={togglePasswordVisibility}
-                src={hidden}
-                alt="Eye"
-                class="absolute right-3 top-3 w-8 cursor-pointer"
-                id="hide"
-                
-              />
-            </div>
-          </div>
-          {errors.general && <p className='text-red-700'>{errors.general}</p>}
-          <input
-            class="bg-greenColor hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-full leading-10 mb-10 cursor-pointer"
-            type="submit"
-            value="Sign In"
-          />
-
-          <p class="">
-            {/* <!-- Don't have an account? --> */}
-            Don't have an account?
-            <span class="text-blue-500 cursor-pointer font-semibold">
-              <a href="/signup"> Click Here </a>
-            </span>
-          </p>
-        </form>
-
+        <img
+          onClick={togglePasswordVisibility}
+          src={hidden}
+          alt="Eye"
+          class="absolute right-3 top-3 w-6 sm:w-8 cursor-pointer"
+          id="hide"
+        />
       </div>
+    </div>
+    {errors.general && <p className='text-sm text-red-700'>{errors.general}</p>}
+    <input
+      class="bg-greenColor hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-full leading-10 mb-10 cursor-pointer"
+      type="submit"
+      value="Sign In"
+    />
+
+    <p class="text-center text-sm sm:text-base">
+      {/* <!-- Don't have an account? --> */}
+      Don't have an account?
+      <span class="text-blue-500 cursor-pointer font-semibold">
+        <a href="/signup"> Click Here </a>
+      </span>
+    </p>
+  </form>
+</div>
+
 
    {/* <!-- Contact Us --> */}
       <footer class="bg-[#1A1A1A] w-full h-1/4 mt-5 py-7 flex flex-col justify-center items-center" id="footer">
