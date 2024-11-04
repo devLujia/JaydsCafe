@@ -289,20 +289,21 @@ function Cart() {
             <section className="grid grid-cols-1 gap-8 md:grid-cols-3 w-full h-auto lg:h-screen">
     {/* Left side cards */}
     <div className="col-span-2 px-4 md:px-8 lg:px-16 overflow-y-auto min-h-[400px] bg-white">
-        <div className="sticky top-0 bg-white py-4">
-            <div className="flex flex-col md:flex-row justify-between items-center px-4 mt-5 text-lg font-semibold border-b pb-4">
-                <input 
-                    id="select-all-checkbox" 
-                    type="checkbox" 
-                    value="" 
-                    className="w-5 h-5 text-green-700 border-gray-300 rounded mb-2 md:mb-0" 
-                    title="Select all products in Cart" 
-                />
-                <h1 className="hidden md:block">Product</h1>
-                <h1 className="hidden md:block">Quantity</h1>
-                <h1 className="hidden md:block">Total</h1>
-            </div>
-        </div>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-4 mt-5 text-lg font-semibold border-b pb-4">
+    <div className="flex justify-start w-full md:w-auto mb-2 md:mb-0">
+        <input 
+            id="select-all-checkbox" 
+            type="checkbox" 
+            value="" 
+            className="w-5 h-5 text-green-700 border-gray-300 rounded" 
+            title="Select all products in Cart" 
+        />
+    </div>
+    <h1 className="hidden md:block">Product</h1>
+    <h1 className="hidden md:block">Quantity</h1>
+    <h1 className="hidden md:block">Total</h1>
+</div>
+
 
         {/* Items listing */}
         <div className="space-y-6 mt-4">
