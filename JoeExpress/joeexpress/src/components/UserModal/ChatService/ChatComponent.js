@@ -164,61 +164,61 @@ const ChatComponent = ({ name, userId, ticketId }) => {
             </div>
             
             <div id="chatbox" className="p-4 h-80 overflow-y-auto bg-white rounded-lg shadow-md">
-  <div className="mb-2">
-    {!ticketId ? (
-      <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
-        👋 Hi there! This message will be directed to the admins of Jayd's Cafe.
-        We are here to make your experience as smooth and enjoyable as possible.
-      </p>
-    ) : (
-      <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block w-full">
-        {success === null ? (
-          <div className="flex flex-col md:flex-row items-center mt-3 gap-2">
-            <input
-              type="text"
-              placeholder="What's your concern?"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              className="w-full md:w-[60%] lg:w-[70%] px-2 py-2 text-xs md:text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+                <div className="mb-2">
+                  {!ticketId ? (
+                    <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
+                      👋 Hi there! This message will be directed to the admins of Jayd's Cafe.
+                      We are here to make your experience as smooth and enjoyable as possible.
+                    </p>
+                  ) : (
+                    <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block w-full">
+                      {success === null ? (
+                        <div className="flex flex-col md:flex-row items-center mt-3 gap-2">
+                          <input
+                            type="text"
+                            placeholder="What's your concern?"
+                            value={subject}
+                            onChange={(e) => setSubject(e.target.value)}
+                            className="w-full md:w-[60%] lg:w-[70%] px-2 py-2 text-xs md:text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          />
 
-            <button
-              onClick={createNewTicket}
-              className="w-full md:w-auto bg-[#067741] text-white px-4 py-2 text-xs md:text-sm rounded-md hover:bg-gradient-to-r hover:from-[#055c34] hover:to-[#067741] hover:scale-105 hover:shadow-lg transition-all duration-300 ease-in-out whitespace-nowrap"
-            >
-              Add Subject
-            </button>
+                    <button
+                      onClick={createNewTicket}
+                      className="w-full md:w-auto bg-[#067741] text-white px-4 py-2 text-xs md:text-sm rounded-md hover:bg-gradient-to-r hover:from-[#055c34] hover:to-[#067741] hover:scale-105 hover:shadow-lg transition-all duration-300 ease-in-out whitespace-nowrap"
+                    >
+                      Add Subject
+                    </button>
+                  </div>
+                ) : (
+                  ''
+                )}
+                <div className="mt-2">
+                  Conversation ID: <span className="font-semibold">{ticketId}</span>
+                  <br />
+                  👋 Hi there! You are now connected to the admin, Please address your concern.
+                  {success}
+                </div>
+              </p>
+            )}
           </div>
-        ) : (
-          ''
-        )}
-        <div className="mt-2">
-          Conversation ID: <span className="font-semibold">{ticketId}</span>
-          <br />
-          👋 Hi there! You are now connected to the admin, Please address your concern.
-          {success}
-        </div>
-      </p>
-    )}
-  </div>
 
-  {messageList.map((messageContent) => (
-    <div
-      key={messageContent.id || messageContent.timestamp}
-      className={`mb-2 flex ${messageContent.userId === userId ? 'justify-end' : 'justify-start'}`}
-    >
-      <p
-        className={`${
-          messageContent.userId === userId ? 'bg-blue-500' : 'bg-gray-200'
-        } text-white rounded-lg py-2 px-4 inline-block w-auto max-w-[70%]`}
-      >
-        {messageContent.author === 'Admin'
-          ? `Me: ${messageContent.message}`
-          : `${messageContent.author}: ${messageContent.message}`}
-      </p>
-    </div>
-  ))}
-</div>
+          {messageList.map((messageContent) => (
+            <div
+              key={messageContent.id || messageContent.timestamp}
+              className={`mb-2 flex ${messageContent.userId === userId ? 'justify-end' : 'justify-start'}`}
+            >
+              <p
+                className={`${
+                  messageContent.userId === userId ? 'bg-blue-500' : 'bg-gray-200'
+                } text-white rounded-lg py-2 px-4 inline-block w-auto max-w-[70%]`}
+              >
+                {messageContent.author === 'Admin'
+                  ? `Me: ${messageContent.message}`
+                  : `${messageContent.author}: ${messageContent.message}`}
+              </p>
+            </div>
+          ))}
+        </div>
 
 
 
