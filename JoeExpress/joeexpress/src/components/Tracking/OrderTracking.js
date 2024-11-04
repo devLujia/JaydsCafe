@@ -275,46 +275,45 @@ function OrderTracking() {
 
             {/* <!-- You might like --> */}
             <div className="w-full bg-jaydsBg mt-16">
-    <div className="text-center py-10">
-        <h1 className="text-6xl font-extrabold tracking-wide">
-            <span className="text-[#90c63f]">You </span> might like
-        </h1>
-    </div>
-
-    <div id="fm-series">
-        <div className="container p-4 mt-4 pb-10 grid items-center justify-center w-full">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-                {randomizedFoodsSpecial.slice(0, 4).map((foods) => (
-                    <div
-                        key={foods.id}
-                        className="w-full h-fit rounded-lg p-4 min-w-48 max-w-52 shadow-md relative bg-[#fdf8e0] hover:scale-95 duration-300"
-                    >
-                        {/* Image container */}
-                        <div className="rounded-full w-full h-full bg-[#fdf8e0] p-4 aspect-square mx-auto">
-                            <img
-                                src={foods.image_url}
-                                alt={foods.name}
-                                className="w-full h-full object-contain"
-                            />
-                        </div>
-                        <h3 className="text-xl font-semibold mt-2 min-h-16">{foods.name}</h3>
-                        <p className="text-gray-600 mt-2">Starts at</p>
-                        <p className="text-2xl font-bold mt-1">₱ {foods.price}.00</p>
-
-                        {/* Buy Now Button */}
-                        <button
-                            onClick={()=>navigate('/cart')}
-                            className="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[37%] hover:scale-125 duration-300"
-                        >
-                            <img src={cart} alt="Add to Cart" />
-                        </button>
-                    </div>
-                ))}
+            <div className="text-center py-10">
+                <h1 className="text-6xl font-extrabold tracking-wide">
+                    <span className="text-[#90c63f]">You </span> might like
+                </h1>
             </div>
-        </div>
-    </div>
-</div>
 
+                <div id="fm-series">
+                    <div className="container p-4 mt-4 pb-10 grid items-center justify-center w-full">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                            {randomizedFoodsSpecial.slice(0, 4).map((foods) => (
+                                <div
+                                    key={foods.id}
+                                    className="w-full h-fit rounded-lg p-4 min-w-48 max-w-52 shadow-md relative bg-[#fdf8e0] hover:scale-95 duration-300"
+                                >
+                                    {/* Image container */}
+                                    <div className="rounded-full w-full h-full bg-[#fdf8e0] p-4 aspect-square mx-auto">
+                                        <img
+                                            src={foods.image_url}
+                                            alt={foods.name}
+                                            className="w-full h-full object-contain"
+                                        />
+                                    </div>
+                                    <h3 className="text-xl font-semibold mt-2 min-h-16">{foods.name}</h3>
+                                    <p className="text-gray-600 mt-2">Starts at</p>
+                                    <p className="text-2xl font-bold mt-1">₱ {foods.price}.00</p>
+
+                                    {/* Buy Now Button */}
+                                    <button
+                                        onClick={()=>navigate('/cart')}
+                                        className="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[37%] hover:scale-125 duration-300"
+                                    >
+                                        <img src={cart} alt="Add to Cart" />
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         
