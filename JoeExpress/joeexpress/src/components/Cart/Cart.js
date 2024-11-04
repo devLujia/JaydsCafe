@@ -287,217 +287,272 @@ function Cart() {
             </nav>
 
             <section className="grid grid-cols-1 gap-8 md:grid-cols-3 w-full h-auto lg:h-screen">
-    {/* Left side cards */}
-    <div className="col-span-2 px-4 md:px-8 lg:px-16 overflow-y-auto min-h-[400px] bg-white">
+      {/* Left side cards */}
+      <div className="col-span-2 px-4 md:px-8 lg:px-16 overflow-y-auto min-h-[400px] bg-white">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-4 mt-5 text-lg font-semibold border-b pb-4">
-    <div className="flex justify-start w-full md:w-auto mb-2 md:mb-0">
-        <input 
-            id="select-all-checkbox" 
-            type="checkbox" 
-            value="" 
-            className="w-5 h-5 text-green-700 border-gray-300 rounded" 
-            title="Select all products in Cart" 
-        />
-    </div>
-    <h1 className="hidden md:block">Product</h1>
-    <h1 className="hidden md:block">Quantity</h1>
-    <h1 className="hidden md:block">Total</h1>
-</div>
-
+          <div className="flex justify-start w-full md:w-auto mb-2 md:mb-0">
+            <input
+              id="select-all-checkbox"
+              type="checkbox"
+              value=""
+              className="w-5 h-5 text-green-700 border-gray-300 rounded"
+              title="Select all products in Cart"
+            />
+          </div>
+          <h1 className="hidden md:block">Product</h1>
+          <h1 className="hidden md:block">Quantity</h1>
+          <h1 className="hidden md:block">Total</h1>
+        </div>
 
         {/* Items listing */}
         <div className="space-y-6 mt-4">
-            {items.length > 0 && items.map(item => (
-                <div 
-                    key={item.id} 
-                    className="relative flex flex-col md:flex-row items-center md:items-center p-4 bg-white border rounded-lg shadow-sm text-center md:text-left"
-                >
-                    {/* Checkbox */}
-                    <div className="absolute top-0 left-0 mt-4 ml-2">
-                        <input 
-                            type="checkbox" 
-                            className="w-5 h-5 text-green-700 border-gray-300 rounded" 
-                            title={`Select ${item.food_name || 'No Name Available'}`} 
-                        />
-                    </div>
-                    
-                    {/* Product Details */}
-                    <div className="flex flex-col md:flex-row items-center md:items-center w-full ml-10 md:ml-6 mt-2 md:mt-0">
-                        <div className="flex-shrink-0 bg-gray-100 p-2 rounded-lg mb-4 md:mb-0">
-                            {item.image_url ? (
-                                <img 
-                                    src={item.image_url} 
-                                    alt={item.name} 
-                                    className="w-24 h-24 object-contain rounded-lg transition-transform hover:scale-110" 
-                                />
-                            ) : (
-                                <svg 
-                                    width="100" 
-                                    height="100" 
-                                    viewBox="0 0 100 100" 
-                                    fill="none" 
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <circle cx="50" cy="50" r="50" fill="#ECE8DD" />
-                                    <path d="M42.8439...Z" fill="black" />
-                                </svg>
-                            )}
-                        </div>
-        
-                        <div className="ml-0 md:ml-6 mt-2 md:mt-0">
-                            <h5 className="text-xl md:text-2xl font-bold text-gray-900 truncate">
-                                {item.food_name}
-                            </h5>
-                            <p className="text-lg text-green-600 font-semibold">
-                                ₱{item.price}.00
-                            </p>
-                            <p className="text-sm text-gray-500">
-                                Size: <span className="font-normal">{item.size}</span>
-                            </p>
-                            <p className="text-sm text-gray-500">
-                                Addons: <span className="font-normal">{item.addons || 'No addons'}</span>
-                            </p>
-                            <p className="text-sm text-gray-500">
-                                Sugar level: <span className="font-normal">{item.sugar_level}%</span>
-                            </p>
-                        </div>
-                    </div>
-                    
-                    {/* Quantity Control */}
-                    <div className="flex items-center justify-center w-full mt-4 md:mt-0">
-                        <div className="flex items-center justify-center gap-1 border border-green-700 rounded-full px-2 py-1">
-                            <button 
-                                onClick={() => decrement(item.id, quantity[item.id] || item.quantity)} 
-                                className="w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full focus:outline-none hover:bg-gray-200 transition"
-                            >
-                                −
-                            </button>
-                            <input 
-                                type="number" 
-                                className="w-8 text-center border-none focus:outline-none text-sm" 
-                                value={quantity[item.id] || item.quantity} 
-                                disabled 
-                            />
-                            <button 
-                                onClick={() => increment(item.id, quantity[item.id] || item.quantity)} 
-                                className="w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full focus:outline-none hover:bg-gray-200 transition"
-                            >
-                                +
-                            </button>
-                        </div>
-                        <button 
-                            className="ml-3 text-red-600 focus:outline-none hover:text-red-800" 
-                            onClick={() => toggleDeleteModal(item.id)}
-                        >
-                            <img 
-                                src={del} 
-                                alt="Delete" 
-                                className="w-5 h-5" 
-                            />
-                        </button>
-                    </div>
-
-                    {/* Item Total */}
-                    <div className="ml-0 md:ml-6 mt-4 md:mt-0 text-xl font-semibold">
-                        ₱{item.food_price * (quantity[item.id] || item.quantity)}.00
-                    </div>
+          {items.length > 0 &&
+            items.map((item) => (
+              <div
+                key={item.id}
+                className="relative flex flex-col md:flex-row items-center md:items-center p-4 bg-white border rounded-lg shadow-sm text-center md:text-left"
+              >
+                {/* Checkbox */}
+                <div className="absolute top-0 left-0 mt-4 ml-2">
+                  <input
+                    type="checkbox"
+                    className="w-5 h-5 text-green-700 border-gray-300 rounded"
+                    title={`Select ${item.food_name || 'No Name Available'}`}
+                  />
                 </div>
+
+                {/* Product Details */}
+                <div className="flex flex-col md:flex-row items-center md:items-center w-full ml-10 md:ml-6 mt-2 md:mt-0">
+                  <div className="flex-shrink-0 bg-gray-100 p-2 rounded-lg mb-4 md:mb-0">
+                    {item.image_url ? (
+                      <img
+                        src={item.image_url}
+                        alt={item.name}
+                        className="w-24 h-24 object-contain rounded-lg transition-transform hover:scale-110"
+                      />
+                    ) : (
+                      <svg
+                        width="100"
+                        height="100"
+                        viewBox="0 0 100 100"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle cx="50" cy="50" r="50" fill="#ECE8DD" />
+                        <path d="M42.8439...Z" fill="black" />
+                      </svg>
+                    )}
+                  </div>
+
+                  <div className="ml-0 md:ml-6 mt-2 md:mt-0">
+                    <h5 className="text-xl md:text-2xl font-bold text-gray-900 truncate">
+                      {item.food_name}
+                    </h5>
+                    <p className="text-lg text-green-600 font-semibold">₱{item.price}.00</p>
+                    <p className="text-sm text-gray-500">
+                      Size: <span className="font-normal">{item.size}</span>
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Addons: <span className="font-normal">{item.addons || 'No addons'}</span>
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Sugar level: <span className="font-normal">{item.sugar_level}%</span>
+                    </p>
+                  </div>
+                </div>
+
+                {/* Quantity Control */}
+                <div className="flex items-center justify-center w-full mt-4 md:mt-0">
+                  <div className="flex items-center justify-center gap-1 border border-green-700 rounded-full px-2 py-1">
+                    <button
+                      onClick={() => decrement(item.id, quantity[item.id] || item.quantity)}
+                      className="w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full focus:outline-none hover:bg-gray-200 transition"
+                    >
+                      −
+                    </button>
+                    <input
+                      type="number"
+                      className="w-8 text-center border-none focus:outline-none text-sm"
+                      value={quantity[item.id] || item.quantity}
+                      disabled
+                    />
+                    <button
+                      onClick={() => increment(item.id, quantity[item.id] || item.quantity)}
+                      className="w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full focus:outline-none hover:bg-gray-200 transition"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <button
+                    className="ml-3 text-red-600 focus:outline-none hover:text-red-800"
+                    onClick={() => openModal()}
+                  >
+                    <img src={del} alt="Delete" className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {/* Item Total */}
+                <div className="ml-0 md:ml-6 mt-4 md:mt-0 text-xl font-semibold">
+                  ₱{item.food_price * (quantity[item.id] || item.quantity)}.00
+                </div>
+              </div>
             ))}
 
-            {items.length === 0 && (
-                <div className="flex flex-col items-center justify-center mt-8">
-                    <h1 className="text-2xl font-semibold text-gray-600">No items in cart</h1>
-                    <button 
-                        onClick={() => navigate('/menu')} 
-                        className="px-6 py-3 mt-4 text-white bg-green-600 rounded-full hover:bg-green-700 transition"
-                    >
-                        Browse Our Menu
-                    </button>
-                </div>
-            )}
+          {items.length === 0 && (
+            <div className="flex flex-col items-center justify-center mt-8">
+              <h1 className="text-2xl font-semibold text-gray-600">No items in cart</h1>
+              <button
+                onClick={() => navigate('/menu')}
+                className="px-6 py-3 mt-4 text-white bg-green-600 rounded-full hover:bg-green-700 transition"
+              >
+                Browse Our Menu
+              </button>
+            </div>
+          )}
         </div>
-    </div>
+      </div>
 
+      {/* Right side Infos */}
+      {items.length > 0 && (
+        <div className="p-4 lg:p-6 rounded-lg shadow-md bg-white mt-6 lg:mt-12 max-w-md mx-auto flex flex-col items-center">
+          <div className="border border-gray-200 rounded-lg p-4 w-full">
+            <h1 className="text-lg font-semibold mb-4 text-center text-gray-800">Select Your Delivery Method</h1>
+            <form>
+              <ul className="grid grid-cols-2 gap-3">
+                <li>
+                  <input
+                    type="radio"
+                    id="pickup"
+                    name="option"
+                    value="pickup"
+                    className="hidden peer"
+                    defaultChecked
+                    onChange={handleChange}
+                  />
+                  <label
+                    htmlFor="pickup"
+                    className="block w-full p-3 border border-gray-300 rounded-lg cursor-pointer text-center peer-checked:bg-green-100 peer-checked:border-green-700 transition hover:shadow-sm"
+                  >
+                    <img src={store} alt="Pickup" className="mx-auto mb-1 h-8" />
+                    <span className="text-sm font-medium">Pick Up</span>
+                  </label>
+                </li>
+                <li>
+                  <input
+                    type="radio"
+                    id="delivery"
+                    name="option"
+                    value="delivery"
+                    className="hidden peer"
+                    onChange={handleChange}
+                  />
+                  <label
+                    htmlFor="delivery"
+                    className="block w-full p-3 border border-gray-300 rounded-lg cursor-pointer text-center peer-checked:bg-green-100 peer-checked:border-green-700 transition hover:shadow-sm"
+                  >
+                    <img src={motor} alt="Delivery" className="mx-auto mb-1 h-8" />
+                    <span className="text-sm font-medium">Local Delivery</span>
+                  </label>
+                </li>
+              </ul>
 
-                    
-                {/* Right side Infos */}
-                {items.length > 0 && (
-                    <div className="p-4 lg:p-6 rounded-lg shadow-md bg-white mt-6 lg:mt-12 max-w-md mx-auto flex flex-col items-center">
-                        <div className="border border-gray-200 rounded-lg p-4 w-full">
-                            <h1 className="text-lg font-semibold mb-4 text-center text-gray-800">Select Your Delivery Method</h1>
-                            <form>
-                <ul className="grid grid-cols-2 gap-3">
-                    <li>
-                        <input
-                            type="radio"
-                            id="pickup"
-                            name="option"
-                            value="pickup"
-                            className="hidden peer"
-                            defaultChecked
-                            onChange={handleChange}
-                        />
-                        <label
-                            htmlFor="pickup"
-                            className="block w-full p-3 border border-gray-300 rounded-lg cursor-pointer text-center peer-checked:bg-green-100 peer-checked:border-green-700 transition hover:shadow-sm"
-                        >
-                            <img src={store} alt="Pickup" className="mx-auto mb-1 h-8" />
-                            <span className="text-sm font-medium">Pick Up</span>
-                        </label>
-                    </li>
-                    <li>
-                        <input
-                            type="radio"
-                            id="delivery"
-                            name="option"
-                            value="delivery"
-                            className="hidden peer"
-                            onChange={handleChange}
-                        />
-                        <label
-                            htmlFor="delivery"
-                            className="block w-full p-3 border border-gray-300 rounded-lg cursor-pointer text-center peer-checked:bg-green-100 peer-checked:border-green-700 transition hover:shadow-sm"
-                        >
-                            <img src={motor} alt="Delivery" className="mx-auto mb-1 h-8" />
-                            <span className="text-sm font-medium">Local Delivery</span>
-                        </label>
-                    </li>
-                </ul>
-
-                {/* Dropoff Instructions */}
-                <div className="mt-6 w-full">
-                    <label htmlFor="instruction" className="block mb-1 text-sm font-medium text-gray-700">
-                        Dropoff Instructions (Optional)
-                    </label>
-                    <textarea
-                        name="instruction"
-                        id="instruction"
-                        value={riderNote.instruction}
-                        onChange={handleChange}
-                        placeholder="Add instructions for the rider"
-                        className="w-full rounded-md p-2 border border-gray-300 focus:border-green-700 focus:ring-1 focus:ring-green-700 transition resize-none text-sm"
-                        rows="3"
-                    ></textarea>
-                </div>
+              {/* Dropoff Instructions */}
+              <div className="mt-6 w-full">
+                <label htmlFor="instruction" className="block mb-1 text-sm font-medium text-gray-700">
+                  Dropoff Instructions (Optional)
+                </label>
+                <textarea
+                  name="instruction"
+                  id="instruction"
+                  value={riderNote.instruction}
+                  onChange={handleChange}
+                  placeholder="Add instructions for the rider"
+                  className="w-full rounded-md p-2 border border-gray-300 focus:border-green-700 focus:ring-1 focus:ring-green-700 transition resize-none text-sm"
+                  rows="3"
+                ></textarea>
+              </div>
             </form>
-        </div>
+          </div>
 
-        {/* Estimated Total and Payment Button */}
-        <div className="flex items-center justify-between mt-6 w-full">
+          {/* Estimated Total and Payment Button */}
+          <div className="flex items-center justify-between mt-6 w-full">
             <h1 className="text-md font-semibold text-gray-700">Estimated Total:</h1>
             <h1 className="text-xl font-bold text-gray-900">₱{totalBill}.00</h1>
-        </div>
+          </div>
 
-        {/* Proceed to Payment Button */}
-        <button
-            onClick={openModal}
+          {/* Proceed to Payment Button */}
+          <button onClick={openModal}
+            // onClick={() => navigate('/checkout', { state: { riderNote } })}
             className="block w-full mt-6 mb-6 py-2 bg-green-700 text-white rounded-full font-bold text-md hover:bg-green-800 transition"
-        >
+          >
             Proceed to Payment
-            </button>
+          </button>
+
+          {/* Modal */}
+          {isModalOpen && (
+            <div className='fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50'>
+              <div className="absolute inset-0 bg-black opacity-50" onClick={closeModal}></div>
+              <div className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div className="relative p-4 w-full max-w-2xl max-h-full">
+                  {/* Modal content */}
+                  <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    {/* Modal header */}
+                    <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                      <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                        Terms And Condition
+                      </h3>
+                      <button
+                        type="button"
+                        className="text-gray-700 bg-transparent hover:bg-red-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        onClick={closeModal}
+                      >
+                        <svg
+                          className="w-3 h-3"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 14 14"
+                        >
+                          <path
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                          />
+                        </svg>
+                        <span className="sr-only">Close modal</span>
+                      </button>
+                    </div>
+
+                    {/* Modal body */}
+                    <div className="p-4 md:p-5 space-y-4">
+                      <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                        {terms}
+                      </p>
+                    </div>
+
+                    {/* Modal footer */}
+                    <div className="flex items-center justify-end p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                      <button
+                        type="button"
+                        className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                        onClick={() => {
+                          closeModal();
+                          navigate('/checkout', { state: { riderNote } });
+                        }}
+                      >
+                        I Accept
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-            )}
-        </section>
+      )}
+    </section>
 
                 
 
