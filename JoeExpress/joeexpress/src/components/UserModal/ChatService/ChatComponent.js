@@ -144,7 +144,7 @@ const ChatComponent = ({ name, userId, ticketId }) => {
         <div id="chat-container" className="fixed bottom-16 right-4 w-96 z-50">
           <div className="bg-cards2 shadow-md rounded-lg max-w-lg w-full">
             <div className="p-4 border-b bg-[#067741] text-white rounded-t-lg flex justify-between items-center">
-              <p className="text-lg font-semibold">Jayd'sCafe Admin ({subject})</p>
+              <p className="text-lg font-semibold">Jayd'sCafe Admin {subject}</p>
               <button onClick={toggleChat} className="text-gray-300 hover:text-gray-400 focus:outline-none focus:text-gray-400">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -162,61 +162,66 @@ const ChatComponent = ({ name, userId, ticketId }) => {
                 </svg>
               </button>
             </div>
+            
+            <div id="chatbox" className="p-4 h-80 overflow-y-auto bg-white rounded-lg shadow-md">
+  <div className="mb-2">
+    {!ticketId ? (
+      <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
+        👋 Hi there! This message will be directed to the admins of Jayd's Cafe.
+        We are here to make your experience as smooth and enjoyable as possible.
+      </p>
+    ) : (
+      <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block w-full">
+        {success === null ? (
+          <div className="flex flex-col md:flex-row items-center mt-3 gap-2">
+            <input
+              type="text"
+              placeholder="What's your concern?"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              className="w-full md:w-[60%] lg:w-[70%] px-2 py-2 text-xs md:text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
 
-            <div id="chatbox" className="p-4 h-80 overflow-y-auto">
-              <div className="mb-2">
-                {!ticketId ? <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
-                  👋 Hi there! This message will be directed to the admins of Jayd's Cafe.
-                  We are here to make your experience as smooth and enjoyable as possible.
-                </p>
-                : 
-                <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
-                  {success === null ? 
-              <div className=" border-t flex">
-                  <input
-                      type='text'
-                      placeholder="Please state your concern"
-                      value={subject}
-                      onChange={(e) => setSubject(e.target.value)}
-                      className="w-full px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
+            <button
+              onClick={createNewTicket}
+              className="w-full md:w-auto bg-[#067741] text-white px-4 py-2 text-xs md:text-sm rounded-md hover:bg-gradient-to-r hover:from-[#055c34] hover:to-[#067741] hover:scale-105 hover:shadow-lg transition-all duration-300 ease-in-out whitespace-nowrap"
+            >
+              Add Subject
+            </button>
+          </div>
+        ) : (
+          ''
+        )}
+        <div className="mt-2">
+          Conversation ID: <span className="font-semibold">{ticketId}</span>
+          <br />
+          👋 Hi there! You are now connected to the admin, Please address your concern.
+          {success}
+        </div>
+      </p>
+    )}
+  </div>
 
-                  <button
-                    onClick={createNewTicket}
-                    className="bg-[#067741] text-white px-4 py-2 rounded-md hover:bg-gradient-to-r hover:from-[#055c34] hover:to-[#067741] hover:scale-105 hover:shadow-lg transition-all duration-300 ease-in-out"
-                  >
-                    Add Subject Name
-                  </button>
-              </div>: 
-              ''}
-                  Conversation Id : {ticketId} 
-                  
-                    <br></br>
-                    <br></br>
-                  👋 Hi there! You are now connected to the admin, Please address your concern.
-                    {success}
-                </p>
-              }
-              </div>
-              {/* <div className="mb-2">
-                <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
-                  Feel free to ask me anything, and I'll do my best to assist you.
-                  Let's get started on finding your perfect drink today! 🥤
-                </p>
-              </div> */}
+  {messageList.map((messageContent) => (
+    <div
+      key={messageContent.id || messageContent.timestamp}
+      className={`mb-2 flex ${messageContent.userId === userId ? 'justify-end' : 'justify-start'}`}
+    >
+      <p
+        className={`${
+          messageContent.userId === userId ? 'bg-blue-500' : 'bg-gray-200'
+        } text-white rounded-lg py-2 px-4 inline-block w-auto max-w-[70%]`}
+      >
+        {messageContent.author === 'Admin'
+          ? `Me: ${messageContent.message}`
+          : `${messageContent.author}: ${messageContent.message}`}
+      </p>
+    </div>
+  ))}
+</div>
 
-              {/* Display chat messages */}
-  
-              {messageList.map((messageContent) => {
-                        return (
-                           <div key={messageContent.id || messageContent.timestamp} className={`mb-2 flex ${messageContent.userId === userId  ? 'justify-end' : 'justify-start'}`}>
-                              <p className={`bg-blue-500 text-white rounded-lg py-2 px-4 inline-block w-[70%]`}>
-                              {messageContent.author === "Admin" ? `Me: ${messageContent.message}` : `${messageContent.author}: ${messageContent.message}`}
-                              </p>
-                           </div>
-                        );
-                        })}
-            </div>
+
+
 
             {!ticketId ? (
               <div className="p-4 border-t flex">
