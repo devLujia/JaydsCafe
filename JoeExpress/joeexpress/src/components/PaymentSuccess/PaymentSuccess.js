@@ -134,11 +134,11 @@ useEffect(() => {
                 <div className='text-4xl text-center'>
                     <h1>
                         Your payment was
-                        successful
+                        successful!
                     </h1>
                     <p className='text-sm my-4'>
-                    Thank you for your payment. we will
-                    be in contact with more details shortly
+                    Thank you for your payment. We will
+                    be in contact with more details shortly.
                     </p>
                 </div>
                 <div className='flex flex-col w-full gap-y-4 font-bold tracking-wide mb-2 px-3'>
@@ -163,7 +163,7 @@ useEffect(() => {
             <div class="border-y-2 border-gray-400 w-4/5 p-10">
             {/* <!-- container footer--> */}
             <div class="flex justify-between flex-wrap gap-y-3 w-full">
-                <h1 class="text-white text-5xl font-bold">{cmsName}</h1>
+                <h1 class="text-white text-3xl sm:text-4xl font-bold">{cmsName}</h1>
                 <div class="flex gap-2">
                 <button type='button' 
                 class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
@@ -174,9 +174,6 @@ useEffect(() => {
                 <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
                     <a href={cmsInstagram} target="_blank" rel="noopener noreferrer"><img src={ig} alt=""></img></a>
                 </button>
-                <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-                    <a href={cmsLink} target="_blank" rel="noopener noreferrer"><img src={yt} alt=""></img></a>
-                </button>
                 </div>
             </div>
 
@@ -185,10 +182,10 @@ useEffect(() => {
             </div>
 
 
-            <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center justify-between">
+            <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between text-center md:text-left">
             <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">Copyright © 2024. Capstone Inc.</span >
 
-            <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0" >
+            <ul class="flex flex-wrap justify-center md:justify-end items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0" >
                 <li class="footer-links">
                 <a href="#footer" class="hover:underline me-4 md:me-6" data-modal-target="default-modal" data-modal-toggle="default-modal">Refund Policy</a>
                 </li>
