@@ -344,177 +344,154 @@ export default function Profile() {
               </div>
             )}
             
-            {/* <!-- Address Tab--> */}
-            {activeTab === 'address' && (
-              <div class="p-6 rounded-lg my-7 bg-gray-50 dark:bg-gray-800" id="address" role="tabpanel" aria-labelledby="Address-tab"> 
-                <div>
-                  <div class="mb-10 py-5 px-20">
-                    <h1 class="text-3xl mb-5">My Address(es)</h1>
-                    <p>Add and manage the addresses you use often.</p>
-                  </div>
-
-                  {/* <!-- <div class="border-t-2 py-10 px-16 w-[80%] flex flex-col justify-center items-center mx-auto">
-                    <h1>You haven't saved any addresses yet.</h1>
-                    <button class="bg-greenColor rounded-xl px-6 text-md text-white py-3 mt-3 hover:bg-green-700"  data-modal-target="crud-modal" data-modal-toggle="crud-modal" >Add New Address</button>
-                  </div> --> */}
-
-                  <div class="border-y-2 py-8  w-[80%] flex flex-col mx-auto"> {/* <!-- Main div for information--> */}
-                    <div class="flex flex-col justify-start items-start text-xl space-y-2"> {/* <!-- information details--> */}
-                      <h1 class="font-semibold">{profile.address}</h1>
-                      {/* <p class="text-md">STI</p>
-                      <p class="text-md">Para streets 69</p>
-                      <p class="text-md">Cavite, 4114</p>
-                      <p class="text-md">Philippines</p>
-                      <p class="text-md">09826738461</p> */}
-                    </div>
-                    <div class="flex w-full justify-between items-center mt-5">
-                      <div class="space-x-2 text-lg">
-                        <button class="hover:underline">
-                          Edit
-                        </button>
-                        <button class="hover:underline">
-                          Remove
-                        </button>
-                      </div>
-                      <div class="flex items-center me-4">
-                        <input id="green-radio" type="radio" value="" name="colored-radio" class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                        <label for="green-radio" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default Address</label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="w-[80%] flex flex-col justify-center items-start mx-auto">
-                    <button onClick={addAddress} class="bg-greenColor rounded-xl px-6 text-md text-white py-3 mt-3 w-fit hover:bg-green-700"  data-modal-target="crud-modal" data-modal-toggle="crud-modal" >Add New Address</button>
-                  </div>
-                  
-                </div>
-                  {/* <!-- Main modal --> */}
-                  <div id="crud-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                    <div class="relative p-4 w-full max-w-xl max-h-full"> {/* <!-- Modal content --> */}
-                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700"> {/* <!-- Modal header --> */}
-                            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                    Add New Address
-                                </h3>
-                                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
-                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                                    </svg>
-                                    <span class="sr-only">Close modal</span>
-                                </button>
-                            </div>
-                            {/* <!-- Modal body --> */}
-                            <form class="p-4 md:p-5">
-                                <div class="grid gap-4 mb-4 grid-cols-2">
-                                  
-                                    <div class="col-span-2 sm:col-span-1">
-                                      <label for="fname" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-                                      <input type="text" name="fname" id="fname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Juan" required=""/>
-                                    </div>
-                                    <div class="col-span-2 sm:col-span-1">
-                                      <label for="lname" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-                                      <input type="text" name="lname" id="lname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Dela Cruz" required=""/>
-                                    </div>
-                                    <div class="col-span-2">
-                                        <label for="company" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Company Name</label>
-                                        <input type="text" name="company" id="company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Sample" required=""/>
-                                    </div>
-                                    <div class="col-span-2">
-                                        <label for="address" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Address</label>
-                                        <input type="text" name="address" id="address" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Test" required=""/>
-                                    </div>
-                                    <div class="col-span-2">
-                                        <label for="address2" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Address - Line 2</label>
-                                        <input type="text" name="address2" id="address2" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Sample" required=""/>
-                                    </div>
-                                    <div class="col-span-2">
-                                        <label for="city" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">City</label>
-                                        <input type="text" name="city" id="city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Imus U" required=""/>
-                                    </div>
-                                    <div class="col-span-2 sm:col-span-1">
-                                      <label for="country" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Country</label>
-                                      <select id="country" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                          <option value="">Japan</option>
-                                          <option value="">Pelepens</option>
-                                          <option value="">HongKong</option>
-                                          <option value="">NEw balance</option>
-                                          <option value="">Michael Jordan</option>
-                                          <option value="">Kila Lekra</option>
-                                      </select>
-                                  </div>
-                                    <div class="col-span-2 sm:col-span-1">
-                                        <label for="region" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Region</label>
-                                        <select id="region" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                            <option selected="">CALABARZON</option>
-                                            <option value="TV">NCR</option>
-                                            <option value="PC">Davao City</option>
-                                            <option value="GA">Cordillera Administrative Region</option>
-                                            <option value="PH">Eastern Visayas</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="col-span-2 sm:col-span-1">
-                                      <label for="postal" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">ZIP / postal Code</label>
-                                      <input type="number" name="postal" id="postal" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="4114" required=""/>
-                                    </div>
-                                    <div class="col-span-2 sm:col-span-1">
-                                      <label for="phone" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
-                                      <input type="tel" name="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="09123456789" required=""/>
-                                    </div>
-                                </div> 
-                                <div class="flex items-center my-4">
-                                  <input checked id="checked-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                  <label for="checked-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Checked state</label>
-                                </div>
-                                <div class="grid gap-4 mb-4 sm:grid-cols-2 grid-cols-1">
-                                  <button class="bg-greenColor rounded-xl px-6 text-md w-full text-white py-3 mt-3 hover:bg-green-700"  data-modal-target="crud-modal" data-modal-toggle="crud-modal" >Add New Address</button>
-                                  <button class="bg-gray-400 rounded-xl px-6 text-md w-full text-white py-3 mt-3 hover:bg-green-700"  data-modal-target="crud-modal" data-modal-toggle="crud-modal" >Cancel</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                  </div> 
+        {/* <!-- Address Tab--> */}
+        {activeTab === 'address' && (
+          <div className="container mx-auto py-12 px-4 md:px-8 flex justify-center" id="address" role="tabpanel" aria-labelledby="Address-tab">
+            <div className="p-6 md:p-10 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-lg w-full max-w-3xl">
+              {/* Address Section */}
+              <div className="border-b border-gray-300 dark:border-gray-700 pb-6 mb-8 text-center">
+                <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">My Address(es)</h1>
+                <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 mt-3">Add and manage the addresses you use often.</p>
               </div>
-            )}
-{/* <!-- Account Tab--> */}
-{activeTab === 'account' && (
-  <div className="container mx-auto py-12 px-4 md:px-8 flex justify-center" id="account" role="tabpanel" aria-labelledby="Account-tab">
-    <div className="p-6 md:p-10 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-lg w-full max-w-3xl">
-      {/* Account Section */}
-      <div className="border-b border-gray-300 dark:border-gray-700 pb-6 mb-8 text-center">
-        <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Account Settings</h1>
-        <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 mt-3">Manage your account settings below.</p>
-      </div>
 
-      {/* Personal Information Form */}
-      <div className="border-b border-gray-300 dark:border-gray-700 pb-8 mb-8">
-        <h2 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-3">Personal Information</h2>
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-5">Update your personal information.</p>
-        <form>
-          <div className="space-y-6">
-            <div className="space-y-2">
-              <label htmlFor="name" className="block text-sm font-medium text-gray-900 dark:text-white">Full Name <span className="text-red-600">*</span></label>
-              <div className="flex items-center space-x-3">
-                <input
-                  type="text"
-                  id="name"
-                  name="fname"
-                  className="bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2 outline-none placeholder-gray-500"
-                  placeholder={profile.name}
-                  required
-                />
-                <img src={lock} alt="Lock Icon" className="w-auto h-7" />
+            {/* Address Information */}
+            <div className=" pb-8 mb-8">
+              <div className="flex flex-col space-y-4">
+                <div className="flex flex-col space-y-1">
+                  <label className="text-sm font-medium text-gray-900 dark:text-gray-300">Address:</label>
+                  <div className="flex flex-col space-y-2">
+                    <p className="text-lg font-semibold text-gray-900 dark:text-white">{profile.address}</p>
+                    <div className="flex justify-between items-center mt-3">
+                      <div className="space-x-3">
+                        <button className="text-sm text-blue-600 dark:text-blue-400 hover:underline">Edit</button>
+                        <button className="text-sm text-red-600 dark:text-red-400 hover:underline">Remove</button>
+                      </div>
+                      <div className="flex items-center">
+                        <input id="green-radio" type="radio" value="" name="colored-radio" className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                        <label htmlFor="green-radio" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default Address</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Add New Address Button */}
+            <div className="flex justify-end mb-8">
+              <button onClick={addAddress} className="bg-green-700 rounded-lg px-6 text-sm text-white py-3 mt-3 hover:bg-green-800 transition duration-300">
+                Add New Address
+              </button>
+            </div>
+
+      {/* Add New Address Modal */}
+      <div id="crud-modal" tabIndex="-1" aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div className="relative p-4 w-full max-w-xl max-h-full">
+          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Add New Address</h3>
+              <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
+                <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                </svg>
+                <span className="sr-only">Close modal</span>
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <form className="p-4 md:p-5">
+              <div className="grid gap-4 mb-4 grid-cols-2">
+                <div className="col-span-2 sm:col-span-1">
+                  <label htmlFor="fname" className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
+                  <input type="text" name="fname" id="fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Juan" required />
+                </div>
+                <div className="col-span-2 sm:col-span-1">
+                  <label htmlFor="lname" className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
+                  <input type="text" name="lname" id="lname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Dela Cruz" required />
+                </div>
+                <div className="col-span-2">
+                  <label htmlFor="company" className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Company Name</label>
+                  <input type="text" name="company" id="company" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Sample" />
+                </div>
+                <div className="col-span-2">
+                  <label htmlFor="address" className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Address</label>
+                  <input type="text" name="address" id="address" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Test" required />
+                </div>
+                <div className="col-span-2 sm:col-span-1">
+                  <label htmlFor="country" className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Country</label>
+                  <select id="country" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                    <option value="">Japan</option>
+                    <option value="">Philippines</option>
+                    <option value="">Hong Kong</option>
+                    <option value="">New Zealand</option>
+                    <option value="">Australia</option>
+                  </select>
+                </div>
+                <div className="col-span-2 sm:col-span-1">
+                  <label htmlFor="postal" className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">ZIP / Postal Code</label>
+                  <input type="number" name="postal" id="postal" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="4114" required />
+                </div>
+                <div className="col-span-2 sm:col-span-1">
+                  <label htmlFor="phone" className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
+                  <input type="tel" name="phone" id="phone" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="09123456789" required />
+                </div>
+              </div>
+              <div className="flex items-center my-4">
+                <input id="checked-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                <label htmlFor="checked-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Set as default address</label>
+              </div>
+              <div className="grid gap-4 mb-4 sm:grid-cols-2 grid-cols-1">
+                <button className="bg-green-700 rounded-lg px-6 text-sm w-full text-white py-3 mt-3 hover:bg-green-800 transition duration-300" data-modal-target="crud-modal" data-modal-toggle="crud-modal">Add New Address</button>
+                <button className="bg-gray-400 rounded-lg px-6 text-sm w-full text-white py-3 mt-3 hover:bg-gray-500 transition duration-300" data-modal-target="crud-modal" data-modal-toggle="crud-modal">Cancel</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+        )}
 
-          <div className="flex justify-end mt-6">
-            <button className="bg-green-700 text-white px-5 py-2 text-sm rounded-md hover:bg-blue-700 transition duration-300">
-              Update Info
-            </button>
-          </div>
-        </form>
-      </div>
+
+      {/* <!-- Account Tab--> */}
+      {activeTab === 'account' && (
+        <div className="container mx-auto py-12 px-4 md:px-8 flex justify-center" id="account" role="tabpanel" aria-labelledby="Account-tab">
+          <div className="p-6 md:p-10 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-lg w-full max-w-3xl">
+            {/* Account Section */}
+            <div className="border-b border-gray-300 dark:border-gray-700 pb-6 mb-8 text-center">
+              <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Account Settings</h1>
+              <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 mt-3">Manage your account settings below.</p>
+            </div>
+
+            {/* Personal Information Form */}
+            <div className="border-b border-gray-300 dark:border-gray-700 pb-8 mb-8">
+              <h2 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-3">Personal Information</h2>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-5">Update your personal information.</p>
+              <form>
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-900 dark:text-white">Full Name <span className="text-red-600">*</span></label>
+                    <div className="flex items-center space-x-3">
+                      <input
+                        type="text"
+                        id="name"
+                        name="fname"
+                        className="bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2 outline-none placeholder-gray-500"
+                        placeholder={profile.name}
+                        required
+                      />
+                      <img src={lock} alt="Lock Icon" className="w-auto h-7" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-end mt-6">
+                  <button className="bg-green-700 text-white px-5 py-2 text-sm rounded-md hover:bg-blue-700 transition duration-300">
+                    Update Info
+                  </button>
+                </div>
+              </form>
+            </div>
 
       {/* Login Information Section */}
       <div className="pb-8">
