@@ -50,82 +50,98 @@ function AdminRegistration() {
   return (
     <div>
       
-      <div class="bg-white flex w-4/5 mx-auto my-10 rounded-lg flex-col lg:flex-row shadow-xl">
-
-<div class="flex justify-center items-center flex-col border-r-2 border-gray-300 flex-1 px-5">
-    <h2 class="text-3xl font-bold flex justify-center mb-5 text-textgreenColor">Jayd's Cafe Admin</h2>
-    <p class="flex justify-center mb-14 max-w-96 text-center">Lorem ipsum dolor sit amet, consectetur
-        adipiscing elit suspendisse.</p>
-
-</div>
-
-<div class="my-5 flex-1 p-10">
-    
-    <form onSubmit={handleSubmit}>
-        <h1 class="font-bold text-3xl my-5">Sign Up to JoeExpress <span class="underline">Admin</span></h1>
-        <div class="mb-4">
-            <label>Fullname</label>
-            <input class="shadow appearance-none border rounded w-full py-3 px-3 my-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
-            id="fullname" 
-            type="text"
-            name="fullname" 
-            placeholder="Enter your Fullname" 
-            value={values.fullname}
-            onChange={handleInput} 
-            required
-            />
-            {errors.fullname && <span className='text-red-900'> {errors.fullname}</span>}
-        </div>
+      <div class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white flex flex-col lg:flex-row w-11/12 lg:w-3/4 max-w-4xl mx-auto my-10 rounded-lg shadow-xl overflow-hidden">
         
-        <div class="mb-4">
-            <label>Email</label>
-            <input class="shadow appearance-none border rounded w-full py-3 px-3 my-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
-            id= "email" 
-            type= "email" 
-            name= "email" 
-            placeholder="Enter your Email"
-            value={values.email}
-            onChange={handleInput}  
-            required
-            />
-            {errors.email && <span className='text-red-900'> {errors.email}</span>}
+       
+        <div class="flex justify-center items-center flex-col border-b lg:border-b-0 lg:border-r-2 border-gray-300 flex-1 p-8 bg-green-50">
+            <h2 class="text-3xl font-semibold text-green-700 mb-4">Jayd's Cafe Admin</h2>
+            <p class="text-gray-600 text-center max-w-xs">
+                 Register for your admin account and get started with cafe management.
+            </p>
         </div>
 
-        <div class="bg-white w-full max-w-full rounded-md mx-auto mt-300 flex items-center" required>
-            <div class="relative w-full">
-            <label class="">Password</label>
-            <input 
-            type= {passwordVisible ? 'text' : 'password'} 
-            placeholder= "Password" 
-            class= "w-full outline-0 text-gray-600 shadow appearance-none border rounded py-3 px-3 mb-10 mt-2 leading-10 focus:outline-none focus:shadow-outline" 
-            id = "password"
-            name = "password"
-            value = {values.password}
-            onChange={handleInput} 
-            />
-            {errors.password && <span className='text-red-900'> {errors.password}</span>}
+        
+        <div class="flex-1 p-8">
+            <form onSubmit={handleSubmit}>
+                <h1 class="font-bold text-2xl lg:text-3xl text-gray-800 mb-6">
+                    Sign Up to <span class=" text-black">Jayd's Admin</span>
+                </h1>
+                
+              
+                <div class="mb-5">
+                    <label for="fullname" class="block text-gray-700 font-medium">Full Name</label>
+                    <input 
+                        class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="fullname"
+                        type="text"
+                        name="fullname"
+                        placeholder="Enter your Fullname"
+                        value={values.fullname}
+                        onChange={handleInput}
+                        required
+                    />
+                    {errors.fullname && <span class="text-red-600 text-sm">{errors.fullname}</span>}
+                </div>
 
-            <img src={hidden} onClick={togglePasswordVisibility} alt="Eye" class="absolute right-5 top-12 w-8 cursor-pointer" id="hide"/> 
-            </div>
+               
+                <div class="mb-5">
+                    <label for="email" class="block text-gray-700 font-medium">Email</label>
+                    <input 
+                        class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="email"
+                        type="email"
+                        name="email"
+                        placeholder="Enter your Email"
+                        value={values.email}
+                        onChange={handleInput}
+                        required
+                    />
+                    {errors.email && <span class="text-red-600 text-sm">{errors.email}</span>}
+                </div>
+
+                
+                <div class="mb-5 relative">
+                    <label for="password" class="block text-gray-700 font-medium">Password</label>
+                    <input 
+                        type={passwordVisible ? 'text' : 'password'}
+                        placeholder="Password"
+                        class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="password"
+                        name="password"
+                        value={values.password}
+                        onChange={handleInput}
+                        required
+                    />
+                    <img src={hidden} onClick={togglePasswordVisibility} alt="Toggle Password Visibility" 
+                        class="absolute right-4 top-9 w-6 cursor-pointer" id="hide" />
+                    {errors.password && <span class="text-red-600 text-sm">{errors.password}</span>}
+                </div>
+
+              
+                <button 
+                    class="w-full bg-green-700 hover:bg-green-800 text-white font-semibold py-3 rounded-lg transition duration-150 mb-5"
+                    type="submit">
+                    Sign Up
+                </button>
+
+
+                
+                <div class="text-center text-sm text-gray-600 mt-4">
+                    <p>
+                        Already have an account? 
+                        <a href="/admin" 
+                            class="text-blue-600 font-semibold hover:underline ml-1">
+                            Click Here
+                        </a>
+                    </p>
+                </div>
+            </form>
         </div>
-
-        <button className = "bg-amber-950 hover:bg-amber-900 text-white font-semibold py-4 px-6 rounded-lg w-full leading-10 mb-10" type="submit">Sign In</button>
-
-        <a href="https://www.google.com/"><button class="flex items-center justify-center p-2 w-full leading-10 border-2 border-gray-300 rounded-lg hover:bg-gray-200 font-semibold focus:outline-none focus:shadow-outline mb-5"><img src={Google} alt="Google Icon" class="w-16 px-5"/>Google</button></a>
-
-        <p>
-            Already have an account? 
-            <span class="text-blue-500 cursor-pointer font-semibold hover:underline">
-                <a href="/admin">
-                    Click Here
-                </a>
-            </span>
-        </p>
-        </form>
-</div>
-</div>
-
     </div>
+</div>
+</div>
+
   )
 }
 
