@@ -130,10 +130,6 @@ export default function Profile() {
         <div class="w-full h-full rounded-t-2xl bg-[#067741]"> 
           </div>
 
-          {/* <button class="rounded-full bg-greenColor hover:bg-slate-700 top-0 absolute ml-6 mt-6 p-4">
-            <img src={camera} alt=""/>
-          </button> */}
-
 
       <div class="flex flex-col items-center overflow-x-hidden mb-6 ml-16 absolute bottom-0 gap-3 md:items-start md:flex-row"> {/* <!-- container ng profile pic --> */}
         <div class="object-contain w-24 h-24 md:w-36 md:h-36 rounded-full" data-popover-target="popover-user-profile" type="button">
@@ -146,203 +142,168 @@ export default function Profile() {
               `)}`} alt="Anonymous Avatar" class="w-full h-full object-fill max-w-full max-h-full rounded-full"/>
         </div>
 
-        <div class="flex flex-col items-center space-y-2 text-center md:items-start md:text-left lg:items-start lg:text-left md:mt-4 lg:mt-6">
-          <h1 class="text-white text-4xl tracking-wider font-extrabold">{profile.name}</h1>
-          <p class="text-white text-base tracking-wider">{profile.email}</p>
+        <div class="flex flex-col items-center justify-center space-y-2 text-center w-full mt-6 md:mt-8 lg:mt-6">
+          <h1 class="text-white text-2xl md:text-3xl lg:text-4xl tracking-wider font-extrabold">{profile.name}</h1>
+          <p class="text-white text-sm md:text-base tracking-wider">{profile.email}</p>
         </div>
       </div>
+
+
         </div>
-
         <div class="w-full lg:px-20"> {/* <!-- main container of tabs--> */}
-          <div class="mb-4 border-b-2  border-gray-300"> {/* <!-- Tabs below--> */}
-            <ul class="flex flex-wrap -mb-px text-md font-semibold text-center " id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">    
-                <li class="me-2" role="presentation">
-                  <button
-                    className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-greenColor hover:border-textgreenColor ${
-                      activeTab === 'order' ? 'border-textgreenColor text-greenColor' : 'border-gray-300'
-                    }`}
-                    onClick={() => handleTabClick('order')}
-                    type="button"
-                    role="tab">
-                    My Orders
-                  </button>
-                </li>
-
-                {/* <li class="me-2" role="presentation">
-                  <button
-                    className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-greenColor hover:border-textgreenColor ${
-                      activeTab === 'profile' ? 'border-textgreenColor text-greenColor' : 'border-gray-300'
-                    }`}
-                    onClick={() => handleTabClick('profile')}
-                    type="button"
-                    role="tab">     
-                  My Profile
-                  </button>           
-                </li> */}
-
-                <li class="me-2" role="presentation">
-                  <button
-                    className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-greenColor hover:border-textgreenColor ${
-                      activeTab === 'address' ? 'border-textgreenColor text-greenColor' : 'border-gray-300'
-                    }`}
-                    onClick={() => handleTabClick('address')}
-                    type="button"
-                    role="tab">
-                    My Address
-                  </button>                
-                </li>
-
-                <li role="presentation">
+          <div class="mb-4 border-b-2 border-gray-300"> {/* <!-- Tabs below--> */}
+          <ul class="flex flex-wrap -mb-px text-md font-semibold text-center justify-center md:justify-center lg:justify-start" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">    
+              <li class="me-2" role="presentation">
                 <button
                   className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-greenColor hover:border-textgreenColor ${
-                    activeTab === 'account' ? 'border-textgreenColor text-greenColor' : 'border-gray-300'}`}
-                  onClick={() => handleTabClick('account')}
+                    activeTab === 'order' ? 'border-textgreenColor text-greenColor' : 'border-gray-300'
+                  }`}
+                  onClick={() => handleTabClick('order')}
                   type="button"
                   role="tab">
-                  Account
+                  My Orders
                 </button>
-                </li>
-            </ul>
-          </div>
-  
-          <div id="default-tab-content"> {/* <!-- Content of every tabs --> */}
-            {/* <!-- Order Tab--> */}
-            {activeTab === 'order' && (
-              <div class="p-4 rounded-lg my-7 bg-gray-50 dark:bg-gray-800 min-h-[500px]" id="order" role="tabpanel" aria-labelledby="Order-tab"> 
-                  <div>
-                    <div class="mb-10 py-5 lg:px-20 overflow-hidden overflow-x-auto">
-                      <h1 class="text-4xl mb-5">My Orders</h1>
-                      <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                 <tr class="text-center">
-                                    <th scope="col" class="px-6 py-3 ">
-                                          ID
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                          Name
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                          address
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                          Contact Number
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                          Date / Time
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                          Price
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                          Status
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                          Action
-                                    </th>
-                                 </tr>
-                              </thead>
+              </li>
 
-                              <tbody>
-                              {orders.map(order => (
-                                orders.length > 0 ? (<React.Fragment key={order.order_id}>
-                                  <tr
-                                     className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                     <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white ">
-                                        <div className="text-base font-semibold">ORDR#{order.order_id}</div>
-                                     </th>
-                                     <td className="px-6 py-4 text-center">
-                                        {order.name}
-                                     </td>
-                                     <td className="px-6 py-4 text-center">
-                                        {order.address}
-                                     </td>
-                                     <td className="px-6 py-4 text-center">
-                                        {order.pnum}
-                                     </td>
-                                     <td className="px-6 py-4 text-center">
-                                        {new Date(order.order_date).toLocaleString('en-US', {
-                                           year: 'numeric',
-                                           month: 'long',
-                                           day: 'numeric',
-                                           hour: '2-digit',
-                                           minute: '2-digit',
-                                           second: '2-digit',
-                                        })}
-                                     </td>
-                                     <td className="px-6 py-4 text-center text-greenColor">
-                                        {order.totalPrice}
-                                     </td>
-                                     <td className="px-6 py-4">
-                                     <td className="px-6 py-4">
-                                          {/* status */}
-                                          {order.status === 'paid' ? (
-                                            <div className="bg-green-100 text-green-500 font-semibold w-fit py-1 px-4 rounded-3xl">
-                                              Paid - on queue
-                                            </div>
-                                          ) : order.status === 'on process' ? (
-                                            <div className="bg-yellow-100 text-yellow-500 font-semibold w-fit py-1 px-4 rounded-3xl">
-                                              On process
-                                            </div>
-                                          ) : order.status === 'pending rider' ? (
-                                            <div className="bg-red-100 text-green-500 font-semibold w-fit py-1 px-4 rounded-3xl">
-                                              Waiting for your Rider
-                                            </div>
-                                          ): order.status === 'on delivery' ? (
-                                            <div className="bg-red-100 text-green-500 font-semibold w-fit py-1 px-4 rounded-3xl">
-                                              On delivery
-                                            </div>
-                                          ): order.status === 'completed' ? (
-                                            <div className="bg-red-100 text-green-500 font-semibold w-fit py-1 px-4 rounded-3xl">
-                                              Completed
-                                            </div>
-                                          ):
-                                          <div className="bg-red-100 text-red-500 font-semibold w-fit py-1 px-4 rounded-3xl">
-                                            Canceled
-                                          </div>
-                                        }
-                                        </td>
-                                     </td>
-                                     <td className="flex items-center px-6 py-4 space-x-2">
-                                        <div className="h-fit items-center justify-center flex space-x-3 ps-4 mx-auto">
-                                           <button onClick={() => toggleOrderDetails(order.order_id)} title='View Orders'>
-                                              <img src={eye} alt="eye" className="w-6 h-6" />
-                                           </button>
-                                        </div>
-                                     </td>
-                                  </tr>
-                                  
-                                  {expandedOrderId === order.order_id && (
-                                     <tr>
-                                        <td colSpan="8" className="bg-gray-100 dark:bg-gray-700">
-                                           <div className="px-6 py-4">
-                                              <div className="text-sm text-gray-600 dark:text-gray-300">
-                                                 <strong>Order Items:</strong>
-                                                 <ul className="mt-2 space-y-2">
-                                                    <li className="py-1 w-full text-left">
-                                                       {order.food_details}
-                                                    </li>
-                                                 </ul>
-                                              </div>
-                                           </div>
-                                        </td>
-                                     </tr>
-                                  )}
-                               </React.Fragment>):(
-                                
-                                <div class="border-y-2 py-10 px-16 w-[80%] flex flex-col justify-center items-center mx-auto">
-                                  <h1>You haven't placed any orders yet.</h1>
-                                  <a href="/menu" class="hover:underline">Start Browsing</a>
-                                </div>)
-                                 
-                              ))}
-                              </tbody>
-                        </table>
-                    </div>
+        <li class="me-2" role="presentation">
+          <button
+            className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-greenColor hover:border-textgreenColor ${
+              activeTab === 'address' ? 'border-textgreenColor text-greenColor' : 'border-gray-300'
+            }`}
+            onClick={() => handleTabClick('address')}
+            type="button"
+            role="tab">
+            My Address
+          </button>                
+        </li>
 
-                    
+        <li role="presentation">
+        <button
+          className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-greenColor hover:border-textgreenColor ${
+            activeTab === 'account' ? 'border-textgreenColor text-greenColor' : 'border-gray-300'}`}
+          onClick={() => handleTabClick('account')}
+          type="button"
+          role="tab">
+          Account
+        </button>
+        </li>
+    </ul>
+  </div>
+
+  <div id="default-tab-content"> {/* <!-- Content of every tabs --> */}
+
+
+{/* <!-- Order Tab--> */}
+{activeTab === 'order' && (
+  <div className="p-4 rounded-lg my-7 bg-gray-50 dark:bg-gray-800 min-h-[500px] md:mx-8 lg:mx-16" id="order" role="tabpanel" aria-labelledby="Order-tab">
+    <div>
+      <div className="mb-10 py-5 lg:px-6 md:px-4 px-2 overflow-hidden overflow-x-auto">
+        <h1 className="text-xl md:text-2xl lg:text-3xl font-bold mb-5 text-center text-gray-900 dark:text-white">My Orders</h1>
+        <table className="w-full text-xs md:text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border-collapse border-spacing-0">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+            <tr className="text-center">
+              <th scope="col" className="px-2 md:px-4 py-2 md:py-3 border-b dark:border-gray-600">ID</th>
+              <th scope="col" className="px-2 md:px-4 py-2 md:py-3 border-b dark:border-gray-600">Name</th>
+              <th scope="col" className="px-2 md:px-4 py-2 md:py-3 border-b dark:border-gray-600">Address</th>
+              <th scope="col" className="px-2 md:px-4 py-2 md:py-3 border-b dark:border-gray-600">Contact Number</th>
+              <th scope="col" className="px-2 md:px-4 py-2 md:py-3 border-b dark:border-gray-600">Date / Time</th>
+              <th scope="col" className="px-2 md:px-4 py-2 md:py-3 border-b dark:border-gray-600">Price</th>
+              <th scope="col" className="px-2 md:px-4 py-2 md:py-3 border-b dark:border-gray-600">Status</th>
+              <th scope="col" className="px-2 md:px-4 py-2 md:py-3 border-b dark:border-gray-600">Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {orders.length > 0 ? (
+              orders.map(order => (
+                <React.Fragment key={order.order_id}>
+                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <th scope="row" className="flex items-center px-2 md:px-4 py-2 md:py-4 text-gray-900 whitespace-nowrap dark:text-white text-center">
+                      <div className="text-base font-semibold">ORDR#{order.order_id}</div>
+                    </th>
+                    <td className="px-2 md:px-4 py-2 md:py-4 text-center">{order.name}</td>
+                    <td className="px-2 md:px-4 py-2 md:py-4 text-center">{order.address}</td>
+                    <td className="px-2 md:px-4 py-2 md:py-4 text-center">{order.pnum}</td>
+                    <td className="px-2 md:px-4 py-2 md:py-4 text-center">{new Date(order.order_date).toLocaleString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                      second: '2-digit',
+                    })}</td>
+                    <td className="px-2 md:px-4 py-2 md:py-4 text-center text-green-600 font-semibold">₱{order.totalPrice.toFixed(2)}</td>
+                    <td className="px-2 md:px-4 py-2 md:py-4 text-center">
+                      {order.status === 'paid' && (
+                        <div className="bg-green-100 text-green-600 font-semibold w-fit py-1 px-3 rounded-full">
+                          Paid - on queue
+                        </div>
+                      )}
+                      {order.status === 'on process' && (
+                        <div className="bg-yellow-100 text-yellow-600 font-semibold w-fit py-1 px-3 rounded-full">
+                          On process
+                        </div>
+                      )}
+                      {order.status === 'pending rider' && (
+                        <div className="bg-red-100 text-red-600 font-semibold w-fit py-1 px-3 rounded-full">
+                          Waiting for your Rider
+                        </div>
+                      )}
+                      {order.status === 'on delivery' && (
+                        <div className="bg-blue-100 text-blue-600 font-semibold w-fit py-1 px-3 rounded-full">
+                          On delivery
+                        </div>
+                      )}
+                      {order.status === 'completed' && (
+                        <div className="bg-green-200 text-green-800 font-semibold w-fit py-1 px-3 rounded-full">
+                          Completed
+                        </div>
+                      )}
+                      {order.status === 'canceled' && (
+                        <div className="bg-red-200 text-red-800 font-semibold w-fit py-1 px-3 rounded-full">
+                          Canceled
+                        </div>
+                      )}
+                    </td>
+                    <td className="flex items-center px-2 md:px-4 py-2 md:py-4 space-x-2 justify-center">
+                      <button onClick={() => toggleOrderDetails(order.order_id)} title='View Orders'>
+                        <img src={eye} alt="View Order" className="w-5 h-5 md:w-6 md:h-6" />
+                      </button>
+                    </td>
+                  </tr>
+
+                  {expandedOrderId === order.order_id && (
+                    <tr>
+                      <td colSpan="8" className="bg-gray-100 dark:bg-gray-700">
+                        <div className="px-4 md:px-6 py-3 md:py-4">
+                          <div className="text-xs md:text-sm text-gray-600 dark:text-gray-300">
+                            <strong>Order Items:</strong>
+                            <ul className="mt-2 space-y-1 md:space-y-2">
+                              <li className="py-1 w-full text-left">
+                                {order.food_details}
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
+              ))
+            ) : (
+                          <div className="border-t border-gray-300 py-10 px-4 md:px-16 w-full flex flex-col justify-center items-center">
+                            <h1 className="text-base md:text-lg font-semibold text-gray-800 dark:text-gray-200">You haven't placed any orders yet.</h1>
+                            <a href="/menu" className="hover:underline text-blue-600 dark:text-blue-400 mt-4">Start Browsing</a>
+                          </div>
+                        )}
+                      </tbody>
+                    </table>
                   </div>
+                </div>
               </div>
             )}
+
+
             
         {/* <!-- Address Tab--> */}
         {activeTab === 'address' && (
