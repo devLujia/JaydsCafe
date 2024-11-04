@@ -313,6 +313,22 @@ nav .link{
   background: #067741;
 }
 
+@keyframes shine-border {
+  0% {
+    border-color: rgba(16, 85, 33, 0.4);
+  }
+  50% {
+    border-color: rgba(16, 85, 33, 1);
+  }
+  100% {
+    border-color: rgba(16, 85, 33, 0.4);
+  }
+}
+
+.animate-shining-border {
+  animation: shine-border 3s infinite ease-in-out;
+}
+
 @keyframes blob {
   0% {
     transform: scale(1);

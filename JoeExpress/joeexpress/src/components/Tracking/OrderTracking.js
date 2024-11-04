@@ -12,6 +12,7 @@ import bagIcon from '../image/bag.svg';
 import arrowLeft from '../image/arrow left.svg'
 import arrowUp from '../image/arrowUp.svg'
 import cart from '../image/cart.svg'
+import logo from '../image/logoJayds.svg'
 import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
@@ -127,10 +128,10 @@ function OrderTracking() {
   return (
     <div>
         {/* <!-- nav --> */}
-        <nav class="w-full top-0 fixed bg-white z-20 shadow-lg flex justify-evenly">
+        <nav class="w-full top-0 fixed bg-white z-20 shadow-lg flex justify-between">
             <div class="font-extrabold text-2xl flex items-center">
                 {/* <!-- Logo/Title in Navbar --> */}
-                <Link href="/" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</Link>
+                <Link href="/" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide">Jayd's Cafe</Link>
             </div>
             <div></div>
             {/* <!-- Button for Login or Sign Up --> */}
@@ -142,177 +143,177 @@ function OrderTracking() {
         {/* <!-- Main Container --> */}
         <section class=" mt-20">
             
-            <Link to="/cart" class="text-xl ml-16 font-bold hover:underline"> 
-                <img src={arrowLeft} alt="" class="inline-block w-4 h-4 me-4"/>Back to Cart
-            </Link>
+        <div className='flex justify-start items-center p-6'>
+        <Link to="/cart" className='text-base md:text-lg lg:text-xl font-bold text-black hover:underline flex items-center transition-all duration-300 ease-in-out'>
+            <img src={arrowLeft} alt="Back to Cart" className='inline-block w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 mr-3' />
+            Back to Cart
+        </Link>
+        </div>
 
 
-            <div class="flex justify-center items-center mb-10 flex-col">
-                <div className='w-28 h-28 bg-slate-200 rounded-md mb-5'>
-                    <img src={americano} className='object-contain h-full w-full'></img>
+            <div class="flex justify-center items-center mb-10 flex-col mt-10">
+            <div className='flex justify-center'>
+                <div className='relative w-40 h-40 bg-gradient-to-br rounded-full mb-8 overflow-hidden shadow-xl border-4 border-green-700 animate-shining-border'>
+                    <img src={logo} alt='Americano' className='absolute inset-0 w-full h-full object-center  p-4 rounded-lg' />
                 </div>
-                {order.status === 'unpaid' ? (
-                    <h2 className="font-bold text-3xl tracking-wide">
-                        Thank you for your order! It has been placed and is awaiting payment.
-                    </h2>
-                ) : order.status === 'paid' ? (
-                    <h2 className="font-bold text-3xl tracking-wide">
-                        Thank you! Your order has been placed and is currently in the queue.
-                    </h2>
-                ) : order.status === 'on process' ? (
-                    <h2 className="font-bold text-3xl tracking-wide">
-                        Thank you! Your order is being prepared.
-                    </h2>
-                ) : order.status === 'pending rider' ? (
-                    <h2 className="font-bold text-3xl tracking-wide">
-                        Thank you! Your order is in the queue, waiting for a rider.
-                    </h2>
-                ) : order.status === 'on delivery' ? (
-                    <h2 className="font-bold text-3xl tracking-wide">
-                        Thank you! Your order is on its way.
-                    </h2>
-                ) : order.status === 'completed' ? (
-                    <h2 className="font-bold text-3xl tracking-wide">
-                        Thank you! Your order has been successfully completed.
-                    </h2>
-                ) :  (
-                    <h2 className="font-bold text-3xl tracking-wide">
-                        We're sorry! Your order has been cancelled.
-                    </h2>
-                ) }
+            </div>
+
+
+            {order.status === 'unpaid' ? (
+                <h2 className="font-bold text-xl md:text-2xl lg:text-3xl tracking-wide text-center max-w-3xl mb-6 mx-auto px-4">
+                Thank you for your order! It has been placed and is awaiting payment.
+                </h2>
+            ) : order.status === 'paid' ? (
+                <h2 className="font-bold text-lg md:text-xl lg:text-2xl tracking-wide text-center mb-6 mx-auto px-4">
+                <span className="block text-green-700 animate-wave glow-animation">Thank you!</span>
+                <span className="block text-gray-700">Your order has been placed and is currently in the queue.</span>
+                </h2>
+            ) : order.status === 'on process' ? (
+                <h2 className="font-bold text-2xl md:text-3xl lg:text-4xl tracking-wide text-center max-w-3xl mb-6 mx-auto px-4">
+                Thank you! Your order is being prepared.
+                </h2>
+            ) : order.status === 'pending rider' ? (
+                <h2 className="font-bold text-2xl md:text-3xl lg:text-4xl tracking-wide text-center max-w-3xl mb-6 mx-auto px-4">
+                Thank you! Your order is in the queue, waiting for a rider.
+                </h2>
+            ) : order.status === 'on delivery' ? (
+                <h2 className="font-bold text-2xl md:text-3xl lg:text-4xl tracking-wide text-center max-w-3xl mb-6 mx-auto px-4">
+                Thank you! Your order is on its way.
+                </h2>
+            ) : order.status === 'completed' ? (
+                <h2 className="font-bold text-2xl md:text-3xl lg:text-4xl tracking-wide text-center max-w-3xl mb-6 mx-auto px-4">
+                Thank you! Your order has been successfully completed.
+                </h2>
+            ) : (
+                <h2 className="font-bold text-2xl md:text-3xl lg:text-4xl tracking-wide text-center max-w-3xl mb-6 mx-auto px-4">
+                We're sorry! Your order has been cancelled.
+                </h2>
+            )}
             </div>
             
-            <div class="flex justify-evenly items-center mb-24">
-                <div>
-                    <p class="text-2xl text-center">
-                    Order Number: 
-                    <span class="block text-center">#{OrdrID}</span>
+            <div className='flex flex-col lg:flex-row justify-evenly items-center mb-10 p-6 bg-gradient-to-br from-white to-gray-100 rounded-xl shadow-md w-full max-w-4xl mx-auto'>
+                <div className='mb-6 lg:mb-0'>
+                    <p className='text-xl md:text-2xl text-center font-semibold text-gray-800'>
+                    Order Number:
+                    <span className='block text-center text-green-700 text-lg md:text-xl font-bold mt-2'>#{OrdrID}</span>
                     </p>
                 </div>
                 <div>
-                    <p class="text-2xl text-center">
+                    <p className='text-xl md:text-2xl text-center font-semibold text-gray-800'>
                     Current Status:
-                    <span class="block text-center">{order.status?.toUpperCase()}</span>
+                    <span className='block text-center text-blue-700 text-lg md:text-xl font-bold mt-2'>{order.status?.toUpperCase()}</span>
                     </p>
                 </div>
             </div>
         
-            {/* <!-- Description --> */}
-            <div class="flex justify-evenly items-center mb-20">
-                <div class="flex flex-row items-center">
-                    <img src={track1} alt="□"/>
-                    <div class="ps-3">
-                        <h4 class="font-bold text-lg pb-2">Order Placed</h4>
-                        <p>We received your order.</p>
-                    </div>
+            <div className='w-full max-w-5xl mx-auto p-8 mb-8 bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl shadow-xl'>
+            {/* Progress Bar */}
+            <div className='w-full bg-gray-300 rounded-full h-4 mb-8'>
+                <div className={`h-4 rounded-full ${order.status === 'unpaid' ? 'w-1/5 bg-textgreenColor' : ''} ${order.status === 'paid' ? 'w-2/5 bg-textgreenColor' : ''} ${order.status === 'on process' ? 'w-3/5 bg-textgreenColor' : ''} ${order.status === 'on delivery' ? 'w-4/5 bg-textgreenColor' : ''} ${order.status === 'completed' ? 'w-full bg-textgreenColor' : ''}`}></div>
+            </div>
+
+            <div className='flex flex-row flex-wrap justify-between items-center gap-4 md:flex-nowrap md:justify-around md:items-start text-center'>
+                <div className={`flex flex-col items-center gap-4 w-full md:w-auto ${order.status === 'unpaid' || order.status === 'paid' || order.status === 'on process' || order.status === 'on delivery' || order.status === 'completed' ? 'opacity-100' : 'opacity-50'}`}> 
+                <span className={`flex items-center justify-center w-12 h-12 rounded-full ${order.status === 'unpaid' ? 'bg-gray-200 text-gray-600' : 'bg-textgreenColor text-white'}`}> 
+                    <svg className={`w-6 h-6 ${order.status === 'unpaid' ? 'text-gray-600' : 'text-white'}`} xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 12'>
+                    <path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M1 5.917 5.724 10.5 15 1.5' />
+                    </svg>
+                </span>
+                <div>
+                    <h4 className='font-bold text-lg md:text-xl text-gray-800'>Order Placed</h4>
+                    <p className='text-gray-600'>We received your order.</p>
                 </div>
-                <div class="flex flex-row items-center">
-                    <img src={track2} alt="□"/>
-                    <div class="ps-3">
-                        <h4 class="font-bold text-lg pb-2">Order Confirmed</h4>
-                        <p>Your Order has confirmed.</p>
-                    </div>
                 </div>
-                <div class="flex flex-row items-center">
-                    <img src={track3} alt="□"/>
-                    <div class="ps-3">
-                        <h4 class="font-bold text-lg pb-2">Order Processed</h4>
-                        <p>We are preparing your order.</p>
-                    </div>
+                <div className={`flex flex-col items-center gap-4 w-full md:w-auto ${order.status === 'paid' || order.status === 'on process' || order.status === 'on delivery' || order.status === 'completed' ? 'opacity-100' : 'opacity-50'}`}> 
+                <span className={`flex items-center justify-center w-12 h-12 rounded-full ${order.status === 'paid' || order.status === 'on process' || order.status === 'on delivery' || order.status === 'completed' ? 'bg-textgreenColor text-white' : 'bg-gray-200 text-gray-600'}`}> 
+                    <img src={track2} alt='Order Confirmed' className={`w-8 h-8 object-contain ${order.status === 'paid' || order.status === 'on process' || order.status === 'on delivery' || order.status === 'completed' ? 'filter invert' : ''}`} />
+                </span>
+                <div>
+                    <h4 className='font-bold text-lg md:text-xl text-gray-800'>Order Confirmed</h4>
+                    <p className='text-gray-600'>Your order has been confirmed.</p>
                 </div>
-                <div class="flex flex-row items-center">
-                    <img src={track4} alt="□"/>
-                    <div class="ps-3">
-                        <h4 class="font-bold text-lg pb-2">Ready to Pickup/Deliver</h4>
-                        <p>Your order is ready to pickup/deliver.</p>
-                    </div>
+                </div>
+                <div className={`flex flex-col items-center gap-4 w-full md:w-auto ${order.status === 'on process' || order.status === 'on delivery' || order.status === 'completed' ? 'opacity-100' : 'opacity-50'}`}> 
+                <span className={`flex items-center justify-center w-12 h-12 rounded-full ${order.status === 'on process' || order.status === 'on delivery' || order.status === 'completed' ? 'bg-textgreenColor text-white' : 'bg-gray-200 text-gray-600'}`}> 
+                    <img src={track3} alt='Order Processed' className={`w-8 h-8 object-contain ${order.status === 'on process' || order.status === 'on delivery' || order.status === 'completed' ? 'filter invert' : ''}`} />
+                </span>
+                <div>
+                    <h4 className='font-bold text-lg md:text-xl text-gray-800'>Order Processed</h4>
+                    <p className='text-gray-600'>We are preparing your order.</p>
+                </div>
+                </div>
+                <div className={`flex flex-col items-center gap-4 w-full md:w-auto ${order.status === 'on delivery' || order.status === 'completed' ? 'opacity-100' : 'opacity-50'}`}> 
+                <span className={`flex items-center justify-center w-12 h-12 rounded-full ${order.status === 'on delivery' || order.status === 'completed' ? 'bg-textgreenColor text-white' : 'bg-gray-200 text-gray-600'}`}> 
+                    <img src={track4} alt='Ready to Pickup/Deliver' className={`w-8 h-8 object-contain ${order.status === 'on delivery' || order.status === 'completed' ? 'filter invert' : ''}`} />
+                </span>
+                <div>
+                    <h4 className='font-bold text-lg md:text-xl text-gray-800'>Ready to Pickup/Deliver</h4>
+                    <p className='text-gray-600'>Your order is ready to pickup/deliver.</p>
+                </div>
                 </div>
             </div>
-            {/* <!-- Stepper --> */}
-            <div class=""> 
-                <ol class="flex items-center w-[90%] justify-center mx-auto">
-                    {/* Eto yung bilog*/}           {/* Yung after:border-textgreenColor eto yung line*/}                                            
-                    <li class= {`flex w-full items-center text-textgreenColor dark:text-textgreenColor after:content-[''] after:w-full after:h-1 after:border-b  after:border-4 after:inline-block ${order.status === 'unpaid' ||order.status === 'paid' || order.status === 'on process' || order.status === 'on delivery' || order.status === 'completed'   ? 'after:border-textgreenColor dark:after:border-blue-800':'after:border-gray-700'}`}>
-                        <span class={`flex items-center justify-center w-10 h-10 bg-textgreenColor rounded-full lg:h-12 lg:w-12 dark:bg-blue-800 shrink-0`}>
-                            <svg class="w-3.5 h-3.5 text-green-400 lg:w-4 lg:h-4 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
-                            </svg>
-                            {/* <!-- <img src="/public/image/track1.png" alt="" class="w-6 h-6"> --> */}
-                        </span>
-                    </li>
-                    
-                    {/* Eto yung bilog*/}
-                    <li class={`flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-100 after:border-4 after:inline-block ${order.status === 'paid' || order.status === 'on process' || order.status === 'on delivery' || order.status === 'completed' ? 'after:border-textgreenColor dark:after:border-blue-800':'after:border-gray-500'}`}>
-                        <span class={`flex items-center justify-center w-10 h-10 ${order.status === 'paid' || order.status === 'on process' || order.status === 'on delivery' || order.status === 'completed' ? 'bg-textgreenColor':'bg-gray-100'} rounded-full lg:h-12 lg:w-12 shrink-0`}>
-                            {/* <!-- <svg class="w-4 h-4 text-gray-500 lg:w-5 lg:h-5 dark:text-gray-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
-                                <path d="M18 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2ZM6.5 3a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3.014 13.021l.157-.625A3.427 3.427 0 0 1 6.5 9.571a3.426 3.426 0 0 1 3.322 2.805l.159.622-6.967.023ZM16 12h-3a1 1 0 0 1 0-2h3a1 1 0 0 1 0 2Zm0-3h-3a1 1 0 1 1 0-2h3a1 1 0 1 1 0 2Zm0-3h-3a1 1 0 1 1 0-2h3a1 1 0 1 1 0 2Z"/>
-                            </svg> --> */}
-                            <img src={track2} alt="" class="w-6 h-6 filter invert"/>
-                        </span>
-                    </li>
-                    
-                    {/* Eto yung bilog*/}
-                    <li class={`flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-100 after:border-4 after:inline-block ${order.status === 'on process' || order.status === 'on delivery' || order.status === 'completed' ? 'after:border-textgreenColor dark:after:border-blue-800':'after:border-gray-500'}`}>
-                        <span class={`flex items-center justify-center w-10 h-10 ${order.status === 'on process' ||order.status === 'on delivery' || order.status === 'completed' ? 'bg-textgreenColor':'bg-gray-100'} rounded-full lg:h-12 lg:w-12 dark:bg-gray-700 shrink-0`}>
-                            {/* <!-- <svg class="w-4 h-4 text-gray-500 lg:w-5 lg:h-5 dark:text-gray-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
-                                <path d="M18 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2ZM6.5 3a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3.014 13.021l.157-.625A3.427 3.427 0 0 1 6.5 9.571a3.426 3.426 0 0 1 3.322 2.805l.159.622-6.967.023ZM16 12h-3a1 1 0 0 1 0-2h3a1 1 0 0 1 0 2Zm0-3h-3a1 1 0 1 1 0-2h3a1 1 0 1 1 0 2Zm0-3h-3a1 1 0 1 1 0-2h3a1 1 0 1 1 0 2Z"/>
-                            </svg> --> */}
-                            <img src={track3} alt="" class="w-6 h-6 filter invert"/>
-                        </span>
-                    </li>
-                    
-                    {/* Eto yung bilog*/}
-                    <li class="flex items-center">
-                        <span class={`flex items-center justify-center w-10 h-10 ${order.status === 'on delivery' || order.status === 'completed' ? 'bg-textgreenColor':'bg-gray-100'} rounded-full lg:h-12 lg:w-12 dark:bg-gray-700 shrink-0 `}>
-                            {/* <!-- <svg class="w-4 h-4 text-gray-500 lg:w-5 lg:h-5 dark:text-gray-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
-                                <path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2ZM7 2h4v3H7V2Zm5.7 8.289-3.975 3.857a1 1 0 0 1-1.393 0L5.3 12.182a1.002 1.002 0 1 1 1.4-1.436l1.328 1.289 3.28-3.181a1 1 0 1 1 1.392 1.435Z"/>
-                            </svg> --> */}
-                            <img src={track4} alt="" class="w-6 h-6 filter invert"/>
-                        </span>
-                    </li>
-                </ol>
             </div>
+
 
             {/* <!-- You might like --> */}
             <div className="w-full bg-jaydsBg mt-16">
             <div className="text-center py-10">
-                <h1 className="text-6xl font-extrabold tracking-wide">
-                    <span className="text-[#90c63f]">You </span> might like
+                <h1 className="text-4xl font-extrabold tracking-wide">
+                    <span className="text-green-700">You </span> might like
                 </h1>
             </div>
 
-                <div id="fm-series">
-                    <div className="container p-4 mt-4 pb-10 grid items-center justify-center w-full">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-                            {randomizedFoodsSpecial.slice(0, 4).map((foods) => (
-                                <div
-                                    key={foods.id}
-                                    className="w-full h-fit rounded-lg p-4 min-w-48 max-w-52 shadow-md relative bg-[#fdf8e0] hover:scale-95 duration-300"
-                                >
-                                    {/* Image container */}
-                                    <div className="rounded-full w-full h-full bg-[#fdf8e0] p-4 aspect-square mx-auto">
-                                        <img
-                                            src={foods.image_url}
-                                            alt={foods.name}
-                                            className="w-full h-full object-contain"
-                                        />
-                                    </div>
-                                    <h3 className="text-xl font-semibold mt-2 min-h-16">{foods.name}</h3>
-                                    <p className="text-gray-600 mt-2">Starts at</p>
-                                    <p className="text-2xl font-bold mt-1">₱ {foods.price}.00</p>
-
-                                    {/* Buy Now Button */}
-                                    <button
-                                        onClick={()=>navigate('/cart')}
-                                        className="bg-greenColor p-2 w-fit rounded-full absolute right-8 top-[37%] hover:scale-125 duration-300"
-                                    >
-                                        <img src={cart} alt="Add to Cart" />
-                                    </button>
-                                </div>
-                            ))}
+            <div id="fm-series">
+    <div className="container p-4 mt-4 pb-10 grid items-center justify-center w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+            {randomizedFoodsSpecial.slice(0, 4).map((foods) => (
+                <div
+                    key={foods.id}
+                    className="relative overflow-hidden bg-gradient-to-b from-[#E5F5EE] to-white border-2 border-[#067741] rounded-3xl w-full max-w-[370px] shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-300 flex flex-col"
+                >
+                    {/* Image Container with 3D Effect */}
+                    <div className="relative bg-gradient-to-t from-[#ece0c8] to-[#f5f2e4] p-6 rounded-t-xl">
+                        <div className="w-full h-[160px] flex justify-center items-center">
+                            <div className="p-2 overflow-hidden transform hover:rotate-2 hover:scale-105 transition-transform duration-300">
+                                <img
+                                    className="max-w-none max-h-full object-contain"
+                                    src={foods.image_url}
+                                    alt={foods.name}
+                                />
+                            </div>
                         </div>
                     </div>
+
+                    {/* Info Section */}
+                    <div className="relative text-gray-800 px-4 pb-4 mt-2 flex-grow">
+                        <div className="flex justify-between items-start mb-2">
+                            <span className="font-bold text-lg text-gray-900 w-3/4 overflow-hidden text-ellipsis whitespace-normal">
+                                {foods.name}
+                            </span>
+                            <span className="bg-gray-200 rounded-full text--800 text-md font-semibold px-2 py-1 shadow-sm transform transition-transform duration-300 hover:shadow-md hover:scale-105 whitespace-nowrap">
+                                <strong>₱ </strong>{foods.price}.00
+                            </span>
+                        </div>
+                        <span className="block text-sm opacity-75 text-gray-700 mb-3">
+                            Medium (22oz)
+                        </span>
+
+                        {/* Add to Cart Button */}
+                        <div className="mt-auto">
+                            <button
+                                onClick={() => navigate('/cart')}
+                                className="relative overflow-hidden text-white p-3 rounded-lg w-full text-center bg-gradient-to-r from-[#067741] via-[#45A64B] to-[#067741] shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl group"
+                            >
+                                <span className="absolute inset-0 bg-gradient-to-r from-[#1f4d29] via-[#2b6b36] to-[#1f4d29] transition-transform duration-500 transform group-hover:scale-150 group-hover:rotate-45 opacity-25"></span>
+                                <span className="relative">Add to Cart</span>
+                            </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
+            </div>
             </div>
         </section>
 
@@ -323,7 +324,7 @@ function OrderTracking() {
             <div class="border-y-2 border-gray-400 w-4/5 p-10">
             {/* <!-- container footer--> */}
             <div class="flex justify-between w-full">
-                <h1 class="text-white text-5xl font-bold">Jayd's Cafe</h1>
+                <h1 class="text-white text-3xl sm:text-4xl font-bold">Jayd's Cafe</h1>
                 <div class="flex gap-2">
                 <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
                     <img src={fb} alt=""></img>
@@ -331,19 +332,16 @@ function OrderTracking() {
                 <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
                     <img src={ig} alt=""></img>
                 </button>
-                <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-                    <img src={yt} alt=""></img>
-                </button>
                 </div>
             </div>
             
             <button type="button" class="rounded-full text-white w-fit px-6 py-2 mt-7" id="viewloc">View Location</button>
             </div>
 
-            <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center justify-between">
+            <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between text-center md:text-left">
             <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">Copyright © 2024. Capstone Inc.</span >
 
-            <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0" >
+            <ul class="flex flex-wrap justify-center md:justify-end items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0" >
                 <li class="footer-links">
                 <a href="#footer" class="hover:underline me-4 md:me-6" data-modal-target="default-modal" data-modal-toggle="default-modal">Refund Policy</a>
                 </li>
