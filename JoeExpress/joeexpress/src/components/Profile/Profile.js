@@ -10,6 +10,8 @@ import yt from '../image/yt.svg';
 import lock from '../image/lock.svg';
 import jaydsLogo from '../image/jayds cafe Logo.svg';
 import eye from '../image/eye(2).svg'
+import mail from '../image/mail.svg'
+import key from '../image/key.svg'
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import socket from '../AdminModule/Message/socketService';
@@ -342,67 +344,6 @@ export default function Profile() {
               </div>
             )}
             
-            {/* <!-- Profile Tab--> */}
-            {/* {activeTab === 'profile' && (
-              <div class="py-4 px-20 my-7 rounded-lg bg-gray-50 dark:bg-gray-800" id="profile" role="tabpanel"> 
-                <div class="border-b-2">
-                    <div class="flex justify-between items-center" >
-                      <h1 class="text-4xl py-5">Profile Picture</h1>
-                      <button class="outline outline-1 outline-black p-2 rounded-xl inline-flex justify-center items-center">
-                        <img src={edit} alt="" class="me-2"/>
-                        Edit Profile
-                      </button>
-                    </div>
-                    <p class="pb-10 pt-5"><strong>Join date:</strong> Aug 27,2025</p>
-                </div>
-  
-                  <div>
-                    <h1 class="text-4xl py-5">About</h1>
-                    <form>
-                      <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-                        <div class="px-4 py-2 bg-white rounded-b-lg dark:bg-gray-800">
-                          <label for="editor" class="sr-only">Publish post</label>
-                          <textarea id="editor" rows="8" class="block w-full px-0 text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Share something about yourself..." required ></textarea>
-                        </div>
-                            <div class="flex items-center justify-between px-3 py-2 border-b dark:border-gray-600">
-                              <div class="flex flex-wrap items-center divide-gray-200 sm:divide-x sm:rtl:divide-x-reverse dark:divide-gray-600">
-                                  <div class="flex items-center space-x-1 rtl:space-x-reverse sm:pe-4">
-  
-                                      <button type="button" title='Attach File' class="p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                                          <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 12 20">
-                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M1 6v8a5 5 0 1 0 10 0V4.5a3.5 3.5 0 1 0-7 0V13a2 2 0 0 0 4 0V6"/>
-                                            </svg>
-                                          <span class="sr-only">Attach file</span>
-                                      </button>
-                                      
-  
-                                      <button type="button" title='Upload Image' class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
-                                            <path fill="currentColor" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
-                                        </svg>
-                                      </button>
-
-                                      <button type="button" title='Upload Video' class="p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                                          <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
-                                                <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z"/>
-                                                <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z"/>
-                                            </svg>
-                                      </button>
-  
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      <button type="submit" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-greenColor rounded-lg focus:ring-4 focus:ring-blue-200 hover:bg-green-700">
-                          Publish post
-                      </button>
-                    </form>
-                  </div>
-              </div>
-            )} */}
-
             {/* <!-- Address Tab--> */}
             {activeTab === 'address' && (
               <div class="p-6 rounded-lg my-7 bg-gray-50 dark:bg-gray-800" id="address" role="tabpanel" aria-labelledby="Address-tab"> 
@@ -535,114 +476,85 @@ export default function Profile() {
                   </div> 
               </div>
             )}
+{/* <!-- Account Tab--> */}
+{activeTab === 'account' && (
+  <div className="container mx-auto py-12 px-4 md:px-8 flex justify-center" id="account" role="tabpanel" aria-labelledby="Account-tab">
+    <div className="p-6 md:p-10 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-lg w-full max-w-3xl">
+      {/* Account Section */}
+      <div className="border-b border-gray-300 dark:border-gray-700 pb-6 mb-8 text-center">
+        <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Account Settings</h1>
+        <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 mt-3">Manage your account settings below.</p>
+      </div>
 
-            {/* <!-- Account Tab--> */}
-            {activeTab === 'account' && (
-              <div class="p-4 px-16 rounded-lg my-7 bg-gray-50 dark:bg-gray-800" id="account" role="tabpanel" aria-labelledby="Account-tab"> 
-                  <div class="border-b-2 "> {/* <!-- Account --> */}
-                      <div class="flex justify-between items-center" >
-                        <h1 class="text-4xl py-5">Account</h1>
-                        <div class="gap-3 space-y-2">
-                          {/* <button class="me-3.5 outline outline-2 outline-greenColor text-textgreenColor px-8 py-2 text-lg rounded-xl inline-flex justify-center items-center hover:scale-110 duration-300">
-                            Discard
-                          </button> 
-                          <button class="outline outline-2 outline-greenColor bg-greenColor text-white px-8 py-2 text-lg rounded-xl inline-flex justify-center items-center hover:scale-110 duration-300">
-                            Update Info
-                          </button>  */}
-                        </div>
-                      </div>
-                      <p class="pb-5">View and edit your personal info below.</p>
-                  </div>
-    
-        {/* <!-- Display Info --> */}
-                  {/* <div class="border-b-2 mt-3 pb-5"> 
-                     <div class="flex justify-between items-center" >
-                      <h1 class="text-2xl py-5">Display info</h1>
-                    </div>
-                    <p class="pb-10">This information will be visible to all members of this site.</p> 
-
-                    <form action="#">
-                        <div class="col-span-2 sm:col-span-1">
-                          <label for="postal" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">Display name <span class="text-red-600">*</span></label>
-                          <input type="text" name="postal" 
-                          id="postal" 
-                          class="w-2/5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 
-                          focus:border-primary-600 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400
-                           dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder={profile.name} required/>
-                        </div>
-                    </form> 
-                    
-                  </div>  */}
-
-        {/* <!-- Personal Info --> */}
-                  <div class="border-b-2"> 
-                    <div class="flex justify-between items-center">
-                      <h1 class="text-2xl py-5">Personal info</h1>
-                    </div>
-                    <p class="pb-10">Update your personal information.</p>
-
-                    <form action="#">
-                      <div class="grid gap-4 mb-6 grid-cols-2">
-                        <div class="col-span-2 sm:col-span-1">
-                          <label for="fname" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">Fullname <span class="text-red-600">*</span></label>
-                          <div class="inline-flex w-full">
-                            <input type="text" 
-                            name="fname" 
-                            id="fname" 
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 
-                            focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 
-                            dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 me-2" placeholder={profile.name} required=""/>
-                            <img src={lock} alt=""/>
-                          </div>
-                        </div>
-                        {/* <div class="col-span-2 sm:col-span-1">
-                          <label for="lname" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">Last name <span class="text-red-600">*</span></label>
-                          <div class="inline-flex w-full">
-                            <input type="text" name="lname" id="lname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 me-2" placeholder="Dela Cruz" required=""/>
-                            <img src={lock} alt=""/>
-                          </div>
-                        </div>
-                        <div class="col-span-2 sm:col-span-1">
-                          <label for="phone" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">Phone <span class="text-red-600">*</span></label>
-                          <div class="inline-flex w-full">
-                            <input type="text" name="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 me-2" placeholder="09123564789" required=""/>
-                            <img src={lock} alt=""/>
-                          </div>
-                        </div> */}
-                      </div>
-
-                      <div class="space-x-3 mb-5 grid grid-flow-col justify-end">
-                        <button class="outline outline-2 outline-greenColor text-textgreenColor px-8 py-2 text-lg rounded-xl inline-flex justify-center items-center hover:scale-110 duration-300">
-                          Discard
-                        </button> 
-                        <button class="outline outline-2 outline-greenColor bg-greenColor text-white px-8 py-2 text-lg rounded-xl inline-flex justify-center items-center hover:scale-110 duration-300">
-                          Update Info
-                        </button> 
-                      </div>
-                    </form>
-                  </div> 
-
-        {/* <!-- information details--> */}
-                  <div class="flex flex-col justify-start items-start space-y-2 border-b-2 mt-3">
-                    <h1 class="text-2xl py-3">Login info</h1>
-                    <p class="pb-10">View and update your login email and password.</p>
-
-                    <div>
-                      <div class="mb-4">
-                        <p class="text-md">Login Email:</p>
-                        <p class="text-md">{profile.email}</p>
-                        <a href="#" class="text-md hover:underline">Change Email</a>
-                      </div>
-  
-                      <div class="pt-10 mb-4">
-                        <p class="text-md">Password:</p>
-                        <p class="text-md">●●●●●●●●</p>
-                        <a href="#" class="text-md hover:underline">Change Password</a>
-                      </div>
-                    </div>
-                  </div>
+      {/* Personal Information Form */}
+      <div className="border-b border-gray-300 dark:border-gray-700 pb-8 mb-8">
+        <h2 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-3">Personal Information</h2>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-5">Update your personal information.</p>
+        <form>
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <label htmlFor="name" className="block text-sm font-medium text-gray-900 dark:text-white">Full Name <span className="text-red-600">*</span></label>
+              <div className="flex items-center space-x-3">
+                <input
+                  type="text"
+                  id="name"
+                  name="fname"
+                  className="bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2 outline-none placeholder-gray-500"
+                  placeholder={profile.name}
+                  required
+                />
+                <img src={lock} alt="Lock Icon" className="w-auto h-7" />
               </div>
-            )}
+            </div>
+          </div>
+
+          <div className="flex justify-end mt-6">
+            <button className="bg-green-700 text-white px-5 py-2 text-sm rounded-md hover:bg-blue-700 transition duration-300">
+              Update Info
+            </button>
+          </div>
+        </form>
+      </div>
+
+      {/* Login Information Section */}
+      <div className="pb-8">
+        <h2 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-3">Login Information</h2>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-5">View and modify your login email and password.</p>
+        <div className="space-y-6">
+          <div className="flex flex-col space-y-1">
+            <label className="text-sm font-medium text-gray-900 dark:text-gray-300">Login Email:</label>
+            <div className="flex items-center space-x-3">
+              <input
+                type="text"
+                value={profile.email}
+                readOnly
+                className="bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm rounded-lg p-3 w-full outline-none"
+              />
+              <img src={mail} alt="Mail Icon" className="w-5 h-5 text-gray-500" />
+            </div>
+            <a href="#" className="text-sm text-blue-600 dark:text-blue-400 hover:underline mt-2">Change Email</a>
+          </div>
+
+          <div className="flex flex-col space-y-1">
+            <label className="text-sm font-medium text-gray-900 dark:text-gray-300">Password:</label>
+            <div className="flex items-center space-x-3">
+              <input
+                type="password"
+                value="●●●●●●●●"
+                readOnly
+                className="bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm rounded-lg p-3 w-full outline-none"
+              />
+              <img src={key} alt="Key Icon" className="w-5 h-5 text-gray-500" />
+            </div>
+            <a href="#" className="text-sm text-blue-600 dark:text-blue-400 hover:underline mt-2">Change Password</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+
           </div>
         </div>
      </div>
