@@ -36,7 +36,7 @@ export default function InboxRider() {
          e.preventDefault();
 
          const messageData = {
-            author: `${profile?.name} (Rider)`,
+            author: `Rider`,
             room: specificOrderId,
             userId: userId,
             message: currentMessage,
@@ -59,7 +59,7 @@ export default function InboxRider() {
          e.preventDefault();
 
          const messageData = {
-            author: `${profile?.name} (Rider)`,
+            author: `Rider`,
             room: specificOrderId,
             userId: userId,
             message: currentMessage,
@@ -78,7 +78,7 @@ export default function InboxRider() {
       socket.on('receive_message', (messageData) => {
          // Only add message if it was sent by someone else
          if (messageData.userId !== userId) {
-            setMessageList((prevChat) => [...prevChat, messageData]);
+            setMessages((prevChat) => [...prevChat, messageData]);
          }
       });
 
@@ -92,8 +92,8 @@ export default function InboxRider() {
    useEffect(() => {
       const getOrderId = async () => {
           try {
-              const response = await axios.post('http://localhost:8081/getOrderId', { userId: userId });
-               setOrderId(response.data);
+              const response = await axios.post('http://localhost:8081/getOrderId', { userId });
+            setOrderId(response.data);
               
           } catch (error) {
               console.error('Error fetching order ID:', error);
@@ -117,9 +117,10 @@ export default function InboxRider() {
             setSpecificOrderId(order);
 
             const response = await axios.post('http://localhost:8081/getRiderMessages', { ticketId: order });
-            setMessageList(response.data);
+            setMessages(response.data);
+
             socket.emit('join_room_rider', order);
-         } catch (error) {
+         } catch (error) { 
             console.error('Error fetching messages:', error);
          }
       }
@@ -297,37 +298,10 @@ useEffect(() => {
                         />
                      </div>
                      <div class="w-full">
-                        <div class="text-md tracking-wider dark:text-white hover:text-gray-900">{order.id}</div>
-                        <span class="text-gray-500 text-sm">Asan si Kuya?</span>
+                        <div class="text-md tracking-wider dark:text-white hover:text-gray-900">{order.order_id}</div>
+                        <span class="text-gray-500 text-sm">Contents</span>
                      </div>
                   </div> ))}
-
-                  <div class="flex flex-row py-3 px-5 justify-center items-center hover:bg-gray-200">
-                     <div class="w-1/4">
-                        <img
-                        src={user}
-                        class="object-cover h-12 w-12 rounded-full"
-                        alt=""
-                        />
-                     </div>
-                     <div class="w-full">
-                        <div class="text-md tracking-wider dark:text-white hover:text-gray-900">Lek Ra</div>
-                        <span class="text-gray-500 text-sm">Tara kila migz! 9:00 pm ...</span>
-                     </div>
-                  </div>
-                  <div class="flex flex-row py-3 px-5 justify-center items-center hover:bg-gray-200">
-                     <div class="w-1/4">
-                        <img
-                        src={user}
-                        class="object-cover h-12 w-12 rounded-full"
-                        alt=""
-                        />
-                     </div>
-                     <div class="w-full">
-                        <div class="text-md tracking-wider dark:text-white hover:text-gray-900">Sir Axl</div>
-                        <span class="text-gray-500 text-sm">Available pa matcha latte?</span>
-                     </div>
-                  </div>
                   
                   {/* <!-- end user list --> */}
                   </div>
@@ -365,20 +339,30 @@ useEffect(() => {
                               at praesentium.
                            </div>
                         </div> */}
-                         {messages.map((msg, index) => (
-                           <div key={index} className={msg.from === 'Admin' ? 'admin-message text-right' : 'user-message text-left'}>
-                                 {/* <strong>{msg.from}: </strong>{msg.message} */}
-                                 {msg.from === 'Admin' ? 
-                                 (<p className="bg-blue-300 text-black m-2 rounded-lg py-2 px-4 inline-block">
-                                    {msg.from === 'Admin' ? 'Admin' : msg.from}: {msg.message}
-                                 </p>)
-                                 :(<p className="bg-blue-500 text-white m-2 rounded-lg py-2 px-4 inline-block">
-                                 {msg.from === 'Admin' ? 'Admin' : msg.from}: {msg.message}
-                                 </p>)
-                                 }
+                         {messages.map((messageContent) => (
+                        <div
+                              key={messageContent.id}
+                              className={`mb-2 flex ${messageContent.sender_id === userId ? 'justify-end' : 'justify-start'}`}
+                              >
+                              <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
+                                 {messageContent.sender_id !== userId
+                                    ? `Me: ${messageContent.content}`
+                                    : `${messageContent.name}: ${messageContent.content}`}
+                              </p>
+                              </div>
+                           ))}
 
-                           </div>
-                        ))}
+                        {messageList.map((messageContent) => {
+
+                           return (
+                              <div key={messageContent.id || messageContent.timestamp} className={`mb-2 flex ${messageContent.userId === userId  ? 'justify-end' : 'justify-start'}`}>
+                                 <p className={`bg-blue-500 text-white rounded-lg py-2 px-4 inline-block`}>
+                                 {messageContent.author === "Rider" ? `Me: ${messageContent.message}` : `${messageContent.author}: ${messageContent.message}`}
+                                 </p>
+                              </div>
+                           );
+                           
+                     })}
                         
                      </div>
 

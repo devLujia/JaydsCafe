@@ -88,7 +88,7 @@ function Cart() {
       }
     
     const [quantity, setQuantity] = useState(
-        items.reduce((acc, item) => {
+        items?.reduce((acc, item) => {
             acc[item.id] = 1;
             return acc;
         }, {})
@@ -306,8 +306,8 @@ function Cart() {
 
         {/* Items listing */}
         <div className="space-y-6 mt-4">
-          {items.length > 0 &&
-            items.map((item) => (
+          {items?.length > 0 &&
+            items?.map((item) => (
               <div
                 key={item.id}
                 className="relative flex flex-col md:flex-row items-center md:items-center p-4 bg-white border rounded-lg shadow-sm text-center md:text-left"
@@ -402,7 +402,7 @@ function Cart() {
             ))}
 
 
-          {items.length === 0 && (
+          {items?.length === 0 && (
             <div className="flex flex-col items-center justify-center mt-8">
               <h1 className="text-2xl font-semibold text-gray-600">No items in cart</h1>
               <button
@@ -417,7 +417,7 @@ function Cart() {
       </div>
 
       {/* Right side Infos */}
-      {items.length > 0 && (
+      {items?.length > 0 && (
         <div className="p-4 lg:p-6 rounded-lg shadow-md bg-white mt-6 lg:mt-12 max-w-md mx-auto flex flex-col items-center">
           <div className="border border-gray-200 rounded-lg p-4 w-full">
             <h1 className="text-lg font-semibold mb-4 text-center text-gray-800">Select Your Delivery Method</h1>
