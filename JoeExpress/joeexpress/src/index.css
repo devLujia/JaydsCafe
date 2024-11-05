@@ -313,6 +313,18 @@ nav .link{
   background: #067741;
 }
 
+
+@keyframes text-focus-in {
+  0% { letter-spacing: -0.5em; opacity: 0; }
+  50% { opacity: 0.5; }
+  100% { letter-spacing: normal; opacity: 1; }
+}
+.animate-text-focus-in {
+  animation: text-focus-in 2.5s ease-in-out both;
+}
+
+
+
 @keyframes shine-border {
   0% {
     border-color: rgba(16, 85, 33, 0.4);

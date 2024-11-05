@@ -188,88 +188,77 @@ const Login = () => {
           {/* <!-- Logo/Title in Navbar --> */}
           <a href="/" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide">{cmsName}</a>
         </div>
-{/* <!-- Button for Login or Sign Up --> */}
-        {/* <div class="inline-flex items-center justify-center me-2">
-          
-          <button
-          onClick={()=> navigation('/login')}
-            class="btn mr-3 w-40 h-12 text-greenColor text-sm tracking-widest shadow-md cursor-pointer hover:shadow-lg outline  hover:shadow-gray-400 hover:bg-greenColor hover:text-white hover:outline-none ease-in-out transition background-color 0.3s, color 0.3s duration-300">
-            Order Now!
-          </button>
-    
-          <div class="inline-flex w-fit h-fit space-x-2">
-            <img src={userIcon} alt=""/>
-            <img src={bagIcon} alt=""/>
-          </div>
-        </div> */}
       </nav>
 
-    {/* <!-- Form container --> */}
-<div class="max-w-md md:mx-auto mx-5 p-4 mt-6 mb-6 bg-white rounded-xl shadow-md md:max-w-lg md:p-6 md:pt-4 lg:max-w-lg lg:p-8 lg:pt-6">
-  {/* <!-- Image for login --> */}
-  <div class="flex flex-col justify-center items-center mb-6 py-5">
-    <p class="text-lg sm:text-xl md:text-2xl mb-3 font-semibold tracking-wider">WELCOME TO</p>
-    <h1 class="font-extrabold text-4xl sm:text-5xl md:text-6xl text-textgreenColor text-center">{cmsName}</h1>
-  </div>
-
-  <h2 class="text-xl sm:text-2xl md:text-3xl font-semibold mb-4 text-gray-600">Login</h2>
-
-  {/* <!-- Form fields --> */}
-  <form onSubmit={handleSubmit} action="/menu">
-    <div class="mb-4">
-      {/* <!-- Email Input--> */}
-      <input
-        className={`shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline ${errors.email ? 'input-error' : ''}`}
-        id="email"
-        type="email"
-        name="email"
-        placeholder="Enter email"
-        value={values.email}
-        onChange={handleInput}
-      />
-      {errors.email && <p className='text-sm text-red-700'>{errors.email}</p>}
-    </div>
-
-    <div class="bg-white w-full max-w-full rounded-md mx-auto flex items-center">
-      {/* <!-- password Input--> */}
-      <div class="relative w-full">
-        <input
-          className={`w-full outline-0 text-gray-600 shadow appearance-none border rounded py-2 px-3 mb-10 leading-10 focus:outline-none focus:shadow-outline ${errors.password ? 'input-error' : ''}`}
-          id="password"
-          type={passwordVisible ? 'text' : 'password'}
-          name="password"
-          placeholder="Enter password"    
-          value={values.password}
-          onChange={handleInput}
-          required
-        />
-        {errors.password && <p className='text-sm text-red-700'>{errors.password}</p>}
-
-        <img
-          onClick={togglePasswordVisibility}
-          src={hidden}
-          alt="Eye"
-          class="absolute right-3 top-3 w-6 sm:w-8 cursor-pointer"
-          id="hide"
-        />
+    {/* Redesigned Form container */}
+    <div className="max-w-xs mx-auto p-10 mt-10 mb-12 bg-white rounded-xl shadow-lg md:max-w-sm lg:max-w-md lg:p-12">
+      {/* Image and Welcome Text */}
+      <div className="flex flex-col items-center mb-8">
+        <p className="text-lg md:text-xl font-semibold tracking-wide text-gray-700 mb-2">WELCOME TO</p>
+        <h1 className="font-extrabold text-4xl md:text-5xl text-green-700 text-center animate-text-focus-in">{cmsName}</h1>
       </div>
-    </div>
-    {errors.general && <p className='text-sm text-red-700'>{errors.general}</p>}
-    <input
-      class="bg-greenColor hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-full leading-10 mb-10 cursor-pointer"
-      type="submit"
-      value="Sign In"
-    />
 
-    <p class="text-center text-sm sm:text-base">
-      {/* <!-- Don't have an account? --> */}
-      Don't have an account?
-      <span class="text-blue-500 cursor-pointer font-semibold">
-        <a href="/signup"> Click Here </a>
-      </span>
-    </p>
+      {/* Login Heading */}
+      <h2 className="text-2xl md:text-3xl font-semibold mb-8 text-gray-700">Login</h2>
+
+      {/* Form fields */}
+      <form onSubmit={handleSubmit} action="/menu">
+        {/* Email Input */}
+        <div className="mb-6">
+          <input
+            className={`w-full shadow-md border rounded-lg py-4 px-4 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent ${errors.email ? 'border-red-500' : ''}`}
+            id="email"
+            type="email"
+            name="email"
+            placeholder="Enter email"
+            value={values.email}
+            onChange={handleInput}
+            required
+          />
+          {errors.email && <p className="text-sm text-red-600 mt-2">{errors.email}</p>}
+        </div>
+
+        {/* Password Input */}
+        <div className="relative mb-8">
+          <input
+            className={`w-full shadow-md border rounded-lg py-4 px-4 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent ${errors.password ? 'border-red-500' : ''}`}
+            id="password"
+            type={passwordVisible ? 'text' : 'password'}
+            name="password"
+            placeholder="Enter password"
+            value={values.password}
+            onChange={handleInput}
+            required
+          />
+          <img
+            onClick={togglePasswordVisibility}
+            src={hidden}
+            alt="Toggle Visibility"
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 cursor-pointer"
+            id="hide"
+          />
+          {errors.password && <p className="text-sm text-red-600 mt-2">{errors.password}</p>}
+        </div>
+
+          {/* General Error Message */}
+          {errors.general && <p className="text-sm text-red-600 mb-6">{errors.general}</p>}
+
+          {/* Submit Button */}
+          <button
+            className="w-full bg-green-700 hover:bg-green-700 text-white font-bold py-4 rounded-lg transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-700"
+            type="submit"
+          >
+            Sign In
+          </button>
+
+          {/* Sign-up Redirect */}
+          <p className="text-center text-sm text-gray-700 mt-8">
+            Don't have an account?
+            <a href="/signup" className="text-blue-500 font-semibold hover:underline ml-1">Click Here</a>
+          </p>
   </form>
 </div>
+
 
 
    {/* <!-- Contact Us --> */}

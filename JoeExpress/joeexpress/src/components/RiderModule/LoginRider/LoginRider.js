@@ -76,75 +76,65 @@ export default function LoginRider() {
 
 
   return (
-    <div>
-        <div className='bg-white flex w-4/5 mx-auto my-4 rounded-lg flex-col lg:flex-row shadow-xl'>
-            
-            {/* left-side */}
-            <div className='flex justify-center items-center flex-col border-r-2 border-gray-300 flex-1 px-5'>
-                <h2 className='text-2xl font-bold text-center my-5'>{cmsName} Rider Account</h2>
-                <p class="flex justify-center mb-2 max-w-96 text-center">Lorem ipsum dolor sit amet, consectetur
-                adipiscing elit suspendisse.</p>
+            <div className="flex justify-center items-center min-h-screen bg-gray-100 p-5">
+                <div className="bg-white flex w-full max-w-5xl mx-auto my-4 rounded-lg flex-col lg:flex-row shadow-xl">
+                    {/* left-side */}
+                    <div className="flex justify-center items-center flex-col border-b-2 lg:border-b-0 lg:border-r-2 border-gray-300 flex-1 px-5 py-10">
+                        <h2 className="text-3xl font-bold text-center mb-5 lg:mb-10">{cmsName} Rider Account</h2>
+                        <p className="text-gray-600 text-center max-w-md mb-5 lg:mb-10">Manage your rides efficiently and stay updated with your account information.</p>
+                        <img src={helmet} alt="Helmet" className="w-full max-w-xs h-auto object-contain" />
+                    </div>
 
-                <img src={helmet}></img>
+                    {/* right-side */}
+                    <div className="flex-1 p-10">
+                        <form onSubmit={handleSubmit}>
+                            <h1 className="font-bold text-2xl mb-10 tracking-wide text-gray-800">
+                                <span className="">Sign In</span>
+                            </h1>
+                            <div className="mb-6 relative">
+                                {/* Email */}
+                                <label htmlFor="email" className="text-gray-600 text-md font-bold tracking-wider">Email</label>
+                                <input 
+                                    className="mt-2 shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-8 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" 
+                                    id="email" type="email" name="email" placeholder="Ex. Juan Dela Cruz" 
+                                    value={values.email}
+                                    onChange={handleInput}
+                                    required
+                                />
+                                <img src={email} alt="Email Icon" className="absolute right-4 top-12 hidden md:block w-5 h-5" />
+                            </div>
+
+                            <div className="mb-6 relative">
+                                {/* Password */}
+                                <label htmlFor="password" className="text-gray-600 text-md font-bold tracking-wider">Password</label>
+                                <input 
+                                    className="mt-2 shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-8 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" 
+                                    id="password" type="password" name="password" 
+                                    value={values.password}
+                                    onChange={handleInput} 
+                                    placeholder="Enter your password" required
+                                />
+                                <img src={lock} alt="Lock Icon" className="absolute right-4 top-12 hidden md:block w-5 h-5" />
+                            </div>
+
+                            <input 
+                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg w-full leading-8 transition duration-300 ease-in-out cursor-pointer"
+                                type="submit"
+                                value="Sign In"
+                            />
+
+                            {/* Forgot password and Signup links */}
+                            <div className="text-center mt-12 space-y-6">
+                                <p className="mb-4">
+                                    Forgot password? 
+                                    <span className="text-blue-500 cursor-pointer font-semibold">
+                                        <a href="/RiderForgot"> Click Here</a>
+                                    </span>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-
-            {/* right-side */}
-            <div className='my-5 flex-1 p-10'>
-                <form onSubmit={handleSubmit}>
-                    <h1 className='font-bold text-2xl mb-7 tracking-wide'>
-                        <span className='underline'>Sign In</span> to Jayd's RiderModule 
-                    </h1>
-                    <div class="mb-4 relative"> {/* <!-- email--> */}
-                        <label for="email" class="text-gray-600 text-md font-bold tracking-wider ">Email</label>
-                        <input 
-                        class="mt-2 shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
-                        id="email" type="email" name="email" placeholder="Ex. Juan Dela Cruz" 
-                        value={values.email}
-                        onChange={handleInput} 
-                        required/>
-                        <img src={email} className='absolute end-5 top-12 md:block hidden'></img>
-                    </div>
-
-                    <div class="mb-4 relative"> {/* <!-- password--> */}
-                        <label for="pass" class="text-gray-600 text-md font-bold tracking-wider ">Password</label>
-                        <input class="mt-2 shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
-                        name="password"
-                        id="password" type='password' 
-                        value={values.password}
-                        onChange={handleInput} 
-                        placeholder="Enter your password" required/>
-                        <img src={lock} className='absolute end-5 top-12 md:block hidden'></img>
-                    </div>
-
-                    <input class="bg-greenColor hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-full leading-10 "
-                            type="submit"
-                            value="Sign In"/>
-
-                    {/* <a href="https://www.google.com/">
-                        <button class="flex items-center justify-center p-2 my-4 w-full leading-10 border-2 text-gray-600 border-gray-300 rounded-lg hover:bg-gray-200 font-semibold focus:outline-none focus:shadow-outline">
-                            <img src={google} alt="Google Icon" class="w-16 px-5 md:block hidden"/> Sign in with Google
-                        </button>
-                    </a> */}
-
-                    {/* <!-- Don't have an account? --> */}
-                    <div className=' text-center'>
-                        <p class="my-3">
-                            Forgot password?
-                            <span class="text-blue-500 cursor-pointer font-semibold">
-                                <a href="/RiderForgot"> Click Here </a>
-                            </span>
-                        </p>
-
-                        <p class="mb-10">
-                            Don't have any account?
-                            <span class="text-blue-500 cursor-pointer font-semibold">
-                                <a href="/RiderRegistration"> Sign up </a>
-                            </span>
-                        </p>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
   )
 }
