@@ -504,7 +504,7 @@ export default function Order_New() {
             </div>
         </aside>
         
-        <div class="p-4 sm:ml-72 bg-jaydsBg hidden sm:block">
+        <div class="p-4 sm:ml-72 bg-jaydsBg hidden sm:block h-full">
             <div class="mb-4 border-b-2  border-gray-300"> {/* <!-- Tabs below--> */}
                 <ul class="flex flex-wrap -mb-px text-md font-semibold text-center " id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">    
                     <li class="me-2" role="presentation">

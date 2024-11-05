@@ -527,7 +527,7 @@ const rightNav = () => {
         </div>
       </div>
 
-      <div class="flex flex-col w-3/4 mx-auto md:items-center"> {/* <!-- Main Container--> */}
+      <div class="flex flex-col md:w-3/4 sm:mx-auto w-full md:items-center"> {/* <!-- Main Container--> */}
         <div id="mt-series"> 
           <div className="container mx-auto p-4 mt-4"> 
 
@@ -565,7 +565,7 @@ const rightNav = () => {
               {currentFoods.map((food) => (
                 <div
                   key={food.id}
-                  className="relative overflow-hidden bg-gradient-to-b from-[#E5F5EE] to-white border-2 border-[#067741] rounded-3xl w-[270px] h-auto max-w-[370px] shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-300 flex flex-col">
+                  className="relative overflow-hidden bg-gradient-to-b from-[#E5F5EE] to-white border-2 border-[#067741] rounded-3xl w-[270px] h-auto max-w-[370px] shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-300 flex flex-col mx-auto">
                   {/* Image Container with 3D Effect */}
                   <div className="relative bg-gradient-to-t from-[#ece0c8] to-[#f5f2e4] p-6 rounded-t-xl">
                     <div className="w-full h-[160px] flex justify-center items-center">

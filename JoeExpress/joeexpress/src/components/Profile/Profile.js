@@ -10,11 +10,13 @@ import yt from '../image/yt.svg';
 import lock from '../image/lock.svg';
 import jaydsLogo from '../image/jayds cafe Logo.svg';
 import eye from '../image/eye(2).svg'
+import chat from '../image/chatWithRider.svg'
 import mail from '../image/mail.svg'
 import key from '../image/key.svg'
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import socket from '../AdminModule/Message/socketService';
+import ChatWithRider from '../UserModal/ChatWithRider/ChatWithRider';
 
 export default function Profile() {
 
@@ -98,6 +100,12 @@ export default function Profile() {
         };
     }
 }, [userId]); 
+
+    // chat with rider
+    const [isChatOpen, setIsChatOpen] = useState(false);
+
+    const openChat = () => setIsChatOpen(true);
+    const closeChat = () => setIsChatOpen(false);
 
 
   return (
@@ -265,10 +273,14 @@ export default function Profile() {
                         </div>
                       )}
                     </td>
-                    <td className="flex items-center px-2 md:px-4 py-2 md:py-4 space-x-2 justify-center">
+                    <td className="flex items-center px-2 md:px-4 py-2 md:py-4 space-x-2 justify-center gap-2">
                       <button onClick={() => toggleOrderDetails(order.order_id)} title='View Orders'>
                         <img src={eye} alt="View Order" className="w-5 h-5 md:w-6 md:h-6" />
                       </button>
+                      <button onClick={openChat} title='Chat with Rider'>
+                        <img src={chat} alt="Chat" className="w-5 h-5 md:w-6 md:h-6" />
+                      </button>
+                       {isChatOpen && <ChatWithRider onClose={closeChat} />}
                     </td>
                   </tr>
 
