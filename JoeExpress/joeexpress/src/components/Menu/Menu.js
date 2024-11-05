@@ -456,72 +456,36 @@ const rightNav = () => {
           <button 
               id="dropdownDefaultButton" 
               onClick={toggleDropdownCategory}
-              class="relative flex justify-center items-center mx-auto bg-white text-black text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300 lg:hidden md:block">
+              class="relative flex justify-center items-center mx-auto bg-white text-black text-xl rounded-full top-3 py-3 px-5 hover:bg-greenColor hover:text-white duration-300 lg:hidden md:block">
                 Browse the Menu
           </button>
             
           {/* <!-- category menu --> */}
           {isDropdownOpenCategory && (
-            <div id="dropdown" className=" z-10 absolute left-1/2 transform -translate-x-1/2 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-              <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                <li>
-                  <button
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    onClick={() => handleCategoryClick('signature-beverages')}
-                  >
-                    Signature Beverages
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    onClick={() => handleCategoryClick('hot-coffee')}
-                  >
-                    Hot Coffee
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    onClick={() => handleCategoryClick('iced-black-coffee')}
-                  >
-                    Iced Black Coffee
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    onClick={() => handleCategoryClick('iced-coffee-latte')}
-                  >
-                    Iced Coffee Latte
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    onClick={() => handleCategoryClick('iced-blended')}
-                  >
-                    Iced Blended
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    onClick={() => handleCategoryClick('milk-tea')}
-                  >
-                    Milk Tea
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    onClick={() => handleCategoryClick('refreshers')}
-                  >
-                    Refreshers
-                  </button>
-                </li>
-              </ul>
-            </div>
+              <div
+                id="dropdown"
+                className="z-10 absolute left-1/2 transform -translate-x-1/2 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                  <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                      {category.map((cat) => (
+                          <li key={cat.id}>
+                              <button
+                                  className={`block px-4 py-2 w-full rounded-full ${
+                                      categorySearch === cat.id
+                                          ? 'bg-greenColor text-white'
+                                          : 'hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700'
+                                  }`}
+                                  onClick={() => {
+                                      setCategorySearch(cat.id); // Set the selected category ID
+                                      setCurrentPage(1); // Reset to first page if applicable
+                                      handleCategoryClick(cat.id); // Call function with selected category ID
+                                  }}
+                              >
+                                  {cat.title}
+                              </button>
+                          </li>
+                      ))}
+                  </ul>
+              </div>
           )}
           
         </div>
