@@ -1386,48 +1386,52 @@ useEffect(() => {
     </div>
     
 
-    {/* <!-- About Us --> */}
-    <div className="flex flex-col lg:flex-row overflow-hidden bg-white text-greenColor py-10" id="aboutus">
-      <div
-        className="lg:w-1/2 p-10 md:text-center lg:text-left flex flex-col justify-center items-center lg:items-start"
-        data-aos="fade-right"
-        data-aos-offset="300"
-        data-aos-easing="ease-in-sine"
-        data-aos-duration="1500"
-      >
-        <h3 className="font-extrabold text-5xl mb-8 text-center animate-wave glow-animation">Our Story</h3>
-        <h2 className="font-extrabold text-4xl mb-6 text-center text-black">Let Us Introduce Ourselves</h2>
-        <p className="max-w-lg mb-6 text-lg md:text-left leading-relaxed text-center text-black italic">
-          {cmsAboutUs}
-        </p>
-        <div className="pt-4 text-center md:text-left">
-        <button 
-          onClick={() => navigate('/menu')} 
-          className="relative inline-flex h-16 active:scale-95 transition overflow-hidden rounded-tl-3xl rounded-br-3xl p-[2px] focus:outline-none hover:scale-105 hover:shadow-xl hover:shadow-[#34d399]/50 duration-300 ease-in-out"
+      {/* About Us Section */}
+      <div className="flex flex-col lg:flex-row overflow-hidden bg-white text-greenColor py-16" id="aboutus">
+        <div
+          className="lg:w-1/2 px-8 md:px-16 text-center lg:text-left flex flex-col justify-center items-center lg:items-start"
+          data-aos="fade-right"
+          data-aos-offset="300"
+          data-aos-easing="ease-in-sine"
+          data-aos-duration="1500"
         >
-          <span
-            className="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#067741_0%,#34d399_50%,#10b981_100%)] rounded-tl-3xl rounded-br-3xl"
+          <h3 className="font-extrabold text-4xl md:text-5xl mb-6 md:mb-8 animate-wave glow-animation">
+            Our Story
+          </h3>
+          <h2 className="font-extrabold text-3xl md:text-4xl mb-4 md:mb-6 text-black">
+            Let Us Introduce Ourselves
+          </h2>
+          <p className="max-w-lg mb-6 text-base md:text-lg leading-relaxed text-black italic">
+            {cmsAboutUs}
+          </p>
+          <div className="pt-4">
+            <button
+              onClick={() => navigate('/menu')}
+              className="relative inline-flex h-14 md:h-16 active:scale-95 transition-transform overflow-hidden rounded-tl-3xl rounded-br-3xl p-[2px] focus:outline-none hover:scale-105 hover:shadow-xl hover:shadow-[#34d399]/50 duration-300 ease-in-out"
+            >
+              <span
+                className="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#067741_0%,#34d399_50%,#10b981_100%)] rounded-tl-3xl rounded-br-3xl"
+              />
+              <span
+                className="relative inline-flex h-full w-full cursor-pointer items-center justify-center rounded-tl-3xl rounded-br-3xl bg-[#067741] px-8 md:px-10 text-base md:text-lg font-semibold text-white backdrop-blur-3xl gap-2"
+              >
+                Order Now!
+              </span>
+            </button>
+          </div>
+        </div>
+        <div className="lg:w-1/2 px-8 md:px-16 mt-10 lg:mt-0 flex justify-center items-center">
+          <img
+            src={cmsAboutUsImage}
+            alt="About Us"
+            id="aboutUsPic"
+            className="w-full max-w-[400px] md:max-w-[450px] h-auto hover:scale-105 transition-transform duration-300 rounded-lg shadow-lg"
+            data-aos="fade-down-left"
+            data-aos-duration="1500"
           />
-          <span
-            className="relative inline-flex h-full w-full cursor-pointer items-center justify-center rounded-tl-3xl rounded-br-3xl bg-[#067741] px-10 text-lg font-semibold text-white backdrop-blur-3xl gap-2"
-          >
-            Order Now!
-          </span>
-        </button>
+        </div>
       </div>
 
-      </div>
-      <div className="lg:w-1/2 p-10 flex justify-center items-center">
-        <img
-          src={cmsAboutUsImage}
-          alt="About Us"
-          id="aboutUsPic"
-          className="w-[450px] max-h-[591px] h-auto hover:scale-105 transition-transform duration-300 rounded-lg"  
-          data-aos="fade-down-left"
-          data-aos-duration="1500"
-        />
-      </div>
-    </div>
 
     {/* Reviews Section */}
     <div className="container mx-auto px-4 py-8 bg-[#F5F5F0]">

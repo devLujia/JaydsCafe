@@ -361,6 +361,7 @@ function Cart() {
                   </div>
                 </div>
 
+
                 {/* Quantity Control */}
                 <div className="flex items-center justify-center w-full mt-4 md:mt-0">
                   <div className="flex items-center justify-center gap-1 border border-green-700 rounded-full px-2 py-1">
@@ -370,12 +371,14 @@ function Cart() {
                     >
                       −
                     </button>
-                    <input
-                      type="number"
-                      className="w-8 text-center border-none focus:outline-none text-sm"
-                      value={quantity[item.id] || item.quantity}
-                      disabled
-                    />
+                    <input id="input-number" 
+                                            class="p-1 w-8 bg-transparent border-0 text-gray-800 text-center focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none dark:text-white" 
+                                            disabled
+                                            type="number" 
+                                            aria-roledescription="Number field" 
+                                            onChange={(e) => handleInput(e, item.id)} 
+                                            value={(quantity[item.id]||item.quantity)} 
+                                            data-hs-input-number-input="" />
                     <button
                       onClick={() => increment(item.id, quantity[item.id] || item.quantity)}
                       className="w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full focus:outline-none hover:bg-gray-200 transition"
@@ -387,7 +390,7 @@ function Cart() {
                     className="ml-3 text-red-600 focus:outline-none hover:text-red-800"
                     onClick={() => openModal()}
                   >
-                    <img src={del} alt="Delete" className="w-5 h-5" />
+                    <img src={del} alt="Delete" className="w-5 h-5" style={{ filter: 'invert(16%) sepia(83%) saturate(7479%) hue-rotate(0deg) brightness(97%) contrast(116%)' }} />
                   </button>
                 </div>
 
@@ -397,6 +400,7 @@ function Cart() {
                 </div>
               </div>
             ))}
+
 
           {items.length === 0 && (
             <div className="flex flex-col items-center justify-center mt-8">
