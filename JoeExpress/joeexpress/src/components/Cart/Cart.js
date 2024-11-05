@@ -401,18 +401,10 @@ function Cart() {
               </div>
             ))}
 
-<<<<<<< HEAD
 
           {items?.length === 0 && (
             <div className="flex flex-col items-center justify-center mt-8">
               <h1 className="text-2xl font-semibold text-gray-600">No items in cart</h1>
-=======
-        {/* No Items in Cart */}
-        {items.length === 0 && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
-            <div className="text-center">
-              <h1 className="text-3xl font-bold text-white">No items in cart</h1>
->>>>>>> 5c26aeceddf59341f76e202f29766e60be950c49
               <button
                 onClick={() => navigate('/menu')}
                 className="px-6 py-3 mt-6 text-white bg-green-600 rounded-full hover:bg-green-700 transition"
@@ -420,7 +412,7 @@ function Cart() {
                 Browse Our Menu
               </button>
             </div>
-          </div>
+          
         )}
         
         </div>
