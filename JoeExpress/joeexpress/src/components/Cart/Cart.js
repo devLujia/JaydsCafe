@@ -388,7 +388,7 @@ function Cart() {
                   </div>
                   <button
                     className="ml-3 text-red-600 focus:outline-none hover:text-red-800"
-                    onClick={() => openModal()}
+                    onClick={()=> toggleDeleteModal(item.id)}
                   >
                     <img src={del} alt="Delete" className="w-5 h-5" style={{ filter: 'invert(16%) sepia(83%) saturate(7479%) hue-rotate(0deg) brightness(97%) contrast(116%)' }} />
                   </button>
@@ -401,18 +401,28 @@ function Cart() {
               </div>
             ))}
 
+<<<<<<< HEAD
 
           {items?.length === 0 && (
             <div className="flex flex-col items-center justify-center mt-8">
               <h1 className="text-2xl font-semibold text-gray-600">No items in cart</h1>
+=======
+        {/* No Items in Cart */}
+        {items.length === 0 && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
+            <div className="text-center">
+              <h1 className="text-3xl font-bold text-white">No items in cart</h1>
+>>>>>>> 5c26aeceddf59341f76e202f29766e60be950c49
               <button
                 onClick={() => navigate('/menu')}
-                className="px-6 py-3 mt-4 text-white bg-green-600 rounded-full hover:bg-green-700 transition"
+                className="px-6 py-3 mt-6 text-white bg-green-600 rounded-full hover:bg-green-700 transition"
               >
                 Browse Our Menu
               </button>
             </div>
-          )}
+          </div>
+        )}
+        
         </div>
       </div>
 

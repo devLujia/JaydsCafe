@@ -823,15 +823,15 @@ useEffect(() => {
 
 
       {/* <!-- Thesis Disclaimer --> */}
-      <div class="fixed top-0 w-full bg-gray-200 text-center text-sm font-medium py-2 text-black z-30">
-            This website is for thesis purposes only and is currently under development.
+      <div className="fixed top-0 w-full bg-gray-200 text-center text-xs md:text-sm font-medium py-1 md:py-2 text-black z-30">
+          This website is for thesis purposes only and is currently under development.
       </div>
 
     {/* <!-- nav --> */}
     <nav class="sticky top-8 bg-white z-20 shadow-lg">
       <div class="font-extrabold text-2xl flex items-center">
         {/* <!-- Logo/Title in Navbar --> */}
-        <a href="#" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide">{cmsName}</a>
+        <a href="#"className="flex items-center text-greenColor ms-2 md:ms-5 text-lg md:text-2xl tracking-wide">{cmsName}</a>
       </div>
       
       <span className="menu">
@@ -1071,57 +1071,69 @@ useEffect(() => {
         </svg>
       </div>
 
-      <div class="lg:w-1/2 px-32 pt-4 pb-16 md:text-center lg:text-left"
-            data-aos="fade-right"
-            data-aos-offset="300"
-            data-aos-easing="ease-in-sine"
-            data-aos-duration="1500">
-            <p class="text-black font-bold tracking-wider text-3xl pb-1 drop-shadow-2xl text-center md:text-left" id="name">WELCOME TO</p>
-            <h1 class="text-textgreenColor text-8xl font-extrabold pb-2 drop-shadow-lg text-center md:text-left" id="name">{cmsName}</h1>
-            <p class="max-w-[28rem] mb-5 text-lg text-gray-600 text-center md:text-left">
-            Discover the perfect blend of flavors in every cup. From classic milk teas to unique creations, we’ve got something for everyone. Come sip, relax, and enjoy your favorite drink today!
-            </p>
-        
-          {/* Order Now Button */}
-              <div class="text-center md:text-left">
-              <button
-                        onClick={() => navigate('/menu')}
-                        className="relative inline-flex h-16 active:scale-95 transition overflow-hidden rounded-tl-3xl rounded-br-3xl p-[2px] focus:outline-none hover:scale-105 hover:shadow-xl hover:shadow-[#34d399]/50 duration-300 ease-in-out"
-                      >
-                        <span className="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#067741_0%,#34d399_50%,#10b981_100%)] rounded-tl-3xl rounded-br-3xl"></span>
-                        
-                        <span className="relative inline-flex h-full w-full cursor-pointer items-center justify-center rounded-tl-3xl rounded-br-3xl bg-[#067741] px-10 text-lg font-semibold text-white backdrop-blur-3xl gap-2">
-                          Order Now!
-                        </span>
-                        
-                        {/* Shining Effect */}
-                        <span className="absolute top-0 left-0 right-0 bottom-0 pointer-events-none">
-                          <div className="absolute inset-0 rounded-full bg-white opacity-30 animate-shine"></div>
-                        </span>
-                      </button>
-                </div>  
-              </div>
-
-      <div className="w-[400px] h-[500px] md:m-auto relative hover:scale-100">
-        <img
-        src={cmsBigLogo}
-        alt=""
-        className="w-[400px] h-[400px] z-10 absolute -top-2 -left-20 sm:-left-28 md:-left-28 float-animation"
-        data-aos="fade-down-right"
-        data-aos-duration="2000"
+      <div 
+        className="lg:w-1/2 px-6 md:px-20 lg:px-32 pt-4 pb-16 text-center lg:text-left"
+        data-aos="fade-right"
+        data-aos-offset="300"
         data-aos-easing="ease-in-sine"
+        data-aos-duration="1500"
+      >
+        {/* Welcome Text */}
+        <p className="text-black font-bold tracking-wider text-2xl md:text-3xl pb-1 drop-shadow-2xl text-center lg:text-left" id="name">
+          WELCOME TO
+        </p>
+
+        {/* CMS Name Heading */}
+        <h1 className="text-textgreenColor text-5xl md:text-7xl lg:text-8xl font-extrabold pb-2 drop-shadow-lg text-center lg:text-left" id="name">
+          {cmsName}
+        </h1>
+
+        {/* Description */}
+        <p className="max-w-xs sm:max-w-md md:max-w-lg lg:max-w-[28rem] mx-auto mb-5 text-base md:text-lg text-gray-600 text-center lg:text-left">
+          Discover the perfect blend of flavors in every cup. From classic milk teas to unique creations, we’ve got something for everyone. Come sip, relax, and enjoy your favorite drink today!
+        </p>
+
+        {/* Order Now Button */}
+        <div className="flex justify-center lg:justify-start">
+          <button
+            onClick={() => navigate('/menu')}
+            className="relative inline-flex h-12 md:h-16 active:scale-95 transition overflow-hidden rounded-tl-3xl rounded-br-3xl p-[2px] focus:outline-none hover:scale-105 hover:shadow-xl hover:shadow-[#34d399]/50 duration-300 ease-in-out"
+          >
+            <span className="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#067741_0%,#34d399_50%,#10b981_100%)] rounded-tl-3xl rounded-br-3xl"></span>
+            
+            <span className="relative inline-flex h-full w-full items-center justify-center rounded-tl-3xl rounded-br-3xl bg-[#067741] px-6 md:px-10 text-sm md:text-lg font-semibold text-white backdrop-blur-3xl gap-2">
+              Order Now!
+            </span>
+            
+            {/* Shining Effect */}
+            <span className="absolute top-0 left-0 right-0 bottom-0 pointer-events-none">
+              <div className="absolute inset-0 rounded-full bg-white opacity-30 animate-shine"></div>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      {/* Image Section */}
+      <div className="w-[250px] sm:w-[300px] md:w-[350px] lg:w-[400px] h-[350px] sm:h-[400px] md:h-[500px] m-auto relative">
+        <img
+          src={cmsBigLogo}
+          alt="Big Logo"
+          className="w-[250px] sm:w-[300px] md:w-[350px] lg:w-[400px] h-[250px] sm:h-[300px] md:h-[400px] lg:h-[400px] z-10 absolute -top-2 -left-10 sm:-left-16 md:-left-20 lg:-left-28 float-animation"
+          data-aos="fade-down-right"
+          data-aos-duration="2000"
+          data-aos-easing="ease-in-sine"
         />
 
         <img
-        src={cmsSmallLogo}
-        alt=""
-        className="w-[400px] h-[400px] absolute top-20 left-16 float-animation"
-        data-aos="fade-down-left"
-        data-aos-duration="2000"
-        data-aos-easing="ease-in-sine"
+          src={cmsSmallLogo}
+          alt="Small Logo"
+          className="w-[200px] sm:w-[250px] md:w-[300px] lg:w-[400px] h-[200px] sm:h-[250px] md:h-[300px] lg:h-[400px] absolute top-16 sm:top-20 md:top-24 lg:top-20 left-10 sm:left-12 md:left-16 lg:left-20 float-animation"
+          data-aos="fade-down-left"
+          data-aos-duration="2000"
+          data-aos-easing="ease-in-sine"
         />
       </div>
-    </div>
+      </div>
 
 
 
@@ -1256,9 +1268,6 @@ useEffect(() => {
                     </div>
                   </div>
                   )))}
-
-
-
             </div>
           </div>  
         </div>

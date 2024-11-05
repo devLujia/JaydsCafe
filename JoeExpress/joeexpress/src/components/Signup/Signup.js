@@ -198,96 +198,97 @@ function Signup() {
         </div>
       </nav>
 
-      {/* <!-- Form container --> */}
-<div class="max-w-md lg:mx-auto mx-5 p-4 mt-2 mb-4 bg-white rounded-xl shadow-md md:max-w-lg md:p-6 md:pt-4 md:mb-6 lg:max-w-lg lg:p-8 lg:pt-6 lg:mb-8">
-  <h2 class="text-2xl sm:text-3xl font-bold mb-6 text-black tracking-wider">Register</h2>
+      <div class="flex items-center justify-center min-h-screen bg-background">
+            {/* <!-- Form container --> */}
+            <div class="max-w-sm lg:max-w-md mx-3 p-3 mt-8 mb-3 bg-white rounded-lg shadow-md md:max-w-md md:p-4 md:pt-3 md:mb-4 lg:max-w-md lg:p-6 lg:pt-4 lg:mb-6">
+              <h2 class="text-xl sm:text-2xl font-bold mb-4 text-black tracking-wider">Register</h2>
 
-  {/* <!-- Form fields --> */}
-  <form onSubmit={handleSubmit}>
-    <div class="mb-4"> {/* <!-- Phone Input--> */}
-      <label for="Phone" class="text-gray-600 text-base sm:text-lg font-bold tracking-wider">Phone Number</label>
-      <input 
-        onChange={handleInput}
-        class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
-        id="pnum" 
-        name="pnum"
-        type="tel" 
-        pattern="09[0-9]{9}" 
-        placeholder="Ex. 09123456789"
-        required/>
-      {errors.pnum && <span className='text-sm text-red-700'> {errors.pnum}</span>}
-    </div>
+              {/* <!-- Form fields --> */}
+              <form onSubmit={handleSubmit}>
+                <div class="mb-3"> {/* <!-- Phone Input--> */}
+                  <label for="Phone" class="text-gray-600 text-sm sm:text-base font-bold tracking-wider">Phone Number</label>
+                  <input 
+                    onChange={handleInput}
+                    class="shadow appearance-none border rounded w-full py-1.5 px-3 mb-1 text-gray-700 leading-9 focus:outline-none focus:shadow-outline" 
+                    id="pnum" 
+                    name="pnum"
+                    type="tel" 
+                    pattern="09[0-9]{9}" 
+                    placeholder="Ex. 09123456789"
+                    required/>
+                  {errors.pnum && <span className='text-xs text-red-700'> {errors.pnum}</span>}
+                </div>
 
-    <div class="mb-4"> {/* <!-- Fullname Input--> */}
-      <label for="name" class="text-gray-600 text-base sm:text-lg font-bold tracking-wider">Fullname</label>
-      <input 
-        onChange={handleInput}
-        class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
-        id="name" 
-        name="name"
-        type="text" 
-        placeholder="Ex. Juan Dela Cruz"
-        required/>
-      {errors.name && <span className='text-sm text-red-700'> {errors.name}</span>}
-    </div>
+                <div class="mb-3"> {/* <!-- Fullname Input--> */}
+                  <label for="name" class="text-gray-600 text-sm sm:text-base font-bold tracking-wider">Fullname</label>
+                  <input 
+                    onChange={handleInput}
+                    class="shadow appearance-none border rounded w-full py-1.5 px-3 mb-1 text-gray-700 leading-9 focus:outline-none focus:shadow-outline" 
+                    id="name" 
+                    name="name"
+                    type="text" 
+                    placeholder="Ex. Juan Dela Cruz"
+                    required/>
+                  {errors.name && <span className='text-xs text-red-700'> {errors.name}</span>}
+                </div>
 
-    <div class="mb-4"> {/* <!-- Address Input--> */}
-      <label for="address" class="text-gray-600 text-base sm:text-lg font-bold tracking-wider">Address</label>
-      <input 
-        onChange={handleInput}
-        class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
-        id="address" 
-        name="address"
-        type="text" placeholder="Ex. Salawag Diamond village Blk 10 Lot 4" required/>
-      {errors.address && <span className='text-sm text-red-700'> {errors.address}</span>}
-    </div>
+                <div class="mb-3"> {/* <!-- Address Input--> */}
+                  <label for="address" class="text-gray-600 text-sm sm:text-base font-bold tracking-wider">Address</label>
+                  <input 
+                    onChange={handleInput}
+                    class="shadow appearance-none border rounded w-full py-1.5 px-3 mb-1 text-gray-700 leading-9 focus:outline-none focus:shadow-outline" 
+                    id="address" 
+                    name="address"
+                    type="text" placeholder="Ex. Salawag Diamond village Blk 10 Lot 4" required/>
+                  {errors.address && <span className='text-xs text-red-700'> {errors.address}</span>}
+                </div>
 
-    <div class="mb-4"> {/* <!-- Email Input--> */}
-      <label for="email" class="text-gray-600 text-base sm:text-lg font-bold tracking-wider">Email</label>
-      <input 
-        onChange={handleInput}
-        class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-10 focus:outline-none focus:shadow-outline" 
-        id="email" 
-        name="email"
-        type="email" 
-        placeholder="Ex. JuanDelaCruz@gmail.com" required/>
-      {errors.email && <span className='text-sm text-red-700'> {errors.email}</span>}
-    </div>
-    
-    <div class="bg-white w-full max-w-full rounded-md mx-auto flex items-center"> {/* <!-- Password Input--> */}
-      <div class="relative w-full">
-        <label for="password" class="text-gray-600 text-base sm:text-lg font-bold tracking-wider">Create Password</label>
-        <input
-          onChange={handleInput}
-          type={passwordVisible ? 'text' : 'password'}
-          placeholder="Password" 
-          class="w-full outline-0 text-gray-600 shadow appearance-none border rounded py-2 px-3 mb-10 leading-10 focus:outline-none focus:shadow-outline" 
-          id="password" 
-          name='password'
-          required/>
-        {errors.password && <span className='text-sm text-red-700'> {errors.password}</span>}
-        <img src={hidden} alt="Eye" class="absolute right-3 top-10 w-6 sm:w-8 cursor-pointer" id="hide" onClick={togglePasswordVisibility}/> 
-      </div>
-    </div>
+                <div class="mb-3"> {/* <!-- Email Input--> */}
+                  <label for="email" class="text-gray-600 text-sm sm:text-base font-bold tracking-wider">Email</label>
+                  <input 
+                    onChange={handleInput}
+                    class="shadow appearance-none border rounded w-full py-1.5 px-3 mb-1 text-gray-700 leading-9 focus:outline-none focus:shadow-outline" 
+                    id="email" 
+                    name="email"
+                    type="email" 
+                    placeholder="Ex. JuanDelaCruz@gmail.com" required/>
+                  {errors.email && <span className='text-xs text-red-700'> {errors.email}</span>}
+                </div>
+                
+                <div class="bg-white w-full max-w-full rounded-md mx-auto flex items-center"> {/* <!-- Password Input--> */}
+                  <div class="relative w-full">
+                    <label for="password" class="text-gray-600 text-sm sm:text-base font-bold tracking-wider">Create Password</label>
+                    <input
+                      onChange={handleInput}
+                      type={passwordVisible ? 'text' : 'password'}
+                      placeholder="Password" 
+                      class="w-full outline-0 text-gray-600 shadow appearance-none border rounded py-1.5 px-3 mb-6 leading-9 focus:outline-none focus:shadow-outline" 
+                      id="password" 
+                      name='password'
+                      required/>
+                    {errors.password && <span className='text-xs text-red-700'> {errors.password}</span>}
+                    <img src={hidden} alt="Eye" class="absolute right-3 top-9 w-5 sm:w-6 cursor-pointer" id="hide" onClick={togglePasswordVisibility}/> 
+                  </div>
+                </div>
 
-    <div class="mb-6 flex items-center"> {/* <!-- Checkbox Input-->*/}
-      <input type="checkbox" id="TAC" class="w-4 sm:w-5 h-4 sm:h-5 mr-5" required/>
-      <label for="TAC" class="text-gray-500 text-sm sm:text-base font-bold tracking-wider">
-        I agree to the
-      </label>
-      <span class="text-blue-500 text-sm sm:text-lg cursor-pointer font-bold pl-2 hover:underline" onClick={toggleTermsAndCondiotion}>Terms & conditions</span>
-    </div>
+                <div class="mb-4 flex items-center"> {/* <!-- Checkbox Input-->*/}
+                  <input type="checkbox" id="TAC" class="w-3.5 sm:w-4.5 h-3.5 sm:h-4 mr-4" required/>
+                  <label for="TAC" class="text-gray-500 text-xs sm:text-sm font-bold tracking-wider">
+                    I agree to the</label>
+                  <span class="text-blue-500 text-xs sm:text-sm cursor-pointer font-bold pl-2 hover:underline" onClick={toggleTermsAndCondiotion}>Terms & conditions</span>
+                </div>
 
-    <button class="bg-greenColor hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-full leading-10 mb-10" type="submit">Register Account</button>
+                <button class="bg-greenColor hover:bg-green-700 text-white font-bold py-2 px-3 rounded-lg w-full leading-9 mb-6" type="submit">Register Account</button>
 
-    <p class="text-center text-sm sm:text-base">
-      I already have an account 
-      <span class="text-blue-500 cursor-pointer font-semibold">
-        <a href="/login"> Sign In</a>
-      </span>
-    </p>
-  </form>
-</div>
+                <p class="text-center text-xs sm:text-sm">
+                  I already have an account 
+                  <span class="text-blue-500 cursor-pointer font-semibold">
+                    <a href="/login"> Sign In</a>
+                  </span>
+                </p>
+              </form>
+            </div>
+          </div>
 
 
       {/* <!-- Contact Us --> */}
