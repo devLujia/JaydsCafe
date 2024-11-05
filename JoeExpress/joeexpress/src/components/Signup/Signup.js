@@ -296,23 +296,23 @@ function Signup() {
         <div class="border-y-2 border-gray-400 w-4/5 p-10">
           {/* <!-- container footer--> */}
           <div class="flex justify-between w-full">
-            <h1 class="text-white text-5xl font-bold">Jayd's Cafe</h1>
-            <div class="flex gap-2">
-              <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-                <img src={fb} alt=""></img>
-              </button>
-              <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-                <img src={ig} alt=""></img>
-              </button>
-              <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
-                <img src={yt} alt=""></img>
-              </button>
-            </div>
+          <h1 class="text-white text-4xl font-bold">{cmsName}</h1>
+          <div class="flex gap-2">
+            <button type='button' 
+            class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
+            <a href={cmsFacebook} target="_blank" rel="noopener noreferrer">
+              <img src={fb} alt="Facebook" />
+            </a>
+            </button>
+            <button type='button' 
+            class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
+              <a href={cmsInstagram} target="_blank" rel="noopener noreferrer"><img src={ig} alt=""></img></a>
+            </button>
           </div>
-          
-          <button type="button" class="rounded-full text-white w-fit px-6 py-2 mt-7" id="viewloc">View Location</button>
         </div>
-
+          
+        <button type="button" class="rounded-full text-white w-fit px-6 py-2 mt-7" id="viewloc">View Location</button>
+        </div>
 
         <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center justify-between">
           <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">Copyright © 2024. Capstone Inc.</span >
@@ -397,7 +397,7 @@ function Signup() {
                   </div>
               </div>
           </div>
-      </div>
+        </div>
 
       </footer>
 

@@ -205,7 +205,7 @@ const Login = () => {
       </nav>
 
     {/* <!-- Form container --> */}
-<div class="max-w-md lg:mx-auto mx-5 p-4 mt-6 mb-6 bg-white rounded-xl shadow-md md:max-w-lg md:p-6 md:pt-4 md:mb-6 lg:max-w-lg lg:p-8 lg:pt-6 lg:mb-8">
+<div class="max-w-md md:mx-auto mx-5 p-4 mt-6 mb-6 bg-white rounded-xl shadow-md md:max-w-lg md:p-6 md:pt-4 lg:max-w-lg lg:p-8 lg:pt-6">
   {/* <!-- Image for login --> */}
   <div class="flex flex-col justify-center items-center mb-6 py-5">
     <p class="text-lg sm:text-xl md:text-2xl mb-3 font-semibold tracking-wider">WELCOME TO</p>

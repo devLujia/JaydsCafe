@@ -166,7 +166,7 @@ function AddOrder({closeModal, foodId}) {
 return(
     <div>
         <div className='fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50'>
-            <div className='bg-white w-full max-w-fit md:max-w-4xl max-h-full rounded-xl shadow-lg flex flex-col'>
+            <div className='bg-white w-full max-w-fit mx-2 md:max-w-4xl max-h-full rounded-xl shadow-lg flex flex-col'>
 
                 {/* Main Container */}
                 <div className='grid grid-cols-1 md:grid-cols-2 rounded-lg max-h-96 lg:max-h-screen overflow-hidden overflow-y-auto'>
