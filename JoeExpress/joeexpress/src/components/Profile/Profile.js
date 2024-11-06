@@ -27,6 +27,7 @@ export default function Profile() {
   const [profile, setProfile] = useState([]);
   const [orderNotif, setOrderNotif] = useState(0);
   const [address, setAddress] = useState('');
+  const [selectedOrderId, setSelectedOrderId] = useState(null)
 
   const navigate = useNavigate();
 
@@ -104,8 +105,15 @@ export default function Profile() {
     // chat with rider
     const [isChatOpen, setIsChatOpen] = useState(false);
 
-    const openChat = () => setIsChatOpen(true);
-    const closeChat = () => setIsChatOpen(false);
+    const openChat = (id) => {
+      setSelectedOrderId(id)
+      setIsChatOpen(true)
+    };
+    const closeChat = () => {
+      setIsChatOpen(false);
+      setSelectedOrderId(null);
+    
+    };
 
 
   return (
@@ -272,15 +280,20 @@ export default function Profile() {
                           Canceled
                         </div>
                       )}
+                      {order.status === 'unpaid' && (
+                        <div className="bg-red-200 text-orange-700 font-semibold w-fit py-1 px-3 rounded-full">
+                          Unpaid
+                        </div>
+                      )}
                     </td>
                     <td className="flex items-center px-2 md:px-4 py-2 md:py-4 space-x-2 justify-center gap-2">
                       <button onClick={() => toggleOrderDetails(order.order_id)} title='View Orders'>
                         <img src={eye} alt="View Order" className="w-5 h-5 md:w-6 md:h-6" />
                       </button>
-                      <button onClick={openChat} title='Chat with Rider'>
+                      {order.deliveryMethod === 'Delivery' && order.status === 'on delivery'? <button onClick={() => openChat(order.order_id )} title='Chat with Rider'>
                         <img src={chat} alt="Chat" className="w-5 h-5 md:w-6 md:h-6" />
-                      </button>
-                       {isChatOpen && <ChatWithRider onClose={closeChat} />}
+                      </button> : null}
+                       {isChatOpen && <ChatWithRider onClose={closeChat} id={selectedOrderId} userId={userId} />}
                     </td>
                   </tr>
 

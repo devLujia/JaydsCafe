@@ -82,7 +82,7 @@ function Home() {
         },
         {
             question: "Do you offer loyalty programs or discounts?",
-            answer: "Yes, we have a loyalty program that rewards our customers with points for every purchase. You can redeem these points for discounts or free items. Check with our staff for details on how to avail!",
+            answer: "Yes, we have a loyalty program that rewards our customers with points for every purchase. You can redeem these points for discounts or free items?. Check with our staff for details on how to avail!",
         },
     ];
 

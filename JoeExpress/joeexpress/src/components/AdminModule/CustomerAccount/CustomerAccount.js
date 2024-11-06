@@ -450,28 +450,28 @@ export default function CustomerAccount() {
                             <tbody>
                             {userData.filter((user)=>{
                                 return search.toLowerCase() === '' 
-                                ? user 
+                                ? true 
                                 : user.name.toLowerCase().includes(search);    
                             })
                             .map(user => (
-                                <tr key= {user.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center">
+                                <tr key= {user?.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center">
                                    
                                     <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap justify-start dark:text-white">
                                         <img src={picture} alt="Jese image" class="w-10 h-10 rounded-full"/>
                                         <div class="ps-3">
-                                            <div class="text-base font-semibold">{user.name}</div>
+                                            <div class="text-base font-semibold">{user?.name}</div>
                                         </div>  
                                     </th>
                                     <td class="px-6 py-5 items-center text-center">
-                                        <div className='text-base'>{user.email}</div>
+                                        <div className='text-base'>{user?.email}</div>
                                     </td>
                                     <td class="px-6 py-4">
                                         <div className="flex items-center font-semibold text-green-600 justify-center">
 
                                             {/* Dropdown for role selection */}
                                             <select
-                                                value={userRoles[user.id] || user.role} // Default to current or selected role
-                                                onChange={(e) => handleRoleChange(e, user.id)}
+                                                value={userRoles[user?.id] || user?.role} // Default to current or selected role
+                                                onChange={(e) => handleRoleChange(e, user?.id)}
                                                 className="bg-transparent text-gray-600 font-semibold p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                                             >
                                                 {getRole.length > 0 ? (
@@ -490,13 +490,13 @@ export default function CustomerAccount() {
                                         </div>
                                     </td>
                                     <td class="flex items-center px-6 py-4 space-x-2 justify-center">
-                                        <button onClick={() => handleEditClick(user.id)} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" title='Edit Account'>
+                                        <button onClick={() => handleEditClick(user?.id)} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" title='Edit Account'>
                                             <img src={edit} alt="edit" class="px-2 filter invert"/>
                                         </button>
                                         
                                         <button onClick={toggleAYSModal} type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" title='Delete Account'>
                                             <img src={trashbin3} alt="trashbin" class="px-2"/>
-                                            {AYSModal && <Areyousure closeModal={setAYSModal} id={user.id}/>}
+                                            {AYSModal && <Areyousure closeModal={setAYSModal} id={user?.id}/>}
                                         </button>
                                     </td>
                                     
