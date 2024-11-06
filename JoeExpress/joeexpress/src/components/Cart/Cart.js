@@ -78,7 +78,31 @@ function Cart() {
             [name]: value,
         }));
     };
-    
+
+    //Modal For Delivery Notice (Scope)
+      // Define modal open/close state
+      const [isDeliveryModalOpen, setIsDeliveryModalOpen] = useState(false);
+      const [selectedOption, setSelectedOption] = useState('pickup');
+      const [isWithinSalawag, setIsWithinSalawag] = useState(true); // Set this according to actual delivery location check logic
+
+      // Functions to handle modal open/close
+      const openDeliveryModal = () => setIsDeliveryModalOpen(true);
+      const closeDeliveryModal = () => setIsDeliveryModalOpen(false);
+
+      // Handle proceed to payment
+      const handleProceedToPayment = () => {
+        if (selectedOption === 'delivery' && !isWithinSalawag) {
+          openDeliveryModal(); // If delivery is selected but not in Salawag, open modal
+        } else {
+          navigate('/checkout', { state: { riderNote } }); // Proceed to checkout
+        }
+      };
+
+      // Handle change for the delivery option
+      const handleOptionChange = (e) => {
+        setSelectedOption(e.target.value);
+        handleChange(e);
+      };
     
 
     // modal
@@ -121,6 +145,8 @@ function Cart() {
             });
             
     }, [userId, DeleteModal]);
+
+    
 
     const decrement = async (itemId,itemQuantity) => {
         // Update the quantity in the local state
@@ -269,6 +295,8 @@ function Cart() {
         fetchTerms()
 
     })
+
+    
 
     return (
         <div class="bg-white">
@@ -421,144 +449,144 @@ function Cart() {
 
       {/* Right side Infos */}
       {items.length > 0 && (
-        <div className="p-4 lg:p-6 rounded-lg shadow-md bg-white mt-6 lg:mt-12 max-w-md mx-auto flex flex-col items-center">
-          <div className="border border-gray-200 rounded-lg p-4 w-full">
-            <h1 className="text-lg font-semibold mb-4 text-center text-gray-800">Select Your Delivery Method</h1>
-            <form>
-              <ul className="grid grid-cols-2 gap-3">
-                <li>
-                  <input
-                    type="radio"
-                    id="pickup"
-                    name="option"
-                    value="pickup"
-                    className="hidden peer"
-                    defaultChecked
-                    onChange={handleChange}
-                  />
-                  <label
-                    htmlFor="pickup"
-                    className="block w-full p-3 border border-gray-300 rounded-lg cursor-pointer text-center peer-checked:bg-green-100 peer-checked:border-green-700 transition hover:shadow-sm"
-                  >
-                    <img src={store} alt="Pickup" className="mx-auto mb-1 h-8" />
-                    <span className="text-sm font-medium">Pick Up</span>
-                  </label>
-                </li>
-                <li>
-                  <input
-                    type="radio"
-                    id="delivery"
-                    name="option"
-                    value="delivery"
-                    className="hidden peer"
-                    onChange={handleChange}
-                  />
-                  <label
-                    htmlFor="delivery"
-                    className="block w-full p-3 border border-gray-300 rounded-lg cursor-pointer text-center peer-checked:bg-green-100 peer-checked:border-green-700 transition hover:shadow-sm"
-                  >
-                    <img src={motor} alt="Delivery" className="mx-auto mb-1 h-8" />
-                    <span className="text-sm font-medium">Local Delivery</span>
-                  </label>
-                </li>
-              </ul>
-
-              {/* Dropoff Instructions */}
-              <div className="mt-6 w-full">
-                <label htmlFor="instruction" className="block mb-1 text-sm font-medium text-gray-700">
-                  Dropoff Instructions (Optional)
-                </label>
-                <textarea
-                  name="instruction"
-                  id="instruction"
-                  value={riderNote.instruction}
-                  onChange={handleChange}
-                  placeholder="Add instructions for the rider"
-                  className="w-full rounded-md p-2 border border-gray-300 focus:border-green-700 focus:ring-1 focus:ring-green-700 transition resize-none text-sm"
-                  rows="3"
-                ></textarea>
-              </div>
-            </form>
-          </div>
-
-          {/* Estimated Total and Payment Button */}
-          <div className="flex items-center justify-between mt-6 w-full">
-            <h1 className="text-md font-semibold text-gray-700">Estimated Total:</h1>
-            <h1 className="text-xl font-bold text-gray-900">₱{totalBill}.00</h1>
-          </div>
-
-          {/* Proceed to Payment Button */}
-          <button onClick={openModal}
-            // onClick={() => navigate('/checkout', { state: { riderNote } })}
-            className="block w-full mt-6 mb-6 py-2 bg-green-700 text-white rounded-full font-bold text-md hover:bg-green-800 transition"
-          >
-            Proceed to Payment
-          </button>
-
-          {/* Modal */}
-          {isModalOpen && (
-            <div className='fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50'>
-              <div className="absolute inset-0 bg-black opacity-50" onClick={closeModal}></div>
-              <div className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                <div className="relative p-4 w-full max-w-2xl max-h-full">
-                  {/* Modal content */}
-                  <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    {/* Modal header */}
-                    <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                      <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                        Terms And Condition
-                      </h3>
-                      <button
-                        type="button"
-                        className="text-gray-700 bg-transparent hover:bg-red-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                        onClick={closeModal}
+            <div className="p-4 lg:p-6 rounded-lg shadow-md bg-white mt-6 lg:mt-12 max-w-md mx-auto flex flex-col items-center">
+              <div className="border border-gray-200 rounded-lg p-4 w-full">
+                <h1 className="text-lg font-semibold mb-4 text-center text-gray-800">Select Your Delivery Method</h1>
+                <form>
+                  <ul className="grid grid-cols-2 gap-3">
+                    <li>
+                      <input
+                        type="radio"
+                        id="pickup"
+                        name="option"
+                        value="pickup"
+                        className="hidden peer"
+                        defaultChecked
+                        onChange={handleChange}
+                      />
+                      <label
+                        htmlFor="pickup"
+                        className="block w-full p-3 border border-gray-300 rounded-lg cursor-pointer text-center peer-checked:bg-green-100 peer-checked:border-green-700 transition hover:shadow-sm"
                       >
-                        <svg
-                          className="w-3 h-3"
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 14 14"
-                        >
-                          <path
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                          />
-                        </svg>
-                        <span className="sr-only">Close modal</span>
-                      </button>
-                    </div>
-
-                    {/* Modal body */}
-                    <div className="p-4 md:p-5 space-y-4">
-                      <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                        {terms}
-                      </p>
-                    </div>
-
-                    {/* Modal footer */}
-                    <div className="flex items-center justify-end p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                      <button
-                        type="button"
-                        className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                        onClick={() => {
-                          closeModal();
-                          navigate('/checkout', { state: { riderNote } });
+                        <img src={store} alt="Pickup" className="mx-auto mb-1 h-8" />
+                        <span className="text-sm font-medium">Pick Up</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        id="delivery"
+                        name="option"
+                        value="delivery"
+                        className="hidden peer"
+                        onChange={(e) => {
+                          handleChange(e);
+                          openDeliveryModal(); // Open the modal when "Local Delivery" is selected
                         }}
+                      />
+                      <label
+                        htmlFor="delivery"
+                        className="block w-full p-3 border border-gray-300 rounded-lg cursor-pointer text-center peer-checked:bg-green-100 peer-checked:border-green-700 transition hover:shadow-sm"
                       >
-                        I Accept
-                      </button>
+                        <img src={motor} alt="Delivery" className="mx-auto mb-1 h-8" />
+                        <span className="text-sm font-medium">Local Delivery</span>
+                      </label>
+                    </li>
+                  </ul>
+
+                  {/* Dropoff Instructions */}
+                  <div className="mt-6 w-full">
+                    <label htmlFor="instruction" className="block mb-1 text-sm font-medium text-gray-700">
+                      Dropoff Instructions (Optional)
+                    </label>
+                    <textarea
+                      name="instruction"
+                      id="instruction"
+                      value={riderNote.instruction}
+                      onChange={handleChange}
+                      placeholder="Add instructions for the rider"
+                      className="w-full rounded-md p-2 border border-gray-300 focus:border-green-700 focus:ring-1 focus:ring-green-700 transition resize-none text-sm"
+                      rows="3"
+                    ></textarea>
+                  </div>
+                </form>
+              </div>
+
+              {/* Estimated Total and Payment Button */}
+              <div className="flex items-center justify-between mt-6 w-full">
+                <h1 className="text-md font-semibold text-gray-700">Estimated Total:</h1>
+                <h1 className="text-xl font-bold text-gray-900">₱{totalBill}.00</h1>
+              </div>
+
+              {/* Proceed to Payment Button */}
+              <button 
+                onClick={handleProceedToPayment}
+                className="block w-full mt-6 mb-6 py-2 bg-green-700 text-white rounded-full font-bold text-md hover:bg-green-800 transition"
+              >
+                Proceed to Payment
+              </button>
+
+              {/* Local Delivery Modal */}
+              {isDeliveryModalOpen && (
+                <div className='fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50'>
+                  <div className="absolute inset-0 bg-black opacity-50" onClick={closeDeliveryModal}></div>
+                  <div className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div className="relative p-4 w-full max-w-md max-h-full">
+                      {/* Modal content */}
+                      <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                        {/* Modal header */}
+                        <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                          <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                            Delivery Availability Notice
+                          </h3>
+                          <button
+                            type="button"
+                            className="text-gray-700 bg-transparent hover:bg-red-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                            onClick={closeDeliveryModal}
+                          >
+                            <svg
+                              className="w-3 h-3"
+                              aria-hidden="true"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 14 14"
+                            >
+                              <path
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                              />
+                            </svg>
+                            <span className="sr-only">Close modal</span>
+                          </button>
+                        </div>
+
+                        {/* Modal body */}
+                        <div className="p-4 md:p-5 space-y-4">
+                          <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                            Local Delivery is currently available only within Salawag, Dasmariñas, Cavite. Please confirm your delivery address before proceeding.
+                          </p>
+                        </div>
+
+                        {/* Modal footer */}
+                        <div className="flex items-center justify-end p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                          <button
+                            type="button"
+                            className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                            onClick={closeDeliveryModal}
+                          >
+                            Got It
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           )}
-        </div>
-      )}
     </section>
 
                 
