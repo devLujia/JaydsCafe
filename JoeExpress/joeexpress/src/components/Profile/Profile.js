@@ -26,10 +26,49 @@ export default function Profile() {
   const [userId, setUserId] = useState(null);
   const [profile, setProfile] = useState([]);
   const [orderNotif, setOrderNotif] = useState(0);
-  const [address, setAddress] = useState('');
   const [selectedOrderId, setSelectedOrderId] = useState(null)
+  const [value, setValue] = useState({
+    pnum: '',
+    fullName: '',
+    userId: '',
+
+})
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
+  const [isEditSecondModalOpen, setEditSecondModalOpen] = useState(false);
+  const [news, setNew] = useState(false);
+  const [newAddress, setNewAddress] = useState('');
+  const [editAddress, setEditAddress] = useState('');
+  const [oldAddress, setOldAddress] = useState('');
 
   const navigate = useNavigate();
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (address) => {
+    setOldAddress(address);
+    setEditModalOpen(true);
+  };
+
+  const openSecondEditModal = (address) => {
+    setOldAddress(address);
+    setEditSecondModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setNewAddress(''); // Clear input when modal closes
+  };
+  const closeEditModal = () => {
+    setEditModalOpen(false);
+    setEditAddress(''); // Clear input when modal closes
+  };
+  const closeSecondEditModal = () => {
+    setEditSecondModalOpen(false);
+    setEditAddress(''); // Clear input when modal closes
+  };
 
   const toggleOrderDetails = (orderId) => {
     setExpandedOrderId(expandedOrderId === orderId ? null : orderId);
@@ -69,7 +108,7 @@ export default function Profile() {
       .catch(error => {
         console.error('Error fetching profile:', error);
       });
-  }, [userId]);
+  }, [userId,isModalOpen,isEditModalOpen,isEditSecondModalOpen,news]);
 
   //for switch tabs
   const [activeTab, setActiveTab] = useState('order');
@@ -79,28 +118,109 @@ export default function Profile() {
   };
 
   const addAddress = () =>{
-    axios.post('http://localhost:8081/addAddress',  {address})
+
+    if(newAddress !== profile.address || ''){
+      axios.post('http://localhost:8081/addAddress',  {second_address: newAddress, userId: userId})
+      .then(res => {
+        if(res.data.success){
+          alert("Update Successfully");
+          closeModal();
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching profile:', error);
+      });
+    }else{
+      alert("Update Failed");
+    }
+    
+
+  }
+
+  const handleEditAddress = () =>{
+    if(editAddress !== profile.address || ''){
+      
+      axios.post('http://localhost:8081/editAddress',  {newAddress: editAddress, userId: userId, oldAddress})
     .then(res => {
-      res.data.success && alert("Update Successfully");
+      if(res.data.success){
+        alert("Update Successfully");
+        closeEditModal();
+      }
     })
     .catch(error => {
       console.error('Error fetching profile:', error);
     });
-  }
- 
-  useEffect(() => { 
-    if (userId) { 
-        socket.emit('notif', userId);
-
-        socket.on('orderNotif', (data) => {
-            setOrderNotif(data); 
-        });
-
-        return () => {
-          socket.off('orderNotif');  
-        };
     }
-}, [userId]); 
+    else{
+      alert("Update Failed");
+    }
+  }
+
+  const handleSecondAddress = () =>{
+    if(editAddress !== profile.second_address || ''){
+      
+      axios.post('http://localhost:8081/editSecondaryAddress',  {newAddress: editAddress, userId: userId, oldAddress})
+        .then(res => {
+          if(res.data.success){
+            alert("Update Successfully");
+            closeSecondEditModal();
+          }
+    })
+        .catch(error => {
+          console.error('Error fetching profile:', error);
+        });
+      }
+      else{
+        alert("Update Failed");
+      }
+  }
+
+  const submitPersonalInfo = async () => {
+    try {
+      const response = await axios.post('http://localhost:8081/updatePersonalInfo', {
+        value: {
+          fullName: value.fullName || profile.name,  // Use `profile.name` if `value.fullName` is empty
+          pnum: value.pnum || profile.pnum           // Use `profile.pnum` if `value.pnum` is empty
+        },
+        userId: userId
+      });
+  
+          if (response?.data?.success) {
+            alert("Update successfully");
+            setNew(true);
+          } else {
+            alert("Failed to update. Please try again.");
+          }
+        } catch (error) {
+          alert("An error occurred. Please try again later.");
+          console.error("Error updating personal info:", error);
+        }
+      };
+      const handlePersonalInfo = (e) => {
+        const { name, value } = e.target;
+        setValue((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    };
+  
+  useEffect(() => { 
+
+      if (userId) { 
+          socket.emit('notif', userId);
+
+          socket.on('orderNotif', (data) => {
+              setOrderNotif(data); 
+          });
+
+          return () => {
+            socket.off('orderNotif');  
+          };
+      }
+
+  }, [userId]);
+
+  
 
     // chat with rider
     const [isChatOpen, setIsChatOpen] = useState(false);
@@ -349,25 +469,115 @@ export default function Profile() {
                     <p className="text-lg font-semibold text-gray-900 dark:text-white">{profile.address}</p>
                     <div className="flex justify-between items-center mt-3">
                       <div className="space-x-3">
-                        <button className="text-sm text-blue-600 dark:text-blue-400 hover:underline">Edit</button>
-                        <button className="text-sm text-red-600 dark:text-red-400 hover:underline">Remove</button>
+                        <button onClick={()=>openEditModal(profile.address)} className="text-sm text-blue-600 dark:text-blue-400 hover:underline">Edit</button>
+                        {/* <button className="text-sm text-red-600 dark:text-red-400 hover:underline">Remove</button> */}
                       </div>
-                      <div className="flex items-center">
+                      {/* <div className="flex items-center">
                         <input id="green-radio" type="radio" value="" name="colored-radio" className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                         <label htmlFor="green-radio" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default Address</label>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
+                
+
               </div>
+
+            {profile.secondary_address ? 
+            <div className="flex flex-col space-y-4 mt-2">
+                <div className="flex flex-col space-y-1">
+                  <label className="text-sm font-medium text-gray-900 dark:text-gray-300">Secondary Address:</label>
+                  <div className="flex flex-col space-y-2">
+                    <p className="text-lg font-semibold text-gray-900 dark:text-white">{profile.secondary_address}</p>
+                    <div className="flex justify-between items-center mt-3">
+                      <div className="space-x-3">
+                        <button onClick={()=>openSecondEditModal(profile.secondary_address)} className="text-sm text-blue-600 dark:text-blue-400 hover:underline">Edit</button>
+                        <button className="text-sm text-red-600 dark:text-red-400 hover:underline">Remove</button>
+                      </div>
+                      {/* <div className="flex items-center">
+                        <input id="green-radio" type="radio" value="" name="colored-radio" 
+                        className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500
+                         dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                        <label htmlFor="green-radio" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default Address</label>
+                      </div> */}
+                    </div>
+                  </div>
+                </div>
+                
+
+              </div>: null }
+
             </div>
 
             {/* Add New Address Button */}
+            {!profile.secondary_address?
             <div className="flex justify-end mb-8">
-              <button onClick={addAddress} className="bg-green-700 rounded-lg px-6 text-sm text-white py-3 mt-3 hover:bg-green-800 transition duration-300">
-                Add New Address
+              <button onClick={openModal} className="bg-green-700 rounded-lg px-6 text-sm text-white py-3 mt-3 hover:bg-green-800 transition duration-300">
+                 "Add New Address"
               </button>
             </div>
+            
+            :""}
+
+            {isModalOpen && (
+                <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+                  <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-80">
+                    <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Add New Address</h2>
+                    <input
+                      type="text"
+                      value={newAddress}
+                      onChange={(e) => setNewAddress(e.target.value)}
+                      placeholder="Enter new address"
+                      className="w-full p-2 border border-gray-300 rounded-md mb-4 dark:bg-gray-700 dark:text-white"
+                    />
+                    <div className="flex justify-end space-x-2">
+                      <button onClick={closeModal} className="px-4 py-2 text-sm bg-gray-300 rounded-md dark:bg-gray-600 dark:text-white">Cancel</button>
+                      <button onClick={addAddress} className="px-4 py-2 text-sm bg-green-700 text-white rounded-md hover:bg-green-800 transition duration-300">Add</button>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {isEditModalOpen && (
+                <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+                  <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-80">         
+                  <p className="text-lg font-semibold text-gray-900 dark:text-white">Old Address :</p>
+                  <p className="text-md font-light text-gray-900 dark:text-white">{oldAddress}</p>
+                    <h2 className="text-lg font-semibold mb-4 text-gray-900 mt-5 dark:text-white">Edit Address</h2>
+                    <input
+                      type="text"
+                      value={editAddress}
+                      onChange={(e) => setEditAddress(e.target.value)}
+                      placeholder="Enter new address"
+                      className="w-full p-2 border border-gray-300 rounded-md mb-4 dark:bg-gray-700 dark:text-white"
+                    />
+                    <div className="flex justify-end space-x-2">
+                      <button onClick={closeEditModal} className="px-4 py-2 text-sm bg-gray-300 rounded-md dark:bg-gray-600 dark:text-white">Cancel</button>
+                      <button onClick={handleEditAddress} className="px-4 py-2 text-sm bg-green-700 text-white rounded-md hover:bg-green-800 transition duration-300">Add</button>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {isEditSecondModalOpen && (
+                <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+                  <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-80">
+                  <p className="text-lg font-semibold text-gray-900 dark:text-white">Old Address :</p>
+                  <p className="text-md font-light text-gray-900 dark:text-white">{oldAddress}</p>
+                    <h2 className="text-lg font-semibold mb-4 text-gray-900 mt-5 dark:text-white">Edit Secondary Address</h2>
+                    <input
+                      type="text"
+                      value={editAddress}
+                      onChange={(e) => setEditAddress(e.target.value)}
+                      placeholder="Enter new address"
+                      className="w-full p-2 border border-gray-300 rounded-md mb-4 dark:bg-gray-700 dark:text-white"
+                    />
+                    <div className="flex justify-end space-x-2">
+                      <button onClick={closeSecondEditModal} className="px-4 py-2 text-sm bg-gray-300 rounded-md dark:bg-gray-600 dark:text-white">Cancel</button>
+                      <button onClick={handleSecondAddress} className="px-4 py-2 text-sm bg-green-700 text-white rounded-md hover:bg-green-800 transition duration-300">Add</button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
       {/* Add New Address Modal */}
       <div id="crud-modal" tabIndex="-1" aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -453,17 +663,35 @@ export default function Profile() {
             <div className="border-b border-gray-300 dark:border-gray-700 pb-8 mb-8">
               <h2 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-3">Personal Information</h2>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-5">Update your personal information.</p>
-              <form>
+              <form onSubmit={submitPersonalInfo}>
                 <div className="space-y-6">
                   <div className="space-y-2">
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-900 dark:text-white">Full Name <span className="text-red-600">*</span></label>
+                    <label htmlFor="fullName" className="block text-sm font-medium text-gray-900 dark:text-white">Full Name <span className="text-red-600">*</span></label>
                     <div className="flex items-center space-x-3">
                       <input
                         type="text"
-                        id="name"
-                        name="fname"
+                        id="fullName"
+                        name="fullName"
+                        value={value.fullName}
+                        onChange={handlePersonalInfo}
                         className="bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2 outline-none placeholder-gray-500"
                         placeholder={profile.name}
+                        required
+                      />
+                      <img src={lock} alt="Lock Icon" className="w-auto h-7" />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <label htmlFor="pnum" className="block text-sm font-medium text-gray-900 dark:text-white">Phone Number <span className="text-red-600">*</span></label>
+                    <div className="flex items-center space-x-3">
+                      <input
+                        type="number"
+                        id="pnum"
+                        name="pnum"
+                        value={value.pNum}
+                        onChange={handlePersonalInfo}
+                        className="bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2 outline-none placeholder-gray-500"
+                        placeholder={profile.pnum}
                         required
                       />
                       <img src={lock} alt="Lock Icon" className="w-auto h-7" />
@@ -472,7 +700,7 @@ export default function Profile() {
                 </div>
 
                 <div className="flex justify-end mt-6">
-                  <button className="bg-green-700 text-white px-5 py-2 text-sm rounded-md hover:bg-blue-700 transition duration-300">
+                  <button type= "submit" className="bg-green-700 text-white px-5 py-2 text-sm rounded-md hover:bg-blue-700 transition duration-300">
                     Update Info
                   </button>
                 </div>

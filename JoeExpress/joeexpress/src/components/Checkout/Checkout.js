@@ -33,6 +33,8 @@ export default function Checkout() {
     const { riderNote } = location.state || {};
     const [loading, setLoading] = useState(false);
     const [STATUS, setSTATUS] = useState(false)
+    const [news, setNew] = useState(false)
+    const [deliveryAddress, setDeliveryAddress] = useState('')
 
 
     const [cmsName,setCmsName] = useState('');
@@ -51,7 +53,8 @@ export default function Checkout() {
         };
 
         fetchNameData();
-    })
+
+    },[])
     
     //toast
     const [isCancelled, setIsCancelled] = useState(false);
@@ -59,6 +62,7 @@ export default function Checkout() {
     const timeoutRef = useRef(null);
     const intervalRef = useRef(null);
     const toastId = useRef(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     //eto yung mag ccancel
     const handleCancel = () => {
@@ -66,6 +70,31 @@ export default function Checkout() {
         toast.dismiss(); 
         clearTimeout(timeoutRef.current);
         clearInterval(intervalRef.current); // Stop cd
+    };
+
+    const handleAddressChange = (e) => {
+        setDeliveryAddress(e.target.value); // Update delivery address based on radio button selection
+    };
+
+    const openModal = () => {
+        setDeliveryAddress('');
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+         // Clear input when modal closes
+    };
+
+    const handleAddAddress = (e) => {
+        e.preventDefault()
+        if (deliveryAddress.trim()) {
+            setNew(true);
+            closeModal(); 
+        } else {
+          alert('Please add valid address');
+        }
+
     };
 
     const notifyAndProceed = () => {
@@ -175,7 +204,7 @@ export default function Checkout() {
             .catch(error => {
                 console.error('Error fetching item details:', error);
             });
-    },[userId]);
+    },[userId,items]);
     
     
     useEffect(() => {
@@ -205,7 +234,8 @@ export default function Checkout() {
                 amount: totalBill, 
                 deliveryMethod: riderNote?.option || '' ,
                 paymentMethod: selectedPayment,
-                code
+                code,
+                deliveryAddress
             });
 
             if (res.data.success && selectedPayment === 'gcash' ){
@@ -289,6 +319,8 @@ export default function Checkout() {
 
 
     <div className='bg-white'>
+
+
         {/* <!-- nav --> */}
         <nav class="w-full top-0 fixed bg-white z-20 shadow-lg flex justify-evenly">
             <div class="font-extrabold text-2xl flex items-center">
@@ -327,34 +359,98 @@ export default function Checkout() {
                             <img src={arrowUp}></img>
                         </button>
                     </div>
-                     <form > {/* For option ng address */}
+                     <div > {/* For option ng address */}
                         <div className='space-y-2'> {/* Main container */}
                             <div class="group"> {/* First option */}
 
                                 <label htmlFor="add1"  class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
-                                    <input type="radio" id="add1" name="hosting" value="add1" class="peer text-textgreenColor focus:ring-textgreenColor" defaultChecked/>
+                                    <input 
+                                    type="radio" 
+                                    id="add1" 
+                                    name="hosting" 
+                                    value={profile.address} 
+                                    checked={deliveryAddress === profile.address} 
+                                    onChange={handleAddressChange} class="peer text-textgreenColor focus:ring-textgreenColor" 
+                                    defaultChecked
+                                    />
                                     <div className='flex flex-col py-4 overflow-hidden'>
                                         <label htmlFor="add1" class="w-full ms-3 text-sm font-medium text-gray-900 tracking-wide">{profile.address}</label>
                                         {/* <label htmlFor="add1" class="w-full ms-3 text-sm font-normal text-gray-700 tracking-wide">Imus, Cavite, 1401, Phillipines</label> */}
                                     </div>
                                 </label>
-                            </div>
-                            {/* <div class="group">
-                                <label htmlFor="add2" class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100 ">
-                                    <input type="radio" id="add2" name="hosting" value="add2" class="peer text-textgreenColor focus:ring-textgreenColor "/>
+                                <label htmlFor="add2"  class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
+                                    <input 
+                                    type="radio" 
+                                    id="add2" 
+                                    name="hostinge" 
+                                    value={profile.secondary_address} 
+                                    checked={deliveryAddress === profile.secondary_address}
+                                    onChange={handleAddressChange}
+                                    class="peer text-textgreenColor focus:ring-textgreenColor"
+                                    />
                                     <div className='flex flex-col py-4 overflow-hidden'>
-                                        <label htmlFor="add2" class="w-full ms-3 pb-2 text-sm font-medium text-gray-900 tracking-wide">Edsel Noyuab , Blk 14 Lot 1 Tinola Street</label>
-                                        <label htmlFor="add2" class="w-full ms-3 text-sm font-normal text-gray-700 tracking-wide">Imus, Cavite, 1401, Phillipines</label>
+                                        <label htmlFor="add2" class="w-full ms-3 text-sm font-medium text-gray-900 tracking-wide">{profile.secondary_address}</label>
+                                        {/* <label htmlFor="add1" class="w-full ms-3 text-sm font-normal text-gray-700 tracking-wide">Imus, Cavite, 1401, Phillipines</label> */}
                                     </div>
                                 </label>
-                            </div> */}
+                                
+                                
+                                {news ? 
+                                
+                                <label htmlFor="new"  class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
+                                    <input 
+                                    type="radio" 
+                                    id="new" 
+                                    name="hosting" 
+                                    value={deliveryAddress} 
+                                    checked = {deliveryAddress !== (profile.secondary_address || profile.address)}
+                                    // onChange={handleAddressChange}
+                                    class="peer text-textgreenColor focus:ring-textgreenColor"
+                                    />
+                                    <div className='flex flex-col py-4 overflow-hidden'>
+                                        <label htmlFor="new" class="w-full ms-3 text-sm font-medium text-gray-900 tracking-wide">{deliveryAddress}</label>
+                                    </div>
 
-                            <button className='inline-flex justify-center p-2 hover:underline text-md'>
+                                </label> : "" }
+
+                                {isModalOpen ? (
+                                        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+                                        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-80">
+                                            <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Add New Address</h2>
+                                            <input
+                                            type="text"
+                                            value={deliveryAddress}
+                                            onChange={(e) => setDeliveryAddress(e.target.value)}  // Update the delivery address
+                                            placeholder="Enter new address"
+                                            className="w-full p-2 border border-gray-300 rounded-md mb-4 dark:bg-gray-700 dark:text-white"
+                                            />
+                                            <div className="flex justify-end space-x-2">
+                                            <button onClick={closeModal} className="px-4 py-2 text-sm bg-gray-300 rounded-md dark:bg-gray-600 dark:text-white">
+                                                Cancel
+                                            </button>
+                                            <button onClick={handleAddAddress} className="px-4 py-2 text-sm bg-green-700 text-white rounded-md hover:bg-green-800 transition duration-300">
+                                                Add
+                                            </button>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    ) : ''}
+
+
+
+
+                            </div>
+                            
+        
+
+                            <button onClick={openModal} className='inline-flex justify-center p-2 hover:underline text-md'>
                                 <img src={plus} className='filter invert'></img> Use a Different address
                             </button>
                         </div>
-                    </form>
+                    </div>
                 </div>:""}
+
+                
 
                 {/* Payment */}
                 <div className='my-10'>

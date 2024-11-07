@@ -680,19 +680,19 @@ app.get('/verify/:token', (req, res) => {
 });
 
 app.post('/order', (req, res) => {
-    const { userId, amount, deliveryMethod, paymentMethod, code } = req.body;
+    const { userId, amount, deliveryMethod, deliveryAddress ,paymentMethod , code } = req.body;
 
     let finalAmount = amount;
 
     const processOrder = () => {
 
         const query = `
-            INSERT INTO orders (customer_id, deliveryMethod, paymentMethod, totalPrice, status) 
-            VALUES (?, ?, ?, ? ,'unpaid');
+            INSERT INTO orders (customer_id, deliveryMethod, paymentMethod, totalPrice, status, delivery_address) 
+            VALUES (?, ?, ?, ? ,'unpaid', ?);
             SELECT LAST_INSERT_ID() as lastOrderId;
         `;
 
-        db.query(query, [userId, deliveryMethod, paymentMethod, finalAmount], (err, resInInserting) => {
+        db.query(query, [userId, deliveryMethod, paymentMethod, finalAmount, deliveryAddress], (err, resInInserting) => {
             if (err) {
                 return res.json({ success: false, err: "Error inserting order" });
             }
@@ -1705,7 +1705,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
         const {second_address, userId} = req.body
 
-        const query = `Update user set seconday_address = ? where id ?`
+        const query = `Update user set secondary_address = ? where id = ?`
 
         db.query(query,[second_address, userId], (err,result)=>{
             if(err){
@@ -1714,6 +1714,37 @@ app.post('/removeProduct',  async (req, res) =>{
             res.json({success: true})
                 
         })
+    })
+    
+    app.post('/editSecondaryAddress', (req,res)=>{
+
+        const {newAddress, userId} = req.body
+
+        const query = `Update user set secondary_address = ? where id = ?`
+
+        db.query(query,[newAddress, userId], (err,result)=>{
+            if(err){
+                res.json({err:"ERROR"});
+            }
+            res.json({success: true})
+                
+        })
+    })
+
+    app.post('/editAddress', (req,res)=>{
+
+        const {newAddress, userId} = req.body
+
+        const query = `Update user set address = ? where id = ?`
+
+        db.query(query,[newAddress, userId], (err,result)=>{
+            if(err){
+                res.json({err:"ERROR"});
+            }
+            res.json({success: true})
+
+        })
+
     })
 
     app.post('/fetchCategory', (req,res)=>{
@@ -1724,7 +1755,7 @@ app.post('/removeProduct',  async (req, res) =>{
                     res.json({err:"ERROR"});
                 }
                 res.json(result)
-                    
+
             })
         
     })
@@ -2091,6 +2122,23 @@ app.post('/removeProduct',  async (req, res) =>{
         });
 
     })
+    
+    
+    app.post('/updatePersonalInfo', (req,res) =>{
+        
+        const {pnum, fullName} = req.body.value;
+        const {userId} = req.body;
+
+        const query = `update user set name = ? , pnum = ? where id = ?`               
+
+        db.query(query,[fullName,pnum,userId], (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to get orders' });
+            }
+            res.json({success:true})
+        });
+
+    })
 
 
     app.post('/profile',(req,res) =>{
@@ -2103,7 +2151,8 @@ app.post('/removeProduct',  async (req, res) =>{
                 u.name, 
                 u.email, 
                 u.pnum, 
-                u.address, 
+                u.address,
+                u.secondary_address, 
                 r.title as role,
                 u.verification_token 
             FROM 
