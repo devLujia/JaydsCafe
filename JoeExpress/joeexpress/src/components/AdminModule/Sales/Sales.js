@@ -1,8 +1,12 @@
+
 import React, { useEffect, useState } from 'react'
 import user from '../../image/UserAcc.svg';
 import notif from '../../image/notif.svg';
 import jaydsLogo from '../../image/jayds cafe Logo.svg';
 import Chart from 'react-apexcharts';
+import ReactApexChart from 'react-apexcharts';
+import { jsPDF } from "jspdf";
+
 
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -31,6 +35,7 @@ export default function Sales() {
 
     const [monthlyData, setMonthlyData] = useState([]);
     const [chartSeries, setChartSeries] = useState([]);
+    const [isDownloaded, setIsDownloaded] = useState(false);
     const [chartOptions, setChartOptions] = useState({
         chart: {
             id: 'basic-bar',
@@ -184,12 +189,24 @@ export default function Sales() {
         console.error('Error during logout:', error);
         }
     };
+
+    //data temporary
+    const chartData = [10, 20, 30, 40, 50];
+    const series = [{ name: "Sample Series", data: chartData }];
         
     // line graph vertical
     const chartOptions2 = {
         chart: {
             id: 'basic-bar',
+            type: 'bar',
+            toolbar: {
+                show: true,
+                tools: {
+                  download: false, // Disable the default download button
+                },
         },
+        series: series,
+    },
         xaxis: {
             categories: [],
         },
@@ -197,6 +214,35 @@ export default function Sales() {
             text: 'Weekly Sales',
             align: 'left',
         },
+    };
+
+    const exportToPDF = () => {
+        // Initialize jsPDF
+        const doc = new jsPDF();
+    
+        // Set the title
+        doc.setFontSize(16);
+        doc.text("Data's in Jayds Cafe", 10, 10);
+    
+        // Add table headers
+        const headers = [["Index", "Value"]];
+        const rows = chartSeries[0].data.map((value, index) => [index + 1, value]);
+    
+        // Add content to PDF
+        let yPosition = 20;
+        headers.concat(rows).forEach(row => {
+            doc.text(row.join(" - "), 10, yPosition);
+            yPosition += 10; // Move down each row
+        });
+    
+        // Save the PDF
+        doc.save("chart_data.pdf");
+    
+        // Change button state to show download is complete
+        setIsDownloaded(true);
+        setTimeout(() => {
+            setIsDownloaded(false);
+        }, 2000);
     };
         
         // State to manage the selected timeframe and chart data
@@ -435,10 +481,20 @@ export default function Sales() {
         
         <div class="p-4 sm:ml-72 hidden sm:block dark:bg-[#928e97]">
             <h2 className='font-bold text-2xl mb-5 dark:text-gray-800'>Sales Report</h2>
+            <div className="custom-toolbar my-4">
+                <button
+                    onClick={exportToPDF}
+                    className={`px-4 py-2 rounded transition-all duration-300 ${
+                        isDownloaded ? 'bg-greenColor scale-105' : 'bg-blue-500'
+                    } text-white`}>
+                    {isDownloaded ? 'Downloaded' : 'Download Data as PDF'}
+                </button>
+            </div>
             <div className='grid grid-cols-1 md:grid-cols-[65%_34%] gap-2'>
                 <div className="app w-full shadow-lg rounded-lg">
                     <div className="row">
                         <div className="mixed-chart">
+                       
                         <Chart
                             options={chartOptions}
                             series={chartSeries}

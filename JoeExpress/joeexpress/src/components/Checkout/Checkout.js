@@ -128,7 +128,7 @@ export default function Checkout() {
                 </button>
                 <button
                     onClick={handleCheckout}
-                    className='flex-1 min-w-[120px] sm:w-auto cursor-pointer py-3 px-5 bg-textgreenColor hover:bg-green-500 font-semibold tracking-wide text-white rounded-md text-center'
+                    className='text-sm flex-1 min-w-[200px] sm:w-auto cursor-pointer py-3 bg-textgreenColor hover:bg-green-500 font-semibold tracking-wide text-white rounded-md text-center'
                 >
                     Confirm ({newTime}s remaining)
                 </button>
