@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 01, 2024 at 01:09 PM
+-- Generation Time: Nov 07, 2024 at 08:44 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -197,7 +197,7 @@ CREATE TABLE `discount_codes` (
 --
 
 INSERT INTO `discount_codes` (`id`, `code`, `discount_type`, `discount_value`, `min_order_value`, `max_discount_value`, `usage_limit`, `times_used`, `valid_from`, `valid_until`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 'SUMMER2024', 'percentage', 15.00, 50.00, 100.00, 5, 1, '2024-06-01', '2024-12-31', 1, '2024-10-18 12:54:06', '2024-10-19 04:49:23');
+(1, 'SUMMER2024', 'percentage', 15.00, 50.00, 100.00, 5, 3, '2024-06-01', '2024-12-31', 1, '2024-10-18 12:54:06', '2024-11-05 08:40:23');
 
 -- --------------------------------------------------------
 
@@ -519,6 +519,7 @@ CREATE TABLE `orders` (
   `paymentMethod` varchar(50) NOT NULL,
   `update_order_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` enum('unpaid','paid','on process','pending rider','on delivery','completed','cancelled') NOT NULL,
+  `delivery_address` varchar(255) DEFAULT NULL,
   `totalPrice` int(11) NOT NULL,
   `rider_id` int(10) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -527,11 +528,20 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`order_id`, `customer_id`, `order_date`, `deliveryMethod`, `paymentMethod`, `update_order_date`, `status`, `totalPrice`, `rider_id`) VALUES
-(1991, 31, '2024-10-31 16:47:24', 'Delivery', 'gcash', '2024-10-31 17:04:26', 'paid', 160, 0),
-(1992, 31, '2024-10-31 16:53:08', 'Pickup', 'gcash', '2024-10-31 16:53:08', 'unpaid', 160, NULL),
-(1993, 31, '2024-10-31 16:53:08', 'Pickup', 'gcash', '2024-10-31 17:06:13', 'paid', 160, 0),
-(1994, 31, '2024-10-31 16:54:45', 'Delivery', 'gcash', '2024-10-31 17:11:54', 'completed', 160, 44);
+INSERT INTO `orders` (`order_id`, `customer_id`, `order_date`, `deliveryMethod`, `paymentMethod`, `update_order_date`, `status`, `delivery_address`, `totalPrice`, `rider_id`) VALUES
+(1991, 31, '2024-10-31 16:47:24', 'Delivery', 'gcash', '2024-11-05 10:58:10', 'pending rider', NULL, 160, 0),
+(1992, 31, '2024-10-31 16:53:08', 'Pickup', 'gcash', '2024-11-05 12:28:39', 'on delivery', NULL, 160, 44),
+(1993, 31, '2024-10-31 16:53:08', 'Pickup', 'gcash', '2024-11-05 11:14:45', 'completed', NULL, 160, 44),
+(1994, 31, '2024-10-31 16:54:45', 'Delivery', 'gcash', '2024-10-31 17:11:54', 'completed', NULL, 160, 44),
+(1995, 31, '2024-11-05 08:40:22', 'Delivery', 'gcash', '2024-11-05 12:33:37', 'on delivery', NULL, 231, 44),
+(1996, 31, '2024-11-05 08:40:23', 'Delivery', 'gcash', '2024-11-05 08:40:23', 'unpaid', NULL, 231, NULL),
+(1997, 31, '2024-11-05 08:41:14', 'Delivery', 'gcash', '2024-11-05 08:41:18', 'paid', NULL, 160, NULL),
+(1998, 31, '2024-11-05 08:42:07', 'Delivery', 'gcash', '2024-11-05 08:42:07', 'unpaid', NULL, 160, NULL),
+(1999, 31, '2024-11-05 09:23:38', 'Pickup', 'gcash', '2024-11-05 09:23:38', 'unpaid', NULL, 1679, NULL),
+(2000, 31, '2024-11-07 16:21:39', 'Delivery', 'gcash', '2024-11-07 16:21:45', 'paid', 'test', 160, NULL),
+(2001, 31, '2024-11-07 16:22:18', 'Delivery', 'gcash', '2024-11-07 16:22:22', 'paid', 'test', 160, NULL),
+(2002, 31, '2024-11-07 16:22:48', 'Delivery', 'gcash', '2024-11-07 16:22:51', 'paid', 'Salawag', 160, NULL),
+(2003, 31, '2024-11-07 19:07:40', 'Delivery', 'gcash', '2024-11-07 19:07:45', 'paid', 'aba', 160, NULL);
 
 -- --------------------------------------------------------
 
@@ -557,7 +567,19 @@ INSERT INTO `orders_food` (`id`, `order_id`, `food_id`, `quantity`, `size`, `add
 (165, 1991, 18, 1, 'Medium', '', '100'),
 (166, 1992, 18, 1, 'medium', '', '100'),
 (167, 1993, 18, 1, 'medium', '', '100'),
-(168, 1994, 18, 1, 'medium', '', '100');
+(168, 1994, 18, 1, 'medium', '', '100'),
+(169, 1995, 18, 1, 'medium', '', '100'),
+(170, 1995, 19, 1, 'Medium', '', '100'),
+(172, 1997, 19, 1, 'Medium', '', '100'),
+(173, 1998, 18, 1, 'Medium', '', '100'),
+(174, 1999, 18, 1, 'medium', '', '100'),
+(175, 1999, 19, 7, 'medium', '', '100'),
+(176, 1999, 23, 1, 'Medium', '', '100'),
+(177, 1999, 24, 1, 'Medium', '', '100'),
+(178, 2000, 18, 1, 'medium', '', '100'),
+(179, 2001, 19, 1, 'medium', '', '100'),
+(180, 2002, 19, 1, 'medium', '', '100'),
+(181, 2003, 18, 1, 'medium', '', '100');
 
 -- --------------------------------------------------------
 
@@ -591,7 +613,161 @@ CREATE TABLE `order_msg` (
 --
 
 INSERT INTO `order_msg` (`id`, `order_id`, `sender_id`, `content`, `created_at`) VALUES
-(5, 1994, 44, 'test', '2024-11-01 11:54:39');
+(36, 1995, 44, 'test', '2024-11-05 14:45:34'),
+(37, 1995, 31, 'test', '2024-11-05 14:46:27'),
+(38, 1995, 44, 'test', '2024-11-05 14:46:35'),
+(39, 1995, 31, 'test', '2024-11-05 14:46:45'),
+(40, 1995, 44, 'test', '2024-11-05 14:46:57'),
+(41, 1995, 31, 'yow', '2024-11-05 14:47:02'),
+(42, 1995, 44, 'test', '2024-11-05 14:47:05'),
+(43, 1995, 31, 'ayooo', '2024-11-05 14:47:10'),
+(44, 1995, 44, 'test', '2024-11-05 14:47:23'),
+(45, 1995, 31, 'ayo', '2024-11-05 14:47:29'),
+(46, 1995, 31, '123', '2024-11-05 14:47:32'),
+(47, 1995, 31, '123', '2024-11-05 14:47:37'),
+(48, 1995, 44, 'test', '2024-11-05 14:47:44'),
+(49, 1995, 31, 'hell yo', '2024-11-05 14:48:20'),
+(50, 1995, 44, 'chec', '2024-11-05 14:48:30'),
+(51, 1995, 31, 'asd', '2024-11-05 14:48:32'),
+(52, 1995, 31, 'asd', '2024-11-05 14:48:35'),
+(53, 1995, 31, 'asd', '2024-11-05 14:48:37'),
+(54, 1995, 44, 'test', '2024-11-05 14:49:15'),
+(55, 1995, 31, 'test', '2024-11-05 14:49:18'),
+(56, 1995, 31, 'asdasd', '2024-11-05 14:49:21'),
+(57, 1995, 31, 'asd', '2024-11-05 14:49:23'),
+(58, 1995, 31, 'asd', '2024-11-05 14:49:30'),
+(59, 1995, 44, 'chec', '2024-11-05 14:52:01'),
+(60, 1995, 31, 'asd', '2024-11-05 14:52:07'),
+(61, 1995, 44, 'asdasd', '2024-11-05 14:53:32'),
+(62, 1995, 31, 'ayo wats good', '2024-11-05 14:53:40'),
+(63, 1995, 44, 'ay', '2024-11-05 14:54:28'),
+(64, 1995, 44, 'check', '2024-11-05 14:54:44'),
+(65, 1995, 44, 'ala', '2024-11-05 14:54:48'),
+(66, 1995, 44, 'test', '2024-11-05 14:55:34'),
+(67, 1995, 44, 'ala', '2024-11-05 14:55:36'),
+(68, 1995, 44, 'ala', '2024-11-05 14:55:39'),
+(69, 1995, 44, 'ala', '2024-11-05 14:55:42'),
+(70, 1995, 44, 'asd', '2024-11-05 14:57:23'),
+(71, 1995, 44, 'dasdsa', '2024-11-05 14:57:25'),
+(72, 1995, 44, 'ayooo', '2024-11-05 14:58:17'),
+(73, 1995, 44, 'test', '2024-11-05 15:00:32'),
+(74, 1995, 44, 'check', '2024-11-05 15:01:25'),
+(75, 1995, 44, 'ayo', '2024-11-05 15:01:33'),
+(76, 1995, 31, 'check', '2024-11-05 15:01:45'),
+(77, 1995, 31, 'asdasd', '2024-11-05 15:01:56'),
+(78, 1995, 31, 'asdasd', '2024-11-05 15:02:01'),
+(79, 1995, 31, 'asdasddad', '2024-11-05 15:02:04'),
+(80, 1995, 44, 'asdas', '2024-11-05 15:03:57'),
+(81, 1995, 31, 'asdsadasda', '2024-11-05 15:04:06'),
+(82, 1995, 44, 'asdd', '2024-11-05 15:04:21'),
+(83, 1995, 31, 'testtt', '2024-11-05 15:04:25'),
+(84, 1995, 31, 'asd', '2024-11-05 15:06:34'),
+(85, 1995, 44, 'asdasdasdas', '2024-11-05 15:06:46'),
+(86, 1995, 31, 'asdasd', '2024-11-05 15:14:27'),
+(87, 1995, 44, 'test', '2024-11-05 15:18:05'),
+(88, 1995, 44, 'check', '2024-11-05 15:18:16'),
+(89, 1995, 31, 'test', '2024-11-05 15:18:23'),
+(90, 1995, 44, 'check', '2024-11-05 15:18:28'),
+(91, 1995, 44, 'test', '2024-11-05 15:18:34'),
+(92, 1995, 31, 'ayo', '2024-11-05 15:18:37'),
+(93, 1995, 31, 'test', '2024-11-05 15:21:02'),
+(94, 1995, 44, 'test', '2024-11-05 15:21:24'),
+(95, 1995, 31, 'test', '2024-11-05 15:21:27'),
+(96, 1995, 44, 'asd', '2024-11-05 15:21:31'),
+(97, 1995, 31, 'asd', '2024-11-05 15:21:33'),
+(98, 1995, 31, 'sdada', '2024-11-05 15:21:36'),
+(99, 1995, 44, 'asdasd', '2024-11-05 15:21:41'),
+(100, 1995, 44, 'test', '2024-11-05 15:30:40'),
+(101, 1995, 31, 'sds', '2024-11-05 15:30:50'),
+(102, 1995, 44, 'test', '2024-11-05 15:30:56'),
+(103, 1995, 31, 'test', '2024-11-05 15:31:41'),
+(104, 1995, 44, 'sadasd', '2024-11-05 15:31:44'),
+(105, 1995, 31, 'dasd', '2024-11-05 15:32:03'),
+(106, 1995, 44, 'asdsad', '2024-11-05 15:32:05'),
+(107, 1995, 44, 'asdasd', '2024-11-05 15:32:10'),
+(108, 1995, 31, 'yooo', '2024-11-05 15:33:19'),
+(109, 1995, 44, 'sadas', '2024-11-05 15:33:51'),
+(110, 1995, 31, 'asdasd', '2024-11-05 15:33:55'),
+(111, 1995, 44, 'asdasdas', '2024-11-05 15:33:58'),
+(112, 1995, 31, 'test', '2024-11-05 15:34:15'),
+(113, 1995, 44, 'test', '2024-11-05 15:34:18'),
+(114, 1995, 31, 'chec', '2024-11-05 15:34:54'),
+(115, 1995, 44, 'test', '2024-11-05 15:34:59'),
+(116, 1995, 44, 'ayo', '2024-11-05 15:35:05'),
+(117, 1995, 31, 'ano', '2024-11-05 15:35:12'),
+(118, 1995, 44, 'test', '2024-11-05 15:37:31'),
+(119, 1995, 31, 'ayon', '2024-11-05 15:37:36'),
+(120, 1995, 44, 'ahh', '2024-11-05 15:37:43'),
+(121, 1995, 44, 'test', '2024-11-05 15:38:29'),
+(122, 1995, 31, 'taea', '2024-11-05 15:38:53'),
+(123, 1995, 44, 'test', '2024-11-05 15:41:11'),
+(124, 1995, 31, 'ayo', '2024-11-05 15:41:15'),
+(125, 1993, 44, 'asdasdasd', '2024-11-05 15:43:08'),
+(126, 1995, 31, 'wow', '2024-11-05 15:43:12'),
+(127, 1993, 44, 'asdsa', '2024-11-05 15:43:14'),
+(128, 1995, 31, 'asdsa', '2024-11-05 15:43:17'),
+(129, 1995, 44, 'asdsa', '2024-11-05 15:43:19'),
+(130, 1995, 44, 'test', '2024-11-05 15:44:18'),
+(131, 1995, 31, 'test', '2024-11-05 15:55:29'),
+(132, 1995, 44, 'test', '2024-11-05 15:55:32'),
+(133, 1995, 31, 'test', '2024-11-05 15:55:39'),
+(134, 1995, 44, 'asdasdasdsad', '2024-11-05 15:55:42'),
+(135, 1995, 44, 'test', '2024-11-05 15:56:20'),
+(136, 1995, 44, 'chec', '2024-11-05 15:58:52'),
+(137, 1995, 44, 'test', '2024-11-05 16:01:21'),
+(138, 1995, 44, 'test', '2024-11-05 16:06:16'),
+(139, 1995, 44, 'test', '2024-11-05 16:06:51'),
+(140, 1995, 31, 'test', '2024-11-05 16:06:58'),
+(141, 1995, 44, 'test', '2024-11-05 16:07:03'),
+(142, 1995, 31, 'asdasdsa', '2024-11-05 16:07:06'),
+(143, 1995, 44, 'asdasdasd', '2024-11-05 16:07:11'),
+(144, 1995, 44, 'cehck', '2024-11-05 16:09:23'),
+(145, 1995, 31, 'ala', '2024-11-05 16:09:33'),
+(146, 1995, 44, 'ayo', '2024-11-05 16:09:49'),
+(147, 1995, 31, 'ayo', '2024-11-05 16:09:52'),
+(148, 1995, 31, 'asdasdasdasdasd', '2024-11-05 16:09:55'),
+(149, 1995, 44, 'asdasd', '2024-11-05 16:11:24'),
+(150, 1995, 31, 'test', '2024-11-05 16:11:27'),
+(151, 1995, 31, 'test', '2024-11-05 16:12:04'),
+(152, 1995, 44, 'ayo', '2024-11-05 16:12:08'),
+(153, 1995, 31, 'butangiansdasd', '2024-11-05 16:12:15'),
+(154, 1995, 44, 'putangionaasd', '2024-11-05 16:12:23'),
+(155, 1995, 31, 'PUTANGINASDHASDHASD', '2024-11-05 16:12:38'),
+(156, 1995, 44, 'test', '2024-11-05 16:13:58'),
+(157, 1995, 31, 'oo', '2024-11-05 16:14:08'),
+(158, 1995, 44, 'hala', '2024-11-05 16:14:52'),
+(159, 1995, 31, 'hala', '2024-11-05 16:14:59'),
+(160, 1995, 44, 'check', '2024-11-05 16:15:04'),
+(161, 1995, 31, 'test', '2024-11-05 16:15:08'),
+(162, 1995, 31, 'ayo', '2024-11-05 16:23:39'),
+(163, 1995, 44, 'ayo', '2024-11-05 16:23:46'),
+(164, 1995, 44, 'AYo', '2024-11-05 16:23:56'),
+(165, 1995, 31, 'hala', '2024-11-05 16:24:05'),
+(166, 1995, 44, 'test', '2024-11-05 16:24:12'),
+(167, 1995, 44, 'test', '2024-11-05 16:24:15'),
+(168, 1995, 44, 'test', '2024-11-05 16:24:44'),
+(169, 1995, 31, 'test', '2024-11-05 16:24:47'),
+(170, 1995, 44, 'asdasda', '2024-11-05 16:24:51'),
+(171, 1995, 31, 'asdasdasd', '2024-11-05 16:25:03'),
+(172, 1995, 44, 'asdsadas', '2024-11-05 16:25:07'),
+(173, 1995, 44, 'awit\\', '2024-11-05 16:25:15'),
+(174, 1995, 31, 'awit', '2024-11-05 16:25:22'),
+(175, 1995, 44, 'putangina', '2024-11-05 16:25:27'),
+(176, 1995, 31, 'test', '2024-11-05 16:25:53'),
+(177, 1995, 44, 'test', '2024-11-05 16:25:55'),
+(178, 1995, 44, 'ayo', '2024-11-05 16:26:03'),
+(179, 1995, 44, 'ayo', '2024-11-05 16:26:07'),
+(180, 1995, 31, 'test', '2024-11-05 16:26:55'),
+(181, 1995, 44, 'test', '2024-11-05 16:26:57'),
+(182, 1995, 44, 'asdsadas', '2024-11-05 16:27:00'),
+(183, 1995, 44, 'test', '2024-11-05 16:27:49'),
+(184, 1995, 31, 'test', '2024-11-05 16:27:52'),
+(185, 1995, 44, 'ayun', '2024-11-05 16:27:56'),
+(186, 1995, 31, 'check', '2024-11-05 16:27:59'),
+(187, 1995, 31, 'test', '2024-11-05 16:28:06'),
+(188, 1995, 44, 'test', '2024-11-05 16:28:10'),
+(189, 1995, 44, 'test', '2024-11-05 16:40:42'),
+(190, 1995, 31, 'test', '2024-11-05 16:40:48');
 
 -- --------------------------------------------------------
 
@@ -693,7 +869,7 @@ CREATE TABLE `user` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
-  `seconday_address` varchar(255) NOT NULL,
+  `secondary_address` varchar(255) NOT NULL,
   `role` int(10) UNSIGNED DEFAULT 3,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -706,10 +882,10 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `name`, `email`, `password`, `address`, `seconday_address`, `role`, `created_at`, `updated_at`, `verification_token`, `verified`, `pnum`) VALUES
+INSERT INTO `user` (`id`, `name`, `email`, `password`, `address`, `secondary_address`, `role`, `created_at`, `updated_at`, `verification_token`, `verified`, `pnum`) VALUES
 (29, 'chardsd', 'cilayap482@modotso.com', '$2b$10$/Zy8Kp69PUPEfsaEbUvdFuMl2Hes3J05Kjd3SSWEJE0b1eoaMOZ8G', 'hello 214sd', '', 3, '2024-07-23 08:10:42', '2024-10-20 06:17:28', '49hl4jgopk', 'true', ''),
 (30, 'dagangbukid', 'fobedo2401@reebsd.com', '$2b$10$LQfRgTYjqCoUngDsW9sQM.6lKfNq21fEMzVTh6ydb6Orj8uJqQxg.', 'DYAN LANG', '', 3, '2024-07-23 08:20:10', '2024-10-20 06:17:28', 'cn0d0eco8k', 'false', ''),
-(31, 'chardgrey', 'cardosarichard@gmail.com', '$2b$10$2CfKaulWCdIfErdXWtxDz.J5PC2CYidnxPHi2sWv822mG8lWKcdmu', 'Blk 99 Lot 99 Dasmarinas Cavite', '', 3, '2024-07-24 05:20:33', '2024-10-20 06:17:28', '254kh7vd2k', 'true', '232324'),
+(31, 'edsel', 'cardosarichard@gmail.com', '$2b$10$2CfKaulWCdIfErdXWtxDz.J5PC2CYidnxPHi2sWv822mG8lWKcdmu', 'test', 'new test', 3, '2024-07-24 05:20:33', '2024-11-07 19:42:50', '254kh7vd2k', 'true', '09278658353'),
 (40, 'Pedro Penduko', 'jobatoc997@ofionk.com', '$2b$10$txPG8S9wWxyQKrWnVhhBd.ABarEi71skq8KM1IWayUX3bEj04cqiu', 'Salawag Diamond Village Blk 10 Lot 4', '', 3, '2024-09-21 12:18:09', '2024-10-20 06:17:28', '27o4xjs1ts', 'false', '09278658355'),
 (41, 'chardgrey', 'chardgrey@gmail.com', '$2b$10$5zsQK5v7BQW3WFcpLMBDveWzsV8e6EsUR7751.X3ZU2VhZ4pXcdle', 'Blk p lot 4 DASMARINAS', '', 3, '2024-09-28 01:52:33', '2024-10-20 06:17:28', 'dolrv3tepi', 'false', '09278658355'),
 (42, 'leklek', 'leklek@gmail.com', '$2b$10$YZg1R7JAiuRBIxbXuD/HF.Z.Y6fGM7cUPqyD94Zns1pyIEBWLf9K.', 'Blk p lot 4 DASMARINAS', '', 1, '2024-09-28 01:58:05', '2024-10-20 06:18:02', '0473le3c91', 'true', '09278658355'),
@@ -873,7 +1049,7 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=219;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=231;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -915,13 +1091,13 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1995;
+  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2004;
 
 --
 -- AUTO_INCREMENT for table `orders_food`
 --
 ALTER TABLE `orders_food`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=169;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=182;
 
 --
 -- AUTO_INCREMENT for table `order_addons`
@@ -933,7 +1109,7 @@ ALTER TABLE `order_addons`
 -- AUTO_INCREMENT for table `order_msg`
 --
 ALTER TABLE `order_msg`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
 
 --
 -- AUTO_INCREMENT for table `order_msg_id`
