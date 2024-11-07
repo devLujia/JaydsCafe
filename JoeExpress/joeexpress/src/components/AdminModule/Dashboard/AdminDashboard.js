@@ -576,7 +576,18 @@ function AdminDashboard() {
                   {ticketId.map((ticket) => (
                      <div key={ticket.ticket_id} class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
                         <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
-                           <img src={jaydsLogo} alt="User Avatar" class="w-12 h-12 rounded-full"/>
+                        <img
+  src={`data:image/svg+xml,${encodeURIComponent(
+    `<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="24" cy="24" r="24" fill="#047857"/>
+      <circle cx="24" cy="19" r="8" fill="white"/>
+      <path d="M11 40C11 40 15 32 24 32C33 32 37 40 37 40" stroke="white" stroke-width="4" stroke-linecap="round"/>
+    </svg>`
+  )}`} 
+  alt="Anonymous user"
+  className="w-full h-full object-cover rounded-full"
+/>
+
                         </div>
                         <div class="flex-1">
                            <h2 class="text-lg font-semibold">{ticket?.ticket_id || 'NO TICKET ID'}</h2>
