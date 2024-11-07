@@ -113,7 +113,6 @@ app.get('/admin',(req,res)=>{
 
 }) 
 
-
 app.post('/cms', (req, res) => {
     const { title } = req.body;
   
@@ -131,7 +130,7 @@ app.post('/cms', (req, res) => {
         res.status(404).json({ error: 'No content found' });
       }
     });
-  });
+});
   
   app.post('/data', async (req, res) => {
     try {
@@ -258,156 +257,156 @@ app.post('/foodsSpecial', (req, res) => {
     });
 });
 
-    app.post('/signup', async (req, res) => {
-        const { pnum, name, email, password, address } = req.body;
-    
-        try {
-            // Check if email already exists
-            const checkQuery = 'SELECT * FROM user WHERE email = ?';
-            db.query(checkQuery, [email], async (error, resultFromDb) => {
-                if (error) {
-                    console.error('Database error:', error);
-                    return res.status(500).json({ error: 'Database error' });
+app.post('/signup', async (req, res) => {
+    const { pnum, name, email, password, address } = req.body;
+
+    try {
+        // Check if email already exists
+        const checkQuery = 'SELECT * FROM user WHERE email = ?';
+        db.query(checkQuery, [email], async (error, resultFromDb) => {
+            if (error) {
+                console.error('Database error:', error);
+                return res.status(500).json({ error: 'Database error' });
+            }
+
+            if (resultFromDb.length > 0) {
+                return res.status(400).json({ error: 'Email Already Taken' });
+            }
+
+            const verificationToken = generateToken();
+
+            // Proceed to insert user into database
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const insertQuery = 'INSERT INTO `user` (pnum, name, address, email, password, verification_token) VALUES (?, ?, ?, ?, ?, ?)';
+            const values = [pnum, name, address, email, hashedPassword, verificationToken];
+
+            db.query(insertQuery, values, (insertError, result) => {
+                if (insertError) {
+                    console.error('Error signing up:', insertError);
+                    return res.status(500).json({ error: 'Failed to sign up' });
                 }
-    
-                if (resultFromDb.length > 0) {
-                    return res.status(400).json({ error: 'Email Already Taken' });
+
+                const userId = result.insertId;
+
+                if (!userId) {
+                    console.error('Failed to retrieve userId:', result);
+                    return res.status(500).json({ error: 'Failed to retrieve userId' });
                 }
-    
-                const verificationToken = generateToken();
-    
-                // Proceed to insert user into database
-                const hashedPassword = await bcrypt.hash(password, 10);
-                const insertQuery = 'INSERT INTO `user` (pnum, name, address, email, password, verification_token) VALUES (?, ?, ?, ?, ?, ?)';
-                const values = [pnum, name, address, email, hashedPassword, verificationToken];
-    
-                db.query(insertQuery, values, (insertError, result) => {
-                    if (insertError) {
-                        console.error('Error signing up:', insertError);
-                        return res.status(500).json({ error: 'Failed to sign up' });
+
+                // Insert into cart table
+                const cartQuery = 'INSERT INTO cart (user_id) VALUES (?)';
+                db.query(cartQuery, [userId], (userError, cartResult) => {
+                    if (userError) {
+                        console.error('Error creating cart:', userError);
+                        return res.status(500).json({ error: 'Failed to create cart' });
                     }
-    
-                    const userId = result.insertId;
-    
-                    if (!userId) {
-                        console.error('Failed to retrieve userId:', result);
-                        return res.status(500).json({ error: 'Failed to retrieve userId' });
-                    }
-    
-                    // Insert into cart table
-                    const cartQuery = 'INSERT INTO cart (user_id) VALUES (?)';
-                    db.query(cartQuery, [userId], (userError, cartResult) => {
-                        if (userError) {
-                            console.error('Error creating cart:', userError);
-                            return res.status(500).json({ error: 'Failed to create cart' });
-                        }
-    
-                        // Sending email after user creation
-                        try {
-                            const transporter = nodemailer.createTransport({
-                                service: 'gmail',
-                                host: 'smtp.gmail.com',
-                                port: 587,
-                                secure: false,
-                                auth: {
-                                    user: EMAIL,
-                                    pass: PASSWORD
-                                }
-                            });
-    
-                            const mailGenerator = new MailGen({
-                                theme: 'default',
-                                product: {
-                                    name: `Jayd's Cafe`,
-                                    link: 'https://mailgen.js/'
-                                }
-                            });
-    
-                            const response = {
-                                body: {
-                                    name: name,
-                                    intro: 'YOU REGISTERED SUCCESSFULLY',
-                                    outro: 'PLEASE CLICK THE LINK TO CONTINUE',
-                                    action: {
-                                        instructions: 'To complete your registration, please click the following button:',
-                                        button: {
-                                            color: '#22BC66',
-                                            text: 'Verify your account',
-                                            link: `http://localhost:8081/verify/${verificationToken}`
-                                        }
+
+                    // Sending email after user creation
+                    try {
+                        const transporter = nodemailer.createTransport({
+                            service: 'gmail',
+                            host: 'smtp.gmail.com',
+                            port: 587,
+                            secure: false,
+                            auth: {
+                                user: EMAIL,
+                                pass: PASSWORD
+                            }
+                        });
+
+                        const mailGenerator = new MailGen({
+                            theme: 'default',
+                            product: {
+                                name: `Jayd's Cafe`,
+                                link: 'https://mailgen.js/'
+                            }
+                        });
+
+                        const response = {
+                            body: {
+                                name: name,
+                                intro: 'YOU REGISTERED SUCCESSFULLY',
+                                outro: 'PLEASE CLICK THE LINK TO CONTINUE',
+                                action: {
+                                    instructions: 'To complete your registration, please click the following button:',
+                                    button: {
+                                        color: '#22BC66',
+                                        text: 'Verify your account',
+                                        link: `http://localhost:8081/verify/${verificationToken}`
                                     }
                                 }
-                            };
-    
-                            const mail = mailGenerator.generate(response);
-    
-                            const message = {
-                                from: EMAIL,
-                                to: email,
-                                subject: 'REGISTRATION',
-                                html: mail
-                            };
-    
-                            transporter.sendMail(message)
-                                .then(() => {
-                                    // Send success response when everything is successful
-                                    return res.status(201).json({ success: true, msg: 'You should receive an email shortly' });
-                                })
-                                .catch(emailError => {
-                                    console.error('Email Sending Error:', emailError);
-                                    return res.status(500).json({ error: 'Failed to send email' });
-                                });
-    
-                        } catch (emailError) {
-                            console.error('Email Sending Error:', emailError);
-                            return res.status(500).json({ error: 'Failed to send email' });
-                        }
-                    });
+                            }
+                        };
+
+                        const mail = mailGenerator.generate(response);
+
+                        const message = {
+                            from: EMAIL,
+                            to: email,
+                            subject: 'REGISTRATION',
+                            html: mail
+                        };
+
+                        transporter.sendMail(message)
+                            .then(() => {
+                                // Send success response when everything is successful
+                                return res.status(201).json({ success: true, msg: 'You should receive an email shortly' });
+                            })
+                            .catch(emailError => {
+                                console.error('Email Sending Error:', emailError);
+                                return res.status(500).json({ error: 'Failed to send email' });
+                            });
+
+                    } catch (emailError) {
+                        console.error('Email Sending Error:', emailError);
+                        return res.status(500).json({ error: 'Failed to send email' });
+                    }
                 });
             });
-        } catch (error) {
-            console.error('Signup Error:', error);
-            return res.status(500).json({ error: 'Failed to sign up' });
-        }
-    });
+        });
+    } catch (error) {
+        console.error('Signup Error:', error);
+        return res.status(500).json({ error: 'Failed to sign up' });
+    }
+});
     
-    app.post('/addAdmin', async (req, res) => {
-        const { pnum, name, email, role, password, address } = req.body;
-    
-        try {
-            // Check if email already exists
-            const checkQuery = 'SELECT * FROM user WHERE email = ?';
-            db.query(checkQuery, [email], async (error, resultFromDb) => {
-                if (error) {
-                    console.error('Database error:', error);
-                    return res.status(500).json({ error: 'Database error' });
-                }
-    
-                if (resultFromDb.length > 0) {
-                    return res.status(400).json({ error: 'Email Already Taken' });
-                }
-    
-                const verificationToken = generateToken();
-    
-                // Proceed to insert user into database
-                const hashedPassword = await bcrypt.hash(password, 10);
-                const insertQuery = 'INSERT INTO `user` (pnum, name, address, email, password, role, verification_token) VALUES (?, ?, ?, ?, ?, ?, ?)';
-                const values = [pnum, name, address, email, hashedPassword, role , verificationToken];
-    
-                db.query(insertQuery, values, (insertError, result) => {
-                    if (insertError) {
-                        console.error('Error signing up:', insertError);
-                        return res.status(500).json({ error: 'Failed to sign up' });
-                    }
-    
-                    });
-                });
+app.post('/addAdmin', async (req, res) => {
+    const { pnum, name, email, role, password, address } = req.body;
+
+    try {
+        // Check if email already exists
+        const checkQuery = 'SELECT * FROM user WHERE email = ?';
+        db.query(checkQuery, [email], async (error, resultFromDb) => {
+            if (error) {
+                console.error('Database error:', error);
+                return res.status(500).json({ error: 'Database error' });
             }
-        catch (error) {
-            console.error('Signup Error:', error);
-            return res.status(500).json({ error: 'Failed to sign up' });
+
+            if (resultFromDb.length > 0) {
+                return res.status(400).json({ error: 'Email Already Taken' });
+            }
+
+            const verificationToken = generateToken();
+
+            // Proceed to insert user into database
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const insertQuery = 'INSERT INTO `user` (pnum, name, address, email, password, role, verification_token) VALUES (?, ?, ?, ?, ?, ?, ?)';
+            const values = [pnum, name, address, email, hashedPassword, role , verificationToken];
+
+            db.query(insertQuery, values, (insertError, result) => {
+                if (insertError) {
+                    console.error('Error signing up:', insertError);
+                    return res.status(500).json({ error: 'Failed to sign up' });
+                }
+
+                });
+            });
         }
-    });
+    catch (error) {
+        console.error('Signup Error:', error);
+        return res.status(500).json({ error: 'Failed to sign up' });
+    }
+});
     
 
 app.get('/menu', (req ,res )=>{
@@ -510,42 +509,42 @@ app.get('/items/:foodId', (req, res) => {
     
   });
 
-  app.get('/tracking/:OrdrId',(req,res)=>{
-    
-    const { OrdrId } = req.params
+app.get('/tracking/:OrdrId',(req,res)=>{
 
-    const query = `SELECT * From ORDERS Where order_id = ?`
-    db.query(query, [OrdrId], (err, results) => {
-        if (err) {
-            console.error('Error fetching food data:', err);
-            return res.status(500).json({ success: false, message: 'Server error' });
-          }
-            if (results.length > 0) {
-            res.json(results[0]);
-            } 
-            else {
-            // If no order is found, return a 404 status
-            res.status(404).json({ success: false, message: 'Order not found' });
-            }
-    })
+const { OrdrId } = req.params
 
-  })
-
-  app.post('/cart_items', (req, res) => {
-    const { foodId, size, price, addons, quantity, sugar } = req.body;
-    const userId = req.session.userId;
-
-    // Insert the add-ons names directly
-    const query = 'INSERT INTO cart_items (user_id, food_id, size, price, addons, quantity, sugar_level) VALUES (?, ?, ?, ?, ?, ?, ?)';
-
-    db.query(query, [userId, foodId, size, price, addons, quantity, sugar], (err, results) => {
-        if (err) {
-            console.error('Error adding item to cart:', err);
-            return res.status(500).json({ success: false, message: 'Failed to add item to cart' });
+const query = `SELECT * From ORDERS Where order_id = ?`
+db.query(query, [OrdrId], (err, results) => {
+    if (err) {
+        console.error('Error fetching food data:', err);
+        return res.status(500).json({ success: false, message: 'Server error' });
         }
+        if (results.length > 0) {
+        res.json(results[0]);
+        } 
+        else {
+        // If no order is found, return a 404 status
+        res.status(404).json({ success: false, message: 'Order not found' });
+        }
+})
 
-        res.status(200).json({ success: true, message: 'Item added to cart', results });
-    });
+})
+
+app.post('/cart_items', (req, res) => {
+const { foodId, size, price, addons, quantity, sugar } = req.body;
+const userId = req.session.userId;
+
+// Insert the add-ons names directly
+const query = 'INSERT INTO cart_items (user_id, food_id, size, price, addons, quantity, sugar_level) VALUES (?, ?, ?, ?, ?, ?, ?)';
+
+db.query(query, [userId, foodId, size, price, addons, quantity, sugar], (err, results) => {
+    if (err) {
+        console.error('Error adding item to cart:', err);
+        return res.status(500).json({ success: false, message: 'Failed to add item to cart' });
+    }
+
+    res.status(200).json({ success: true, message: 'Item added to cart', results });
+});
 });
 
 app.post('/update_items', (req, res) => {
@@ -562,7 +561,6 @@ app.post('/update_items', (req, res) => {
     });
 });
 
-
 app.post('/fetchAddons', (req,res) =>{
 
     const {id} = req.body
@@ -577,7 +575,6 @@ app.post('/fetchAddons', (req,res) =>{
     });
 
 })
-
 
 app.post('/menuOption', (req, res) => {
     
@@ -602,45 +599,44 @@ app.post('/menuOption', (req, res) => {
       }
       res.json(results);
     });
-  });
+});
 
+app.post('/login',async (req, res) => {
 
-  app.post('/login',async (req, res) => {
+const {email,password} = req.body
 
-    const {email,password} = req.body
+const sql = 'SELECT * FROM user WHERE email = ?';
 
-    const sql = 'SELECT * FROM user WHERE email = ?';
+db.query(sql, [email, password], (err, data) => {
+    const isMatch = bcrypt.compare(req.body.password,data[0].password);
+    if (err) {
+        return res.json("Error");
+    }
+    
+    if (data.length == 0) {
+        return res.json({ Login: false, Message: "NO RECORD EXISTED" });
+    } 
+    
+    const userData = data[0];
 
-    db.query(sql, [email, password], (err, data) => {
-        const isMatch = bcrypt.compare(req.body.password,data[0].password);
-        if (err) {
-            return res.json("Error");
-        }
-        
-        if (data.length == 0) {
-            return res.json({ Login: false, Message: "NO RECORD EXISTED" });
-        } 
-        
-        const userData = data[0];
+    if (!userData.verified) {
+        return res.status(401).json({ error: 'Account not verified. Please check your email for verification instructions.' });
+    }
+    
+    if (isMatch && data[0].role === 3){
+        req.session.userId = userData.id;
+        const name = data[0].name;
+        req.session.name = name;
+        req.session.role = 3;          
+        return res.json({ Login: true });
+    }
 
-        if (!userData.verified) {
-            return res.status(401).json({ error: 'Account not verified. Please check your email for verification instructions.' });
-        }
-        
-        if (isMatch && data[0].role === 3){
-            req.session.userId = userData.id;
-            const name = data[0].name;
-            req.session.name = name;
-            req.session.role = 3;          
-            return res.json({ Login: true });
-        }
+    else{
+        res.send("Wrong Password");
+            return
+    }
 
-        else{
-            res.send("Wrong Password");
-             return
-        }
-
-    });
+});
 });
 
 app.post('/logout', (req, res) => {
@@ -652,10 +648,6 @@ app.post('/logout', (req, res) => {
         return res.json({ success: true, message: 'Logout successful!' });
     });
 });
-
-
-
-
 
 app.get('/verify/:token', (req, res) => {
     const token = req.params.token;
@@ -2057,6 +2049,7 @@ app.post('/removeProduct',  async (req, res) =>{
                         u.pnum,
                         o.customer_id, 
                         o.order_date, 
+                        o.deliveryMethod,
                         o.status,
                         o.totalPrice, 
                         GROUP_CONCAT(
@@ -2075,7 +2068,7 @@ app.post('/removeProduct',  async (req, res) =>{
                         foods f ON f.id = of.food_id
                     JOIN 
                         user u ON u.id = o.customer_id
-                    WHERE o.status IN ('on process', 'paid') AND u.id = ?
+                    WHERE u.id = ?
 
                     GROUP BY 
                         o.order_id, 
@@ -2519,13 +2512,12 @@ app.post('/removeProduct',  async (req, res) =>{
         const { ticketId } = req.body;
       
         const sql = `
-                    SELECT om.id, u.name, om.sender_id, om.order_id, om.content, om.created_at
-                    FROM order_msg om
-                    JOIN orders o ON om.order_id = o.order_id
-                    JOIN user u ON om.sender_id = u.id
-                    WHERE om.order_id = ?
-                    ORDER BY o.status = 'close', om.created_at ASC;
-                    
+                    SELECT m.id, u.name,m.sender_id, m.order_id, m.content, m.created_at
+                    FROM order_msg m
+                    JOIN orders o ON m.order_id = o.order_id
+                    JOIN user u ON m.sender_id = u.id
+                    WHERE m.order_id = ?
+                    ORDER BY m.created_at ASC;
                     
                     `;
 

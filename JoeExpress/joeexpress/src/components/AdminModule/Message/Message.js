@@ -171,7 +171,7 @@ export default function Message({}) {
          socket.on('receive_message', (messageData) => {
            // Update the message list with the new message
          if (messageData.userId !== userId) {
-         setMessageList((prevChat) => [...prevChat, messageData]);
+         setMessages((prevChat) => [...prevChat, messageData]);
          }
 
       });
@@ -182,9 +182,6 @@ export default function Message({}) {
          };
        }, [ticketId,userId]);
 
-      //  useEffect(() => {
-      //    setMessageList(messages);
-      //  }, [messages]);
 
 
    const sendMessage = async (e) => {
@@ -512,14 +509,6 @@ export default function Message({}) {
 
                   </div>
 
-                  {/* {messages.map((messageContent) => (
-                     <div key={messageContent.id} className={`mb-2 flex ${messageContent.senderId === userId ? 'justify-end' : 'justify-start'}`}>
-                        <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
-                        {messageContent.senderId !== userId ? `Me: ${messageContent.content}` : `${messageContent.author}: ${messageContent.content}`}
-                        </p>
-                     </div>
-                  ))} */}
-
                {messageList.map((messageContent) => {
                         return (
                            <div key={messageContent.id || messageContent.timestamp} className={`mb-2 flex ${messageContent.userId === userId  ? 'justify-end' : 'justify-start'}`}>
@@ -528,7 +517,7 @@ export default function Message({}) {
                               </p>
                            </div>
                         );
-                        })}
+                  })}
                   </div>
 
                   {/* Message input */}

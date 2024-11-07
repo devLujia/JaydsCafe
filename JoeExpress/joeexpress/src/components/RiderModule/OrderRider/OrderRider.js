@@ -136,7 +136,7 @@ export default function OrderRider() {
             console.error(err);
         });
   
-    })
+    },[userId])
 
   return (
     <div className='bg-slate-100 dark:bg-gray-700'>

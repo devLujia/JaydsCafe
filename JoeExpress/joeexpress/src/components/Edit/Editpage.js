@@ -93,7 +93,7 @@ export default function Editpage() {
             axios.post('http://localhost:8081/itemGetter', { userId })
                 .then(res => {
                     setCart(res.data.items);
-                    const total = res.data.items.reduce((sum, item) => sum + item.price, 0);
+                    const total = res.data.items?.reduce((sum, item) => sum + item.price, 0);
                     setTotalBill(total);
                 })
                 .catch(error => console.error('Error fetching item details:', error));

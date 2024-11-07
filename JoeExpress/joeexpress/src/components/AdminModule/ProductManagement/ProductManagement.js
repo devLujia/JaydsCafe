@@ -371,7 +371,7 @@ function ProductManagement() {
     
       const totalPages = Math.ceil(filteredFoods.length / itemsPerPage);
     
-      const currentItems = filteredFoods.slice(
+      const currentItems= filteredFoods.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
       );
@@ -675,7 +675,7 @@ function ProductManagement() {
                     
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
                         
-                          {currentItems.map((food) => (
+                          {currentItems?.map((food) => (
                             <div key={food.id} className="rounded-3xl p-3 shadow-2xl relative border-2 border-gray-300 hover:scale-95 duration-300 hover:bg-jaydsBg">
                               <div className="visibility-status">
                                   {food.visible === 1 ? (

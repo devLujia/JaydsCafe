@@ -168,7 +168,7 @@ export default function Checkout() {
         axios.post('http://localhost:8081/itemGetter', { userId })
             .then(res => {
                 setItems(res.data.items);
-                const total = items.reduce((sum, item) => sum + item.food_price, 0);
+                const total = items?.reduce((sum, item) => sum + item.food_price, 0);
                 setTotalBill(total);
 
             })
@@ -277,7 +277,7 @@ export default function Checkout() {
 
     useEffect(() => {
         
-        const total = items.reduce((sum, item) => {
+        const total = items?.reduce((sum, item) => {
           return sum + item.food_price * (item.quantity || 1);
         }, 0);
       
@@ -424,7 +424,7 @@ purchase securely.'>
             <div className='w-full px-5 lg:px-16 bg-gray-100'>
                 <div className='mt-10 space-y-4 h-96 overflow-hidden overflow-y-auto py-4'> {/* Main container */}
 
-                    {items.map(item => (
+                    {items?.map(item => (
 
                         <div key={item.id} className='flex flex-row items-center py-2'> {/* order list */}
                             
