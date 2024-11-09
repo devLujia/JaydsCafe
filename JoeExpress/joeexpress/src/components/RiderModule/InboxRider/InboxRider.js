@@ -61,6 +61,7 @@ export default function InboxRider() {
          const messageData = {
             author: `Rider`,
             room: specificOrderId,
+            role: 'Rider',
             userId: userId,
             message: currentMessage,
             time: `${new Date(Date.now()).getHours()}:${new Date(Date.now()).getMinutes()}`
@@ -78,7 +79,7 @@ export default function InboxRider() {
       socket.on('receive_message', (messageData) => {
          // Only add message if it was sent by someone else
          if (messageData.userId !== userId) {
-            setMessages((prevChat) => [...prevChat, messageData]);
+            setMessageList((prevChat) => [...prevChat, messageData]);
          }
       });
 

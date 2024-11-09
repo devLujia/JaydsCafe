@@ -2437,7 +2437,7 @@ app.post('/removeProduct',  async (req, res) =>{
               return;
             }
       
-            io.to(room).emit('receive_message', {
+            socket.to(room).emit('receive_message', {
                 room,
                 userId,
                 role,
@@ -2450,7 +2450,7 @@ app.post('/removeProduct',  async (req, res) =>{
         });
         
         socket.on('send_message_rider', async (messageData) => {
-            const { author, room, userId, message } = messageData;
+            const { author, room, role, userId, message } = messageData;
       
           const sql = `INSERT INTO order_msg (order_id, sender_id, content) VALUES (?, ?, ?)`;
           
@@ -2464,6 +2464,7 @@ app.post('/removeProduct',  async (req, res) =>{
             socket.to(room).emit('receive_message', {
               room: room, 
               userId: userId,
+              role,
               message,
               author, 
               createdAt: new Date().toLocaleTimeString() 
@@ -2638,8 +2639,9 @@ app.post('/removeProduct',  async (req, res) =>{
       
       
       app.post('/getRiderMessages', (req, res) => {
+        
         const { ticketId } = req.body;
-      
+
         const sql = `
                     SELECT m.id, u.name,m.sender_id, m.order_id, m.content, m.created_at
                     FROM order_msg m
