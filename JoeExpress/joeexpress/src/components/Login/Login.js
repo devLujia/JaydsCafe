@@ -20,7 +20,7 @@ const Login = () => {
         let hide = document.getElementById("hide");
         let password = document.getElementById("password");
 
-        if(password.type == "password"){
+        if(password.type === "password"){
             password.type = "text";
         }else{
             password.type = "password";
@@ -168,8 +168,10 @@ const Login = () => {
               .then(res => {
                   if (res.data.Login) {
                       navigation('/');
-                  } else {
-                      setErrors({ ...err, general: "Invalid Input! incorrect Email or Password" });  // Set a general error message
+                  } 
+                  else {
+                    setErrors(res.data.Message || 'Login failed.');
+                    
                   }
               })
               .catch(err => console.log(err));
@@ -200,6 +202,7 @@ const Login = () => {
 
       {/* Login Heading */}
       <h2 className="text-2xl md:text-3xl font-semibold mb-8 text-gray-700">Login</h2>
+
 
       {/* Form fields */}
       <form onSubmit={handleSubmit} action="/menu">

@@ -601,42 +601,47 @@ app.post('/menuOption', (req, res) => {
     });
 });
 
-app.post('/login',async (req, res) => {
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
 
-const {email,password} = req.body
+  const sql = 'SELECT * FROM user WHERE email = ?';
 
-const sql = 'SELECT * FROM user WHERE email = ?';
-
-db.query(sql, [email, password], (err, data) => {
-    const isMatch = bcrypt.compare(req.body.password,data[0].password);
+  db.query(sql, [email], async (err, data) => {
     if (err) {
-        return res.json("Error");
+      console.error("Error in database query:", err);
+      return res.status(500).json({ error: "Database error." });
     }
-    
-    if (data.length == 0) {
-        return res.json({ Login: false, Message: "NO RECORD EXISTED" });
-    } 
-    
+
+    // Check if the email exists
+    if (data.length === 0) {
+      return res.json({ Login: false, Message: "Email does not exist." });
+    }
+
     const userData = data[0];
 
+    // Check if the account is verified
     if (!userData.verified) {
-        return res.status(401).json({ error: 'Account not verified. Please check your email for verification instructions.' });
+      return res.status(401).json({ error: 'Account not verified. Please check your email for verification instructions.' });
     }
+
+    // Verify password
+    const isMatch = await bcrypt.compare(password, userData.password);
     
-    if (isMatch && data[0].role === 3){
+    if (isMatch) {
+      // Check if user role is 3 and set session variables if applicable
+      if (userData.role === 3) {
         req.session.userId = userData.id;
-        const name = data[0].name;
-        req.session.name = name;
-        req.session.role = 3;          
+        req.session.name = userData.name;
+        req.session.role = 3;
         return res.json({ Login: true });
+      } else {
+        return res.status(403).json({ error: "Unauthorized role." });
+      }
+    } else {
+      // If password is incorrect
+      return res.json({ Login: false, Message: "Wrong password." });
     }
-
-    else{
-        res.send("Wrong Password");
-            return
-    }
-
-});
+  });
 });
 
 app.post('/logout', (req, res) => {
@@ -2290,7 +2295,6 @@ app.post('/removeProduct',  async (req, res) =>{
 
     })
 
-
     app.post('/fetchSizes',(req,res)=>{
 
         const {foodId} = req.body
@@ -2308,10 +2312,9 @@ app.post('/removeProduct',  async (req, res) =>{
 
     })
 
-
     app.post('/orderNotif', (req,res) =>{
 
-        const {userId} = req.body
+        const {userId} = req.body;
 
         const query = `SELECT Count(*) as totalOrders FROM cart_items WHERE user_id = ?`;
             
@@ -2325,7 +2328,6 @@ app.post('/removeProduct',  async (req, res) =>{
 
             });
     })
-
 
     io.on('connection', (socket) => {
         console.log('A user connected: ' + socket.id);
@@ -2472,7 +2474,83 @@ app.post('/removeProduct',  async (req, res) =>{
         socket.on('disconnect', () => {
           console.log('User disconnected: ' + socket.id);
         });
+    });
+
+    app.post('/ChangeEmail', (req, res) => {
+        const { newEmail, userId } = req.body;
+      
+        if (!newEmail || !userId) {
+          return res.status(400).json({ success: false, message: "New email and user ID are required." });
+        }
+      
+        const query = `UPDATE user SET email = ? WHERE id = ?`;
+      
+        db.query(query, [newEmail, userId], (err, result) => {
+          if (err) {
+            console.error("Error in database query:", err);
+            return res.status(500).json({ success: false, message: "Database error." });
+          }
+      
+          if (result.affectedRows === 0) {
+            return res.status(404).json({ success: false, message: "User not found." });
+          }
+      
+          res.json({ success: true });
+        });
       });
+      
+    app.post('/ChangePassword', async (req, res) => {
+    const { password, newPassword, userId } = req.body;
+    
+    if (!password || !newPassword || !userId) {
+        return res.status(400).json({ success: false, message: "Current password, new password, and user ID are required." });
+    }
+    
+    try {
+        // Step 1: Retrieve the current hashed password from the database
+        const getPasswordQuery = `SELECT password FROM user WHERE id = ?`;
+    
+        db.query(getPasswordQuery, [userId], async (err, data) => {
+        if (err) {
+            console.error("Error retrieving password:", err);
+            return res.status(500).json({ success: false, message: "Database error." });
+        }
+    
+        if (data.length === 0) {
+            return res.status(404).json({ success: false, message: "User not found." });
+        }
+    
+        const storedHashedPassword = data[0].password;
+    
+        // Step 2: Compare the provided password with the stored hashed password
+        const isMatch = await bcrypt.compare(password, storedHashedPassword);
+        if (!isMatch) {
+            return res.status(401).json({ success: false, message: "Current password is incorrect." });
+        }
+    
+        // Step 3: Hash the new password and update it in the database
+        const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+        const updatePasswordQuery = `UPDATE user SET password = ? WHERE id = ?`;
+    
+        db.query(updatePasswordQuery, [hashedNewPassword, userId], (err, result) => {
+            if (err) {
+            console.error("Error updating password:", err);
+            return res.status(500).json({ success: false, message: "Database error." });
+            }
+    
+            if (result.affectedRows === 0) {
+            return res.status(404).json({ success: false, message: "User not found." });
+            }
+    
+            res.json({ success: true, message: "Password updated successfully." });
+        });
+        });
+    } catch (error) {
+        console.error("Error handling password change:", error);
+        res.status(500).json({ success: false, message: "Error updating password." });
+    }
+    });
+      
       
 // 
 

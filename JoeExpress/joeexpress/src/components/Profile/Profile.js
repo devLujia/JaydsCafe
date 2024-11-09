@@ -36,10 +36,23 @@ export default function Profile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isEditSecondModalOpen, setEditSecondModalOpen] = useState(false);
+  const [isChangeEmailModalOpen, setChangeEmailModalOpen] = useState(false);
+  const [isChangePasswordModalOpen, setChangePasswordModalOpen] = useState(false);
   const [news, setNew] = useState(false);
   const [newAddress, setNewAddress] = useState('');
   const [editAddress, setEditAddress] = useState('');
   const [oldAddress, setOldAddress] = useState('');
+
+  const [newEmail, setNewEmail] = useState("");
+  const [email, setEmail] = useState("");
+  const [confirmEmail, setConfirmEmail] = useState("");
+  
+  const [errorMessage, setErrorMessage] = useState("");
+  
+  const [newPassword, setNewPassword] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
 
   const navigate = useNavigate();
 
@@ -51,10 +64,37 @@ export default function Profile() {
     setOldAddress(address);
     setEditModalOpen(true);
   };
+  
+  const openChangeEmailModal = () => {
+    setChangeEmailModalOpen(true);
+    setErrorMessage('');
+  };
+  
+  const openChangePasswordModal = () => {
+    setChangePasswordModalOpen(true);
+    setErrorMessage('');
+  };
+  
+  const closeChangeEmailModal = () => {
+    setChangeEmailModalOpen(false);
+    setNewEmail('');
+    setNewEmail('');
+    setConfirmEmail('');
+    setErrorMessage('');
+  };
+  
+  const closeChangePasswordModal = () => {
+    setChangePasswordModalOpen(false); 
+    setPassword('');
+    setNewPassword('');
+    setConfirmPassword('');
+    setErrorMessage('');
+  };
 
   const openSecondEditModal = (address) => {
     setOldAddress(address);
     setEditSecondModalOpen(true);
+    setErrorMessage('');
   };
 
   const closeModal = () => {
@@ -179,8 +219,8 @@ export default function Profile() {
     try {
       const response = await axios.post('http://localhost:8081/updatePersonalInfo', {
         value: {
-          fullName: value.fullName || profile.name,  // Use `profile.name` if `value.fullName` is empty
-          pnum: value.pnum || profile.pnum           // Use `profile.pnum` if `value.pnum` is empty
+          fullName: value.fullName || profile.name,
+          pnum: value.pnum || profile.pnum    
         },
         userId: userId
       });
@@ -219,6 +259,87 @@ export default function Profile() {
       }
 
   }, [userId]);
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (newEmail !== confirmEmail) {
+      setErrorMessage("Emails do not match!");
+      return;
+    }
+    
+    if (!newEmail || !confirmEmail) {
+      setErrorMessage("Please fill in both fields.");
+      return;
+    }
+
+    if(email !== profile.email){
+      setErrorMessage("Wrong Current Email");
+      return;
+    }
+  
+    try {
+      const response = await axios.post('http://localhost:8081/ChangeEmail', { newEmail, userId });
+      
+      if (response.data.success) {
+        alert('Email changed successfully!');
+        setChangeEmailModalOpen(false);
+      } else {
+        setErrorMessage("Failed to update email. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error updating email:", error);
+      setErrorMessage("An error occurred. Please try again.");
+    }
+  };
+
+  const handleChangePasswordSubmit = async (e) => {
+    e.preventDefault();
+    
+    
+    if (newPassword !== confirmPassword) {
+      setErrorMessage("Password do not match!");
+      return;
+    }
+    
+    if (!newPassword || !confirmPassword) {
+      setErrorMessage("Please fill in both fields.");
+      return;
+    }
+  
+    try {
+      const response = await axios.post('http://localhost:8081/ChangePassword', {password, newPassword, userId });
+      
+      if (response.data.success) {
+        alert('Password changed successfully!');
+        setChangeEmailModalOpen(false);
+        handleLogout('/');
+      } else {
+        setErrorMessage(response.data.message || "Failed to update password.");
+      }
+    } catch (error) {
+      console.error("Error updating email:", error);
+      setErrorMessage("An error occurred. Please try again.");
+    }
+
+  };
+
+
+  const handleLogout = async () => {
+    try {
+      const res = await axios.post('http://localhost:8081/logout');
+      if (res.data.success) {
+        // eslint-disable-next-line no-restricted-globals
+        location.reload();
+        navigate('/');
+      } else {
+        console.log('Logout Failed');
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+  
 
   
 
@@ -519,7 +640,7 @@ export default function Profile() {
             
             :""}
 
-            {isModalOpen && (
+              {isModalOpen && (
                 <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
                   <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-80">
                     <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Add New Address</h2>
@@ -578,6 +699,7 @@ export default function Profile() {
                   </div>
                 </div>
               )}
+              
 
       {/* Add New Address Modal */}
       <div id="crud-modal" tabIndex="-1" aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -707,6 +829,146 @@ export default function Profile() {
               </form>
             </div>
 
+
+
+            {isChangeEmailModalOpen && (
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
+                  <div className="bg-white p-6 rounded-lg w-full max-w-md">
+                    <h2 className="text-2xl font-semibold mb-4">Change Email</h2>
+                    {errorMessage && (
+                      <div className="text-red-500 text-sm mb-4">{errorMessage}</div>
+                    )}
+                    <form onSubmit={handleSubmit}>
+                      <div className="mb-4">
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                          Current Email
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <label htmlFor="newEmail" className="block text-sm font-medium text-gray-700">
+                          New Email
+                        </label>
+                        <input
+                          type="email"
+                          id="newEmail"
+                          name='newEmail'
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                          value={newEmail}
+                          onChange={(e) => setNewEmail(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <label htmlFor="confirmEmail" className="block text-sm font-medium text-gray-700">
+                          Confirm New Email
+                        </label>
+                        <input
+                          type="email"
+                          id="confirmEmail"
+                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                          value={confirmEmail}
+                          onChange={(e) => setConfirmEmail(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <button
+                          type="button"
+                          onClick={closeChangeEmailModal}
+                          className="px-4 py-2 bg-gray-300 text-black rounded-md"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="submit"
+                          className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                        >
+                          Save Changes
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
+
+            {isChangePasswordModalOpen && (
+                            <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
+                              <div className="bg-white p-6 rounded-lg w-full max-w-md">
+                                <h2 className="text-2xl font-semibold mb-4">Change Password</h2>
+                                {errorMessage && (
+                                  <div className="text-red-500 text-sm mb-4">{errorMessage}</div>
+                                )}
+                                <form onSubmit={handleChangePasswordSubmit}>
+                                  <div className="mb-4">
+                                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                                      Current password
+                                    </label>
+                                    <input
+                                      type="password"
+                                      id="password"
+                                      name="password"
+                                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                      value={password}
+                                      onChange={(e) => setPassword(e.target.value)}
+                                      required
+                                    />
+                                  </div>
+                                  <div className="mb-4">
+                                    <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700">
+                                      New Password
+                                    </label>
+                                    <input
+                                      type="password"
+                                      id="newPassword"
+                                      name='newPassword'
+                                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                      value={newPassword}
+                                      onChange={(e) => setNewPassword(e.target.value)}
+                                      required
+                                    />
+                                  </div>
+
+                                  <div className="mb-4">
+                                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+                                      Confirm New Email
+                                    </label>
+                                    <input
+                                      type="password"
+                                      id="confirmPassword"
+                                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                      value={confirmPassword}
+                                      onChange={(e) => setConfirmPassword(e.target.value)}
+                                      required
+                                    />
+                                  </div>
+                                  <div className="flex justify-between items-center">
+                                    <button
+                                      type="button"
+                                      onClick={closeChangePasswordModal}
+                                      className="px-4 py-2 bg-gray-300 text-black rounded-md"
+                                    >
+                                      Cancel
+                                    </button>
+                                    <button
+                                      type="submit"
+                                      className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                                    >
+                                      Save Changes
+                                    </button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          )}  
+
       {/* Login Information Section */}
       <div className="pb-8">
         <h2 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-3">Login Information</h2>
@@ -723,7 +985,7 @@ export default function Profile() {
               />
               <img src={mail} alt="Mail Icon" className="w-5 h-5 text-gray-500" />
             </div>
-            <a href="#" className="text-sm text-blue-600 dark:text-blue-400 hover:underline mt-2">Change Email</a>
+            <button onClick={openChangeEmailModal} className="text-sm text-blue-600 dark:text-blue-400 hover:underline mt-2">Change Email</button>
           </div>
 
           <div className="flex flex-col space-y-1">
@@ -737,12 +999,21 @@ export default function Profile() {
               />
               <img src={key} alt="Key Icon" className="w-5 h-5 text-gray-500" />
             </div>
-            <a href="#" className="text-sm text-blue-600 dark:text-blue-400 hover:underline mt-2">Change Password</a>
+            <button onClick={openChangePasswordModal} className="text-sm text-blue-600 dark:text-blue-400 hover:underline mt-2">Change Password</button>
+
+
           </div>
         </div>
       </div>
     </div>
   </div>
+
+
+        
+
+
+
+
 )}
 
 

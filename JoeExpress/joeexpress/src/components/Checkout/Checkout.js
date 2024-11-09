@@ -378,21 +378,22 @@ export default function Checkout() {
                                         {/* <label htmlFor="add1" class="w-full ms-3 text-sm font-normal text-gray-700 tracking-wide">Imus, Cavite, 1401, Phillipines</label> */}
                                     </div>
                                 </label>
-                                <label htmlFor="add2"  class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
-                                    <input 
-                                    type="radio" 
-                                    id="add2" 
-                                    name="hostinge" 
-                                    value={profile.secondary_address} 
-                                    checked={deliveryAddress === profile.secondary_address}
-                                    onChange={handleAddressChange}
-                                    class="peer text-textgreenColor focus:ring-textgreenColor"
-                                    />
-                                    <div className='flex flex-col py-4 overflow-hidden'>
-                                        <label htmlFor="add2" class="w-full ms-3 text-sm font-medium text-gray-900 tracking-wide">{profile.secondary_address}</label>
-                                        {/* <label htmlFor="add1" class="w-full ms-3 text-sm font-normal text-gray-700 tracking-wide">Imus, Cavite, 1401, Phillipines</label> */}
-                                    </div>
-                                </label>
+                                {profile.secondary_address &&
+                                    (<label htmlFor="add2"  class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
+                                        <input 
+                                        type="radio" 
+                                        id="add2" 
+                                        name="hostinge" 
+                                        value={profile.secondary_address} 
+                                        checked={deliveryAddress === profile.secondary_address}
+                                        onChange={handleAddressChange}
+                                        class="peer text-textgreenColor focus:ring-textgreenColor"
+                                        />
+                                        <div className='flex flex-col py-4 overflow-hidden'>
+                                            <label htmlFor="add2" class="w-full ms-3 text-sm font-medium text-gray-900 tracking-wide">{profile.secondary_address}</label>
+                                            {/* <label htmlFor="add1" class="w-full ms-3 text-sm font-normal text-gray-700 tracking-wide">Imus, Cavite, 1401, Phillipines</label> */}
+                                        </div>
+                                    </label>)}
                                 
                                 
                                 {news ? 
