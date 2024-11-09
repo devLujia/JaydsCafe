@@ -31,15 +31,19 @@ export default function Order_New() {
     const [tier3,setTier3] = useState([])
     const [tier,setTier] = useState([])
 
-    useEffect(()=>{
-        axios.post('http://localhost:8081/roleSetup')
-        .then(response=>{
-            setTier(response.data)
-        })
-        .catch(error => {
-            console.error('Error fetching food details:', error);
-        });
-    },[])
+    useEffect(() => {
+        const fetchRoleSetup = async () => {
+            try {
+                const response = await axios.post('http://localhost:8081/roleSetup');
+                setTier(response.data);
+            } catch (error) {
+                console.error('Error fetching role setup details:', error);
+            }
+        };
+    
+        fetchRoleSetup();
+    }, []);
+    
 
     useEffect(() => {
 
@@ -83,29 +87,35 @@ export default function Order_New() {
         fetchData();
         }, [navigate]);
 
-    useEffect(() =>{
-      
-      axios.post('http://localhost:8081/profile', { userId })
-      .then(response=>{
-         setProfile(response.data);
-      })
-      .catch(error => {
-         console.error('Error fetching profile details:', error);
-       });
-
-    },[userId])
+        useEffect(() => {
+            const fetchProfile = async () => {
+                try {
+                    const response = await axios.post('http://localhost:8081/profile', { userId });
+                    setProfile(response.data);
+                } catch (error) {
+                    console.error('Error fetching profile details:', error);
+                }
+            };
+        
+            if (userId) {
+                fetchProfile();
+            }
+        }, [userId]);
+        
     
-    useEffect(() =>{
-      
-      axios.post('http://localhost:8081/getRider')
-      .then(response=>{
-         setRiders(response.data);
-      })
-      .catch(error => {
-         console.error('Error fetching profile details:', error);
-       });
-
-    },[])
+        useEffect(() => {
+            const fetchRiders = async () => {
+                try {
+                    const response = await axios.post('http://localhost:8081/getRider');
+                    setRiders(response.data);
+                } catch (error) {
+                    console.error('Error fetching rider details:', error);
+                }
+            };
+        
+            fetchRiders();
+        }, []);
+        
 
     //for dropdown user
     const toggleDropdown = () => {
@@ -135,14 +145,6 @@ export default function Order_New() {
   
     ]);
 
-    // useEffect(()=>{
-
-    //     axios.post('http://localhost:8081/orderTracking')
-    //     .then(res=>{
-    //         setOrders(res.data);
-    //     });
-  
-    // })
 
     useEffect(() => { 
         socket.on('orders', (data) => {

@@ -63,80 +63,74 @@ export default function OrderRider() {
         
         }, [navigate]);
 
-    useEffect(() =>{
-      
-        axios.post('http://localhost:8081/profile', { userId })
-        .then(response=>{
-           setProfile(response.data);
-        })
-        .catch(error => {
-           console.error('Error fetching profile details:', error);
-        });
-  
-      },[userId])
-
-    const getTheOrder = (id, stats) => {
-
-        let newStatus = ''; 
-
-        if (stats === 'unpaid') {
-            newStatus = 'paid';
-        }
-      
-        else if (stats === 'paid') {
-          newStatus = 'on process';
-        } 
+        useEffect(() => {
+            const fetchProfile = async () => {
+                try {
+                    const response = await axios.post('http://localhost:8081/profile', { userId });
+                    setProfile(response.data);
+                } catch (error) {
+                    console.error('Error fetching profile details:', error);
+                }
+            };
         
-        else if (stats === 'on process') {
-          newStatus = 'pending rider';
-        }
-
-        else if (stats === 'pending rider') {
-          newStatus = 'on delivery';
-        }
-
-        else if (stats === 'on delivery') {
-            newStatus = 'completed';
-        }
-  
-        setUpdateOrder(prevState => 
-           prevState.map(order => ({
-             ...order,
-             order_id: id,
-             status: newStatus,
-             
-           }))
-        );
-  
-        if(userId){
-            axios.post('http://localhost:8081/updateOrders', {
-                status: newStatus,
-                order_id: id,
-                riderId: userId
-            })
-              .then(res => {
-                console.log('Order updated successfully:', res.data);
-              })
-              .catch(err => {
-                console.error('Error updating the order:', err);
-              });
-        }
-
+            if (userId) {
+                fetchProfile();
+            }
+        }, [userId]);
         
-  
-      }
 
-    useEffect(()=>{
+        const getTheOrder = async (id, stats) => {
+            let newStatus = '';
+        
+            if (stats === 'unpaid') {
+                newStatus = 'paid';
+            } else if (stats === 'paid') {
+                newStatus = 'on process';
+            } else if (stats === 'on process') {
+                newStatus = 'pending rider';
+            } else if (stats === 'pending rider') {
+                newStatus = 'on delivery';
+            } else if (stats === 'on delivery') {
+                newStatus = 'completed';
+            }
+        
+            // Update state with new order status
+            setUpdateOrder(prevState =>
+                prevState.map(order =>
+                    order.order_id === id ? { ...order, status: newStatus } : order
+                )
+            );
+        
+            if (userId) {
+                try {
+                    const response = await axios.post('http://localhost:8081/updateOrders', {
+                        status: newStatus,
+                        order_id: id,
+                        riderId: userId
+                    });
+                    console.log('Order updated successfully:', response.data);
+                } catch (err) {
+                    console.error('Error updating the order:', err);
+                }
+            }
+        };
+        
 
-        axios.post('http://localhost:8081/riderOrderHistory', {userId})
-        .then(res => {
-            setOrders(res.data);
-            })
-        .catch(err => {
-            console.error(err);
-        });
-  
-    },[userId])
+        useEffect(() => {
+            const fetchOrderHistory = async () => {
+                try {
+                    const response = await axios.post('http://localhost:8081/riderOrderHistory', { userId });
+                    setOrders(response.data);
+                } catch (err) {
+                    console.error('Error fetching rider order history:', err);
+                }
+            };
+        
+            if (userId) {
+                fetchOrderHistory();
+            }
+        }, [userId,updateOrder]);
+        
 
   return (
     <div className='bg-slate-100 dark:bg-gray-700'>

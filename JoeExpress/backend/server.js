@@ -2146,6 +2146,37 @@ app.post('/removeProduct',  async (req, res) =>{
         });
 
     })
+    
+        
+    app.post('/updateAdminInfo', async (req, res) => {
+        try {
+            const { fullName, email, password } = req.body.value;
+            const { userId } = req.body;
+            
+            let query;
+            let queryParams;
+            
+            if (password) {
+                const hashedPassword = await bcrypt.hash(password, 10);
+                query = `UPDATE user SET name = ?, email = ?, password = ? WHERE id = ?`;
+                queryParams = [fullName, email, hashedPassword, userId];
+            } else {
+                query = `UPDATE user SET name = ?, email = ? WHERE id = ?`;
+                queryParams = [fullName, email, userId];
+            }
+
+            db.query(query, queryParams, (err, result) => {
+                if (err) {
+                    console.error('Error updating admin info:', err);
+                    return res.status(500).json({ error: 'Failed to update admin info' });
+                }
+                res.json({ success: true });
+            });
+        } catch (error) {
+            console.error('Error in updating admin info:', error);
+            res.status(500).json({ error: 'Failed to update admin info' });
+        }
+    });
 
 
     app.post('/profile',(req,res) =>{

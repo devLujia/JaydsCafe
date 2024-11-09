@@ -117,38 +117,54 @@ export default function Profile() {
  axios.defaults.withCredentials = true;
 
   useEffect(() => {
-    axios.get('http://localhost:8081/')
-      .then(res => {
-        if (res.data.valid) {
-          setAuthenticated(true);
-          setUserId(res.data.userId);
-        } else {
-          navigate('/');
+    const checkAuthentication = async () => {
+        try {
+            const res = await axios.get('http://localhost:8081/');
+            if (res.data.valid) {
+                setAuthenticated(true);
+                setUserId(res.data.userId);
+            } else {
+                navigate('/');
+            }
+        } catch (err) {
+            console.log('Error:', err);
         }
-      })
-      .catch(err => console.log(err));
+    };
+
+    checkAuthentication(); // Call the async function
   }, [navigate]);
 
 
   useEffect(() => {
-    axios.post('http://localhost:8081/personalOrder', { userId })
-      .then(res => {
-        setOrders(res.data);
-      })
-      .catch(error => {
-        console.error('Error fetching orders:', error);
-      });
-  }, [userId]);
+    const fetchOrders = async () => {
+        try {
+            const res = await axios.post('http://localhost:8081/personalOrder', { userId });
+            setOrders(res.data);
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+        }
+    };
+
+    if (userId) {
+        fetchOrders(); // Call the async function to fetch orders
+    }
+}, [userId]);
  
   useEffect(() => {
-    axios.post('http://localhost:8081/profile',  { userId})
-      .then(res => {
-        setProfile(res.data);
-      })
-      .catch(error => {
-        console.error('Error fetching profile:', error);
-      });
-  }, [userId,isModalOpen,isEditModalOpen,isEditSecondModalOpen,news]);
+    const fetchProfile = async () => {
+        try {
+            const res = await axios.post('http://localhost:8081/profile', { userId });
+            setProfile(res.data);
+        } catch (error) {
+            console.error('Error fetching profile:', error);
+        }
+    };
+
+    if (userId) {
+        fetchProfile(); // Call the async function to fetch the profile
+    }
+  }, [userId, isModalOpen, isEditModalOpen, isEditSecondModalOpen, news]);
+
 
   //for switch tabs
   const [activeTab, setActiveTab] = useState('order');
@@ -157,65 +173,90 @@ export default function Profile() {
     setActiveTab(tab);
   };
 
-  const addAddress = () =>{
+  const addAddress = async () => {
+    try {
+        if (newAddress !== profile.address && newAddress !== '') {
+            const res = await axios.post('http://localhost:8081/addAddress', {
+                second_address: newAddress,
+                userId: userId
+            });
 
-    if(newAddress !== profile.address || ''){
-      axios.post('http://localhost:8081/addAddress',  {second_address: newAddress, userId: userId})
-      .then(res => {
-        if(res.data.success){
-          alert("Update Successfully");
-          closeModal();
+            if (res.data.success) {
+                alert("Update Successful");
+                closeModal();
+            } else {
+                alert("Update Failed");
+            }
+        } else {
+            alert("No changes made or invalid address.");
         }
-      })
-      .catch(error => {
-        console.error('Error fetching profile:', error);
-      });
-    }else{
-      alert("Update Failed");
+    } catch (error) {
+        console.error('Error updating address:', error);
+        alert("An error occurred. Please try again.");
+    }
+};
+
+
+  const handleEditAddress = async () => {
+    try {
+        // Check if the new address is different from the current address and not empty
+        if (editAddress !== profile.address && editAddress !== '') {
+            const res = await axios.post('http://localhost:8081/editAddress', {
+                newAddress: editAddress,
+                userId: userId,
+                oldAddress: profile.address // Ensure `oldAddress` is correctly passed
+            });
+
+            if (res.data.success) {
+                alert("Update Successfully");
+                closeEditModal(); // Close the modal after a successful update
+            } else {
+                alert("Update Failed"); // Handle failure
+            }
+        } else {
+            alert("No changes made or invalid address.");
+        }
+    } catch (error) {
+        console.error('Error updating address:', error);
+        alert("An error occurred. Please try again.");
+    }
+  };
+
+
+  const handleSecondAddress = async () => {
+    try {
+        // Check if the new address is different from the current second address and not empty
+        if (editAddress !== profile.second_address && editAddress !== '') {
+            const res = await axios.post('http://localhost:8081/editSecondaryAddress', {
+                newAddress: editAddress,
+                userId: userId,
+                oldAddress: profile.second_address // Ensure you're passing the correct old address
+            });
+
+            if (res.data.success) {
+                alert("Update Successfully");
+                closeSecondEditModal(); // Close the modal after a successful update
+            } else {
+                alert("Update Failed"); // Handle failure
+            }
+        } else {
+            alert("No changes made or invalid address.");
+        }
+    } catch (error) {
+        console.error('Error updating secondary address:', error);
+        alert("An error occurred. Please try again.");
+    }
+};
+
+
+  const submitPersonalInfo = async () => {
+
+    if (!value.fullName && !profile.name) {
+      alert("Full name is required.");
+      return;
     }
     
 
-  }
-
-  const handleEditAddress = () =>{
-    if(editAddress !== profile.address || ''){
-      
-      axios.post('http://localhost:8081/editAddress',  {newAddress: editAddress, userId: userId, oldAddress})
-    .then(res => {
-      if(res.data.success){
-        alert("Update Successfully");
-        closeEditModal();
-      }
-    })
-    .catch(error => {
-      console.error('Error fetching profile:', error);
-    });
-    }
-    else{
-      alert("Update Failed");
-    }
-  }
-
-  const handleSecondAddress = () =>{
-    if(editAddress !== profile.second_address || ''){
-      
-      axios.post('http://localhost:8081/editSecondaryAddress',  {newAddress: editAddress, userId: userId, oldAddress})
-        .then(res => {
-          if(res.data.success){
-            alert("Update Successfully");
-            closeSecondEditModal();
-          }
-    })
-        .catch(error => {
-          console.error('Error fetching profile:', error);
-        });
-      }
-      else{
-        alert("Update Failed");
-      }
-  }
-
-  const submitPersonalInfo = async () => {
     try {
       const response = await axios.post('http://localhost:8081/updatePersonalInfo', {
         value: {
@@ -235,7 +276,8 @@ export default function Profile() {
           alert("An error occurred. Please try again later.");
           console.error("Error updating personal info:", error);
         }
-      };
+  };
+
       const handlePersonalInfo = (e) => {
         const { name, value } = e.target;
         setValue((prevState) => ({
@@ -797,7 +839,7 @@ export default function Profile() {
                         value={value.fullName}
                         onChange={handlePersonalInfo}
                         className="bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2 outline-none placeholder-gray-500"
-                        placeholder={profile.name}
+                        placeholder={profile?.name}
                         required
                       />
                       <img src={lock} alt="Lock Icon" className="w-auto h-7" />
@@ -810,10 +852,10 @@ export default function Profile() {
                         type="number"
                         id="pnum"
                         name="pnum"
-                        value={value.pNum}
+                        value={value?.pNum}
                         onChange={handlePersonalInfo}
                         className="bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2 outline-none placeholder-gray-500"
-                        placeholder={profile.pnum}
+                        placeholder={profile?.pnum}
                         required
                       />
                       <img src={lock} alt="Lock Icon" className="w-auto h-7" />

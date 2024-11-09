@@ -4,15 +4,16 @@ import React, { useEffect, useState } from 'react';
 function RemoveProduct({ closeModal, id }) {
 
     const handleRemoveProduct = async () => {
-       
-            
-        const res = await axios.post('http://localhost:8081/removeProduct', { id });
-        if (res.data.success){
+        try {
+          const res = await axios.post('http://localhost:8081/removeProduct', { id });
+          if (res.data.success) {
             closeModal(false);
+          }
+        } catch (error) {
+          console.log("There was an error deleting the product!", error);
         }
-
-        
-    };
+      };
+      
 
     return (
         <div>

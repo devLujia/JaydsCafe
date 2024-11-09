@@ -101,7 +101,10 @@ export default function InboxRider() {
           }
       };
   
-      getOrderId();
+      if(userId){
+         getOrderId();
+      }
+      
   }, [userId]);
 
    const fetchMessages = async (order) => {
@@ -127,17 +130,21 @@ export default function InboxRider() {
       }
    };
 
-   useEffect(() =>{
-
-      axios.post('http://localhost:8081/profile', {userId:userId} )
-      .then(response=>{
-         setProfile(response.data);
-      }) 
-      .catch(error => {
-         console.error('Error fetching profile details:', error);
-      });
-
-},[userId])
+   useEffect(() => {
+      const fetchProfile = async () => {
+        try {
+          const response = await axios.post('http://localhost:8081/profile', { userId });
+          setProfile(response.data);
+        } catch (error) {
+          console.error('Error fetching profile details:', error);
+        }
+      };
+    
+      if(userId){
+         fetchProfile();
+      }
+      
+    }, [userId]);
 
 useEffect(() => {
    const fetchData = async () => {

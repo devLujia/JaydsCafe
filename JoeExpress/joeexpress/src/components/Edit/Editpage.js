@@ -22,22 +22,36 @@ export default function Editpage() {
 
     // Fetch the food item details
     useEffect(() => {
-        axios.get(`http://localhost:8081/items/${foodId}`)
-            .then(res => setFood(res.data.data))
-            .catch(err => console.log(err));
-    }, [foodId]);
+        const fetchFood = async () => {
+            try {
+                const res = await axios.get(`http://localhost:8081/items/${foodId}`);
+                setFood(res.data.data);
+            } catch (err) {
+                console.log('Error fetching food details:', err);
+            }
+        };
+    
+        if (foodId) {  // Ensure the request is only made when foodId is available
+            fetchFood();
+        }
+    }, [foodId]);  // Runs whenever foodId changes
+    
     
     useEffect(() => {
+        const fetchOrderNotif = async () => {
+            try {
+                const response = await axios.post('http://localhost:8081/orderNotif', { userId });
+                setOrderNotif(response.data);
+            } catch (error) {
+                console.error('Error fetching orderNotif details:', error);
+            }
+        };
     
-        axios.post('http://localhost:8081/orderNotif', { userId })
-          .then(response => {
-            setOrderNotif(response.data);
-          })
-          .catch(error => {
-            console.error('Error fetching orderNotif details:', error);
-          });
+        if (userId) {  // Ensure the request is only made when userId is available
+            fetchOrderNotif();
+        }
+    }, [userId]);  // Runs when userId changes
     
-      }, [userId]);
 
     // Handle size selection
     const handleInput = (event, size, price) => {
@@ -59,46 +73,58 @@ export default function Editpage() {
 
     // Fetch food sizes
     useEffect(() => {
-        if (foodId) {
-            axios.post(`http://localhost:8081/sizes`, { foodId })
-                .then(res => setSizes(res.data))
-                .catch(err => console.error('Error fetching sizes:', err));
-        }
-    }, [foodId]);
+        const fetchSizes = async () => {
+            if (foodId) {
+                try {
+                    const res = await axios.post('http://localhost:8081/sizes', { foodId });
+                    setSizes(res.data);
+                } catch (err) {
+                    console.error('Error fetching sizes:', err);
+                }
+            }
+        };
+    
+        fetchSizes();  // Call the async function
+    
+    }, [foodId]);  // Runs when foodId changes
+    
 
     // Fetch addons
     useEffect(() => {
-        axios.post('http://localhost:8081/Addons')
-            .then(res => setAddons(res.data))
-            .catch(error => console.error('Error fetching addons details:', error));
+        const fetchAddons = async () => {
+            try {
+                const res = await axios.post('http://localhost:8081/Addons');
+                setAddons(res.data);
+            } catch (error) {
+                console.error('Error fetching addons details:', error);
+            }
+        };
+    
+        fetchAddons(); 
     }, []);
 
-    // Check authentication status
-    // useEffect(() => {
-    //     axios.get('http://localhost:8081/')
-    //         .then(res => {
-    //             if (res.data.valid) {
-    //                 setAuthenticated(true);
-    //                 setUserId(res.data.userId);
-    //             } else {
-    //                 navigate('/');
-    //             }
-    //         })
-    //         .catch(err => console.log(err));
-    // }, [navigate]);
-
-    // Fetch cart items
     useEffect(() => {
-        if (userId) {
-            axios.post('http://localhost:8081/itemGetter', { userId })
-                .then(res => {
+        const fetchCartItems = async () => {
+            if (userId) {
+                try {
+                    const res = await axios.post('http://localhost:8081/itemGetter', { userId });
                     setCart(res.data.items);
+    
+                    // Calculate the total price
                     const total = res.data.items?.reduce((sum, item) => sum + item.price, 0);
                     setTotalBill(total);
-                })
-                .catch(error => console.error('Error fetching item details:', error));
-        }
-    }, [userId]);
+                } catch (error) {
+                    console.error('Error fetching item details:', error);
+                }
+            }
+        };
+    
+        if (userId) {
+            fetchCartItems()
+        };  // Call the async function
+    
+    }, [userId]);  // Runs whenever userId changes
+    
 
     // Add item to cart
     const addToCartApi = async (food, userId) => {

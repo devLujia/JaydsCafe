@@ -40,25 +40,33 @@ export default function CustomerAccount() {
     const [tier3,setTier3] = useState([])
     const [tier,setTier] = useState([])
 
-    useEffect(()=>{
-        axios.post('http://localhost:8081/roleSetup')
-        .then(response=>{
-            setTier(response.data)
-        })
-        .catch(error => {
-            console.error('Error fetching food details:', error);
-        });
-    },[])
+    useEffect(() => {
+        const fetchRoleData = async () => {
+            try {
+                const response = await axios.post('http://localhost:8081/roleSetup');
+                setTier(response.data);
+            } catch (error) {
+                console.error('Error fetching role data:', error);
+            }
+        };
     
-    useEffect(()=>{
-        axios.post('http://localhost:8081/getRole')
-        .then(response=>{
-            setgetRole(response.data)
-        })
-        .catch(error => {
-            console.error('Error fetching food details:', error);
-        });
-    },[addRoleModal])
+        fetchRoleData();
+    }, []);
+    
+    
+    useEffect(() => {
+        const fetchRoleData = async () => {
+            try {
+                const response = await axios.post('http://localhost:8081/getRole');
+                setgetRole(response.data);
+            } catch (error) {
+                console.error('Error fetching role data:', error);
+            }
+        };
+    
+        fetchRoleData();
+    }, [addRoleModal]);
+    
 
     useEffect(() => {
 
@@ -177,27 +185,33 @@ export default function CustomerAccount() {
         fetchData();
         }, [navigate]);
 
-    useEffect(() =>{
-      
-      axios.post('http://localhost:8081/profile', { userId })
-      .then(response=>{
-         setProfile(response.data);
-      })
-      .catch(error => {
-         console.error('Error fetching profile details:', error);
-       });
+        useEffect(() => {
+            const fetchProfileData = async () => {
+                try {
+                    const response = await axios.post('http://localhost:8081/profile', { userId });
+                    setProfile(response.data);
+                } catch (error) {
+                    console.error('Error fetching profile details:', error);
+                }
+            };
+        
+            if(userId){fetchProfileData()};
+        }, [userId]);
+        
 
-    },[userId])
-
-    useEffect(()=>{
-        axios.post('http://localhost:8081/fetchUserData')
-        .then(result =>{
-            setUserData(result.data);
-        })
-        .catch(error=>{
-            console.log("There was an error on fetching the users details! ", error);
-        });
-    },[])
+        useEffect(() => {
+            const fetchUserData = async () => {
+                try {
+                    const result = await axios.post('http://localhost:8081/fetchUserData');
+                    setUserData(result.data);
+                } catch (error) {
+                    console.log("There was an error on fetching the user's details! ", error);
+                }
+            };
+        
+            fetchUserData();
+        }, []);
+        
 
     //for dropdown user
     const toggleDropdown = () => {
@@ -219,23 +233,6 @@ export default function CustomerAccount() {
         }
     };
     
-    // useEffect(()=>{
-    //     const button = document.querySelector('[data-collapse-toggle="dropdown-example"]');
-    //     const dropdown = document.getElementById('dropdown-example');
-    
-    //     button.addEventListener('click', () => {
-    //     dropdown.classList.toggle('hidden');
-    //     });
-    
-    //     // Dropdown sa Avatar
-    //     const avatarButton = document.getElementById('avatarButton');
-    //     const userDropdown = document.getElementById('userDropdown');
-    
-    //     avatarButton.addEventListener('click', () => {
-    //     userDropdown.classList.toggle('hidden');
-    //     });
-
-    // })
 
   return (
     <div>

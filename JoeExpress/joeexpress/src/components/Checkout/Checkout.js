@@ -179,44 +179,62 @@ export default function Checkout() {
     }, 1000);
   };
     
-    useEffect(() => {
-        axios.get('http://localhost:8081/')
-          .then(res => {
+  useEffect(() => {
+    const checkAuthentication = async () => {
+        try {
+            const res = await axios.get('http://localhost:8081/');
             if (res.data.valid) {
-              setAuthenticated(true);
-              setUserId(res.data.userId);
-              
+                setAuthenticated(true);
+                setUserId(res.data.userId);
             } else {
-              navigate('/');
+                navigate('/');
             }
-          })
-          .catch(err => console.log(err));
-      }, [navigate]);
+        } catch (err) {
+            console.log('Error during authentication check:', err);
+        }
+    };
+
+    checkAuthentication();  // Call the async function
+
+}, [navigate]);
+
 
     useEffect(() => {
-        axios.post('http://localhost:8081/itemGetter', { userId })
-            .then(res => {
+        const fetchItems = async () => {
+            try {
+                const res = await axios.post('http://localhost:8081/itemGetter', { userId });
                 setItems(res.data.items);
-                const total = items?.reduce((sum, item) => sum + item.food_price, 0);
-                setTotalBill(total);
 
-            })
-            .catch(error => {
+                // Calculate total bill directly after getting the new items
+                const total = res.data.items.reduce((sum, item) => sum + item.food_price, 0);
+                setTotalBill(total);
+            } catch (error) {
                 console.error('Error fetching item details:', error);
-            });
-    },[userId,items]);
+            }
+        };
+
+        if (userId) {  // Ensure the request is only made when userId is available
+            fetchItems();
+        }
+    }, [userId]);  // Dependency array only includes userId
+
     
     
     useEffect(() => {
-        axios.post('http://localhost:8081/profile', { userId })
-            .then(res => {
+        const fetchProfile = async () => {
+            try {
+                const res = await axios.post('http://localhost:8081/profile', { userId });
                 setProfile(res.data);
-
-            })
-            .catch(error => {
-                console.error('Error fetching item details:', error);
-            });
-    },[userId]);
+            } catch (error) {
+                console.error('Error fetching profile details:', error);
+            }
+        };
+    
+        if (userId) {
+            fetchProfile();  // Only call the fetchProfile function when userId is available
+        }
+    }, [userId]);  // Runs when userId changes
+    
 
     const handleCloseModal = () => {
         setShowModal(false);

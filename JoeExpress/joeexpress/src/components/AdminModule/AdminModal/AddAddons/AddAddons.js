@@ -57,15 +57,18 @@ function AddAddons({closeModal}) {
         
   }
 
-  useEffect(()=>{
-    axios.post('http://localhost:8081/fetchCategory')
-        .then(res =>{
-          setCategory(res.data)
-        })
-        .catch((err) => {
-          console.error('Error fetching categories:', err);
-        });
-  },[])
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.post('http://localhost:8081/fetchCategory');
+        setCategory(res.data);
+      } catch (err) {
+        console.error('Error fetching categories:', err);
+      }
+    };
+  
+    fetchCategories();
+  }, []);
 
   return (
     <div>

@@ -26,8 +26,6 @@ function OrderTracking() {
     const [foodsSpecial, setFoodsSpecial] = useState([]);
     const [foods, setFoods] = useState([]);
     const [ordered, setOrdered] = useState(false);
-
-
     
     const { OrdrID } = useParams();
 
@@ -59,7 +57,10 @@ function OrderTracking() {
           }
         };
     
-        fetchFoodsSpecial();
+        if (userId) {
+            fetchFoodsSpecial()
+        };
+        
       }, [userId,foods]);
 
 
@@ -79,13 +80,16 @@ function OrderTracking() {
 
 
     useEffect(() => {
-        axios.get('http://localhost:8081/foods')
-          .then(response => {
+        const fetchFoods = async () => {
+          try {
+            const response = await axios.get('http://localhost:8081/foods');
             setFoods(response.data);
-          })
-          .catch(error => {
+          } catch (error) {
             console.error('Error fetching food details:', error.response || error.message);
-          });      
+          }
+        };
+      
+        fetchFoods();
       }, []);
 
     useEffect(() => {
@@ -109,21 +113,6 @@ function OrderTracking() {
     
       }, [foodsSpecial, foods]);
     
-
-    // useEffect(() => {
-    //     axios.get('http://localhost:8081/')
-    //       .then(res => {
-    //         if (res.data.valid) {
-    //           setAuthenticated(true);
-    //           setUserId(res.data.userId);
-              
-    //         } else {
-    //           navigate('/');
-    //         }
-    //       })
-    //       .catch(err => console.log(err));
-    //   }, [navigate]);
-
 
   return (
     <div>

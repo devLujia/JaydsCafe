@@ -74,41 +74,48 @@ export default function DashboardRider() {
         fetchData();
         }, [navigate]);
 
-    useEffect(() =>{
+        useEffect(() => {
+            const fetchProfile = async () => {
+              try {
+                const response = await axios.post('http://localhost:8081/profile', { userId });
+                setProfile(response.data);
+              } catch (error) {
+                console.error('Error fetching profile details:', error);
+              }
+            };
+          
+            if (userId) {
+                fetchProfile()};
+          }, [userId]);
       
-        axios.post('http://localhost:8081/profile', { userId })
-        .then(response=>{
-           setProfile(response.data);
-        })
-        .catch(error => {
-           console.error('Error fetching profile details:', error);
-         });
-  
-      },[userId])
-      
-      useEffect(() =>{
-      
-        axios.post('http://localhost:8081/ridertotalOrder', { userId })
-        .then(response=>{
-           setTotalOrder(response.data);
-        })
-        .catch(error => {
-           console.error('Error fetching profile details:', error);
-         });
-  
-      },[userId])
+        useEffect(() => {
+            const fetchTotalOrder = async () => {
+                try {
+                const response = await axios.post('http://localhost:8081/ridertotalOrder', { userId });
+                setTotalOrder(response.data);
+                } catch (error) {
+                console.error('Error fetching total order details:', error);
+                }
+            };
+        
+            if (userId) {
+                fetchTotalOrder()};
+        }, [userId]);
 
-      useEffect(() =>{
-      
-        axios.post('http://localhost:8081/weeklyridertotalOrder', { userId })
-        .then(response=>{
-           setWeeklyTotalOrder(response.data);
-        })
-        .catch(error => {
-           console.error('Error fetching profile details:', error);
-         });
-  
-      },[userId])
+        useEffect(() => {
+            const fetchWeeklyTotalOrder = async () => {
+              try {
+                const response = await axios.post('http://localhost:8081/weeklyridertotalOrder', { userId });
+                setWeeklyTotalOrder(response.data);
+              } catch (error) {
+                console.error('Error fetching weekly total order details:', error);
+              }
+            };
+          
+            if (userId) {
+                fetchWeeklyTotalOrder()};
+          }, [userId]);
+          
 
     const handleLogout = async () => {
         try {

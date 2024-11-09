@@ -7,17 +7,17 @@ function AddRole({ closeModal }) {
     administer: '',
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
-            axios.post('http://localhost:8081/addRole', values)
-                .then(res => {
-                    alert(res.data)
-                    closeModal(false)
-                })
-                .catch(err => console.error(err));
-        
-    };
+      
+        try {
+          const res = await axios.post('http://localhost:8081/addRole', values);
+          alert(res.data);
+          closeModal(false);
+        } catch (err) {
+          console.error('Error adding role:', err);
+        }
+      };
 
     const handleInputChange = (e) => {
     const { name, value } = e.target;

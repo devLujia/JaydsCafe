@@ -131,26 +131,31 @@ function ProductManagement() {
       setIsOpenDiscount(!isOpenDiscount);
     };
 
-    useEffect(()=>{
+    useEffect(() => {
       axios.post('http://localhost:8081/roleSetup')
-        .then(response=>{
-            setTier(response.data)
+        .then(response => {
+          setTier(response.data);  // Set the response data to the state
         })
         .catch(error => {
-            console.error('Error fetching food details:', error);
+          console.error('Error fetching food details:', error);  // Error handling
         });
-    },[])
+    }, []);  // Empty dependency array ensures the effect runs only once when the component mounts
+    
 
     
-    useEffect(()=>{
-        axios.post('http://localhost:8081/productResult')
-        .then(response=>{
-            setFoods(response.data)
-        })
-        .catch(error => {
-            console.error('Error fetching food details:', error);
-        });
-    },[addProductModal,removeProductModal,editProductModal])
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await axios.post('http://localhost:8081/productResult');
+          setFoods(response.data);
+        } catch (error) {
+          console.error('Error fetching food details:', error);
+        }
+      };
+    
+      fetchData();
+    }, [addProductModal, removeProductModal, editProductModal]);
+    
     
     useEffect(() => {
       const fetchSizes = async () => {
@@ -197,25 +202,33 @@ function ProductManagement() {
     }
   };
     
-    useEffect(()=>{
-        axios.post('http://localhost:8081/AdminAddons')
-        .then(response =>{
-            setAddons(response.data)
-        })
-        .catch(error => {
-            console.error('Error fetching addons details:', error);
-        });
-    },[addAddonsModal, editAddonsModal])
+  useEffect(() => {
+    const fetchAddons = async () => {
+      try {
+        const response = await axios.post('http://localhost:8081/AdminAddons');
+        setAddons(response.data);
+      } catch (error) {
+        console.error('Error fetching addons details:', error);
+      }
+    };
+  
+    fetchAddons();
+  }, [addAddonsModal, editAddonsModal]);
+  
     
-    useEffect(()=>{
-        axios.post('http://localhost:8081/fetchCategory')
-        .then(response =>{
-            setCategories(response.data)
-        })
-        .catch(error => {
-            console.error('Error fetching addons details:', error);
-        });
-    },[addCategoryModal])
+  useEffect(() => {
+    const fetchCategory = async () => {
+      try {
+        const response = await axios.post('http://localhost:8081/fetchCategory');
+        setCategories(response.data);
+      } catch (error) {
+        console.error('Error fetching category details:', error);
+      }
+    };
+  
+    fetchCategory();
+  }, [addCategoryModal]);
+  
 
     useEffect(() => {
       const fetchData = async () => {
@@ -241,17 +254,22 @@ function ProductManagement() {
       fetchData();
       }, [navigate]);
 
-    useEffect(() =>{
+      useEffect(() => {
+        const fetchProfile = async () => {
+          try {
+            const response = await axios.post('http://localhost:8081/profile', { userId });
+            setProfile(response.data);
+          } catch (error) {
+            console.error('Error fetching profile details:', error);
+          }
+        };
       
-      axios.post('http://localhost:8081/profile', { userId })
-      .then(response=>{
-         setProfile(response.data);
-      })
-      .catch(error => {
-         console.error('Error fetching profile details:', error);
-       });
-
-    },[userId])
+        if (userId) {
+          fetchProfile()
+        };
+        
+      }, [userId]);
+      
 
     useEffect(() => {
       const fetchDiscounts = async () => {
@@ -287,13 +305,15 @@ function ProductManagement() {
       };
  
 
-    const handleRemoveProduct = (id) => {
-
-        axios.post('http://localhost:8081/removeProduct', { id });
-        const updatedFoods = foods.filter((food) => food.id !== id);
-        setFoods(updatedFoods);
-
-    }
+      const handleRemoveProduct = async (id) => {
+        try {
+            await axios.post('http://localhost:8081/removeProduct', { id });
+            const updatedFoods = foods.filter((food) => food.id !== id);
+            setFoods(updatedFoods);
+        } catch (error) {
+            console.error('Error removing product:', error);
+        }
+    };
     
     const handleRemoveAddons = async (id) => {
       try {
@@ -331,34 +351,38 @@ function ProductManagement() {
         
     }
 
-    const handleHide = async (id) =>{
-        
-        const result = await axios.post('http://localhost:8081/hideProduct', {id});
-        if(result.data.success){
-          alert(result.data.message);
-          setFoods((prevFoods) =>
-            prevFoods.map((food) =>
-              food.id === id ? { ...food, visible: food.visible === 1 ? 0 : 1 } : food
-            )
-        );
-
-
-
+    const handleHide = async (id) => {
+      try {
+          const result = await axios.post('http://localhost:8081/hideProduct', { id });
+          if (result.data.success) {
+              alert(result.data.message);
+              setFoods((prevFoods) =>
+                  prevFoods.map((food) =>
+                      food.id === id ? { ...food, visible: food.visible === 1 ? 0 : 1 } : food
+                  )
+              );
+          }
+      } catch (error) {
+          console.error('Error hiding the product:', error);
+      }
+  };
+  
+  const handleHideAddons = async (id) => {
+    try {
+        const result = await axios.post('http://localhost:8081/setAddonsVisibility', { id });
+        if (result.data.success) {
+            alert(`Update successfully`);
+            setAddons((prevAddons) =>
+                prevAddons.map((addon) =>
+                    addon.id === id ? { ...addon, visible: addon.visible === 1 ? 0 : 1 } : addon
+                )
+            );
         }
-        
+    } catch (error) {
+        console.error('Error updating addon visibility:', error);
     }
-    const handleHideAddons = async (id) =>{
-        const result = await axios.post('http://localhost:8081/setAddonsVisibility', {id});
-        if(result.data.success){
-          alert(`Update successfully`);
-          setAddons((prevAddons) =>
-            prevAddons.map((addon) =>
-                addon.id === id ? { ...addon, visible: addon.visible === 1 ? 0 : 1 } : addon
-            )
-        );
-        }
+};
 
-    }
     
       //pagination 
       const [currentPage, setCurrentPage] = useState(1);

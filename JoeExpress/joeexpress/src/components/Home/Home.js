@@ -661,18 +661,23 @@ function Home() {
       }
     };
   
-    fetchProfile();
+    if (userId) {
+      fetchProfile()};
   }, [userId]);
 
   useEffect(() => {
-    axios.get('http://localhost:8081/foods')
-      .then(response => {
-        setFoods(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching food details:', error.response || error.message);
-      });      
-  }, []);
+    const fetchFoods = async () => {
+        try {
+            const response = await axios.get('http://localhost:8081/foods');
+            setFoods(response.data);
+        } catch (error) {
+            console.error('Error fetching food details:', error.response || error.message);
+        }
+    };
+
+    fetchFoods();  // Call the async function
+
+}, []);  
   
   useEffect(() => {
     const fetchFoodsSpecial = async () => {
@@ -692,7 +697,8 @@ function Home() {
       }
     };
 
-    fetchFoodsSpecial();
+    if (userId) {
+      fetchFoodsSpecial()};
   }, [userId,foods]);
 
   useEffect(() => {
@@ -718,27 +724,33 @@ function Home() {
 
 
 
-  useEffect(()=>{
+  useEffect(() => {
+    const fetchCategory = async () => {
+        try {
+            const response = await axios.post('http://localhost:8081/fetchCategory');
+            setCategory(response.data);
+        } catch (error) {
+            console.error('Error fetching category details:', error);
+        }
+    };
 
-    axios.post('http://localhost:8081/fetchCategory')
-    .then(response => {
-      setCategory(response.data);
-    })
-    .catch(error => {
-      console.error('Error fetching category details:', error);
-    });
+    fetchCategory();  // Call the async function
 
-  },[])
+}, []);
 
-  useEffect(()=>{
-    axios.get('http://localhost:8081/menu')
-      .then(response => {
-        setMenu(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching menu details:', error);
-      });
-  },[])
+  useEffect(() => {
+      const fetchMenu = async () => {
+          try {
+              const response = await axios.get('http://localhost:8081/menu');
+              setMenu(response.data);
+          } catch (error) {
+              console.error('Error fetching menu details:', error);
+          }
+      };
+
+      fetchMenu();  // Call the async function
+
+    }, []);
   
   useEffect(() => { 
     if (userId) { 
@@ -770,18 +782,23 @@ useEffect(() => {
 
   // tagabalik
 
-  useEffect(() => {
-    axios.get('http://localhost:8081/')
-      .then(res => {
-        if (res.data.valid) {
-          setAuthenticated(true);
-          setUserId(res.data.userId);
-        } else {
-          navigate('/');
-        }
-      })
-      .catch(err => console.log(err));
-  }, [navigate]);
+    useEffect(() => {
+        const checkAuthentication = async () => {
+            try {
+                const res = await axios.get('http://localhost:8081/');
+                if (res.data.valid) {
+                    setAuthenticated(true);
+                    setUserId(res.data.userId);
+                } else {
+                    navigate('/');
+                }
+            } catch (err) {
+                console.error('Error during authentication check:', err);
+            }
+        };
+
+        checkAuthentication();  // Call the async function
+    }, [navigate]);
 
   const handleCategory = (id) => {
     setCategoryId(id);

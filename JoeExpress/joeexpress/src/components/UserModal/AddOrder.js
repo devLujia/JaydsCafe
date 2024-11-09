@@ -36,24 +36,31 @@ function AddOrder({closeModal, foodId}) {
     };
 
     useEffect(() => {
-        axios.get('http://localhost:8081/')
-            .then(res => {
+        const fetchData = async () => {
+            try {
+                const res = await axios.get('http://localhost:8081/');
                 if (res.data.valid) {
                     setUserId(res.data.userId);
                 } else {
                     navigate('/');
                 }
-            })
-            .catch(err => console.log(err));
+            } catch (err) {
+                console.error('Error fetching data:', err);
+            }
+        };
+    
+        fetchData();
     }, [navigate]);
-    
-    const handleSubmit = () =>{
-        axios.post('http://localhost:8081/menu', values)
-            .then(res =>{
-                closeModal(false);
-            });
-    
-    }
+
+
+    const handleSubmit = async () => {
+        try {
+            const res = await axios.post('http://localhost:8081/menu', values);
+            closeModal(false);
+        } catch (error) {
+            console.error('Error adding menu:', error);
+        }
+    };
 
     useEffect(() => {
         setSweetness(true);
@@ -84,42 +91,59 @@ function AddOrder({closeModal, foodId}) {
     
     const totalPrice = selectedPrice + totalAddonsPrice || 0 * quantity;
 
-    // Fetch the food item details
-    // useEffect(() => {
-    //     axios.get(`http://localhost:8081/items/${foodId}`)
-    //         .then(res => setFood(res.data.data))
-    //         .catch(err => console.log(err));
-    // }, [foodId]);
-
-     // Fetch food sizes
-     useEffect(() => {
-        axios.get(`http://localhost:8081/items/${foodId}`)
-            .then(res => setFood(res.data.data))
-            .catch(err => console.log(err));
+  
+    useEffect(() => {
+        const fetchFoodData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8081/items/${foodId}`);
+                setFood(response.data.data);
+            } catch (error) {
+                console.error('Error fetching food data:', error);
+            }
+        };
+    
+        if (foodId) {
+            fetchFoodData();
+        }
     }, [foodId]);
 
     useEffect(() => {
-        if (foodId) {
-            axios.post(`http://localhost:8081/sizes`, { foodId })
-                .then(res => {
-                    const fetchedSizes = res.data;
+        const fetchSizes = async () => {
+            try {
+                if (foodId) {
+                    const response = await axios.post('http://localhost:8081/sizes', { foodId });
+                    const fetchedSizes = response.data;
                     setSizes(fetchedSizes);
-
+    
                     const mediumSize = fetchedSizes.find(size => size.size.toLowerCase() === 'medium');
                     if (mediumSize) {
                         setSelectedSize('medium');
                         setSelectedPrice(mediumSize.price);
                     }
-                })
-                .catch(err => console.error('Error fetching sizes:', err));
-        }
+                }
+            } catch (error) {
+                console.error('Error fetching sizes:', error);
+            }
+        };
+    
+        fetchSizes();
     }, [foodId]);
+    
 
 
     useEffect(() => {
-        axios.post('http://localhost:8081/Addons')
-            .then(res => setFetchAddons(res.data))
-            .catch(error => console.error('Error fetching addons details:', error));
+
+        const fetchAddons = async () => {
+            try {
+                const res = await axios.post('http://localhost:8081/Addons');
+                setFetchAddons(res.data);
+            } catch (error) {
+                console.error('Error fetching addons details:', error);
+            }
+        };
+    
+        fetchAddons();
+
     }, []);
 
     const addToCartApi = async (food, userId) => {
@@ -208,66 +232,10 @@ return(
                                             <p className={`text-sm font-semibold ${selectedSize === size.size ? 'text-green-500' : ''}`}>{size.size}</p>
                                             <p className="text-xs text-gray-500">16 oz</p>
                                         </label>
-                                            
-                                            
-                                            // <div key={size.id}>
-                                            //     <input
-                                            //         required
-                                            //         type="radio"
-                                            //         id={`size-${size.id}`}
-                                            //         name="size"
-                                            //         value={size.size}
-                                            //         className="hidden peer"
-                                            //         onChange={(e) => handleInput(e, size.size, size.price)}
-                                            //         checked={selectedSize === size.size}
-                                                    
-                                            //     />
-                                            //     <label
-                                            //         htmlFor={`size-${size.id}`}
-                                            //         className="block p-4 rounded-md border border-gray-300 hover:border-gray-400 peer-checked:bg-green-400 peer-checked:border-green-900 cursor-pointer"
-                                            //     >
-                                            //         <div className="flex flex-col items-center">
-                                            //             <img src={cupsmall} alt={food.name} />
-                                            //             <p className="text-sm font-bold text-gray-900">{size.size}</p>
-                                            //             <p className="text-sm text-gray-500">{`₱${size.price}`}</p>
-                                            //         </div>
-                                            //     </label>
-                                            // </div>
+                                          
                                 ))}
 
-                                {/* <!-- Medium Size --> */}
-                                {/* <label className="flex flex-col items-center">
-                                    <input
-                                        type="radio"
-                                        name="size"
-                                        value="medium"
-                                        checked={selectedSize === {size.size}}
-                                        //onChange={(e) => handleInput(e, size.size, size.price)}
-                                        className="hidden"
-                                    />
-                                    <div className={`p-1 ${selectedSize === size.size ? 'border-2 border-textgreenColor bg-[#d4e9e2] rounded-full' : ''}`}>
-                                        <img src={cupsmall} alt="Medium" className="h-8 w-8" />
-                                    </div>
-                                    <p className={`text-sm font-semibold ${selectedSize === size.size ? 'text-green-500' : ''}`}>{size.size}</p>
-                                    <p className="text-xs text-gray-500">473 ml</p>
-                                </label> */}
-
-                                {/* <!-- Large Size --> */}
-                                {/* <label className="flex flex-col items-center">
-                                    <input
-                                        type="radio"
-                                        name="size"
-                                        value="large"
-                                        checked={selectedSize === 'large'}
-                                        onChange={() => setSelectedSize('large')}
-                                        className="hidden"
-                                    />
-                                    <div className={`p-1 ${selectedSize === 'large' ? 'border-2 border-textgreenColor bg-[#d4e9e2] rounded-full' : ''}`}>
-                                        <img src={cupsmall} alt="Large" className="h-8 w-8 mb-1" />
-                                    </div>
-                                    <p className={`text-sm font-semibold ${selectedSize === 'large' ? 'text-green-500' : ''}`}>Large</p>
-                                    <p className="text-xs text-gray-500">709 ml</p>
-                                </label> */}
+                               
                             </div>
 
                             <div class="my-4 py-3 px-6 inline-block bg-white border-2 border-textgreenColor rounded-full dark:bg-neutral-900 dark:border-neutral-700" data-hs-input-number="">

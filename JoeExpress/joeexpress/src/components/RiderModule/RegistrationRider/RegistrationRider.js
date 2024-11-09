@@ -19,21 +19,18 @@ export default function RegistrationRider() {
     const navigation = useNavigate();
     const [cmsName,setCmsName] = useState('');
 
-    useEffect(()=>{
-
+    useEffect(() => {
         const fetchNameData = async () => {
-          try {
-            const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
-            setCmsName(response.data.content || '');
-          } 
-          catch (error) {
-            console.error('Error fetching data:', error);
-          }
-    
+            try {
+                const response = await axios.post('http://localhost:8081/cms', { title: 'Business Name' });
+                setCmsName(response.data.content || '');
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
         };
-
+    
         fetchNameData();
-    })
+    }, []);
 
     axios.defaults.withCredentials = true;
 
@@ -41,35 +38,46 @@ export default function RegistrationRider() {
         setValues(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const err = Validation(values);
         setErrors(err);
+    
+        // Check if email and password are valid
         if (err.email === "" && err.password === "") {
-            axios.post('http://localhost:8081/adminlogin', values)
-                .then(res => {
-                    if (res.data.Login === 'rider') {
-                        navigation('/riderDashboard');
-                    } else {
-                        alert("No record existed");
-                    }
-                })
-                .catch(err => console.log(err));
+            try {
+                const res = await axios.post('http://localhost:8081/adminlogin', values);
+    
+                // Check if login is successful and the role is 'rider'
+                if (res.data.Login === 'rider') {
+                    navigation('/riderDashboard');
+                } else {
+                    alert("No record existed");
+                }
+            } catch (err) {
+                console.error("Error during login:", err);  // Log the error for debugging
+            }
         }
-     
     };
 
     useEffect(() => {
-        axios.get('http://localhost:8081/')
-            .then(res => {
+        const checkUserValidity = async () => {
+            try {
+                const res = await axios.get('http://localhost:8081/');
+                
                 if (res.data.valid) {
                     navigation('/riderDashboard');
                 } else {
                     navigation('/riderRegistration');
                 }
-            })
-            .catch(err => console.log(err));
+            } catch (err) {
+                console.error("Error checking user validity:", err);
+            }
+        };
+    
+        checkUserValidity();
     }, [navigation]);
+    
 
 
     const togglePasswordVisibility = () => {

@@ -21,16 +21,19 @@ export default function PaymentSuccess() {
   const [TermsModal,setTermsModal] = useState(false); //modal
   const { OrderId } = useParams();
 
-useEffect(() => {
-    if (OrderId) {
-        axios.post('http://localhost:8081/setTopaid', { OrderId })
-            .then(res => {
-                // alert(res.data.message);
-            })
-            .catch(error => {
+  useEffect(() => {
+    const updateOrderStatus = async () => {
+        if (OrderId) {
+            try {
+                const res = await axios.post('http://localhost:8081/setTopaid', { OrderId });
+
+            } catch (error) {
                 console.error('Error updating order status:', error);
-            });
-    }
+            }
+        }
+    };
+
+    updateOrderStatus(); // Call the async function
 }, [OrderId]);
 
 

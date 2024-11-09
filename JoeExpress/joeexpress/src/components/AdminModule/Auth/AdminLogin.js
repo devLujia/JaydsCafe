@@ -22,41 +22,43 @@ function AdminLogin() {
         setValues(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const err = Validation(values);
         setErrors(err);
         if (err.email === "" && err.password === "") {
-            axios.post('http://localhost:8081/adminlogin', values)
-                .then(res => {
-                    if (res.data.Login === 1) {
-                        navigation('/dashboard');
-                    } 
-                    else if (res.data.Login === 2){
-                        navigation('/order');
-                    }
-                    else {
-                        alert("No record existed");
-                    }
-                })
-                .catch(err => console.log(err));
-        }
-     
-    };
-
-    useEffect(() => {
-        axios.get('http://localhost:8081/admin')
-            .then(res => {
-                if (res.data.valid) {
+            try {
+                const res = await axios.post('http://localhost:8081/adminlogin', values);
+                if (res.data.Login === 1) {
                     navigation('/dashboard');
+                } else if (res.data.Login === 2) {
+                    navigation('/order');
                 } else {
-                    navigation('/admin');
+                    alert("No record existed");
                 }
-            })
-            .catch(err => console.log(err));
-    }, [navigation]);
-
-
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    };
+    
+    useEffect(() => {
+        const checkAdmin = async () => {
+          try {
+            const res = await axios.get('http://localhost:8081/admin');
+            if (res.data.valid) {
+              navigation('/dashboard');
+            } else {
+              navigation('/admin');
+            }
+          } catch (err) {
+            console.log(err);
+          }
+        };
+      
+        checkAdmin();
+      }, [navigation]);
+      
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
     };

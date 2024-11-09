@@ -19,19 +19,20 @@ function AddCustomerAcc({ closeModal }) {
         setValues({ ...values, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const err = Validation(values);
         setErrors(err);
-
+      
         if (!err.pnum && !err.name && !err.email && !err.password && !err.address) {
-            axios.post('http://localhost:8081/addAdmin', values)
-                .then(res => {
-                    closeModal(false)
-                })
-                .catch(err => console.error(err));
+          try {
+            const res = await axios.post('http://localhost:8081/addAdmin', values);
+            closeModal(false);
+          } catch (error) {
+            console.error('Error adding admin:', error);
+          }
         }
-    };
+      };
 
   return (
 

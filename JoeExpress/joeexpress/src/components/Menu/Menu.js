@@ -107,27 +107,35 @@ const rightNav = () => {
     fetchNameData();
   },[])
 
- useEffect(() => {
-    axios.get('http://localhost:8081/menu')
-      .then(response => {
-        setFoods(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching food details:', error);
-      });
-  }, []);
-
   useEffect(() => {
-    axios.get('http://localhost:8081/')
-      .then(res => {
-        if (res.data.valid) {
-          setAuthenticated(true);
-          setUserId(res.data.userId);
+    const fetchMenu = async () => {
+        try {
+            const response = await axios.get('http://localhost:8081/menu');
+            setFoods(response.data);
+        } catch (error) {
+            console.error('Error fetching food details:', error);
         }
+    };
 
-      })
-      .catch(err => console.log(err));
-  }, [navigate]);
+    fetchMenu();  // Call the async function
+}, []);
+
+useEffect(() => {
+  const checkAuthentication = async () => {
+      try {
+          const res = await axios.get('http://localhost:8081/');
+          if (res.data.valid) {
+              setAuthenticated(true);
+              setUserId(res.data.userId);
+          }
+      } catch (err) {
+          console.error('Error checking authentication:', err);
+      }
+  };
+
+  checkAuthentication();  // Call the async function
+}, [navigate]);  // Runs when `navigate` changes
+
 
   const handleSizeChange = (foodId, newSize) => {
     setFoods(prevFoods => prevFoods.map(food => {
@@ -173,16 +181,18 @@ const rightNav = () => {
   };
 
   useEffect(() => {
-    
-    axios.post('http://localhost:8081/fetchCategory')
-      .then(response => {
-        setCategory(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching orderNotif details:', error);
-      });
+    const fetchCategory = async () => {
+        try {
+            const response = await axios.post('http://localhost:8081/fetchCategory');
+            setCategory(response.data);
+        } catch (error) {
+            console.error('Error fetching category details:', error);
+        }
+    };
 
-  }, [userId]);
+    fetchCategory();  // Call the async function
+}, [userId]);  // Runs whenever `userId` changes
+
 
   const handleAddToCart = async (food) => {
     try {

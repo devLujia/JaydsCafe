@@ -11,27 +11,39 @@ function EditCustomerAcc( {closeModal, id} ) {
         address: ''
     });
 
-    useEffect(()=>{
-        axios.post('http://localhost:8081/fetchSpecificUserData', {id})
-        .then(res=> {
+    useEffect(() => {
+        const fetchUserData = async () => {
+          try {
+            const res = await axios.post('http://localhost:8081/fetchSpecificUserData', { id });
             setUserData(res.data);
-        })
-    }, []);
+          } catch (err) {
+            console.error('Error fetching user data:', err);
+          }
+        };
+      
+        fetchUserData();
+      }, [id]);
 
     const handleInputChange = (e) => {
         setUserData({ ...userdata, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = () => {
-        axios.post('http://localhost:8081/updateAcc', {
+    const handleSubmit = async () => {
+        try {
+          await axios.post('http://localhost:8081/updateAcc', {
             id: userdata.id,
             name: userdata.name,
             email: userdata.email,
             password: userdata.password,
-            address: userdata.address });
-
-            closeModal(false);
-    };
+            address: userdata.address
+          });
+          closeModal(false);
+          alert('Account updated successfully');
+        } catch (err) {
+          console.error('Error updating account:', err);
+          alert('There was an error updating the account. Please try again.');
+        }
+      };
 
   return (
     <div className='modalBackground z-50' >

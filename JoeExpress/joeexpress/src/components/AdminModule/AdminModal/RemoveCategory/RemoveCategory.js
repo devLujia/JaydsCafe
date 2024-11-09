@@ -11,28 +11,31 @@ function RemoveCategory({ closeModal }) {
     };
 
     const handleRemove = async (e) => {
-        e.preventDefault();
+      e.preventDefault();
     
-        axios.post('http://localhost:8081/removeCategory', { id })
-        .then(res => {
-            
-              closeModal(false);
-              
-        })
-        .catch(error => {
-            console.log("There was an error deleting the category!", error);
-        });
+      try {
+        const res = await axios.post('http://localhost:8081/removeCategory', { id });
+    
+        closeModal(false);
+      } catch (error) {
+        console.log("There was an error deleting the category!", error);
+        alert('Failed to remove the category. Please try again.');
+      }
     };
 
     useEffect(() => {
-        axios.post('http://localhost:8081/fetchCategory')
-        .then(res => {
-            setCategories(res.data);
-        })
-        .catch(error => {
-            console.log("There was an error on fetching the category details!", error);
-        });
+      const fetchCategory = async () => {
+        try {
+          const res = await axios.post('http://localhost:8081/fetchCategory');
+          setCategories(res.data);
+        } catch (error) {
+          console.log("There was an error on fetching the category details!", error);
+        }
+      };
+    
+      fetchCategory();
     }, []);
+    
 
     return (
         <div>

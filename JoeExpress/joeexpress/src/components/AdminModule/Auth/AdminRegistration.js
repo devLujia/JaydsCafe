@@ -29,18 +29,19 @@ function AdminRegistration() {
         e.preventDefault();
         const err = Validation(values);
         setErrors(err);
-
+    
         if (!err.fullname && !err.email && !err.password) {
-            await axios.post('http://localhost:8081/adminsignup', values)
-                .then(res => {
-                    if(res.data.success){
-                        alert('Registered Successfully')
-                        navigation('/admin');
-                    }
-                })
-                .catch(err => console.error(err));
+            try {
+                const res = await axios.post('http://localhost:8081/adminsignup', values);
+                if (res.data.success) {
+                    alert('Registered Successfully');
+                    navigation('/admin');
+                }
+            } catch (err) {
+                console.error(err);
+            }
         }
-    };
+    };    
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);

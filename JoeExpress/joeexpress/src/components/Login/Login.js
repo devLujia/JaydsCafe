@@ -146,39 +146,42 @@ const Login = () => {
     })
 
     useEffect(() => {
-        axios.get('http://localhost:8081/')
-            .then(res => {
+        const checkAuthentication = async () => {
+            try {
+                const res = await axios.get('http://localhost:8081/');
                 if (res.data.valid) {
                     navigation('/');
                 } else {
                     navigation('/login');
                 }
-            })
-            .catch(err => console.log(err));
-
-    }, [navigation]);
-
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      const err = Validation(values);
-      setErrors(err);
+            } catch (err) {
+                console.error('Error during authentication check:', err);
+            }
+        };
+    
+        checkAuthentication();  // Call the async function
+    }, [navigation]);  // Runs when `navigation` changes
   
-      if (err.email === "" && err.password === "") {
-          axios.post('http://localhost:8081/login', values)
-              .then(res => {
-                  if (res.data.Login) {
-                      navigation('/');
-                  } 
-                  else {
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const err = Validation(values);
+        setErrors(err);
+    
+        if (err.email === "" && err.password === "") {
+            try {
+                const res = await axios.post('http://localhost:8081/login', values);
+                if (res.data.Login) {
+                    navigation('/');
+                } else {
                     setErrors(res.data.Message || 'Login failed.');
-                    
-                  }
-              })
-              .catch(err => console.log(err));
-      }
-  };
-
-
+                }
+            } catch (err) {
+                console.error('Error during login:', err);
+            }
+        }
+    };
+  
     return (
     <div className="bg-background">
       

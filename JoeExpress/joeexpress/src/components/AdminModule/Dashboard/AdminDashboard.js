@@ -33,15 +33,19 @@ function AdminDashboard() {
    const [tier3,setTier3] = useState([])
    const [tier,setTier] = useState([])
 
-   useEffect(()=>{
-      axios.post('http://localhost:8081/roleSetup')
-        .then(response=>{
-            setTier(response.data)
-        })
-        .catch(error => {
-            console.error('Error fetching food details:', error);
-        });
-    },[])
+   useEffect(() => {
+      const fetchRoleSetup = async () => {
+          try {
+              const response = await axios.post('http://localhost:8081/roleSetup');
+              setTier(response.data);
+          } catch (error) {
+              console.error('Error fetching role setup details:', error);
+          }
+      };
+  
+      fetchRoleSetup();
+  }, []);
+  
 
    useEffect(() => {
 
@@ -92,29 +96,32 @@ function AdminDashboard() {
 
    ]);
 
-   useEffect(()=>{
-      axios.post('http://localhost:8081/adminTable')
-      
-      .then(response=>{
-         setFoods(response.data)
-      })
-
-      .catch(error=>{
-         console.error('Error fetching food details:', error);
-      })
-      
-   },[])
-
    useEffect(() => {
-      axios.post('http://localhost:8081/totalOrder')
-      .then(response=>{
-         setTotalOrder(response.data.totalOrders);
-      })
-      .catch(error => {
-         console.error('Error fetching totalOrder details:', error);
-       });
-       
-    },[]);
+      const fetchAdminTable = async () => {
+          try {
+              const response = await axios.post('http://localhost:8081/adminTable');
+              setFoods(response.data);
+          } catch (error) {
+              console.error('Error fetching food details:', error);
+          }
+      };
+  
+      fetchAdminTable();
+  }, []);
+
+  useEffect(() => {
+   const fetchTotalOrder = async () => {
+       try {
+           const response = await axios.post('http://localhost:8081/totalOrder');
+           setTotalOrder(response.data.totalOrders);
+       } catch (error) {
+           console.error('Error fetching totalOrder details:', error);
+       }
+   };
+
+   fetchTotalOrder();
+}, []);
+
    
    //For notif dropdown
    // Sample notifications
@@ -173,26 +180,32 @@ function AdminDashboard() {
     };
 
     useEffect(() => {
-      axios.post('http://localhost:8081/totalRevenue')
-      .then(response=>{
-         setTotalRevenue(response.data.total_revenue);
-      })
-      .catch(error => {
-         console.error('Error fetching food details:', error);
-       });
-       
-    },[]);
+      const fetchTotalRevenue = async () => {
+          try {
+              const response = await axios.post('http://localhost:8081/totalRevenue');
+              setTotalRevenue(response.data.total_revenue);
+          } catch (error) {
+              console.error('Error fetching total revenue details:', error);
+          }
+      };
+  
+      fetchTotalRevenue();
+  }, []);
+  
     
-    useEffect(() => {
-      axios.post('http://localhost:8081/users')
-      .then(response=>{
-         setTotalCustomer(response.data.customer_count);
-      })
-      .catch(error => {
-         console.error('Error fetching food details:', error);
-       });
-       
-    },[]);
+   useEffect(() => {
+      const fetchCustomerCount = async () => {
+         try {
+            const response = await axios.post('http://localhost:8081/users');
+            setTotalCustomer(response.data.customer_count);
+         } catch (error) {
+            console.error('Error fetching customer count details:', error);
+         }
+      };
+
+      fetchCustomerCount();
+   }, []);
+
 
     useEffect(() =>{
       
@@ -200,14 +213,19 @@ function AdminDashboard() {
 
     },[])
 
-    useEffect(()=>{
-
-      axios.post('http://localhost:8081/cms_backend')
-      .then(res=>{
-      setCms(res.data);
-      });
-   
-  },[])
+    useEffect(() => {
+      const fetchCmsData = async () => {
+          try {
+              const response = await axios.post('http://localhost:8081/cms_backend');
+              setCms(response.data);
+          } catch (error) {
+              console.error('Error fetching CMS data:', error);
+          }
+      };
+  
+      fetchCmsData();
+  }, []);
+  
 
       useEffect(() => {
       const fetchData = async () => {
@@ -233,91 +251,67 @@ function AdminDashboard() {
       fetchData();
       }, [navigate]);
     
-    useEffect(() =>{
-      
-      axios.post('http://localhost:8081/profile', { userId })
-      .then(response=>{
-         setProfile(response.data);
-      })
-      .catch(error => {
-         console.error('Error fetching profile details:', error);
-       });
+      useEffect(() => {
+         const fetchProfile = async () => {
+             try {
+                 const response = await axios.post('http://localhost:8081/profile', { userId });
+                 setProfile(response.data);
+             } catch (error) {
+                 console.error('Error fetching profile details:', error);
+             }
+         };
+     
+         if (userId) {
+             fetchProfile();
+         }
+     }, [userId]);
 
-    },[userId])
-
-    
-
-   // useEffect(()=>{
-
-   //    const button = document.querySelector('[data-collapse-O="dropdown-example"]');
-   //    const dropdown = document.getElementById('dropdown-example');
-
-   //    button.addEventListener('click', () => {
-   //    dropdown.classList.toggle('hidden');
-   //    });
-
-   //    // Dropdown sa Avatar
-   //    const avatarButton = document.getElementById('avatarButton');
-   //    const userDropdown = document.getElementById('userDropdown');
-
-   //    avatarButton.addEventListener('click', () => {
-   //    userDropdown.classList.toggle('hidden');
-   //    });
-
-   //    // Dropdown sa short By:
-   //    const shortBy = document.getElementById('shortBy');
-   //    const shortByDropDown = document.getElementById('shortByDropDown');
-
-   //    shortBy.addEventListener('click', () => {
-   //    shortByDropDown.classList.toggle('hidden');
-   //    });
-
-   //  })
-
-   useEffect(()=>{
-
-      axios.post('http://localhost:8081/orderTracking')
-      .then(res=>{
-          setOrders(res.data);
-      });
-
-  },[])
+   useEffect(() => {
+      const fetchOrders = async () => {
+          try {
+              const res = await axios.post('http://localhost:8081/orderTracking');
+              setOrders(res.data);
+          } catch (error) {
+              console.error('Error fetching orders:', error);
+          }
+      };
+  
+      fetchOrders();
+  }, []);
+  
 
    const toggleOrderDetails = (orderId) => {
       setExpandedOrderId(expandedOrderId === orderId ? null : orderId);
    };
 
 
-   const getTheOrder = (id, stats) => {
-
+   const getTheOrder = async (id, stats) => {
       let newStatus = ''; 
-    
+  
       if (stats === 'paid') {
-        newStatus = 'pending';
+          newStatus = 'pending';
       } else if (stats === 'pending') {
-        newStatus = 'completed';
+          newStatus = 'completed';
       }
-
+  
+      // Optimistically update the state
       setUpdateOrder(prevState => 
-         prevState.map(order => ({
-           ...order,
-           order_id: id,
-           status: newStatus,
-         }))
-       );
-
-      axios.post('http://localhost:8081/updateOrders', {
-          order_id: id,
-          status: newStatus
-      })
-        .then(res => {
+          prevState.map(order =>
+              order.order_id === id ? { ...order, status: newStatus } : order
+          )
+      );
+  
+      try {
+          const res = await axios.post('http://localhost:8081/updateOrders', {
+              order_id: id,
+              status: newStatus
+          });
           console.log('Order updated successfully:', res.data);
-        })
-        .catch(err => {
+      } catch (err) {
           console.error('Error updating the order:', err);
-        });
-
-    }
+      }
+  };
+  
     
     
   return (

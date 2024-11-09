@@ -6,12 +6,18 @@ function EditCms({closeModal, id}) {
     const [cmsData, setCmsData] = useState({
     });
 
-    useEffect(()=>{
-        axios.post('http://localhost:8081/cms_specific', {id})
-        .then(res=> {
-            setCmsData(res.data);
-        })
-    }, []);
+    useEffect(() => {
+      const fetchCmsData = async () => {
+        try {
+          const res = await axios.post('http://localhost:8081/cms_specific', { id });
+          setCmsData(res.data);
+        } catch (err) {
+          console.error('Error fetching CMS data:', err);
+        }
+      };
+    
+      fetchCmsData();
+    }, [id]);
 
     const handleInput = (e) => {
       const { name, type, files, value } = e.target;
@@ -34,21 +40,20 @@ function EditCms({closeModal, id}) {
       
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        const formData = new FormData();
-        formData.append('id', cmsData.id);
-        formData.append('content', cmsData.content);
+    const handleSubmit = async (e) => {
+      e.preventDefault();
     
-        axios.post('http://localhost:8081/editCms', formData).then(res=>{
-          alert('Content updated successfully');
-        });
-        
+      const formData = new FormData();
+      formData.append('id', cmsData.id);
+      formData.append('content', cmsData.content);
+    
+      try {
+        const res = await axios.post('http://localhost:8081/editCms', formData);
+        alert('Content updated successfully');
         closeModal(false);
-    
-
-
+      } catch (err) {
+        console.error('Error updating content:', err);
+      }
     };
 
   return (

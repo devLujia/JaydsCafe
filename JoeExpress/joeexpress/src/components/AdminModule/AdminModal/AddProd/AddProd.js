@@ -29,66 +29,66 @@ function AddProd({ closeModal }) {
           });
       };    
 
-        const handleSubmit = (e) => {
-          e.preventDefault();
-
-          if (!values.name || !values.description || !values.image_url || !values.category_id || !values.sizeName || !values.price || isNaN(values.price) || values.price <= 0) {
-
-            if (!values.name) {
-              alert("Name is required.");
-              return;
-            }
-            
-            if (!values.description) {
-              alert("Description is required.");
-              return;
-            }
-            
-            if (!values.image_url) {
-              alert("Image URL is required.");
-              return;
-            }
-            
-            if (!values.category_id) {
-              alert("Category ID is required.");
-              return;
-            }
-            
-            if (!values.sizeName) {
-              alert("Size name is required.");
-              return;
-            }
-            
-            if (!values.price) {
-              alert("Price is required.");
-              return;
-            }
-            
-            if (isNaN(values.price) || values.price <= 0) {
-              alert("Please enter a valid price greater than 0.");
-              return;
-            }
-          
-          }
-             
-          const formData = new FormData();
+      const handleSubmit = async (e) => {
+        e.preventDefault();
       
-          formData.append('name', values.name);
-          formData.append('description', values.description);
-          formData.append('image_url', values.image_url);
-          formData.append('category_id', values.category_id);
-          formData.append('sizeName', values.sizeName);
-          formData.append('price', values.price);
+        // Validation checks
+        if (!values.name || !values.description || !values.image_url || !values.category_id || !values.sizeName || !values.price || isNaN(values.price) || values.price <= 0) {
+          if (!values.name) {
+            alert("Name is required.");
+            return;
+          }
           
-          axios.post('http://localhost:8081/addProduct', formData)
-          .then(res=>{
-            alert("Successfully added!")   
-          })
-
-          .catch(err=> console.log(err));
-
-          closeModal(false);
+          if (!values.description) {
+            alert("Description is required.");
+            return;
+          }
+          
+          if (!values.image_url) {
+            alert("Image URL is required.");
+            return;
+          }
+          
+          if (!values.category_id) {
+            alert("Category ID is required.");
+            return;
+          }
+          
+          if (!values.sizeName) {
+            alert("Size name is required.");
+            return;
+          }
+          
+          if (!values.price) {
+            alert("Price is required.");
+            return;
+          }
+          
+          if (isNaN(values.price) || values.price <= 0) {
+            alert("Please enter a valid price greater than 0.");
+            return;
+          }
         }
+      
+        // Prepare form data
+        const formData = new FormData();
+        formData.append('name', values.name);
+        formData.append('description', values.description);
+        formData.append('image_url', values.image_url);
+        formData.append('category_id', values.category_id);
+        formData.append('sizeName', values.sizeName);
+        formData.append('price', values.price);
+      
+        try {
+          // API request
+          const res = await axios.post('http://localhost:8081/addProduct', formData);
+          alert("Successfully added!");
+          closeModal(false);
+        } catch (err) {
+          console.error('Error adding product:', err);
+        }
+      };
+      
       
 
         useEffect(()=>{

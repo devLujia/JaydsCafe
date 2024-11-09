@@ -25,23 +25,25 @@ function AddCategory({closeModal}) {
       }
     };
 
-    const handleSubmit = (e) =>{
+    const handleSubmit = async (e) => {
       e.preventDefault();
-
+    
       const formData = new FormData();
       formData.append('title', values.title);
-      //formData.append('image_url', values.image_url);
-
+      // formData.append('image_url', values.image_url);
+    
       formData.forEach((value, key) => {
         console.log(key, value);
       });
-
-        axios.post('http://localhost:8081/addCategory', formData)
-        .then(res =>{
-            alert('Category added successfully');
-            closeModal(false)
-        })
-    }    
+    
+      try {
+        const res = await axios.post('http://localhost:8081/addCategory', formData);
+        alert('Category added successfully');
+        closeModal(false);
+      } catch (err) {
+        console.error('Error adding category:', err);
+      }
+    }; 
 
 
   return (

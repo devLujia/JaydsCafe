@@ -35,15 +35,19 @@ export default function ContentManagement() {
     const [tier3,setTier3] = useState([])
     const [tier,setTier] = useState([])
 
-    useEffect(()=>{
-        axios.post('http://localhost:8081/roleSetup')
-        .then(response=>{
-            setTier(response.data)
-        })
-        .catch(error => {
-            console.error('Error fetching food details:', error);
-        });
-    },[])
+    useEffect(() => {
+        const fetchRoleSetup = async () => {
+            try {
+                const response = await axios.post('http://localhost:8081/roleSetup');
+                setTier(response.data);
+            } catch (error) {
+                console.error('Error fetching food details:', error);
+            }
+        };
+    
+        fetchRoleSetup();
+    }, []);
+    
 
     useEffect(() => {
 
@@ -63,21 +67,19 @@ export default function ContentManagement() {
 
     }, [tier]);
 
-    useEffect(()=>{
-
+    useEffect(() => {
         const fetchNameData = async () => {
-          try {
-            const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
-            setCmsName(response.data.content || '');
-          } 
-          catch (error) {
-            console.error('Error fetching data:', error);
-          }
-    
+            try {
+                const response = await axios.post('http://localhost:8081/cms', { title: 'Business Name' });
+                setCmsName(response.data.content || '');
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
         };
-
+    
         fetchNameData();
-    })
+    }, []); // Adding the empty dependency array to run this effect only once when the component mounts
+    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -103,17 +105,19 @@ export default function ContentManagement() {
         fetchData();
         }, [navigate]);
 
-    useEffect(() =>{
-      
-      axios.post('http://localhost:8081/profile', { userId })
-      .then(response=>{
-         setProfile(response.data);
-      })
-      .catch(error => {
-         console.error('Error fetching profile details:', error);
-       });
-
-    },[userId])
+        useEffect(() => {
+            const fetchProfileData = async () => {
+                try {
+                    const response = await axios.post('http://localhost:8081/profile', { userId });
+                    setProfile(response.data);
+                } catch (error) {
+                    console.error('Error fetching profile details:', error);
+                }
+            };
+        
+            if(userId){fetchProfileData();}
+        }, [userId]);
+        
 
 
     const handleEditCms = (id) => {
@@ -162,14 +166,19 @@ export default function ContentManagement() {
     //         });
     // })
 
-    useEffect(()=>{
-
-        axios.post('http://localhost:8081/cms_backend')
-        .then(res=>{
-        setCms(res.data);
-        });
-     
-    },[editCms])
+    useEffect(() => {
+        const fetchCmsData = async () => {
+            try {
+                const response = await axios.post('http://localhost:8081/cms_backend');
+                setCms(response.data);
+            } catch (error) {
+                console.error('Error fetching CMS data:', error);
+            }
+        };
+    
+        fetchCmsData();
+    }, [editCms]);
+    
 
   return (
     <div>
@@ -303,7 +312,7 @@ export default function ContentManagement() {
                 </ul>
     
                 <ul class="pt-5 mt-10 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
-                    {tier3.includes(role) || tier2.includes(role) || tier1.includes(role) ? 
+                {tier3.includes(profile?.role|| 0) || tier2.includes(profile?.role|| 0) || tier1.includes(profile?.role|| 0) ? 
                     <li> {/* <!-- Inbox --> */}
                         <a href="/Message" class="flex items-center p-2 text-gray-600 rounded-lg hover:bg-greenColor group hover:text-white dark:text-white">
                             <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75 group-hover:text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">

@@ -17,21 +17,26 @@ function EditAddons({closeModal, id}) {
     };
 
     useEffect(() => {
-      console.log('Addons ID:', id);
+    
+      const fetchAddons = async () => {
         if (id) {
-            setValues(prevValues => ({ ...prevValues, AddonsId: id }));
-            axios.post('http://localhost:8081/fetchAddons', { id })
-                .then(result => {
-                    setValues(prevValues => ({
-                        ...prevValues,
-                        name: result.data.name,
-                        price: result.data.price,
-                        
-                      }));
-                })
-                .catch(err => console.error(err));
+          setValues(prevValues => ({ ...prevValues, AddonsId: id }));
+          try {
+            const result = await axios.post('http://localhost:8081/fetchAddons', { id });
+            setValues(prevValues => ({
+              ...prevValues,
+              name: result.data.name,
+              price: result.data.price,
+            }));
+          } catch (err) {
+            console.error('Error fetching addons:', err);
+          }
         }
-      }, [id]);
+      };
+    
+      fetchAddons();
+    }, [id]);
+    
   
       const handleSubmit = async (e) => {
         e.preventDefault();

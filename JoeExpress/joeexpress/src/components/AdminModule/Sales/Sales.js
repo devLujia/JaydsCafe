@@ -62,15 +62,18 @@ export default function Sales() {
     });
 
 
-    useEffect(()=>{
-        axios.post('http://localhost:8081/roleSetup')
-        .then(response=>{
-            setTier(response.data)
-        })
-        .catch(error => {
-            console.error('Error fetching food details:', error);
-        });
-    },[])
+    useEffect(() => {
+        const fetchRoleSetup = async () => {
+            try {
+                const response = await axios.post('http://localhost:8081/roleSetup');
+                setTier(response.data);
+            } catch (error) {
+                console.error('Error fetching role setup details:', error);
+            }
+        };
+        fetchRoleSetup();
+    }, []);
+    
 
     useEffect(() => {
 
@@ -112,7 +115,7 @@ export default function Sales() {
         };
   
         fetchData();
-        }, [navigate]);
+    }, [navigate]);
 
     useEffect(()=>{
 
@@ -130,18 +133,18 @@ export default function Sales() {
     },[])
 
     
-    useEffect(()=>{
-        axios.post('http://localhost:8081/adminTable')
-        
-        .then(response=>{
-        setFoods(response.data)
-        })
-
-        .catch(error=>{
-        console.error('Error fetching food details:', error);
-        })
-        
-    },[])
+    useEffect(() => {
+        const fetchAdminTable = async () => {
+            try {
+                const response = await axios.post('http://localhost:8081/adminTable');
+                setFoods(response.data);
+            } catch (error) {
+                console.error('Error fetching food details:', error);
+            }
+        };
+        fetchAdminTable();
+    }, []);
+    
 
     useEffect(()=>{
 
@@ -157,19 +160,23 @@ export default function Sales() {
         };
 
         fetchNameData();
+        
     },[])
 
-    useEffect(() =>{
-      
-      axios.post('http://localhost:8081/profile', { userId })
-      .then(response=>{
-         setProfile(response.data);
-      })
-      .catch(error => {
-         console.error('Error fetching profile details:', error);
-       });
-
-    },[userId])
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const response = await axios.post('http://localhost:8081/profile', { userId });
+                setProfile(response.data);
+            } catch (error) {
+                console.error('Error fetching profile details:', error);
+            }
+        };
+        if (userId) {
+            fetchProfile()
+        };
+    }, [userId]);
+    
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -280,26 +287,30 @@ export default function Sales() {
         };
 
         useEffect(() => {
-            axios.post('http://localhost:8081/data')
-              .then(response => {
-                setWeeklyData(response.data);
-                
-                const initialRevenueData = response.data.map(item => item.total_revenue);
-                const initialWeekNumbers = response.data.map(item => item.week_number);
-                setChartSeries2([{ name: 'Sales Over Time', data: initialRevenueData }]);
-                chartOptions2.xaxis.categories = initialWeekNumbers;
-              })
-              .catch(error => {
-                console.error('Error fetching data:', error);
-              });
+            const fetchData = async () => {
+                try {
+                    const response = await axios.post('http://localhost:8081/data');
+                    setWeeklyData(response.data);
+                    
+                    const initialRevenueData = response.data.map(item => item.total_revenue);
+                    const initialWeekNumbers = response.data.map(item => item.week_number);
+                    setChartSeries2([{ name: 'Sales Over Time', data: initialRevenueData }]);
+                    chartOptions2.xaxis.categories = initialWeekNumbers;
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            };
+            fetchData();
+        }, []);
+        
+        
 
-              
-          }, []);
-
-          useEffect(() => {
-            axios.post('http://localhost:8081/dataMonthly')
-                .then(response => {
+        useEffect(() => {
+            const fetchMonthlyData = async () => {
+                try {
+                    const response = await axios.post('http://localhost:8081/dataMonthly');
                     setMonthlyData(response.data);
+                    
                     // Process the data for the chart
                     const months = response.data.map(item => {
                         const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -314,12 +325,13 @@ export default function Sales() {
                             categories: months, // Set the month names as categories
                         }
                     }));
-                })
-                .catch(error => {
+                } catch (error) {
                     console.error('Error fetching data:', error);
-                });
+                }
+            };
+            fetchMonthlyData();
         }, []);
-    
+        
 
   return (
     <div>

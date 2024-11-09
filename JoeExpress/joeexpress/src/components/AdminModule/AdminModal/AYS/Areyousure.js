@@ -4,14 +4,14 @@ import './AYS.css'
 
 function Areyousure( {closeModal, id} ) {
     
-    const handleDeleteUser = () => {
-
-        axios.post('http://localhost:8081/deleteUserData', {id})
-        .then(res=>{
-            closeModal(false);
-        })
-    
+  const handleDeleteUser = async () => {
+    try {
+      const res = await axios.post('http://localhost:8081/deleteUserData', { id });
+      closeModal(false);
+    } catch (err) {
+      console.error('Error deleting user:', err);
     }
+  };
 
   return (
     <div className='modalBackground z-50' >

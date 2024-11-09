@@ -40,33 +40,52 @@ export default function LoginRider() {
         setValues(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+    
         const err = Validation(values);
         setErrors(err);
-        if (err.email === "" && err.password === "") {
-            axios.post('http://localhost:8081/adminlogin', values)
-                .then(res => {
-                    if (res.data.Login === 4) {
-                        navigation('/riderDashboard');
-                    } else {
-                        alert("No record existed");
-                    }
-                })
-                .catch(err => console.log(err));
+    
+        // Check if there are validation errors
+        if (err.email || err.password) {
+            alert("Please fix the validation errors before submitting.");
+            return;
+        }
+    
+        try {
+            // Await the result of the axios call
+            const res = await axios.post('http://localhost:8081/adminlogin', values);
+    
+            if (res.data.Login === 4) {
+                navigation('/riderDashboard');
+            } else {
+                alert("No record existed");
+            }
+        } catch (err) {
+            // Handle the error
+            console.error("Login request failed:", err);
+            alert("An error occurred. Please try again later.");
         }
     };
+    
 
     useEffect(() => {
-        axios.get('http://localhost:8081/')
-            .then(res => {
+        const checkAuthentication = async () => {
+            try {
+                const res = await axios.get('http://localhost:8081/');
+                
                 if (res.data.valid) {
                     navigation('/riderDashboard');
                 } else {
                     navigation('/riderLogin');
                 }
-            })
-            .catch(err => console.log(err));
+            } catch (err) {
+                
+                navigation('/riderLogin');
+            }
+        };
+    
+        checkAuthentication();
     }, [navigation]);
 
 

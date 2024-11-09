@@ -17,35 +17,51 @@ function OrderPage() {
     const {foodId} = useParams();
     const [food, setFood] = useState(null);
 
-    useEffect( ()  => {
-        axios.get(`http://localhost:8081/items/${foodId}`)
-            .then(res => {
-
-            setFood(res.data.data);
-            })
-            .catch(err => console.log(err));
-        
-      }, [foodId]);
+    useEffect(() => {
+        const fetchFood = async () => {
+            try {
+                const res = await axios.get(`http://localhost:8081/items/${foodId}`);
+                setFood(res.data.data);
+            } catch (err) {
+                console.error('Error fetching food details:', err);
+            }
+        };
+    
+        if (foodId) {
+            fetchFood();  // Call the async function if `foodId` is available
+        }
+    }, [foodId]);
 
     useEffect(() => {
-        axios.get('http://localhost:8081/')
-          .then(res => {
-            if (res.data.valid) {
-              setAuthenticated(true);
-              setUserId(res.data.userId);
-            } else {
-              navigate('/');
+        const checkAuthentication = async () => {
+            try {
+                const res = await axios.get('http://localhost:8081/');
+                if (res.data.valid) {
+                    setAuthenticated(true);
+                    setUserId(res.data.userId);
+                } else {
+                    navigate('/');
+                }
+            } catch (err) {
+                console.error('Error during authentication check:', err);
             }
-          })
-          .catch(err => console.log(err));
-      }, [navigate]);
+        };
+    
+        checkAuthentication();  // Call the async function
+    }, [navigate]);  // Runs when `navigate` changes
 
+    useEffect(()=>{
+        AOS.init();
+    },[])
+    
       if (!food) {
         return <div>Loading...</div>;
-    }
+        }
       
-      
-    AOS.init();
+        
+
+        
+
 
   return (
     <div>

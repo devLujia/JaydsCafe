@@ -119,87 +119,103 @@ function Cart() {
     );
 
     useEffect(() => {
-        axios.get('http://localhost:8081/')
-            .then(res => {
-                if (res.data.valid) {
-                    setAuthenticated(true);
-                    setUserId(res.data.userId);
+      const checkAuthentication = async () => {
+          try {
+              const res = await axios.get('http://localhost:8081/');
+              if (res.data.valid) {
+                  setAuthenticated(true);
+                  setUserId(res.data.userId);
+              } else {
+                  navigate('/');
+              }
+          } catch (err) {
+              console.log(err);
+          }
+      };
+  
+      checkAuthentication();
+  }, [navigate]);
+  
 
-                } else {
-                    navigate('/');
-                }
-            })
-            .catch(err => console.log(err));
-    }, [navigate]);
 
+  useEffect(() => {
+    const fetchItems = async () => {
+        try {
+            const res = await axios.post('http://localhost:8081/itemGetter', { userId });
+            setItems(res.data.items);
+        } catch (error) {
+            console.error('Error fetching item details:', error);
+        }
+    };
 
-    useEffect(() => {
+    if (userId) {
+        fetchItems();
+    }
+}, [userId, DeleteModal]);
 
-
-        axios.post('http://localhost:8081/itemGetter', { userId })
-            .then(res => {
-                setItems(res.data.items);
-            })
-            .catch(error => {
-                console.error('Error fetching item details:', error);
-            });
-            
-    }, [userId, DeleteModal]);
 
     
 
-    const decrement = async (itemId,itemQuantity) => {
-        // Update the quantity in the local state
-        setQuantity((prevQuantity) => {
-            // Calculate the new quantity, ensuring it doesn't go below 1
-            const newQuantity = Math.max((prevQuantity[itemId] || itemQuantity) - 1, 1);
+    const decrement = async (itemId, itemQuantity) => {
+      // Update the quantity in the local state
+      setQuantity((prevQuantity) => {
+          // Calculate the new quantity, ensuring it doesn't go below 1
+          const newQuantity = Math.max((prevQuantity[itemId] || itemQuantity) - 1, 1);
 
-            // Send the updated quantity to the server
-            axios.post('http://localhost:8081/update_items', { quantity: newQuantity, id: itemId })
-                .then(res => {
-                    if (res.data.success) {
-                        console.log('Quantity updated successfully');
-                    } else {
-                        console.log('Update failed');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error during quantity update:', error);
-                });
+          // Send the updated quantity to the server in an asynchronous manner
+          const updateQuantity = async () => {
+              try {
+                  const res = await axios.post('http://localhost:8081/update_items', { quantity: newQuantity, id: itemId });
+                  if (res.data.success) {
+                      console.log('Quantity updated successfully');
+                  } else {
+                      console.log('Update failed');
+                  }
+              } catch (error) {
+                  console.error('Error during quantity update:', error);
+              }
+          };
 
-            // Return the updated state
-            return {
-                ...prevQuantity,
-                [itemId]: newQuantity,
-            };
-        });
+          updateQuantity(); // The update process beckons
+
+          // Return the updated state, intertwining the old with the new
+          return {
+              ...prevQuantity,
+              [itemId]: newQuantity,
+          };
+      });
     };
 
-    const increment = async (itemId,itemQuantity) => {
-        // Update the quantity in the local state
-        setQuantity((prevQuantity) => {
-            const newQuantity = (prevQuantity[itemId] || itemQuantity) + 1;
 
-            // Send the updated quantity to the server
-            axios.post('http://localhost:8081/update_items', { quantity: newQuantity, id: itemId })
-                .then(res => {
-                    if (res.data.success) {
-                        console.log('Quantity updated successfully');
-                    } else {
-                        console.log('Update failed');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error during quantity update:', error);
-                });
+    const increment = async (itemId, itemQuantity) => {
+      // Update the quantity in the local state
+      setQuantity((prevQuantity) => {
+          const newQuantity = (prevQuantity[itemId] || itemQuantity) + 1;
 
-            // Return the updated state
-            return {
-                ...prevQuantity,
-                [itemId]: newQuantity,
-            };
-        });
+          // Send the updated quantity to the server in an async function
+          const updateQuantity = async () => {
+              try {
+                  const res = await axios.post('http://localhost:8081/update_items', { quantity: newQuantity, id: itemId });
+                  if (res.data.success) {
+                      console.log('Quantity updated successfully');
+                  } else {
+                      console.log('Update failed');
+                  }
+              } catch (error) {
+                  console.error('Error during quantity update:', error);
+              }
+          };
+
+          updateQuantity(); // Initiate the server request asynchronously
+
+          // Return the updated state immediately (without waiting for the server response)
+          return {
+              ...prevQuantity,
+              [itemId]: newQuantity,
+          };
+      });
     };
+
 
     const handleCheckout = async () => {
 
@@ -239,24 +255,7 @@ function Cart() {
         }
 
     };
-
-
-    //   const handlePayment = async (id, quantity)=>{
-
-    //     try{
-    //         const res = await axios.post('http://localhost:8081/update_items',{id, quantity});
-    //         if (res.data.success){
-    //           navigate('/checkout');
-    //         }
-    //         else{
-    //           console.log('Checkout Failed')
-    //         }
-    //        } catch (error) {
-    //         console.error('Error during checkout:', error);
-    //       }
-    //   }
-    
-    
+   
     useEffect(() => {
         
         const total = items?.reduce((sum, item) => sum + item?.food_price * (quantity[item?.id] || item.quantity), 0);

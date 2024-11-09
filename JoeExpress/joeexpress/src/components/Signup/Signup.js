@@ -158,29 +158,40 @@ function Signup() {
         setValues({ ...values, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        const trimmedValues = {
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+  
+      // Trim the values
+      const trimmedValues = {
           ...values,
           name: values.name.trim(),
           email: values.email.trim(),
           password: values.password.trim(),
           address: values.address.trim()
-        };
-        const err = Validation(values);
-        setErrors(err);
-
-        if (!err.pnum && !err.name && !err.email && !err.password && !err.address) {
-            axios.post('http://localhost:8081/signup', trimmedValues)
-                .then(res => {
-                    if(res.data.success === true){
-                      navigate('/login');
-                    }
-                })
-                .catch(err => console.error(err));
-        }
-    };
+      };
+  
+      // Validate the trimmed values
+      const err = Validation(trimmedValues);
+      setErrors(err);
+  
+      // If no validation errors, proceed with form submission
+      if (!err.pnum && !err.name && !err.email && !err.password && !err.address) {
+          try {
+              const res = await axios.post('http://localhost:8081/signup', trimmedValues);
+              if (res.data.success === true) {
+                  navigate('/login'); // Redirect to login page on success
+              } else {
+                  alert("Signup failed. Please try again.");
+              }
+          } catch (err) {
+              console.error("Error during signup:", err);
+              alert("An error occurred. Please try again.");
+          }
+      } else {
+          alert("Please fix the errors before submitting.");
+      }
+  };
+  
 
     return (
       <div class="bg-background">

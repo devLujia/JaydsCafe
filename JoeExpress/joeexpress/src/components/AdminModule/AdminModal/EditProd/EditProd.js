@@ -18,42 +18,54 @@ function EditProd({closeModal, id}) {
 
         const [addons,setAddons] = useState([])
 
-        useEffect(()=>{
-          
-          axios.post('http://localhost:8081/addons')
-          .then(res => {
-            setAddons(res.data)
-        })
-
-        },[])
+        useEffect(() => {
+          const fetchAddons = async () => {
+            try {
+              const res = await axios.post('http://localhost:8081/addons');
+              setAddons(res.data);
+            } catch (err) {
+              console.error('Error fetching addons:', err);
+            }
+          };
+        
+          fetchAddons();
+        }, []);
 
         const [category,setCategory] = useState([])
 
         useEffect(() => {
-          if (id) {
-              setValues(prevValues => ({ ...prevValues, foodId: id }));
-              axios.post('http://localhost:8081/fetchProduct', { id })
-                  .then(result => {
-                      setValues(prevValues => ({
-                          ...prevValues,
-                          ...result.data
-                      }));
-                  })
-                  .catch(err => console.error(err));
-          }
+          const fetchProductData = async () => {
+            if (id) {
+              try {
+                setValues(prevValues => ({ ...prevValues, foodId: id }));
+                
+                const result = await axios.post('http://localhost:8081/fetchProduct', { id });
+                
+                setValues(prevValues => ({
+                  ...prevValues,
+                  ...result.data
+                }));
+              } catch (err) {
+                console.error('Error fetching product data:', err);
+              }
+            }
+          };
+        
+          fetchProductData();
         }, [id]);
 
-      useEffect(()=>{
-          
-        axios.post('http://localhost:8081/fetchCategory')
-        .then(res => {
-          setCategory(res.data)
-      })
-
-
-
-      .catch(err => console.error(err));
-      },[])
+        useEffect(() => {
+          const fetchCategoryData = async () => {
+            try {
+              const res = await axios.post('http://localhost:8081/fetchCategory');
+              setCategory(res.data);
+            } catch (err) {
+              console.error('Error fetching categories:', err);
+            }
+          };
+        
+          fetchCategoryData();
+        }, []);
 
       const handleInput = (e) => {
         const { name, type, files, value, id } = e.target;
@@ -87,77 +99,74 @@ function EditProd({closeModal, id}) {
         
 
     useEffect(() => {
-      
-      axios.post('http://localhost:8081/sizes', { foodId: id })
-        .then(response => {
+      const fetchFoodDetails = async () => {
+        try {
+          const response = await axios.post('http://localhost:8081/sizes', { foodId: id });
           
           const formattedSizes = response.data.map(size => ({
             size: size.size,
             price: size.price
           }));
-    
+          
           setSizes(formattedSizes);
-        })
-        .catch(error => {
+        } catch (error) {
           console.error('Error fetching food details:', error);
-        });
+        }
+      };
+    
+      fetchFoodDetails();
     }, [id]);
 
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
     
-
-        const handleSubmit = (e) => {
-                e.preventDefault();
-
-                if(!values.name || !values.description || !values.image_url || !values.category_id || !values.foodId || !values.sizes || !Array.isArray(values.sizes) || values.sizes.length === 0){
-                  if (!values.name) {
-                    alert("Name is required.");
-                    return;
-                  }
-                  if (!values.description) {
-                    alert("Description is required.");
-                    return;
-                  }
-                  if (!values.image_url) {
-                    alert("Image URL is required.");
-                    return;
-                  }
-                  if (!values.category_id) {
-                    alert("Category ID is required.");
-                    return;
-                  }
-                  if (!values.foodId) {
-                    alert("Food ID is required.");
-                    return;
-                  }
-                  if (!values.sizes || !Array.isArray(values.sizes) || values.sizes.length === 0) {
-                    alert("At least one size must be provided.");
-                    return;
-                  }
-                }
-
-                const formData = new FormData();
-                formData.append('name', values.name);
-                formData.append('description', values.description);
-                formData.append('image_url', values.image_url);
-                formData.append('category_id', values.category_id);
-                formData.append('foodId', values.foodId);
-                formData.append('sizes', JSON.stringify(values.sizes));
-                
-                axios.post('http://localhost:8081/updateProduct', formData)
-                .then(res => {
-                  
-                  if(res.data.success === true){
-                    alert('Product updated successfully');
-                    closeModal(false);
-                  }
-                  else {
-                    alert('Failed to update product');
-                  }
-                  
-                })
-                .catch(err=> console.log(err));
-           
-        };
+      // Validation function for checking required fields
+      const validateFields = () => {
+        if (!values.name) return "Name is required.";
+        if (!values.description) return "Description is required.";
+        if (!values.image_url) return "Image URL is required.";
+        if (!values.category_id) return "Category ID is required.";
+        if (!values.foodId) return "Food ID is required.";
+        if (!values.sizes || !Array.isArray(values.sizes) || values.sizes.length === 0) {
+          return "At least one size must be provided.";
+        }
+        return null;
+      };
+    
+      // Perform validation
+      const errorMessage = validateFields();
+      if (errorMessage) {
+        alert(errorMessage);
+        return; // Stop the form submission if validation fails
+      }
+    
+      // Prepare the form data
+      const formData = new FormData();
+      formData.append('name', values.name);
+      formData.append('description', values.description);
+      formData.append('image_url', values.image_url);
+      formData.append('category_id', values.category_id);
+      formData.append('foodId', values.foodId);
+      formData.append('sizes', JSON.stringify(values.sizes));
+    
+      try {
+        // Submit the form data using axios
+        const res = await axios.post('http://localhost:8081/updateProduct', formData);
+    
+        if (res.data.success) {
+          alert('Product updated successfully');
+          closeModal(false);
+        } else {
+          alert('Failed to update product');
+        }
+      } catch (err) {
+        console.error('Error updating product:', err);
+        alert('An error occurred while updating the product.');
+      }
+    };
+    
+    
 
 
   return (

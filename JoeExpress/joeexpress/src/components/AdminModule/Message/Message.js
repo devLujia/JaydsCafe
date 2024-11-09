@@ -130,17 +130,20 @@ export default function Message({}) {
          }
        }, [specificTicketId]);   
 
-      useEffect(() =>{
-         
-         axios.post('http://localhost:8081/profile', { userId })
-         .then(response=>{
-            setProfile(response.data);
-         }) 
-         .catch(error => {
-            console.error('Error fetching profile details:', error);
-         });
-
-      },[userId])
+       useEffect(() => {
+         const fetchProfileData = async () => {
+             try {
+                 const response = await axios.post('http://localhost:8081/profile', { userId });
+                 setProfile(response.data);
+             } catch (error) {
+                 console.error('Error fetching profile details:', error);
+             }
+         };
+     
+         if (userId) {
+             fetchProfileData();
+         }
+     }, [userId]);
 
    useEffect(() => {
       const fetchData = async () => {
@@ -250,15 +253,23 @@ export default function Message({}) {
       }
   };
   
-  const closeTicket = (status,ticket) =>{
+  const closeTicket = async (status, ticket) => {
+   try {
+       const res = await axios.post('http://localhost:8081/closeTicket', {
+           status: status,
+           ticketId: ticket
+       });
 
-   axios.post('http://localhost:8081/closeTicket',{status: status,ticketId: ticket})
-   .then(res=>{
-      alert(res.data.status)
-      setUpdate(res.data.success)
-   })
+       alert(res.data.status);  // Show the status message from the response
 
-  }
+       // Update the state if the request is successful
+       setUpdate(res.data.success);
+   } catch (err) {
+       console.error('Error closing the ticket:', err);
+       alert('There was an error closing the ticket. Please try again.');
+   }
+};
+
 
   return (
     <div class="bg-jaydsBg">

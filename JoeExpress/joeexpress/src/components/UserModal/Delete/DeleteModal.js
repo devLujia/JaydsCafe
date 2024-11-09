@@ -3,19 +3,18 @@ import React from 'react'
 
 function DeleteModal({closeModal, id}) {
 
-  const handleDelete = () => {
-    
-    if (id){
-      axios.post('http://localhost:8081/removeCartItems', {id})
-      .then(res =>{
-        if (res.data.success === true){
-          closeModal(false)
+  const handleDelete = async () => {
+    if (id) {
+      try {
+        const res = await axios.post('http://localhost:8081/removeCartItems', { id });
+        if (res.data.success === true) {
+          closeModal(false);
         }
-      })
-     
-  }
-
-}
+      } catch (error) {
+        console.error('Error removing cart item:', error);
+      }
+    }
+  };
 
 
   return (
