@@ -64,26 +64,28 @@ const ChatComponent = ({ name, userId, ticketId }) => {
   };
     
   
-  const sendMessage = async (e) => {
-    if (currentMessage.trim() !== '') {
-      e.preventDefault();
+    const sendMessage = async (e) => {
 
-      const messageData = {
-       author: name,
-       room : ticketId,
-       userId: userId,
-       message: currentMessage,
-        time:
-        new Date(Date.now()).getHours()+
-        ":" +
-        new Date(Date.now()).getMinutes(),
+      if (currentMessage.trim() !== '') {
+        e.preventDefault();
+
+        const messageData = {
+        author: name,
+        role : "User",
+        room : ticketId,
+        userId: userId,
+        message: currentMessage,
+          time:
+          new Date(Date.now()).getHours()+
+          ":" +
+          new Date(Date.now()).getMinutes(),
+        }
+
+        // Emit message to the server
+        await socket.emit('send_message', messageData);
+        setMessageList((prevChat) => [...prevChat,  messageData ]);
+        setCurrentMessage('');
       }
-
-      // Emit message to the server
-      await socket.emit('send_message', messageData);
-      setMessageList((prevChat) => [...prevChat,  messageData ]);
-      setCurrentMessage('');
-    }
     
     };
 
@@ -93,6 +95,7 @@ const ChatComponent = ({ name, userId, ticketId }) => {
 
       const messageData = {
        author: name,
+       role : "User",
        room : ticketId,
        userId: userId,
        message: currentMessage,
@@ -113,12 +116,11 @@ const ChatComponent = ({ name, userId, ticketId }) => {
   useEffect(() => {
     // Listen for incoming messages from the server
     socket.on('receive_message', (messageData) => {
-      // Update the message list with the new message
-    if (messageData.userId !== userId) {
-    setMessageList((prevChat) => [...prevChat, messageData]);
-    }
-    
- });
+
+       if(messageData.userId !== userId){
+          setMessageList((prevChat) => [...prevChat, messageData]);
+       }
+    });
   
     // Cleanup the socket listener when the component unmounts
     return () => {
@@ -202,22 +204,22 @@ const ChatComponent = ({ name, userId, ticketId }) => {
             )}
           </div>
 
-          {messageList.map((messageContent) => (
-            <div
-              key={messageContent.id || messageContent.timestamp}
-              className={`mb-2 flex ${messageContent.userId === userId ? 'justify-end' : 'justify-start'}`}
-            >
-              <p
-                className={`${
-                  messageContent.userId === userId ? 'bg-blue-500' : 'bg-gray-200'
-                } text-white rounded-lg py-2 px-4 inline-block w-auto max-w-[70%]`}
-              >
-                {messageContent.author === 'Admin'
-                  ? `Me: ${messageContent.message}`
-                  : `${messageContent.author}: ${messageContent.message}`}
-              </p>
-            </div>
-          ))}
+          {messageList.map((messageContent, index) => (
+                     <div
+                        key={index}
+                        className={`mb-2 flex ${messageContent.userId === userId ? 'justify-end' : 'justify-start'}`}
+                     >
+                        <p
+                           className={`${
+                           messageContent.userId === userId ? 'bg-blue-500' : 'bg-gray-700'
+                           } text-white rounded-lg py-2 px-4 inline-block w-auto max-w-[70%]`}
+                        >
+                           {messageContent.role === 'User'
+                           ? `Me: ${messageContent.message}`
+                           : `${messageContent.author}: ${messageContent.message}`}
+                        </p>
+                     </div>
+                  ))}
         </div>
 
 

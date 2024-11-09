@@ -169,18 +169,17 @@ export default function Message({}) {
       useEffect(() => {
          // Listen for incoming messages from the server
          socket.on('receive_message', (messageData) => {
-           // Update the message list with the new message
-         if (messageData.userId !== userId) {
-         setMessages((prevChat) => [...prevChat, messageData]);
-         }
 
-      });
+            if(messageData.userId !== userId){
+               setMessageList((prevChat) => [...prevChat, messageData]);
+            }
+         });
        
          // Cleanup the socket listener when the component unmounts
          return () => {
            socket.off('receive_message');
          };
-       }, [ticketId,userId]);
+       }, [userId]);
 
 
 
@@ -189,7 +188,8 @@ export default function Message({}) {
          e.preventDefault();
   
         const messageData = {
-            author: profile?.name + " (Admin)",
+            author: profile?.name,
+            role : "Admin",
             room : specificTicketId,
             userId: userId,
             message: currentMessage,
@@ -204,7 +204,6 @@ export default function Message({}) {
         setMessageList((prevChat) => [...prevChat,  messageData ]);
         setCurrentMessage('');
       }
-      
    };
 
       const handleKeyDown = async (e) => {
@@ -212,7 +211,8 @@ export default function Message({}) {
             e.preventDefault();
   
             const messageData = {
-               author: profile?.name + " (Admin)",
+               author: profile?.name,
+               role : "Admin",
                room : specificTicketId,
                userId: userId,
                message: currentMessage,
@@ -509,15 +509,23 @@ export default function Message({}) {
 
                   </div>
 
-               {messageList.map((messageContent) => {
-                        return (
-                           <div key={messageContent.id || messageContent.timestamp} className={`mb-2 flex ${messageContent.userId === userId  ? 'justify-end' : 'justify-start'}`}>
-                              <p className={`bg-blue-500 text-white rounded-lg py-2 px-4 inline-block`}>
-                              {messageContent.author === "Admin" ? `Me: ${messageContent.message}` : `${messageContent.author}: ${messageContent.message}`}
-                              </p>
-                           </div>
-                        );
-                  })}
+                  {messageList.map((messageContent, index) => (
+                     <div
+                        key={index}
+                        className={`mb-2 flex ${messageContent.userId === userId ? 'justify-end' : 'justify-start'}`}
+                     >
+                        <p
+                           className={`${
+                           messageContent.userId === userId ? 'bg-blue-500' : 'bg-gray-700'
+                           } text-white rounded-lg py-2 px-4 inline-block w-auto max-w-[70%]`}
+                        >
+                           {messageContent.role === 'Admin'
+                           ? `Me: ${messageContent.message}`
+                           : `${messageContent.author}: ${messageContent.message}`}
+                        </p>
+                     </div>
+                  ))}
+
                   </div>
 
                   {/* Message input */}

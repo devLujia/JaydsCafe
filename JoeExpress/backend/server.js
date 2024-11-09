@@ -362,6 +362,8 @@ app.post('/signup', async (req, res) => {
                         return res.status(500).json({ error: 'Failed to send email' });
                     }
                 });
+
+                
             });
         });
     } catch (error) {
@@ -2424,7 +2426,7 @@ app.post('/removeProduct',  async (req, res) =>{
         
       
         socket.on('send_message', (messageData) => {
-          const { author, room, userId, message } = messageData;
+          const { author,role, room, userId, message } = messageData;
       
           const sql = `INSERT INTO messages (ticket_id, sender_id, content) VALUES (?, ?, ?)`;
           
@@ -2435,15 +2437,15 @@ app.post('/removeProduct',  async (req, res) =>{
               return;
             }
       
-            socket.to(room).emit('receive_message', {
-              room: room, 
-              userId: userId,
-              message,
-              author, 
-              createdAt: new Date().toLocaleTimeString() 
-            });
+            io.to(room).emit('receive_message', {
+                room,
+                userId,
+                role,
+                message,
+                author,
+                createdAt: new Date().toLocaleTimeString()
+              });
       
-            console.log(`Message sent in room ${room}`);
           });
         });
         
