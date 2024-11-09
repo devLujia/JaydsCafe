@@ -144,16 +144,12 @@ export default function Settings() {
                     <img src={bg_pic} alt="" class="w-full h-full object-fill max-w-full max-h-full rounded-t-2xl"/>
                 </div>
 
-                <button class="rounded-full bg-greenColor hover:bg-slate-700 top-0 absolute ml-6 mt-6 p-4">
-                    <img src={camera} alt=""/>
-                </button>
-
                 <div class="flex overflow-x-hidden mb-6 ml-16 items-center absolute bottom-0"> {/* <!-- container ng profile pic --> */}
                     <div class="object-contain w-36 h-36 rounded-full bottom-0"data-popover-target="popover-user-profile" type="button">
                     <img src={gwen} alt="" class="w-full h-full object-fill max-w-full max-h-full rounded-full"/>
                     </div>
 
-                    <h1 class="text-white text-2xl ml-2 tracking-wider">AkoSiLekraAklab</h1>
+                    <h1 class="text-white text-2xl ml-2 tracking-wider">User</h1>
                 </div>
             </div>
 
@@ -165,109 +161,55 @@ export default function Settings() {
                 </li>
             </ul>
           </div>
+
   
-          <div id="default-tab-content"> {/* <!-- Content of every tabs --> */}
-          <div class="p-4 px-16 rounded-lg my-7 bg-gray-50 dark:bg-gray-800" id="Account" role="tabpanel" aria-labelledby="Account-tab"> {/* <!-- Account Tab--> */}
-                  <div class="border-b-2 "> {/* <!-- Account --> */}
-                      <div class="flex justify-between items-center" >
-                        <h1 class="text-3xl py-5">Account</h1>
-                        <div class="space-y-3">
-                          <button class="me-3 outline outline-2 outline-greenColor text-textgreenColor px-6 py-2 text-md rounded-xl inline-flex justify-center items-center hover:scale-110 duration-300 dark:outline-gray-300 dark:text-gray-300">
-                            Discard
-                          </button> 
-                          <button class="outline outline-2 outline-greenColor bg-greenColor text-white px-6 py-2 text-md rounded-xl inline-flex justify-center items-center hover:scale-110 duration-300">
-                            Update Info
-                          </button> 
-                        </div>
-                      </div>
-                      <p class="pb-5">View and edit your personal info below.</p>
-                  </div>
-    
-                  <div class="border-b-2 mt-3 pb-5"> {/* <!-- Display Info --> */}
-                    <div class="flex justify-between items-center" >
-                      <h1 class="text-2xl py-5">Display info</h1>
-                    </div>
-                    <p class="pb-10">This information will be visible to all members of this site.</p>
+        <div id="default-tab-content">
+       <div class="p-6 md:px-16 rounded-lg my-7 bg-white dark:bg-gray-900 shadow-md" id="Account" role="tabpanel" aria-labelledby="Account-tab">
+     <form id="account-update-form" action="#" class="space-y-10">
+    {/* <!-- Personal Info Section --> */}
+    <div class="">
+      <h2 class="text-3xl font-semibold py-4 border-b border-gray-200 dark:border-gray-700">Personal Information</h2>
+      <div class="grid gap-8 grid-cols-1 md:grid-cols-2 mt-6">
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name <span class="text-red-600">*</span></label>
+          <input type="text" id="name" name="name" placeholder="John Doe" class="mt-2 bg-white border border-gray-300 text-gray-800 text-base rounded-md focus:ring-primary-500 focus:border-primary-500 block w-full p-3 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200" required />
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email <span class="text-red-600">*</span></label>
+          <input type="email" id="email" name="email" placeholder="example@domain.com" class="mt-2 bg-white border border-gray-300 text-gray-800 text-base rounded-md focus:ring-primary-500 focus:border-primary-500 block w-full p-3 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200" required />
+        </div>
+      </div>
+    </div>
 
-                    <form action="#">
-                      <div class="grid gap-4 mb-6 grid-cols-2">
-                        <div class="col-span-2 sm:col-span-1">
-                          <label for="postal" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">Display name <span class="text-red-600">*</span></label>
-                          <input type="text" name="postal" id="postal" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-[95%] p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="4114" required=""/>
-                        </div>
-                        <div class="col-span-2 sm:col-span-1">
-                          <label for="title" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">Title</label>
-                          <input type="text" name="title" id="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-[95%] p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"/>
-                        </div>
-                      </div>
-                    </form>
-                    
-                  </div> 
+    {/* <!-- Password Section --> */}
+    <div>
+      <h2 class="text-3xl font-semibold py-4 border-b border-gray-200 dark:border-gray-700">Update Password</h2>
+      <div class="grid gap-8 grid-cols-1 md:grid-cols-2 mt-6">
+        <div>
+          <label for="old-password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Old Password <span class="text-red-600">*</span></label>
+          <input type="password" id="old-password" name="old-password" placeholder="Old Password" class="mt-2 bg-white border border-gray-300 text-gray-800 text-base rounded-md focus:ring-primary-500 focus:border-primary-500 block w-full p-3 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200" required />
+        </div>
+        <div> 
+          <label for="new-password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">New Password <span class="text-red-600">*</span></label>
+          <input type="password" id="new-password" name="new-password" placeholder="New Password" class="mt-2 bg-white border border-gray-300 text-gray-800 text-base rounded-md focus:ring-primary-500 focus:border-primary-500 block w-full p-3 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200" required />
+        </div>
+      </div>
+    </div>
 
-                  <div class="border-b-2 mt-3"> {/* <!-- Personal Info --> */}
-                    <div class="flex justify-between items-center">
-                      <h1 class="text-2xl py-5">Personal info</h1>
-                    </div>
-                    <p class="pb-10">Update your personal information.</p>
-
-                    <form action="#">
-                      <div class="grid gap-4 mb-6 grid-cols-2">
-                        <div class="col-span-2 sm:col-span-1">
-                          <label for="fname" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">First name <span class="text-red-600">*</span></label>
-                          <div class="inline-flex w-full">
-                            <input type="text" name="fname" id="fname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 me-2" placeholder="Lekra" required=""/>
-                            <img src={lock} alt=""/>
-                          </div>
-                        </div>
-                        <div class="col-span-2 sm:col-span-1">
-                          <label for="lname" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">Last name <span class="text-red-600">*</span></label>
-                          <div class="inline-flex w-full">
-                            <input type="text" name="lname" id="lname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 me-2" placeholder="Lekra" required=""/>
-                            <img src={lock} alt=""/>
-                          </div>
-                        </div>
-                        <div class="col-span-2 sm:col-span-1">
-                          <label for="phone" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white ps-2">Phone <span class="text-red-600">*</span></label>
-                          <div class="inline-flex w-full">
-                            <input type="text" name="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 me-2" placeholder="Lekra" required=""/>
-                            <img src={lock} alt=""/>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="space-x-3 mb-5 grid grid-flow-col justify-end">
-                        <button class="outline outline-2 outline-greenColor text-textgreenColor px-8 py-2 text-lg rounded-xl inline-flex justify-center items-center hover:scale-110 duration-300 dark:outline-gray-300 dark:text-gray-300">
-                          Discard
-                        </button> 
-                        <button class="outline outline-2 outline-greenColor bg-greenColor text-white px-8 py-2 text-lg rounded-xl inline-flex justify-center items-center hover:scale-110 duration-300">
-                          Update Info
-                        </button> 
-                      </div>
-                    </form>
-                  </div> 
-
-                  <div class="flex flex-col justify-start items-start space-y-2 border-b-2 mt-3"> {/* <!-- information details--> */}
-                    <h1 class="text-2xl py-3">Login info</h1>
-                    <p class="pb-10">View and update your login email and password.</p>
-
-                    <div>
-                      <div class="mb-4">
-                        <p class="text-md">Login Email:</p>
-                        <p class="text-md">MabangisSiMamAnna@gmail.com</p>
-                        <a href="#" class="text-md hover:underline">Change Email</a>
-                      </div>
-  
-                      <div class="pt-10 mb-4">
-                        <p class="text-md">Password:</p>
-                        <p class="text-md">● ● ● ● ● ●</p>
-                        <a href="#" class="text-md hover:underline">Change Password</a>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-          </div>
+    {/* <!-- Action Buttons --> */}
+    <div class="flex justify-end space-x-4 mt-8">
+      <button type="button" class="py-3 px-6 text-base font-semibold text-gray-700 border border-gray-400 rounded-md hover:bg-gray-100 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-800 transition ease-in-out duration-200">
+        Discard Changes
+      </button>
+      <button type="submit" form="account-update-form" class="py-3 px-6 text-base font-semibold text-white bg-green-600 rounded-md hover:bg-green-700 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800 transition ease-in-out duration-200">
+        Save Changes
+      </button>
+    </div>
+  </form>
         </div>
         </div>
     </div>
+    </div>
+        </div>
   )
 }
