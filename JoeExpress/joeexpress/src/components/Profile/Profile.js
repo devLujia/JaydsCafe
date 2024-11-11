@@ -599,10 +599,19 @@ export default function Profile() {
                 </React.Fragment>
               ))
             ) : (
-                          <div className="border-t border-gray-300 py-10 px-4 md:px-16 w-full flex flex-col justify-center items-center">
-                            <h1 className="text-base md:text-lg font-semibold text-gray-800 dark:text-gray-200">You haven't placed any orders yet.</h1>
-                            <a href="/menu" className="hover:underline text-blue-600 dark:text-blue-400 mt-4">Start Browsing</a>
-                          </div>
+                        //Centered this when the user have no orders yet.
+                        <tr>
+                          <td colSpan="8" className="relative h-[400px]">
+                            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center">
+                              <h1 className="text-base md:text-lg font-semibold text-gray-800 dark:text-gray-200">
+                                You haven't placed any orders yet.
+                              </h1>
+                              <a href="/menu" className="hover:underline text-blue-600 dark:text-blue-400 mt-4">
+                                Start Browsing
+                              </a>
+                            </div>
+                          </td>
+                        </tr>
                         )}
                       </tbody>
                     </table>
