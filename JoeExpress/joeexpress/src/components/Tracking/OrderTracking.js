@@ -133,9 +133,9 @@ function OrderTracking() {
         <section class=" mt-20">
             
         <div className='flex justify-start items-center p-6'>
-        <Link to="/cart" className='text-base md:text-lg lg:text-xl font-bold text-black hover:underline flex items-center transition-all duration-300 ease-in-out'>
+        <Link to="/Menu" className='text-base md:text-lg lg:text-xl font-bold text-black hover:underline flex items-center transition-all duration-300 ease-in-out'>
             <img src={arrowLeft} alt="Back to Cart" className='inline-block w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 mr-3' />
-            Back to Cart
+            Back to Menu
         </Link>
         </div>
 
