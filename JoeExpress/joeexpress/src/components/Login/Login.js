@@ -200,7 +200,7 @@ const Login = () => {
       {/* Image and Welcome Text */}
       <div className="flex flex-col items-center mb-8">
         <p className="text-lg md:text-xl font-semibold tracking-wide text-gray-700 mb-2">WELCOME TO</p>
-        <h1 className="font-extrabold text-4xl md:text-5xl text-green-700 text-center animate-text-focus-in">{cmsName}</h1>
+        <h1 className="font-extrabold text-4xl md:text-5xl text-green-700 text-center">{cmsName}</h1>
       </div>
 
       {/* Login Heading */}
