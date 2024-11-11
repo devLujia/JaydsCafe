@@ -428,19 +428,21 @@ function Cart() {
               </div>
             ))}
 
+            {/* No Items in cart UI */}
+            {items?.length === 0 && (
+              <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-80 z-10">
+                <div className="flex flex-col items-center justify-center">
+                  <h1 className="text-2xl font-semibold text-gray-600">No items in cart</h1>
+                  <button
+                    onClick={() => navigate('/menu')}
+                    className="px-6 py-3 mt-6 text-white bg-green-600 rounded-full hover:bg-green-700 transition"
+                  >
+                    Browse Our Menu
+                  </button>
+                </div>
+              </div>
+            )}
 
-          {items?.length === 0 && (
-            <div className="flex flex-col items-center justify-center mt-8">
-              <h1 className="text-2xl font-semibold text-gray-600">No items in cart</h1>
-              <button
-                onClick={() => navigate('/menu')}
-                className="px-6 py-3 mt-6 text-white bg-green-600 rounded-full hover:bg-green-700 transition"
-              >
-                Browse Our Menu
-              </button>
-            </div>
-          )}
-          
         </div>
       </div>
 
