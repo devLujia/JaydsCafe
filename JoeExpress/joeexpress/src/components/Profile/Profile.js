@@ -885,7 +885,7 @@ export default function Profile() {
             {isChangeEmailModalOpen && (
                 <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
                   <div className="bg-white p-6 rounded-lg w-full max-w-md">
-                    <h2 className="text-2xl font-semibold mb-4">Change Email</h2>
+                  <h2 className="text-2xl font-semibold mb-4 text-left">Change Email</h2>
                     {errorMessage && (
                       <div className="text-red-500 text-sm mb-4">{errorMessage}</div>
                     )}
@@ -940,7 +940,7 @@ export default function Profile() {
                         </button>
                         <button
                           type="submit"
-                          className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                          className="px-4 py-2 bg-green-700 text-white rounded-md"
                         >
                           Save Changes
                         </button>
@@ -1010,7 +1010,7 @@ export default function Profile() {
                                     </button>
                                     <button
                                       type="submit"
-                                      className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                                      className="px-4 py-2 bg-green-700 text-white rounded-md"
                                     >
                                       Save Changes
                                     </button>
