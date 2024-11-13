@@ -379,7 +379,7 @@ export default function Checkout() {
                     </div>
                      <div > {/* For option ng address */}
                         <div className='space-y-2'> {/* Main container */}
-                            <div class="group"> {/* First option */}
+                            <div class="gap-y-2 flex flex-col"> {/* First option */}
 
                                 <label htmlFor="add1"  class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
                                     <input 

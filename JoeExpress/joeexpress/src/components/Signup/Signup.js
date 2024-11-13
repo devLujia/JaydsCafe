@@ -28,7 +28,6 @@ function Signup() {
     const [cmsLocation,setCmsLocation] = useState('');
     const [cmsFacebook,setCmsFacebook] = useState('');
     const [cmsInstagram,setCmsInstagram] = useState('');
-    const [cmsLink,setCmsLink] = useState('');
     const [cmsPhone,setCmsPhone] = useState('');
     const [cmsTel,setCmsTel] = useState('');
     const [cmsSmallLogo,setSmallLogo] = useState(null);
@@ -107,17 +106,6 @@ function Signup() {
       
           };
 
-          const fetchLinkData = async () => {
-            try {
-              const response = await axios.post('http://localhost:8081/cms', {title: 'Link'});
-              setCmsLink(response.data.content || '');
-            } 
-            catch (error) {
-              console.error('Error fetching data:', error);
-            }
-      
-          };
-
           const fetchPhoneData = async () => {
             try {
               const response = await axios.post('http://localhost:8081/cms', {title: 'Phone Number'});
@@ -144,7 +132,6 @@ function Signup() {
           fetchLocationData();
           fetchFacebookLinkData();
           fetchInstagramLinkData();
-          fetchLinkData();
           fetchPhoneData();
           fetchTelData();
           fetchSmallLogo();

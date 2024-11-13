@@ -236,38 +236,6 @@ function Home() {
       }
 
     };
-
-    const fetchMilkTeaPriceData = async () => {
-      try {
-        const response = await axios.post('http://localhost:8081/cms', {title: 'Milktea Price'});
-        setCmsMilkTeaPrice(response.data?.content || '');
-      } 
-      catch (error) {
-        console.error('Error fetching data:', error);
-      }
-
-    };
-    const fetchCoffeePriceData = async () => {
-      try {
-        const response = await axios.post('http://localhost:8081/cms', {title: 'Coffee Price'});
-        setCmsCoffeePrice(response.data?.content || '');
-      } 
-      catch (error) {
-        console.error('Error fetching data:', error);
-      }
-
-    };
-    const fetchSnackPriceData = async () => {
-      try {
-        const response = await axios.post('http://localhost:8081/cms', {title: 'Snack Price'});
-        setCmsSnackPrice(response.data?.content || '');
-      } 
-      catch (error) {
-        console.error('Error fetching data:', error);
-      }
-
-    };
-    
     
     const fetchaboutusData = async () => {
 
@@ -361,17 +329,6 @@ function Home() {
 
     };
 
-    const fetchLinkData = async () => {
-      try {
-        const response = await axios.post('http://localhost:8081/cms', {title: 'Link'});
-        setCmsLink(response.data?.content || '');
-      } 
-      catch (error) {
-        console.error('Error fetching data:', error);
-      }
-
-    };
-
     const fetchLocation = async () => {
 
       try{
@@ -417,15 +374,11 @@ function Home() {
       fetchNameData();
       fetchLocation();
       fetchaboutusData();
-      fetchLinkData();
       fetchInstagramLinkData();
       fetchFacebookLinkData();
       fetchBigLogo();
       fetchSmallLogo();
       fetchAboutUsImage();
-      fetchSnackPriceData();
-      fetchCoffeePriceData();
-      fetchMilkTeaPriceData();
       fetchOperationHoursData();
       fetchOperationDaysData();
 

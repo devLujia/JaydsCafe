@@ -609,6 +609,7 @@ app.post('/login', async (req, res) => {
   const sql = 'SELECT * FROM user WHERE email = ?';
 
   db.query(sql, [email], async (err, data) => {
+    
     if (err) {
       console.error("Error in database query:", err);
       return res.status(500).json({ error: "Database error." });
@@ -2615,7 +2616,7 @@ app.post('/removeProduct',  async (req, res) =>{
       
           if (results.length > 0) {
             
-            const updateTicket = 'UPDATE tickets set subject = ? where ticket_id = ? AND user_id = ?';
+            const updateTicket = 'UPDATE tickets set subject = ?, status = `open` where ticket_id = ? AND user_id = ?';
 
             db.query(updateTicket, [subject,ticketId,userId]), (err, results)=>{
                 if (err) {
@@ -2717,7 +2718,9 @@ app.post('/removeProduct',  async (req, res) =>{
     app.post('/getTicketId', (req, res) => {
         const {userId} = req.body;
 
-        const sql = `SELECT id, status, ticket_id, created_at FROM tickets ORDER BY status = 'closed' ASC, created_at DESC `;
+        const sql = `SELECT id, subject, status, ticket_id, updated_at 
+                    FROM tickets ORDER BY status = 'closed' ASC, updated_at DESC
+                   `;
 
         db.query(sql,[userId], (err, results) => {
             if (err) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import user from '../../image/UserAcc.svg'
 import notif from '../../image/notif.svg'
 import jaydsLogo from '../../image/jayds cafe Logo.svg';
@@ -60,11 +60,8 @@ export default function Message({}) {
 
     }, [tier]);
 
-
-
    axios.defaults.withCredentials = true;
 
-   
    useEffect(() => {
       const getTicketNumber = async () => {
         try {
@@ -270,6 +267,15 @@ export default function Message({}) {
    }
 };
 
+      //for autoscroll
+      const chatboxRef = useRef(null);
+
+      useEffect(() => {
+         // Scroll to the bottom whenever messageList updates
+         if (chatboxRef.current) {
+            chatboxRef.current.scrollTop = chatboxRef.current.scrollHeight;
+         }
+      }, [messageList]);
 
   return (
     <div class="bg-jaydsBg">
@@ -500,43 +506,42 @@ export default function Message({}) {
 
                {/* Message area */}
                <div className="w-full px-5 flex flex-col justify-between h-full">
-                  <div className="flex flex-col mt-2 overflow-y-auto h-[calc(100%-60px)]">
-                  {/* Message map */}
-                  <div onScroll={handleScroll} className="chat-window">
+                  <div className="flex flex-col mt-2 overflow-y-auto h-[calc(100%-60px)]" id="chatbox" ref={chatboxRef}>
+                     {/* Message map */}
+                     <div onScroll={handleScroll} className="chat-window">
 
-                     {messages.map((messageContent) => (
+                        {messages.map((messageContent) => (
+                           <div
+                           key={messageContent.id}
+                           className={`mb-2 flex ${messageContent.sender_id === userId ? 'justify-end' : 'justify-start'}`}
+                           >
+                           <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
+                              {messageContent.sender_id !== userId
+                                 ? `Me: ${messageContent.content}`
+                                 : `${messageContent.name}: ${messageContent.content}`}
+                           </p>
+                           </div>
+                        ))}
+                        {loading && <p>Loading more messages...</p>}
+
+                     </div>
+
+                     {messageList.map((messageContent, index) => (
                         <div
-                        key={messageContent.id}
-                        className={`mb-2 flex ${messageContent.sender_id === userId ? 'justify-end' : 'justify-start'}`}
+                           key={index}
+                           className={`mb-2 flex ${messageContent.userId === userId ? 'justify-end' : 'justify-start'}`}
                         >
-                        <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
-                           {messageContent.sender_id !== userId
-                              ? `Me: ${messageContent.content}`
-                              : `${messageContent.name}: ${messageContent.content}`}
-                        </p>
+                           <p
+                              className={`${
+                              messageContent.userId === userId ? 'bg-blue-500' : 'bg-gray-700'
+                              } text-white rounded-lg py-2 px-4 inline-block w-auto max-w-[70%]`}
+                           >
+                              {messageContent.role === 'Admin'
+                              ? `Me: ${messageContent.message}`
+                              : `${messageContent.author}: ${messageContent.message}`}
+                           </p>
                         </div>
                      ))}
-                     {loading && <p>Loading more messages...</p>}
-
-                  </div>
-
-                  {messageList.map((messageContent, index) => (
-                     <div
-                        key={index}
-                        className={`mb-2 flex ${messageContent.userId === userId ? 'justify-end' : 'justify-start'}`}
-                     >
-                        <p
-                           className={`${
-                           messageContent.userId === userId ? 'bg-blue-500' : 'bg-gray-700'
-                           } text-white rounded-lg py-2 px-4 inline-block w-auto max-w-[70%]`}
-                        >
-                           {messageContent.role === 'Admin'
-                           ? `Me: ${messageContent.message}`
-                           : `${messageContent.author}: ${messageContent.message}`}
-                        </p>
-                     </div>
-                  ))}
-
                   </div>
 
                   {/* Message input */}

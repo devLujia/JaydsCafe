@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef  } from 'react';
 import chatlogo from '../../image/chat.svg';
 import socket from '../../AdminModule/Message/socketService';
 import axios from 'axios';
@@ -10,6 +10,7 @@ const ChatComponent = ({ name, userId, ticketId }) => {
   // const [ticketId, setTicketId] = useState('');
   const [subject, setSubject] = useState('');
   const [success, setSuccess] = useState(null);
+  const [confirm, setConfirm] = useState(false);
 
 
   // const generateRandomTicketId = () => {
@@ -20,6 +21,16 @@ const ChatComponent = ({ name, userId, ticketId }) => {
   //   }
   //   return ticketId;
   // };
+
+  //for auto scroll
+  const chatboxRef = useRef(null);
+
+  useEffect(() => {
+    // Scroll to the bottom whenever messageList updates
+    if (chatboxRef.current) {
+      chatboxRef.current.scrollTop = chatboxRef.current.scrollHeight;
+    }
+  }, [messageList]);
 
   const toggleChat = () => {
     setChatVisible(!chatVisible);
@@ -53,7 +64,8 @@ const ChatComponent = ({ name, userId, ticketId }) => {
         userId: userId,
         subject: subject,
       });
-      setSuccess(response.data.message)
+      setSuccess(response.data.message);
+      setConfirm(true);
   
       socket.emit('join_room', ticketId);
       console.log('New ticket created with ID:', ticketId);
@@ -165,67 +177,44 @@ const ChatComponent = ({ name, userId, ticketId }) => {
               </button>
             </div>
             
-            <div id="chatbox" className="p-4 h-80 overflow-y-auto bg-white rounded-lg shadow-md">
-                <div className="mb-2">
-                  {!ticketId ? (
-                    <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
-                      👋 Hi there! This message will be directed to the admins of Jayd's Cafe.
-                      We are here to make your experience as smooth and enjoyable as possible.
-                    </p>
-                  ) : (
-                    <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block w-full">
-                      {success === null ? (
-                        <div className="flex flex-col md:flex-row items-center mt-3 gap-2">
-                          <input
-                            type="text"
-                            placeholder="What's your concern?"
-                            value={subject}
-                            onChange={(e) => setSubject(e.target.value)}
-                            className="w-full md:w-[60%] lg:w-[70%] px-2 py-2 text-xs md:text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          />
-
-                    <button
-                      onClick={createNewTicket}
-                      className="w-full md:w-auto bg-[#067741] text-white px-4 py-2 text-xs md:text-sm rounded-md hover:bg-gradient-to-r hover:from-[#055c34] hover:to-[#067741] hover:scale-105 hover:shadow-lg transition-all duration-300 ease-in-out whitespace-nowrap"
-                    >
-                      Add Subject
-                    </button>
-                  </div>
+            <div id="chatbox" ref={chatboxRef} className="p-4 h-80 overflow-y-auto bg-white rounded-lg shadow-md">
+              <div className="mb-2">
+                {!ticketId ? (
+                  <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
+                    👋 Hi there! This message will be directed to the admins of Jayd's Cafe. We are here to make your experience as smooth and enjoyable as possible.
+                  </p>
                 ) : (
-                  ''
+                  <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block w-full">
+                    
+                    <div className="mt-2">
+                      Conversation ID: <span className="font-semibold">{ticketId}</span>
+                      <br />
+                      👋 Hi there! You are now connected to the admin. Please address your concern.
+                      {success}
+                    </div>
+                  </p>
                 )}
-                <div className="mt-2">
-                  Conversation ID: <span className="font-semibold">{ticketId}</span>
-                  <br />
-                  👋 Hi there! You are now connected to the admin, Please address your concern.
-                  {success}
+              </div>
+
+              {messageList.map((messageContent, index) => (
+                <div
+                  key={index}
+                  className={`mb-2 flex ${messageContent.userId === userId ? 'justify-end' : 'justify-start'}`}
+                >
+                  <p
+                    className={`${
+                      messageContent.userId === userId ? 'bg-blue-500' : 'bg-gray-700'
+                    } text-white rounded-lg py-2 px-4 inline-block w-auto max-w-[70%]`}
+                  >
+                    {messageContent.role === 'User'
+                      ? `Me: ${messageContent.message}`
+                      : `${messageContent.author}: ${messageContent.message}`}
+                  </p>
                 </div>
-              </p>
-            )}
-          </div>
-
-          {messageList.map((messageContent, index) => (
-                     <div
-                        key={index}
-                        className={`mb-2 flex ${messageContent.userId === userId ? 'justify-end' : 'justify-start'}`}
-                     >
-                        <p
-                           className={`${
-                           messageContent.userId === userId ? 'bg-blue-500' : 'bg-gray-700'
-                           } text-white rounded-lg py-2 px-4 inline-block w-auto max-w-[70%]`}
-                        >
-                           {messageContent.role === 'User'
-                           ? `Me: ${messageContent.message}`
-                           : `${messageContent.author}: ${messageContent.message}`}
-                        </p>
-                     </div>
-                  ))}
-        </div>
-
-
-
-
-            {!ticketId ? (
+              ))}
+            </div>
+  
+            {!confirm ? (
               <div className="p-4 border-t flex">
                 <input
                     type='text'
