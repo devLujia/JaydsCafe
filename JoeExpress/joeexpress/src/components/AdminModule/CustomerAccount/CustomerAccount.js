@@ -104,8 +104,8 @@ export default function CustomerAccount() {
 
     // Handle role change
     const handleRoleChange = async (e, user_Id) => {
-        const newRoleId = e.target.value; // This captures the ID of the selected option
-        const newRole = getRole.find(gRole => gRole.id === newRoleId)?.title; // Get the corresponding title
+        const newRoleId = e.target.value; // Capturing the new role ID
+        const newRole = getRole.find(gRole => gRole.id === parseInt(newRoleId))?.title; // Get the corresponding role title
     
         // Update state to reflect the selected role title
         setUserRoles(prevState => ({
@@ -114,9 +114,9 @@ export default function CustomerAccount() {
         }));
     
         try {
-            // Make the API call to set the new role for the user
+            // API call to set the new role for the user
             const response = await axios.post('http://localhost:8081/setRoles', {
-                roles: newRoleId, // Send the title as the new role
+                roles: newRoleId, // Send the role ID (not title)
                 user_Id: user_Id // User ID
             });
     
@@ -284,8 +284,6 @@ export default function CustomerAccount() {
             </a>
                 <ul class="space-y-2 font-medium ">
 
-
-
                 {tier3.includes(profile?.role) ?
                 
                 <li> {/* <!-- Dashboard --> */}
@@ -451,7 +449,7 @@ export default function CustomerAccount() {
                                 : user.name.toLowerCase().includes(search);    
                             })
                             .map(user => (
-                                <tr key= {user?.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center">
+                                <tr key={user?.id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-center">
                                    
                                     <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap justify-start dark:text-white">
                                         <img src={picture} alt="Jese image" class="w-10 h-10 rounded-full"/>
@@ -473,8 +471,8 @@ export default function CustomerAccount() {
                                             >
                                                 {getRole.length > 0 ? (
                                                     getRole.map(gRole => (
-                                                        <option key={gRole.id} value={gRole.id}> {/* Use gRole.id as value */}
-                                                            {gRole.title} {/* Display the title */}
+                                                        <option key={gRole.id} value={gRole.id}>
+                                                            {gRole.title}
                                                         </option>
                                                     ))
                                                 ) : (

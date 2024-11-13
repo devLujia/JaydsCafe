@@ -400,7 +400,7 @@ app.post('/addAdmin', async (req, res) => {
                     console.error('Error signing up:', insertError);
                     return res.status(500).json({ error: 'Failed to sign up' });
                 }
-
+                return res.status(201).json({ success: true});
                 });
             });
         }
@@ -2262,7 +2262,7 @@ app.post('/removeProduct',  async (req, res) =>{
             if (err) {
                 return res.status(500).json({ error: 'Failed to set role' });
             }
-            res.json(result)          
+            res.json(result) ;         
         });
 
 
@@ -2716,13 +2716,12 @@ app.post('/removeProduct',  async (req, res) =>{
     
     
     app.post('/getTicketId', (req, res) => {
-        const {userId} = req.body;
 
         const sql = `SELECT id, subject, status, ticket_id, updated_at 
                     FROM tickets ORDER BY status = 'closed' ASC, updated_at DESC
                    `;
 
-        db.query(sql,[userId], (err, results) => {
+        db.query(sql, (err, results) => {
             if (err) {
                 return res.status(500).json({ error: 'Database error' });
             }

@@ -254,8 +254,15 @@ function AdminDashboard() {
       useEffect(() => {
          const fetchProfile = async () => {
              try {
-                 const response = await axios.post('http://localhost:8081/profile', { userId });
-                 setProfile(response.data);
+                 if (userId) {
+                     const response = await axios.post('http://localhost:8081/profile', { userId: userId });
+                     
+                     if (response.data) {
+                         setProfile(response.data);
+                     } else {
+                         console.warn('No profile data returned');
+                     }
+                 }
              } catch (error) {
                  console.error('Error fetching profile details:', error);
              }
@@ -265,6 +272,7 @@ function AdminDashboard() {
              fetchProfile();
          }
      }, [userId]);
+     
 
    useEffect(() => {
       const fetchOrders = async () => {
