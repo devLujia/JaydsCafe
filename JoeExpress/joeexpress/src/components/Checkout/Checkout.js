@@ -132,6 +132,7 @@ export default function Checkout() {
             margin: '0',
             width: 'auto',
             textAlign: 'center',
+            boxShadow: '5px 5px 15px #888888',
           },
       }
     );
@@ -360,7 +361,8 @@ export default function Checkout() {
 
                 <div className='text-left my-8'>
                     <p className=' text-gray-600'>Delivery Method:
-                        <span className='text-2xl font-bold block underline text-black'>{riderNote?.option.toUpperCase()}</span></p>
+                        <span className='text-2xl font-bold block underline text-black'>{riderNote?.option.toUpperCase()}</span>
+                    </p>
                 </div>
 
 
@@ -506,7 +508,9 @@ purchase securely.'>
                                 </div>
                             </label>
                         </div>
-                        <div class="group"> {/* Cash option */}
+
+                        {/* old Cash option */}
+                        {/* <div class="group"> 
                             <label htmlFor="cash" class="inline-flex px-4 py-5 justify-between items-center w-full text-white bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor hover:bg-gray-100 ">
                                 <div className='inline-flex items-center'>
                                     <input type="radio" 
@@ -520,7 +524,28 @@ purchase securely.'>
                                     {riderNote?.option === 'pickup' ? <h1 className='text-black ps-3'>Cash</h1> : <h1 className='text-black ps-3'>Cash on Delivery</h1>}
                                 </div>
                             </label>
-                        </div>
+                        </div> */}
+
+                        {/* niremove ko yung cash button option kapag pick up */}
+                        {riderNote?.option !== 'pickup' && (
+                            <div className="group"> {/* Cash on Delivery option */}
+                                <label htmlFor="cash" className="inline-flex px-4 py-5 justify-between items-center w-full text-white bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor hover:bg-gray-100">
+                                <div className="inline-flex items-center">
+                                    <input
+                                    type="radio"
+                                    id="cash"
+                                    name="payment"
+                                    value="cash"
+                                    className="peer text-textgreenColor focus:ring-textgreenColor"
+                                    onChange={handlePaymentChange}
+                                    checked={selectedPayment === 'cash'}
+                                    required
+                                    />
+                                    <h1 className="text-black ps-3">Cash on Delivery (COD)</h1>
+                                </div>
+                                </label>
+                            </div>
+                        )}
                     </div>
                     <div className='inline-flex items-center justify-center py-4'>
                         <img src={lock} className=' filter grayscale'></img> <h1 className='text-sm text-gray-500'>Secure and encrypted</h1>

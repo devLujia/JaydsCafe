@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import AnnMarfega from '../image/AnnMarfega.svg'
-import IaMae from '../image/IaMae.svg'
-import Angelou from '../image/Angelou.svg'
 import image1 from '../image/bg_bean.png';
 import fb from '../image/fb.svg';
 import ig from '../image/ig.svg';
@@ -19,9 +16,8 @@ import Terms from '../UserModal/TermsAndCondition/Terms'
 import ChatComponent from '../UserModal/ChatService/ChatComponent'
 import socket from '../AdminModule/Message/socketService';
 
+
 function Home() {
-
-
 
   const shuffleArray = (array) => {
     let shuffledArray = [...array];
@@ -783,6 +779,19 @@ useEffect(() => {
     setIsOpenBurger(!isOpenBurger);
   };
 
+  const [activeLink, setActiveLink] = useState('');
+    
+  useEffect(() => {
+    // Set the initial active link based on current URL hash
+    setActiveLink(window.location.hash || '#');
+  }, []);
+
+  const handleNavigates = (hash) => {
+    setActiveLink(hash);
+    // Assuming that handleNavigate changes the URL hash
+    window.location.hash = hash;
+  };
+
   return (
   
     <div class="bg-jaydsBg">
@@ -805,23 +814,48 @@ useEffect(() => {
       </div>
       
       <span className="menu">
-        <div class="items-center justify-between hidden w-full lg:flex md:w-auto md:order-1" id="navbar-sticky">
-          <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <li>
-              <a href="#" class="block py-2 px-3 text-gray-900 rounded md:bg-transparent md:p-0 " aria-current="page">Home</a>
-            </li>
-            <li>
-              <a onClick={handleNavigate} class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0  dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Menu</a>
-            </li>
-            <li>
-              <a href="#aboutus" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0  dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About Us</a>
-            </li>
-            <li>
-              <a href="#contactUs" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0  dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact Us</a>
-            </li>
-          </ul>
-        </div>
-      </span>
+      <div className="items-center justify-between hidden w-full lg:flex md:w-auto md:order-1" id="navbar-sticky">
+        <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+          <li>
+            <a
+              href="#"
+              className={`block py-2 px-3 rounded md:bg-transparent md:p-0 ${activeLink === '#' ? 'text-green-700 font-bold' : 'text-gray-900'}`}
+              aria-current="page"
+              onClick={() => handleNavigates('#')}
+            >
+              Home
+            </a>
+          </li>
+          <li>
+            <a
+              href="/Menu"
+              className={`block py-2 px-3 rounded md:bg-transparent md:p-0 ${activeLink === '#menu' ? 'text-green-700 font-bold' : 'text-gray-900'}`}
+              onClick={() => handleNavigates('#menu')}
+            >
+              Menu
+            </a>
+          </li>
+          <li>
+            <a
+              href="#aboutus"
+              className={`block py-2 px-3 rounded md:bg-transparent md:p-0 ${activeLink === '#aboutus' ? 'text-green-700 font-bold' : 'text-gray-900'}`}
+              onClick={() => handleNavigates('#aboutus')}
+            >
+              About Us
+            </a>
+          </li>
+          <li>
+            <a
+              href="#contactUs"
+              className={`block py-2 px-3 rounded md:bg-transparent md:p-0 ${activeLink === '#contactUs' ? 'text-green-700 font-bold' : 'text-gray-900'}`}
+              onClick={() => handleNavigates('#contactUs')}
+            >
+              Contact Us
+            </a>
+          </li>
+        </ul>
+      </div>
+    </span>
 
       <div class="flex items-center relative">
         {/* <!-- drawer Burger and show --> */}
@@ -1722,5 +1756,6 @@ useEffect(() => {
     </div>
   );
 }
+
 
 export default Home;
