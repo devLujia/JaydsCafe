@@ -1183,7 +1183,8 @@ app.post('/fetchUserData', (req,res)=>{
     const query = `SELECT 
                         user.id, 
                         user.name, 
-                        user.email, 
+                        user.email,
+                        user.role as role_id, 
                         role.title as role
                     FROM 
                         user 

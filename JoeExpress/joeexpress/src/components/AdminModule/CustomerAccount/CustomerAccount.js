@@ -465,8 +465,10 @@ export default function CustomerAccount() {
 
                                             {/* Dropdown for role selection */}
                                             <select
-                                                value={userRoles[user?.id] || user?.role} // Default to current or selected role
+                                                value={userRoles[user?.id] || user?.role_id} // Default to current or selected role
                                                 onChange={(e) => handleRoleChange(e, user?.id)}
+                                                name='role'
+                                                id='role'
                                                 className="bg-transparent text-gray-600 font-semibold p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                                             >
                                                 {getRole.length > 0 ? (
