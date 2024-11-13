@@ -3,7 +3,6 @@ function Validation(values){
     const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     const password_pattern = /^.{8,}$/
 
-
     if(values.email ===""){
         error.email = "Please enter email"
     }
@@ -20,6 +19,7 @@ function Validation(values){
     else if (!password_pattern.test(values.password)){
         error.password = "Password didn't match"
     }
+
     else{
         error.password = ""
     }

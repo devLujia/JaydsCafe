@@ -29,6 +29,7 @@ const Login = () => {
 
     const navigation = useNavigate();
     const [errors, setErrors] = useState({});
+    const [generalErrors,setGeneralErrors] = useState('');  
 
     const handleInput = (e) => {
         setValues(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -125,22 +126,10 @@ const Login = () => {
       
           };
 
-          const fetchLinkData = async () => {
-            try {
-              const response = await axios.post('http://localhost:8081/cms', {title: 'Link'});
-              setCmsLink(response.data.content || '');
-            } 
-            catch (error) {
-              console.error('Error fetching data:', error);
-            }
-      
-          };
-
           fetchNameData();
           fetchLocationData();
           fetchFacebookLinkData();
           fetchInstagramLinkData();
-          fetchLinkData();
           fetchSmallLogo();
           fetchBigLogo();
     })
@@ -174,8 +163,9 @@ const Login = () => {
                 if (res.data.Login) {
                     navigation('/');
                 } else {
-                    setErrors(res.data.Message || 'Login failed.');
+                    setGeneralErrors(res.data.Message || 'Login failed.');
                 }
+                
             } catch (err) {
                 console.error('Error during login:', err);
             }
@@ -247,7 +237,7 @@ const Login = () => {
         </div>
 
           {/* General Error Message */}
-          {errors.general && <p className="text-sm text-red-600 mb-6">{errors.general}</p>}
+          {generalErrors && <p className="text-sm text-red-600 mb-6">{generalErrors}</p>}
 
           {/* Submit Button */}
           <button
