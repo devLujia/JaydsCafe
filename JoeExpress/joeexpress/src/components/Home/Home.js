@@ -828,7 +828,7 @@ useEffect(() => {
           </li>
           <li>
             <a
-              href="#menu"
+              href="/Menu"
               className={`block py-2 px-3 rounded md:bg-transparent md:p-0 ${activeLink === '#menu' ? 'text-green-700 font-bold' : 'text-gray-900'}`}
               onClick={() => handleNavigates('#menu')}
             >
