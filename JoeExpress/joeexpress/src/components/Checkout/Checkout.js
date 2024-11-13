@@ -132,6 +132,7 @@ export default function Checkout() {
             margin: '0',
             width: 'auto',
             textAlign: 'center',
+            boxShadow: '5px 5px 15px #888888',
           },
       }
     );
