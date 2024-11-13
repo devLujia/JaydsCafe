@@ -32,9 +32,10 @@ export default function Checkout() {
     const [selectedPayment, setSelectedPayment] = useState('');
     const { riderNote } = location.state || {};
     const [loading, setLoading] = useState(false);
-    const [STATUS, setSTATUS] = useState(false)
-    const [news, setNew] = useState(false)
-    const [deliveryAddress, setDeliveryAddress] = useState('')
+    const [STATUS, setSTATUS] = useState(false);
+    const [news, setNew] = useState(false);
+    const [deliveryAddress, setDeliveryAddress] = useState('');
+    const [altAddress, setAltAddress] = useState('');
 
 
     const [cmsName,setCmsName] = useState('');
@@ -88,7 +89,7 @@ export default function Checkout() {
 
     const handleAddAddress = (e) => {
         e.preventDefault()
-        if (deliveryAddress.trim()) {
+        if (altAddress.trim()) {
             setNew(true);
             closeModal(); 
         } else {
@@ -254,7 +255,7 @@ export default function Checkout() {
                 deliveryMethod: riderNote?.option || '' ,
                 paymentMethod: selectedPayment,
                 code,
-                deliveryAddress
+                deliveryAddress : deliveryAddress || altAddress
             });
 
             if (res.data.success && selectedPayment === 'gcash' ){
@@ -405,7 +406,7 @@ export default function Checkout() {
                                         id="add2" 
                                         name="hostinge" 
                                         value={profile.secondary_address} 
-                                        checked={deliveryAddress === profile.secondary_address}
+                                        checked={altAddress === profile.secondary_address}
                                         onChange={handleAddressChange}
                                         class="peer text-textgreenColor focus:ring-textgreenColor"
                                         />
@@ -423,13 +424,13 @@ export default function Checkout() {
                                     type="radio" 
                                     id="new" 
                                     name="hosting" 
-                                    value={deliveryAddress} 
-                                    checked = {deliveryAddress !== (profile.secondary_address || profile.address)}
+                                    value={altAddress} 
+                                    checked = {altAddress !== (profile.secondary_address || profile.address)}
                                     // onChange={handleAddressChange}
                                     class="peer text-textgreenColor focus:ring-textgreenColor"
                                     />
                                     <div className='flex flex-col py-4 overflow-hidden'>
-                                        <label htmlFor="new" class="w-full ms-3 text-sm font-medium text-gray-900 tracking-wide">{deliveryAddress}</label>
+                                        <label htmlFor="new" class="w-full ms-3 text-sm font-medium text-gray-900 tracking-wide">{altAddress}</label>
                                     </div>
 
                                 </label> : "" }
@@ -440,8 +441,8 @@ export default function Checkout() {
                                             <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Add New Address</h2>
                                             <input
                                             type="text"
-                                            value={deliveryAddress}
-                                            onChange={(e) => setDeliveryAddress(e.target.value)}  // Update the delivery address
+                                            value={altAddress}
+                                            onChange={(e) => setAltAddress(e.target.value)}  // Update the delivery address
                                             placeholder="Enter new address"
                                             className="w-full p-2 border border-gray-300 rounded-md mb-4 dark:bg-gray-700 dark:text-white"
                                             />
