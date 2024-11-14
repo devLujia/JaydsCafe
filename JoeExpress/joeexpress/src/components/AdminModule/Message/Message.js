@@ -7,7 +7,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import Profile from '../../Profile/Profile';
 import axios from 'axios';
 import socket from './socketService';
-
+import { BsEnvelopePaperFill  } from "react-icons/bs";
+import { RiDeleteBin6Fill } from "react-icons/ri";
+import { FaEllipsisVertical } from "react-icons/fa6";
 
 export default function Message({}) {
 
@@ -277,8 +279,20 @@ export default function Message({}) {
          }
       }, [messageList]);
 
+
+      //for modal in contact modal
+      const [isMessageOpen, setIsMessageOpen] = useState(false);
+   
+      const handleRowClick = () => {
+      setIsMessageOpen(true);
+      };
+   
+      const closeModal = () => {
+         setIsMessageOpen(false);
+      };
+
   return (
-    <div class="bg-jaydsBg">
+    <div class="bg-jaydsBg h-full">
          {/* <!-- nav --> */}
          <nav class="sticky top-0 bg-jaydsBg z-20 shadow-lg flex justify-between dark:bg-[#282828]">
                <div class="font-extrabold text-2xl flex items-center">
@@ -565,6 +579,120 @@ export default function Message({}) {
                   </div>
                </div>
             </div>
+            </div>
+         </div>
+         
+         <div class="flex flex-col p-4 sm:ml-64 md:pl-14 py-2 ">
+            <div class=" overflow-x-auto pb-4">
+               <div class="min-w-full inline-block align-middle">
+                  <div class="overflow-hidden  border rounded-lg border-gray-300">
+                     <table class="table-auto min-w-full rounded-xl">
+                        <thead className='border-b-2'>
+                           <tr class="bg-gray-50 Capitalize font-semibold">
+                                 <th scope="col" class="p-5 text-left whitespace-nowrap text-xl leading-6 text-gray-900 min-w-[150px]"> Contact us message </th>
+                                 <th scope="col"></th>
+                                 <th scope="col"></th>
+                           </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-300 relative">
+                        <span class="flex w-3 h-3 me-3 bg-red-500 rounded-full absolute left-2 top-1/2 transform -translate-y-1/2 z-10"></span>
+                           <tr 
+                           class="bg-white transition-all duration-500 hover:bg-gray-200 cursor-pointer group relative"
+                           onClick={handleRowClick}>
+                              
+                              <td class="px-5 py-3">
+                                 <div class="w-48 flex items-center gap-3 ps-2">
+                                    <img src={user} alt="image" />
+                                    <div class="data">
+                                       <p class="font-semibold text-sm text-gray-900">User 01</p>
+                                       <p class="font-normal text-xs leading-5 text-gray-400"> User01@jayds.com </p>
+                                    </div>
+                                 </div>
+                              </td>
+                              <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
+                                 <div class="flex">
+                                    <h1 class="font-semibold text-md">Subject of the message or the concern</h1>
+                                    <span class="font-semibold mx-2">-</span>
+                                    <p class="text-gray-400 text-[13px]">This is the message of the user what's the concern</p>
+                                 </div>
+                              </td>
+                              {/* <!-- Time display and buttons --> */}
+                              <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
+                                 <div class="flex items-center justify-end relative">
+                                    {/* <!-- Time display, only shown when not hovered --> */}
+                                    <span class="text-gray-500 text-sm absolute right-5 top-1/2 transform -translate-y-1/2 group-hover:hidden">10:45 AM</span>
+                                    
+                                    {/* <!-- Button group, shown on hover --> */}
+                                    <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute right-5 top-1/2 transform -translate-y-1/2">
+                                       <button class="rounded-lg transition-all duration-500 hover:bg-gray-400 flex items-center justify-center w-8 h-8 hover:text-white" title="Mark as read">
+                                          <BsEnvelopePaperFill  />
+                                       </button>
+                                       <button class="rounded-lg transition-all duration-500 hover:bg-gray-400 flex items-center justify-center w-8 h-8 hover:text-white" title="Delete">
+                                          <RiDeleteBin6Fill />
+                                       </button>
+                                       <button class="rounded-lg transition-all duration-500 hover:bg-gray-400 flex items-center justify-center w-8 h-8 hover:text-white" title="Delete">
+                                          <FaEllipsisVertical />
+                                       </button>
+                                    </div>
+                                 </div>
+                              </td>
+                           </tr>
+                        </tbody>
+                        {/* Modal */}
+                        {isMessageOpen && (
+                           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
+                              <div className="bg-white rounded-lg shadow-xl max-w-lg w-full p-6 relative">
+                                 <div class="flex justify-between items-center pb-2 border-b-2 border-gray-200">
+                                    <h4 class="text-lg text-gray-900 font-bold">Message to User 01</h4>
+                                    <button class="block cursor-pointer" onClick={closeModal}>
+                                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M7.75732 7.75739L16.2426 16.2427M16.2426 7.75739L7.75732 16.2427" stroke="black" stroke-width="1.6" stroke-linecap="round"></path>
+                                       </svg>
+                                    </button>
+                                 </div>
+                                 <div className=' my-4'>
+                                    <label
+                                       for="recipient-name"
+                                       class="text-neutral-500 dark:text-neutral-400">
+                                       Recipient:
+                                    </label>
+                                    <input
+                                       type="text"
+                                       class="relative m-0 mb-3 -me-0.5 block w-full flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-inset focus:outline-none dark:border-neutral-500 dark:bg-body-dark dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:autofill:shadow-autofill dark:focus:border-primary"
+                                       id="recipient-name"
+                                       placeholder='Name your Recipient(s)' />
+                                       
+                                    <label
+                                       for="message-text"
+                                       class="text-neutral-500 dark:text-neutral-400">
+                                       Message:
+                                    </label>
+                                    <textarea
+                                       class="relative m-0 min-h-20 max-h-96 -me-0.5 block w-full flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-2 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-inset focus:outline-none dark:border-neutral-500 dark:bg-body-dark dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
+                                       id="message-text" placeholder='Message here'> </textarea>
+                                 </div>
+                                 <div class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-neutral-100 p-4 pb-0 pr-0 dark:border-white/10">
+                                    <button
+                                       type="button"
+                                       class="inline-block rounded-md bg-gray-200 px-6 py-2 text-xs font-semibold uppercase text-gray-700 transition duration-200 ease-in-out hover:bg-gray-300 focus:bg-gray-300 focus:outline-none active:bg-gray-400 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-700 dark:focus:bg-gray-700 dark:active:bg-gray-800"
+                                       onClick={closeModal}>
+                                       Close
+                                    </button>
+                                    
+                                    <button
+                                       type="button"
+                                       class="ms-2 inline-block rounded-md bg-indigo-600 px-6 py-2 text-xs font-semibold uppercase text-white shadow-lg shadow-indigo-500/30 transition duration-200 ease-in-out hover:bg-indigo-700 hover:shadow-indigo-700/40 focus:bg-indigo-700 focus:shadow-indigo-700/40 focus:outline-none active:bg-indigo-800 active:shadow-indigo-800/50 dark:bg-indigo-500 dark:hover:bg-indigo-600 dark:focus:bg-indigo-600 dark:active:bg-indigo-700"
+                                       data-twe-ripple-init
+                                       data-twe-ripple-color="light">
+                                       Send Message
+                                    </button>
+                                 </div>
+                              </div>
+                           </div>
+                        )}
+                     </table>
+                  </div>
+               </div>
             </div>
          </div>
     </div>
