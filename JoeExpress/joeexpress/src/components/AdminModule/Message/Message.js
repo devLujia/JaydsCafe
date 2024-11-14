@@ -595,6 +595,7 @@ export default function Message({}) {
                               <th scope="col"></th>
                            </tr>
                         </thead>
+
                         <tbody class="divide-y divide-gray-300 relative">
                            <tr 
                            class="bg-white transition-all duration-500 hover:bg-gray-200 cursor-pointer group relative"
@@ -622,7 +623,7 @@ export default function Message({}) {
                               <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
                                  <div class="flex items-center justify-end relative">
                                     {/* <!-- Time display, only shown when not hovered --> */}
-                                    <span class="text-gray-500 text-sm absolute right-5 top-1/2 transform -translate-y-1/2 group-hover:hidden">10:45 AM</span>
+                                    <span class="text-gray-500 text-sm absolute right-5 top-1/2 transform -translate-y-1/2 group-hover:hidden"><span className='text-gray-400 text-[10px] me-2'>Nov 15</span>2:45 AM</span>
                                     
                                     {/* <!-- Button group, shown on hover --> */}
                                     <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute right-5 top-1/2 transform -translate-y-1/2">
@@ -632,7 +633,7 @@ export default function Message({}) {
                                        <button class="rounded-lg transition-all duration-500 hover:bg-gray-400 flex items-center justify-center w-8 h-8 hover:text-white" title="Delete">
                                           <RiDeleteBin6Fill />
                                        </button>
-                                       <button class="rounded-lg transition-all duration-500 hover:bg-gray-400 flex items-center justify-center w-8 h-8 hover:text-white" title="Delete">
+                                       <button class="rounded-lg transition-all duration-500 hover:bg-gray-400 flex items-center justify-center w-8 h-8 hover:text-white" title="">
                                           <FaEllipsisVertical />
                                        </button>
                                     </div>
@@ -666,7 +667,7 @@ export default function Message({}) {
                               <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
                                  <div class="flex items-center justify-end relative">
                                     {/* <!-- Time display, only shown when not hovered --> */}
-                                    <span class="text-gray-500 text-sm absolute right-5 top-1/2 transform -translate-y-1/2 group-hover:hidden">10:45 AM</span>
+                                    <span class="text-gray-500 text-sm absolute right-5 top-1/2 transform -translate-y-1/2 group-hover:hidden"><span className='text-gray-400 text-[10px] me-2'>Nov 10</span>2:45 AM</span>
                                     
                                     {/* <!-- Button group, shown on hover --> */}
                                     <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute right-5 top-1/2 transform -translate-y-1/2">
@@ -676,7 +677,7 @@ export default function Message({}) {
                                        <button class="rounded-lg transition-all duration-500 hover:bg-gray-400 flex items-center justify-center w-8 h-8 hover:text-white" title="Delete">
                                           <RiDeleteBin6Fill />
                                        </button>
-                                       <button class="rounded-lg transition-all duration-500 hover:bg-gray-400 flex items-center justify-center w-8 h-8 hover:text-white" title="Delete">
+                                       <button class="rounded-lg transition-all duration-500 hover:bg-gray-400 flex items-center justify-center w-8 h-8 hover:text-white" title="">
                                           <FaEllipsisVertical />
                                        </button>
                                     </div>
@@ -684,6 +685,7 @@ export default function Message({}) {
                               </td>
                            </tr>
                         </tbody>
+
                         {/* Modal */}
                         {isMessageOpen && (
                            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
@@ -708,7 +710,7 @@ export default function Message({}) {
                                        id="recipient-name"
                                        placeholder='Name your Recipient(s)' />
 
-                                    <div className='border border-gray-300 rounded-md p-3 min-h-72 max-h-80 overflow-y-scroll'>
+                                    <div className='border border-gray-300 rounded-md p-3 min-h-72 max-h-80 overflow-y-scroll mb-4'>
                                        <p>
                                           Hello world ang sinabi ni User 01
                                        </p>
@@ -717,13 +719,13 @@ export default function Message({}) {
                                     <label
                                        for="message-text"
                                        class="text-neutral-500 dark:text-neutral-400">
-                                       Message:
+                                       Reply:
                                     </label>
                                     <textarea
                                        class="relative m-0 min-h-20 max-h-96 -me-0.5 block w-full flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-2 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-inset focus:outline-none dark:border-neutral-500 dark:bg-body-dark dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
                                        id="message-text" placeholder='Message here'> </textarea>
                                  </div>
-                                 <div class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-neutral-100 p-4 pb-0 pr-0 dark:border-white/10">
+                                 <div class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-gray-200 p-4 pb-0 pr-0 dark:border-white/10">
                                     <button
                                        type="button"
                                        class="inline-block rounded-md bg-gray-200 px-6 py-2 text-xs font-semibold uppercase text-gray-700 transition duration-200 ease-in-out hover:bg-gray-300 focus:bg-gray-300 focus:outline-none active:bg-gray-400 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-700 dark:focus:bg-gray-700 dark:active:bg-gray-800"
