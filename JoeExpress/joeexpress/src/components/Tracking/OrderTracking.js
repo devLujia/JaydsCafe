@@ -209,7 +209,7 @@ function OrderTracking() {
                     </svg>
                 </span>
                 <div>
-                    <h4 className='font-bold text-lg md:text-xl text-gray-800'>Order Placed</h4>
+                    <h4 className='font-bold text-lg md:text-xl text-gray-800'>Order Received</h4>
                     <p className='text-gray-600'>We received your order.</p>
                 </div>
                 </div>
@@ -219,7 +219,7 @@ function OrderTracking() {
                 </span>
                 <div>
                     <h4 className='font-bold text-lg md:text-xl text-gray-800'>Order Confirmed</h4>
-                    <p className='text-gray-600'>Your order has been confirmed.</p>
+                    <p className='text-gray-600'>Your order has been accepted.</p>
                 </div>
                 </div>
                 <div className={`flex flex-col items-center gap-4 w-full md:w-auto ${order.status === 'on process' || order.status === 'on delivery' || order.status === 'completed' ? 'opacity-100' : 'opacity-50'}`}> 
@@ -227,8 +227,8 @@ function OrderTracking() {
                     <img src={track3} alt='Order Processed' className={`w-8 h-8 object-contain ${order.status === 'on process' || order.status === 'on delivery' || order.status === 'completed' ? 'filter invert' : ''}`} />
                 </span>
                 <div>
-                    <h4 className='font-bold text-lg md:text-xl text-gray-800'>Order Processed</h4>
-                    <p className='text-gray-600'>We are preparing your order.</p>
+                    <h4 className='font-bold text-lg md:text-xl text-gray-800'>Preparing Order</h4>
+                    <p className='text-gray-600'>We are now preparing your food.</p>
                 </div>
                 </div>
                 <div className={`flex flex-col items-center gap-4 w-full md:w-auto ${order.status === 'on delivery' || order.status === 'completed' ? 'opacity-100' : 'opacity-50'}`}> 
@@ -236,8 +236,8 @@ function OrderTracking() {
                     <img src={track4} alt='Ready to Pickup/Deliver' className={`w-8 h-8 object-contain ${order.status === 'on delivery' || order.status === 'completed' ? 'filter invert' : ''}`} />
                 </span>
                 <div>
-                    <h4 className='font-bold text-lg md:text-xl text-gray-800'>Ready to Pickup/Deliver</h4>
-                    <p className='text-gray-600'>Your order is ready to pickup/deliver.</p>
+                    <h4 className='font-bold text-lg md:text-xl text-gray-800'>Out for Delivery</h4>
+                    <p className='text-gray-600'>Your food is on its way to you!</p>
                 </div>
                 </div>
             </div>
