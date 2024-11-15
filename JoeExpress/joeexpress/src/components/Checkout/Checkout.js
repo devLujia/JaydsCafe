@@ -104,8 +104,8 @@ export default function Checkout() {
 
     toastId.current = toast.success(
       <>
-        <div className='mb-4 text-xl tracking-wide'>Processing your payment...</div>
-        <div className='my-2'>You can cancel your order within:</div>
+        <div className='mb-6 text-xl tracking-wide'>Are you sure about your order?</div>
+        <div className='my-4'>You can cancel your order within:</div>
         <div className='w-full flex justify-evenly shrink-0 gap-3'>
             <button onClick={handleCloseModal} className='cursor-pointer py-3 px-5 bg-red-600 hover:bg-red-500 font-semibold tracking-wide text-white rounded-md'>
             Cancel
@@ -130,8 +130,8 @@ export default function Checkout() {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            margin: '0',
             width: 'auto',
+            height:'200px',
             textAlign: 'center',
             boxShadow: '5px 5px 15px #888888',
           },
@@ -148,7 +148,7 @@ export default function Checkout() {
         toast.update(toastId.current, {
           render: (
             <>
-              <div className='mb-4 text-xl tracking-wide'>Processing your payment...</div>
+              <div className='mb-4 text-xl tracking-wide'>Are you sure about your order?</div>
               <div className='my-2'>You can cancel your order within:</div>
               <div className='w-full flex flex-col sm:flex-row justify-evenly items-center gap-3'>
                 <button
