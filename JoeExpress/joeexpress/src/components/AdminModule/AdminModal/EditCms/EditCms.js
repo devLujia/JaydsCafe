@@ -62,7 +62,7 @@ function EditCms({ closeModal, id }) {
     <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
       <div className="bg-white w-auto h-auto rounded-lg shadow-lg flex flex-col p-6">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-xl font-bold">Edit {cmsData.title}</h1>
+          <h1 className="text-xl font-bold">Edit {cmsData?.title}</h1>
           <button
             onClick={() => closeModal(false)}
             className="text-white bg-red-500 px-3 py-1 hover:bg-red-600 rounded-sm"
@@ -73,14 +73,13 @@ function EditCms({ closeModal, id }) {
 
         <div className="flex-1">
           <form className="flex flex-col" onSubmit={handleSubmit}>
-            <div className="mb-4">
+            <div className="mb-1">
               <label className="flex text-gray-600 text-sm font-bold tracking-wider">Content Title:</label>
-              <h6 className="flex text-gray-600 py-3 font-bold tracking-wider">{cmsData.title}</h6>
+              <h6 className="flex text-gray-900 py-3 font-bold tracking-wider">{cmsData?.title}</h6>
             </div>
-
             <div className="mb-4">
               <label htmlFor="content" className="flex text-gray-600 text-sm font-bold tracking-wider">
-                Content
+                Content :
               </label>
               {cmsData.category === 'image' ? (
                 <input

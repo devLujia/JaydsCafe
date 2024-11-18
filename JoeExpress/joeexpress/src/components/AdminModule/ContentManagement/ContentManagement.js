@@ -460,7 +460,7 @@ export default function ContentManagement() {
                                     <img src={fb} alt="Facebook" /> 
                             </a>
                             : cms.title === 'Link' ?  <a href='#' className='bg-blue-600 absolute top-2 left-2 px-2 py-1 rounded-full'>
-                                    <img src={links} alt="Facebook" /> 
+                                    <img src={links} alt="Link" /> 
                             </a>: null
                             }
                             

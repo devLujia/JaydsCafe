@@ -85,6 +85,19 @@ function Home() {
     const toggleFAQ = (index) => {
         setOpenIndex(openIndex === index ? null : index);
     };
+
+    const [messages, setMessages] = useState([
+      { sender: "bot", text: "👋 Hi there! I'm JaydsBot, your friendly virtual assistant!" }
+    ]);
+    
+    const [messagesRandom, setMessagesRandom] = useState([
+      { sender: "bot", text: "Feel free to ask me anything. Like our location 🥤" },
+      { sender: "bot", text: "Feel free to ask me anything. Like our email 🥤" },
+      { sender: "bot", text: "Feel free to ask me anything. Like our Facebook 🥤" },
+      { sender: "bot", text: "Feel free to ask me anything. Like our Hello 🥤" },
+      { sender: "bot", text: "Feel free to ask me anything. Like our Email 🥤" },
+      { sender: "bot", text: "Feel free to ask me anything. Like our Phone 🥤" },
+    ]);
   
   const [categoryId, setCategoryId] = useState('');
 
@@ -124,6 +137,7 @@ function Home() {
   const [cmsAboutUs,setAboutUs] = useState('');
   const [cmsOperationHour,setOperationHour] = useState('');
   const [cmsOperationDays,setOperationDays] = useState('');
+  const [cmsLocationPage,setLocationPage] = useState('');
   const [cmsLocation,setLocation] = useState('');
   const [cmsFacebook,setCmsFacebook] = useState('');
   const [cmsInstagram,setCmsInstagram] = useState('');
@@ -139,6 +153,7 @@ function Home() {
   const [TermsModal,setTermsModal] = useState(false); //modal
   const [ChatModal,setChatModal] = useState(false); //modal
   const [statusMessage, setStatusMessage] = useState("");
+  const [userInput, setUserInput] = useState("");
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -265,6 +280,18 @@ function Home() {
 
     };
     
+    const fetchLink = async () => {
+
+      try{
+        const response = await axios.post ('http://localhost:8081/cms', {title: 'Link'});
+        setCmsLink(response.data?.content || '')
+      }
+      catch (error) {
+        console.error('Error fetching data:', error);
+      }
+
+    };
+    
     const fetchOperationDaysData = async () => {
 
       try{
@@ -333,6 +360,18 @@ function Home() {
 
     };
 
+    const fetchLocationPage = async () => {
+
+      try{
+        const response = await axios.post ('http://localhost:8081/cms', {title: 'Location Page'});
+        setLocationPage(response.data?.content || '')
+      }
+      catch (error) {
+        console.error('Error fetching data:', error);
+      }
+
+    }
+    
     const fetchLocation = async () => {
 
       try{
@@ -376,7 +415,7 @@ function Home() {
       fetchPhoneData();
       fetchTelData();
       fetchNameData();
-      fetchLocation();
+      fetchLocationPage();
       fetchaboutusData();
       fetchInstagramLinkData();
       fetchFacebookLinkData();
@@ -385,9 +424,10 @@ function Home() {
       fetchAboutUsImage();
       fetchOperationHoursData();
       fetchOperationDaysData();
+      fetchLink();
+      fetchLocation();
 
-
-  },[])
+  },[]);
 
   const handleMapModal = () => {
     setMapModal(!mapModal);
@@ -412,6 +452,73 @@ function Home() {
 
   };
 
+  const handleSend = () => {
+    if (!userInput.trim()) return;
+  
+    // Add user message to the chat
+    const newMessages = [...messages, { sender: "user", text: userInput }];
+    setMessages(newMessages);
+  
+    // Respond dynamically
+    let botResponse = "I'm sorry, I didn't understand that.";
+  
+    // Check for different inputs and set the bot's response accordingly
+    if (userInput.toLowerCase().includes("location")) {
+      botResponse = `Our location is: ${cmsLocation}`;
+    }
+    else if (userInput.toLowerCase().includes("hello")) {
+      botResponse = "Hello! How can I help you today?";
+    }
+    else if (userInput.toLowerCase().includes("Phone")) {
+      botResponse = `Our phone number is: ${cmsPhone}`;
+    }
+    else if (userInput.toLowerCase().includes("instagram")) {
+      botResponse = "Opening our Instagram page...";
+  
+      setTimeout(() => {
+        window.open(cmsInstagram, "_blank");
+      }, 500);
+    }
+    else if (userInput.toLowerCase().includes("facebook")) {
+
+      botResponse = "Opening our Facebook page...";
+  
+      setTimeout(() => {
+        window.open(cmsFacebook, "_blank");
+      }, 500);
+      
+    }
+    else if (userInput.toLowerCase().includes("email")) {
+      botResponse = `You can reach us at: ${cmsLink}`;
+    }
+  
+    // Add bot response to the chat
+    setTimeout(() => {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { sender: "bot", text: botResponse },
+      ]);
+    }, 500); // Simulate delay
+  
+    setUserInput(""); // Clear input field
+  };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      // Randomly select a message from the initial messages
+      const randomMessage =
+        messagesRandom[Math.floor(Math.random() * messagesRandom.length)];
+      
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        randomMessage,
+      ]);
+
+    }, 30000);
+
+
+    return () => clearInterval(intervalId);
+  }, [messagesRandom]);
 
   useEffect(() => {
     // Burger menu functionality
@@ -1035,63 +1142,70 @@ useEffect(() => {
         </div>
 
 
-          {ChatModal && (
-            <div id="chat-container" className="fixed bottom-16 lg:bottom-16 lg:right-8 md:bottom-16 w-96 max-w-full sm:w-80 md:right-10 xs:w-full sm:bottom-4 sm:right-0 z-50">
-              <div className="bg-cards2 shadow-md rounded-lg max-w-lg w-full">
-                <div className="p-4 border-b bg-textgreenColor text-white rounded-t-lg flex justify-between items-center">
-                  <p className="text-lg font-semibold">JaydsBot</p>
-                  <button
-                    onClick={toggleChatModal}
-                    className="text-gray-300 hover:text-gray-400 focus:outline-none focus:text-gray-400"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="w-6 h-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
-                </div>
-
-                <div id="chatbox" className="p-4 h-80 overflow-y-auto">
-                  <div className="mb-2">
-                    <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
-                      👋 Hi there! I'm JaydsBot!, your friendly virtual assistant here at JoeExpress.
-                      I'm here to make your experience as smooth and enjoyable as possible. Whether you need help finding your favorite milk tea flavor, placing an order, or learning about our latest promotions, I'm just a click away!
-                    </p>
-                  </div>
-                  <div className="mb-2">
-                    <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
-                      Feel free to ask me anything, and I'll do my best to assist you. Let's get started on finding your perfect drink today! 🥤
-                    </p>
-                  </div>
-                </div>
-
-                <div className="p-4 border-t flex">
-                  <input
-                    id="user-input"
-                    type="text"
-                    placeholder="Type a message"
-                    className="w-full px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        {ChatModal && (
+        <div id="chat-container" className="fixed bottom-16 lg:bottom-16 lg:right-8 md:bottom-16 w-96 max-w-full sm:w-80 md:right-10 xs:w-full sm:bottom-4 sm:right-0 z-50">
+          <div className="bg-cards2 shadow-md rounded-lg max-w-lg w-full">
+            <div className="p-4 border-b bg-textgreenColor text-white rounded-t-lg flex justify-between items-center">
+              <p className="text-lg font-semibold">JaydsBot</p>
+              <button
+                onClick={toggleChatModal}
+                className="text-gray-300 hover:text-gray-400 focus:outline-none focus:text-gray-400"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-6 h-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
                   />
-                  <button
-                    id="send-button"
-                    className="bg-textgreenColor text-white px-4 py-2 rounded-r-md hover:bg-amber-700 transition duration-300"
-                  >
-                    Send
-                  </button>
-                </div>
-              </div>
+                </svg>
+              </button>
             </div>
-          )}
+
+            {/* Chatbox */}
+            <div id="chatbox" className="p-4 h-80 overflow-y-auto">
+              {messages.map((message, index) => (
+                <div key={index} className={`mb-2 ${message.sender === "bot" ? "" : "text-right"}`}>
+                  <p
+                    className={`${
+                      message.sender === "bot" ? "bg-gray-200 text-gray-700" : "bg-blue-500 text-white"
+                    } rounded-lg py-2 px-4 inline-block`}
+                  >
+                    {message.text}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* Input */}
+            <div className="p-4 border-t flex">
+              <input
+                id="user-input"
+                type="text"
+                placeholder="Type a message"
+                className="w-full px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+                onKeyPress={(e) => e.key === "Enter" && handleSend()}
+              />
+              <button
+                id="send-button"
+                onClick={handleSend}
+                className="bg-textgreenColor text-white px-4 py-2 rounded-r-md hover:bg-amber-700 transition duration-300"
+              >
+                Send
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
         </>
       )}
     
@@ -1654,7 +1768,8 @@ useEffect(() => {
                   d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                 />
               </svg>
-              <p className="text-xl font-medium text-gray-900">(+63) 926 015 9202</p>
+              <p className="text-xl font-medium text-gray-900">{cmsTel}</p>
+              <p className="text-xl font-medium text-gray-900">{cmsPhone}</p>
             </div>
 
             {/* Email Us */}
@@ -1667,7 +1782,7 @@ useEffect(() => {
                   d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                 />
               </svg>
-              <p className="text-xl font-medium text-gray-900">jaydscoffee@gmail.com</p>
+              <p className="text-xl font-medium text-gray-900">{cmsLink}</p>
             </div>
 
             {/* Location */}
@@ -1686,7 +1801,7 @@ useEffect(() => {
                   d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                 />
               </svg>
-              <p className="text-lg font-medium leading-relaxed text-gray-900 text-center">B4 L1 Diamond Village Salawag Dasmariñas, Philippines.</p>
+              <p className="text-lg font-medium leading-relaxed text-gray-900 text-center">{cmsLocation}</p>
             </div>
           </div>
         </div>

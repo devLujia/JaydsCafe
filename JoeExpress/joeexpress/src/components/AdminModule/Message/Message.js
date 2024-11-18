@@ -520,13 +520,13 @@ export default function Message() {
                            />
                         </div>
                         <div className="w-full px-2">
-                           <div className="text-md tracking-wider dark:text-white hover:text-gray-900">
-                              Ticket Id : {ticket?.ticket_id}
+                           <div className="text-sm tracking-wider dark:text-white hover:text-gray-900">
+                              Ticket Id : <span className='text-base hover:text-gray-900'>{ticket?.ticket_id}</span>
                            </div>
                            <div className="text-sm tracking-wider dark:text-white hover:text-gray-500">
-                              From : {ticket?.name}
+                              From : <span className='text-base hover:text-gray-900'>{ticket?.name}</span>
                            </div>
-                           <span className="text-gray-500 text-sm">Subject : {ticket?.subject || "No Subject Yet"}</span>
+                           <span className="text-gray-500 text-sm">Subject : <span className='text-base hover:text-gray-900'>{ticket?.subject || "No Subject Yet"}</span></span>
                            
                         </div>
                         
@@ -609,7 +609,7 @@ export default function Message() {
             </div>
          </div>
          
-         <div class="flex flex-col p-4 sm:ml-64 md:pl-14 py-2 ">
+         {/* <div class="flex flex-col p-4 sm:ml-64 md:pl-14 py-2 ">
             <div class=" overflow-x-auto pb-4">
                <div class="min-w-full inline-block align-middle">
                   <div class="overflow-hidden  border rounded-lg border-gray-300">
@@ -646,13 +646,10 @@ export default function Message() {
                                     <p class="text-gray-400 text-[13px]">This is the message of the user what's the concern</p>
                                  </div>
                               </td>
-                              {/* <!-- Time display and buttons --> */}
                               <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
                                  <div class="flex items-center justify-end relative">
-                                    {/* <!-- Time display, only shown when not hovered --> */}
                                     <span class="text-gray-500 text-sm absolute right-5 top-1/2 transform -translate-y-1/2 group-hover:hidden"><span className='text-gray-400 text-[10px] me-2'>Nov 15</span>2:45 AM</span>
                                     
-                                    {/* <!-- Button group, shown on hover --> */}
                                     <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute right-5 top-1/2 transform -translate-y-1/2">
                                        <button class="rounded-lg transition-all duration-500 hover:bg-gray-400 flex items-center justify-center w-8 h-8 hover:text-white" title="Mark as read">
                                           <BsEnvelopePaperFill  />
@@ -690,13 +687,10 @@ export default function Message() {
                                     <p class="text-gray-400 text-[13px]">This is the message of the user what's the concern</p>
                                  </div>
                               </td>
-                              {/* <!-- Time display and buttons --> */}
                               <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
                                  <div class="flex items-center justify-end relative">
-                                    {/* <!-- Time display, only shown when not hovered --> */}
                                     <span class="text-gray-500 text-sm absolute right-5 top-1/2 transform -translate-y-1/2 group-hover:hidden"><span className='text-gray-400 text-[10px] me-2'>Nov 10</span>2:45 AM</span>
                                     
-                                    {/* <!-- Button group, shown on hover --> */}
                                     <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute right-5 top-1/2 transform -translate-y-1/2">
                                        <button class="rounded-lg transition-all duration-500 hover:bg-gray-400 flex items-center justify-center w-8 h-8 hover:text-white" title="Mark as read">
                                           <BsEnvelopePaperFill  />
@@ -713,7 +707,6 @@ export default function Message() {
                            </tr>
                         </tbody>
 
-                        {/* Modal */}
                         {isMessageOpen && (
                            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
                               <div className="bg-white rounded-lg shadow-xl max-w-3xl w-full p-6 relative">
@@ -775,7 +768,7 @@ export default function Message() {
                   </div>
                </div>
             </div>
-         </div>
+         </div> */}
     </div>
   )
 }
