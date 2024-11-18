@@ -327,7 +327,7 @@ function AdminDashboard() {
     
   return (
     <div class="bg-jaydsBg dark:bg-gray-700"> 
-      <nav class="sticky top-0 bg-jaydsBg z-20 shadow-none flex justify-between dark:bg-[#282828] dark:text-white">
+      <nav class="sticky top-0 bg-gray-50 z-20 shadow-none flex justify-between dark:bg-[#282828] dark:text-white">
          <div class="font-extrabold text-2xl flex items-center">
                {/* <!-- Logo/Title in Navbar --> */}
                <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">{stripHtmlTags(cmsName)}</a>
