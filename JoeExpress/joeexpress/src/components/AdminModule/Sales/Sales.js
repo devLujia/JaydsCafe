@@ -332,6 +332,10 @@ export default function Sales() {
             fetchMonthlyData();
         }, []);
         
+        function stripHtmlTags(html) {
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            return doc.body.textContent || "";
+        }
 
   return (
     <div>
@@ -372,8 +376,11 @@ export default function Sales() {
         <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-72 h-screen pt-5 transition-transform -translate-x-full bg-white border-r border-white dark:border-gray-600 sm:translate-x-0 dark:bg-[#282828]" aria-label="Sidebar">
             <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-[#282828]">
                 <a href="#" class="flex items-center ps-2.5 mb-5">
-                    <img src={jaydsLogo} alt="Logo"/>           
-                    <span class="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2">{cmsName}</span>
+                    <img src={jaydsLogo} alt="Logo"/> 
+                    <span 
+                        className="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2" 
+                        dangerouslySetInnerHTML={{ __html: cmsName }}>
+                    </span>          
                 </a>
                     <ul class="space-y-2 font-medium ">
 
@@ -483,9 +490,6 @@ export default function Sales() {
                         <span class="ms-3">Sign Out</span>
                     </a>
                 </li>
-
-
-
                 </ul>
             <h1 class="text-md font-semibold text-gray-500 fixed bottom-5 dark:text-white">Copyright © 2024 • uixLujiaa • MigzGo • Chard C. • Dale Gab</h1>
             </div>
@@ -544,7 +548,7 @@ export default function Sales() {
         </div>
 
         <div className="shadow-xl py-14 px-3 hidden sm:block">
-            <div className="relative sm:rounded-lg col-span-1 sm:ml-72">
+            <div className="relative sm:rounded-lg col-span-1 sm:ml-72 shadow-lg border-1">
                 <div className="flex items-center justify-between flex-col md:flex-row space-y-4 md:space-y-0 p-4 bg-greenColor text-white rounded-t-lg dark:bg-[#282828] dark:text-white">
                     <h1 className="font-bold text-2xl tracking-wide">Top Products</h1>
                     <label htmlFor="table-search" className="sr-only">Search</label>
@@ -564,7 +568,7 @@ export default function Sales() {
                 </div>
 
                 {/* Responsive Table */}
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto border border-1">
                     <table className="min-w-full text-sm text-left text-gray-500">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-[#3f3f3f] dark:text-white">
                             <tr>

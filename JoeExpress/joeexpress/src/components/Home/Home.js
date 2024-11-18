@@ -819,6 +819,11 @@ useEffect(() => {
     window.location.hash = hash;
   };
 
+  function stripHtmlTags(html) {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || "";
+  }
+
   return (
   
     <div class="bg-jaydsBg">
@@ -837,7 +842,11 @@ useEffect(() => {
     <nav class="sticky top-8 bg-white z-20 shadow-lg">
       <div class="font-extrabold text-2xl flex items-center">
         {/* <!-- Logo/Title in Navbar --> */}
-        <a href="#"className="flex items-center text-greenColor ms-2 md:ms-5 text-lg md:text-2xl tracking-wide">{cmsName}</a>
+        <a 
+          href="#" 
+          className="flex items-center text-greenColor ms-2 md:ms-5 text-lg md:text-2xl tracking-wide" 
+          dangerouslySetInnerHTML={{ __html: cmsName }}>
+        </a>
       </div>
       
       <span className="menu">
@@ -1115,12 +1124,12 @@ useEffect(() => {
         </p>
 
         {/* CMS Name Heading */}
-        <h1 className="text-textgreenColor text-5xl md:text-7xl lg:text-8xl font-extrabold pb-2 drop-shadow-lg text-center lg:text-left" id="name">
-          {cmsName}
+        <h1 className="text-textgreenColor text-5xl md:text-7xl lg:text-8xl font-extrabold pb-2 drop-shadow-lg text-center lg:text-left" id="name" dangerouslySetInnerHTML={{ __html: cmsName }}>
+          
         </h1>
 
         {/* Description */}
-        <p className="max-w-xs sm:max-w-md md:max-w-lg lg:max-w-[28rem] mx-auto mb-5 text-base md:text-lg text-gray-600 text-center lg:text-left">
+        <p className="max-w-xs sm:max-w-md md:max-w-lg lg:max-w-[28rem] mb-5 text-base md:text-lg text-gray-600 text-center lg:text-left">
           Discover the perfect blend of flavors in every cup. From classic milk teas to unique creations, we’ve got something for everyone. Come sip, relax, and enjoy your favorite drink today!
         </p>
 
@@ -1441,8 +1450,8 @@ useEffect(() => {
           <h2 className="font-extrabold text-3xl md:text-4xl mb-4 md:mb-6 text-black">
             Let Us Introduce Ourselves
           </h2>
-          <p className="max-w-lg mb-6 text-base md:text-lg leading-relaxed text-black italic">
-            {cmsAboutUs}
+          <p className="max-w-lg mb-6 text-base md:text-lg leading-relaxed text-black italic" dangerouslySetInnerHTML={{ __html: cmsAboutUs}}>
+            
           </p>
           <div className="pt-4">
             <button
@@ -1689,8 +1698,7 @@ useEffect(() => {
       <div class="border-y-2 border-gray-400 w-4/5 p-10">
         {/* <!-- container footer--> */}
         <div class="flex justify-between w-full">
-        <h1 class="text-white text-3xl sm:text-4xl font-bold">
-          {cmsName}
+        <h1 class="text-white text-3xl sm:text-4xl font-bold" dangerouslySetInnerHTML={{ __html: cmsName }}>
         </h1>
           <div class="flex gap-2">
             <button type='button' 

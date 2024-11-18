@@ -146,25 +146,6 @@ export default function ContentManagement() {
         }
     };
     
-    // useEffect(()=>{
-        
-    //         const button = document.querySelector('[data-collapse-toggle="dropdown-example"]');
-    //         const dropdown = document.getElementById('dropdown-example');
-
-    //         button.addEventListener('click', () => {
-    //         dropdown.classList.toggle('hidden');
-    //         });
-
-    //         // Dropdown sa Avatar
-    //         const avatarButton = document.getElementById('avatarButton');
-    //         const userDropdown = document.getElementById('userDropdown');
-
-    //         avatarButton.addEventListener('click', () => {
-
-    //         userDropdown.classList.toggle('hidden');
-
-    //         });
-    // })
 
     useEffect(() => {
         const fetchCmsData = async () => {
@@ -179,7 +160,6 @@ export default function ContentManagement() {
         fetchCmsData();
     }, [editCms]);
     
-
   return (
     <div>
         {editCms && cmsID !== null && (
@@ -189,7 +169,7 @@ export default function ContentManagement() {
         <nav class="sticky top-0 bg-jaydsBg z-20 shadow-lg flex justify-between dark:bg-[#282828]">
             <div class="font-extrabold text-2xl flex items-center">
                 {/* <!-- Logo/Title in Navbar --> */}
-                <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">{cmsName}</a>
+                <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide"></a>
             </div>
             <div></div>
             {/* <!-- Button for Login or Sign Up --> */}
@@ -232,7 +212,10 @@ export default function ContentManagement() {
             <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-[#282828]">
             <a href="#" class="flex items-center ps-2.5 mb-5">
                 <img src={jaydsLogo} alt="Logo"/>           
-                <span class="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2">{cmsName}</span>
+                <span 
+                    className="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2" 
+                    dangerouslySetInnerHTML={{ __html: cmsName }}>
+                </span>
             </a>
                 <ul class="space-y-2 font-medium ">
 
@@ -347,30 +330,33 @@ export default function ContentManagement() {
         
         <div class="p-4 sm:ml-72 bg-slate-100 hidden sm:block dark:bg-[#3f3f3f] dark:text-white">
             <div class="relative  sm:rounded-lg">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2">
                     {cmsContent.filter(cms => cms.category === "About Us" || cms.category === "Header").map(cms => (
-                        <div key={cms.category} className='relative border-2 border-gray-500 rounded-xl text-center shadow-xl min-w-fit p-2'> 
-                            <h1 className='mt-2 text-xl text-left font-semibold mb-2'>{cms.title}</h1>
-                            <h1 className='mt-5 text-md font-normal mb-2'><span className='block'>Date Updated:</span> {new Date(cms.updated_at).toLocaleString('en-US', {
-                                            year: 'numeric',
-                                            month: 'long',
-                                            day: 'numeric',
-                                            hour: '2-digit',
-                                            minute: '2-digit',
-                                            second: '2-digit'
-                                        })}
-                            </h1>
-                            <input
-                                type="text"
-                                id="disabled-input"
-                                value={cms.content}
-                                aria-label="disabled input"
-                                className="w-full max-h-12 px-2 rounded-lg bg-jaydsBg overflow-hidden text-center"
-                                disabled
-                            />
-                            <button onClick={() => handleEditCms(cms.id)} className='absolute top-3 right-3 p-1 bg-textgreenColor rounded-lg' title={`Edit ${cms.title}`}>
-                                <img src={edit} className='filter invert' alt="Edit" />
-                            </button>
+                        <div key={cms.id} className='relative border-2 border-gray-500 rounded-xl text-center shadow-xl min-w-fit p-2'>
+                        <h1 className='mt-2 text-xl text-left font-semibold mb-2'>{cms.title}</h1>
+
+                        <h1 className='mt-5 text-md font-normal mb-2'>
+                            <span className='block'>Date Updated:</span>
+                            {new Date(cms.updated_at).toLocaleString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit'
+                            })}
+                        </h1>
+
+                        {/* Render the content as raw HTML, styled like an input */}
+                        <div
+                            className="w-full max-w-[220px] max-h-[40px] px-2 rounded-lg bg-jaydsBg overflow-hidden text-center text-nowrap"
+                            dangerouslySetInnerHTML={{ __html: cms.content }}
+                            style={{ border: '1px solid #ddd', padding: '0.5rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                        ></div>
+                        
+                        <button onClick={() => handleEditCms(cms.id)} className='absolute top-3 right-3 p-1 bg-textgreenColor rounded-lg' title={`Edit ${cms.title}`}>
+                            <img src={edit} className='filter invert' alt="Edit" />
+                        </button>
                         </div>
                     ))}
                 </div>

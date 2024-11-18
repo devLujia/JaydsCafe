@@ -320,14 +320,17 @@ function AdminDashboard() {
       }
   };
   
-    
+  function stripHtmlTags(html) {
+   const doc = new DOMParser().parseFromString(html, 'text/html');
+   return doc.body.textContent || "";
+ }
     
   return (
     <div class="bg-jaydsBg dark:bg-gray-700"> 
       <nav class="sticky top-0 bg-gray-50 z-20 shadow-none flex justify-between dark:bg-[#282828] dark:text-white">
          <div class="font-extrabold text-2xl flex items-center">
                {/* <!-- Logo/Title in Navbar --> */}
-               <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">{cmsName}</a>
+               <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">{stripHtmlTags(cmsName)}</a>
          </div>
          <div></div>
          {/* <!-- Button for Login or Sign Up --> */}
@@ -388,7 +391,10 @@ function AdminDashboard() {
          <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-[#282828]">
          <a href="#" class="flex items-center ps-2.5 mb-5">
             <img src={jaydsLogo} alt="Logo"/>           
-            <span class="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2">{cmsName}</span>
+            <span 
+               className="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2" 
+               dangerouslySetInnerHTML={{ __html: cmsName }}>
+            </span>
          </a>
             <ul class="space-y-2 font-medium ">
 
