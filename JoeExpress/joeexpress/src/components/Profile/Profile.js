@@ -397,6 +397,24 @@ export default function Profile() {
       setSelectedOrderId(null);
     
     };
+    const [cmsName,setCmsName] = useState('');
+
+    useEffect(()=>{
+
+        const fetchNameData = async () => {
+          try {
+            const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
+            setCmsName(response.data.content || '');
+          } 
+          catch (error) {
+            console.error('Error fetching data:', error);
+          }
+    
+        };
+
+        fetchNameData();
+
+    },[])
 
 
   return (
@@ -407,7 +425,7 @@ export default function Profile() {
     <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">
       <div class="font-extrabold text-2xl items-center">
         {/* <!-- Logo/Title in Navbar --> */}
-        <a href="/" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide">Jayd's Cafe</a>
+        <a href="/" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide" dangerouslySetInnerHTML={{ __html: cmsName }}></a>
       </div>
 
         <div>
@@ -1078,8 +1096,7 @@ export default function Profile() {
       <div class="border-y-2 border-gray-400 w-4/5 p-10">
         {/* <!-- container footer--> */}
         <div class="flex justify-between w-full">
-        <h1 class="text-white text-3xl sm:text-4xl font-bold">
-          Jayd's Cafe
+        <h1 class="text-white text-3xl sm:text-4xl font-bold" dangerouslySetInnerHTML={{ __html: cmsName }}>
         </h1>
 
           <div class="flex gap-2">

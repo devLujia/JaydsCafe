@@ -110,6 +110,11 @@ export default function PaymentSuccess() {
         navigate('/cart')
     }
 
+    function stripHtmlTags(html) {
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        return doc.body.textContent || "";
+      }
+      
   return (
     <div className=''>
         
@@ -120,7 +125,7 @@ export default function PaymentSuccess() {
         <nav class="w-full top-0 fixed bg-white z-20 shadow-lg flex justify-between">
             <div class="font-extrabold text-2xl flex items-center">
                 {/* <!-- Logo/Title in Navbar --> */}
-                <a href={'/menu'} class="flex items-center text-greenColor ms-5 text-2xl tracking-wide">{cmsName}</a>
+                <a href={'/menu'} class="flex items-center text-greenColor ms-5 text-2xl tracking-wide"dangerouslySetInnerHTML={{ __html: cmsName }}></a>
             </div>
             <div></div>
             {/* <!-- Button for Login or Sign Up --> */}
@@ -166,7 +171,7 @@ export default function PaymentSuccess() {
             <div class="border-y-2 border-gray-400 w-4/5 p-10">
             {/* <!-- container footer--> */}
             <div class="flex justify-between flex-wrap gap-y-3 w-full">
-                <h1 class="text-white text-3xl sm:text-4xl font-bold">{cmsName}</h1>
+                <h1 class="text-white text-3xl sm:text-4xl font-bold"dangerouslySetInnerHTML={{ __html: cmsName }}></h1>
                 <div class="flex gap-2">
                 <button type='button' 
                 class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">

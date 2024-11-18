@@ -344,6 +344,12 @@ useEffect(() => {
             // Optionally, close the dropdown after selection
             setDropdownOpenCategory(false);
           };
+
+          function stripHtmlTags(html) {
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            return doc.body.textContent || "";
+          }
+        
           
   return (
     <div>
@@ -358,8 +364,7 @@ useEffect(() => {
       <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">
         <div class="font-extrabold text-2xl flex items-center">
           {/* <!-- Logo/Title in Navbar --> */}
-          <a href="/" class="flex items-center text-greenColor ms-2 sm:ms-5 text-lg sm:text-2xl tracking-wide">
-          {cmsName}
+          <a href="/" class="flex items-center text-greenColor ms-2 sm:ms-5 text-lg sm:text-2xl tracking-wide" dangerouslySetInnerHTML={{ __html: cmsName }}>
         </a>
 
         </div>
@@ -623,8 +628,7 @@ useEffect(() => {
       <div class="border-y-2 border-gray-400 w-4/5 p-10">
         {/* <!-- container footer--> */}
         <div class="flex justify-between w-full">
-        <h1 class="text-white text-3xl sm:text-4xl font-bold">
-          {cmsName}
+        <h1 class="text-white text-3xl sm:text-4xl font-bold"dangerouslySetInnerHTML={{ __html: cmsName }}>
         </h1>
           <div class="flex gap-2">
             <button type='button' 

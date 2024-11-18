@@ -232,7 +232,11 @@ export default function CustomerAccount() {
         console.error('Error during logout:', error);
         }
     };
-    
+
+    function stripHtmlTags(html) {
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        return doc.body.textContent || "";
+      }
 
   return (
     <div>
@@ -279,8 +283,11 @@ export default function CustomerAccount() {
         <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-72 h-screen pt-5 transition-transform -translate-x-full bg-white border-r border-white dark:border-gray-600 sm:translate-x-0 dark:bg-[#282828]" aria-label="Sidebar">
             <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-[#282828]">
             <a href="#" class="flex items-center ps-2.5 mb-5">
-                <img src={jaydsLogo} alt="Logo"/>           
-                <span class="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2">{cmsName}</span>
+                <img src={jaydsLogo} alt="Logo"/>    
+                <span 
+                    className="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2" 
+                    dangerouslySetInnerHTML={{ __html: cmsName }}>
+                </span>       
             </a>
                 <ul class="space-y-2 font-medium ">
 

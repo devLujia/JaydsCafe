@@ -687,7 +687,7 @@ function Cart() {
                 <div class="border-y-2 border-gray-400 w-4/5 p-10">
                 {/* <!-- container footer--> */}
                 <div class="flex justify-between w-full">
-                <h1 class="text-white text-3xl sm:text-4xl font-bold">
+                    <h1 class="text-white text-3xl sm:text-4xl font-bold">
                     Jayd's Cafe
                     </h1>
                     <div class="flex gap-2">

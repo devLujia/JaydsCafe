@@ -171,6 +171,11 @@ const Login = () => {
             }
         }
     };
+
+    function stripHtmlTags(html) {
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      return doc.body.textContent || "";
+    }
   
     return (
     <div className="bg-background">
@@ -181,7 +186,7 @@ const Login = () => {
       <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">
         <div class="font-extrabold text-2xl flex items-center">
           {/* <!-- Logo/Title in Navbar --> */}
-          <a href="/" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide">{cmsName}</a>
+          <a href="/" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide"dangerouslySetInnerHTML={{ __html: cmsName }}></a>
         </div>
       </nav>
 
@@ -190,7 +195,7 @@ const Login = () => {
       {/* Image and Welcome Text */}
       <div className="flex flex-col items-center mb-8">
         <p className="text-lg md:text-xl font-semibold tracking-wide text-gray-700 mb-2">WELCOME TO</p>
-        <h1 className="font-extrabold text-4xl md:text-5xl text-green-700 text-center">{cmsName}</h1>
+        <h1 className="font-extrabold text-4xl md:text-5xl text-green-700 text-center"dangerouslySetInnerHTML={{ __html: cmsName }}></h1>
       </div>
 
       {/* Login Heading */}
@@ -263,7 +268,7 @@ const Login = () => {
         <div class="border-y-2 border-gray-400 w-4/5 p-10">
           {/* <!-- container footer--> */}
           <div class="flex justify-between w-full">
-          <h1 class="text-white text-4xl font-bold">{cmsName}</h1>
+          <h1 class="text-white text-4xl font-bold"dangerouslySetInnerHTML={{ __html: cmsName }}></h1>
           <div class="flex gap-2">
             <button type='button' 
             class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">

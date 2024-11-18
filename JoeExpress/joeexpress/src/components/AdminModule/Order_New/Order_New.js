@@ -30,6 +30,20 @@ export default function Order_New() {
     const [tier2,setTier2] = useState([])
     const [tier3,setTier3] = useState([])
     const [tier,setTier] = useState([])
+    const [cmsName,setCmsName] = useState('');
+    
+    useEffect(() => {
+      const fetchNameData = async () => {
+          try {
+              const response = await axios.post('http://localhost:8081/cms', { title: 'Business Name' });
+              setCmsName(response.data.content || '');
+          } catch (error) {
+              console.error('Error fetching data:', error);
+          }
+      };
+  
+      fetchNameData();
+  }, []);
 
     useEffect(() => {
         const fetchRoleSetup = async () => {
@@ -338,6 +352,10 @@ export default function Order_New() {
             }
         };
 
+        function stripHtmlTags(html) {
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            return doc.body.textContent || "";
+          }
 
   return (
     <div className=''>
@@ -345,7 +363,7 @@ export default function Order_New() {
          <nav class="sticky top-0 bg-jaydsBg z-20 shadow-lg flex justify-between dark:bg-[#282828]">
             <div class="font-extrabold text-2xl flex items-center">
                 {/* <!-- Logo/Title in Navbar --> */}
-                <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">Jayd's Cafe</a>
+                <a href="index.html" class="flex items-center text-greenColor ms-5 text-3xl tracking-wide">{stripHtmlTags(cmsName)}</a>
             </div>
             <div></div>
             {/* <!-- Button for Login or Sign Up --> */}
@@ -388,8 +406,11 @@ export default function Order_New() {
         <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-72 h-screen pt-5 transition-transform -translate-x-full bg-white border-r border-white dark:border-gray-600 sm:translate-x-0 dark:bg-[#282828]" aria-label="Sidebar">
             <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-[#282828]">
             <a href="#" class="flex items-center ps-2.5 mb-5">
-                <img src={jaydsLogo} alt="Logo"/>           
-                <span class="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2">Jayd's Cafe</span>
+                <img src={jaydsLogo} alt="Logo"/>  
+                <span 
+                    className="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2" 
+                    dangerouslySetInnerHTML={{ __html: cmsName }}>
+                </span>         
             </a>
                 <ul class="space-y-2 font-medium ">
 
