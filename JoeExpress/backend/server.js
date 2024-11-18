@@ -1177,7 +1177,6 @@ app.post('/adminsignup', async (req, res) => {
     }
 });
 
-
 app.post('/fetchUserData', (req,res)=>{
 
     const query = `SELECT 
@@ -2714,12 +2713,26 @@ app.post('/removeProduct',  async (req, res) =>{
         });
         
     });
-    
-    
+      
     app.post('/getTicketId', (req, res) => {
 
-        const sql = `SELECT id, subject, status, ticket_id, updated_at 
-                    FROM tickets ORDER BY status = 'closed' ASC, updated_at DESC
+        const sql = `
+                    SELECT 
+                        t.id, 
+                        t.subject, 
+                        t.status, 
+                        t.ticket_id, 
+                        t.updated_at, 
+                        u.name
+                    FROM 
+                        tickets t
+                    JOIN 
+                        user u
+                    ON 
+                        t.ticket_id = u.verification_token
+                    ORDER BY 
+                        t.status = 'closed' ASC, 
+                        t.updated_at DESC;
                    `;
 
         db.query(sql, (err, results) => {
@@ -2806,7 +2819,6 @@ app.post('/removeProduct',  async (req, res) =>{
         });
     })
 
-
     app.get('/fetchDiscount', (req, res) => {
         const sql = `SELECT * FROM discount_codes`;
     
@@ -2839,10 +2851,40 @@ app.post('/removeProduct',  async (req, res) =>{
         });
     });
     
-
-// app.listen(8081,()=>{
-//     console.log("Connected");
-// })
+    app.post("/contact", async (req, res) => {
+        const { firstName, lastName, email, message } = req.body;
+      
+        if (!firstName || !lastName || !email || !message) {
+          return res.status(400).json({ error: "All fields are required." });
+        }
+      
+        try {
+          const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+              user: process.env.EMAIL,
+              pass: process.env.PASSWORD,
+            },
+          });
+      
+          // Email details
+          const mailOptions = {
+            from: `"${firstName} ${lastName}" <${email}>`,
+            to: process.env.EMAIL,
+            subject: `New Contact Us Message from ${firstName} ${lastName}`,
+            text: `Message from ${firstName} ${lastName} (${email}):\n\n${message}`,
+          };
+      
+          // Send the email
+          await transporter.sendMail(mailOptions);
+      
+          res.status(200).json({ message: "Email sent successfully!" });
+        } catch (error) {
+          console.error("Error sending email:", error);
+          res.status(500).json({ error: "Failed to send email. Please try again later." });
+        }
+    });
+      
 
 server.listen(8081, () => {
     console.log("Connected");

@@ -81,10 +81,10 @@ function OrderPage() {
         
     {/* <!-- Image and Title of the product--> */}
         <section class="bg-background w-full flex lg:flex-row md:flex-col justify-center md: items-center"> 
-        <img src={`/${food.image_url}`} alt={food.name} class="max-w-screen-sm"/>
+        <img src={`/${food?.image_url}`} alt={food?.name} class="max-w-screen-sm"/>
         <div class="p-20 flex-col items-center flex justify-center">
-            <h1 class="text-5xl font-bold text-center lg:text-left md:text-center">{food.name}</h1>
-            <p class="text-2xl font-semibold text-center lg:text-left md:text-center pt-10">{food.description}</p>
+            <h1 class="text-5xl font-bold text-center lg:text-left md:text-center">{food?.name}</h1>
+            <p class="text-2xl font-semibold text-center lg:text-left md:text-center pt-10">{food?.description}</p>
         </div>
     </section>
     
@@ -102,7 +102,7 @@ function OrderPage() {
                         <label class="flex flex-col p-4 border-2 border-gray-400 cursor-pointer rounded-xl" for="radio_2">
                             <img src={small} alt="Small Cup" class="w-10 mb-2 ml-1"/>
                             <span class="text-xs font-semibold uppercase text-center">Medium</span>
-                            <span class="text-lg font-bold mt-2">₱{food.Medium}.00</span>
+                            <span class="text-lg font-bold mt-2">₱{food?.Medium}.00</span>
                         </label>
                     </div>
                     <div class="flex justify-center mb-3">
@@ -110,7 +110,7 @@ function OrderPage() {
                         <label class="flex flex-col p-4 border-2 border-gray-400 cursor-pointer rounded-xl" for="radio_3">
                             <img src={small} alt="Small Cup" class="w-10 mb-2 ml-1"/>
                             <span class="text-xs font-semibold uppercase ml-1">Large</span>
-                            <span class="text-lg font-bold mt-2">₱{food.Large}.00</span>
+                            <span class="text-lg font-bold mt-2">₱{food?.Large}.00</span>
                         </label>
                     </div>
                 </fieldset>

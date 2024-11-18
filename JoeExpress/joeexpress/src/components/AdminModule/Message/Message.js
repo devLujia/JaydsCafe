@@ -11,7 +11,7 @@ import { BsEnvelopePaperFill  } from "react-icons/bs";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { FaEllipsisVertical } from "react-icons/fa6";
 
-export default function Message({}) {
+export default function Message() {
 
    const [authenticated, setAuthenticated] = useState(false);
    const [userId, setUserId] = useState(null);
@@ -499,10 +499,15 @@ export default function Message({}) {
                         </div>
                         <div className="w-full px-2">
                            <div className="text-md tracking-wider dark:text-white hover:text-gray-900">
-                              {ticket.ticket_id}
+                              Ticket Id : {ticket?.ticket_id}
                            </div>
-                           <span className="text-gray-500 text-sm">{ticket?.subject || "No Subject Yet"}</span>
+                           <div className="text-sm tracking-wider dark:text-white hover:text-gray-500">
+                              From : {ticket?.name}
+                           </div>
+                           <span className="text-gray-500 text-sm">Subject : {ticket?.subject || "No Subject Yet"}</span>
+                           
                         </div>
+                        
                         </div>
 
                         <button 

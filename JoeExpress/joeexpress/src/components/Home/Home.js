@@ -19,49 +19,49 @@ import socket from '../AdminModule/Message/socketService';
 
 function Home() {
 
-  const shuffleArray = (array) => {
-    let shuffledArray = [...array];
-    for (let i = shuffledArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
-    }
-    return shuffledArray;
-  };
+    const shuffleArray = (array) => {
+      let shuffledArray = [...array];
+      for (let i = shuffledArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+      }
+      return shuffledArray;
+    };
 
-  const reviews = [
-    {
-      name: "John",
-      date: "September 12, 2024",
-      comment: "highly recommended ,very affordable and quality Ng drinks very generous Ng serving."
-    },
-    {
-      name: "Jia",
-      date: "September 10, 2024",
-      comment: "A must try coffee shop! 💯 Thank you sa masarap at affordable na kape, Jayd’s Cafe! 🤎."
-    },
-    {
-      name: "Anne",
-      date: "April 9, 2024",
-      comment: "It's my first time to order with them, and I'm so glad I did! The best yung halo halo, ganito yung way nang paggawa ng halohalo for personal consumption, walang sahog na tinipid, bawat sangkap may lasa at masarap! Magiging suki nyo po ako for sure! Thanks again Jayd's cafe!"
-    },
-    {
-      name: "Ia Mae",
-      date: "February 23, 2024",
-      comment: "Jayd's has been our go-to for our coffee and non-coffee drink cravings kaya naman paulit-ulit parin kami na dito bumibili ng iced drinks. Lahat ng drinks na na-try namin sa kanila, nagustuhan namin."
-    },
-    {
-      name: "Angelou",
-      date: "February 15, 2024",
-      comment: "You know it's good if you're already a repeat customer. I love the coffee here, it's consistently delicious and the shop delivers in a timely manner which makes it the best choice for coffee delivery. Convenient location ·Good for working ·Best iced coffee"
-    },
-    {
-      name: "Ems",
-      date: "August 23, 2023",
-      comment: "Affordable and delicious milk tea 😊 thanks for the fast response and delivery"
-    }
-  ]
+    const reviews = [
+      {
+        name: "John",
+        date: "September 12, 2024",
+        comment: "highly recommended ,very affordable and quality Ng drinks very generous Ng serving."
+      },
+      {
+        name: "Jia",
+        date: "September 10, 2024",
+        comment: "A must try coffee shop! 💯 Thank you sa masarap at affordable na kape, Jayd’s Cafe! 🤎."
+      },
+      {
+        name: "Anne",
+        date: "April 9, 2024",
+        comment: "It's my first time to order with them, and I'm so glad I did! The best yung halo halo, ganito yung way nang paggawa ng halohalo for personal consumption, walang sahog na tinipid, bawat sangkap may lasa at masarap! Magiging suki nyo po ako for sure! Thanks again Jayd's cafe!"
+      },
+      {
+        name: "Ia Mae",
+        date: "February 23, 2024",
+        comment: "Jayd's has been our go-to for our coffee and non-coffee drink cravings kaya naman paulit-ulit parin kami na dito bumibili ng iced drinks. Lahat ng drinks na na-try namin sa kanila, nagustuhan namin."
+      },
+      {
+        name: "Angelou",
+        date: "February 15, 2024",
+        comment: "You know it's good if you're already a repeat customer. I love the coffee here, it's consistently delicious and the shop delivers in a timely manner which makes it the best choice for coffee delivery. Convenient location ·Good for working ·Best iced coffee"
+      },
+      {
+        name: "Ems",
+        date: "August 23, 2023",
+        comment: "Affordable and delicious milk tea 😊 thanks for the fast response and delivery"
+      }
+    ];
 
-  const [openIndex, setOpenIndex] = useState(null);
+    const [openIndex, setOpenIndex] = useState(null);
 
     const faqs = [
         {
@@ -138,6 +138,14 @@ function Home() {
   const [orderNotif, setOrderNotif] = useState(0);
   const [TermsModal,setTermsModal] = useState(false); //modal
   const [ChatModal,setChatModal] = useState(false); //modal
+  const [statusMessage, setStatusMessage] = useState("");
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    message: "",
+  });
 
   // modal
   const toggleTermsAndCondiotion = () =>{
@@ -383,6 +391,25 @@ function Home() {
 
   const handleMapModal = () => {
     setMapModal(!mapModal);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatusMessage("");
+
+    try {
+      const response = await axios.post("http://localhost:8081/contact", formData);
+      setStatusMessage("Message sent successfully!");
+      setFormData({ firstName: "", lastName: "", email: "", message: "" });
+    } catch (error) {
+      setStatusMessage("Failed to send the message. Please try again.");
+    } 
+
   };
 
 
@@ -655,15 +682,15 @@ function Home() {
     const shuffled = shuffleArray(foodsSpecial);
     let newRandomized = shuffled.slice(0, 4);
     
-    const existingNames = new Set(newRandomized.map(food => food.name));
+    const existingNames = new Set(newRandomized.map(food => food?.name));
 
     setRandomizedFoodsSpecial(shuffled)
 
     if (newRandomized.length < 4) {
       foods.forEach(food => {
-        if (!existingNames.has(food.name) && newRandomized.length < 4) {
+        if (!existingNames.has(food?.name) && newRandomized.length < 4) {
           newRandomized.push(food);
-          existingNames.add(food.name); 
+          existingNames.add(food?.name); 
         }
       });
       setRandomizedFoodsSpecial(newRandomized);
@@ -1197,7 +1224,7 @@ useEffect(() => {
                 {!authenticated ? 
                 (foods.map(food => (
                 <div
-                  key={food.id}
+                  key={food?.id}
                   className="relative flex flex-col p-4 rounded-2xl bg-white text-black shadow-lg hover:shadow-2xl hover:scale-105 group border-2 border-[#067741] before:content-[''] before:absolute before:inset-0 before:rounded-2xl before:border-2 before:border-solid before:border-[#E5F5EE] before:-z-10 transition duration-300 overflow-visible"
                   data-aos="zoom-in"
                   data-aos-duration="1000"
@@ -1205,15 +1232,15 @@ useEffect(() => {
                 >
                   {/* Image container */}
                   <div className="relative mx-auto w-full max-w-xs sm:max-w-sm md:max-w-md bg-gradient-to-t from-[#ece0c8] to-[#f5f2e4] rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-110">
-                    <img src={food.image_url} alt={food.name} className="object-contain w-full h-28 sm:h-36 md:h-40 transition-transform duration-300 " />
+                    <img src={food?.image_url} alt={food?.name} className="object-contain w-full h-28 sm:h-36 md:h-40 transition-transform duration-300 " />
                   </div>
 
                   {/* Food Info */}
                   <div className="mt-4 text-center">
                     <h2 className="text-lg sm:text-xl font-semibold mb-2 transition-colors duration-300 group-hover:text-white">
-                      {food.name}
+                      {food?.name}
                     </h2>
-                    <p className="text-sm text-gray-600 transition-opacity duration-300 group-hover:text-gray-300 group-hover:opacity-75">{food.description}</p>
+                    <p className="text-sm text-gray-600 transition-opacity duration-300 group-hover:text-gray-300 group-hover:opacity-75">{food?.description}</p>
                     <div className="flex justify-between items-center mt-4">
                       <span className="text-sm font-bold transition-colors duration-300 group-hover:text-white">16oz</span>
                     </div>
@@ -1221,7 +1248,7 @@ useEffect(() => {
 
                   {/* Buy Now Button */}
                   <div className="flex justify-between items-center mt-4">
-                    <p className="text-2xl font-bold transition-colors duration-300 group-hover:text-white">₱ {food.price}.00</p>
+                    <p className="text-2xl font-bold transition-colors duration-300 group-hover:text-white">₱ {food?.price}.00</p>
                     <button
                       onClick={handleNavigate}
                       className="relative bg-[#067741] text-white font-semibold py-2 px-4 rounded-full transition-all duration-500 ease-out transform hover:scale-110 hover:bg-gradient-to-r hover:from-[#067741] hover:to-[#055F32] hover:border-2 hover:border-white hover:shadow-[0_0_15px_rgba(6,119,65,0.5)] hover:rotate-1 group"
@@ -1554,30 +1581,51 @@ useEffect(() => {
         <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4 animate-wave glow-animation">Contact Us!</h2>
         <p className="mt-4 text-lg leading-8 text-gray-600">We'd love to hear from you! Reach out for inquiries, feedback, or support.</p>
       </div>
-      <form action="#" method="POST" className="mx-auto mt-16 max-w-xl sm:mt-20">
+      <form onSubmit={handleSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div>
-            <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">First name</label>
+            <label htmlFor="firstName" className="block text-sm font-semibold leading-6 text-gray-900">First name</label>
             <div className="mt-2.5">
-              <input type="text" name="first-name" id="first-name" autoComplete="given-name" className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#067741] sm:text-sm sm:leading-6" />
+              <input type="text" 
+              name="firstName" 
+              id="firstName" 
+              value={formData.firstName}
+              onChange={handleChange}
+              autoComplete="given-name" 
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#067741] sm:text-sm sm:leading-6" />
             </div>
           </div>
           <div>
-            <label htmlFor="last-name" className="block text-sm font-semibold leading-6 text-gray-900">Last name</label>
+            <label htmlFor="lastName" className="block text-sm font-semibold leading-6 text-gray-900">Last name</label>
             <div className="mt-2.5">
-              <input type="text" name="last-name" id="last-name" autoComplete="family-name" className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#067741] sm:text-sm sm:leading-6" />
+              <input type="text" 
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange} 
+              id="lastName" 
+              autoComplete="family-name" className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#067741] sm:text-sm sm:leading-6" />
             </div>
           </div>
           <div className="sm:col-span-2">
             <label htmlFor="email" className="block text-sm font-semibold leading-6 text-gray-900">Email</label>
             <div className="mt-2.5">
-              <input type="email" name="email" id="email" autoComplete="email" className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#067741] sm:text-sm sm:leading-6" />
+              <input type="email" 
+              name="email" 
+              id="email" 
+              value={formData.email}
+              onChange={handleChange}
+              autoComplete="email" 
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#067741] sm:text-sm sm:leading-6" />
             </div>
           </div>
           <div className="sm:col-span-2">
             <label htmlFor="message" className="block text-sm font-semibold leading-6 text-gray-900">Message</label>
             <div className="mt-2.5">
-              <textarea name="message" id="message" rows="4" className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#067741] sm:text-sm sm:leading-6"></textarea>
+              <textarea name="message" id="message" 
+              value={formData.message}
+              onChange={handleChange}
+              rows="4" 
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#067741] sm:text-sm sm:leading-6"></textarea>
             </div>
           </div>
         </div>

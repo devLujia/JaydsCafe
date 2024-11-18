@@ -163,8 +163,8 @@ function ProductManagement() {
               const updatedSizes = {};
   
               for (const food of foods) {
-                  const response = await axios.post('http://localhost:8081/sizes', { foodId: food.id });
-                  updatedSizes[food.id] = response.data;
+                  const response = await axios.post('http://localhost:8081/sizes', { foodId: food?.id });
+                  updatedSizes[food?.id] = response.data;
               }
   
               setSizes(prevSizes => ({
@@ -308,7 +308,7 @@ function ProductManagement() {
       const handleRemoveProduct = async (id) => {
         try {
             await axios.post('http://localhost:8081/removeProduct', { id });
-            const updatedFoods = foods.filter((food) => food.id !== id);
+            const updatedFoods = foods.filter((food) => food?.id !== id);
             setFoods(updatedFoods);
         } catch (error) {
             console.error('Error removing product:', error);
@@ -331,7 +331,7 @@ function ProductManagement() {
     
     const handleRemoveCategory = async (id) => {
 
-      if (foods.some(food => food.category_id === id)) {
+      if (foods.some(food => food?.category_id === id)) {
         alert("Unable to remove: 'Category is set on product, delete product first'")
         return;
       }
@@ -358,7 +358,7 @@ function ProductManagement() {
               alert(result.data.message);
               setFoods((prevFoods) =>
                   prevFoods.map((food) =>
-                      food.id === id ? { ...food, visible: food.visible === 1 ? 0 : 1 } : food
+                      food?.id === id ? { ...food, visible: food?.visible === 1 ? 0 : 1 } : food
                   )
               );
           }
@@ -390,7 +390,7 @@ function ProductManagement() {
     
       // Filter and paginate foods based on addonSearch
       const filteredFoods = foods.filter((food) =>
-        food.name.toLowerCase().includes(addonSearch.toLowerCase())
+        food?.name.toLowerCase().includes(addonSearch.toLowerCase())
       );
     
       const totalPages = Math.ceil(filteredFoods.length / itemsPerPage);
@@ -700,9 +700,9 @@ function ProductManagement() {
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
                         
                           {currentItems?.map((food) => (
-                            <div key={food.id} className="rounded-3xl p-3 shadow-2xl relative border-2 border-gray-300 hover:scale-95 duration-300 hover:bg-jaydsBg">
+                            <div key={food?.id} className="rounded-3xl p-3 shadow-2xl relative border-2 border-gray-300 hover:scale-95 duration-300 hover:bg-jaydsBg">
                               <div className="visibility-status">
-                                  {food.visible === 1 ? (
+                                  {food?.visible === 1 ? (
                                       <span className="text-green-500 font-semibold">Visible</span>
                                   ) : (
                                       <span className="text-red-500 font-semibold">Hidden</span>
@@ -710,14 +710,14 @@ function ProductManagement() {
                               </div>
                               
                               <div className="rounded-full bg-slate-200 p-4 aspect-square overflow-hidden items-center flex justify-center w-4/5 mx-auto">
-                                <img src={food.image_url} alt="Milk Tea" className="w-full h-full object-contain" />
+                                <img src={food?.image_url} alt="Milk Tea" className="w-full h-full object-contain" />
                               </div>
 
                               <div className="text-center">
-                                <h3 className="text-auto font-bold mt-4 min-h-15">{food.name}</h3>
+                                <h3 className="text-auto font-bold mt-4 min-h-15">{food?.name}</h3>
 
                                 
-                                {sizes[food.id]?.map(size =>(
+                                {sizes[food?.id]?.map(size =>(
                                   <React.Fragment key={size.id}>
                                   <p className="text-auto text-sm font-semibold mt-1 text-gray-500">
                                   Size:
@@ -732,21 +732,21 @@ function ProductManagement() {
                               </div>
 
                               <div className="flex justify-center mt-4 space-x-2 flex-wrap">
-                                <button onClick={() => handleEditProduct(food.id)} className="hover:scale-110 duration-300" title='Edit Product'>
+                                <button onClick={() => handleEditProduct(food?.id)} className="hover:scale-110 duration-300" title='Edit Product'>
                                   <img src={edit} alt="edit" className="brightness-0 w-10 h-10" />
                                 </button>
                                 
                                 {/* Need lagyan ng confirmation */}
-                                {/*             {(event) => handleRemoveProduct(food.id)} */}
-                                <button onClick={() => toggleRemoveProductModal(food.id)} className="hover:scale-110 duration-300" title='Delete'>
+                                {/*             {(event) => handleRemoveProduct(food?.id)} */}
+                                <button onClick={() => toggleRemoveProductModal(food?.id)} className="hover:scale-110 duration-300" title='Delete'>
                                   <img src={trashbin2} alt="delete" className="brightness-0 w-12 h-12" />
                                 </button>
 
-                                <button onClick={() => handleAddSize(food.id)} className="hover:scale-110 duration-300" title='Add Size'>
+                                <button onClick={() => handleAddSize(food?.id)} className="hover:scale-110 duration-300" title='Add Size'>
                                   <img src={plus} className="filter invert w-12 h-12" alt="Add size" />
                                 </button>
 
-                                <button onClick={() => handleHide(food.id)} className="hover:scale-110 duration-300" title='Hide'>
+                                <button onClick={() => handleHide(food?.id)} className="hover:scale-110 duration-300" title='Hide'>
                                   <img src={hiddenImage} alt="hide" className="w-10 h-10" />
                                 </button>
                               </div>

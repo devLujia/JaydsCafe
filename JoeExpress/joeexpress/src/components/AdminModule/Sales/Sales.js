@@ -578,19 +578,19 @@ export default function Sales() {
                         <tbody>
                             {foods.slice(0, 4).map((food) => (
                                 <tr 
-                                    key={food.id} 
+                                    key={food?.id} 
                                     className="bg-white border-b hover:bg-gray-50 dark:bg-[#575757] dark:hover:bg-[#8b8b8b] dark:text-white"
                                 >
                                     <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-gray-300 dark:hover:text-gray-800">
-                                        <img className="w-10 h-10 rounded-2xl" src={food.image_url} alt={food.name} />
+                                        <img className="w-10 h-10 rounded-2xl" src={food?.image_url} alt={food?.name} />
                                         <div className="pl-3">
-                                            <div className="text-base font-semibold">{food.name}</div>
+                                            <div className="text-base font-semibold">{food?.name}</div>
                                         </div>
                                     </th>
-                                    <td className="px-6 py-4">{food.title}</td>
-                                    <td className="px-6 py-4">₱ {food.price}.00</td>
-                                    <td className="px-6 py-4">{food.sold} pc(s)</td>
-                                    <td className="px-6 py-4">₱ {food.price * food.sold}.00</td>
+                                    <td className="px-6 py-4">{food?.title}</td>
+                                    <td className="px-6 py-4">₱ {food?.price}.00</td>
+                                    <td className="px-6 py-4">{food?.sold} pc(s)</td>
+                                    <td className="px-6 py-4">₱ {food?.price * food?.sold}.00</td>
                                 </tr>
                             ))}
                         </tbody>

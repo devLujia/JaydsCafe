@@ -579,16 +579,16 @@ function AdminDashboard() {
                      <div key={ticket.ticket_id} class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
                         <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
                         <img
-  src={`data:image/svg+xml,${encodeURIComponent(
-    `<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="24" cy="24" r="24" fill="#047857"/>
-      <circle cx="24" cy="19" r="8" fill="white"/>
-      <path d="M11 40C11 40 15 32 24 32C33 32 37 40 37 40" stroke="white" stroke-width="4" stroke-linecap="round"/>
-    </svg>`
-  )}`} 
-  alt="Anonymous user"
-  className="w-full h-full object-cover rounded-full"
-/>
+                           src={`data:image/svg+xml,${encodeURIComponent(
+                              `<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                 <circle cx="24" cy="24" r="24" fill="#047857"/>
+                                 <circle cx="24" cy="19" r="8" fill="white"/>
+                                 <path d="M11 40C11 40 15 32 24 32C33 32 37 40 37 40" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                              </svg>`
+                           )}`} 
+                           alt="Anonymous user"
+                           className="w-full h-full object-cover rounded-full"
+                        />
 
                         </div>
                         <div class="flex-1">
@@ -749,7 +749,7 @@ function AdminDashboard() {
                         <tbody>
                            {foods.slice(0,4).map(food => (
                               <tr 
-                                    key={food.id} 
+                                    key={food?.id} 
                                     className="bg-white border-b transition-colors hover:bg-gray-50 dark:bg-green-800 dark:hover:bg-green-700 dark:text-gray-300"
                               >
                                     <th 
@@ -758,24 +758,24 @@ function AdminDashboard() {
                                     >
                                        <img 
                                           className="w-12 h-12 rounded-full shadow-lg" 
-                                          src={food.image_url} 
-                                          alt={food.name}
+                                          src={food?.image_url} 
+                                          alt={food?.name}
                                        />
                                        <div className="pl-4">
-                                          <div className="text-base font-semibold">{food.name}</div>
+                                          <div className="text-base font-semibold">{food?.name}</div>
                                        </div>  
                                     </th>
                                     <td className="px-6 py-4">
-                                       {food.title}
+                                       {food?.title}
                                     </td>
                                     <td className="px-6 py-4 font-medium text-gray-800 dark:text-gray-100">
-                                       ₱ {food.price}.00
+                                       ₱ {food?.price}.00
                                     </td>
                                     <td className="px-6 py-4 text-center">
-                                       {food.sold} pc(s)
+                                       {food?.sold} pc(s)
                                     </td>
                                     <td className="px-6 py-4 font-semibold text-green-700 dark:text-green-400">
-                                       ₱ {food.price * food.sold}.00
+                                       ₱ {food?.price * food?.sold}.00
                                     </td>
                               </tr>
                            ))}

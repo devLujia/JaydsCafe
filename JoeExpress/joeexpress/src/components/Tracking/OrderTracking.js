@@ -97,15 +97,15 @@ function OrderTracking() {
         const shuffled = shuffleArray(foodsSpecial);
         let newRandomized = shuffled.slice(0, 4);
         
-        const existingNames = new Set(newRandomized.map(food => food.name));
+        const existingNames = new Set(newRandomized.map(food => food?.name));
     
         setRandomizedFoodsSpecial(shuffled)
     
         if (newRandomized.length < 4) {
           foods.forEach(food => {
-            if (!existingNames.has(food.name) && newRandomized.length < 4) {
+            if (!existingNames.has(food?.name) && newRandomized.length < 4) {
               newRandomized.push(food);
-              existingNames.add(food.name); 
+              existingNames.add(food?.name); 
             }
           });
           setRandomizedFoodsSpecial(newRandomized);
@@ -228,7 +228,7 @@ function OrderTracking() {
                 </span>
                 <div>
                     <h4 className='font-bold text-lg md:text-xl text-gray-800'>Preparing Order</h4>
-                    <p className='text-gray-600'>We are now preparing your food.</p>
+                    <p className='text-gray-600'>We are now preparing your food?.</p>
                 </div>
                 </div>
                 <div className={`flex flex-col items-center gap-4 w-full md:w-auto ${order.status === 'on delivery' || order.status === 'completed' ? 'opacity-100' : 'opacity-50'}`}> 

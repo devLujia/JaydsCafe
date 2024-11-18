@@ -447,7 +447,7 @@ function Cart() {
       </div>
 
       {/* Right side Infos */}
-      {items.length > 0 && (
+      {items?.length > 0 && (
             <div className="p-4 lg:p-6 rounded-lg shadow-md bg-white mt-6 lg:mt-12 max-w-md mx-auto flex flex-col items-center">
               <div className="border border-gray-200 rounded-lg p-4 w-full">
                 <h1 className="text-lg font-semibold mb-4 text-center text-gray-800">Select Your Delivery Method</h1>

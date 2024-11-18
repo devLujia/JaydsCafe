@@ -153,7 +153,7 @@ function AddOrder({closeModal, foodId}) {
     
             const response = await axios.post('http://localhost:8081/cart_items', {
                 userId,
-                foodId: food.id,
+                foodId: food?.id,
                 size: selectedSize,
                 price: totalPrice,
                 addons: addonsDetails,
@@ -198,13 +198,13 @@ return(
                     <div className='flex flex-col rounded-lg gap-y-4'>
                         <div className='bg-darkgreen rounded-tl-xl bg-gradient-to-t from-[#ece0c8] to-[#f5f2e4]'>
                             <div className="p-4 w-56 mx-auto aspect-square ">
-                                <img src={food.image_url} alt="Milk Tea" className="w-full h-full object-contain"/>
+                                <img src={food?.image_url} alt="Milk Tea" className="w-full h-full object-contain"/>
                             </div>
                         </div>
                         
                         <div className='text-center p-2 flex justify-center flex-col items-center'>
                         <h1 className='text-4xl font-bold mb-2 relative text-transparent glow-text'>
-                            {food.name}
+                            {food?.name}
                         </h1>
 
                             <p className='text-md font-normal text-slate-400'>
@@ -405,7 +405,7 @@ return(
 
                         {addons && (
                             <div id="accordion-color-body-1" className="w-full p-5 max-h-52 overflow-y-auto">
-                                {fetchAddons.filter((addon) => addon.category_id === food.category_id)
+                                {fetchAddons.filter((addon) => addon.category_id === food?.category_id)
                                 .map(addon => (
                                     
                                     <div key={addon.id} class="flex justify-between items-center mb-4 border-b-2 border-gray-200 pb-3">

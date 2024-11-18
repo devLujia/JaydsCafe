@@ -139,7 +139,7 @@ useEffect(() => {
 
   const handleSizeChange = (foodId, newSize) => {
     setFoods(prevFoods => prevFoods.map(food => {
-      if (food.id === foodId) {
+      if (food?.id === foodId) {
         return { ...food, getSize: newSize }; // Update only the selected food's getSize
       }
       return food;
@@ -169,9 +169,9 @@ useEffect(() => {
     try {
       const response = await axios.post('http://localhost:8081/cart_items', {
         userId,
-        foodId: food.id,
-        size: food.getSize,
-        price: food.getSize === 'Medium' ? food.Medium: food.Large,
+        foodId: food?.id,
+        size: food?.getSize,
+        price: food?.getSize === 'Medium' ? food?.Medium: food?.Large,
       });
       return response.data;
     } catch (error) {
@@ -285,7 +285,7 @@ useEffect(() => {
           
             // Filtered food items based on category search
             const filteredFoods = foods.filter((food) => {
-              return categorySearch === 0 ? food : food.category_id === categorySearch;
+              return categorySearch === 0 ? food : food?.category_id === categorySearch;
               
             });
           
@@ -538,7 +538,7 @@ useEffect(() => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20">
               {currentFoods.map((food) => (
                 <div
-                  key={food.id}
+                  key={food?.id}
                   className="relative overflow-hidden bg-gradient-to-b from-[#E5F5EE] to-white border-2 border-[#067741] rounded-3xl w-[270px] h-auto max-w-[370px] shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-300 flex flex-col mx-auto">
                   {/* Image Container with 3D Effect */}
                   <div className="relative bg-gradient-to-t from-[#ece0c8] to-[#f5f2e4] p-6 rounded-t-xl">
@@ -546,8 +546,8 @@ useEffect(() => {
                       <div className="p-2 overflow-hidden transform hover:rotate-2 hover:scale-105 transition-transform duration-300">
                         <img
                           className="max-w-none max-h-full object-contain"
-                          src={food.image_url}
-                          alt={food.name}
+                          src={food?.image_url}
+                          alt={food?.name}
                         />
                       </div>
                     </div>
@@ -557,11 +557,11 @@ useEffect(() => {
                   <div className="relative text-gray-800 px-4 pb-4 mt-2 flex-grow">
                     <div className="flex justify-between items-start mb-2">
                       <span className="font-bold text-lg text-gray-900 w-3/4 overflow-hidden text-ellipsis whitespace-normal">
-                        {food.name}
+                        {food?.name}
                       </span>
                       <span className="bg-gray-200 rounded-full text--800 text-md font-semibold px-2 py-1 shadow-sm transform transition-transform duration-300 hover:shadow-md hover:scale-105 whitespace-nowrap">
 
-                        <strong>₱ </strong>{food.price}.00
+                        <strong>₱ </strong>{food?.price}.00
                       </span>
                     </div>
                     <span className="block text-sm opacity-75 text-gray-700 mb-3">
@@ -572,7 +572,7 @@ useEffect(() => {
                     <div className="mt-auto">
                       {authenticated ? (
                         <button
-                          onClick={() => toggleAddAddorderModal(food.id)}
+                          onClick={() => toggleAddAddorderModal(food?.id)}
                           className="relative overflow-hidden text-white p-3 rounded-lg w-full text-center bg-gradient-to-r from-[#067741] via-[#45A64B] to-[#067741] shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl group"
                         >
                           <span className="absolute inset-0 bg-gradient-to-r from-[#1f4d29] via-[#2b6b36] to-[#1f4d29] transition-transform duration-500 transform group-hover:scale-150 group-hover:rotate-45 opacity-25"></span>

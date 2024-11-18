@@ -134,7 +134,7 @@ export default function Editpage() {
     
             const response = await axios.post('http://localhost:8081/cart_items', {
                 userId,
-                foodId: food.id,
+                foodId: food?.id,
                 size: selectedSize,
                 price: totalPrice,
                 addons: addonsDetails,
@@ -194,10 +194,10 @@ export default function Editpage() {
                         </a>
                         <div className="flex justify-center items-center flex-col space-x-10 md:flex-row">
                             <div className="rounded-lg bg-menuCirclebg aspect-square w-96 h-96 shadow-xl">
-                                <img src={`/${food.image_url}`} alt={food.name} className="w-full h-full object-contain" />
+                                <img src={`/${food?.image_url}`} alt={food?.name} className="w-full h-full object-contain" />
                             </div>
                             <div>
-                                <h1 className="text-5xl font-bold pb-3">{food.name}</h1>
+                                <h1 className="text-5xl font-bold pb-3">{food?.name}</h1>
                                 <p className="text-gray-500 font-semibold pb-2">Price:</p>
                                 <p className="text-3xl font-semibold pb-2">₱{totalPrice}</p>
 
