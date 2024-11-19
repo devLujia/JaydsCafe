@@ -317,15 +317,7 @@ function Cart() {
       {/* Left side cards */}
       <div className="col-span-2 px-4 md:px-8 lg:px-16 overflow-y-auto min-h-[400px] bg-white">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-4 mt-5 text-lg font-semibold border-b pb-4">
-          <div className="flex justify-start w-full md:w-auto mb-2 md:mb-0">
-            <input
-              id="select-all-checkbox"
-              type="checkbox"
-              value=""
-              className="w-5 h-5 text-green-700 border-gray-300 rounded"
-              title="Select all products in Cart"
-            />
-          </div>
+          <div></div>
           <h1 className="hidden md:block">Product</h1>
           <h1 className="hidden md:block">Quantity</h1>
           <h1 className="hidden md:block">Total</h1>
@@ -339,14 +331,6 @@ function Cart() {
                 key={item.id}
                 className="relative flex flex-col md:flex-row items-center md:items-center p-4 bg-white border rounded-lg shadow-sm text-center md:text-left"
               >
-                {/* Checkbox */}
-                <div className="absolute top-0 left-0 mt-4 ml-2">
-                  <input
-                    type="checkbox"
-                    className="w-5 h-5 text-green-700 border-gray-300 rounded"
-                    title={`Select ${item.food_name || 'No Name Available'}`}
-                  />
-                </div>
 
                 {/* Product Details */}
                 <div className="flex flex-col md:flex-row items-center md:items-center w-full ml-10 md:ml-6 mt-2 md:mt-0">

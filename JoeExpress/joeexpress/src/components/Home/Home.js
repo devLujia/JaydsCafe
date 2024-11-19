@@ -1238,7 +1238,7 @@ useEffect(() => {
         </p>
 
         {/* CMS Name Heading */}
-        <h1 className="text-textgreenColor text-5xl md:text-7xl lg:text-8xl font-extrabold pb-2 drop-shadow-lg text-center lg:text-left" id="name" dangerouslySetInnerHTML={{ __html: cmsName }}>
+        <h1 className="text-textgreenColor text-4xl md:text-6xl lg:text-7xl font-extrabold pb-2 drop-shadow-lg text-center lg:text-left" id="name" dangerouslySetInnerHTML={{ __html: cmsName }}>
           
         </h1>
 
