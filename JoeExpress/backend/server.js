@@ -936,28 +936,180 @@ app.post('/create-payment-intent/:id', async (req, res) => {
     }
 });
 
-app.post('/setTopaid', (req, res) => {
-    const { OrderId, userId } = req.body;
+app.post('/create-payment-flow', async (req, res) => {
+    try {
+      const { phone, amount, description, orderId } = req.body;
+  
+      // Step 1: Create Payment Method
+      const paymentMethodId = await createPaymentMethod(phone);
+  
+      // Step 2: Create Payment Intent
+      const paymentIntentId = await createPaymentIntent(amount, description);
+  
+      // Step 3: Attach Payment Method
+      const redirectUrl = await attachPaymentMethod(
+        paymentIntentId,
+        paymentMethodId,
+        `http://localhost:3000/paymentSuccess/${orderId}`
+      );
+  
+      // Return redirect URL to the frontend
+      res.json({ success: true, redirectUrl });
+    } catch (error) {
+      console.error('Error creating payment flow:', error.response?.data || error.message);
+      res.status(500).json({ success: false, message: 'Failed to create payment flow' });
+    }
+  });
 
-    if (!OrderId || !userId) {
-        return res.status(400).json({ error: "OrderId and userId are required" });
+app.post('/check-payment-status', async (req, res) => {
+    const { paymentIntentId } = req.body; // Or use req.query if preferred
+  
+    if (!paymentIntentId) {
+      return res.status(400).json({ success: false, message: 'PaymentIntentId is required' });
+    }
+  
+    try {
+      const response = await axios.get(
+        `https://api.paymongo.com/v1/payment_intents/${paymentIntentId}`,
+        {
+          headers: {
+            Authorization: `Basic ${Buffer.from(`${PAYMONGO_SECRET_KEY}:`).toString('base64')}`,
+          },
+        }
+      );
+  
+      const status = response.data.data.attributes.status;
+  
+      return res.json({ success: true, status });
+    } catch (error) {
+      console.error('Error checking payment intent status:', error.response?.data || error.message);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to check payment status',
+      });
+    }
+  });
+
+const createPaymentMethod = async (phone) => {
+const response = await axios.post(
+    'https://api.paymongo.com/v1/payment_methods',
+    {
+    data: {
+        attributes: {
+        type: 'gcash',
+        details: { phone },
+        },
+    },
+    },
+    {
+    headers: {
+        Authorization: `Basic ${Buffer.from(`${PAYMONGO_SECRET_KEY}:`).toString('base64')}`,
+    },
+    }
+);
+return response.data.data.id; // Return the Payment Method ID
+};
+
+const createPaymentIntent = async (amount, description) => {
+    const response = await axios.post(
+      'https://api.paymongo.com/v1/payment_intents',
+      {
+        data: {
+          attributes: {
+            amount: amount * 100,
+            currency: 'PHP',
+            description,
+            payment_method_allowed: ['gcash'], // Allowed payment methods
+          },
+        },
+      },
+      {
+        headers: {
+          Authorization: `Basic ${Buffer.from(`${PAYMONGO_SECRET_KEY}:`).toString('base64')}`,
+        },
+      }
+    );
+    return response.data.data.id; // Return the Payment Intent ID
+};
+
+const attachPaymentMethod = async (paymentIntentId, paymentMethodId, returnUrl) => {
+    const response = await axios.post(
+      `https://api.paymongo.com/v1/payment_intents/${paymentIntentId}/attach`,
+      {
+        data: {
+          attributes: {
+            payment_method: paymentMethodId,
+            return_url: returnUrl,
+          },
+        },
+      },
+      {
+        headers: {
+          Authorization: `Basic ${Buffer.from(`${PAYMONGO_SECRET_KEY}:`).toString('base64')}`,
+        },
+      }
+    );
+  
+    // Extract redirect URL
+    const redirectUrl = response.data.data.attributes.next_action.redirect.url;
+    return redirectUrl;
+};
+
+
+
+app.post('/setTopaid', async (req, res) => {
+    const { OrderId, userId, paymentIntentId } = req.body;
+    // const { paymentIntentId } = req.query;
+
+    // Validate request body
+    if (!OrderId || !userId || !paymentIntentId) {
+        return res.status(400).json({ error: "OrderId, userId, and paymentIntentId are required" });
     }
 
-    const query = `UPDATE orders SET status = 'paid' WHERE order_id = ? AND customer_id = ? AND paymentMethod = 'gcash'`;
+    try {
+        // Step 1: Check Payment Status
+        const response = await axios.get(
+            `https://api.paymongo.com/v1/payment_intents/${paymentIntentId}`,
+            {
+                headers: {
+                    Authorization: `Basic ${Buffer.from(`${PAYMONGO_SECRET_KEY}:`).toString('base64')}`,
+                },
+            }
+        );
 
-    db.query(query, [OrderId, userId], (err, result) => {
-        if (err) {
-            console.error("Database error:", err);
-            return res.status(500).json({ error: "Internal server error while updating order" });
+        const paymentStatus = response.data.data.attributes.status;
+        console.log(paymentStatus);
+
+        // Step 2: Validate Payment Status
+        if (paymentStatus !== 'succeeded') {
+            return res.status(400).json({
+                error: "Payment is not completed. Current status: " + paymentStatus,
+            });
         }
 
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ error: "Order not found or mismatched userId" });
-        }
+        // Step 3: Update Order Status in Database
+        const query = `UPDATE orders SET status = 'paid' WHERE order_id = ? AND customer_id = ? AND paymentMethod = 'gcash'`;
 
-        res.json({ message: "Order status updated to 'paid'" });
+        db.query(query, [OrderId, userId], (err, result) => {
+            if (err) {
+                console.error("Database error:", err);
+                return res.status(500).json({ error: "Internal server error while updating order" });
+            }
 
-    });
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ error: "Order not found or mismatched userId" });
+            }
+
+            // Success Response
+            res.json({success: true, message: "Order status updated to 'paid'" });
+        });
+
+    } catch (error) {
+        console.error('Error verifying payment status:', error.response?.data || error.message);
+        res.status(500).json({
+            error: "Failed to verify payment status with PayMongo",
+        });
+    }
 });
 
 app.post('/updateAcc', async (req, res) => {
@@ -980,7 +1132,7 @@ app.post('/updateAcc', async (req, res) => {
                 console.error(err);
                 return res.status(500).json({ error: 'Failed to update user info' });
             }
-            res.status(200).json({ message: 'User info updated successfully' });
+            res.status(200).json({success: true , message: 'User info updated successfully' });
         });
     } catch (err) {
         console.error(err);
@@ -1543,28 +1695,28 @@ app.post('/removeProduct',  async (req, res) =>{
     })
     
         
-        app.post('/updateCategory' , (req,res) => {
+    app.post('/updateCategory' , (req,res) => {
 
-        const { title, id  } = req.body;
+    const { title, id  } = req.body;
 
-        const query = 
-        `
-        Update category
-        SET title = ?, 
+    const query = 
+    `
+    Update category
+    SET title = ?, 
 
-        WHERE 
-        id = ?
-        `
+    WHERE 
+    id = ?
+    `
 
-        db.query (query,[title, id], (err,result) => {
-            if (err){
-                return res.json({err: "Unable to update into category"});
-            }
-            res.json({success: true})
-         
-        })
- 
-        })
+    db.query (query,[title, id], (err,result) => {
+        if (err){
+            return res.json({err: "Unable to update into category"});
+        }
+        res.json({success: true})
+        
+    })
+
+    })
 
     app.post('/users', (req, res) => {
         const query = `SELECT COUNT(DISTINCT customer_id) AS customer_count FROM orders;`;
@@ -2598,9 +2750,6 @@ ORDER BY
         res.status(500).json({ success: false, message: "Error updating password." });
     }
     });
-      
-      
-// 
 
       app.post('/closeTicket', (req, res) =>{
 
@@ -2616,7 +2765,6 @@ ORDER BY
         })
 
       })
-
 
       app.post('/createTicket', (req, res) => {
         const { ticketId, userId, subject } = req.body;

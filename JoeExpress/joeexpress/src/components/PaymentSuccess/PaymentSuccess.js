@@ -17,14 +17,14 @@ export default function PaymentSuccess() {
   const [cmsName,setCmsName] = useState('');
   const [cmsFacebook,setCmsFacebook] = useState('');
   const [cmsInstagram,setCmsInstagram] = useState('');
-  const [success,setSuccess] = useState('success');
+  const [success,setSuccess] = useState('unsuccessful');
   const [cmsLink,setCmsLink] = useState('');
   const [TermsModal,setTermsModal] = useState(false); //modal
   const { OrderId } = useParams();
   const [profile, setProfile] = useState([]);
   const [userId, setUserId] = useState(null);
   const [authenticated, setAuthenticated] = useState(false);
-  const [paymentIntentId, setPaymentIntentId] = useState('');
+  const [paymentIntentId, setPaymentIntentId] = useState(null);
 
 
   const navigate= useNavigate();
@@ -67,35 +67,51 @@ export default function PaymentSuccess() {
   }, [userId]);
 
   useEffect(() => {
-    const updateOrderStatus = async () => {
-        
-        if (!userId || !OrderId) {
-            setSuccess('Unsuccessful');
-            return;
-        }
-        try {
-            const res = await axios.post('http://localhost:8081/setTopaid', { OrderId: OrderId, userId: userId });
-        } catch (error) {
-            console.error('Error updating order status:', error);
-        }
-    };
 
-    if (userId && OrderId) {
-        updateOrderStatus();
-    };
+    const paymentIntentIdFromUrl = new URLSearchParams(window.location.search).get('payment_intent_id');
 
-}, [OrderId, userId]);
-
-
-
-const navigateToTracking = () => {
-    if (success === 'success') {
-        navigate(`/tracking/${OrderId}`);
-    } else {
-        navigate(`/Checkout`);
+    if (paymentIntentIdFromUrl) {
+      setPaymentIntentId(paymentIntentIdFromUrl);
     }
-};
+    
+  }, []);
 
+  useEffect(() => {
+      const updateOrderStatus = async () => {
+          if (!OrderId || !userId) {
+              return;
+          }
+
+          try {
+              const response = await axios.post(
+                  `http://localhost:8081/setTopaid`,
+                  { OrderId, userId, paymentIntentId }
+              );
+
+              if (response.data.success) {
+                  alert(response.data.message);
+                  setSuccess('success');
+              } else {
+                  alert('Failed to update order status.');
+              }
+          } catch (error) {
+              console.error('Error updating order status:', error);
+              alert(error.response?.data?.error || 'Something went wrong.');
+          }
+      };
+
+      if (paymentIntentId) {
+          updateOrderStatus();
+      }
+  }, [paymentIntentId, OrderId, userId]);
+
+  const navigateToTracking = () => {
+      if (success === 'success') {
+          navigate(`/tracking/${OrderId}`);
+      } else {
+          navigate(`/Checkout`);
+      }
+  };
 
   useEffect(()=>{
 
