@@ -232,7 +232,7 @@ export default function DashboardRider() {
                             <h1>Weekly Deliveries</h1>
                             <img src={bike}></img>
                         </div>
-                        <p className='text-2xl font-bold dark:text-gray-800'>{weeklytotalOrder.totalOrders}</p>
+                        <p className='text-2xl font-bold dark:text-gray-800'>{weeklytotalorder?.totalOrders}</p>
                     </div>
                     {/* Cards 2 */}
                     <div className='bg-white rounded-lg p-5 font-semibold shadow-lg dark:bg-gray-400'>
@@ -248,7 +248,7 @@ export default function DashboardRider() {
                             <h1>Pending Orders</h1>
                             <img src={pending}></img>
                         </div>
-                        <p className='text-2xl font-bold dark:text-gray-800'>{totalOrder.totalOrders}</p>
+                        <p className='text-2xl font-bold dark:text-gray-800'>{totalorder?.totalOrders}</p>
                     </div>
                  </div>
 

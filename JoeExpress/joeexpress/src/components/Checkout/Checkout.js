@@ -274,7 +274,6 @@ export default function Checkout() {
 
            } 
         }
-
            catch (error) {
             console.error('Error during checkout:', error);
         }

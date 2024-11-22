@@ -166,28 +166,28 @@ function OrderTracking() {
             </div>
 
 
-            {order.status === 'unpaid' ? (
+            {order?.status === 'unpaid' ? (
                 <h2 className="font-bold text-xl md:text-2xl lg:text-3xl tracking-wide text-center max-w-3xl mb-6 mx-auto px-4">
                 Thank you for your order! It has been placed and is awaiting payment.
                 </h2>
-            ) : order.status === 'paid' ? (
+            ) : order?.status === 'paid' ? (
                 <h2 className="font-bold text-lg md:text-xl lg:text-2xl tracking-wide text-center mb-6 mx-auto px-4">
                 <span className="block text-green-700 animate-wave glow-animation">Thank you!</span>
                 <span className="block text-gray-700">Your order has been placed and is currently in the queue.</span>
                 </h2>
-            ) : order.status === 'on process' ? (
+            ) : order?.status === 'on process' ? (
                 <h2 className="font-bold text-2xl md:text-3xl lg:text-4xl tracking-wide text-center max-w-3xl mb-6 mx-auto px-4">
                 Thank you! Your order is being prepared.
                 </h2>
-            ) : order.status === 'pending rider' ? (
+            ) : order?.status === 'pending rider' ? (
                 <h2 className="font-bold text-2xl md:text-3xl lg:text-4xl tracking-wide text-center max-w-3xl mb-6 mx-auto px-4">
                 Thank you! Your order is in the queue, waiting for a rider.
                 </h2>
-            ) : order.status === 'on delivery' ? (
+            ) : order?.status === 'on delivery' ? (
                 <h2 className="font-bold text-2xl md:text-3xl lg:text-4xl tracking-wide text-center max-w-3xl mb-6 mx-auto px-4">
                 Thank you! Your order is on its way.
                 </h2>
-            ) : order.status === 'completed' ? (
+            ) : order?.status === 'completed' ? (
                 <h2 className="font-bold text-2xl md:text-3xl lg:text-4xl tracking-wide text-center max-w-3xl mb-6 mx-auto px-4">
                 Thank you! Your order has been successfully completed.
                 </h2>
@@ -208,7 +208,7 @@ function OrderTracking() {
                 <div>
                     <p className='text-xl md:text-2xl text-center font-semibold text-gray-800'>
                     Current Status:
-                    <span className='block text-center text-blue-700 text-lg md:text-xl font-bold mt-2'>{order.status?.toUpperCase()}</span>
+                    <span className='block text-center text-blue-700 text-lg md:text-xl font-bold mt-2'>{order?.status?.toUpperCase()}</span>
                     </p>
                 </div>
             </div>
@@ -216,46 +216,46 @@ function OrderTracking() {
             <div className='w-full max-w-5xl mx-auto p-8 mb-8 bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl shadow-xl'>
                 {/* Progress Bar */}
                 <div className='w-full p-4 rounded-lgbg-gray-200'>
-                    <div className={`h-4 rounded-full ${order.status === 'unpaid' ? 'w-1/5 bg-textgreenColor' : ''} ${order.status === 'paid' ? 'w-2/5 bg-textgreenColor' : ''} ${order.status === 'on process' ? 'w-3/5 bg-textgreenColor' : ''} ${order.status === 'on delivery' ? 'w-4/5 bg-textgreenColor' : ''} ${order.status === 'completed' ? 'w-full bg-textgreenColor' : ''}`}></div>
+                    <div className={`h-4 rounded-full ${order?.status === 'unpaid' ? 'w-1/5 bg-textgreenColor' : ''} ${order?.status === 'paid' ? 'w-2/5 bg-textgreenColor' : ''} ${order?.status === 'on process' ? 'w-3/5 bg-textgreenColor' : ''} ${order?.status === 'on delivery' ? 'w-4/5 bg-textgreenColor' : ''} ${order?.status === 'completed' ? 'w-full bg-textgreenColor' : ''}`}></div>
                 </div>
 
                 <div className='flex flex-row flex-wrap justify-between items-center gap-4 md:flex-nowrap md:justify-around md:items-start text-center'>
-                    <div className={`flex flex-col items-center gap-4 w-full md:w-auto ${order.status === 'unpaid' || order.status === 'paid' || order.status === 'on process' || order.status === 'on delivery' || order.status === 'completed' ? 'opacity-100' : 'opacity-50'}`}> 
-                    <span className={`flex items-center justify-center w-12 h-12 rounded-full ${order.status === 'unpaid' ? 'bg-textgreenColor text-white' : 'bg-textgreenColor text-white'}`}> 
-                        <svg className={`w-6 h-6 ${order.status === 'unpaid' ? 'text-white' : 'text-white'}`} xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 12'>
+                    <div className={`flex flex-col items-center gap-4 w-full md:w-auto ${order?.status === 'unpaid' || order?.status === 'paid' || order?.status === 'on process' || order?.status === 'on delivery' || order?.status === 'completed' ? 'opacity-100' : 'opacity-50'}`}> 
+                    <span className={`flex items-center justify-center w-12 h-12 rounded-full ${order?.status === 'unpaid' ? 'bg-textgreenColor text-white' : 'bg-textgreenColor text-white'}`}> 
+                        <svg className={`w-6 h-6 ${order?.status === 'unpaid' ? 'text-white' : 'text-white'}`} xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 12'>
                         <path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M1 5.917 5.724 10.5 15 1.5' />
                         </svg>
                     </span>
                     <div>
                         <h4 className='font-bold text-lg md:text-xl text-gray-800'>Order Received</h4>
-                        <p className='text-gray-600'>We received your order.</p>
+                        <p className='text-gray-600'>We received your order?.</p>
                     </div>
                     </div>
-                    <div className={`flex flex-col items-center gap-4 w-full md:w-auto ${order.status === 'paid' || order.status === 'on process' || order.status === 'on delivery' || order.status === 'completed' ? 'opacity-100' : 'opacity-50'}`}> 
-                    <span className={`flex items-center justify-center w-12 h-12 rounded-full ${order.status === 'paid' || order.status === 'on process' || order.status === 'on delivery' || order.status === 'completed' ? 'bg-textgreenColor text-white' : 'bg-gray-200 text-gray-600'}`}> 
-                        <img src={track2} alt='Order Confirmed' className={`w-8 h-8 object-contain ${order.status === 'paid' || order.status === 'on process' || order.status === 'on delivery' || order.status === 'completed' ? 'filter invert' : ''}`} />
+                    <div className={`flex flex-col items-center gap-4 w-full md:w-auto ${order?.status === 'paid' || order?.status === 'on process' || order?.status === 'on delivery' || order?.status === 'completed' ? 'opacity-100' : 'opacity-50'}`}> 
+                    <span className={`flex items-center justify-center w-12 h-12 rounded-full ${order?.status === 'paid' || order?.status === 'on process' || order?.status === 'on delivery' || order?.status === 'completed' ? 'bg-textgreenColor text-white' : 'bg-gray-200 text-gray-600'}`}> 
+                        <img src={track2} alt='Order Confirmed' className={`w-8 h-8 object-contain ${order?.status === 'paid' || order?.status === 'on process' || order?.status === 'on delivery' || order?.status === 'completed' ? 'filter invert' : ''}`} />
                     </span>
                     <div>
                         <h4 className='font-bold text-lg md:text-xl text-gray-800'>Order Confirmed</h4>
                         <p className='text-gray-600'>Your order has been accepted.</p>
                     </div>
                     </div>
-                    <div className={`flex flex-col items-center gap-4 w-full md:w-auto ${order.status === 'on process' || order.status === 'on delivery' || order.status === 'completed' ? 'opacity-100' : 'opacity-50'}`}> 
-                    <span className={`flex items-center justify-center w-12 h-12 rounded-full ${order.status === 'on process' || order.status === 'on delivery' || order.status === 'completed' ? 'bg-textgreenColor text-white' : 'bg-gray-200 text-gray-600'}`}> 
-                        <img src={track3} alt='Order Processed' className={`w-8 h-8 object-contain ${order.status === 'on process' || order.status === 'on delivery' || order.status === 'completed' ? 'filter invert' : ''}`} />
+                    <div className={`flex flex-col items-center gap-4 w-full md:w-auto ${order?.status === 'on process' || order?.status === 'on delivery' || order?.status === 'completed' ? 'opacity-100' : 'opacity-50'}`}> 
+                    <span className={`flex items-center justify-center w-12 h-12 rounded-full ${order?.status === 'on process' || order?.status === 'on delivery' || order?.status === 'completed' ? 'bg-textgreenColor text-white' : 'bg-gray-200 text-gray-600'}`}> 
+                        <img src={track3} alt='Order Processed' className={`w-8 h-8 object-contain ${order?.status === 'on process' || order?.status === 'on delivery' || order?.status === 'completed' ? 'filter invert' : ''}`} />
                     </span>
                     <div>
                         <h4 className='font-bold text-lg md:text-xl text-gray-800'>Preparing Order</h4>
                         <p className='text-gray-600'>We are now preparing your food.</p>
                     </div>
                     </div>
-                    <div className={`flex flex-col items-center gap-4 w-full md:w-auto ${order.status === 'on delivery' || order.status === 'completed' ? 'opacity-100' : 'opacity-50'}`}> 
-                    <span className={`flex items-center justify-center w-12 h-12 rounded-full ${order.status === 'on delivery' || order.status === 'completed' ? 'bg-textgreenColor text-white' : 'bg-gray-200 text-gray-600'}`}> 
-                        <img src={track4} alt='Ready to Pickup/Deliver' className={`w-8 h-8 object-contain ${order.status === 'on delivery' || order.status === 'completed' ? 'filter invert' : ''}`} />
+                    <div className={`flex flex-col items-center gap-4 w-full md:w-auto ${order?.status === 'on delivery' || order?.status === 'completed' ? 'opacity-100' : 'opacity-50'}`}> 
+                    <span className={`flex items-center justify-center w-12 h-12 rounded-full ${order?.status === 'on delivery' || order?.status === 'completed' ? 'bg-textgreenColor text-white' : 'bg-gray-200 text-gray-600'}`}> 
+                        <img src={track4} alt='Ready to Pickup/Deliver' className={`w-8 h-8 object-contain ${order?.status === 'on delivery' || order?.status === 'completed' ? 'filter invert' : ''}`} />
                     </span>
                     <div>
-                        <h4 className={'font-bold text-lg md:text-xl text-gray-800'}>{order.deliveryMethod === 'Pickup' ? 'Ready for Pickup' : 'Out for Delivery'}</h4>
-                        <p className='text-gray-600'>{order.paymentMethod === 'gcash' ? 'Come pick it up and enjoy.' : 'Your food is on its way to you!'}</p>
+                        <h4 className={'font-bold text-lg md:text-xl text-gray-800'}>{order?.deliveryMethod === 'Pickup' ? 'Ready for Pickup' : 'Out for Delivery'}</h4>
+                        <p className='text-gray-600'>{order?.paymentMethod === 'gcash' ? 'Come pick it up and enjoy.' : 'Your food is on its way to you!'}</p>
                     </div>
                     </div>
                 </div>

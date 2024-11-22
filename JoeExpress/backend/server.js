@@ -813,7 +813,7 @@ app.post('/webhook', (req, res) => {
     const getWebhooks = async () => {
         const options = {
             method: 'GET',
-            url: 'https:/.paymongo.com/v1/webhooks',
+            url: 'https:/api.paymongo.com/v1/webhooks',
             headers: {
                 accept: 'application/json',
                 authorization: 'Basic c2tfdGVzdF81NXhIV1JVRFI3UXoxOTZicHNBZTFCREw6' // Replace with actual credentials
@@ -875,7 +875,7 @@ app.post('/create-payment-intent/:id', async (req, res) => {
     try {
         // Create payment intent
         const paymentIntentResponse = await axios.post(
-            'https:/.paymongo.com/v1/payment_intents',
+            'https:/api.paymongo.com/v1/payment_intents',
             {
                 data: {
                     attributes: {
@@ -902,7 +902,7 @@ app.post('/create-payment-intent/:id', async (req, res) => {
 
         // Create a source for the payment
         const checkoutResponse = await axios.post(
-            'https:/.paymongo.com/v1/sources',
+            'https:/api.paymongo.com/v1/sources',
             {
                 data: {
                     attributes: {
@@ -937,46 +937,28 @@ app.post('/create-payment-intent/:id', async (req, res) => {
 });
 
 app.post('/setTopaid', (req, res) => {
-    
-    const { OrderId } = req.body; 
-    const query = `UPDATE orders SET status = 'paid' WHERE order_id = ? AND paymentMethod = 'gcash'`;
+    const { OrderId, userId } = req.body;
 
-    db.query(query, [OrderId], (err, result) => {
+    if (!OrderId || !userId) {
+        return res.status(400).json({ error: "OrderId and userId are required" });
+    }
+
+    const query = `UPDATE orders SET status = 'paid' WHERE order_id = ? AND customer_id = ? AND paymentMethod = 'gcash'`;
+
+    db.query(query, [OrderId, userId], (err, result) => {
         if (err) {
-            return res.status(500).json({ error: "Error updating order status to 'paid'" });
+            console.error("Database error:", err);
+            return res.status(500).json({ error: "Internal server error while updating order" });
         }
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ error: "Order not found or payment method not matched" });
+            return res.status(404).json({ error: "Order not found or mismatched userId" });
         }
 
-        // Successfully updated order status
-        res.json({ message: "Order status updated to 'paid'", result });
+        res.json({ message: "Order status updated to 'paid'" });
+
     });
 });
-
-
-
-
-
-
-// app.post('/verify-payment', async (req, res) => {
-//     const { paymentIntentId } = req.body;
-
-//     try {
-//         const response = await axios.get(`https:/.paymongo.com/v1/payment_intents/${paymentIntentId}`, {
-//             headers: {
-//                 'Authorization': `Basic ${Buffer.from(`${PAYMONGO_SECRET_KEY}:`).toString('base64')}`,
-//                 'Content-Type': 'application/json',
-//             },
-//         });
-
-//         res.json(response.data);
-//     } catch (error) {
-//         console.error('Error verifying payment:', error);
-//         res.status(500).json({ error: 'Failed to verify payment' });
-//     }
-// });
 
 app.post('/updateAcc', async (req, res) => {
     const { id, name, email, password, address } = req.body;
@@ -2647,7 +2629,7 @@ ORDER BY
       
           if (results.length > 0) {
             
-            const updateTicket = 'UPDATE tickets set subject = ?, status = `open` where ticket_id = ? AND user_id = ?';
+            const updateTicket = `UPDATE tickets set subject = ?, status = 'open' where ticket_id = ? AND user_id = ?`;
 
             db.query(updateTicket, [subject,ticketId,userId]), (err, results)=>{
                 if (err) {

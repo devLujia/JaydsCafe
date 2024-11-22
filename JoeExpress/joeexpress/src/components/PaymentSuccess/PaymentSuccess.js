@@ -8,7 +8,7 @@ import check from '../image/greenCheck.svg';
 import MapModal from '../Map/Map';
 import Terms from '../UserModal/TermsAndCondition/Terms'
 
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams} from 'react-router-dom';
 import axios from 'axios';
 
 export default function PaymentSuccess() {
@@ -17,25 +17,84 @@ export default function PaymentSuccess() {
   const [cmsName,setCmsName] = useState('');
   const [cmsFacebook,setCmsFacebook] = useState('');
   const [cmsInstagram,setCmsInstagram] = useState('');
+  const [success,setSuccess] = useState('success');
   const [cmsLink,setCmsLink] = useState('');
   const [TermsModal,setTermsModal] = useState(false); //modal
   const { OrderId } = useParams();
+  const [profile, setProfile] = useState([]);
+  const [userId, setUserId] = useState(null);
+  const [authenticated, setAuthenticated] = useState(false);
+  const [paymentIntentId, setPaymentIntentId] = useState('');
+
+
+  const navigate= useNavigate();
+
+
+  axios.defaults.withCredentials = true;
 
   useEffect(() => {
-    const updateOrderStatus = async () => {
-        if (OrderId) {
-            try {
-                const res = await axios.post('http://localhost:8081/setTopaid', { OrderId });
-
-            } catch (error) {
-                console.error('Error updating order status:', error);
+    const checkAuthentication = async () => {
+        try {
+            const res = await axios.get('http://localhost:8081/');
+            if (res.data.valid) {
+                setAuthenticated(true);
+                setUserId(res.data.userId);
+            } else {
+                navigate('/');
             }
+        } catch (err) {
+            console.error('Error during authentication check:', err);
         }
     };
 
-    updateOrderStatus(); // Call the async function
-}, [OrderId]);
+    checkAuthentication();  // Call the async function
+}, [navigate]);
 
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await axios.post('http://localhost:8081/profile', { userId });
+        setProfile(response.data);
+      } catch (error) {
+        console.error('Error fetching profile details:', error);
+      }
+    };
+  
+    if (userId) {
+      fetchProfile()
+    };
+
+  }, [userId]);
+
+  useEffect(() => {
+    const updateOrderStatus = async () => {
+        
+        if (!userId || !OrderId) {
+            setSuccess('Unsuccessful');
+            return;
+        }
+        try {
+            const res = await axios.post('http://localhost:8081/setTopaid', { OrderId: OrderId, userId: userId });
+        } catch (error) {
+            console.error('Error updating order status:', error);
+        }
+    };
+
+    if (userId && OrderId) {
+        updateOrderStatus();
+    };
+
+}, [OrderId, userId]);
+
+
+
+const navigateToTracking = () => {
+    if (success === 'success') {
+        navigate(`/tracking/${OrderId}`);
+    } else {
+        navigate(`/Checkout`);
+    }
+};
 
 
   useEffect(()=>{
@@ -100,7 +159,7 @@ export default function PaymentSuccess() {
       setTermsModal(!TermsModal)
     }
 
-    const navigate= useNavigate();
+
 
     const goToMenu = () => {
         navigate('/menu')
@@ -141,8 +200,7 @@ export default function PaymentSuccess() {
                 </div>
                 <div className='text-4xl text-center'>
                     <h1>
-                        Your payment was
-                        successful!
+                        Your payment was {success}!
                     </h1>
                     <p className='text-sm my-4'>
                     Thank you for your payment. We will
@@ -151,8 +209,8 @@ export default function PaymentSuccess() {
                 </div>
                 <div className='flex flex-col w-full gap-y-4 font-bold tracking-wide mb-2 px-3'>
                 {OrderId ? (
-                        <button onClick={() => navigate(`/tracking/${OrderId    }`)} className='bg-textgreenColor hover:bg-green-500 transition duration-500 w-full rounded-full text-center text-lg text-white py-3 '>
-                        View Order Status
+                        <button onClick={navigateToTracking} className='bg-textgreenColor hover:bg-green-500 transition duration-500 w-full rounded-full text-center text-lg text-white py-3 '>
+                        {success === 'success' ?  "View Order Status" : "Go back to Checkout"}
                     </button>
                     ) : (
                         <p>Order ID not found</p>

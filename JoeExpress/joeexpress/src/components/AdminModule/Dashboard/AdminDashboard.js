@@ -305,7 +305,7 @@ function AdminDashboard() {
       // Optimistically update the state
       setUpdateOrder(prevState => 
           prevState.map(order =>
-              order.order_id === id ? { ...order, status: newStatus } : order
+              order?.order_id === id ? { ...order, status: newStatus } : order
           )
       );
   
@@ -647,22 +647,22 @@ function AdminDashboard() {
 
                                     <tbody>
                                     {orders.slice(0, 2).map(order => (
-                                       <React.Fragment key={order.order_id}>
+                                       <React.Fragment key={order?.order_id}>
                                           <tr className="bg-white border-b hover:bg-gray-100 dark:bg-[#3a3a3a] dark:border-[#4a4a4a] dark:hover:bg-[#5b5b5b]">
                                              <th scope="row" className="text-center px-6 py-6 font-semibold text-gray-900 whitespace-nowrap dark:text-gray-300">
-                                                <div className="text-base font-semibold">ORDR#{order.order_id}</div>
+                                                <div className="text-base font-semibold">ORDR#{order?.order_id}</div>
                                              </th>
                                              <td className="px-6 py-6 text-center">
-                                                {order.name}
+                                                {order?.name}
                                              </td>
                                              <td className="px-6 py-6 text-center">
-                                                {order.address}
+                                                {order?.address}
                                              </td>
                                              <td className="px-6 py-6 text-center">
-                                                {order.pnum}
+                                                {order?.pnum}
                                              </td>
                                              <td className="px-6 py-6 text-center">
-                                                {new Date(order.order_date).toLocaleString('en-US', {
+                                                {new Date(order?.order_date).toLocaleString('en-US', {
                                                    year: 'numeric',
                                                    month: 'long',
                                                    day: 'numeric',
@@ -672,21 +672,21 @@ function AdminDashboard() {
                                                 })}
                                              </td>
                                              <td className="px-6 py-6 text-center text-green-600 dark:text-green-400 font-bold">
-                                                ₱ {order.totalPrice}.00
+                                                ₱ {order?.totalPrice}.00
                                              </td>
                                              <td className="px-6 py-6">
-                                                <div className={`w-fit py-2 px-6 mx-auto rounded-3xl text-sm font-semibold ${order.status === 'Pending' ? 'bg-yellow-100 text-yellow-600' : 'bg-green-100 text-green-600'}`}>{order.status}</div>
+                                                <div className={`w-fit py-2 px-6 mx-auto rounded-3xl text-sm font-semibold ${order?.status === 'Pending' ? 'bg-yellow-100 text-yellow-600' : 'bg-green-100 text-green-600'}`}>{order?.status}</div>
                                              </td>
                                           </tr>
 
-                                          {expandedOrderId === order.order_id && (
+                                          {expandedOrderId === order?.order_id && (
                                              <tr>
                                                 <td colSpan="8" className="bg-gray-50 dark:bg-[#4a4a4a]">
                                                    <div className="p-6">
                                                       <div className="text-sm text-gray-600 dark:text-gray-300">
                                                          <strong>Order Items:</strong>
                                                          <ul className="mt-3 space-y-2">
-                                                            {order.food_details.split(';').map((detail, index) => (
+                                                            {order?.food_details.split(';').map((detail, index) => (
                                                             <li key={index} className="py-1 w-full text-left text-gray-800 dark:text-gray-200">
                                                                {detail.trim()}
                                                             </li>

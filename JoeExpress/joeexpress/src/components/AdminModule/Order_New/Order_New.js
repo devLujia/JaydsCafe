@@ -631,16 +631,16 @@ export default function Order_New() {
                                                         </thead>
                                                         <tbody>
                                                             {currentOrders.map(order => (
-                                                                <React.Fragment key={order.order_id}>
+                                                                <React.Fragment key={order?.order_id}>
                                                                     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-white">
-                                                                        <td className="px-6 py-4 text-center text-gray-900 cursor-pointer dark:text-white" onClick={() => toggleOrderDetails(order.order_id)} title="View Order(s)">
-                                                                            <div className="text-base font-semibold">ORDR#{order.order_id}</div>
+                                                                        <td className="px-6 py-4 text-center text-gray-900 cursor-pointer dark:text-white" onClick={() => toggleOrderDetails(order?.order_id)} title="View Order(s)">
+                                                                            <div className="text-base font-semibold">ORDR#{order?.order_id}</div>
                                                                         </td>
-                                                                        <td className="px-6 py-4 text-center">{order.name}</td>
-                                                                        <td className="px-6 py-4 text-center">{order.address}</td>
+                                                                        <td className="px-6 py-4 text-center">{order?.name}</td>
+                                                                        <td className="px-6 py-4 text-center">{order?.address}</td>
                                                                         <td className="px-6 py-4 text-center">WALA PA</td>
                                                                         <td className="px-6 py-4 text-center">
-                                                                            {new Date(order.order_date).toLocaleString('en-US', {
+                                                                            {new Date(order?.order_date).toLocaleString('en-US', {
                                                                                 year: 'numeric',
                                                                                 month: 'long',
                                                                                 day: 'numeric',
@@ -650,27 +650,27 @@ export default function Order_New() {
                                                                             })}
                                                                         </td>
                                                                         <td className="px-6 py-4 text-center font-semibold text-green-500">
-                                                                            ₱{order.totalPrice}.00
+                                                                            ₱{order?.totalPrice}.00
                                                                         </td>
                                                                         <td className="px-6 py-4">
-                                                                                {order.status === 'paid' ? (
-                                                                                        <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status.toUpperCase()}</div>
-                                                                                    ) : order.status === 'on process' ? (
-                                                                                        <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status.toUpperCase()}</div>
-                                                                                    ) : order.status === 'pending rider' ? (
-                                                                                        <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status.toUpperCase()}</div>
-                                                                                    ) : order.status === 'unpaid' ? (
-                                                                                        <div className="bg-red-100 text-red-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status.toUpperCase()}</div>
+                                                                                {order?.status === 'paid' ? (
+                                                                                        <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order?.status.toUpperCase()}</div>
+                                                                                    ) : order?.status === 'on process' ? (
+                                                                                        <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order?.status.toUpperCase()}</div>
+                                                                                    ) : order?.status === 'pending rider' ? (
+                                                                                        <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order?.status.toUpperCase()}</div>
+                                                                                    ) : order?.status === 'unpaid' ? (
+                                                                                        <div className="bg-red-100 text-red-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order?.status.toUpperCase()}</div>
                                                                                     ) : (
                                                                                         ''
                                                                                     )}
                                                                         </td>
                                                                         <td className="px-6 py-4">
-                                                                        {order.status === 'paid' ? (
-                                                                                <button onClick={() => getTheOrder(order.order_id, order.status)} className="py-2 px-3 bg-yellow-500 text-white rounded-full">
+                                                                        {order?.status === 'paid' ? (
+                                                                                <button onClick={() => getTheOrder(order?.order_id, order?.status)} className="py-2 px-3 bg-yellow-500 text-white rounded-full">
                                                                                     Mark as 'on process'
                                                                                 </button>
-                                                                            ) : order.status === 'on process' ? (
+                                                                            ) : order?.status === 'on process' ? (
                                                                                 <div>
                                                                                     <label htmlFor="rider-select">Choose a rider:</label>
                                                                                     <select
@@ -688,8 +688,8 @@ export default function Order_New() {
                                                                                     </select>
                                                                                     <button className="py-2 px-3 bg-yellow-500 text-white rounded-full" onClick={() => getOrderWithRider(selectedRiders, order?.order_id, order?.status)}>Assign Rider</button>
                                                                                 </div>
-                                                                            ) : order.status === 'unpaid' ? (
-                                                                                <button onClick={() => getTheOrder(order.order_id, order.status)}className="py-2 px-3 bg-red-500 text-white rounded-full">
+                                                                            ) : order?.status === 'unpaid' ? (
+                                                                                <button onClick={() => getTheOrder(order?.order_id, order?.status)}className="py-2 px-3 bg-red-500 text-white rounded-full">
                                                                                     Mark as Paid
                                                                                 </button>
                                                                             ) : (
@@ -698,20 +698,20 @@ export default function Order_New() {
 
                                                                         </td>
                                                                         <td>
-                                                                            <button onClick={() => cancelOrder(order.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title="Delete">
+                                                                            <button onClick={() => cancelOrder(order?.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title="Delete">
                                                                                 <img src={del} alt="trash" />
                                                                             </button>
                                                                         </td>
                                                                     </tr>
-                                                                    {expandedOrderId === order.order_id && (
+                                                                    {expandedOrderId === order?.order_id && (
                                                                         <tr>
                                                                             <td colSpan="9" className="bg-gray-100 dark:bg-gray-700">
                                                                                 <div className="px-6 py-4">
                                                                                     <div className="text-sm text-gray-600 dark:text-gray-300">
                                                                                         <strong>Order Items:</strong>
                                                                                         <ul className="mt-2 space-y-2 list-disc list-inside">
-                                                                                            Sugar level: {order.sugar_level} %
-                                                                                            {order.food_details.split(';').map((detail, index) => (
+                                                                                            Sugar level: {order?.sugar_level} %
+                                                                                            {order?.food_details.split(';').map((detail, index) => (
                                                                                                 <li key={index} className="py-1 w-full text-left">
                                                                                                     {detail.trim()}
                                                                                                 </li>
@@ -818,23 +818,23 @@ export default function Order_New() {
                                                         </thead>
 
                                                         <tbody>
-                                                            {currentPendingOrders.filter(order => order.status === 'pending rider' || order.status === 'on delivery').map(order => (
-                                                                <React.Fragment key={order.order_id}>
-                                                                <tr className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"  onClick={()=> toggleOrderDetails(order.order_id)}>
+                                                            {currentPendingOrders.filter(order => order?.status === 'pending rider' || order?.status === 'on delivery').map(order => (
+                                                                <React.Fragment key={order?.order_id}>
+                                                                <tr className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"  onClick={()=> toggleOrderDetails(order?.order_id)}>
                                                                 <td className="px-6 py-4 text-center text-gray-900">
-                                                                    <div className="text-base font-semibold">ORDR#{order.order_id}</div>
+                                                                    <div className="text-base font-semibold">ORDR#{order?.order_id}</div>
                                                                 </td>
                                                                 <td className="px-6 py-4 text-center ">
-                                                                    {order.name}
+                                                                    {order?.name}
                                                                 </td>
                                                                 <td className="px-6 py-4 text-center">
-                                                                    {order.address}
+                                                                    {order?.address}
                                                                 </td>
                                                                 <td className="px-6 py-4 text-center">
                                                                     WALA PA
                                                                 </td>
                                                                 <td className="px-6 py-4 text-center">
-                                                                    {new Date(order.order_date).toLocaleString('en-US', {
+                                                                    {new Date(order?.order_date).toLocaleString('en-US', {
                                                                         year: 'numeric',
                                                                         month: 'long',
                                                                         day: 'numeric',
@@ -844,19 +844,19 @@ export default function Order_New() {
                                                                     })}
                                                                 </td>
                                                                 <td className="px-6 py-4 text-center font-semibold text-green-500">
-                                                                    ₱{order.totalPrice}.00
+                                                                    ₱{order?.totalPrice}.00
                                                                 </td>
                                                                 <td className="px-6 py-4">
-                                                                    {order.status === 'paid' ? 
-                                                                    <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order.status.toUpperCase()}</div> 
-                                                                    : order.status === 'on delivery' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div>
-                                                                    : order.status === 'pending rider' ? <div className="bg-green-100 text-orange-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order.status.toUpperCase()} </div> 
+                                                                    {order?.status === 'paid' ? 
+                                                                    <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order?.status.toUpperCase()}</div> 
+                                                                    : order?.status === 'on delivery' ? <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order?.status.toUpperCase()} </div>
+                                                                    : order?.status === 'pending rider' ? <div className="bg-green-100 text-orange-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto"> {order?.status.toUpperCase()} </div> 
                                                                     :''}
                                                                     
                                                                 </td>
                                                                 <td className=" px-6 py-4 ">
                                                                 
-                                                                <button onClick={()=> cancelOrder(order.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title='Delete'>
+                                                                <button onClick={()=> cancelOrder(order?.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title='Delete'>
                                                                             <img src={del} alt="trash" />
                                                                         </button>
                                                                 </td>
@@ -865,14 +865,14 @@ export default function Order_New() {
 
                                                                 </tr>
 
-                                                                {expandedOrderId === order.order_id && (
+                                                                {expandedOrderId === order?.order_id && (
                                                                 <tr>
                                                                     <td colSpan="9" className="bg-gray-100 dark:bg-gray-700">
                                                                         <div className="px-6 py-4">
                                                                         <div className="text-sm text-gray-600 dark:text-gray-300">
                                                                             <strong>Order Items:</strong>
                                                                             <ul className="mt-2 space-y-2 list-disc list-inside">
-                                                                            {order.food_details.split(';').map((detail, index) => (
+                                                                            {order?.food_details.split(';').map((detail, index) => (
                                                                             <li key={index} className="py-1 w-full text-left">
                                                                                 {detail.trim()}
                                                                             </li>
