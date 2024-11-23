@@ -103,15 +103,22 @@ export default function Checkout() {
         setRemainingTime(5); // Reset countdown
 
     toastId.current = toast.success(
-      <>
-        <div className='mb-6 sm:text-sm md:text-md text-xl tracking-wide'>Are you sure about your order?</div>
-        <div className='my-4 sm:text-sm md:text-md '>You can cancel your order within:</div>
-        <div className='w-full flex justify-evenly shrink-0 gap-3'>
-            <button onClick={handleCloseModal} className='cursor-pointer py-3 px-5 bg-red-600 hover:bg-red-500 font-semibold tracking-wide text-white rounded-md'>
-            Cancel
-            </button>
-        </div>
-      </>,
+        <>
+            <div className="text-center mb-4 sm:text-sm md:text-md text-xl tracking-wide">
+                Are you sure about your order?
+            </div>
+            <div className="text-center my-4 sm:text-sm md:text-md">
+                You can cancel your order within:
+            </div>
+            <div className="w-full flex justify-center shrink-0 gap-3">
+                <button
+                onClick={handleCloseModal}
+                className="cursor-pointer py-2 px-4 bg-red-600 hover:bg-red-500 font-semibold tracking-wide text-white rounded-md"
+                >
+                Cancel
+                </button>
+            </div>
+        </>,
       {
         position: "center",
         autoClose: false, 

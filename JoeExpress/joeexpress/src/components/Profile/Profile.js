@@ -366,7 +366,6 @@ export default function Profile() {
 
   };
 
-
   const handleLogout = async () => {
     try {
       const res = await axios.post('http://localhost:8081/logout');
@@ -381,9 +380,6 @@ export default function Profile() {
       console.error('Error during logout:', error);
     }
   };
-  
-
-  
 
     // chat with rider
     const [isChatOpen, setIsChatOpen] = useState(false);
@@ -416,6 +412,8 @@ export default function Profile() {
 
     },[])
 
+    const [islogout, setIsLogout] = useState(false);
+
 
   return (
 
@@ -428,16 +426,51 @@ export default function Profile() {
         <a href="/" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide" dangerouslySetInnerHTML={{ __html: cmsName }}></a>
       </div>
 
-        <div>
-                  <Link to={'/cart'} className="relative inline-block">
-                    <img src={bagIcon} alt="bag" className="w-8 h-8" /> {/* Adjust size as needed */}
-                    {orderNotif.totalOrders > 0 && (
+        <div className='space-x-5 flex justify-center items-center'>
+          <Link to={'/cart'} className="relative inline-block">
+            <img src={bagIcon} alt="bag" className="w-8 h-8" /> {/* Adjust size as needed */}
+            {orderNotif.totalOrders > 0 && (
 
-                      <span className="absolute top-[-5px] right-[-10px] bg-red-500 text-white text-base rounded-full px-2.5">
-                        {orderNotif.totalOrders}
-                      </span>
-                    )}
-                  </Link>
+              <span className="absolute top-[-5px] right-[-10px] bg-red-500 text-white text-base rounded-full px-2.5">
+                {orderNotif.totalOrders}
+              </span>
+            )}
+          </Link>
+          <button
+            className="border-2 border-greenColor hover:border-white text-greenColor hover:bg-greenColor hover:text-white transition-colors font-semibold py-1 px-5 rounded-xl shadow-md hover:shadow-none duration-300 ease-in-out text-sm sm:text-base md:text-lg"
+            // onClick={handleLogout}
+            onClick={() => setIsLogout(true)}
+          >
+            Logout
+          </button>
+          {islogout && (
+            <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+            <div className="bg-white rounded-2xl p-8 w-full max-w-sm shadow-2xl transform scale-95 transition duration-300 ease-in-out">
+              <div className="text-center">
+                <h2 className="text-2xl font-extrabold mb-4 text-gray-800">
+                  Confirm Logout
+                </h2>
+                <p className="text-sm text-gray-500 mb-6">
+                  Are you sure you want to logout? 
+                </p>
+              </div>
+              <div className="flex justify-center space-x-4">
+                <button
+                  className="py-2 px-6 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-full shadow-md transition"
+                  onClick={() => setIsLogout(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="py-2 px-6 bg-red-600 hover:bg-red-500 text-white font-medium rounded-full shadow-md transition"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </div>
+            </div>
+          </div>
+          )}
         </div>
     </nav>
 
@@ -459,7 +492,7 @@ export default function Profile() {
               `)}`} alt="Anonymous Avatar" class="w-full h-full object-fill max-w-full max-h-full rounded-full"/>
         </div>
 
-        <div class="flex flex-col items-center justify-center space-y-2 text-center w-full mt-6 md:mt-8 lg:mt-6">
+        <div class="flex flex-col justify-center space-y-2 text-left w-full mt-6 md:mt-8 lg:mt-6 ms-2">
           <h1 class="text-white text-2xl md:text-3xl lg:text-4xl tracking-wider font-extrabold">{profile.name}</h1>
           <p class="text-white text-sm md:text-base tracking-wider">{profile.email}</p>
         </div>
