@@ -96,13 +96,12 @@ export default function Message() {
 
       const fetchMessages = async (ticket) => {
 
-         if(specificTicketId){
+         if (specificTicketId) {
             socket.emit('leave_Room', specificTicketId);
-            socket.on('leave_Room', () => {
-               setMessageList([]);
-            });
-            
-         }
+            socket.off('receive_message');
+            setMessageList([]);
+            setCurrentMessage('');
+          }
 
          if (ticket) { 
             try {
@@ -185,7 +184,7 @@ export default function Message() {
       useEffect(() => {
          // Listen for incoming messages from the server
          socket.on('receive_message', (messageData) => {
-
+            
             if(messageData.userId !== userId){
                setMessageList((prevChat) => [...prevChat, messageData]);
             }
@@ -196,8 +195,6 @@ export default function Message() {
            socket.off('receive_message');
          };
        }, [userId]);
-
-
 
    const sendMessage = async (e) => {
       if (currentMessage.trim() !== '') {
