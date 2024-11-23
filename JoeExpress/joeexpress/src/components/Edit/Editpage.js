@@ -205,20 +205,20 @@ export default function Editpage() {
                                 <div className="bg-white border-2 border-slate-300 rounded-lg p-4 flex items-center justify-between w-72 mb-6">
                                     {/* <!-- Small Size --> */}
                                     {sizes.map(size => (
-                                                <label key={size.id} className="flex flex-col items-center">
+                                                <label key={size?.id} className="flex flex-col items-center">
                                                 <input
                                                     type="radio"
                                                     name="size"
-                                                    value={size.size}
-                                                    checked={selectedSize === size.size}
-                                                    onChange={(e) => handleInput(e, size.size, size.price)}
+                                                    value={size?.size}
+                                                    checked={selectedSize === size?.size}
+                                                    onChange={(e) => handleInput(e, size?.size, size?.price)}
                                                     className="hidden"
                                                 />
-                                                <div className={`p-1 ${selectedSize === size.size ? 'border-2 border-textgreenColor bg-[#d4e9e2] rounded-full' : ''}`}>
+                                                <div className={`p-1 ${selectedSize === size?.size ? 'border-2 border-textgreenColor bg-[#d4e9e2] rounded-full' : ''}`}>
                                                     <img src={cupsmall} alt="Medium" className="h-8 w-8" />
                                                 </div>
-                                                <p className={`text-sm font-semibold ${selectedSize === size.size ? 'text-green-500' : ''}`}>{size.size}</p>
-                                                <p className="text-xs text-gray-500">473 ml</p>
+                                                <p className={`text-sm font-semibold ${selectedSize === size?.size ? 'text-green-500' : ''}`}>{size?.size}</p>
+                                                {/* <p className="text-xs text-gray-500">473 ml</p> */}
                                             </label>
                                     ))}
                                 </div>
@@ -257,7 +257,7 @@ export default function Editpage() {
                                             <h4 className="text-lg font-semibold">Selected Add-ons:</h4>
                                             <ul className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 text-center'>
                                                 {selectedAddons.map(addon => (
-                                                    <li key={addon.id} className="text-gray-600">{addon.name} (₱{addon.price})</li>
+                                                    <li key={addon?.id} className="text-gray-600">{addon.name} (₱{addon.price})</li>
                                                 ))}
                                             </ul>
                                         </div>

@@ -739,10 +739,10 @@ function ProductManagement() {
 
                                 
                                 {sizes[food?.id]?.map(size =>(
-                                  <React.Fragment key={size.id}>
+                                  <React.Fragment key={size?.id}>
                                   <p className="text-auto text-sm font-semibold mt-1 text-gray-500">
                                   Size:
-                                  <span className="text-auto font-normal mt-1"> {size.size.toUpperCase()} (₱ {size.price}.00)</span>
+                                  <span className="text-auto font-normal mt-1"> {size?.size.toUpperCase()} (₱ {size?.price}.00)</span>
                                   </p>
                                   <p className="text-auto font-normal mt-1">
                                   

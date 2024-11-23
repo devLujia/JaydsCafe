@@ -306,7 +306,7 @@ useEffect(() => {
                         />
                      </div>
                      <div class="w-full">
-                        <div class="text-md tracking-wider dark:text-white hover:text-gray-900">{order.order_id}</div>
+                        <div class="text-md tracking-wider dark:text-white hover:text-gray-900">{order?.order_id}</div>
                         <span class="text-gray-500 text-sm">Contents</span>
                      </div>
                   </div> ))}

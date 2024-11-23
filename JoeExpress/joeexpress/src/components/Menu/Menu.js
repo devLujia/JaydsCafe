@@ -453,16 +453,16 @@ useEffect(() => {
 
             {category.map(cat => (
                 <button 
-                    key={cat.id} 
+                    key={cat?.id} 
                     className={`${
-                        categorySearch === cat.id ? 'bg-greenColor text-white' : 'bg-white text-black'
+                        categorySearch === cat?.id ? 'bg-greenColor text-white' : 'bg-white text-black'
                     } text-xl rounded-full py-3 px-5 hover:bg-greenColor hover:text-white duration-300`}
                     onClick={() => {
-                      setCategorySearch(cat.id);   
+                      setCategorySearch(cat?.id);   
                       setCurrentPage(1);           
                     }}
                 >
-                    {cat.title}
+                    {cat?.title}
                 </button>
                 ))}
             </div>
@@ -482,20 +482,20 @@ useEffect(() => {
                 className="z-10 absolute left-1/2 transform -translate-x-1/2 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                   <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                       {category.map((cat) => (
-                          <li key={cat.id}>
+                          <li key={cat?.id}>
                               <button
                                   className={`block px-4 py-2 w-full rounded-full ${
-                                      categorySearch === cat.id
+                                      categorySearch === cat?.id
                                           ? 'bg-greenColor text-white'
                                           : 'hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700'
                                   }`}
                                   onClick={() => {
-                                      setCategorySearch(cat.id); // Set the selected category ID
+                                      setCategorySearch(cat?.id); // Set the selected category ID
                                       setCurrentPage(1); // Reset to first page if applicable
-                                      handleCategoryClick(cat.id); // Call function with selected category ID
+                                      handleCategoryClick(cat?.id); // Call function with selected category ID
                                   }}
                               >
-                                  {cat.title}
+                                  {cat?.title}
                               </button>
                           </li>
                       ))}
@@ -521,7 +521,7 @@ useEffect(() => {
                       // If another category is selected, style the first word with green and the rest as normal
                       <span>
                           {(() => {
-                              const selectedCategory = category.find(cat => cat.id === categorySearch)?.title;
+                              const selectedCategory = category.find(cat => cat?.id === categorySearch)?.title;
                               if (selectedCategory) {
                                   const [firstWord, ...restOfTitle] = selectedCategory.split(' '); // Split the category title
                                   return (

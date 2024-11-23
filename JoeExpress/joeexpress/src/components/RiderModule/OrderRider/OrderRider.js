@@ -97,7 +97,7 @@ export default function OrderRider() {
             // Update state with new order status
             setUpdateOrder(prevState =>
                 prevState.map(order =>
-                    order.order_id === id ? { ...order, status: newStatus } : order
+                    order?.order_id === id ? { ...order, status: newStatus } : order
                 )
             );
         
@@ -256,26 +256,26 @@ export default function OrderRider() {
                     <div className='w-full h-fit mt-4 space-y-5 '>
                         {/* pending 1 */}
                         
-                           {orders.filter((order) => order.status === 'pending rider' ).map(order => (
-                            <div key={order.order_id}>
+                           {orders.filter((order) => order?.status === 'pending rider' ).map(order => (
+                            <div key={order?.order_id}>
                             <div  class="group w-full shadow-md bg-white border-2 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600 dark:bg-gray-500 dark:border-gray-800 dark:hover:border-indigo-300">
                                 <div class="relative flex items-center gap-5 mb-6">
                                     <img src={user} alt="Jane avatar"></img>
                                     <div class="grid gap-1">
-                                        <h5 class="text-gray-900 font-semibold transition-all duration-500 dark:text-gray-100 text-2xl ">{order.name}</h5>
+                                        <h5 class="text-gray-900 font-semibold transition-all duration-500 dark:text-gray-100 text-2xl ">{order?.name}</h5>
                                         <div className='flex flex-row shrink-0 gap-2'>
                                             <img src={loc} className='dark:filter dark:invert'></img>
-                                            <span class="text-sm leading-6 text-gray-500 dark:text-gray-100"> {order.address} </span>
+                                            <span class="text-sm leading-6 text-gray-500 dark:text-gray-100"> {order?.address} </span>
                                         </div>
                                     </div>
                             
                                     <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-amber-200 font-semibold '> {/* 1st na indication */}
-                                        <h1 className='text-amber-500'>{order.status}</h1>
+                                        <h1 className='text-amber-500'>{order?.status}</h1>
                                     </div>
                                     
                                 </div>
                                 <div class="flex items-center mb-1 gap-2 text-amber-500 transition-all duration-500 ">
-                                    <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800 dark:text-white"> <span className='font-semibold text-black dark:text-white'>Items: </span> {order.food_details}</p>
+                                    <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800 dark:text-white"> <span className='font-semibold text-black dark:text-white'>Items: </span> {order?.food_details}</p>
                                 </div>
                                 {/* <div className='flex flex-row shrink-0 gap-2'>
                                     <img src={clock}></img>
@@ -306,21 +306,21 @@ export default function OrderRider() {
                 {activeTab === 'active' &&(
                     <div className='w-full h-fit mt-4 space-y-5 '>
                         {/* accepted */}
-                        {orders.filter((order) => order.status === 'on delivery').map(order => (
-                            <div key={order.order_id}>
+                        {orders.filter((order) => order?.status === 'on delivery').map(order => (
+                            <div key={order?.order_id}>
                             <div  class="group w-full shadow-md bg-white border-2 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600 dark:bg-gray-500 dark:border-gray-800 dark:hover:border-indigo-300">
                                 <div class="relative flex items-center gap-5 mb-6">
                                     <img src={user} alt="Jane avatar"></img>
                                     <div class="grid gap-1">
-                                        <h5 class="text-gray-900 font-semibold transition-all duration-500 dark:text-gray-100 text-2xl ">{order.name}</h5>
+                                        <h5 class="text-gray-900 font-semibold transition-all duration-500 dark:text-gray-100 text-2xl ">{order?.name}</h5>
                                         <div className='flex flex-row shrink-0 gap-2'>
                                             <img src={loc} className='dark:filter dark:invert'></img>
-                                            <span class="text-sm leading-6 text-gray-500 dark:text-gray-100"> {order.address} </span>
+                                            <span class="text-sm leading-6 text-gray-500 dark:text-gray-100"> {order?.address} </span>
                                         </div>
                                     </div>
                             
                                     <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-slate-200 font-semibold'> {/* 1st na indication */}
-                                        <h1 className='text-violet-500'>{order.status}</h1>
+                                        <h1 className='text-violet-500'>{order?.status}</h1>
                                     </div>
                                     <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-blue-200 font-semibold hidden'> {/* 2st na indication */}
                                         <h1 className='text-violet-500'>accepted</h1>
@@ -330,7 +330,7 @@ export default function OrderRider() {
                                         <h1 className='text-violet-500'>Picked up</h1>
                                     </div>
                                     <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-slate-200 font-semibold hidden'> {/* 4st na indication */}
-                                        <h1 className='text-slate-500'>{order.status}</h1>
+                                        <h1 className='text-slate-500'>{order?.status}</h1>
                                     </div>
                                     <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-textgreenColor font-semibold hidden'> {/* 5st na indication */}
                                         <h1 className='text-white'>Delivered</h1>
@@ -340,7 +340,7 @@ export default function OrderRider() {
                                     </div>
                                 </div>
                                 <div class="flex items-center mb-1 gap-2 text-amber-500 transition-all duration-500 ">
-                                    <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800 dark:text-white"> <span className='font-semibold text-black dark:text-white'>Items: </span> {order.food_details}</p>
+                                    <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800 dark:text-white"> <span className='font-semibold text-black dark:text-white'>Items: </span> {order?.food_details}</p>
                                 </div>
                                 {/* <div className='flex flex-row shrink-0 gap-2'>
                                     <img src={clock}></img>
@@ -387,26 +387,26 @@ export default function OrderRider() {
                     <div className='w-full h-fit mt-4 space-y-5 '>
                         
                         {/* Delivered 5 */}
-                        {orders.filter((order) => order.status === 'completed' ).map(order => (
-                            <div key={order.order_id}>
+                        {orders.filter((order) => order?.status === 'completed' ).map(order => (
+                            <div key={order?.order_id}>
                             <div  class="group w-full shadow-md bg-white border-2 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600 dark:bg-gray-500 dark:border-gray-800 dark:hover:border-indigo-300">
                                 <div class="relative flex items-center gap-5 mb-6">
                                     <img src={user} alt="Jane avatar"></img>
                                     <div class="grid gap-1">
-                                        <h5 class="text-gray-900 font-semibold transition-all duration-500 dark:text-gray-100 text-2xl ">{order.name}</h5>
+                                        <h5 class="text-gray-900 font-semibold transition-all duration-500 dark:text-gray-100 text-2xl ">{order?.name}</h5>
                                         <div className='flex flex-row shrink-0 gap-2'>
                                             <img src={loc} className='dark:filter dark:invert'></img>
-                                            <span class="text-sm leading-6 text-gray-500 dark:text-gray-100"> {order.address} </span>
+                                            <span class="text-sm leading-6 text-gray-500 dark:text-gray-100"> {order?.address} </span>
                                         </div>
                                     </div>
                             
                                     <div className='absolute top-0 right-0 rounded-full w-fit py-1 px-2 text-sm bg-slate-200 font-semibold'> {/* 1st na indication */}
-                                        <h1 className='text-green-500'>{order.status}</h1>
+                                        <h1 className='text-green-500'>{order?.status}</h1>
                                     </div>
                                     
                                 </div>
                                 <div class="flex items-center mb-1 gap-2 text-amber-500 transition-all duration-500 ">
-                                    <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800 dark:text-white"> <span className='font-semibold text-black dark:text-white'>Items: </span> {order.food_details}</p>
+                                    <p class="text-sm text-gray-500 leading-6 transition-all duration-500  group-hover:text-gray-800 dark:text-white"> <span className='font-semibold text-black dark:text-white'>Items: </span> {order?.food_details}</p>
                                 </div>
                                 {/* <div className='flex flex-row shrink-0 gap-2'>
                                     <img src={clock}></img>

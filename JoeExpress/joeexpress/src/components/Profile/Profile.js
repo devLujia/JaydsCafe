@@ -533,15 +533,15 @@ export default function Profile() {
           <tbody>
             {orders.length > 0 ? (
               orders.map(order => (
-                <React.Fragment key={order.order_id}>
+                <React.Fragment key={order?.order_id}>
                   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <th scope="row" className="flex items-center px-2 md:px-4 py-2 md:py-4 text-gray-900 whitespace-nowrap dark:text-white text-center">
-                      <div className="text-base font-semibold">ORDR#{order.order_id}</div>
+                      <div className="text-base font-semibold">ORDR#{order?.order_id}</div>
                     </th>
-                    <td className="px-2 md:px-4 py-2 md:py-4 text-center">{order.name}</td>
-                    <td className="px-2 md:px-4 py-2 md:py-4 text-center">{order.address}</td>
-                    <td className="px-2 md:px-4 py-2 md:py-4 text-center">{order.pnum}</td>
-                    <td className="px-2 md:px-4 py-2 md:py-4 text-center">{new Date(order.order_date).toLocaleString('en-US', {
+                    <td className="px-2 md:px-4 py-2 md:py-4 text-center">{order?.name}</td>
+                    <td className="px-2 md:px-4 py-2 md:py-4 text-center">{order?.address}</td>
+                    <td className="px-2 md:px-4 py-2 md:py-4 text-center">{order?.pnum}</td>
+                    <td className="px-2 md:px-4 py-2 md:py-4 text-center">{new Date(order?.order_date).toLocaleString('en-US', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric',
@@ -549,56 +549,56 @@ export default function Profile() {
                       minute: '2-digit',
                       second: '2-digit',
                     })}</td>
-                    <td className="px-2 md:px-4 py-2 md:py-4 text-center text-green-600 font-semibold">₱{order.totalPrice.toFixed(2)}</td>
+                    <td className="px-2 md:px-4 py-2 md:py-4 text-center text-green-600 font-semibold">₱{order?.totalPrice.toFixed(2)}</td>
                     <td className="px-2 md:px-4 py-2 md:py-4 text-center">
-                      {order.status === 'paid' && (
+                      {order?.status === 'paid' && (
                         <div className="bg-green-100 text-green-600 font-semibold w-fit py-1 px-3 rounded-full">
                           Paid - on queue
                         </div>
                       )}
-                      {order.status === 'on process' && (
+                      {order?.status === 'on process' && (
                         <div className="bg-yellow-100 text-yellow-600 font-semibold w-fit py-1 px-3 rounded-full">
                           On process
                         </div>
                       )}
-                      {order.status === 'pending rider' && (
+                      {order?.status === 'pending rider' && (
                         <div className="bg-red-100 text-red-600 font-semibold w-fit py-1 px-3 rounded-full">
                           Waiting for your Rider
                         </div>
                       )}
-                      {order.status === 'on delivery' && (
+                      {order?.status === 'on delivery' && (
                         <div className="bg-blue-100 text-blue-600 font-semibold w-fit py-1 px-3 rounded-full">
                           On delivery
                         </div>
                       )}
-                      {order.status === 'completed' && (
+                      {order?.status === 'completed' && (
                         <div className="bg-green-200 text-green-800 font-semibold w-fit py-1 px-3 rounded-full">
                           Completed
                         </div>
                       )}
-                      {order.status === 'canceled' && (
+                      {order?.status === 'canceled' && (
                         <div className="bg-red-200 text-red-800 font-semibold w-fit py-1 px-3 rounded-full">
                           Canceled
                         </div>
                       )}
-                      {order.status === 'unpaid' && (
+                      {order?.status === 'unpaid' && (
                         <div className="bg-red-200 text-orange-700 font-semibold w-fit py-1 px-3 rounded-full">
                           Unpaid
                         </div>
                       )}
                     </td>
                     <td className="flex items-center px-2 md:px-4 py-2 md:py-4 space-x-2 justify-center gap-2">
-                      <button onClick={() => toggleOrderDetails(order.order_id)} title='View Orders'>
+                      <button onClick={() => toggleOrderDetails(order?.order_id)} title='View Orders'>
                         <img src={eye} alt="View Order" className="w-5 h-5 md:w-6 md:h-6" />
                       </button>
-                      {order.deliveryMethod === 'Delivery' && order.status === 'on delivery'? <button onClick={() => openChat(order.order_id )} title='Chat with Rider'>
+                      {order?.deliveryMethod === 'Delivery' && order?.status === 'on delivery'? <button onClick={() => openChat(order?.order_id )} title='Chat with Rider'>
                         <img src={chat} alt="Chat" className="w-5 h-5 md:w-6 md:h-6" />
                       </button> : null}
                        {isChatOpen && <ChatWithRider onClose={closeChat} id={selectedOrderId} userId={userId} />}
                     </td>
                   </tr>
 
-                  {expandedOrderId === order.order_id && (
+                  {expandedOrderId === order?.order_id && (
                     <tr>
                       <td colSpan="8" className="bg-gray-100 dark:bg-gray-700">
                         <div className="px-4 md:px-6 py-3 md:py-4">
@@ -606,7 +606,7 @@ export default function Profile() {
                             <strong>Order Items:</strong>
                             <ul className="mt-2 space-y-1 md:space-y-2">
                               <li className="py-1 w-full text-left">
-                                {order.food_details}
+                                {order?.food_details}
                               </li>
                             </ul>
                           </div>

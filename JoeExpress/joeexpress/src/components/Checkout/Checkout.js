@@ -219,8 +219,6 @@ export default function Checkout() {
             fetchItems();
         }
     }, [userId]);  // Dependency array only includes userId
-
-    
     
     useEffect(() => {
         const fetchProfile = async () => {
@@ -259,8 +257,8 @@ export default function Checkout() {
             });
 
             if (res.data.success && selectedPayment === 'gcash' ){
-              handleCreatePaymentIntent(res.data.lastOrderId);
-              setSTATUS(res.data.success)
+              handlePayment(res.data.lastOrderId);
+              setSTATUS(res.data.success);
             }
 
             else if (res.data.success && selectedPayment === 'cash') {
@@ -274,7 +272,6 @@ export default function Checkout() {
 
            } 
         }
-
            catch (error) {
             console.error('Error during checkout:', error);
         }
@@ -307,23 +304,23 @@ export default function Checkout() {
         }
     };
 
-    const handleCreatePaymentIntent = async (id) => {
-        try {
+    // const handleCreatePaymentIntent = async (id) => {
+    //     try {
                 
-            const response = await axios.post(`http://localhost:8081/create-payment-intent/${id}`, {
-                amount: totalBill,
-                description: `Order Payment for ${cmsName}`,
-                userId: userId,
-            });
+    //         const response = await axios.post(`http://localhost:8081/create-payment-intent/${id}`, {
+    //             amount: totalBill,
+    //             description: `Order Payment for ${cmsName}`,
+    //             userId: userId,
+    //         });
     
-            const { checkoutUrl } = response.data;
+    //         const { checkoutUrl } = response.data;
     
-            setCheckoutUrl(checkoutUrl);
-            window.location.href = checkoutUrl;
-        } catch (error) {
-            console.error('Error creating payment intent:', error);
-        }
-    };
+    //         setCheckoutUrl(checkoutUrl);
+    //         window.location.href = checkoutUrl;
+    //     } catch (error) {
+    //         console.error('Error creating payment intent:', error);
+    //     }
+    // };
 
     useEffect(() => {
         
@@ -334,11 +331,57 @@ export default function Checkout() {
         setTotalBill(total);
       
     },[items]);
+
+    const handlePayment = async (orderId) => {
+        console.log(profile?.pnum);
+        const phone = profile?.pnum;
+        const amount = totalBill;
+        const description = 'Order Payment for Jayd’s Cafe';
+      
+        try {
+          // Call backend API to create the payment flow
+          const response = await axios.post('http://localhost:8081/create-payment-flow', {
+            phone,
+            amount,
+            description,
+            orderId,
+
+          });
+      
+          if (response.data.success) {
+            // Redirect user to PayMongo payment page
+            window.location.href = response.data.redirectUrl;
+          } else {
+            console.error('Error:', response.data.message);
+          }
+        } catch (error) {
+          console.error('Error initiating payment:', error);
+        }
+      };
+
+    //     try {
+    //       const response = await axios.post('http://localhost:3000/api/create-payment-method', {
+    //         phone, // Customer's phone number
+    //       });
+      
+    //       if (response.data.success) {
+    //         console.log('Payment Method ID:', response.data.paymentMethodId);
+    //         return response.data.paymentMethodId;
+    //       } else {
+    //         console.error('Failed to create Payment Method:', response.data.message);
+    //       }
+    //     } catch (error) {
+    //       console.error('Error creating payment method:', error);
+    //     }
+
+    // };
     
     function stripHtmlTags(html) {
         const doc = new DOMParser().parseFromString(html, 'text/html');
         return doc.body.textContent || "";
       }
+
+
 
   return (
 

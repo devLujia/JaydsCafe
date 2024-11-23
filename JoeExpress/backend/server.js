@@ -24,6 +24,11 @@ const EMAIL = process.env.EMAIL;
 const PASSWORD = process.env.PASSWORD;
 const PAYMONGO_SECRET_KEY = process.env.PAYMONGO_SECRET_KEY;
 const PAYMONGO_PUBLIC_KEY = process.env.PAYMONGO_PUBLIC_KEY;
+const db_host = process.env.DB_HOST;
+const db_user = process.env.DB_USER;
+const db_password = process.env.DB_PASSWORD;
+const db_name = process.env.DB_NAME;
+const db_port = process.env.DB_PORT;
 
 app.use(cors({
     origin:"http://localhost:3000",
@@ -64,15 +69,7 @@ const db = mysql.createConnection({
     password: "",
     database: "testreact",
     multipleStatements: true
-})
-
-db.connect((error) => {
-    if (error) {
-      console.error("Database connection failed:", error);
-      return;
-    }
-    console.log("Successfully connected to the database.");
-  });
+});
 
 function generateToken() {
     return Math.random().toString(36).substr(2, 10);
@@ -106,7 +103,6 @@ app.get('/admin',(req,res)=>{
             valid: true, name: req.session.name, userId: req.session.userId, role: req.session.role
         })
     }
-
     else{
         return res.json({valid: false})
     }
@@ -195,15 +191,18 @@ app.get('/foods', (req,res)=>{
     
     try {
         const order = `
-                   SELECT count(o.order_id) as totalOrder ,f.id, f.name, f.description, f.image_url, fs.price , c.title
-                   FROM foods f 
-                   JOIN food_sizes fs on f.id = fs.id 
-                   JOIN category c on f.category_id = c.id
-                   JOIN orders_food of on of.food_id = fs.id 
-                   JOIN orders o on o.order_id = of.order_id 
-                   WHERE visible = 1
-                   GROUP BY f.id, f.name,fs.size, f.description, f.image_url, fs.price 
-                   order by totalOrder desc limit 4;
+                   SELECT count(o.order_id) as totalOrder, 
+                        f.id, f.name, f.description, f.image_url, fs.price, c.title
+                    FROM foods f
+                    JOIN food_sizes fs ON f.id = fs.id
+                    JOIN category c ON f.category_id = c.id
+                    JOIN orders_food ofd ON ofd.food_id = fs.id
+                    JOIN orders o ON o.order_id = ofd.order_id
+                    WHERE visible = 1
+                    GROUP BY f.id, f.name, fs.size, f.description, f.image_url, fs.price
+                    ORDER BY totalOrder DESC 
+                    LIMIT 4;
+
                 `
     db.query(order,(err,results)=>{
         if(err) {
@@ -224,24 +223,25 @@ app.post('/foodsSpecial', (req, res) => {
     const { userId } = req.body;
 
     const order = `
-        SELECT 
-            c.title AS category_title,
-            f.id AS food_id, 
-            f.name, 
-            f.description, 
-            f.image_url, 
-            fs.price, 
-            COUNT(o.order_id) AS total_orders_per_category
-        FROM category c
-        JOIN foods f ON c.id = f.category_id
-        JOIN food_sizes fs ON f.id = fs.food_id
-        LEFT JOIN orders_food of ON of.food_id = fs.food_id
-        LEFT JOIN orders o ON o.order_id = of.order_id
-        LEFT JOIN user u ON o.customer_id = u.id
-        WHERE f.visible = 1
-        AND u.id = ?
-        GROUP BY c.title, f.id
-        ORDER BY total_orders_per_category DESC, c.title, f.name;
+                    SELECT 
+                        c.title AS category_title,
+                        f.id AS food_id, 
+                        f.name, 
+                        f.description, 
+                        f.image_url, 
+                        fs.price, 
+                        COUNT(o.order_id) AS total_orders_per_category
+            FROM category c
+            JOIN foods f ON c.id = f.category_id
+            JOIN food_sizes fs ON f.id = fs.food_id
+            LEFT JOIN orders_food ofd ON ofd.food_id = fs.food_id
+            LEFT JOIN orders o ON o.order_id = ofd.order_id
+            LEFT JOIN user u ON o.customer_id = u.id
+            WHERE f.visible = 1
+            AND u.id = ?
+            GROUP BY c.title, f.id
+            ORDER BY total_orders_per_category DESC, c.title, f.name;
+
     `;
 
     db.query(order, [userId], (err, results) => {
@@ -332,7 +332,7 @@ app.post('/signup', async (req, res) => {
                                     button: {
                                         color: '#22BC66',
                                         text: 'Verify your account',
-                                        link: `http://localhost:8081/verify/${verificationToken}`
+                                        link: `http://localhost:3000/verify/${verificationToken}`
                                     }
                                 }
                             }
@@ -412,30 +412,30 @@ app.post('/addAdmin', async (req, res) => {
     
 
 app.get('/menu', (req ,res )=>{
-        const query = 
-        `SELECT
-            f.id,
-            f.name,
-            f.category_id,
-            f.description,
-            f.image_url,
-            fs.size,
-            fs.price    
-        FROM
-            foods f
-        JOIN
-            food_sizes fs ON f.id = fs.food_id
-        WHERE
-            visible = 1  
-        GROUP BY
-        f.id, f.name, f.description, f.image_url;`;
-    
-        db.query(query, (err,results)=>{
-            if(err) {
-            res.json({err: "error"});
-        }
-            res.json(results);
-        });
+    const query = 
+    `SELECT
+        f.id,
+        f.name,
+        f.category_id,
+        f.description,
+        f.image_url,
+        fs.size,
+        fs.price    
+    FROM
+        foods f
+    JOIN
+        food_sizes fs ON f.id = fs.food_id
+    WHERE
+        visible = 1  
+    GROUP BY
+    f.id, f.name, f.description, f.image_url;`;
+
+    db.query(query, (err,results)=>{
+        if(err) {
+      return res.json({err: "error"});
+    }
+        res.json(results);
+    });
 });
 
 
@@ -813,7 +813,7 @@ app.post('/webhook', (req, res) => {
     const getWebhooks = async () => {
         const options = {
             method: 'GET',
-            url: 'https://api.paymongo.com/v1/webhooks',
+            url: 'https:/api.paymongo.com/v1/webhooks',
             headers: {
                 accept: 'application/json',
                 authorization: 'Basic c2tfdGVzdF81NXhIV1JVRFI3UXoxOTZicHNBZTFCREw6' // Replace with actual credentials
@@ -852,7 +852,7 @@ app.post('/webhook', (req, res) => {
             };
 
             // Call the /order route to place the order
-            axios.post('http://localhost:8081/order', orderData)
+            axios.post('http://localhost:3000/order', orderData)
                 .then(() => {
                     res.status(200).json({ success: true, message: 'Order placed successfully after payment.' });
                 })
@@ -875,7 +875,7 @@ app.post('/create-payment-intent/:id', async (req, res) => {
     try {
         // Create payment intent
         const paymentIntentResponse = await axios.post(
-            'https://api.paymongo.com/v1/payment_intents',
+            'https:/api.paymongo.com/v1/payment_intents',
             {
                 data: {
                     attributes: {
@@ -902,7 +902,7 @@ app.post('/create-payment-intent/:id', async (req, res) => {
 
         // Create a source for the payment
         const checkoutResponse = await axios.post(
-            'https://api.paymongo.com/v1/sources',
+            'https:/api.paymongo.com/v1/sources',
             {
                 data: {
                     attributes: {
@@ -936,47 +936,181 @@ app.post('/create-payment-intent/:id', async (req, res) => {
     }
 });
 
-app.post('/setTopaid', (req, res) => {
-    
-    const { OrderId } = req.body; 
-    const query = `UPDATE orders SET status = 'paid' WHERE order_id = ? AND paymentMethod = 'gcash'`;
+app.post('/create-payment-flow', async (req, res) => {
+    try {
+      const { phone, amount, description, orderId } = req.body;
+  
+      // Step 1: Create Payment Method
+      const paymentMethodId = await createPaymentMethod(phone);
+  
+      // Step 2: Create Payment Intent
+      const paymentIntentId = await createPaymentIntent(amount, description);
+  
+      // Step 3: Attach Payment Method
+      const redirectUrl = await attachPaymentMethod(
+        paymentIntentId,
+        paymentMethodId,
+        `http://localhost:3000/paymentSuccess/${orderId}`
+      );
+  
+      // Return redirect URL to the frontend
+      res.json({ success: true, redirectUrl });
+    } catch (error) {
+      console.error('Error creating payment flow:', error.response?.data || error.message);
+      res.status(500).json({ success: false, message: 'Failed to create payment flow' });
+    }
+  });
 
-    db.query(query, [OrderId], (err, result) => {
-        if (err) {
-            return res.status(500).json({ error: "Error updating order status to 'paid'" });
+app.post('/check-payment-status', async (req, res) => {
+    const { paymentIntentId } = req.body; // Or use req.query if preferred
+  
+    if (!paymentIntentId) {
+      return res.status(400).json({ success: false, message: 'PaymentIntentId is required' });
+    }
+  
+    try {
+      const response = await axios.get(
+        `https://api.paymongo.com/v1/payment_intents/${paymentIntentId}`,
+        {
+          headers: {
+            Authorization: `Basic ${Buffer.from(`${PAYMONGO_SECRET_KEY}:`).toString('base64')}`,
+          },
+        }
+      );
+  
+      const status = response.data.data.attributes.status;
+  
+      return res.json({ success: true, status });
+    } catch (error) {
+      console.error('Error checking payment intent status:', error.response?.data || error.message);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to check payment status',
+      });
+    }
+  });
+
+const createPaymentMethod = async (phone) => {
+const response = await axios.post(
+    'https://api.paymongo.com/v1/payment_methods',
+    {
+    data: {
+        attributes: {
+        type: 'gcash',
+        details: { phone },
+        },
+    },
+    },
+    {
+    headers: {
+        Authorization: `Basic ${Buffer.from(`${PAYMONGO_SECRET_KEY}:`).toString('base64')}`,
+    },
+    }
+);
+return response.data.data.id; // Return the Payment Method ID
+};
+
+const createPaymentIntent = async (amount, description) => {
+    const response = await axios.post(
+      'https://api.paymongo.com/v1/payment_intents',
+      {
+        data: {
+          attributes: {
+            amount: amount * 100,
+            currency: 'PHP',
+            description,
+            payment_method_allowed: ['gcash'], // Allowed payment methods
+          },
+        },
+      },
+      {
+        headers: {
+          Authorization: `Basic ${Buffer.from(`${PAYMONGO_SECRET_KEY}:`).toString('base64')}`,
+        },
+      }
+    );
+    return response.data.data.id; // Return the Payment Intent ID
+};
+
+const attachPaymentMethod = async (paymentIntentId, paymentMethodId, returnUrl) => {
+    const response = await axios.post(
+      `https://api.paymongo.com/v1/payment_intents/${paymentIntentId}/attach`,
+      {
+        data: {
+          attributes: {
+            payment_method: paymentMethodId,
+            return_url: returnUrl,
+          },
+        },
+      },
+      {
+        headers: {
+          Authorization: `Basic ${Buffer.from(`${PAYMONGO_SECRET_KEY}:`).toString('base64')}`,
+        },
+      }
+    );
+  
+    // Extract redirect URL
+    const redirectUrl = response.data.data.attributes.next_action.redirect.url;
+    return redirectUrl;
+};
+
+
+
+app.post('/setTopaid', async (req, res) => {
+    const { OrderId, userId, paymentIntentId } = req.body;
+    // const { paymentIntentId } = req.query;
+
+    // Validate request body
+    if (!OrderId || !userId || !paymentIntentId) {
+        return res.status(400).json({ error: "OrderId, userId, and paymentIntentId are required" });
+    }
+
+    try {
+        // Step 1: Check Payment Status
+        const response = await axios.get(
+            `https://api.paymongo.com/v1/payment_intents/${paymentIntentId}`,
+            {
+                headers: {
+                    Authorization: `Basic ${Buffer.from(`${PAYMONGO_SECRET_KEY}:`).toString('base64')}`,
+                },
+            }
+        );
+
+        const paymentStatus = response.data.data.attributes.status;
+        console.log(paymentStatus);
+
+        // Step 2: Validate Payment Status
+        if (paymentStatus !== 'succeeded') {
+            return res.status(400).json({
+                error: "Payment is not completed. Current status: " + paymentStatus,
+            });
         }
 
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ error: "Order not found or payment method not matched" });
-        }
+        // Step 3: Update Order Status in Database
+        const query = `UPDATE orders SET status = 'paid' WHERE order_id = ? AND customer_id = ? AND paymentMethod = 'gcash'`;
 
-        // Successfully updated order status
-        res.json({ message: "Order status updated to 'paid'", result });
-    });
+        db.query(query, [OrderId, userId], (err, result) => {
+            if (err) {
+                console.error("Database error:", err);
+                return res.status(500).json({ error: "Internal server error while updating order" });
+            }
+
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ error: "Order not found or mismatched userId" });
+            }
+
+            // Success Response
+            res.json({success: true, message: "Order status updated to 'paid'" });
+        });
+
+    } catch (error) {
+        console.error('Error verifying payment status:', error.response?.data || error.message);
+        res.status(500).json({
+            error: "Failed to verify payment status with PayMongo",
+        });
+    }
 });
-
-
-
-
-
-
-// app.post('/verify-payment', async (req, res) => {
-//     const { paymentIntentId } = req.body;
-
-//     try {
-//         const response = await axios.get(`https://api.paymongo.com/v1/payment_intents/${paymentIntentId}`, {
-//             headers: {
-//                 'Authorization': `Basic ${Buffer.from(`${PAYMONGO_SECRET_KEY}:`).toString('base64')}`,
-//                 'Content-Type': 'application/json',
-//             },
-//         });
-
-//         res.json(response.data);
-//     } catch (error) {
-//         console.error('Error verifying payment:', error);
-//         res.status(500).json({ error: 'Failed to verify payment' });
-//     }
-// });
 
 app.post('/updateAcc', async (req, res) => {
     const { id, name, email, password, address } = req.body;
@@ -998,7 +1132,7 @@ app.post('/updateAcc', async (req, res) => {
                 console.error(err);
                 return res.status(500).json({ error: 'Failed to update user info' });
             }
-            res.status(200).json({ message: 'User info updated successfully' });
+            res.status(200).json({success: true , message: 'User info updated successfully' });
         });
     } catch (err) {
         console.error(err);
@@ -1090,27 +1224,28 @@ app.post('/updateOrders', async (req,res)=>{
 app.post('/adminTable', async (req,res) => {
 
     const query = 
-            `SELECT 
-            f.image_url, 
-            f.id, 
-            f.name,
-            c.title, 
-            f.description, 
-            fs.price,
-            COUNT(DISTINCT of.id) AS sold, 
-            (fs.price * COUNT(DISTINCT of.id)) AS profit
-                FROM 
-                    foods f 
-                JOIN 
-                    food_sizes fs ON f.id = fs.food_id
-                JOIN
-                    category c on f.category_id = c.id
-                JOIN
-                    orders_food of ON f.id = of.food_id
-                JOIN
-                    orders o ON of.order_id = o.order_id
-                GROUP BY 
-                    f.id, f.name, f.description, f.image_url;`
+                                `SELECT 
+                        f.image_url, 
+                        f.id, 
+                        f.name,
+                        c.title, 
+                        f.description, 
+                        fs.price,
+                        COUNT(DISTINCT ofood.id) AS sold, 
+                        (fs.price * COUNT(DISTINCT ofood.id)) AS profit
+                    FROM 
+                        foods f
+                    JOIN 
+                        food_sizes fs ON f.id = fs.food_id
+                    JOIN
+                        category c ON f.category_id = c.id
+                    JOIN
+                        orders_food ofood ON f.id = ofood.food_id
+                    JOIN
+                        orders o ON ofood.order_id = o.order_id
+                    GROUP BY 
+                        f.id, f.name, f.description, f.image_url, c.title, fs.price;
+                    `
 
       db.query(query,(error, result) => {
         if(error){
@@ -1197,7 +1332,7 @@ app.post('/fetchUserData', (req,res)=>{
     db.query(query,(err,result) => {
         
         if(err){
-            res.json({err: "Unable to fetch user data to admin management"})
+           return res.json({err: "Unable to fetch user data to admin management"});
         }
         res.json(result)
 
@@ -1284,7 +1419,7 @@ app.post('/productResult', (req,res)=>{
                     `
     db.query(query,(err,result) =>{
         if(err){
-            res.json({err: "Unable to fetch foods to product management"})
+           return res.json({err: "Unable to fetch foods to product management"});
         }
         res.json(result)
 
@@ -1298,7 +1433,7 @@ app.post('/fetchAddons', (req,res) =>{
 
     db.query(query,(err,result) =>{
         if(err){
-            res.json({err: "Unable to fetch addons to product management"})
+           return res.json({err: "Unable to fetch addons to product management"});
         }
         res.json(result)
 
@@ -1319,7 +1454,7 @@ app.post('/addProduct', upload.single('image_url') , (req, res) =>{
 
     db.query(query, [name, description, image_url, category_id], (err,result) =>{
         if(err){
-            res.json({err: "Unable to add into foods"})
+           return res.json({err: "Unable to add into foods"});
         }
 
         const lastfoodsId = result[1][0].lastfoodsId;
@@ -1354,7 +1489,7 @@ app.post('/addSize',(req,res)=>{
     `
     db.query(query, [id, size ,price], (err, result)=> {
         if(err){
-            res.json({err: "Unable to add into food_sizes"})
+           return res.json({err: "Unable to add into food_sizes"});
         }
         
     })
@@ -1371,7 +1506,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
     const rows = db.query(`Select id from foods where id = ?;`, [id], (error,result)=>{
         if(error){
-            res.json({error: "Unable to Select Id into foods"})
+           return res.json({error: "Unable to Select Id into foods"});
         }
 
         foodId = rows[0];
@@ -1385,14 +1520,14 @@ app.post('/removeProduct',  async (req, res) =>{
         const query = `Delete from foods where id = ? `
         await db.query (query,[id], (err,result) =>{
             if(err){
-                res.json({err: "Unable to delete into foods"})
+               return res.json({err: "Unable to delete into foods"});
             }
     
             const sizeQuery = `Delete from food_sizes where id = ?`
     
             db.query(sizeQuery, [foodId], (sizeDelErr, sizeResult)=> {
                 if(sizeDelErr){
-                    res.json({sizeDelErr: "Unable to delete into food_sizes"})
+                    return res.json({sizeDelErr: "Unable to delete into food_sizes"});
                 }
                 res.json({success: true})
                 
@@ -1414,7 +1549,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
         db.query(query, [id], (err, result)=> {
             if(err){
-                res.json({err: "Unable to delete into addons"})
+                return res.json({err: "Unable to delete into addons"});
             }
         })
         res.json({Success:true})
@@ -1427,7 +1562,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
         db.query(query, [id], (err, result)=> {
             if(err){
-                res.json({err: "Unable to delete into addons"})
+                return res.json({err: "Unable to delete into addons"});
             }
             res.json({success: true})
             
@@ -1460,7 +1595,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
         db.query(query,[id],(err,result)=>{
             if (err){
-                res.json({err: "Unable to fetch food and food_sizes"})
+                return res.json({err: "Unable to fetch food and food_sizes"});
             }
 
             if (result.length === 0) {
@@ -1490,7 +1625,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
         db.query (query,[name ,description ,image_url ,category_id, foodId], (err,result) => {
             if (err){
-                res.json({err: "Unable to update into food and food_sizes"})
+                return res.json({err: "Unable to update into food and food_sizes"});
             }
 
             let sizeQuery = `
@@ -1516,7 +1651,7 @@ app.post('/removeProduct',  async (req, res) =>{
                     res.json({ success: true });
                 })
                 .catch((updateErr) => {
-                    res.json({ err: "Unable to update sizes", details: updateErr });
+                    return res.json({ err: "Unable to update sizes", details: updateErr });
                 });
          
         })
@@ -1560,28 +1695,28 @@ app.post('/removeProduct',  async (req, res) =>{
     })
     
         
-        app.post('/updateCategory' , (req,res) => {
+    app.post('/updateCategory' , (req,res) => {
 
-        const { title, id  } = req.body;
+    const { title, id  } = req.body;
 
-        const query = 
-        `
-        Update category
-        SET title = ?, 
+    const query = 
+    `
+    Update category
+    SET title = ?, 
 
-        WHERE 
-        id = ?
-        `
+    WHERE 
+    id = ?
+    `
 
-        db.query (query,[title, id], (err,result) => {
-            if (err){
-                res.json({err: "Unable to update into category"})
-            }
-            res.json({success: true})
-         
-        })
- 
-        })
+    db.query (query,[title, id], (err,result) => {
+        if (err){
+            return res.json({err: "Unable to update into category"});
+        }
+        res.json({success: true})
+        
+    })
+
+    })
 
     app.post('/users', (req, res) => {
         const query = `SELECT COUNT(DISTINCT customer_id) AS customer_count FROM orders;`;
@@ -1589,13 +1724,13 @@ app.post('/removeProduct',  async (req, res) =>{
         try {
             db.query(query, (err, result) => {
                 if (err) {
-                    res.json({err: "error"});
+                    return res.json({err: "error"});
                 }
                 
                 res.json(result[0]);
             });
         } catch (error) {
-            res.json({ error: 'Failed to fetch user count' });
+            return res.json({ error: 'Failed to fetch user count' });
         }
     });
     
@@ -1604,7 +1739,7 @@ app.post('/removeProduct',  async (req, res) =>{
     
         db.query(query,(err,result)=>{
             if(err){
-                res.json({err: "error"});
+                return res.json({err: "error"});
             }
             res.json(result[0]);
         })
@@ -1632,7 +1767,23 @@ app.post('/removeProduct',  async (req, res) =>{
 
         db.query(query,[userId],(err,result)=>{
             if(err){
-                res.json({err: "error"});
+               return  res.json({err: "error"});
+            }
+
+            res.json(result[0]);
+            
+        })
+    }); 
+    
+    app.post('/ridertotalOrder', (req,res)=>{
+
+        const {userId} = req.body
+
+        const query = `SELECT Count(*) as totalOrders FROM orders Where rider_id = ?`;
+
+        db.query(query,[userId],(err,result)=>{
+            if(err){
+               return res.json({err: "error"});
             }
 
             res.json(result[0]);
@@ -1651,13 +1802,28 @@ app.post('/removeProduct',  async (req, res) =>{
 
         db.query(query,[userId],(err,result)=>{
             if(err){
-                res.json({err: "error"});
+               return res.json({err: "error"});
             }
 
             res.json(result[0]);
             
         })
     });
+
+    app.post('/pendingRiderOrder', (req,res)=>{
+        const {userId} = req.body;
+
+        const query = `SELECT * FROM orders 
+                       WHERE rider_id = ? `
+
+        db.query(query,[userId],(err,result)=>{
+            if(err){
+               return res.json({err: "error"});
+            }
+            res.json(result[0]);
+            
+        })
+    })
 
     
     
@@ -1667,13 +1833,13 @@ app.post('/removeProduct',  async (req, res) =>{
             try{
                 db.query(query,(err,result)=>{
                     if(err){
-                        res.json({err: "error"});
+                       return res.json({err: "error"});
                     }
                     const recentOrder = result.totalOrder;
                     res.json({recentOrder});
                 })
             }catch(error){
-                res.json({error: "Failed to fetch Recent Orders"});
+               return res.json({error: "Failed to fetch Recent Orders"});
             }
         });
 
@@ -1687,7 +1853,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
         db.query(query,[title,image_url],(err,result)=>{
             if(err){
-                res.json({err:"ERROR"});
+               return res.json({err:"ERROR"});
             }
             res.json({success: true})
         })
@@ -1717,7 +1883,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
         db.query(query,[second_address, userId], (err,result)=>{
             if(err){
-                res.json({err:"ERROR"});
+               return res.json({err:"ERROR"});
             }
             res.json({success: true})
                 
@@ -1732,7 +1898,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
         db.query(query,[newAddress, userId], (err,result)=>{
             if(err){
-                res.json({err:"ERROR"});
+               return res.json({err:"ERROR"});
             }
             res.json({success: true})
                 
@@ -1747,7 +1913,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
         db.query(query,[newAddress, userId], (err,result)=>{
             if(err){
-                res.json({err:"ERROR"});
+               return res.json({err:"ERROR"});
             }
             res.json({success: true})
 
@@ -1760,7 +1926,7 @@ app.post('/removeProduct',  async (req, res) =>{
             
             db.query(query, (err,result)=>{
                 if(err){
-                    res.json({err:"ERROR"});
+                 return res.json({err:"ERROR"});
                 }
                 res.json(result)
 
@@ -1778,7 +1944,7 @@ app.post('/removeProduct',  async (req, res) =>{
         db.query(query, [name, price, category_id] ,(err, result) => {
             
             if(err){
-                res.json({err:"ERROR"});
+               return res.json({err:"ERROR"});
             }
             res.json({Success: true})
              
@@ -1876,46 +2042,43 @@ app.post('/removeProduct',  async (req, res) =>{
     app.post('/orderTracking', (req,res) =>{
 
         const query = 
-        `
-        SELECT 
-            o.order_id, 
-            u.name,
-            u.address,
-            u.pnum,
-            o.customer_id, 
-            o.order_date, 
-            o.status,
-            o.totalPrice, 
-            GROUP_CONCAT(
-                CONCAT('Food Name: ',
-                    f.name, ' ( Size: ', 
-                    of.size, ', Quantity: ', 
-                    of.quantity, ', Addons: ', 
-                    IFNULL(of.addons, ''), ')'
-                ) ORDER BY f.name SEPARATOR ', '
-            ) AS food_details
-        FROM 
-            orders o
-        JOIN 
-            orders_food of ON of.order_id = o.order_id
-        JOIN 
-            foods f ON f.id = of.food_id
-        JOIN 
-            user u ON u.id = o.customer_id
-        WHERE o.status IN ('on process', 'paid')
-
-        GROUP BY 
-            o.order_id, 
-            u.name,
-            u.address,
-            u.pnum,
-            o.customer_id, 
-            o.order_date, 
-            o.status
-        ORDER BY 
-            o.order_date ASC;
-             
-        `
+        `SELECT 
+    o.order_id, 
+    u.name,
+    u.address,
+    u.pnum,
+    o.customer_id, 
+    o.order_date, 
+    o.status,
+    o.totalPrice, 
+    GROUP_CONCAT(
+        CONCAT('Food Name: ',
+            f.name, ' ( Size: ', 
+            ofd.size, ', Quantity: ', 
+            ofd.quantity, ', Addons: ', 
+            IFNULL(ofd.addons, ''), ')'
+        ) ORDER BY f.name SEPARATOR ', '
+    ) AS food_details
+FROM 
+    orders o
+JOIN 
+    orders_food ofd ON ofd.order_id = o.order_id
+JOIN 
+    foods f ON f.id = ofd.food_id
+JOIN 
+    user u ON u.id = o.customer_id
+WHERE o.status IN ('on process', 'paid')
+GROUP BY 
+    o.order_id, 
+    u.name,
+    u.address,
+    u.pnum,
+    o.customer_id, 
+    o.order_date, 
+    o.status
+ORDER BY 
+    o.order_date ASC;
+`
 
         db.query(query, (err, result) => {
             if (err) {
@@ -1942,21 +2105,21 @@ app.post('/removeProduct',  async (req, res) =>{
             GROUP_CONCAT(
                 CONCAT('Food Name: ',
                     f.name, ' ( Size: ', 
-                    of.size, ', Quantity: ', 
-                    of.quantity, ', Addons: ', 
-                    IFNULL(of.addons, ''), ')'
+                    ofd.size, ', Quantity: ', 
+                    ofd.quantity, ', Addons: ', 
+                    IFNULL(ofd.addons, ''), ')'
                 ) ORDER BY f.name SEPARATOR ', '
             ) AS food_details
-        FROM 
+FROM 
             orders o
-        JOIN 
-            orders_food of ON of.order_id = o.order_id
-        JOIN 
-            foods f ON f.id = of.food_id
-        JOIN 
+JOIN 
+            orders_food ofd ON ofd.order_id = o.order_id
+JOIN 
+            foods f ON f.id = ofd.food_id
+JOIN 
             user u ON u.id = o.customer_id
-        WHERE o.status IN ('completed', 'cancelled' , 'on delivery' , 'pending rider')
-        GROUP BY 
+WHERE o.status IN ('completed', 'cancelled' , 'on delivery' , 'pending rider')
+GROUP BY 
             o.order_id, 
             u.name,
             u.address,
@@ -1964,8 +2127,9 @@ app.post('/removeProduct',  async (req, res) =>{
             o.order_date,
             o.update_order_date, 
             o.status
-        ORDER BY 
+ORDER BY 
             o.update_order_date DESC;
+
              
         `
 
@@ -1985,43 +2149,44 @@ app.post('/removeProduct',  async (req, res) =>{
         const query = 
         `
         SELECT 
-            o.order_id, 
-            u.name,
-            u.address,
-            o.customer_id, 
-            o.order_date,
-            o.update_order_date, 
-            o.status,
-            o.totalPrice,
-            o.rider_id,
-            GROUP_CONCAT(
-                CONCAT('Food Name: ',
-                    f.name, ' ( Size: ', 
-                    of.size, ', Quantity: ', 
-                    of.quantity, ', Addons: ', 
-                    IFNULL(of.addons, ''), ')'
-                ) ORDER BY f.name SEPARATOR ', '
-            ) AS food_details
-        FROM 
-            orders o
-        JOIN 
-            orders_food of ON of.order_id = o.order_id
-        JOIN 
-            foods f ON f.id = of.food_id
-        JOIN 
-            user u ON u.id = o.customer_id
-        WHERE o.status IN ('completed', 'cancelled' , 'on delivery' , 'pending rider') AND o.rider_id = ?
-        GROUP BY 
-            o.order_id, 
-            u.name,
-            u.address,
-            o.customer_id, 
-            o.order_date,
-            o.update_order_date, 
-            o.status,
-            o.rider_id
-        ORDER BY 
-            o.update_order_date DESC;
+    o.order_id, 
+    u.name,
+    u.address,
+    o.customer_id, 
+    o.order_date,
+    o.update_order_date, 
+    o.status,
+    o.totalPrice,
+    o.rider_id,
+    GROUP_CONCAT(
+        CONCAT('Food Name: ',
+            f.name, ' ( Size: ', 
+            ofd.size, ', Quantity: ', 
+            ofd.quantity, ', Addons: ', 
+            IFNULL(ofd.addons, ''), ')'
+        ) ORDER BY f.name SEPARATOR ', '
+    ) AS food_details
+FROM 
+    orders o
+JOIN 
+    orders_food ofd ON ofd.order_id = o.order_id
+JOIN 
+    foods f ON f.id = ofd.food_id
+JOIN 
+    user u ON u.id = o.customer_id
+WHERE o.status IN ('completed', 'cancelled' , 'on delivery' , 'pending rider') AND o.rider_id = ?
+GROUP BY 
+    o.order_id, 
+    u.name,
+    u.address,
+    o.customer_id, 
+    o.order_date,
+    o.update_order_date, 
+    o.status,
+    o.rider_id
+ORDER BY 
+    o.update_order_date DESC;
+
              
         `
 
@@ -2081,44 +2246,44 @@ app.post('/removeProduct',  async (req, res) =>{
         const query = 
                     `
                     SELECT 
-                        o.order_id,
-                        u.id, 
-                        u.name,
-                        u.address,
-                        u.pnum,
-                        o.customer_id, 
-                        o.order_date, 
-                        o.deliveryMethod,
-                        o.status,
-                        o.totalPrice, 
-                        GROUP_CONCAT(
-                            CONCAT('Food Name: ',
-                                f.name, ' ( Size: ', 
-                                of.size, ', Quantity: ', 
-                                of.quantity, ', Addons: ', 
-                                IFNULL(of.addons, ''), ')'
-                            ) ORDER BY f.name SEPARATOR ', '
-                        ) AS food_details
-                    FROM 
-                        orders o
-                    JOIN 
-                        orders_food of ON of.order_id = o.order_id
-                    JOIN 
-                        foods f ON f.id = of.food_id
-                    JOIN 
-                        user u ON u.id = o.customer_id
-                    WHERE u.id = ?
+    o.order_id,
+    u.id, 
+    u.name,
+    u.address,
+    u.pnum,
+    o.customer_id, 
+    o.order_date, 
+    o.deliveryMethod,
+    o.status,
+    o.totalPrice, 
+    GROUP_CONCAT(
+        CONCAT('Food Name: ',
+            f.name, ' ( Size: ', 
+            ofd.size, ', Quantity: ', 
+            ofd.quantity, ', Addons: ', 
+            IFNULL(ofd.addons, ''), ')'
+        ) ORDER BY f.name SEPARATOR ', '
+    ) AS food_details
+FROM 
+    orders o
+JOIN 
+    orders_food ofd ON ofd.order_id = o.order_id
+JOIN 
+    foods f ON f.id = ofd.food_id
+JOIN 
+    user u ON u.id = o.customer_id
+WHERE u.id = ?
+GROUP BY 
+    o.order_id, 
+    u.name,
+    u.address,
+    u.pnum,
+    o.customer_id, 
+    o.order_date, 
+    o.status
+ORDER BY 
+    o.order_date ASC;
 
-                    GROUP BY 
-                        o.order_id, 
-                        u.name,
-                        u.address,
-                        u.pnum,
-                        o.customer_id, 
-                        o.order_date, 
-                        o.status
-                    ORDER BY 
-                        o.order_date ASC;
                         
                     `
 
@@ -2406,43 +2571,43 @@ app.post('/removeProduct',  async (req, res) =>{
             const query = 
                     `
                     SELECT 
-                        o.order_id, 
-                        u.name,
-                        u.address,
-                        u.pnum,
-                        o.customer_id, 
-                        o.order_date, 
-                        o.status,
-                        o.totalPrice,
-                        of.sugar_level, 
-                        GROUP_CONCAT(
-                            CONCAT('Food Name: ',
-                                f.name, ' ( Size: ', 
-                                of.size, ', Quantity: ', 
-                                of.quantity, ', Addons: ', 
-                                IFNULL(of.addons, ''), ')'
-                            ) ORDER BY f.name SEPARATOR ', '
-                        ) AS food_details
-                    FROM 
-                        orders o
-                    JOIN 
-                        orders_food of ON of.order_id = o.order_id
-                    JOIN 
-                        foods f ON f.id = of.food_id
-                    JOIN 
-                        user u ON u.id = o.customer_id
-                    WHERE o.status IN ('on process', 'paid','unpaid')
+    o.order_id, 
+    u.name,
+    u.address,
+    u.pnum,
+    o.customer_id, 
+    o.order_date, 
+    o.status,
+    o.totalPrice,
+    ofd.sugar_level, 
+    GROUP_CONCAT(
+        CONCAT('Food Name: ',
+            f.name, ' ( Size: ', 
+            ofd.size, ', Quantity: ', 
+            ofd.quantity, ', Addons: ', 
+            IFNULL(ofd.addons, ''), ')'
+        ) ORDER BY f.name SEPARATOR ', '
+    ) AS food_details
+FROM 
+    orders o
+JOIN 
+    orders_food ofd ON ofd.order_id = o.order_id
+JOIN 
+    foods f ON f.id = ofd.food_id
+JOIN 
+    user u ON u.id = o.customer_id
+WHERE o.status IN ('on process', 'paid', 'unpaid')
+GROUP BY 
+    o.order_id, 
+    u.name,
+    u.address,
+    u.pnum,
+    o.customer_id, 
+    o.order_date, 
+    o.status
+ORDER BY 
+    o.order_date ASC;
 
-                    GROUP BY 
-                        o.order_id, 
-                        u.name,
-                        u.address,
-                        u.pnum,
-                        o.customer_id, 
-                        o.order_date, 
-                        o.status
-                    ORDER BY 
-                        o.order_date ASC;
                         
                     `
 
@@ -2585,9 +2750,6 @@ app.post('/removeProduct',  async (req, res) =>{
         res.status(500).json({ success: false, message: "Error updating password." });
     }
     });
-      
-      
-// 
 
       app.post('/closeTicket', (req, res) =>{
 
@@ -2604,7 +2766,6 @@ app.post('/removeProduct',  async (req, res) =>{
 
       })
 
-
       app.post('/createTicket', (req, res) => {
         const { ticketId, userId, subject } = req.body;
       
@@ -2616,7 +2777,7 @@ app.post('/removeProduct',  async (req, res) =>{
       
           if (results.length > 0) {
             
-            const updateTicket = 'UPDATE tickets set subject = ?, status = `open` where ticket_id = ? AND user_id = ?';
+            const updateTicket = `UPDATE tickets set subject = ?, status = 'open' where ticket_id = ? AND user_id = ?`;
 
             db.query(updateTicket, [subject,ticketId,userId]), (err, results)=>{
                 if (err) {

@@ -15,7 +15,7 @@ function AddOrder({closeModal, foodId}) {
     const navigate = useNavigate();
     const [selectedPrice, setSelectedPrice] = useState(0);
     const [quantity,setQuantity] = useState(1);
-    const [selectedSize, setSelectedSize] = useState(null);
+    const [selectedSize, setSelectedSize] = useState('medium');
     const [selectedAddons, setSelectedAddons] = useState([]);
     const [sugar, setSugar] = useState('100')
     const [count, setCount] = useState(0);
@@ -221,15 +221,15 @@ return(
                                             <input
                                                 type="radio"
                                                 name="size"
-                                                value={size.size}
-                                                checked={selectedSize === size.size}
-                                                onChange={(e) => handleInput(e, size.size, size.price)}
+                                                value={size?.size}
+                                                checked={selectedSize === size?.size}
+                                                onChange={(e) => handleInput(e, size?.size, size?.price)}
                                                 className="hidden"
                                             />
-                                            <div className={`p-1 ${selectedSize === size.size ? 'border-2 border-textgreenColor bg-[#d4e9e2] rounded-full' : ''}`}>
+                                            <div className={`p-1 ${selectedSize === size?.size ? 'border-2 border-textgreenColor bg-[#d4e9e2] rounded-full' : ''}`}>
                                                 <img src={cupsmall} alt="Medium" className="h-8 w-8" />
                                             </div>
-                                            <p className={`text-sm font-semibold ${selectedSize === size.size ? 'text-green-500' : ''}`}>{size.size}</p>
+                                            <p className={`text-sm font-semibold ${selectedSize === size?.size ? 'text-green-500' : ''}`}>{size.size}</p>
                                             <p className="text-xs text-gray-500">16 oz</p>
                                         </label>
                                           
