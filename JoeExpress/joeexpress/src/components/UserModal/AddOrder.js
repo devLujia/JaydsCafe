@@ -238,21 +238,21 @@ return(
                                
                             </div>
 
-                            <div class="my-4 py-3 px-6 inline-block bg-white border-2 border-textgreenColor rounded-full dark:bg-neutral-900 dark:border-neutral-700" data-hs-input-number="">
+                            <div class="my-4 py-3 px-6 inline-block bg-white border-2 border-textgreenColor rounded-full " data-hs-input-number="">
                                 <div class="flex items-center gap-x-2">
                                 <button type="button"
                                 onClick={handleDecrement}
-                                 id="decrement-btn" class="size-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full  bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" tabindex="-1" aria-label="Decrease" data-hs-input-number-decrement="">
+                                 id="decrement-btn" class="size-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full  bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" tabindex="-1" aria-label="Decrease" data-hs-input-number-decrement="">
                                     <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M5 12h14"></path>
                                     </svg>
                                 </button>
-                                <input id="input-number" class="p-0 w-6 bg-transparent border-0 text-gray-800 text-center focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none dark:text-white" type="number" aria-roledescription="Number field" value={quantity } data-hs-input-number-input=""/>
+                                <input id="input-number" class="p-0 w-6 bg-transparent border-0 text-gray-800 text-center focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" type="number" aria-roledescription="Number field" value={quantity } data-hs-input-number-input=""/>
                                 <button 
                                 onClick={handleIncrement}
                                 type="button" 
                                 id="increment-btn" 
-                                class="size-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" tabindex="-1" aria-label="Increase" data-hs-input-number-increment="">
+                                class="size-7 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-full bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none " tabindex="-1" aria-label="Increase" data-hs-input-number-increment="">
                                     <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M5 12h14"></path>
                                         <path d="M12 5v14"></path>
@@ -306,9 +306,9 @@ return(
                                            value="0"
                                            checked={sugar === '0'}
                                            onChange={(e) => setSugar(e.target.value)}
-                                           className="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                           className="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
                                        />
-                                       <label htmlFor="addon-sweetness-0" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">0 % Sweetness</label>
+                                       <label htmlFor="addon-sweetness-0" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-400">0 % Sweetness</label>
                                    </div>
                                </div>
                                <div className="flex justify-between items-center mb-4 border-b-2 border-gray-200 ">
@@ -320,9 +320,9 @@ return(
                                            value="25"
                                            checked={sugar === '25'}
                                            onChange={(e) => setSugar(e.target.value)}
-                                           className="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                           className="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
                                        />
-                                       <label htmlFor="addon-sweetness-1" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">25 % Sweetness</label>
+                                       <label htmlFor="addon-sweetness-1" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-400">25 % Sweetness</label>
                                    </div>
                                </div>
                                <div className="flex justify-between items-center mb-4 border-b-2 border-gray-200 ">
@@ -334,9 +334,9 @@ return(
                                            value="50"
                                            checked={sugar === '50'}
                                            onChange={(e) => setSugar(e.target.value)}
-                                           className="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                           className="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
                                        />
-                                       <label htmlFor="addon-sweetness-2" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">50 % Sweetness</label>
+                                       <label htmlFor="addon-sweetness-2" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-400">50 % Sweetness</label>
                                    </div>
                                </div>
                                <div className="flex justify-between items-center mb-4 border-b-2 border-gray-200 ">
@@ -348,9 +348,9 @@ return(
                                            value="75"
                                            checked={sugar === '75'}
                                            onChange={(e) => setSugar(e.target.value)}
-                                           className="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                           className="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                                        />
-                                       <label htmlFor="addon-sweetness-3" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">75 % Sweetness</label>
+                                       <label htmlFor="addon-sweetness-3" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-400">75 % Sweetness</label>
                                    </div>
                                </div>
                                <div className="flex justify-between items-center mb-4 border-b-2 border-gray-200 ">
@@ -362,9 +362,9 @@ return(
                                            value="100"
                                            checked={sugar === '100'}
                                            onChange={(e) => setSugar(e.target.value)}
-                                           className="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                           className="w-4 h-4 text-textgreenColor bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                                        />
-                                       <label htmlFor="addon-sweetness-4" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">100 % Sweetness</label>
+                                       <label htmlFor="addon-sweetness-4" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-400">100 % Sweetness</label>
                                    </div>
                                </div>
                            </div>

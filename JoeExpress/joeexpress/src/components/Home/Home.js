@@ -1,3 +1,4 @@
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap" rel="stylesheet"></link>
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -958,7 +959,7 @@ useEffect(() => {
       
       <span className="menu">
       <div className="items-center justify-between hidden w-full lg:flex md:w-auto md:order-1" id="navbar-sticky">
-        <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+        <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white">
           <li>
             <a
               href="#"
@@ -1238,7 +1239,7 @@ useEffect(() => {
         </p>
 
         {/* CMS Name Heading */}
-        <h1 className="text-textgreenColor text-4xl md:text-6xl lg:text-7xl font-extrabold pb-2 drop-shadow-lg text-center lg:text-left" id="name" dangerouslySetInnerHTML={{ __html: cmsName }}>
+        <h1 className="text-textgreenColor text-4xl md:text-6xl lg:text-7xl font-extrabold pb-2 drop-shadow-lg text-center lg:text-left font-baloo" id="name" dangerouslySetInnerHTML={{ __html: cmsName }}>
           
         </h1>
 

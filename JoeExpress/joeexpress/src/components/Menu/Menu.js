@@ -479,15 +479,15 @@ useEffect(() => {
           {isDropdownOpenCategory && (
               <div
                 id="dropdown"
-                className="z-10 absolute left-1/2 transform -translate-x-1/2 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                  <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                className="z-10 absolute left-1/2 transform -translate-x-1/2 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
+                  <ul className="py-2 text-sm text-gray-700" aria-labelledby="dropdownDefaultButton">
                       {category.map((cat) => (
                           <li key={cat?.id}>
                               <button
                                   className={`block px-4 py-2 w-full rounded-full ${
                                       categorySearch === cat?.id
                                           ? 'bg-greenColor text-white'
-                                          : 'hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700'
+                                          : 'hover:bg-gray-100 text-gray-700'
                                   }`}
                                   onClick={() => {
                                       setCategorySearch(cat?.id); // Set the selected category ID
