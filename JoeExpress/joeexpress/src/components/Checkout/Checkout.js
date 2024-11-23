@@ -104,8 +104,8 @@ export default function Checkout() {
 
     toastId.current = toast.success(
       <>
-        <div className='mb-6 text-xl tracking-wide'>Are you sure about your order?</div>
-        <div className='my-4'>You can cancel your order within:</div>
+        <div className='mb-6 sm:text-sm md:text-md text-xl tracking-wide'>Are you sure about your order?</div>
+        <div className='my-4 sm:text-sm md:text-md '>You can cancel your order within:</div>
         <div className='w-full flex justify-evenly shrink-0 gap-3'>
             <button onClick={handleCloseModal} className='cursor-pointer py-3 px-5 bg-red-600 hover:bg-red-500 font-semibold tracking-wide text-white rounded-md'>
             Cancel
@@ -150,7 +150,7 @@ export default function Checkout() {
             <>
               <div className='mb-4 text-xl tracking-wide'>Are you sure about your order?</div>
               <div className='my-2'>You can cancel your order within:</div>
-              <div className='w-full flex flex-col sm:flex-row justify-evenly items-center gap-3'>
+              <div className='w-full flex flex-row justify-evenly items-center gap-3'>
                 <button
                     onClick={handleCloseModal}
                     className='flex-1 min-w-[120px] sm:w-auto cursor-pointer py-3 px-5 bg-red-600 hover:bg-red-500 font-semibold tracking-wide text-white rounded-md text-center'

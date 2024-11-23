@@ -18,16 +18,21 @@ export default function Sales() {
     const [userId, setUserId] = useState(null);
     const [profile, setProfile] = useState([]);
     const navigate = useNavigate();
+    const [allOrder, setAllOrder] = useState([])
     const [isOpen, setIsOpen] = useState(false);
     const [role, setRole] = useState(null);
     axios.defaults.withCredentials = true;
     const [foods,setFoods] = useState([]);
+
     const [cmsName,setCmsName] = useState('');
+
     const [tier1,setTier1] = useState([])
     const [tier2,setTier2] = useState([])
     const [tier3,setTier3] = useState([])
     const [tier,setTier] = useState([])
+    
     const [weeklyData, setWeeklyData] = useState([]);
+
     const [monthlyData, setMonthlyData] = useState([]);
     const [chartSeries, setChartSeries] = useState([]);
     const [isDownloaded, setIsDownloaded] = useState(false);
@@ -111,6 +116,22 @@ export default function Sales() {
   
         fetchData();
     }, [navigate]);
+
+    useEffect(()=>{
+
+        const allOrder = async () =>{
+            try{
+                const res = await axios.get('http://localhost:8081/allorder');
+                setAllOrder(res)
+            }
+            catch(err){
+                console.log(err);
+            }
+        }
+
+        allOrder();
+    },[])
+
     
     useEffect(() => {
         const fetchAdminTable = async () => {
@@ -268,9 +289,8 @@ export default function Sales() {
         useEffect(() => {
             const fetchData = async () => {
                 try {
-                    const response = await axios.post('http://localhost:8081/data');
+                    const response = await axios.post('https://jaydscafe.com/api/data');
                     setWeeklyData(response.data);
-                    
                     const initialRevenueData = response.data.map(item => item.total_revenue);
                     const initialWeekNumbers = response.data.map(item => item.week_number);
                     setChartSeries2([{ name: 'Sales Over Time', data: initialRevenueData }]);
@@ -282,12 +302,10 @@ export default function Sales() {
             fetchData();
         }, []);
         
-        
-
         useEffect(() => {
             const fetchMonthlyData = async () => {
                 try {
-                    const response = await axios.post('http://localhost:8081/dataMonthly');
+                    const response = await axios.post('https://jaydscafe.com/api/dataMonthly');
                     setMonthlyData(response.data);
                     
                     // Process the data for the chart
@@ -310,6 +328,7 @@ export default function Sales() {
             };
             fetchMonthlyData();
         }, []);
+        
         
         function stripHtmlTags(html) {
             const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -501,7 +520,16 @@ export default function Sales() {
                 </div>
                 <div className="app w-full shadow-lg rounded-lg p-4">
                     {/* Dropdown to select between weekly and yearly */}
-                   
+                    <div className="flex justify-end items-center mb-4">
+                        <select
+                        value={selectedTimeframe}
+                        onChange={handleTimeframeChange}
+                        className="border border-gray-300 p-2 rounded-md"
+                        >
+                        <option value="Weekly">Weekly</option>
+                        <option value="Monthly">Monthly</option>
+                        </select>
+                    </div>
 
                     <div className="row">
                         <div className="mixed-chart">
