@@ -125,7 +125,7 @@ export default function Checkout() {
         hideProgressBar: false,
         closeOnClick: true, 
         pauseOnHover: false,
-        draggable: true,
+        draggable: false,
         onClose: () => {
           setIsCancelled(true);
           clearTimeout(timeoutRef.current); // Stop checkout process on close
