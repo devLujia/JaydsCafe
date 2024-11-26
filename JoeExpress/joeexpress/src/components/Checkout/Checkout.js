@@ -104,10 +104,10 @@ export default function Checkout() {
 
     toastId.current = toast.success(
         <>
-            <div className="text-center mb-4 sm:text-sm md:text-md text-xl tracking-wide">
+            <div className="text-center mb-4 text-sm sm:text-md md:text-lg tracking-wide">
                 Are you sure about your order?
             </div>
-            <div className="text-center my-4 sm:text-sm md:text-md">
+            <div className="text-center my-4 text-sm sm:text-md md:text-lg">
                 You can cancel your order within:
             </div>
             <div className="w-full flex justify-center shrink-0 gap-3">
@@ -131,17 +131,19 @@ export default function Checkout() {
           clearTimeout(timeoutRef.current); // Stop checkout process on close
           clearInterval(intervalRef.current); // Stop the countdown interval
         },
-        // Add custom inline styles for centering
+        
         style: {
             position: 'fixed',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
             width: 'auto',
-            height:'200px',
+            maxWidth: '90vw', 
+            height: 'auto', 
+            padding: '1rem',
             textAlign: 'center',
             boxShadow: '5px 5px 15px #888888',
-          },
+        },
       }
     );
 
@@ -382,12 +384,6 @@ export default function Checkout() {
     //     }
 
     // };
-    
-    function stripHtmlTags(html) {
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-        return doc.body.textContent || "";
-      }
-
 
 
   return (

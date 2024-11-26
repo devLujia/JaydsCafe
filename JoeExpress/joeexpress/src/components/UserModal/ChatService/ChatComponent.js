@@ -155,108 +155,112 @@ const ChatComponent = ({ name, userId, ticketId }) => {
 
   
       {chatVisible && (
-        <div id="chat-container" className="fixed bottom-16 right-4 w-96 z-50">
-          <div className="bg-cards2 shadow-md rounded-lg max-w-lg w-full">
-            <div className="p-4 border-b bg-[#067741] text-white rounded-t-lg flex justify-between items-center">
-              <p className="text-lg font-semibold">Jayd'sCafe Admin {subject}</p>
-              <button onClick={toggleChat} className="text-gray-300 hover:text-gray-400 focus:outline-none focus:text-gray-400">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+        <div
+        id="chat-container"
+        className="fixed bottom-4 sm:bottom-16 right-2 sm:right-4 w-full sm:w-96 z-50 px-5"
+      >
+        <div className="bg-cards2 shadow-md rounded-lg max-w-full sm:max-w-lg w-full mx-2 sm:mx-0">
+          <div className="p-3 sm:p-4 border-b bg-[#067741] text-white rounded-t-lg flex justify-between items-center">
+            <p className="text-sm sm:text-lg font-semibold truncate">Jayd'sCafe Admin {subject}</p>
+            <button
+              onClick={toggleChat}
+              className="text-gray-300 hover:text-gray-400 focus:outline-none focus:text-gray-400"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5 sm:w-6 sm:h-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+      
+          <div
+            id="chatbox"
+            ref={chatboxRef}
+            className="p-3 sm:p-4 h-64 sm:h-80 overflow-y-auto bg-white rounded-lg shadow-md"
+          >
+            <div className="mb-2">
+              {!ticketId ? (
+                <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-3 sm:px-4 inline-block">
+                  👋 Hi there! This message will be directed to the admins of Jayd's Cafe. We are here to make your experience as smooth and enjoyable as possible.
+                </p>
+              ) : (
+                <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-3 sm:px-4 inline-block w-full">
+                  <div className="mt-2 text-sm">
+                    Conversation ID: <span className="font-semibold">{ticketId}</span>
+                    <br />
+                    👋 Hi there! You are now connected to the admin. Please address your concern.
+                    {success}
+                  </div>
+                </p>
+              )}
+            </div>
+      
+            {messageList.map((messageContent, index) => (
+              <div
+                key={index}
+                className={`mb-2 flex ${
+                  messageContent.userId === userId ? 'justify-end' : 'justify-start'
+                }`}
+              >
+                <p
+                  className={`${
+                    messageContent.userId === userId ? 'bg-blue-500' : 'bg-gray-700'
+                  } text-white rounded-lg py-2 px-3 sm:px-4 inline-block w-auto max-w-[80%] sm:max-w-[70%] text-sm`}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+                  {messageContent.role === 'User'
+                    ? `Me: ${messageContent.message}`
+                    : `${messageContent.author}: ${messageContent.message}`}
+                </p>
+              </div>
+            ))}
+          </div>
+      
+          {!confirm ? (
+            <div className="p-3 sm:p-4 border-t flex flex-col sm:flex-row gap-2">
+              <input
+                type="text"
+                placeholder="Please state your concern"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              />
+              <button
+                onClick={createNewTicket}
+                className="bg-[#067741] text-white px-4 py-2 rounded-md hover:bg-gradient-to-r hover:from-[#055c34] hover:to-[#067741] hover:scale-105 hover:shadow-lg transition-all duration-300 ease-in-out text-sm"
+              >
+                Open a Ticket
               </button>
             </div>
-            
-            <div id="chatbox" ref={chatboxRef} className="p-4 h-80 overflow-y-auto bg-white rounded-lg shadow-md">
-              <div className="mb-2">
-                {!ticketId ? (
-                  <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
-                    👋 Hi there! This message will be directed to the admins of Jayd's Cafe. We are here to make your experience as smooth and enjoyable as possible.
-                  </p>
-                ) : (
-                  <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block w-full">
-                    
-                    <div className="mt-2">
-                      Conversation ID: <span className="font-semibold">{ticketId}</span>
-                      <br />
-                      👋 Hi there! You are now connected to the admin. Please address your concern.
-                      {success}
-                    </div>
-                  </p>
-                )}
-              </div>
-
-              {messageList.map((messageContent, index) => (
-                <div
-                  key={index}
-                  className={`mb-2 flex ${messageContent.userId === userId ? 'justify-end' : 'justify-start'}`}
-                >
-                  <p
-                    className={`${
-                      messageContent.userId === userId ? 'bg-blue-500' : 'bg-gray-700'
-                    } text-white rounded-lg py-2 px-4 inline-block w-auto max-w-[70%]`}
-                  >
-                    {messageContent.role === 'User'
-                      ? `Me: ${messageContent.message}`
-                      : `${messageContent.author}: ${messageContent.message}`}
-                  </p>
-                </div>
-              ))}
+          ) : (
+            <div className="p-3 sm:p-4 border-t flex flex-col sm:flex-row gap-2">
+              <input
+                type="text"
+                placeholder="Type a message"
+                value={currentMessage}
+                onChange={(e) => setCurrentMessage(e.target.value)}
+                onKeyDown={handleKeyDown} // Allows sending message via 'Enter' key
+                className="w-full px-3 py-2 border rounded-md sm:rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              />
+              <button
+                onClick={sendMessage}
+                className="bg-[#067741] text-white px-4 py-2 rounded-md sm:rounded-r-md hover:from-[#055c34] hover:to-[#067741] transition duration-300 text-sm"
+              >
+                Send
+              </button>
             </div>
-  
-            {!confirm ? (
-              <div className="p-4 border-t flex">
-                <input
-                    type='text'
-                    placeholder="Please state your concern"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-
-                <button
-                  onClick={createNewTicket}
-                  className="bg-[#067741] text-white px-4 py-2 rounded-md hover:bg-gradient-to-r hover:from-[#055c34] hover:to-[#067741] hover:scale-105 hover:shadow-lg transition-all duration-300 ease-in-out"
-                >
-                  Open a Ticket
-                </button>
-                </div>
-              ) : (
-                <div className="p-4 border-t flex">
-                  <input
-                    type="text"
-                    placeholder="Type a message"
-                    value={currentMessage}
-                    onChange={(e) => setCurrentMessage(e.target.value)}
-                    onKeyDown={handleKeyDown} // Allows sending message via 'Enter' key
-                    className="w-full px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                  <button
-                    onClick={sendMessage}
-                    className="bg-[#067741] text-white px-4 py-2 rounded-r-md hover:from-[#055c34] hover:to-[#067741] transition duration-300"
-                  >
-                    Send
-                  </button>
-                </div>
-              )}
-            
-            {/* {!ticketId && (
-                  <button onClick={createNewTicket}>
-                    Create New Ticket
-                  </button>
-                )} */}
-          </div>
+          )}
         </div>
+      </div>
       )}
     </>
   );

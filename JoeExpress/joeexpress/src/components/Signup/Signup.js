@@ -11,6 +11,7 @@ import userIcon from '../image/UserAcc.svg';
 import bagIcon from '../image/bag.svg';
 import hidden from '../image/hidden.png';
 import google from '../image/google.png';
+import Alert from '@mui/material/Alert';
 
 import Terms from '../UserModal/TermsAndCondition/Terms'
 
@@ -168,11 +169,11 @@ function Signup() {
               if (res.data.success === true) {
                   navigate('/login'); // Redirect to login page on success
               } else {
-                  alert("Signup failed. Please try again.");
+                  alert("Signup failed. Pl=");
               }
           } catch (err) {
               console.error("Error during signup:", err);
-              alert("An error occurred. Please try again.");
+              alert("The Email is already used or You are already registered.");
           }
       } else {
           alert("Please fix the errors before submitting.");
