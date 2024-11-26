@@ -82,10 +82,18 @@ function AddProd({ closeModal }) {
         try {
           // API request
           const res = await axios.post('http://localhost:8081/addProduct', formData);
-          alert("Successfully added!");
-          closeModal(false);
+          
+          // Check if the response status is 200
+          if (res.status === 200) {
+            alert("Successfully added!");
+            closeModal(false);
+          } else {
+            console.error('Error: Failed to add product');
+            alert('Failed to add product');
+          }
         } catch (err) {
           console.error('Error adding product:', err);
+          alert('Error occurred while adding product');
         }
       };
       

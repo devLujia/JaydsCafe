@@ -6,8 +6,6 @@ import jaydsLogo from '../../image/jayds cafe Logo.svg';
 import Chart from 'react-apexcharts';
 import ReactApexChart from 'react-apexcharts';
 import { jsPDF } from "jspdf";
-
-
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import filled from '@material-tailwind/react/theme/components/timeline/timelineIconColors/filled';
@@ -18,7 +16,6 @@ export default function Sales() {
     const [userId, setUserId] = useState(null);
     const [profile, setProfile] = useState([]);
     const navigate = useNavigate();
-    const [allOrder, setAllOrder] = useState([])
     const [isOpen, setIsOpen] = useState(false);
     const [role, setRole] = useState(null);
     axios.defaults.withCredentials = true;
@@ -60,6 +57,26 @@ export default function Sales() {
             }
         }
     });
+
+    const [chartSeries2, setChartSeries2] = useState([
+        {
+            name: 'Sales Weekly',
+            data: weeklyData?.map(item => item?.total_revenue), // Default to weekly data
+        },
+    ]);
+    const getStartDateOfWeek = (year, week) => {
+        const date = new Date(year, 0, 1); // Start from January 1st of the year
+        const days = date.getDay(); // Get the day of the week (0 = Sunday, 6 = Saturday)
+        const diff = (week - 1) * 7 - days + (days === 0 ? -6 : 1); // Calculate the difference to the start of the week
+        date.setDate(date.getDate() + diff);
+        return date;
+    };
+    
+    // Convert the date to weekday name (e.g., "Monday", "Tuesday")
+    const getWeekDay = (date) => {
+        const options = { weekday: 'long' };
+        return new Intl.DateTimeFormat('en-US', options).format(date); // Get full weekday name
+    };
 
 
     useEffect(() => {
@@ -116,21 +133,6 @@ export default function Sales() {
   
         fetchData();
     }, [navigate]);
-
-    useEffect(()=>{
-
-        const allOrder = async () =>{
-            try{
-                const res = await axios.get('http://localhost:8081/allorder');
-                setAllOrder(res)
-            }
-            catch(err){
-                console.log(err);
-            }
-        }
-
-        allOrder();
-    },[])
 
     
     useEffect(() => {
@@ -196,12 +198,7 @@ export default function Sales() {
         console.error('Error during logout:', error);
         }
     };
-
-    //data temporary
-    const chartData = [10, 20, 30, 40, 50];
-    const series = [{ name: "Sample Series", data: chartData }];
         
-    // line graph vertical
     const chartOptions2 = {
         chart: {
             id: 'basic-bar',
@@ -209,13 +206,23 @@ export default function Sales() {
             toolbar: {
                 show: true,
                 tools: {
-                  download: false, // Disable the default download button
+                    download: false, // Disable the default download button
                 },
+            },
         },
-        series: series,
-    },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '10%',
+                barHeight: '70%',
+            },
+        },
+        series: chartSeries2, // Use chartSeries2 for data
         xaxis: {
-            categories: [],
+            categories: weeklyData?.map(item => {
+                const startDateOfWeek = getStartDateOfWeek(new Date().getFullYear(), item.week_number); // Get start date of the week
+                return getWeekDay(startDateOfWeek); // Convert it to the weekday (e.g., "Monday")
+            }) || [], // Fallback to an empty array if no data is available
         },
         title: {
             text: 'Weekly Sales',
@@ -224,26 +231,115 @@ export default function Sales() {
     };
 
     const exportToPDF = () => {
+        // Get the current date
+        const currentDate = new Date();
+        const formattedDate = currentDate.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        }).replace(/\//g, '-'); // Format the date (e.g., "11-26-2024")
+    
         // Initialize jsPDF
         const doc = new jsPDF();
+        
+        // Set default font
+        doc.setFont('helvetica');
     
         // Set the title
         doc.setFontSize(16);
-        doc.text("Data's in Jayds Cafe", 10, 10);
+        doc.setFont('helvetica', 'bold');
+        doc.text("Jayds Cafe - Sales Report", 10, 10);
+        
+        // Add the current date to the paper content
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`Date: ${formattedDate}`, 10, 20); // Place the current date below the title
     
-        // Add table headers
-        const headers = [["Index", "Value"]];
-        const rows = chartSeries[0].data.map((value, index) => [index + 1, value]);
+        // Add a horizontal line separator after title
+        doc.setLineWidth(0.5);
+        doc.line(10, 22, 200, 22);
     
-        // Add content to PDF
-        let yPosition = 20;
-        headers.concat(rows).forEach(row => {
-            doc.text(row.join(" - "), 10, yPosition);
-            yPosition += 10; // Move down each row
+        // Add Weekly Data Section
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
+        doc.text("Weekly Data", 10, 30);
+        
+        // Add a horizontal line separator for section header
+        doc.setLineWidth(0.5);
+        doc.line(10, 32, 200, 32);
+        
+        const weeklyHeaders = [["Week Number", "Sales"]];
+        const weeklyRows = weeklyData.map(item => [
+            `Week ${item.week_number}`,
+            `P ${item.total_revenue.toFixed(2)}`
+        ]);
+        
+        let yPosition = 40; // Starting position for weekly data (below the header)
+        
+        // Formatting for headers and rows
+        doc.setFont('helvetica', 'bold');
+        weeklyHeaders.forEach((header, index) => {
+            doc.text(header.join(" | "), 10, yPosition);
+            yPosition += 8;
+        });
+        doc.setFont('helvetica', 'normal');
+        weeklyRows.forEach(row => {
+            doc.text(row.join(" | "), 10, yPosition);
+            yPosition += 8;
         });
     
-        // Save the PDF
-        doc.save("chart_data.pdf");
+        // Add spacing before Monthly Data section
+        yPosition += 10;
+        
+        // Add Monthly Data Section
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
+        doc.text("Monthly Data", 10, yPosition);
+    
+        // Add a horizontal line separator for section header
+        doc.setLineWidth(0.5);
+        doc.line(10, yPosition + 2, 200, yPosition + 2);
+        
+        const monthNames = [
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        ];
+    
+        const monthlyHeaders = [["Month", "Sales"]];
+        const monthlyRows = monthlyData.map(item => [
+            monthNames[item.Month_number - 1], // Convert month number to month name
+            `P ${item.total_revenue.toFixed(2)}`
+        ]);
+    
+        yPosition += 10; // Move below the "Monthly Data" header
+        
+        // Formatting for monthly headers and rows
+        doc.setFont('helvetica', 'bold');
+        monthlyHeaders.forEach((header, index) => {
+            doc.text(header.join(" | "), 10, yPosition);
+            yPosition += 8;
+        });
+        doc.setFont('helvetica', 'normal');
+        monthlyRows.forEach(row => {
+            doc.text(row.join(" | "), 10, yPosition);
+            yPosition += 8;
+        });
+    
+        // Calculate Total Yearly Revenue
+        const yearlyTotal = monthlyData.reduce((sum, item) => sum + item.total_revenue, 0);
+    
+        // Add yearly total revenue at the end
+        yPosition += 10; // Move to next line
+        doc.setFont('helvetica', 'bold');
+        doc.text(`Total Revenue for this Year: P ${yearlyTotal.toFixed(2)}`, 10, yPosition);
+    
+        // Add final horizontal line separator at the bottom
+        doc.setLineWidth(0.5);
+        doc.line(10, yPosition + 5, 200, yPosition + 5);
+        
+        // Save the PDF with the current date in the filename
+        const fileName = `Jayds_Cafe_Sales_${formattedDate}.pdf`;
+        doc.save(fileName);
     
         // Change button state to show download is complete
         setIsDownloaded(true);
@@ -251,67 +347,51 @@ export default function Sales() {
             setIsDownloaded(false);
         }, 2000);
     };
-        
-        // State to manage the selected timeframe and chart data
-        const [selectedTimeframe, setSelectedTimeframe] = useState('Weekly'); // Default to Yearly
-        const [chartSeries2, setChartSeries2] = useState([
-            {
-            name: 'Sales Over Time',
-            data: weeklyData?.map(item => item?.week_number), // Default to yearly data
-            },
-        ]);
-        
-        const handleTimeframeChange = (e) => {
-            const timeframe = e.target.value;
-            setSelectedTimeframe(timeframe);
-        
-            if (timeframe === 'Weekly') {
-                const revenueData = weeklyData.map(item => item.total_revenue);
-                const weekNumbers = weeklyData.map(item => `Week no. ${item.week_number}`);
-                setChartSeries2([{ name: 'Weekly sales', data: revenueData }]);
-                chartOptions2.xaxis.categories = weekNumbers; // Set week numbers for x-axis
-            } 
-            else if (timeframe === 'Monthly') {
-
-                const revenueData = monthlyData.map(item => item.total_revenue);
-            
-                setChartSeries2([{ name: 'Monthly Sales', data: revenueData }]);
-            
-                const monthlyCategories = monthlyData.map(item => {
-                    const month = item.Month_number; // Get the month number
-                    return new Date(0, month - 1).toLocaleString('default', { month: 'short' });
-                });
-            
-                chartOptions2.xaxis.categories = monthlyCategories;
-            }
-        };
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    useEffect(() => {
+        if (weeklyData && weeklyData.length > 0) {
+            const year = new Date().getFullYear(); // Current year
+    
+            const weekDays = weeklyData.map(item => {
+                const startDateOfWeek = getStartDateOfWeek(year, item.week_number); // Get the start date of the week
+                return getWeekDay(startDateOfWeek); // Get the weekday name
+            });
+    
+            setChartSeries2([{ name: 'Sales Weekly', data: weeklyData.map(item => item.total_revenue) }]);
+    
+        }
+    }, [weeklyData]);
 
         useEffect(() => {
             const fetchData = async () => {
                 try {
-                    const response = await axios.post('https://jaydscafe.com/api/data');
+                    const response = await axios.post('http://localhost:8081/data');
                     setWeeklyData(response.data);
-                    const initialRevenueData = response.data.map(item => item.total_revenue);
-                    const initialWeekNumbers = response.data.map(item => item.week_number);
-                    setChartSeries2([{ name: 'Sales Over Time', data: initialRevenueData }]);
-                    chartOptions2.xaxis.categories = initialWeekNumbers;
                 } catch (error) {
                     console.error('Error fetching data:', error);
                 }
             };
+        
             fetchData();
         }, []);
         
         useEffect(() => {
             const fetchMonthlyData = async () => {
                 try {
-                    const response = await axios.post('https://jaydscafe.com/api/dataMonthly');
+                    const response = await axios.post('http://localhost:8081/dataMonthly');
                     setMonthlyData(response.data);
                     
-                    // Process the data for the chart
-                    const months = response.data.map(item => {
+                    const months = monthlyData.map(item => {
                         const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                        return monthNames[item.Month_number - 1]; // Convert month number to month name
+                        return monthNames[item.Month_number - 1];
                     });
                     const revenues = response.data.map(item => item.total_revenue);
                     
@@ -319,7 +399,7 @@ export default function Sales() {
                     setChartOptions(prevOptions => ({
                         ...prevOptions,
                         xaxis: {
-                            categories: months, // Set the month names as categories
+                            categories: months,
                         }
                     }));
                 } catch (error) {
@@ -327,7 +407,7 @@ export default function Sales() {
                 }
             };
             fetchMonthlyData();
-        }, []);
+        }, [monthlyData]);
         
         
         function stripHtmlTags(html) {
@@ -457,8 +537,6 @@ export default function Sales() {
                 :
                 ''}
 
-                
-
                 </ul>
     
                 <ul class="pt-5 mt-10 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
@@ -481,11 +559,11 @@ export default function Sales() {
                     </a>
                 </li>
                 <li> {/* <!-- Sign Out --> */}
-                    <a href="#" class="flex items-center p-2 text-gray-600 transition duration-75 rounded-lg hover:bg-greenColor  group hover:text-white dark:text-white">
+                    <a href="/public/Html_Admin/adminLogin.html" class="flex items-center p-2 text-gray-600 transition duration-75 rounded-lg hover:bg-greenColor  group hover:text-white dark:text-white">
                         <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75  group-hover:text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"/>
                         </svg>
-                        <span onClick={handleLogout} class="ms-3">Sign Out</span>
+                        <span onClick={handleLogout}  class="ms-3">Sign Out</span>
                     </a>
                 </li>
                 </ul>
@@ -520,16 +598,6 @@ export default function Sales() {
                 </div>
                 <div className="app w-full shadow-lg rounded-lg p-4">
                     {/* Dropdown to select between weekly and yearly */}
-                    <div className="flex justify-end items-center mb-4">
-                        <select
-                        value={selectedTimeframe}
-                        onChange={handleTimeframeChange}
-                        className="border border-gray-300 p-2 rounded-md"
-                        >
-                        <option value="Weekly">Weekly</option>
-                        <option value="Monthly">Monthly</option>
-                        </select>
-                    </div>
 
                     <div className="row">
                         <div className="mixed-chart">
@@ -538,7 +606,7 @@ export default function Sales() {
                             series={chartSeries2}
                             type="bar" // Setting chart type to 'bar' for vertical bar chart
                             width="100%"
-                            height="300" />
+                            height="400" />
                         </div>
                     </div>
                 </div>
@@ -573,6 +641,7 @@ export default function Sales() {
                                 <th scope="col" className="px-6 py-3">Product Name</th>
                                 <th scope="col" className="px-6 py-3">Category</th>
                                 <th scope="col" className="px-6 py-3">Price</th>
+                                <th scope="col" className="px-6 py-3">Size</th>
                                 <th scope="col" className="px-6 py-3">Sold</th>
                                 <th scope="col" className="px-6 py-3">Profit</th>
                             </tr>
@@ -591,6 +660,7 @@ export default function Sales() {
                                     </th>
                                     <td className="px-6 py-4">{food?.title}</td>
                                     <td className="px-6 py-4">₱ {food?.price}.00</td>
+                                    <td className="px-6 py-4">{food?.size}</td>
                                     <td className="px-6 py-4">{food?.sold} pc(s)</td>
                                     <td className="px-6 py-4">₱ {food?.price * food?.sold}.00</td>
                                 </tr>

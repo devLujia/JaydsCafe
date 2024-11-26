@@ -1236,6 +1236,7 @@ app.post('/adminTable', async (req,res) => {
                         c.title, 
                         f.description, 
                         fs.price,
+                        fs.size,
                         COUNT(DISTINCT ofood.id) AS sold, 
                         (fs.price * COUNT(DISTINCT ofood.id)) AS profit
                     FROM 
@@ -1249,7 +1250,7 @@ app.post('/adminTable', async (req,res) => {
                     JOIN
                         orders o ON ofood.order_id = o.order_id
                     GROUP BY 
-                        f.id, f.name, f.description, f.image_url, c.title, fs.price;
+                        f.id, f.name, f.description, f.image_url, c.title, fs.price, fs.size;
                     `
 
       db.query(query,(error, result) => {
@@ -1466,12 +1467,13 @@ app.post('/addProduct', upload.single('image_url') , (req, res) =>{
         const medSizeQuery = `INSERT INTO food_sizes(food_id, size , price) 
                             VALUES (?,?,?)`
 
-        db.query(medSizeQuery, [lastfoodsId, sizeName ,price], (sizeErr, sizeResult)=> {
-            if(sizeErr){
-                res.json({sizeErr: "Unable to add into food_sizes"})
+        db.query(medSizeQuery, [lastfoodsId, sizeName, price], (sizeErr, sizeResult) => {
+            if (sizeErr) {
+                return res.status(500).json({ sizeErr: "Unable to add into food_sizes" });
             }
-            
-        })
+        
+            res.status(200).json({ message: "Successfully added size to food_sizes" });
+        });
 
 
     })
