@@ -189,11 +189,11 @@ function AddOrder({closeModal, foodId}) {
 
 return(
     <div>
-        <div className='fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50'>
-            <div className='bg-white w-full max-w-fit mx-2 md:max-w-4xl max-h-full rounded-xl shadow-lg flex flex-col'>
+        <div className='fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 py-4'>
+            <div className='bg-white w-full max-w-fit md:max-w-4xl max-h-full mt-4 mb-4 mx-4 rounded-xl shadow-lg flex flex-col'>
 
                 {/* Main Container */}
-                <div className='grid grid-cols-1 md:grid-cols-2 rounded-lg max-h-96 lg:max-h-screen overflow-hidden overflow-y-auto'>
+                <div className='grid grid-cols-1 md:grid-cols-2 rounded-lg lg:max-h-screen overflow-hidden overflow-y-auto'>
                     {/* Left side */}
                     <div className='flex flex-col rounded-lg gap-y-4'>
                         <div className='bg-darkgreen rounded-tl-xl bg-gradient-to-t from-[#ece0c8] to-[#f5f2e4]'>
