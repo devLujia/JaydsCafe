@@ -7,6 +7,7 @@ const ChatComponent = ({ name, userId, ticketId }) => {
   const [chatVisible, setChatVisible] = useState(false);
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
+  const [messages, setMessages] = useState([]);
   // const [ticketId, setTicketId] = useState('');
   const [subject, setSubject] = useState('');
   const [success, setSuccess] = useState(null);
@@ -42,6 +43,8 @@ const ChatComponent = ({ name, userId, ticketId }) => {
   useEffect(() => {
     const joinRoom = async () => {
       if (name !== '' && ticketId !== '') {
+        const response = await axios.post('http://localhost:8081/getMessages',  {ticketId} );
+        setMessages(response.data);
         await socket.emit("join_room", ticketId);
       }
     };
@@ -76,53 +79,51 @@ const ChatComponent = ({ name, userId, ticketId }) => {
   };
     
   
-    const sendMessage = async (e) => {
-
-      if (currentMessage.trim() !== '') {
-        e.preventDefault();
-
-        const messageData = {
-        author: name,
-        role : "User",
-        room : ticketId,
-        userId: userId,
-        message: currentMessage,
-          time:
-          new Date(Date.now()).getHours()+
-          ":" +
-          new Date(Date.now()).getMinutes(),
-        }
-
-        // Emit message to the server
-        await socket.emit('send_message', messageData);
-        setMessageList((prevChat) => [...prevChat,  messageData ]);
-        setCurrentMessage('');
-      }
-    
-    };
-
-    const handleKeyDown = async (e) => {
-      if (e.key === 'Enter' && currentMessage.trim() !== '') {
-        e.preventDefault();
+  const sendMessage = async (e) => {
+    if (currentMessage.trim() !== '') {
+       e.preventDefault();
 
       const messageData = {
-       author: name,
-       role : "User",
-       room : ticketId,
-       userId: userId,
-       message: currentMessage,
-        time:
-        new Date(Date.now()).getHours()+
-        ":" +
-        new Date(Date.now()).getMinutes(),
+          author: name,
+          role : "User",
+          room : ticketId,
+          userId: userId,
+          message: currentMessage,
+          time: new Date(Date.now()).toLocaleTimeString([], {
+             hour: '2-digit',
+             minute: '2-digit',
+           }),
       }
 
       // Emit message to the server
       await socket.emit('send_message', messageData);
       setMessageList((prevChat) => [...prevChat,  messageData ]);
       setCurrentMessage('');
-      }
-  };
+    }
+ };
+
+    const handleKeyDown = async (e) => {
+       if (e.key === 'Enter' && currentMessage.trim() !== '') {
+          e.preventDefault();
+
+          const messageData = {
+             author: name,
+             role : "User",
+             room : ticketId,
+             userId: userId,
+             message: currentMessage,
+             time:
+             new Date(Date.now()).getHours()+
+             ":" +
+             new Date(Date.now()).getMinutes(),
+          }
+    
+          // Emit message to the server
+          await socket.emit('send_message', messageData);
+          setMessageList((prevChat) => [...prevChat,  messageData ]);
+          setCurrentMessage('');
+       }
+   };
 
 
   useEffect(() => {
@@ -161,7 +162,7 @@ const ChatComponent = ({ name, userId, ticketId }) => {
       >
         <div className="bg-cards2 shadow-md rounded-lg max-w-full sm:max-w-lg w-full mx-2 sm:mx-0">
           <div className="p-3 sm:p-4 border-b bg-[#067741] text-white rounded-t-lg flex justify-between items-center">
-            <p className="text-sm sm:text-lg font-semibold truncate">Jayd'sCafe Admin {subject}</p>
+            <p className="text-sm sm:text-lg font-semibold truncate">Jayd's Cafe Admin {subject}</p>
             <button
               onClick={toggleChat}
               className="text-gray-300 hover:text-gray-400 focus:outline-none focus:text-gray-400"
@@ -204,25 +205,74 @@ const ChatComponent = ({ name, userId, ticketId }) => {
                 </p>
               )}
             </div>
+
+
+            {messages.map((messageContent) => (
+                    <div
+                      key={messageContent?.id}
+                      className={`mb-2 flex ${messageContent?.sender_id === userId ? 'justify-end' : 'justify-start'}`}
+                    >
+                      <div className="max-w-[80%] sm:max-w-[70%] overflow-hidden">
+                        {/* Message Content */}
+                        <p
+                          className={`${
+                            messageContent?.sender_id === userId ? 'bg-blue-500' : 'bg-green-700'
+                          } text-white rounded-lg py-2 px-4 text-sm shadow-md relative break-words`}
+                          style={{ wordWrap: 'break-word', whiteSpace: 'normal' }}
+                        >
+                          {/* Conditionally render sender's name */}
+                          {messageContent?.sender_id !== userId
+                            ? `${messageContent?.name}: ${messageContent.content}`
+                            : messageContent?.content}
+                        </p>
+
+                        {/* Time at the bottom */}
+                        <p className="text-xs text-gray-500 mt-1 text-left">
+                          {new Date(messageContent?.created_at).toLocaleTimeString([], {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+
+
+                      <p class="text-center text-gray-400 italic text-sm">previous messages..</p>
+
+
       
-            {messageList.map((messageContent, index) => (
-              <div
-                key={index}
-                className={`mb-2 flex ${
-                  messageContent.userId === userId ? 'justify-end' : 'justify-start'
-                }`}
-              >
-                <p
-                  className={`${
-                    messageContent.userId === userId ? 'bg-blue-500' : 'bg-gray-700'
-                  } text-white rounded-lg py-2 px-3 sm:px-4 inline-block w-auto max-w-[80%] sm:max-w-[70%] text-sm`}
-                >
-                  {messageContent.role === 'User'
-                    ? `Me: ${messageContent.message}`
-                    : `${messageContent.author}: ${messageContent.message}`}
-                </p>
-              </div>
-            ))}
+                      {messageList.map((messageContent, index) => (
+                        <div
+                          key={index}
+                          className={`my-3 flex ${messageContent.userId === userId ? 'justify-end' : 'justify-start'}`}
+                        >
+                          <div className="max-w-[80%] sm:max-w-[70%] overflow-hidden">
+                            {/* Message Content */}
+                            <p
+                              className={`${
+                                messageContent.userId === userId ? 'bg-blue-500' : 'bg-green-700'
+                              } text-white rounded-lg py-3 px-4 text-sm shadow-md relative break-words`}
+                              style={{ wordWrap: 'break-word', whiteSpace: 'normal' }}
+                            >
+                              {/* Conditionally render sender's name */}
+                              {messageContent.role === 'User'
+                                ? messageContent.message
+                                : `${messageContent.author}: ${messageContent.message}`}
+                            </p>
+
+                            {/* Time at the bottom */}
+                            <p className="text-xs text-gray-600 mt-1 text-right">
+                              {messageContent.time}
+                            </p>
+
+                          </div>
+                        </div>
+                      ))}
+
+
+
+            
           </div>
       
           {!confirm ? (

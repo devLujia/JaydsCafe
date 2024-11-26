@@ -24,7 +24,7 @@ import Checkout from './components/Checkout/Checkout'
 import Sales from './components/AdminModule/Sales/Sales'
 import Profile from './components/Profile/Profile'
 
-// import RiderLogin from './components/RiderModule/LoginRider/LoginRider'
+import RiderLogin from './components/RiderModule/LoginRider/LoginRider'
 // import RiderRegistration from './components/RiderModule/RegistrationRider/RegistrationRider'
 // import RiderForgot from './components/RiderModule/ForgotPasswordRider/ForgotPasswordRider'
 import RiderDashboard from './components/RiderModule/DashboardRider/DashboardRider'
@@ -63,8 +63,8 @@ function App() {
       <Route path='/Sales' element = {<Sales/>}></Route>
       <Route path='/Profile' element = {<Profile/>}></Route>
       
-      {/* <Route path='/RiderLogin' element = {<RiderLogin/>}></Route>
-      <Route path='/RiderForgot' element = {<RiderForgot/>}></Route>
+       <Route path='/RiderLogin' element = {<RiderLogin/>}></Route>
+      {/*<Route path='/RiderForgot' element = {<RiderForgot/>}></Route>
       <Route path='/RiderRegistration' element = {<RiderRegistration/>}></Route> */}
       <Route path='/RiderDashboard' element = {<RiderDashboard/>}></Route>
       <Route path='/RiderOrder' element = {<RiderOrder/>}></Route>

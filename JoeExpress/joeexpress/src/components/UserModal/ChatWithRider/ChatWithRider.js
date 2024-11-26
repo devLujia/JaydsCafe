@@ -40,11 +40,20 @@ const ChatWithRider = ({ onClose, id, userId }) => {
     };
 
     socket.emit('send_message_rider', messageData);
-    setMessages((prevMessages) => [...prevMessages, { ...messageData, createdAt: new Date().toLocaleTimeString() }]);
+    setMessages((prevMessages) => [...prevMessages, { ...messageData, time: new Date(Date.now()).toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+    })}]);
     setMessage("");
   };
 
-  
+
+  const handleKeyDown = async (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Prevent default action like a line break in textarea
+      sendMessage(); // Send the message
+    }
+  };
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -99,14 +108,12 @@ const ChatWithRider = ({ onClose, id, userId }) => {
                 <div className={`rounded-lg p-3 text-sm ${msg.author === "User" ? "bg-greenColor text-white" : "bg-gray-500 text-white"}`}>
                   {msg.message}
                 </div>
-                <span className="text-xs text-gray-500">{msg.createdAt}</span>
+                <span className="text-xs text-gray-500">{msg.time}</span>
               </div>
             </div>
           ))}
           
-          
-
-
+      
 
         </div>
         <div className="border-t pt-2">
@@ -115,12 +122,16 @@ const ChatWithRider = ({ onClose, id, userId }) => {
               type="text"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={handleKeyDown}
               className="flex-1 p-2 border rounded-lg outline-none text-sm"
               placeholder="Type your message..."
             />
-            <button onClick={sendMessage} className="p-2 bg-greenColor text-white rounded-lg hover:bg-green-700">
-              <img src={send} alt="" className="w-5 h-5"/>
-            </button>
+            <button
+                onClick={sendMessage}
+                className="p-2 bg-greenColor text-white rounded-lg hover:bg-green-700"
+              >
+                <img src={send} alt="Send" className="w-5 h-5"/>
+              </button>
           </div>
         </div>
       </div>

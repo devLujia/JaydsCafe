@@ -622,11 +622,6 @@ app.post('/login', async (req, res) => {
 
     const userData = data[0];
 
-    // Check if the account is verified
-    if (!userData.verified) {
-      return res.status(401).json({ error: 'Account not verified. Please check your email for verification instructions.' });
-    }
-
     // Verify password
     const isMatch = await bcrypt.compare(password, userData.password);
     
@@ -1161,10 +1156,6 @@ app.post('/adminlogin',async (req, res) => {
         } 
         
         const userData = data[0];
-
-        if (!userData.verified) {
-            return res.status(401).json({ error: 'Account not verified. Please check your email for verification instructions.' });
-        }
         
         if (isMatch && data[0].role === 1){
             req.session.userId = userData.id;
@@ -2042,43 +2033,45 @@ app.post('/removeProduct',  async (req, res) =>{
     app.post('/orderTracking', (req,res) =>{
 
         const query = 
-        `SELECT 
-    o.order_id, 
-    u.name,
-    u.address,
-    u.pnum,
-    o.customer_id, 
-    o.order_date, 
-    o.status,
-    o.totalPrice, 
-    GROUP_CONCAT(
-        CONCAT('Food Name: ',
-            f.name, ' ( Size: ', 
-            ofd.size, ', Quantity: ', 
-            ofd.quantity, ', Addons: ', 
-            IFNULL(ofd.addons, ''), ')'
-        ) ORDER BY f.name SEPARATOR ', '
-    ) AS food_details
-FROM 
-    orders o
-JOIN 
-    orders_food ofd ON ofd.order_id = o.order_id
-JOIN 
-    foods f ON f.id = ofd.food_id
-JOIN 
-    user u ON u.id = o.customer_id
-WHERE o.status IN ('on process', 'paid')
-GROUP BY 
-    o.order_id, 
-    u.name,
-    u.address,
-    u.pnum,
-    o.customer_id, 
-    o.order_date, 
-    o.status
-ORDER BY 
-    o.order_date ASC;
-`
+                    `SELECT 
+                o.order_id, 
+                u.name,
+                u.address,
+                u.pnum,
+                o.customer_id, 
+                o.order_date, 
+                o.deliveryMethod,
+                o.status,
+                o.totalPrice, 
+                GROUP_CONCAT(
+                    CONCAT('Food Name: ',
+                        f.name, ' ( Size: ', 
+                        ofd.size, ', Quantity: ', 
+                        ofd.quantity, ', Addons: ', 
+                        IFNULL(ofd.addons, ''), ')'
+                    ) ORDER BY f.name SEPARATOR ', '
+                ) AS food_details
+            FROM 
+                orders o
+            JOIN 
+                orders_food ofd ON ofd.order_id = o.order_id
+            JOIN 
+                foods f ON f.id = ofd.food_id
+            JOIN 
+                user u ON u.id = o.customer_id
+            WHERE o.status IN ('on process', 'paid', 'order ready')
+            GROUP BY 
+                o.order_id, 
+                u.name,
+                u.address,
+                u.pnum,
+                o.customer_id, 
+                o.order_date, 
+                o.status,
+                o.deliveryMethod
+            ORDER BY 
+                o.order_date ASC;
+            `
 
         db.query(query, (err, result) => {
             if (err) {
@@ -2093,42 +2086,44 @@ ORDER BY
 
         const query = 
         `
-        SELECT 
-            o.order_id, 
-            u.name,
-            u.address,
-            o.customer_id, 
-            o.order_date,
-            o.update_order_date, 
-            o.status,
-            o.totalPrice, 
-            GROUP_CONCAT(
-                CONCAT('Food Name: ',
-                    f.name, ' ( Size: ', 
-                    ofd.size, ', Quantity: ', 
-                    ofd.quantity, ', Addons: ', 
-                    IFNULL(ofd.addons, ''), ')'
-                ) ORDER BY f.name SEPARATOR ', '
-            ) AS food_details
-FROM 
-            orders o
-JOIN 
-            orders_food ofd ON ofd.order_id = o.order_id
-JOIN 
-            foods f ON f.id = ofd.food_id
-JOIN 
-            user u ON u.id = o.customer_id
-WHERE o.status IN ('completed', 'cancelled' , 'on delivery' , 'pending rider')
-GROUP BY 
-            o.order_id, 
-            u.name,
-            u.address,
-            o.customer_id, 
-            o.order_date,
-            o.update_order_date, 
-            o.status
-ORDER BY 
-            o.update_order_date DESC;
+                    SELECT 
+                o.order_id, 
+                u.name,
+                u.address,
+                o.customer_id, 
+                o.order_date,
+                o.update_order_date, 
+                o.status,
+                o.deliveryMethod,
+                o.totalPrice, 
+                GROUP_CONCAT(
+                    CONCAT('Food Name: ',
+                        f.name, ' ( Size: ', 
+                        ofd.size, ', Quantity: ', 
+                        ofd.quantity, ', Addons: ', 
+                        IFNULL(ofd.addons, ''), ')'
+                    ) ORDER BY f.name SEPARATOR ', '
+                ) AS food_details
+            FROM 
+                orders o
+            JOIN 
+                orders_food ofd ON ofd.order_id = o.order_id
+            JOIN 
+                foods f ON f.id = ofd.food_id
+            JOIN 
+                user u ON u.id = o.customer_id
+            WHERE o.status IN ('completed', 'cancelled', 'on delivery', 'pending rider')
+            GROUP BY 
+                o.order_id, 
+                u.name,
+                u.address,
+                o.customer_id, 
+                o.order_date,
+                o.update_order_date, 
+                o.status,
+                o.deliveryMethod
+            ORDER BY 
+                o.update_order_date DESC;
 
              
         `
@@ -2358,7 +2353,8 @@ ORDER BY
                 u.address,
                 u.secondary_address, 
                 r.title as role,
-                u.verification_token 
+                u.verification_token,
+                u.verified   
             FROM 
                 user u 
             INNER JOIN 
@@ -2571,43 +2567,43 @@ ORDER BY
             const query = 
                     `
                     SELECT 
-    o.order_id, 
-    u.name,
-    u.address,
-    u.pnum,
-    o.customer_id, 
-    o.order_date, 
-    o.status,
-    o.totalPrice,
-    ofd.sugar_level, 
-    GROUP_CONCAT(
-        CONCAT('Food Name: ',
-            f.name, ' ( Size: ', 
-            ofd.size, ', Quantity: ', 
-            ofd.quantity, ', Addons: ', 
-            IFNULL(ofd.addons, ''), ')'
-        ) ORDER BY f.name SEPARATOR ', '
-    ) AS food_details
-FROM 
-    orders o
-JOIN 
-    orders_food ofd ON ofd.order_id = o.order_id
-JOIN 
-    foods f ON f.id = ofd.food_id
-JOIN 
-    user u ON u.id = o.customer_id
-WHERE o.status IN ('on process', 'paid', 'unpaid')
-GROUP BY 
-    o.order_id, 
-    u.name,
-    u.address,
-    u.pnum,
-    o.customer_id, 
-    o.order_date, 
-    o.status
-ORDER BY 
-    o.order_date ASC;
-
+                o.order_id, 
+                u.name,
+                u.address,
+                u.pnum,
+                o.customer_id, 
+                o.order_date, 
+                o.deliveryMethod,
+                o.status,
+                o.totalPrice, 
+                GROUP_CONCAT(
+                    CONCAT('Food Name: ',
+                        f.name, ' ( Size: ', 
+                        ofd.size, ', Quantity: ', 
+                        ofd.quantity, ', Addons: ', 
+                        IFNULL(ofd.addons, ''), ')'
+                    ) ORDER BY f.name SEPARATOR ', '
+                ) AS food_details
+            FROM 
+                orders o
+            JOIN 
+                orders_food ofd ON ofd.order_id = o.order_id
+            JOIN 
+                foods f ON f.id = ofd.food_id
+            JOIN 
+                user u ON u.id = o.customer_id
+            WHERE o.status IN ('unpaid','on process', 'paid', 'order ready')
+            GROUP BY 
+                o.order_id, 
+                u.name,
+                u.address,
+                u.pnum,
+                o.customer_id, 
+                o.order_date, 
+                o.status,
+                o.deliveryMethod
+            ORDER BY 
+                o.order_date ASC;
                         
                     `
 
@@ -2640,8 +2636,11 @@ ORDER BY
                 role,
                 message,
                 author,
-                createdAt: new Date().toLocaleTimeString()
-              });
+                time:  new Date(Date.now()).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                }),
+            });
       
           });
         });
@@ -2664,7 +2663,10 @@ ORDER BY
               role,
               message,
               author, 
-              createdAt: new Date().toLocaleTimeString() 
+              time: new Date(Date.now()).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+              }),
             });
       
             console.log(`Message sent in room ${room}`);
@@ -2859,7 +2861,11 @@ ORDER BY
       app.post('/getOrderId', (req, res) => {
         const {userId} = req.body;
 
-        const sql = `SELECT order_id FROM orders where rider_id = ? ORDER BY order_date DESC `;
+        const sql = `SELECT o.order_id, u.name 
+                        FROM orders o
+                        JOIN user u ON o.customer_id = u.id
+                        WHERE o.rider_id = ? 
+                        ORDER BY o.order_date DESC; `;
 
         db.query(sql,[userId], (err, results) => {
             if (err) {

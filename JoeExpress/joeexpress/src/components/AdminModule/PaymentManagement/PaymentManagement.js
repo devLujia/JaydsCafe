@@ -3,8 +3,12 @@ import eye from '../../image/eye(2).svg'
 import trashbin from '../../image/trashbin.svg'
 import check from '../../image/check.svg'
 import gcash from '../../image/gcash.svg'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 export default function PaymentManagement() {
+
+    const navigate = useNavigate();
 
     useEffect(()=>{
         
@@ -26,13 +30,28 @@ export default function PaymentManagement() {
             });
     })
 
+    const handleLogout = async () => {
+        try {
+          const res = await axios.post('http://localhost:8081/logout');
+          if (res.data.success) {
+            // eslint-disable-next-line no-restricted-globals
+            location.reload();
+            navigate('/');
+          } else {
+            console.log('Logout Failed');
+          }
+        } catch (error) {
+          console.error('Error during logout:', error);
+        }
+      };
+
 
 
   return (
     <div>
         <nav class="z-20 bg-white border-gray-200 dark:bg-gray-900 top-0 sticky flex justify-end shadow-md">
             <div class="px-4 py-3 text-sm text-gray-900 dark:text-white flex flex-col items-center">
-                <div class="font-bold">Migz Gomez Go</div>
+                <div class="font-bold"></div>
                 <div class="items-center justify-center">Admin</div>
             </div>
             <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src="/public/image/UserAcc.png" alt="User dropdown"/>
@@ -49,7 +68,7 @@ export default function PaymentManagement() {
                     </li>
                 </ul>
                 <div class="py-1">
-                    <a href="/admin" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                    <a href="#" onClick={handleLogout} class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
                 </div>
             </div>
         </nav>

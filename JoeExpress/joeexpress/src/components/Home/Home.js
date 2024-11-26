@@ -1,4 +1,4 @@
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap" rel="stylesheet"></link>
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -16,6 +16,7 @@ import 'aos/dist/aos.css';
 import Terms from '../UserModal/TermsAndCondition/Terms'
 import ChatComponent from '../UserModal/ChatService/ChatComponent'
 import socket from '../AdminModule/Message/socketService';
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap" rel="stylesheet"></link>
 
 
 function Home() {
@@ -95,7 +96,7 @@ function Home() {
       { sender: "bot", text: "Feel free to ask me anything. Like our location 🥤" },
       { sender: "bot", text: "Feel free to ask me anything. Like our email 🥤" },
       { sender: "bot", text: "Feel free to ask me anything. Like our Facebook 🥤" },
-      { sender: "bot", text: "Feel free to ask me anything. Like our Hello 🥤" },
+      { sender: "bot", text: "Feel free to ask me anything. Like Hello 🥤" },
       { sender: "bot", text: "Feel free to ask me anything. Like our Email 🥤" },
       { sender: "bot", text: "Feel free to ask me anything. Like our Phone 🥤" },
     ]);
@@ -156,6 +157,7 @@ function Home() {
   const [statusMessage, setStatusMessage] = useState("");
   const [userInput, setUserInput] = useState("");
 
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -201,7 +203,6 @@ function Home() {
   const toggleFAQ3 = () => {
     setFAQ3(!FAQ3);
   };
-
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -1128,7 +1129,7 @@ useEffect(() => {
     <div class="scroll-progress "></div> {/* <!-- for scroll effect sa taas --> */}
 
     {/* <!-- Chat button / chat box / chat bot --> */}
-    {authenticated === true ? (
+    {authenticated === true && profile?.verified === "true" ? (
         <ChatComponent name={profile?.name} userId={profile?.id} ticketId={profile?.verification_token} />
       ) : (
         <>
@@ -1171,11 +1172,13 @@ useEffect(() => {
 
             {/* Chatbox */}
             <div id="chatbox" className="p-4 h-80 overflow-y-auto">
+              <p>You cannot access live chat, since your email does not verified yet. Please check your email</p>
+
               {messages.map((message, index) => (
                 <div key={index} className={`mb-2 ${message.sender === "bot" ? "" : "text-right"}`}>
                   <p
                     className={`${
-                      message.sender === "bot" ? "bg-gray-200 text-gray-700" : "bg-blue-500 text-white"
+                      message.sender === "bot" ? "bg-gray-200 text-gray-700 rounded-lg py-2 px-4" : "bg-blue-500 text-white"
                     } rounded-lg py-2 px-4 inline-block`}
                   >
                     {message.text}
