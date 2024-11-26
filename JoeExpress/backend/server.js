@@ -529,7 +529,7 @@ app.get('/tracking/:OrdrId',(req,res)=>{
 
 const { OrdrId } = req.params
 
-const query = `SELECT * From ORDERS Where order_id = ?`
+const query = `SELECT * From orders Where order_id = ?`
 db.query(query, [OrdrId], (err, results) => {
     if (err) {
         console.error('Error fetching food data:', err);
