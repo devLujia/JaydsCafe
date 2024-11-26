@@ -15,6 +15,8 @@ const app = express();
 const http = require("http");
 const { error } = require("console");
 const server = http.createServer(app);
+const imap = require('imap-simple');
+const { simpleParser } = require('mailparser');
 
 const io = new Server(server);
 
@@ -48,6 +50,18 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24
     }
 }));
+
+const config = {
+    imap: {
+      user: EMAIL, // Replace with your Gmail
+      password: PASSWORD, // Use App Password, not Gmail password
+      host: 'imap.gmail.com',
+      port: 993,
+      tls: true,
+      tlsOptions: { rejectUnauthorized: false },
+      authTimeout: 3000,
+    },
+  };
 
 
 const storage = multer.diskStorage({
@@ -3038,7 +3052,7 @@ ORDER BY
           const mailOptions = {
             from: `"${firstName} ${lastName}" <${email}>`,
             to: process.env.EMAIL,
-            subject: `New Contact Us Message from ${firstName} ${lastName}`,
+            subject: `New Message from ${firstName} ${lastName}`,
             text: `Message from ${firstName} ${lastName} (${email}):\n\n${message}`,
           };
       
@@ -3051,7 +3065,102 @@ ORDER BY
           res.status(500).json({ error: "Failed to send email. Please try again later." });
         }
     });
+
+
+    async function fetchEmails() {
+        try {
+          const connection = await imap.connect(config);
+          await connection.openBox('INBOX');
       
+          const searchCriteria = ['UNSEEN']; // Fetch unread emails
+          const fetchOptions = {
+            bodies: ['HEADER', 'TEXT'],
+            struct: true,
+          };
+      
+          const messages = await connection.search(searchCriteria, fetchOptions);
+      
+          const emails = await Promise.all(
+            messages.map(async (message) => {
+              // Parse email header and body
+              const headerPart = message.parts.find((part) => part.which === 'HEADER');
+              const textPart = message.parts.find((part) => part.which === 'TEXT');
+      
+              // Parse header information
+              const headers = headerPart ? headerPart.body : {};
+              const subject = headers.subject ? headers.subject[0] : 'No Subject';
+              const from = headers.from ? headers.from[0] : 'Unknown Sender';
+              const date = headers.date ? headers.date[0] : 'Unknown Date';
+      
+              // Parse body
+              const body = textPart ? textPart.body : 'No Body';
+      
+              return {
+                subject,
+                from,
+                date,
+                body,
+              };
+            })
+          );
+      
+          connection.end();
+          return emails;
+        } catch (error) {
+          console.error('Error fetching emails:', error);
+          throw error;
+        }
+      }
+      
+      
+      // REST API Endpoint to Fetch Emails
+      app.get('/emails', async (req, res) => {
+        try {
+          const emails = await fetchEmails();
+          res.json(emails);
+        } catch (error) {
+          res.status(500).send('Error fetching emails');
+        }
+      });
+
+      const transporter = nodemailer.createTransport({
+        service: 'gmail', // You can use other email services like Yahoo, Outlook, etc.
+        auth: {
+            user: EMAIL, // Replace with your email
+            pass: PASSWORD,  // Replace with your email password or an app-specific password if using Gmail
+        },
+    });
+      
+
+      app.post('/sendMessage', async (req, res) => {
+
+
+        const { recipient, subject, body } = req.body;
+    
+        // Validate the required fields
+        if (!recipient || !subject || !body) {
+            return res.status(400).json({ error: 'Recipient, subject, and body are required' });
+        }
+    
+        // Set up the mail options
+        const mailOptions = {
+            from: EMAIL,
+            to: recipient,
+            subject: subject,        
+            text: body,        
+        };
+    
+        try {
+            // Send the email using Nodemailer
+            await transporter.sendMail(mailOptions);
+    
+            // Respond to the frontend with success
+            return res.status(200).json({ message: 'Message sent successfully!' });
+        } catch (error) {
+            console.error('Error sending email:', error);
+            return res.status(500).json({ error: 'An error occurred while sending the message' });
+        }
+    });
 
 server.listen(8081, () => {
     console.log("Connected");

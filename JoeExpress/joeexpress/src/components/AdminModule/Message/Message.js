@@ -27,7 +27,16 @@ export default function Message() {
    const [earliestMessageTimestamp, setEarliestMessageTimestamp] = useState(null);
    const [hasMore, setHasMore] = useState(true); // To check if more messages are available
    const [loading, setLoading] = useState(false); // Loading state for backread
-   const [update, setUpdate] = useState(false)
+   const [update, setUpdate] = useState(false);
+   const [emails, setEmails] = useState([]);
+   const [error, setError] = useState(null);
+
+   const [selectedEmail, setSelectedEmail] = useState(null);
+   const [selectedUser, setSelectedUser] = useState(null);
+   const [messageBody, setMessageBody] = useState("");
+   const [replyBody, setReplyBody] = useState("");
+   const [messageDate, setMessageDate] = useState('');
+   const [subject, setSubject] = useState('');
 
    const [tier1,setTier1] = useState([])
    const [tier2,setTier2] = useState([])
@@ -44,6 +53,21 @@ export default function Message() {
             console.error('Error fetching food details:', error);
         });
     },[])
+
+    useEffect(() => {
+      const fetchEmails = async () => {
+        try {
+          const response = await axios.get('http://localhost:8081/emails');
+          setEmails(response.data);
+        } catch (err) {
+          setError('Error fetching emails');
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchEmails();
+    }, []);
 
     useEffect(() => {
       const fetchNameData = async () => {
@@ -134,6 +158,45 @@ export default function Message() {
            loadMoreMessages();
          }
        };
+
+       const handleSendMessage = async (body) => {
+         // Regular expression to extract email from the body
+         const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/;
+     
+         const match = body.match(emailRegex);
+     
+         let extractedEmail = '';
+         if (match && match[0]) {
+             extractedEmail = match[0]; // The email is the first match
+             console.log('Extracted Email:', extractedEmail);
+         } else {
+             console.log('No email found');
+             return; // Stop execution if no email is found
+         }
+     
+         try {
+             // Prepare the data to be sent, using the extracted email as the recipient
+             const messageData = {
+                 recipient: extractedEmail, // Use the extracted email as the recipient
+                 subject: subject,  // You can modify this to change subject if needed
+                 body: replyBody,  // Message body from textarea
+             };
+     
+             // Sending the message via an API (you can replace the URL with your actual API endpoint)
+             const response = await axios.post('http://localhost:8081/sendMessage', messageData);
+     
+             if (response.status === 200) { 
+                 setIsMessageOpen(false);
+                 setReplyBody('');
+                 alert('Message sent successfully!');
+             } else {
+                 alert('Failed to send message. Please try again.');
+             }
+         } catch (error) {
+             console.error('Error sending message:', error);
+             alert('An error occurred while sending the message.');
+         }
+     };
 
 
       useEffect(() => {
@@ -292,11 +355,18 @@ export default function Message() {
 
 
       //for modal in contact modal
+
+      
+
       const [isMessageOpen, setIsMessageOpen] = useState(false);
    
-      const handleRowClick = () => {
-      setIsMessageOpen(true);
-      };
+      const handleRowClick = (from, subject, body, date) => {
+         setSelectedEmail(from);  // Store sender name
+         setSubject(subject);     // Store subject
+         setMessageBody(body);    // Store email body
+         setMessageDate(date);    // Store email date
+         setIsMessageOpen(true);  // Open the modal
+     };
    
       const closeModal = () => {
          setIsMessageOpen(false);
@@ -631,6 +701,142 @@ export default function Message() {
                   </div>
                </div>
             </div>
+            </div>
+
+         </div>
+         
+         <div class="flex flex-col p-4 sm:ml-64 md:pl-14 py-2 ">
+            <div class=" overflow-x-auto pb-4">
+               <div class="min-w-full inline-block align-middle">
+                  <div class="overflow-hidden  border rounded-lg border-gray-300">
+                     <table class="table-auto min-w-full rounded-xl">
+                        <thead className='border-b-2'>
+                           <tr class="bg-gray-50 Capitalize font-semibold">
+                              <th scope="col"></th>
+                              <th scope="col" class="p-5 text-left whitespace-nowrap text-xl leading-6 text-gray-900 min-w-[150px]"> Contact us message </th>
+                              <th scope="col"></th>
+                              <th scope="col"></th>
+                           </tr>
+                        </thead>
+
+                        <tbody className="divide-y divide-gray-300 relative">
+                        {emails.map((email,index) => (
+                        <tr
+                           key={index}
+                           className="bg-white transition-all duration-500 hover:bg-gray-200 cursor-pointer group relative"
+                           onClick={() => handleRowClick(email.from.split("<")[0].trim(), email.subject, email.body, email.date)}
+                        >
+                           <td>
+                              <span className="flex w-3 h-3 me-3 bg-red-500 rounded-full absolute left-2 top-1/2 transform -translate-y-1/2 z-10"></span>
+                           </td>
+                           <td className="px-5 py-3">
+                              <div className="w-48 flex items-center gap-3 ps-2">
+                              
+                              <div className="data">
+                                 <p className="font-semibold text-sm text-gray-900">{email.from.split("<")[0].trim()}</p>
+                                 <p className="font-normal text-xs leading-5 text-gray-400">{email.from.match(/<(.+)>/)?.[1]}</p>
+                              </div>
+                              </div>
+                           </td>
+                           <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
+                              <div className="flex">
+                              <h1 className="font-semibold text-md">{email.subject}</h1>
+                              <span className="font-semibold mx-2">-</span>
+                              <p className="text-gray-400 text-[13px]">{email.body.substring(0, 50)}...</p>
+                              </div>
+                           </td>
+                           <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
+                              <div className="flex items-center justify-end relative">
+                              <span className="text-gray-500 text-sm absolute right-5 top-1/2 transform -translate-y-1/2 group-hover:hidden">
+                                 <span className="text-gray-400 text-[10px] me-2">{new Date(email.date).toLocaleDateString()}</span>
+                                 {new Date(email.date).toLocaleTimeString()}
+                              </span>
+
+                              <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute right-5 top-1/2 transform -translate-y-1/2">
+                                 {/* <button className="rounded-lg transition-all duration-500 hover:bg-gray-400 flex items-center justify-center w-8 h-8 hover:text-white" title="Mark as read">
+                                    <BsEnvelopePaperFill />
+                                 </button>
+                                 <button className="rounded-lg transition-all duration-500 hover:bg-gray-400 flex items-center justify-center w-8 h-8 hover:text-white" title="Delete">
+                                    <RiDeleteBin6Fill />
+                                 </button>
+                                 <button className="rounded-lg transition-all duration-500 hover:bg-gray-400 flex items-center justify-center w-8 h-8 hover:text-white" title="">
+                                    <FaEllipsisVertical />
+                                 </button> */}
+                              </div>
+                              </div>
+                           </td>
+                        </tr>
+                        ))}
+                     </tbody>
+
+                     {isMessageOpen && (
+                           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
+                              <div className="bg-white rounded-lg shadow-xl max-w-3xl w-full p-6 relative">
+                                    <div className="flex justify-between items-center pb-2 border-b-2 border-gray-200">
+                                       <h4 className="text-lg text-gray-900 font-bold">Message to {selectedEmail}</h4>
+                                       <button className="block cursor-pointer" onClick={() => setIsMessageOpen(false)}>
+                                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M7.75732 7.75739L16.2426 16.2427M16.2426 7.75739L7.75732 16.2427" stroke="black" stroke-width="1.6" stroke-linecap="round"></path>
+                                          </svg>
+                                       </button>
+                                    </div>
+                                    <div className="my-4">
+                                       <label className="text-neutral-500 dark:text-neutral-400">Recipient:</label>
+                                       <input
+                                          type="text"
+                                          className="relative m-0 mb-4 -me-0.5 block w-full flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out"
+                                          id="recipient-name"
+                                          value={selectedEmail}
+                                          disabled
+                                       />
+
+                                       <label className="text-neutral-500 dark:text-neutral-400">Subject:</label>
+                                       <input
+                                          type="text"
+                                          className="relative m-0 mb-4 -me-0.5 block w-full flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out"
+                                          id="email-subject"
+                                          value={subject}
+                                          disabled
+                                       />
+
+                                       <div className="border border-gray-300 rounded-md p-3 min-h-72 max-h-80 overflow-y-scroll mb-4">
+                                          <p>{messageBody}</p>
+                                       </div>
+
+                                       <label className="text-neutral-500 dark:text-neutral-400">Reply:</label>
+                                       <textarea
+                                          className="relative m-0 min-h-20 max-h-96 -me-0.5 block w-full flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-2 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out"
+                                          id="message-text"
+                                          placeholder="Message here"
+                                          value={replyBody}
+                                          onChange={(e)=>setReplyBody(e.target.value)}
+                                          
+                                       />
+                                    </div>
+                                    <div className="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-gray-200 p-4 pb-0 pr-0 dark:border-white/10">
+                                       <button
+                                          type="button"
+                                          className="inline-block rounded-md bg-gray-200 px-6 py-2 text-xs font-semibold uppercase text-gray-700 transition duration-200 ease-in-out hover:bg-gray-300 focus:bg-gray-300 focus:outline-none active:bg-gray-400 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-700 dark:focus:bg-gray-700 dark:active:bg-gray-800"
+                                          onClick={() => setIsMessageOpen(false)} // Close modal
+                                       >
+                                          Close
+                                       </button>
+
+                                       <button
+                                          type="button"
+                                          className="ms-2 inline-block rounded-md bg-indigo-600 px-6 py-2 text-xs font-semibold uppercase text-white shadow-lg shadow-indigo-500/30 transition duration-200 ease-in-out hover:bg-indigo-700"
+                                          onClick={() => handleSendMessage(messageBody)}
+                                       >
+                                          Send Message
+                                       </button>
+                                    </div>
+                              </div>
+                           </div>
+                     )}
+
+                     </table>
+                  </div>
+               </div>
             </div>
          </div>
          

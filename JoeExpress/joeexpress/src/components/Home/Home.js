@@ -16,6 +16,7 @@ import 'aos/dist/aos.css';
 import Terms from '../UserModal/TermsAndCondition/Terms'
 import ChatComponent from '../UserModal/ChatService/ChatComponent'
 import socket from '../AdminModule/Message/socketService';
+import { Alert } from '@mui/material';
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap" rel="stylesheet"></link>
 
 
@@ -441,12 +442,14 @@ function Home() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatusMessage("");
-
+  
     try {
+
+      e.preventDefault();
+      setStatusMessage("");
+
       const response = await axios.post("http://localhost:8081/contact", formData);
-      setStatusMessage("Message sent successfully!");
+      alert("Message sent successfully!");
       setFormData({ firstName: "", lastName: "", email: "", message: "" });
     } catch (error) {
       setStatusMessage("Failed to send the message. Please try again.");
@@ -1148,7 +1151,7 @@ useEffect(() => {
         <div id="chat-container" className="fixed bottom-16 lg:bottom-16 lg:right-8 md:bottom-16 w-96 max-w-full sm:w-80 md:right-10 xs:w-full sm:bottom-4 sm:right-0 z-50">
           <div className="bg-cards2 shadow-md rounded-lg max-w-lg w-full">
             <div className="p-4 border-b bg-textgreenColor text-white rounded-t-lg flex justify-between items-center">
-              <p className="text-lg font-semibold">JaydsBot</p>
+              <p className="text-lg font-semibold">Jayds Bot</p>
               <button
                 onClick={toggleChatModal}
                 className="text-gray-300 hover:text-gray-400 focus:outline-none focus:text-gray-400"
