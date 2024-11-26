@@ -83,7 +83,6 @@ function AddProd({ closeModal }) {
           // API request
           const res = await axios.post('http://localhost:8081/addProduct', formData);
           
-          // Check if the response status is 200
           if (res.status === 200) {
             alert("Successfully added!");
             closeModal(false);
