@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2024 at 08:31 PM
+-- Generation Time: Nov 26, 2024 at 04:38 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -40,13 +40,17 @@ CREATE TABLE `addons` (
 --
 
 INSERT INTO `addons` (`id`, `name`, `price`, `visible`, `category_id`) VALUES
-(1, 'Pearls', 10.00, 1, 1),
-(2, 'Esspresso Shot', 24.00, 1, 1),
+(2, 'Esspresso Shot', 20.00, 1, 1),
 (4, 'Cream Cheese', 15.00, 1, 3),
 (5, 'Whipped Cream', 15.00, 1, 4),
 (6, 'Milk', 30.00, 1, 5),
 (7, 'test-bibingka', 79.00, 1, 7),
-(19, 'Cheese', 30.00, 1, 34);
+(19, 'Cheese', 30.00, 1, 34),
+(21, 'Esspreso Shot', 20.00, 1, 2),
+(22, 'Esspreso Shot', 20.00, 1, 3),
+(23, 'Esspreso Shot', 20.00, 1, 4),
+(24, 'Pearls', 15.00, 1, 7),
+(25, 'Nata de Coco', 15.00, 1, 26);
 
 -- --------------------------------------------------------
 
@@ -75,7 +79,9 @@ INSERT INTO `cart` (`id`, `user_id`, `created_at`, `updated_at`) VALUES
 (18, 43, '2024-10-02 12:27:35', '2024-10-02 12:27:35'),
 (19, 45, '2024-10-14 01:48:59', '2024-10-14 01:48:59'),
 (20, 52, '2024-10-20 13:59:47', '2024-10-20 13:59:47'),
-(21, 54, '2024-11-09 08:34:50', '2024-11-09 08:34:50');
+(21, 54, '2024-11-09 08:34:50', '2024-11-09 08:34:50'),
+(22, 60, '2024-11-23 14:12:19', '2024-11-23 14:12:19'),
+(23, 61, '2024-11-26 04:53:36', '2024-11-26 04:53:36');
 
 -- --------------------------------------------------------
 
@@ -104,8 +110,7 @@ INSERT INTO `cart_items` (`id`, `user_id`, `food_id`, `size`, `price`, `quantity
 (109, 40, 18, 'Medium', 217.00, 1, '2024-09-21 12:23:10', '2024-09-21 12:23:10', 'taengkambing (₱59),cheesesabinimam (₱59),cheesesabinimam (₱50)', '100'),
 (110, 40, 20, 'Large', 109.00, 1, '2024-09-21 12:34:54', '2024-09-21 12:34:54', 'cheesesabinimam (₱50)', '100'),
 (231, 31, 18, 'Medium', 160.00, 1, '2024-11-09 07:54:38', '2024-11-09 07:54:38', '', '100'),
-(232, 31, 19, 'Medium', 160.00, 1, '2024-11-09 07:56:32', '2024-11-09 07:56:32', '', '100'),
-(237, 54, 19, 'Medium', 160.00, 1, '2024-11-13 18:19:42', '2024-11-13 18:19:42', '', '100');
+(232, 31, 19, 'Medium', 160.00, 1, '2024-11-09 07:56:32', '2024-11-09 07:56:32', '', '100');
 
 -- --------------------------------------------------------
 
@@ -132,7 +137,8 @@ INSERT INTO `category` (`id`, `title`, `image_url`, `active`, `featured`) VALUES
 (4, 'Iced Coffee Latte', 'image/milktea.png', 'true', 'false'),
 (5, 'Iced Blended', 'image/milktea.png', 'true', 'false'),
 (7, 'Milk Tea', 'taengkambing.png', 'true', 'false'),
-(26, 'Refreshers', '', 'true', 'false');
+(26, 'Refreshers', '', 'true', 'false'),
+(35, 'Snacks', '', 'true', 'false');
 
 -- --------------------------------------------------------
 
@@ -264,7 +270,8 @@ INSERT INTO `foods` (`id`, `name`, `description`, `image_url`, `category_id`, `v
 (127, 'Green Apple Soda', 'Green Apple Soda', '/images/Refreshers/Green Apple Soda.png', 26, 1),
 (128, 'Honey Peach Soda', 'Honey Peach Soda', '/images/Refreshers/Honey Peach Soda.png', 26, 1),
 (129, 'Lychee Soda', 'Lychee Soda', '/images/Refreshers/Lychee Soda.png', 26, 1),
-(131, 'Strawberry Soda', 'Strawberry Soda', '/images/Refreshers/Strawberry Soda.png', 26, 1);
+(131, 'Strawberry Soda', 'Strawberry Soda', '/images/Refreshers/Strawberry Soda.png', 26, 1),
+(134, 'Cheesy Burger', 'Buy 1 take 1 Cheesy Burger along side lettuce', '/images/image_url_1732624482229.png', 35, 1);
 
 -- --------------------------------------------------------
 
@@ -356,7 +363,8 @@ INSERT INTO `food_sizes` (`id`, `food_id`, `size`, `price`, `date_created`, `dat
 (188, 29, 'Venti', 120.00, '2024-10-31 05:04:44', '2024-10-31 05:04:44'),
 (189, 21, 'Large', 120.00, '2024-10-31 05:08:41', '2024-10-31 05:08:41'),
 (190, 21, 'Venti', 180.00, '2024-10-31 05:09:06', '2024-10-31 05:09:06'),
-(191, 28, 'Venti', 120.00, '2024-10-31 05:11:53', '2024-10-31 05:11:53');
+(191, 28, 'Venti', 120.00, '2024-10-31 05:11:53', '2024-10-31 05:11:53'),
+(194, 134, 'Large', 80.00, '2024-11-26 12:34:42', '2024-11-26 12:34:42');
 
 -- --------------------------------------------------------
 
@@ -380,7 +388,78 @@ CREATE TABLE `messages` (
 INSERT INTO `messages` (`id`, `ticket_id`, `sender_id`, `content`, `created_at`, `is_read`) VALUES
 (230, '6cu5v8n24a', 54, 'Test', '2024-11-18 16:37:37', 0),
 (231, '6cu5v8n24a', 42, 'Hello poo', '2024-11-18 16:37:44', 0),
-(232, '6cu5v8n24a', 42, 'Ano pong sainyo', '2024-11-18 16:37:47', 0);
+(232, '6cu5v8n24a', 42, 'Ano pong sainyo', '2024-11-18 16:37:47', 0),
+(233, '6cu5v8n24a', 54, 'hello', '2024-11-22 08:10:32', 0),
+(234, '6cu5v8n24a', 42, 'test', '2024-11-22 08:13:26', 0),
+(235, '6cu5v8n24a', 54, 'Ayoo', '2024-11-22 08:13:30', 0),
+(236, '6cu5v8n24a', 54, 'san po kayo', '2024-11-22 08:13:39', 0),
+(237, '6cu5v8n24a', 42, 'Test', '2024-11-23 14:11:48', 0),
+(238, 'so1vhxfi9r', 60, 'Ayo', '2024-11-23 14:12:36', 0),
+(239, 'so1vhxfi9r', 42, 'test', '2024-11-23 14:12:45', 0),
+(240, 'so1vhxfi9r', 42, 'ayooo puta', '2024-11-23 14:14:32', 0),
+(241, 'so1vhxfi9r', 42, 'test', '2024-11-23 14:15:36', 0),
+(242, 'so1vhxfi9r', 42, 'type a message', '2024-11-23 14:15:44', 0),
+(244, 'so1vhxfi9r', 42, 'test', '2024-11-23 14:17:54', 0),
+(245, '6cu5v8n24a', 42, 'putangina', '2024-11-23 14:17:57', 0),
+(246, 'so1vhxfi9r', 42, 'ADMIN', '2024-11-23 14:18:37', 0),
+(247, 'so1vhxfi9r', 42, 'vape', '2024-11-23 14:23:48', 0),
+(248, '6cu5v8n24a', 42, 'leklek bading', '2024-11-23 14:24:24', 0),
+(249, 'so1vhxfi9r', 60, 'ye', '2024-11-23 14:24:37', 0),
+(250, '6cu5v8n24a', 54, 'Hello', '2024-11-26 05:22:04', 0),
+(251, '6cu5v8n24a', 54, 'test', '2024-11-26 05:31:43', 0),
+(252, '6cu5v8n24a', 54, 'check', '2024-11-26 05:31:55', 0),
+(253, '6cu5v8n24a', 54, 'baket po ganon', '2024-11-26 05:31:59', 0),
+(254, '6cu5v8n24a', 54, 'test', '2024-11-26 05:33:37', 0),
+(255, '6cu5v8n24a', 54, 'test', '2024-11-26 05:34:30', 0),
+(256, '6cu5v8n24a', 54, 'Tes', '2024-11-26 05:35:59', 0),
+(257, '6cu5v8n24a', 54, 'dsds', '2024-11-26 05:36:00', 0),
+(258, '6cu5v8n24a', 54, 'tesakdaskdkasdasdghasdhkjasgdashjdgashd ashdgas hdgashjd agsdjasd', '2024-11-26 05:38:33', 0),
+(259, '6cu5v8n24a', 54, 'test', '2024-11-26 05:41:38', 0),
+(260, '6cu5v8n24a', 54, 'ASDASDHASdhasdhasdhasdhashdashdhasd', '2024-11-26 05:41:40', 0),
+(261, '6cu5v8n24a', 54, 'asdasdasdasdasdasdasdasdasdasdahsd asdasdkj asdas hdas dasd asd asdas d', '2024-11-26 05:43:52', 0),
+(262, '6cu5v8n24a', 54, 'AHSdhasdha DHsad asjhdasjdhasdiuuqqhasdjhasdahsidas hdsa', '2024-11-26 05:43:57', 0),
+(263, '6cu5v8n24a', 54, 'test', '2024-11-26 05:43:59', 0),
+(264, '6cu5v8n24a', 54, 'Test', '2024-11-26 05:45:23', 0),
+(265, '6cu5v8n24a', 54, 'asdasdasdasdasdasdasdasdasdsadasdashjdaskjdhasjkdhaskjdhaskjdhasd', '2024-11-26 05:45:28', 0),
+(266, '6cu5v8n24a', 42, 'Test', '2024-11-26 05:51:05', 0),
+(267, '6cu5v8n24a', 42, 'vape cheeck', '2024-11-26 05:54:36', 0),
+(268, '6cu5v8n24a', 54, 'hello', '2024-11-26 05:55:54', 0),
+(269, '6cu5v8n24a', 42, 'test', '2024-11-26 05:59:12', 0),
+(270, '6cu5v8n24a', 42, 'test', '2024-11-26 06:00:53', 0),
+(271, '6cu5v8n24a', 42, 'test', '2024-11-26 06:02:16', 0),
+(272, '6cu5v8n24a', 54, 'test', '2024-11-26 06:03:17', 0),
+(273, '6cu5v8n24a', 42, 'test', '2024-11-26 06:03:21', 0),
+(274, '6cu5v8n24a', 42, 'test', '2024-11-26 06:08:59', 0),
+(275, '6cu5v8n24a', 54, 'chec', '2024-11-26 06:09:04', 0),
+(276, '6cu5v8n24a', 54, 'test', '2024-11-26 06:09:25', 0),
+(277, '6cu5v8n24a', 54, 'test', '2024-11-26 06:09:52', 0),
+(278, '6cu5v8n24a', 42, 'tests', '2024-11-26 06:09:55', 0),
+(279, '6cu5v8n24a', 54, 'test', '2024-11-26 06:10:37', 0),
+(280, '6cu5v8n24a', 42, 'kanina pako test', '2024-11-26 06:10:47', 0),
+(281, '6cu5v8n24a', 42, 'ng test dito', '2024-11-26 06:10:48', 0),
+(282, '6cu5v8n24a', 54, 'ayos tol', '2024-11-26 06:10:52', 0),
+(283, '6cu5v8n24a', 54, 'tol', '2024-11-26 06:10:58', 0),
+(284, '6cu5v8n24a', 42, 'c', '2024-11-26 06:11:39', 0),
+(285, '6cu5v8n24a', 54, 'test', '2024-11-26 06:13:39', 0),
+(286, '6cu5v8n24a', 42, 'test', '2024-11-26 06:13:50', 0),
+(287, '6cu5v8n24a', 54, 'ayoo', '2024-11-26 06:14:27', 0),
+(288, '6cu5v8n24a', 42, 'test', '2024-11-26 06:15:36', 0),
+(289, '6cu5v8n24a', 54, 'ayo', '2024-11-26 06:15:39', 0),
+(290, '6cu5v8n24a', 54, 'check', '2024-11-26 06:17:23', 0),
+(291, '6cu5v8n24a', 42, 'test', '2024-11-26 06:17:28', 0),
+(292, '6cu5v8n24a', 54, 'test', '2024-11-26 06:18:24', 0),
+(293, '6cu5v8n24a', 42, 'test', '2024-11-26 06:18:33', 0),
+(294, '6cu5v8n24a', 42, 'test', '2024-11-26 06:19:22', 0),
+(295, '6cu5v8n24a', 54, 'tae', '2024-11-26 06:19:25', 0),
+(296, '6cu5v8n24a', 42, 'ayown', '2024-11-26 06:19:29', 0),
+(297, '6cu5v8n24a', 54, 'gumagana diba', '2024-11-26 06:19:32', 0),
+(298, '6cu5v8n24a', 42, 'asdasdasdasdas', '2024-11-26 06:20:58', 0),
+(299, '6cu5v8n24a', 42, 'test', '2024-11-26 06:22:10', 0),
+(300, '6cu5v8n24a', 54, 'test', '2024-11-26 06:22:19', 0),
+(301, '6cu5v8n24a', 42, 'test', '2024-11-26 06:22:56', 0),
+(302, '6cu5v8n24a', 54, 'chec', '2024-11-26 06:22:59', 0),
+(303, '6cu5v8n24a', 54, 'test', '2024-11-26 06:24:58', 0),
+(304, '6cu5v8n24a', 54, 'test', '2024-11-26 06:25:11', 0);
 
 -- --------------------------------------------------------
 
@@ -395,7 +474,7 @@ CREATE TABLE `orders` (
   `deliveryMethod` enum('Pickup','Delivery') NOT NULL,
   `paymentMethod` varchar(50) NOT NULL,
   `update_order_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `status` enum('unpaid','paid','on process','pending rider','on delivery','completed','cancelled') NOT NULL,
+  `status` enum('unpaid','paid','on process','order ready','pending rider','on delivery','completed','cancelled') NOT NULL,
   `delivery_address` varchar(255) DEFAULT NULL,
   `totalPrice` int(11) NOT NULL,
   `rider_id` int(10) UNSIGNED DEFAULT NULL
@@ -406,10 +485,12 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `customer_id`, `order_date`, `deliveryMethod`, `paymentMethod`, `update_order_date`, `status`, `delivery_address`, `totalPrice`, `rider_id`) VALUES
-(2005, 54, '2024-11-13 17:51:56', 'Delivery', 'gcash', '2024-11-13 17:52:11', 'paid', 'TEST ADDRESS', 160, NULL),
-(2006, 54, '2024-11-13 18:08:46', 'Delivery', 'gcash', '2024-11-13 18:08:46', 'unpaid', 'Salawag Diamond Village Blk 10 Lot 4', 320, NULL),
-(2007, 54, '2024-11-13 18:10:40', 'Delivery', 'gcash', '2024-11-13 18:10:40', 'unpaid', 'Salawag Diamond Village Blk 10 Lot 4', 320, NULL),
-(2008, 54, '2024-11-13 18:12:15', 'Delivery', 'gcash', '2024-11-13 18:12:15', 'unpaid', 'Salawag Diamond Village Blk 10 Lot 4', 320, NULL);
+(2075, 61, '2024-11-26 07:26:28', 'Pickup', 'gcash', '2024-11-26 08:25:49', 'completed', '', 160, 0),
+(2076, 61, '2024-11-26 07:37:08', 'Pickup', 'gcash', '2024-11-26 08:27:39', 'completed', '', 160, 0),
+(2077, 61, '2024-11-26 07:43:53', 'Pickup', 'gcash', '2024-11-26 08:21:27', 'completed', '', 160, 0),
+(2078, 61, '2024-11-26 07:46:52', 'Delivery', 'gcash', '2024-11-26 07:50:37', 'pending rider', 'Blk p lot 4 DASMARINAS', 160, 44),
+(2079, 61, '2024-11-26 08:11:52', 'Pickup', 'gcash', '2024-11-26 08:27:51', 'completed', '', 160, 0),
+(2080, 54, '2024-11-26 08:28:16', 'Delivery', 'gcash', '2024-11-26 08:28:33', 'pending rider', 'Salawag Diamond Village Blk 10 Lot 4', 160, 44);
 
 -- --------------------------------------------------------
 
@@ -432,9 +513,12 @@ CREATE TABLE `orders_food` (
 --
 
 INSERT INTO `orders_food` (`id`, `order_id`, `food_id`, `quantity`, `size`, `addons`, `sugar_level`) VALUES
-(183, 2005, 18, 1, 'Medium', '', '100'),
-(184, 2006, 18, 1, 'Medium', '', '100'),
-(185, 2006, 18, 1, 'medium', '', '100');
+(234, 2075, 18, 1, 'Medium', '', '100'),
+(235, 2076, 19, 1, 'Medium', '', '100'),
+(236, 2077, 18, 1, 'Medium', '', '100'),
+(237, 2078, 18, 1, 'Medium', '', '100'),
+(238, 2079, 18, 1, 'medium', '', '100'),
+(239, 2080, 19, 1, 'Medium', '', '100');
 
 -- --------------------------------------------------------
 
@@ -641,7 +725,25 @@ INSERT INTO `order_msg` (`id`, `order_id`, `sender_id`, `content`, `created_at`,
 (205, 2004, 54, 'test', '2024-11-09 10:45:11', 0),
 (206, 2004, 44, 'testing', '2024-11-09 10:45:16', 0),
 (207, 2004, 44, 'ETO NA PADATING NA TANGINA MO', '2024-11-09 10:45:31', 0),
-(208, 2004, 54, 'ABA PUTANG', '2024-11-09 10:45:40', 0);
+(208, 2004, 54, 'ABA PUTANG', '2024-11-09 10:45:40', 0),
+(209, 2006, 44, 'Hello po', '2024-11-26 06:35:49', 0),
+(210, 2006, 54, 'Saan po kayo sir', '2024-11-26 06:36:04', 0),
+(211, 2006, 44, 'hello po', '2024-11-26 06:40:30', 0),
+(212, 2006, 54, 'test', '2024-11-26 06:41:15', 0),
+(213, 2006, 54, 'test', '2024-11-26 06:41:19', 0),
+(214, 2006, 54, 'test', '2024-11-26 06:42:10', 0),
+(215, 2006, 54, 'check', '2024-11-26 06:42:16', 0),
+(216, 2006, 54, 'test', '2024-11-26 06:42:41', 0),
+(217, 2006, 44, 'test', '2024-11-26 06:43:13', 0),
+(218, 2006, 54, 'test', '2024-11-26 06:50:18', 0),
+(219, 2006, 54, 'check', '2024-11-26 06:53:05', 0),
+(220, 2006, 44, 'wag', '2024-11-26 06:53:08', 0),
+(221, 2006, 54, 'sir', '2024-11-26 06:53:11', 0),
+(222, 2006, 54, 'sir wag sir', '2024-11-26 06:53:17', 0),
+(223, 2006, 44, 'testasdasdas', '2024-11-26 06:56:21', 0),
+(224, 2006, 44, 'test', '2024-11-26 06:58:42', 0),
+(225, 2006, 44, 'tets', '2024-11-26 07:00:22', 0),
+(226, 2074, 44, 'test', '2024-11-26 07:04:12', 0);
 
 -- --------------------------------------------------------
 
@@ -715,7 +817,8 @@ CREATE TABLE `tickets` (
 --
 
 INSERT INTO `tickets` (`id`, `ticket_id`, `user_id`, `subject`, `status`, `created_at`, `updated_at`) VALUES
-(23, '6cu5v8n24a', 54, 'test', 'open', '2024-11-18 16:37:35', '2024-11-18 16:37:35');
+(23, '6cu5v8n24a', 54, '', 'open', '2024-11-18 16:37:35', '2024-11-26 06:25:10'),
+(24, 'so1vhxfi9r', 60, '', 'open', '2024-11-23 14:12:34', '2024-11-23 14:12:34');
 
 -- --------------------------------------------------------
 
@@ -755,9 +858,11 @@ INSERT INTO `user` (`id`, `name`, `email`, `password`, `address`, `secondary_add
 (51, 'Lesde Makmak', 'lesdemakmak@gmail.com', '$2b$10$Z6KZ.lMADv8d01vkoVARWOnoR0mVo9GcLwi5O4boGCPmTd4sUWLgO', '', '', 2, '2024-10-20 04:31:07', '2024-10-20 06:17:53', '', 'false', ''),
 (52, 'Pedro Pedro', 'cardosarichard222@gmail.com', '$2b$10$9.Um0SaaqJtlGjeIHFZY7uplj5ui5uMLqc7zqhL/5gXY0whQpMrFK', 'Pedro Pedro Pedro Pedro', '', NULL, '2024-10-20 13:59:47', '2024-10-20 13:59:47', 'v4riomqx5q', 'false', '09278658333'),
 (53, 'Enter Fullname', 'enterfullname@gmail.com', '$2b$10$zCILmiPdvYYNBGijSGw2XOgG.dctEhoSNB9TvTHiJbyevc.TreFJi', '', '', 1, '2024-10-20 14:03:05', '2024-10-20 14:03:05', '', 'false', ''),
-(54, 'chardgrey', 'cardosarichard@gmail.com', '$2b$10$hNkT3b45Eal.Ulwh1xSn1Owu4h/6nUyH/RqNAiaHi7ChKmKCG/2.2', 'Salawag Diamond Village Blk 10 Lot 4', '', 3, '2024-11-09 08:34:50', '2024-11-09 08:46:33', '6cu5v8n24a', 'false', '09278658322'),
+(54, 'chardgrey', 'cardosarichard@gmail.com', '$2b$10$hNkT3b45Eal.Ulwh1xSn1Owu4h/6nUyH/RqNAiaHi7ChKmKCG/2.2', 'Salawag Diamond Village Blk 10 Lot 4', '', 3, '2024-11-09 08:34:50', '2024-11-26 05:10:27', '6cu5v8n24a', 'true', '09278658322'),
 (58, 'testtestest', 'testtestest@gmail.com', '$2b$10$v7au22SwNEpcOgr9WGWiHe2dgm5BJf0k9RF.XWfcT3taPTJZU57Se', 'testtestest', '', NULL, '2024-11-13 16:53:32', '2024-11-13 16:53:32', 'yv3jhlupu3', 'false', '09278658000'),
-(59, 'Esspreso Shot', 'EsspresoShot@gmail.com', '$2b$10$UBXIpNFnfb5pkY9pWg4Tsea3S0atX38S7r2LSuwcUTPPbCcToI.Ym', 'Esspreso Shot', '', 1, '2024-11-13 16:56:06', '2024-11-13 16:56:06', 'fd9tzmw0b6', 'false', '09278655555');
+(59, 'Esspreso Shot', 'EsspresoShot@gmail.com', '$2b$10$UBXIpNFnfb5pkY9pWg4Tsea3S0atX38S7r2LSuwcUTPPbCcToI.Ym', 'Esspreso Shot', '', 1, '2024-11-13 16:56:06', '2024-11-13 16:56:06', 'fd9tzmw0b6', 'false', '09278655555'),
+(60, 'test chat', 'testchat@gmail.com', '$2b$10$N8JzqdDJxXKozV5JTk2TyeTLpIV6sStKqQteOcHTMNcfhPziciZAy', 'test chat', '', 3, '2024-11-23 14:12:19', '2024-11-23 14:12:19', 'so1vhxfi9r', 'false', '09278658888'),
+(61, 'test', 'test@usa.com', '$2b$10$nZE4Gdtpu.UCwpxzdx0vN.S8b8Kfd1.xMnG18x4T3UpPH9oa0KK.y', 'Blk p lot 4 DASMARINAS', '', 3, '2024-11-26 04:53:36', '2024-11-26 04:53:36', 'g8bs02nkap', 'false', '09278658888');
 
 --
 -- Indexes for dumped tables
@@ -900,25 +1005,25 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `addons`
 --
 ALTER TABLE `addons`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=238;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=290;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(50) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(50) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `cms_pages`
@@ -936,31 +1041,31 @@ ALTER TABLE `discount_codes`
 -- AUTO_INCREMENT for table `foods`
 --
 ALTER TABLE `foods`
-  MODIFY `id` int(50) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
+  MODIFY `id` int(50) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
 
 --
 -- AUTO_INCREMENT for table `food_sizes`
 --
 ALTER TABLE `food_sizes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=192;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
 
 --
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=233;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=305;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2009;
+  MODIFY `order_id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2081;
 
 --
 -- AUTO_INCREMENT for table `orders_food`
 --
 ALTER TABLE `orders_food`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
 
 --
 -- AUTO_INCREMENT for table `order_addons`
@@ -972,7 +1077,7 @@ ALTER TABLE `order_addons`
 -- AUTO_INCREMENT for table `order_msg`
 --
 ALTER TABLE `order_msg`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=209;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=227;
 
 --
 -- AUTO_INCREMENT for table `order_msg_id`
@@ -996,13 +1101,13 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(100) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- Constraints for dumped tables
