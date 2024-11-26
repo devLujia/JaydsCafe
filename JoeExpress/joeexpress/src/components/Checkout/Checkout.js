@@ -104,20 +104,20 @@ export default function Checkout() {
 
     toastId.current = toast.success(
         <>
-            <div className="text-center mb-4 text-sm sm:text-md md:text-lg tracking-wide">
-                Are you sure about your order?
-            </div>
-            <div className="text-center my-4 text-sm sm:text-md md:text-lg">
-                You can cancel your order within:
-            </div>
-            <div className="w-full flex justify-center shrink-0 gap-3">
-                <button
+                <div className="text-center mb-4 text-sm sm:text-md md:text-lg font-semibold tracking-wide">
+                    Are you sure about your order?
+                </div>
+                <div className="text-center my-4 text-sm sm:text-md md:text-lg">
+                    You can cancel your order within:
+                </div>
+                <div className="flex flex-wrap justify-center gap-4">
+                <button 
                 onClick={handleCloseModal}
-                className="cursor-pointer py-2 px-4 bg-red-600 hover:bg-red-500 font-semibold tracking-wide text-white rounded-md"
-                >
-                Cancel
-                </button>
-            </div>
+                type="button"
+                class="px-5 py-2.5 text-sm font-medium text-white bg-red-600 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">
+                        Cancel
+                    </button>
+                </div>
         </>,
       {
         position: "center",
@@ -138,9 +138,9 @@ export default function Checkout() {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             width: 'auto',
+            minWidth: '200px',
             maxWidth: '90vw', 
             height: 'auto', 
-            padding: '1rem',
             textAlign: 'center',
             boxShadow: '5px 5px 15px #888888',
         },
@@ -157,22 +157,26 @@ export default function Checkout() {
         toast.update(toastId.current, {
           render: (
             <>
-              <div className='mb-4 text-xl tracking-wide'>Are you sure about your order?</div>
-              <div className='my-2'>You can cancel your order within:</div>
-              <div className='w-full flex flex-row justify-evenly items-center gap-3'>
+              <div className="text-center mb-4 text-sm sm:text-md md:text-lg font-semibold tracking-wide">
+                Are you sure about your order?
+            </div>
+            <div className="text-center my-4 text-sm sm:text-md md:text-lg">
+                You can cancel your order within:
+            </div>
+            <div className="w-full flex flex-wrap justify-center items-center gap-4">
                 <button
                     onClick={handleCloseModal}
-                    className='flex-1 min-w-[120px] sm:w-auto cursor-pointer py-3 px-5 bg-red-600 hover:bg-red-500 font-semibold tracking-wide text-white rounded-md text-center'
+                    className="flex-1 min-w-[120px] sm:w-auto cursor-pointer py-3 px-5 bg-red-600 hover:bg-red-500 font-semibold tracking-wide text-white rounded-md text-center"
                 >
                     Cancel
                 </button>
                 <button
                     onClick={handleCheckout}
-                    className='text-sm flex-1 min-w-[200px] sm:w-auto cursor-pointer py-3 bg-textgreenColor hover:bg-green-500 font-semibold tracking-wide text-white rounded-md text-center'
+                    className="flex-1 min-w-[220px] sm:w-auto cursor-pointer py-3 px-[10px] bg-textgreenColor hover:bg-green-500 font-semibold tracking-wide text-white rounded-md text-center"
                 >
-                    Confirm ({newTime}s remaining)
+                    Proceed({newTime}s remaining)
                 </button>
-              </div>
+            </div>
             </>
           ),
         });
