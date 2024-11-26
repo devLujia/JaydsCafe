@@ -1144,7 +1144,7 @@ useEffect(() => {
 
 
         {ChatModal && (
-        <div id="chat-container" className="fixed bottom-16 lg:bottom-16 lg:right-8 md:bottom-16 w-96 max-w-full sm:w-80 md:right-10 xs:w-full sm:bottom-4 sm:right-0 z-50">
+        <div id="chat-container" className="fixed bottom-16 lg:bottom-16 lg:right-8 md:bottom-16 w-96 max-w-full sm:w-80 md:right-10 xs:w-full sm:bottom-4 sm:right-0 z-50 px-5">
           <div className="bg-cards2 shadow-md rounded-lg max-w-lg w-full">
             <div className="p-4 border-b bg-textgreenColor text-white rounded-t-lg flex justify-between items-center">
               <p className="text-lg font-semibold">JaydsBot</p>
