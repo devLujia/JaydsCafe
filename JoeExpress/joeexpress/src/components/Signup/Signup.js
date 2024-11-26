@@ -167,7 +167,8 @@ function Signup() {
           try {
               const res = await axios.post('http://localhost:8081/signup', trimmedValues);
               if (res.data.success === true) {
-                  navigate('/login'); // Redirect to login page on success
+                  alert("Sign up succesfully");
+                  navigate('/login');
               } else {
                   alert("Signup failed. Pl=");
               }

@@ -1,4 +1,4 @@
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap" rel="stylesheet"></link>
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -16,6 +16,8 @@ import 'aos/dist/aos.css';
 import Terms from '../UserModal/TermsAndCondition/Terms'
 import ChatComponent from '../UserModal/ChatService/ChatComponent'
 import socket from '../AdminModule/Message/socketService';
+import { Alert } from '@mui/material';
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap" rel="stylesheet"></link>
 
 
 function Home() {
@@ -95,7 +97,7 @@ function Home() {
       { sender: "bot", text: "Feel free to ask me anything. Like our location 🥤" },
       { sender: "bot", text: "Feel free to ask me anything. Like our email 🥤" },
       { sender: "bot", text: "Feel free to ask me anything. Like our Facebook 🥤" },
-      { sender: "bot", text: "Feel free to ask me anything. Like our Hello 🥤" },
+      { sender: "bot", text: "Feel free to ask me anything. Like Hello 🥤" },
       { sender: "bot", text: "Feel free to ask me anything. Like our Email 🥤" },
       { sender: "bot", text: "Feel free to ask me anything. Like our Phone 🥤" },
     ]);
@@ -156,6 +158,7 @@ function Home() {
   const [statusMessage, setStatusMessage] = useState("");
   const [userInput, setUserInput] = useState("");
 
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -201,7 +204,6 @@ function Home() {
   const toggleFAQ3 = () => {
     setFAQ3(!FAQ3);
   };
-
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -440,12 +442,14 @@ function Home() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatusMessage("");
-
+  
     try {
+
+      e.preventDefault();
+      setStatusMessage("");
+
       const response = await axios.post("http://localhost:8081/contact", formData);
-      setStatusMessage("Message sent successfully!");
+      alert("Message sent successfully!");
       setFormData({ firstName: "", lastName: "", email: "", message: "" });
     } catch (error) {
       setStatusMessage("Failed to send the message. Please try again.");
@@ -1128,7 +1132,7 @@ useEffect(() => {
     <div class="scroll-progress "></div> {/* <!-- for scroll effect sa taas --> */}
 
     {/* <!-- Chat button / chat box / chat bot --> */}
-    {authenticated === true ? (
+    {authenticated === true && profile?.verified === "true" ? (
         <ChatComponent name={profile?.name} userId={profile?.id} ticketId={profile?.verification_token} />
       ) : (
         <>
@@ -1147,7 +1151,7 @@ useEffect(() => {
         <div id="chat-container" className="fixed bottom-16 lg:bottom-16 lg:right-8 md:bottom-16 w-96 max-w-full sm:w-80 md:right-10 xs:w-full sm:bottom-4 sm:right-0 z-50 px-5">
           <div className="bg-cards2 shadow-md rounded-lg max-w-lg w-full">
             <div className="p-4 border-b bg-textgreenColor text-white rounded-t-lg flex justify-between items-center">
-              <p className="text-lg font-semibold">JaydsBot</p>
+              <p className="text-lg font-semibold">Jayds Bot</p>
               <button
                 onClick={toggleChatModal}
                 className="text-gray-300 hover:text-gray-400 focus:outline-none focus:text-gray-400"
@@ -1171,11 +1175,13 @@ useEffect(() => {
 
             {/* Chatbox */}
             <div id="chatbox" className="p-4 h-80 overflow-y-auto">
+              <p>You cannot access live chat, since your email does not verified yet. Please check your email</p>
+
               {messages.map((message, index) => (
                 <div key={index} className={`mb-2 ${message.sender === "bot" ? "" : "text-right"}`}>
                   <p
                     className={`${
-                      message.sender === "bot" ? "bg-gray-200 text-gray-700" : "bg-blue-500 text-white"
+                      message.sender === "bot" ? "bg-gray-200 text-gray-700 rounded-lg py-2 px-4" : "bg-blue-500 text-white"
                     } rounded-lg py-2 px-4 inline-block`}
                   >
                     {message.text}

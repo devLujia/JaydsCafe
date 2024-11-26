@@ -171,7 +171,7 @@ export default function Order_New() {
         return () => { 
             socket.off('orders');  
         };
-     }, [socket,updateOrder]);  
+     }, [updateOrder]);  
     
     useEffect(()=>{
 
@@ -208,20 +208,30 @@ export default function Order_New() {
                 }
      }
 
-     const getTheOrder = ( id, stats) => {
+     const getTheOrder = ( id, stats, method) => {
 
         let newStatus = ''; 
 
-        if (stats === 'unpaid') {
-            newStatus = 'paid';
-        }
-      
-        else if (stats === 'paid') {
-          newStatus = 'on process';
-        } 
-        
-        else if (stats === 'on process') {
-          newStatus = 'pending rider';
+        if (method === 'Delivery') {
+
+            if (stats === 'unpaid') {
+                newStatus = 'paid';
+            } else if (stats === 'paid') {
+                newStatus = 'on process';
+            } else if (stats === 'on process') {
+                newStatus = 'pending rider';
+            }
+
+        } else if (method === 'Pickup') {
+            if (stats === 'unpaid') {
+                newStatus = 'paid';
+            } else if (stats === 'paid') {
+                newStatus = 'on process';
+            } else if (stats === 'on process') {
+                newStatus = 'order ready';
+            } else if (stats === 'order ready') {
+                newStatus = 'completed';
+            }
         }
   
         setUpdateOrder(prevState => 
@@ -512,11 +522,11 @@ export default function Order_New() {
                 </li>
 
                 <li> {/* <!-- Sign Out --> */}
-                    <a href="/public/Html_Admin/adminLogin.html" class="flex items-center p-2 text-gray-600 transition duration-75 rounded-lg hover:bg-greenColor dark:text-white group hover:text-white">
+                    <a href="#" class="flex items-center p-2 text-gray-600 transition duration-75 rounded-lg hover:bg-greenColor dark:text-white group hover:text-white">
                         <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75  group-hover:text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"/>
                         </svg>
-                        <span class="ms-3">Sign Out</span>
+                        <span onClick={handleLogout} class="ms-3">Sign Out</span>
                     </a>
                 </li>
 
@@ -630,100 +640,129 @@ export default function Order_New() {
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {currentOrders.map(order => (
-                                                                <React.Fragment key={order?.order_id}>
-                                                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-white">
-                                                                        <td className="px-6 py-4 text-center text-gray-900 cursor-pointer dark:text-white" onClick={() => toggleOrderDetails(order?.order_id)} title="View Order(s)">
-                                                                            <div className="text-base font-semibold">ORDR#{order?.order_id}</div>
-                                                                        </td>
-                                                                        <td className="px-6 py-4 text-center">{order?.name}</td>
-                                                                        <td className="px-6 py-4 text-center">{order?.address}</td>
-                                                                        <td className="px-6 py-4 text-center">WALA PA</td>
-                                                                        <td className="px-6 py-4 text-center">
-                                                                            {new Date(order?.order_date).toLocaleString('en-US', {
-                                                                                year: 'numeric',
-                                                                                month: 'long',
-                                                                                day: 'numeric',
-                                                                                hour: '2-digit',
-                                                                                minute: '2-digit',
-                                                                                second: '2-digit',
-                                                                            })}
-                                                                        </td>
-                                                                        <td className="px-6 py-4 text-center font-semibold text-green-500">
-                                                                            ₱{order?.totalPrice}.00
-                                                                        </td>
-                                                                        <td className="px-6 py-4">
-                                                                                {order?.status === 'paid' ? (
-                                                                                        <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order?.status.toUpperCase()}</div>
-                                                                                    ) : order?.status === 'on process' ? (
-                                                                                        <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order?.status.toUpperCase()}</div>
-                                                                                    ) : order?.status === 'pending rider' ? (
-                                                                                        <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order?.status.toUpperCase()}</div>
-                                                                                    ) : order?.status === 'unpaid' ? (
-                                                                                        <div className="bg-red-100 text-red-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order?.status.toUpperCase()}</div>
-                                                                                    ) : (
-                                                                                        ''
-                                                                                    )}
-                                                                        </td>
-                                                                        <td className="px-6 py-4">
+                                                        {currentOrders.map(order => (
+                                                            <React.Fragment key={order?.order_id}>
+                                                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-white">
+                                                                    <td className="px-6 py-4 text-center text-gray-900 cursor-pointer dark:text-white" onClick={() => toggleOrderDetails(order?.order_id)} title="View Order(s)">
+                                                                        <div className="text-base font-semibold">ORDR#{order?.order_id}</div>
+                                                                    </td>
+                                                                    <td className="px-6 py-4 text-center">{order?.name}</td>
+                                                                    <td className="px-6 py-4 text-center">{order?.address}</td>
+                                                                    <td className="px-6 py-4 text-center">{order?.pnum}</td>
+                                                                    <td className="px-6 py-4 text-center">
+                                                                        {new Date(order?.order_date).toLocaleString('en-US', {
+                                                                            year: 'numeric',
+                                                                            month: 'long',
+                                                                            day: 'numeric',
+                                                                            hour: '2-digit',
+                                                                            minute: '2-digit',
+                                                                            second: '2-digit',
+                                                                        })}
+                                                                    </td>
+                                                                    <td className="px-6 py-4 text-center font-semibold text-green-500">
+                                                                        ₱{order?.totalPrice}.00
+                                                                    </td>
+                                                                    <td className="px-6 py-4">
                                                                         {order?.status === 'paid' ? (
-                                                                                <button onClick={() => getTheOrder(order?.order_id, order?.status)} className="py-2 px-3 bg-yellow-500 text-white rounded-full">
-                                                                                    Mark as 'on process'
+                                                                            <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order?.status.toUpperCase()}</div>
+                                                                        ) : order?.status === 'on process' ? (
+                                                                            <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order?.status.toUpperCase()}</div>
+                                                                        ) : order?.status === 'pending rider' ? (
+                                                                            <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order?.status.toUpperCase()}</div>
+                                                                        ) : order?.status === 'unpaid' ? (
+                                                                            <div className="bg-red-100 text-red-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order?.status.toUpperCase()}</div>
+                                                                        ) : order?.status === 'order ready' ? (
+                                                                            <div className="bg-blue-100 text-blue-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{order?.status.toUpperCase()}</div>
+                                                                        ) : (
+                                                                            ''
+                                                                        )}
+                                                                    </td>
+                                                                    <td className="px-6 py-4">
+                                                                        {order?.status === 'unpaid' ? (
+                                                                            <button 
+                                                                                onClick={() => getTheOrder(order?.order_id, order?.status, order?.deliveryMethod)} 
+                                                                                className="py-2 px-3 bg-red-500 text-white rounded-full hover:bg-red-600 transition"
+                                                                            >
+                                                                                Mark as Paid
+                                                                            </button>
+                                                                        ) : order?.status === 'paid' ? (
+                                                                            <button 
+                                                                                onClick={() => getTheOrder(order?.order_id, order?.status, order?.deliveryMethod)} 
+                                                                                className="py-2 px-3 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition"
+                                                                            >
+                                                                                Mark as 'on process'
+                                                                            </button>
+                                                                        ) : order?.status === 'on process' ? (
+                                                                            order?.deliveryMethod === 'Pickup' ? (
+                                                                                <button 
+                                                                                    onClick={() => getTheOrder(order?.order_id, order?.status, order?.deliveryMethod)} 
+                                                                                    className="py-2 px-3 bg-green-500 text-white rounded-full hover:bg-green-600 transition"
+                                                                                >
+                                                                                    Order's Ready
+
                                                                                 </button>
-                                                                            ) : order?.status === 'on process' ? (
-                                                                                <div>
-                                                                                    <label htmlFor="rider-select">Choose a rider:</label>
+                                                                            ) : (
+                                                                                <div className="space-y-4">
+                                                                                    <label htmlFor="rider-select" className="text-sm font-semibold text-gray-700">
+                                                                                        Choose a rider:
+                                                                                    </label>
                                                                                     <select
                                                                                         onChange={(e) => setSelectedRiders(e.target.value)}
-                                                                                        className="bg-transparent text-gray-600 font-semibold p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                                                                                        className="bg-transparent text-gray-600 font-semibold p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
                                                                                     >
-                                                                                        <option value='0'>
-                                                                                            Select Rider
-                                                                                        </option>
+                                                                                        <option value="0">Select Rider</option>
                                                                                         {riders.map(rider => (
                                                                                             <option key={rider?.id} value={rider?.id}>
                                                                                                 {rider?.name}
                                                                                             </option>
                                                                                         ))}
                                                                                     </select>
-                                                                                    <button className="py-2 px-3 bg-yellow-500 text-white rounded-full" onClick={() => getOrderWithRider(selectedRiders, order?.order_id, order?.status)}>Assign Rider</button>
+                                                                                    <button 
+                                                                                        onClick={() => getOrderWithRider(selectedRiders, order?.order_id, order?.status)} 
+                                                                                        className="py-2 px-3 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition w-full"
+                                                                                    >
+                                                                                        Assign Rider
+                                                                                    </button>
                                                                                 </div>
-                                                                            ) : order?.status === 'unpaid' ? (
-                                                                                <button onClick={() => getTheOrder(order?.order_id, order?.status)}className="py-2 px-3 bg-red-500 text-white rounded-full">
-                                                                                    Mark as Paid
-                                                                                </button>
-                                                                            ) : (
-                                                                                ''
-                                                                            )}
-
-                                                                        </td>
-                                                                        <td>
-                                                                            <button onClick={() => cancelOrder(order?.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title="Delete">
-                                                                                <img src={del} alt="trash" />
+                                                                            )
+                                                                        ) : order?.status === 'order ready' ? (
+                                                                            <button 
+                                                                                onClick={() => getTheOrder(order?.order_id, order?.status, order?.deliveryMethod)} 
+                                                                                className="py-2 px-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition"
+                                                                            >
+                                                                                Mark as Completed
                                                                             </button>
+                                                                        ) : (
+                                                                            ''
+                                                                        )}
+                                                                    </td>
+                                                                    <td>
+                                                                        <button onClick={() => cancelOrder(order?.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title="Delete">
+                                                                            <img src={del} alt="trash" />
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                                {expandedOrderId === order?.order_id && (
+                                                                    <tr>
+                                                                        <td colSpan="9" className="bg-gray-100 dark:bg-gray-700">
+                                                                            <div className="px-6 py-4">
+                                                                                <div className="text-sm text-gray-600 dark:text-gray-300">
+                                                                                    <strong>Order Items:</strong>
+                                                                                    <ul className="mt-2 space-y-2 list-disc list-inside">
+                                                                                        Sugar level: {order?.sugar_level} %
+                                                                                        {order?.food_details.split(';').map((detail, index) => (
+                                                                                            <li key={index} className="py-1 w-full text-left">
+                                                                                                {detail.trim()}
+                                                                                            </li>
+                                                                                        ))}
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </div>
                                                                         </td>
                                                                     </tr>
-                                                                    {expandedOrderId === order?.order_id && (
-                                                                        <tr>
-                                                                            <td colSpan="9" className="bg-gray-100 dark:bg-gray-700">
-                                                                                <div className="px-6 py-4">
-                                                                                    <div className="text-sm text-gray-600 dark:text-gray-300">
-                                                                                        <strong>Order Items:</strong>
-                                                                                        <ul className="mt-2 space-y-2 list-disc list-inside">
-                                                                                            Sugar level: {order?.sugar_level} %
-                                                                                            {order?.food_details.split(';').map((detail, index) => (
-                                                                                                <li key={index} className="py-1 w-full text-left">
-                                                                                                    {detail.trim()}
-                                                                                                </li>
-                                                                                            ))}
-                                                                                        </ul>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                    )}
-                                                                </React.Fragment>
-                                                            ))}
+                                                                )}
+                                                            </React.Fragment>
+                                                        ))}
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -811,9 +850,7 @@ export default function Order_New() {
                                                                 <th scope="col" class="px-6 py-3">
                                                                     Action
                                                                 </th>
-                                                                <th scope="col" class="px-6 py-3">
-                                                                    
-                                                                </th>
+                                                                
                                                             </tr>
                                                         </thead>
 
@@ -831,7 +868,7 @@ export default function Order_New() {
                                                                     {order?.address}
                                                                 </td>
                                                                 <td className="px-6 py-4 text-center">
-                                                                    WALA PA
+                                                                    {order?.pnum}
                                                                 </td>
                                                                 <td className="px-6 py-4 text-center">
                                                                     {new Date(order?.order_date).toLocaleString('en-US', {
@@ -857,8 +894,8 @@ export default function Order_New() {
                                                                 <td className=" px-6 py-4 ">
                                                                 
                                                                 <button onClick={()=> cancelOrder(order?.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title='Delete'>
-                                                                            <img src={del} alt="trash" />
-                                                                        </button>
+                                                                        <img src={del} alt="trash" />
+                                                                    </button>
                                                                 </td>
 
                                                                 <td></td>
@@ -973,15 +1010,15 @@ export default function Order_New() {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {currentOrderHistory.filter(orderh => orderh.status !== 'pending rider' && orderh.status !== 'on delivery').map(orderh => (
+                                                        {currentOrderHistory.filter(orderh => orderh?.status !== 'pending rider' && orderh?.status !== 'on delivery').map(orderh => (
                                                             <React.Fragment key={orderh.order_id}>
                                                                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                                                     <th scope="row" className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white text-center">
                                                                         <div className="text-base font-semibold">ORDR#{orderh.order_id}</div>
                                                                     </th>
-                                                                    <td className="px-6 py-4 text-center">{orderh.name}</td>
-                                                                    <td className="px-6 py-4 text-center">{orderh.address}</td>
-                                                                    <td className="px-6 py-4 text-center text-yellow-500 font-medium">WALA PA</td>
+                                                                    <td className="px-6 py-4 text-center">{orderh?.name}</td>
+                                                                    <td className="px-6 py-4 text-center">{orderh?.address}</td>
+                                                                    <td className="px-6 py-4 text-center text-yellow-500 font-medium">{orderh?.pnum}</td>
                                                                     <td className="px-6 py-4 text-center">
                                                                         {new Date(orderh.update_order_date).toLocaleString('en-US', {
                                                                             year: 'numeric',
@@ -996,10 +1033,10 @@ export default function Order_New() {
                                                                         ₱{orderh.totalPrice.toFixed(2)}
                                                                     </td>
                                                                     <td className="px-6 py-4 text-center">
-                                                                        {orderh.status === 'completed' ? (
-                                                                            <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{orderh.status}</div>
+                                                                        {orderh?.status === 'completed' ? (
+                                                                            <div className="bg-green-100 text-green-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{orderh?.status}</div>
                                                                         ) : (
-                                                                            <div className="bg-red-100 text-red-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{orderh.status}</div>
+                                                                            <div className="bg-red-100 text-red-600 font-semibold w-fit py-2 px-4 rounded-3xl mx-auto">{orderh?.status}</div>
                                                                         )}
                                                                     </td>
                                                                     <td className="px-6 py-4 text-center">

@@ -15,6 +15,8 @@ const app = express();
 const http = require("http");
 const { error } = require("console");
 const server = http.createServer(app);
+const imap = require('imap-simple');
+const { simpleParser } = require('mailparser');
 
 const io = new Server(server);
 
@@ -48,6 +50,18 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24
     }
 }));
+
+const config = {
+    imap: {
+      user: EMAIL, // Replace with your Gmail
+      password: PASSWORD, // Use App Password, not Gmail password
+      host: 'imap.gmail.com',
+      port: 993,
+      tls: true,
+      tlsOptions: { rejectUnauthorized: false },
+      authTimeout: 3000,
+    },
+  };
 
 
 const storage = multer.diskStorage({
@@ -622,11 +636,6 @@ app.post('/login', async (req, res) => {
 
     const userData = data[0];
 
-    // Check if the account is verified
-    if (!userData.verified) {
-      return res.status(401).json({ error: 'Account not verified. Please check your email for verification instructions.' });
-    }
-
     // Verify password
     const isMatch = await bcrypt.compare(password, userData.password);
     
@@ -1161,10 +1170,6 @@ app.post('/adminlogin',async (req, res) => {
         } 
         
         const userData = data[0];
-
-        if (!userData.verified) {
-            return res.status(401).json({ error: 'Account not verified. Please check your email for verification instructions.' });
-        }
         
         if (isMatch && data[0].role === 1){
             req.session.userId = userData.id;
@@ -1231,6 +1236,7 @@ app.post('/adminTable', async (req,res) => {
                         c.title, 
                         f.description, 
                         fs.price,
+                        fs.size,
                         COUNT(DISTINCT ofood.id) AS sold, 
                         (fs.price * COUNT(DISTINCT ofood.id)) AS profit
                     FROM 
@@ -1244,7 +1250,7 @@ app.post('/adminTable', async (req,res) => {
                     JOIN
                         orders o ON ofood.order_id = o.order_id
                     GROUP BY 
-                        f.id, f.name, f.description, f.image_url, c.title, fs.price;
+                        f.id, f.name, f.description, f.image_url, c.title, fs.price, fs.size;
                     `
 
       db.query(query,(error, result) => {
@@ -1461,12 +1467,13 @@ app.post('/addProduct', upload.single('image_url') , (req, res) =>{
         const medSizeQuery = `INSERT INTO food_sizes(food_id, size , price) 
                             VALUES (?,?,?)`
 
-        db.query(medSizeQuery, [lastfoodsId, sizeName ,price], (sizeErr, sizeResult)=> {
-            if(sizeErr){
-                res.json({sizeErr: "Unable to add into food_sizes"})
+        db.query(medSizeQuery, [lastfoodsId, sizeName, price], (sizeErr, sizeResult) => {
+            if (sizeErr) {
+                return res.status(500).json({ sizeErr: "Unable to add into food_sizes" });
             }
-            
-        })
+        
+            res.status(200).json({ message: "Successfully added size to food_sizes" });
+        });
 
 
     })
@@ -2042,43 +2049,45 @@ app.post('/removeProduct',  async (req, res) =>{
     app.post('/orderTracking', (req,res) =>{
 
         const query = 
-        `SELECT 
-    o.order_id, 
-    u.name,
-    u.address,
-    u.pnum,
-    o.customer_id, 
-    o.order_date, 
-    o.status,
-    o.totalPrice, 
-    GROUP_CONCAT(
-        CONCAT('Food Name: ',
-            f.name, ' ( Size: ', 
-            ofd.size, ', Quantity: ', 
-            ofd.quantity, ', Addons: ', 
-            IFNULL(ofd.addons, ''), ')'
-        ) ORDER BY f.name SEPARATOR ', '
-    ) AS food_details
-FROM 
-    orders o
-JOIN 
-    orders_food ofd ON ofd.order_id = o.order_id
-JOIN 
-    foods f ON f.id = ofd.food_id
-JOIN 
-    user u ON u.id = o.customer_id
-WHERE o.status IN ('on process', 'paid')
-GROUP BY 
-    o.order_id, 
-    u.name,
-    u.address,
-    u.pnum,
-    o.customer_id, 
-    o.order_date, 
-    o.status
-ORDER BY 
-    o.order_date ASC;
-`
+                    `SELECT 
+                o.order_id, 
+                u.name,
+                u.address,
+                u.pnum,
+                o.customer_id, 
+                o.order_date, 
+                o.deliveryMethod,
+                o.status,
+                o.totalPrice, 
+                GROUP_CONCAT(
+                    CONCAT('Food Name: ',
+                        f.name, ' ( Size: ', 
+                        ofd.size, ', Quantity: ', 
+                        ofd.quantity, ', Addons: ', 
+                        IFNULL(ofd.addons, ''), ')'
+                    ) ORDER BY f.name SEPARATOR ', '
+                ) AS food_details
+            FROM 
+                orders o
+            JOIN 
+                orders_food ofd ON ofd.order_id = o.order_id
+            JOIN 
+                foods f ON f.id = ofd.food_id
+            JOIN 
+                user u ON u.id = o.customer_id
+            WHERE o.status IN ('on process', 'paid', 'order ready')
+            GROUP BY 
+                o.order_id, 
+                u.name,
+                u.address,
+                u.pnum,
+                o.customer_id, 
+                o.order_date, 
+                o.status,
+                o.deliveryMethod
+            ORDER BY 
+                o.order_date ASC;
+            `
 
         db.query(query, (err, result) => {
             if (err) {
@@ -2093,42 +2102,44 @@ ORDER BY
 
         const query = 
         `
-        SELECT 
-            o.order_id, 
-            u.name,
-            u.address,
-            o.customer_id, 
-            o.order_date,
-            o.update_order_date, 
-            o.status,
-            o.totalPrice, 
-            GROUP_CONCAT(
-                CONCAT('Food Name: ',
-                    f.name, ' ( Size: ', 
-                    ofd.size, ', Quantity: ', 
-                    ofd.quantity, ', Addons: ', 
-                    IFNULL(ofd.addons, ''), ')'
-                ) ORDER BY f.name SEPARATOR ', '
-            ) AS food_details
-FROM 
-            orders o
-JOIN 
-            orders_food ofd ON ofd.order_id = o.order_id
-JOIN 
-            foods f ON f.id = ofd.food_id
-JOIN 
-            user u ON u.id = o.customer_id
-WHERE o.status IN ('completed', 'cancelled' , 'on delivery' , 'pending rider')
-GROUP BY 
-            o.order_id, 
-            u.name,
-            u.address,
-            o.customer_id, 
-            o.order_date,
-            o.update_order_date, 
-            o.status
-ORDER BY 
-            o.update_order_date DESC;
+                    SELECT 
+                o.order_id, 
+                u.name,
+                u.address,
+                o.customer_id, 
+                o.order_date,
+                o.update_order_date, 
+                o.status,
+                o.deliveryMethod,
+                o.totalPrice, 
+                GROUP_CONCAT(
+                    CONCAT('Food Name: ',
+                        f.name, ' ( Size: ', 
+                        ofd.size, ', Quantity: ', 
+                        ofd.quantity, ', Addons: ', 
+                        IFNULL(ofd.addons, ''), ')'
+                    ) ORDER BY f.name SEPARATOR ', '
+                ) AS food_details
+            FROM 
+                orders o
+            JOIN 
+                orders_food ofd ON ofd.order_id = o.order_id
+            JOIN 
+                foods f ON f.id = ofd.food_id
+            JOIN 
+                user u ON u.id = o.customer_id
+            WHERE o.status IN ('completed', 'cancelled', 'on delivery', 'pending rider')
+            GROUP BY 
+                o.order_id, 
+                u.name,
+                u.address,
+                o.customer_id, 
+                o.order_date,
+                o.update_order_date, 
+                o.status,
+                o.deliveryMethod
+            ORDER BY 
+                o.update_order_date DESC;
 
              
         `
@@ -2358,7 +2369,8 @@ ORDER BY
                 u.address,
                 u.secondary_address, 
                 r.title as role,
-                u.verification_token 
+                u.verification_token,
+                u.verified   
             FROM 
                 user u 
             INNER JOIN 
@@ -2571,43 +2583,43 @@ ORDER BY
             const query = 
                     `
                     SELECT 
-    o.order_id, 
-    u.name,
-    u.address,
-    u.pnum,
-    o.customer_id, 
-    o.order_date, 
-    o.status,
-    o.totalPrice,
-    ofd.sugar_level, 
-    GROUP_CONCAT(
-        CONCAT('Food Name: ',
-            f.name, ' ( Size: ', 
-            ofd.size, ', Quantity: ', 
-            ofd.quantity, ', Addons: ', 
-            IFNULL(ofd.addons, ''), ')'
-        ) ORDER BY f.name SEPARATOR ', '
-    ) AS food_details
-FROM 
-    orders o
-JOIN 
-    orders_food ofd ON ofd.order_id = o.order_id
-JOIN 
-    foods f ON f.id = ofd.food_id
-JOIN 
-    user u ON u.id = o.customer_id
-WHERE o.status IN ('on process', 'paid', 'unpaid')
-GROUP BY 
-    o.order_id, 
-    u.name,
-    u.address,
-    u.pnum,
-    o.customer_id, 
-    o.order_date, 
-    o.status
-ORDER BY 
-    o.order_date ASC;
-
+                o.order_id, 
+                u.name,
+                u.address,
+                u.pnum,
+                o.customer_id, 
+                o.order_date, 
+                o.deliveryMethod,
+                o.status,
+                o.totalPrice, 
+                GROUP_CONCAT(
+                    CONCAT('Food Name: ',
+                        f.name, ' ( Size: ', 
+                        ofd.size, ', Quantity: ', 
+                        ofd.quantity, ', Addons: ', 
+                        IFNULL(ofd.addons, ''), ')'
+                    ) ORDER BY f.name SEPARATOR ', '
+                ) AS food_details
+            FROM 
+                orders o
+            JOIN 
+                orders_food ofd ON ofd.order_id = o.order_id
+            JOIN 
+                foods f ON f.id = ofd.food_id
+            JOIN 
+                user u ON u.id = o.customer_id
+            WHERE o.status IN ('unpaid','on process', 'paid', 'order ready')
+            GROUP BY 
+                o.order_id, 
+                u.name,
+                u.address,
+                u.pnum,
+                o.customer_id, 
+                o.order_date, 
+                o.status,
+                o.deliveryMethod
+            ORDER BY 
+                o.order_date ASC;
                         
                     `
 
@@ -2640,8 +2652,11 @@ ORDER BY
                 role,
                 message,
                 author,
-                createdAt: new Date().toLocaleTimeString()
-              });
+                time:  new Date(Date.now()).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                }),
+            });
       
           });
         });
@@ -2664,7 +2679,10 @@ ORDER BY
               role,
               message,
               author, 
-              createdAt: new Date().toLocaleTimeString() 
+              time: new Date(Date.now()).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+              }),
             });
       
             console.log(`Message sent in room ${room}`);
@@ -2859,7 +2877,11 @@ ORDER BY
       app.post('/getOrderId', (req, res) => {
         const {userId} = req.body;
 
-        const sql = `SELECT order_id FROM orders where rider_id = ? ORDER BY order_date DESC `;
+        const sql = `SELECT o.order_id, u.name 
+                        FROM orders o
+                        JOIN user u ON o.customer_id = u.id
+                        WHERE o.rider_id = ? 
+                        ORDER BY o.order_date DESC; `;
 
         db.query(sql,[userId], (err, results) => {
             if (err) {
@@ -3032,7 +3054,7 @@ ORDER BY
           const mailOptions = {
             from: `"${firstName} ${lastName}" <${email}>`,
             to: process.env.EMAIL,
-            subject: `New Contact Us Message from ${firstName} ${lastName}`,
+            subject: `New Message from ${firstName} ${lastName}`,
             text: `Message from ${firstName} ${lastName} (${email}):\n\n${message}`,
           };
       
@@ -3045,7 +3067,102 @@ ORDER BY
           res.status(500).json({ error: "Failed to send email. Please try again later." });
         }
     });
+
+
+    async function fetchEmails() {
+        try {
+          const connection = await imap.connect(config);
+          await connection.openBox('INBOX');
       
+          const searchCriteria = ['UNSEEN']; // Fetch unread emails
+          const fetchOptions = {
+            bodies: ['HEADER', 'TEXT'],
+            struct: true,
+          };
+      
+          const messages = await connection.search(searchCriteria, fetchOptions);
+      
+          const emails = await Promise.all(
+            messages.map(async (message) => {
+              // Parse email header and body
+              const headerPart = message.parts.find((part) => part.which === 'HEADER');
+              const textPart = message.parts.find((part) => part.which === 'TEXT');
+      
+              // Parse header information
+              const headers = headerPart ? headerPart.body : {};
+              const subject = headers.subject ? headers.subject[0] : 'No Subject';
+              const from = headers.from ? headers.from[0] : 'Unknown Sender';
+              const date = headers.date ? headers.date[0] : 'Unknown Date';
+      
+              // Parse body
+              const body = textPart ? textPart.body : 'No Body';
+      
+              return {
+                subject,
+                from,
+                date,
+                body,
+              };
+            })
+          );
+      
+          connection.end();
+          return emails;
+        } catch (error) {
+          console.error('Error fetching emails:', error);
+          throw error;
+        }
+      }
+      
+      
+      // REST API Endpoint to Fetch Emails
+      app.get('/emails', async (req, res) => {
+        try {
+          const emails = await fetchEmails();
+          res.json(emails);
+        } catch (error) {
+          res.status(500).send('Error fetching emails');
+        }
+      });
+
+      const transporter = nodemailer.createTransport({
+        service: 'gmail', // You can use other email services like Yahoo, Outlook, etc.
+        auth: {
+            user: EMAIL, // Replace with your email
+            pass: PASSWORD,  // Replace with your email password or an app-specific password if using Gmail
+        },
+    });
+      
+
+      app.post('/sendMessage', async (req, res) => {
+
+
+        const { recipient, subject, body } = req.body;
+    
+        // Validate the required fields
+        if (!recipient || !subject || !body) {
+            return res.status(400).json({ error: 'Recipient, subject, and body are required' });
+        }
+    
+        // Set up the mail options
+        const mailOptions = {
+            from: EMAIL,
+            to: recipient,
+            subject: subject,        
+            text: body,        
+        };
+    
+        try {
+            // Send the email using Nodemailer
+            await transporter.sendMail(mailOptions);
+    
+            // Respond to the frontend with success
+            return res.status(200).json({ message: 'Message sent successfully!' });
+        } catch (error) {
+            console.error('Error sending email:', error);
+            return res.status(500).json({ error: 'An error occurred while sending the message' });
+        }
+    });
 
 server.listen(8081, () => {
     console.log("Connected");

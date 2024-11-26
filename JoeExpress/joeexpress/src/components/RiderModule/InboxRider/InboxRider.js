@@ -40,10 +40,10 @@ export default function InboxRider() {
             room: specificOrderId,
             userId: userId,
             message: currentMessage,
-            time:
-          new Date(Date.now()).getHours()+
-          ":" +
-          new Date(Date.now()).getMinutes(),
+            time: new Date(Date.now()).toLocaleTimeString([], {
+               hour: '2-digit',
+               minute: '2-digit',
+             }),
          };
 
          // Emit message to the server
@@ -64,7 +64,10 @@ export default function InboxRider() {
             role: 'Rider',
             userId: userId,
             message: currentMessage,
-            time: `${new Date(Date.now()).getHours()}:${new Date(Date.now()).getMinutes()}`
+            time: new Date(Date.now()).toLocaleTimeString([], {
+               hour: '2-digit',
+               minute: '2-digit',
+             }),
          };
 
          // Emit message to the server
@@ -176,6 +179,21 @@ useEffect(() => {
       }
     }, [specificOrderId]);  
 
+    const handleLogout = async () => {
+      try {
+      const res = await axios.post('http://localhost:8081/logout');
+      if (res.data.success) {
+          // eslint-disable-next-line no-restricted-globals
+          location.reload();
+          navigate('/');
+      } else {
+          console.log('Logout Failed');
+      }
+      } catch (error) {
+      console.error('Error during logout:', error);
+      }
+  };
+
 
   return (
     <div className='bg-slate-100 h-screen'>
@@ -197,7 +215,7 @@ useEffect(() => {
                     <img src={notif}></img>
                 </button>
                 <div class="px-4 py-3 text-sm text-gray-900 flex flex-col items-center justify-end dark:text-white">
-                    <div class="font-bold">Migz Gomez Go</div>
+                    <div class="font-bold">{profile?.name}</div>
                     <div class="items-center justify-center">Rider</div>
                 </div>
 
@@ -252,11 +270,11 @@ useEffect(() => {
                         </a>
                     </li>
                     <li> {/* <!-- Sign Out --> */}
-                        <a href="/RiderLogin" class="flex items-center p-2 text-gray-600 transition duration-75 rounded-lg hover:bg-greenColor  group hover:text-white">
+                        <a href="#" class="flex items-center p-2 text-gray-600 transition duration-75 rounded-lg hover:bg-greenColor  group hover:text-white">
                             <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75  group-hover:text-white " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"/>
                             </svg>
-                            <span class="ms-3">Sign Out</span>
+                            <span onClick={handleLogout} class="ms-3">Sign Out</span>
                         </a>
                     </li>
                 </ul>
@@ -306,8 +324,9 @@ useEffect(() => {
                         />
                      </div>
                      <div class="w-full">
-                        <div class="text-md tracking-wider dark:text-white hover:text-gray-900">{order?.order_id}</div>
-                        <span class="text-gray-500 text-sm">Contents</span>
+                        <span class="text-gray-900 text-sm">Customer name : {order?.name}</span>
+                        <div class="text-sm tracking-wider dark:text-white hover:text-gray-900">Order No. {order?.order_id}</div>
+                        
                      </div>
                   </div> ))}
                   
@@ -348,29 +367,47 @@ useEffect(() => {
                            </div>
                         </div> */}
                          {messages.map((messageContent) => (
-                        <div
+                           <div
                               key={messageContent.id}
                               className={`mb-2 flex ${messageContent.sender_id === userId ? 'justify-end' : 'justify-start'}`}
-                              >
-                              <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
+                           >
+                              <div className="flex flex-col">
+                                 <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
                                  {messageContent.sender_id !== userId
-                                    ? `Me: ${messageContent.content}`
-                                    : `${messageContent.name}: ${messageContent.content}`}
-                              </p>
-                              </div>
-                           ))}
-
-                        {messageList.map((messageContent) => {
-
-                           return (
-                              <div key={messageContent.id || messageContent.timestamp} className={`mb-2 flex ${messageContent.userId === userId  ? 'justify-end' : 'justify-start'}`}>
-                                 <p className={`bg-blue-500 text-white rounded-lg py-2 px-4 inline-block`}>
-                                 {messageContent.author === "Rider" ? `Me: ${messageContent.message}` : `${messageContent.author}: ${messageContent.message}`}
+                                    ? `${messageContent.name}: ${messageContent.content}`
+                                    : `${messageContent.content}`}
+                                 </p>
+                                 {/* Formatted created_at time */}
+                                 <p className={`text-xs text-gray-600 mt-1 ${messageContent.sender_id === userId ? `text-right`: `text-left`}`}>
+                                 {new Date(messageContent.created_at).toLocaleTimeString([], {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                 })}
                                  </p>
                               </div>
+                           </div>
+                           ))}
+
+                           {messageList.map((messageContent) => {
+                           return (
+                              <div
+                                 key={messageContent.id || messageContent.timestamp}
+                                 className={`mb-2 flex ${messageContent.userId === userId ? 'justify-end' : 'justify-start'}`}
+                              >
+                                 <div className="flex flex-col">
+                                 <p className={`bg-blue-500 text-white rounded-lg py-2 px-4 inline-block`}>
+                                    {messageContent.author === "Rider" 
+                                       ? `${messageContent.message}` 
+                                       : `${messageContent.author}: ${messageContent.message}`}
+                                 </p>
+                                 {/* Time placed below the message */}
+                                 <p className={`text-xs text-gray-600 mt-1 ${messageContent.userId === userId ? `text-right`: `text-left`}`}>
+                                    {messageContent.time}
+                                 </p>
+                                 </div>
+                              </div>
                            );
-                           
-                     })}
+                           })}
                         
                      </div>
 
