@@ -706,11 +706,11 @@ export default function Message() {
          </div>
          
          <div class="flex flex-col p-4 sm:ml-64 md:pl-14 py-2 ">
-            <div class=" overflow-x-auto pb-4">
+            <div class=" overflow-x-auto pb-4 h-[500px]">
                <div class="min-w-full inline-block align-middle">
                   <div class="overflow-hidden  border rounded-lg border-gray-300">
                      <table class="table-auto min-w-full rounded-xl">
-                        <thead className='border-b-2'>
+                        <thead className='border-b-2 sticky top-0 z-10'>
                            <tr class="bg-gray-50 Capitalize font-semibold">
                               <th scope="col"></th>
                               <th scope="col" class="p-5 text-left whitespace-nowrap text-xl leading-6 text-gray-900 min-w-[150px]"> Contact us message </th>

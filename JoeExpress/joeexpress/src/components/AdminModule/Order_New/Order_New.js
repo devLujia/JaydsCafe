@@ -6,6 +6,7 @@ import user from '../../image/UserAcc.svg';
 import jaydsLogo from '../../image/jayds cafe Logo.svg';
 import del from '../../image/trashbin(2).svg'
 import socket from '../Message/socketService'
+import Modal from './ConfirmationModal';
 
 
 import { Link, useNavigate } from 'react-router-dom';
@@ -367,6 +368,13 @@ export default function Order_New() {
             return doc.body.textContent || "";
           }
 
+        const [isModalOpen, setIsModalOpen] = useState(false);
+        const [modalConfig, setModalConfig] = useState({});
+
+        const openModal = (title, message, onConfirm) => {
+            setModalConfig({ title, message, onConfirm });
+            setIsModalOpen(true);
+        };
   return (
     <div className=''>
          {/* <!-- nav --> */}
@@ -678,64 +686,103 @@ export default function Order_New() {
                                                                         )}
                                                                     </td>
                                                                     <td className="px-6 py-4">
-                                                                        {order?.status === 'unpaid' ? (
-                                                                            <button 
-                                                                                onClick={() => getTheOrder(order?.order_id, order?.status, order?.deliveryMethod)} 
-                                                                                className="py-2 px-3 bg-red-500 text-white rounded-full hover:bg-red-600 transition"
-                                                                            >
-                                                                                Mark as Paid
-                                                                            </button>
-                                                                        ) : order?.status === 'paid' ? (
-                                                                            <button 
-                                                                                onClick={() => getTheOrder(order?.order_id, order?.status, order?.deliveryMethod)} 
-                                                                                className="py-2 px-3 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition"
-                                                                            >
-                                                                                Mark as 'on process'
-                                                                            </button>
-                                                                        ) : order?.status === 'on process' ? (
-                                                                            order?.deliveryMethod === 'Pickup' ? (
-                                                                                <button 
-                                                                                    onClick={() => getTheOrder(order?.order_id, order?.status, order?.deliveryMethod)} 
-                                                                                    className="py-2 px-3 bg-green-500 text-white rounded-full hover:bg-green-600 transition"
-                                                                                >
-                                                                                    Order's Ready
+            {order?.status === 'unpaid' ? (
+                <button
+                    onClick={() =>
+                        openModal(
+                            'Mark as Paid',
+                            'Are you sure you want to mark this order as Paid?',
+                            () => getTheOrder(order?.order_id, order?.status, order?.deliveryMethod)
+                        )
+                    }
+                    className="py-2 px-3 bg-red-500 text-white rounded-full hover:bg-red-600 transition"
+                >
+                    Mark as Paid
+                </button>
+            ) : order?.status === 'paid' ? (
+                <button
+                    onClick={() =>
+                        openModal(
+                            'Mark as On Process',
+                            'Are you sure you want to mark this order as "on process"?',
+                            () => getTheOrder(order?.order_id, order?.status, order?.deliveryMethod)
+                        )
+                    }
+                    className="py-2 px-3 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition"
+                >
+                    Mark as 'on process'
+                </button>
+            ) : order?.status === 'on process' ? (
+                order?.deliveryMethod === 'Pickup' ? (
+                    <button
+                        onClick={() =>
+                            openModal(
+                                "Order's Ready",
+                                'Is the order ready for pickup?',
+                                () => getTheOrder(order?.order_id, order?.status, order?.deliveryMethod)
+                            )
+                        }
+                        className="py-2 px-3 bg-green-500 text-white rounded-full hover:bg-green-600 transition"
+                    >
+                        Order's Ready
+                    </button>
+                ) : (
+                    <div className="space-y-4">
+                        <label htmlFor="rider-select" className="text-sm font-semibold text-gray-700">
+                            Choose a rider:
+                        </label>
+                        <select
+                            onChange={(e) => setSelectedRiders(e.target.value)}
+                            className="bg-transparent text-gray-600 font-semibold p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+                        >
+                            <option value="0">Select Rider</option>
+                            {riders.map((rider) => (
+                                <option key={rider?.id} value={rider?.id}>
+                                    {rider?.name}
+                                </option>
+                            ))}
+                        </select>
+                        <button
+                            onClick={() =>
+                                openModal(
+                                    'Assign Rider',
+                                    'Are you sure you want to assign this rider?',
+                                    () => getOrderWithRider(selectedRiders, order?.order_id, order?.status)
+                                )
+                            }
+                            className="py-2 px-3 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition w-full"
+                        >
+                            Assign Rider
+                        </button>
+                    </div>
+                )
+            ) : order?.status === 'order ready' ? (
+                <button
+                    onClick={() =>
+                        openModal(
+                            'Mark as Completed',
+                            'Are you sure you want to mark this order as Completed?',
+                            () => getTheOrder(order?.order_id, order?.status, order?.deliveryMethod)
+                        )
+                    }
+                    className="py-2 px-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition"
+                >
+                    Mark as Completed
+                </button>
+            ) : (
+                ''
+            )}
 
-                                                                                </button>
-                                                                            ) : (
-                                                                                <div className="space-y-4">
-                                                                                    <label htmlFor="rider-select" className="text-sm font-semibold text-gray-700">
-                                                                                        Choose a rider:
-                                                                                    </label>
-                                                                                    <select
-                                                                                        onChange={(e) => setSelectedRiders(e.target.value)}
-                                                                                        className="bg-transparent text-gray-600 font-semibold p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
-                                                                                    >
-                                                                                        <option value="0">Select Rider</option>
-                                                                                        {riders.map(rider => (
-                                                                                            <option key={rider?.id} value={rider?.id}>
-                                                                                                {rider?.name}
-                                                                                            </option>
-                                                                                        ))}
-                                                                                    </select>
-                                                                                    <button 
-                                                                                        onClick={() => getOrderWithRider(selectedRiders, order?.order_id, order?.status)} 
-                                                                                        className="py-2 px-3 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition w-full"
-                                                                                    >
-                                                                                        Assign Rider
-                                                                                    </button>
-                                                                                </div>
-                                                                            )
-                                                                        ) : order?.status === 'order ready' ? (
-                                                                            <button 
-                                                                                onClick={() => getTheOrder(order?.order_id, order?.status, order?.deliveryMethod)} 
-                                                                                className="py-2 px-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition"
-                                                                            >
-                                                                                Mark as Completed
-                                                                            </button>
-                                                                        ) : (
-                                                                            ''
-                                                                        )}
-                                                                    </td>
+            <Modal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onConfirm={modalConfig.onConfirm}
+                title={modalConfig.title}
+                message={modalConfig.message}
+                confirmText="Confirm"
+                cancelText="Cancel"
+            />
+        </td>
                                                                     <td>
                                                                         <button onClick={() => cancelOrder(order?.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title="Delete">
                                                                             <img src={del} alt="trash" />

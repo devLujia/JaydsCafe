@@ -235,29 +235,29 @@ export default function OrderRider() {
                 <div class="p-4 sm:ml-8">
                     {/* Cards top container */}
                      <div className='w-full flex gap-2'>
-                        <button className={`w-full rounded-lg text-gray-500 bg-white font-semibold hover:text-gray-900 ${
-                            activeTab === 'pending' ? 'text-greenColor bg-slate-300 shadow-xl text-lg font-semibold' : 'border-gray-300'
+                        <button className={`w-full rounded-lg text-gray-500 bg-white hover:text-greenColor ${
+                            activeTab === 'pending' ? 'text-greenColor bg-slate-300 shadow-xl text-xl font-bold' : 'border-gray-300 font-semibold'
                             }`}
                             onClick={() => handleTabClick('pending')}
                             type="button"
                             role="tab">
                             Pending
                         </button>
-                        <button className={`w-full rounded-lg text-gray-500 bg-white font-semibold hover:text-gray-900 ${
-                            activeTab === 'active' ? 'text-greenColor bg-slate-300 shadow-xl text-lg font-semibold' : 'border-gray-300'
+                        <button className={`w-full rounded-lg text-gray-500 bg-white hover:text-greenColor ${
+                            activeTab === 'active' ? 'text-greenColor bg-slate-300 shadow-xl text-xl font-bold' : 'border-gray-300 font-semibold'
                             }`}
                             onClick={() => handleTabClick('active')}
                             type="button"
                             role="tab">
                             Active
                         </button>
-                        <button className={`w-full rounded-lg text-gray-500 bg-white font-semibold hover:text-gray-900 ${
-                            activeTab === 'complete' ? 'text-greenColor bg-slate-300 shadow-xl text-lg font-semibold' : 'border-gray-300'
+                        <button className={`w-full rounded-lg text-gray-500 bg-white hover:text-greenColor ${
+                            activeTab === 'complete' ? 'text-greenColor bg-slate-300 shadow-xl text-xl font-bold' : 'border-gray-300 font-semibold'
                             }`}
                             onClick={() => handleTabClick('complete')}
                             type="button"
                             role="tab">
-                            Complete
+                            Completed
                         </button>
                      </div>
                     {/* main container of pending order */}
@@ -268,7 +268,7 @@ export default function OrderRider() {
             
                                {orders.filter((order) => order?.status === 'pending rider' ).map(order => (
                                 <div key={order?.order_id}>
-                                <div  class="group w-full shadow-md hover:bg-gray-100 bg-white border-2 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600 dark:bg-gray-500 dark:border-gray-800 dark:hover:border-indigo-300">
+                                <div  class="group w-full shadow-md hover:bg-gray-100 bg-white border-2 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-greenColor dark:bg-gray-500 dark:border-gray-800 dark:hover:border-indigo-300">
                                     <div class="relative flex items-center gap-5 mb-6">
                                         <img src={user} alt="Jane avatar"></img>
                                         <div class="grid gap-1">

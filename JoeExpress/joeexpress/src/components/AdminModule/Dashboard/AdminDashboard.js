@@ -582,7 +582,7 @@ function AdminDashboard() {
                   {/* Contacts */}
                   <div class="overflow-y-auto max-h-full pb-2">
                   {ticketId.map((ticket) => (
-                     <div key={ticket.ticket_id} class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
+                     <div key={ticket.ticket_id} class="relative flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
                         <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
                         <img
                            src={`data:image/svg+xml,${encodeURIComponent(
@@ -601,6 +601,9 @@ function AdminDashboard() {
                            <h2 class="text-lg font-semibold">{ticket?.ticket_id || 'NO TICKET ID'}</h2>
                            <p class="text-gray-600">{ticket?.subject || "No Subject"}</p>
                         </div>
+
+                        <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full top-5 end-0 dark:border-gray-900">8</div>
+
                      </div> ))}
  
                   </div>

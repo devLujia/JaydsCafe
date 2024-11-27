@@ -167,7 +167,7 @@ export default function DashboardRider() {
                 <div>
                     <button class="flex items-center ps-2.5 mb-5" onClick={toggleSideNav}>
                         <img src={riderLogo} alt="Logo"/>
-                        <span class="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2">{cmsName}</span>
+                        <span class="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2"dangerouslySetInnerHTML={{ __html: cmsName || "Default Name" }}></span>
                     </button>
                     <ul class="space-y-2 font-medium">
                         <li> {/* <!--Dashboard  -->  text-gray-600 transition duration-75 group-hover:text-white dark:text-gray-400 dark:group-hover:text-white */}
@@ -268,7 +268,7 @@ export default function DashboardRider() {
                         {/* main container of pending order */}
                         <div className='w-full h-fit mt-4 space-y-5 '>
                             {/* pending 1 */}
-                            <div class="group w-full bg-white border-2 border-solid hover:bg-gray-300 border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600">
+                            <div class="group w-full bg-white border-2 border-solid hover:bg-gray-100 border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-greenColor">
                                 <div class="relative flex items-center gap-5 mb-6">
                                     <img src={user} alt="Jane avatar"></img>
                                     <div class="grid gap-1"> 
@@ -632,15 +632,16 @@ export default function DashboardRider() {
                         </div>
                         {/* Contacts */}
                         <div class="overflow-y-auto max-h-full pb-2 mt-5">
-                            <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
+                            <div class="relative flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
                                 <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
                                     <img src={jaydsLogo} alt="User Avatar" class="w-12 h-12 rounded-full"/>
                                 </div>
                                 <div class="flex-1">
                                     <h2 class="text-lg font-semibold">Alice</h2>
-                                    <p class="text-gray-600">Domat ni lekra</p>
+                                    <p class="text-gray-600">1 pc Hamburger, 2 soda lime</p>
                                 </div>
-                                
+
+                                <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full top-5 end-20 dark:border-gray-900">8</div>
                                 <button className='border-2 border-textgreenColor hover:bg-textgreenColor hover:text-white transition-all duration-300 py-2 px-3 font-semibold text-sm text-textgreenColor rounded-lg'>
                                     View
                                 </button>

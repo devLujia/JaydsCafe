@@ -99,7 +99,12 @@ export default function LoginRider() {
                 <div className="bg-white flex w-full max-w-5xl mx-auto my-4 rounded-lg flex-col lg:flex-row shadow-xl">
                     {/* left-side */}
                     <div className="flex justify-center items-center flex-col border-b-2 lg:border-b-0 lg:border-r-2 border-gray-300 flex-1 px-5 py-10">
-                        <h2 className="text-3xl font-bold text-center mb-5 lg:mb-10">{cmsName} Rider Account</h2>
+                        <h2
+                            className="text-3xl font-bold text-center mb-5 lg:mb-10"
+                            dangerouslySetInnerHTML={{
+                                __html: `${cmsName} Rider Account`,
+                            }}
+                        ></h2>
                         <p className="text-gray-600 text-center max-w-md mb-5 lg:mb-10">Manage your rides efficiently and stay updated with your account information.</p>
                         <img src={helmet} alt="Helmet" className="w-full max-w-xs h-auto object-contain" />
                     </div>
