@@ -217,25 +217,21 @@ return(
                             <div className="bg-white border-2 border-slate-300 rounded-lg p-4 flex items-center justify-evenly w-72 mb-6">
                                 {/* <!-- Small Size --> */}
                                 {sizes.map(size => (
-                                            <label key={size.id} className="flex flex-col items-center">
-                                            <input
-                                                type="radio"
-                                                name="size"
-                                                value={size?.size}
-                                                checked={selectedSize === size?.size}
-                                                onChange={(e) => handleInput(e, size?.size, size?.price)}
-                                                className="hidden"
-                                            />
-                                            <div className={`p-1 ${selectedSize === size?.size ? 'border-2 border-textgreenColor bg-[#d4e9e2] rounded-full' : ''}`}>
-                                                <img src={cupsmall} alt="Medium" className="h-8 w-8" />
-                                            </div>
-                                            <p className={`text-sm font-semibold ${selectedSize === size?.size ? 'text-green-500' : ''}`}>{size.size}</p>
-                                            <p className="text-xs text-gray-500">16 oz</p>
-                                        </label>
-                                          
+                                    <label key={size.id} className="flex flex-col items-center">
+                                        <input
+                                            type="radio"
+                                            name="size"
+                                            value={size?.size}
+                                            checked={selectedSize === size?.size}
+                                            onChange={(e) => handleInput(e, size?.size, size?.price)}
+                                            className="hidden"
+                                        />
+                                        <div className={`p-1 ${selectedSize === size?.size ? 'border-2 border-textgreenColor bg-[#d4e9e2] rounded-full' : ''}`}>
+                                            <img src={cupsmall} alt="Medium" className="h-8 w-8" />
+                                        </div>
+                                        <p className={`text-sm font-semibold ${selectedSize === size?.size ? 'text-green-500' : ''}`}>{size.size}</p>
+                                    </label>
                                 ))}
-
-                               
                             </div>
 
                             <div class="my-4 py-3 px-6 inline-block bg-white border-2 border-textgreenColor rounded-full " data-hs-input-number="">
@@ -433,14 +429,14 @@ return(
                                 Cancel
                             </button>
                             <button
-                            onClick={() => handleAddToCart(food)}
-                            className='bg-gradient-to-r from-[#1f4d29] via-[#2b6b36] to-[#1f4d29]
-                                        font-semibold tracking-wider text-white 
-                                        rounded-lg py-2 px-3 w-[60%] 
-                                        transition-colors duration-300 
-                                        hover:bg-gradient-to-l hover:from-[#2b6b36] hover:to-[#1f4d29] 
-                                        '
-                            >
+                                onClick={() => handleAddToCart(food)}
+                                className='bg-gradient-to-r from-[#1f4d29] via-[#2b6b36] to-[#1f4d29]
+                                            font-semibold tracking-wider text-white 
+                                            rounded-lg py-2 px-3 w-[60%] 
+                                            transition-colors duration-300 
+                                            hover:bg-gradient-to-l hover:from-[#2b6b36] hover:to-[#1f4d29] 
+                                            '
+                                >
                             Add to Order <span className='text-white ms-2'>₱{quantity && (totalPrice * quantity)}.00</span>
                             </button>
                         </div>

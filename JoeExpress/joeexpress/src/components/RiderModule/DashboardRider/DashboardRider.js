@@ -268,7 +268,7 @@ export default function DashboardRider() {
                         {/* main container of pending order */}
                         <div className='w-full h-fit mt-4 space-y-5 '>
                             {/* pending 1 */}
-                            <div class="group w-full bg-white border-2 border-solid border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600 dark:bg-gray-500 dark:border-gray-800 dark:hover:border-indigo-300">
+                            <div class="group w-full bg-white border-2 border-solid hover:bg-gray-300 border-gray-300 rounded-2xl p-6 transition-all duration-300 hover:border-indigo-600">
                                 <div class="relative flex items-center gap-5 mb-6">
                                     <img src={user} alt="Jane avatar"></img>
                                     <div class="grid gap-1"> 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import user from '../../image/UserAcc.svg'
 import notif from '../../image/notif.svg'
 import riderLogo from '../../../components/image/logoRider.svg'
@@ -194,6 +194,16 @@ useEffect(() => {
       }
   };
 
+  //for autoscroll
+  const chatboxRef = useRef(null);
+
+  useEffect(() => {
+     // Scroll to the bottom whenever messageList updates
+     if (chatboxRef.current) {
+        chatboxRef.current.scrollTop = chatboxRef.current.scrollHeight;
+     }
+  }, [messageList]);
+
 
   return (
     <div className='bg-slate-100 h-screen'>
@@ -283,9 +293,9 @@ useEffect(() => {
 
         <div class="p-4 sm:ml-64 md:pl-14 py-2 mb-0 h-fit">
             {/* This is chat */}
-            <div class="container mx-auto shadow-lg rounded-lg overflow-auto">
+            <div class="container mx-auto shadow-lg rounded-lg max-h-[500px] min-h-[500px]">
                   {/* <!-- headaer --> */}
-               <div class="px-5 py-3 flex justify-between items-center bg-white border-b-2 rounded-t-xl dark:bg-gray-900 dark:text-white">
+               <div class="px-5 py-3 flex justify-between items-center top-0 sticky bg-white border-b-2 rounded-t-xl dark:bg-gray-900 dark:text-white">
                   <div class="font-semibold text-2xl">Active Conversation</div>
                   <div class="flex flex-row">
                      <div class="text-center me-1">
@@ -299,140 +309,109 @@ useEffect(() => {
                </div>
 
                {/* <!-- Chatting --> */}
-               <div class="flex flex-row justify-between bg-white dark:bg-gray-800">
+               <div class="flex flex-row justify-between bg-white dark:bg-gray-800  max-h-[500px] min-h-[500px]">
                   {/* <!-- chat list --> */}
                   <div class="flex flex-col w-2/5 border-r-2 overflow-y-auto">
-                  {/* <!-- search compt --> */}
-                  <div class="border-b-2 py-4 px-2">
-                     <input
-                        type="text"
-                        placeholder="search chatting"
-                        class="py-2 px-2 border-2 border-gray-200 rounded-2xl w-full dark:bg-gray-800"
-                     />
-                  </div>
-                  {/* <!-- end search compt --> */}
-                  {/* <!-- user list --> */}
-                  
-                  {orderId.map((order) =>( 
-                     
-                     <div onClick={() => fetchMessages(order?.order_id || '')} class="flex flex-row py-3 px-5 justify-center items-center hover:bg-gray-200">
-                     <div class="w-1/4">
-                        <img
-                        src={user}
-                        class="object-cover h-12 w-12 rounded-full"
-                        alt=""
+                     {/* <!-- search compt --> */}
+                     <div class="border-b-2 py-4 px-2">
+                        <input
+                           type="text"
+                           placeholder="search chatting"
+                           class="py-2 px-2 border-2 border-gray-200 rounded-2xl w-full dark:bg-gray-800"
                         />
                      </div>
-                     <div class="w-full">
-                        <span class="text-gray-900 text-sm">Customer name : {order?.name}</span>
-                        <div class="text-sm tracking-wider dark:text-white hover:text-gray-900">Order No. {order?.order_id}</div>
+                     {/* <!-- end search compt --> */}
+                     {/* <!-- user list --> */}
+                     
+                     {orderId.map((order) =>( 
                         
-                     </div>
-                  </div> ))}
-                  
+                     <div onClick={() => fetchMessages(order?.order_id || '')} class="flex flex-row py-3 px-5 justify-center items-center hover:bg-gray-200 overflow-auto cursor-pointer">
+                        <div class="w-1/4">
+                           <img
+                           src={user}
+                           class="object-cover h-12 w-12 rounded-full"
+                           alt=""
+                           />
+                        </div>
+                        <div class="w-full">
+                           <span class="text-gray-900 text-sm">Customer name : {order?.name}</span>
+                           <div class="text-sm tracking-wider dark:text-white hover:text-gray-900">Order No. {order?.order_id}</div>
+                           
+                        </div>
+                     </div> ))}
                   {/* <!-- end user list --> */}
                   </div>
-                  {/* <!-- end chat list --> */}
 
                   {/* <!-- message --> */}
-                  <div class="w-full px-5 flex flex-col justify-between overflow-auto">
-                     <div class="flex flex-col mt-5 ">
-                        {/* <div class="flex justify-start mb-4">
-                           <div class="ml-2 py-3 px-4 bg-blue-200 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white max-w-[50%]">
-                              Tara kila migz! 9:00 pm. sagot ko na hapunan natin!
-                           </div>
-                        </div>
-                        <div class="flex justify-end mb-4">
-                           <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white max-w-[50%]">
-                              Welcome to group everyone !
-                           </div>
-                        </div>
-                        <div class="flex justify-start mb-4"> 
-                           <div class="ml-2 py-3 px-4 bg-blue-200 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white max-w-[50%]">
-                              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
-                              at praesentium, aut ullam delectus odio error sit rem. Architecto
-                              nulla doloribus laborum illo rem enim dolor odio saepe,
-                              consequatur quas?
-                           </div>
-                        </div>
-                        <div class="flex justify-end mb-4">
-                           <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white max-w-[50%]">
-                              Edi wow pukinang ngina ina ka!
-                           </div>
-                        </div>
-                        <div class="flex justify-start mb-4"> 
-                           <div class="ml-2 py-3 px-4 bg-blue-200 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white max-w-[50%]">
-                              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
-                              at praesentium.
-                           </div>
-                        </div> */}
-                         {messages.map((messageContent) => (
-                           <div
-                              key={messageContent.id}
-                              className={`mb-2 flex ${messageContent.sender_id === userId ? 'justify-end' : 'justify-start'}`}
-                           >
-                              <div className="flex flex-col">
-                                 <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
-                                 {messageContent.sender_id !== userId
-                                    ? `${messageContent.name}: ${messageContent.content}`
-                                    : `${messageContent.content}`}
-                                 </p>
-                                 {/* Formatted created_at time */}
-                                 <p className={`text-xs text-gray-600 mt-1 ${messageContent.sender_id === userId ? `text-right`: `text-left`}`}>
-                                 {new Date(messageContent.created_at).toLocaleTimeString([], {
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                 })}
-                                 </p>
+                  <div className="w-full px-5 flex flex-col justify-between">
+                     {/* Messages container with scroll */}
+                     <div className="flex flex-col mt-5 overflow-y-auto flex-grow" ref={chatboxRef}>
+                        {/* First set of messages */}
+                        {messages.map((messageContent) => (
+                              <div
+                                 key={messageContent.id}
+                                 className={`mb-2 flex ${messageContent.sender_id === userId ? 'justify-end' : 'justify-start'}`}
+                              >
+                                 <div className="flex flex-col">
+                                    <p className="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">
+                                          {messageContent.sender_id !== userId
+                                             ? `${messageContent.name}: ${messageContent.content}`
+                                             : `${messageContent.content}`}
+                                    </p>
+                                    <p
+                                          className={`text-xs text-gray-600 mt-1 ${messageContent.sender_id === userId ? `text-right` : `text-left`}`}
+                                    >
+                                          {new Date(messageContent.created_at).toLocaleTimeString([], {
+                                             hour: '2-digit',
+                                             minute: '2-digit',
+                                          })}
+                                    </p>
+                                 </div>
                               </div>
-                           </div>
-                           ))}
+                        ))}
 
-                           {messageList.map((messageContent) => {
-                           return (
+                        {/* Second set of messages */}
+                        {messageList.map((messageContent) => (
                               <div
                                  key={messageContent.id || messageContent.timestamp}
                                  className={`mb-2 flex ${messageContent.userId === userId ? 'justify-end' : 'justify-start'}`}
                               >
                                  <div className="flex flex-col">
-                                 <p className={`bg-blue-500 text-white rounded-lg py-2 px-4 inline-block`}>
-                                    {messageContent.author === "Rider" 
-                                       ? `${messageContent.message}` 
-                                       : `${messageContent.author}: ${messageContent.message}`}
-                                 </p>
-                                 {/* Time placed below the message */}
-                                 <p className={`text-xs text-gray-600 mt-1 ${messageContent.userId === userId ? `text-right`: `text-left`}`}>
-                                    {messageContent.time}
-                                 </p>
+                                    <p className={`bg-blue-500 text-white rounded-lg py-2 px-4 inline-block`}>
+                                          {messageContent.author === "Rider"
+                                             ? `${messageContent.message}`
+                                             : `${messageContent.author}: ${messageContent.message}`}
+                                    </p>
+                                    <p
+                                          className={`text-xs text-gray-600 mt-1 ${messageContent.userId === userId ? `text-right` : `text-left`}`}
+                                    >
+                                          {messageContent.time}
+                                    </p>
                                  </div>
                               </div>
-                           );
-                           })}
-                        
+                        ))}
                      </div>
 
-                     <label for="search" class="text-sm font-medium text-gray-900 sr-only dark:text-white">Type Something here.</label>
-                     <div class="relative ">
-                     <form onSubmit={sendMessage}>
-            <input
-               type="text"
-               value={currentMessage}
-               onChange={(e) => setCurrentMessage(e.target.value)}
-               onKeyDown={handleKeyDown}
-               placeholder="Type your message..."
-               class="mb-2 block w-full p-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-            />
-            <button type="submit">Send</button>
-         </form>
-                        {/* <input type="text" value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        placeholder="Type a message"
-                        id="search" 
-                        class="mb-2 block w-full p-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                        />
-                        <button onClick={sendMessage} class="text-white absolute end-2.5 bottom-3 bg-textgreenColor hover:bg-green-800 focus:ring-2 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><img src={send}></img></button>
-                      */}
-                     
+                     {/* Input form fixed at the bottom */}
+                     <div className="relative mt-2">
+                        <form onSubmit={sendMessage}>
+                              <div className="flex items-center justify-center space-x-2">
+                                 <input
+                                    type="text"
+                                    value={currentMessage}
+                                    onChange={(e) => setCurrentMessage(e.target.value)}
+                                    onKeyDown={handleKeyDown}
+                                    placeholder="Type your message..."
+                                    className="mb-2 block w-full p-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                 />
+                                 <button
+                                    type="submit"
+                                    className="bg-blue-500 text-white px-6 py-3 mb-2 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+                                 >
+                                    Send
+                                 </button>
+                              </div>
+                        </form>
                      </div>
                   </div>
                   {/* <!-- end message --> */}

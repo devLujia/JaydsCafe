@@ -105,13 +105,7 @@ export default function PaymentSuccess() {
       }
   }, [paymentIntentId, OrderId, userId]);
 
-  const navigateToTracking = () => {
-      if (success === 'success') {
-          navigate(`/tracking/${OrderId}`);
-      } else {
-          navigate(`/Checkout`);
-      }
-  };
+  
 
   useEffect(()=>{
 
@@ -225,9 +219,9 @@ export default function PaymentSuccess() {
                 </div>
                 <div className='flex flex-col w-full gap-y-4 font-bold tracking-wide mb-2 px-3'>
                 {OrderId ? (
-                        <button onClick={navigateToTracking} className='bg-textgreenColor hover:bg-green-500 transition duration-500 w-full rounded-full text-center text-lg text-white py-3 '>
-                        {success === 'success' ?  "View Order Status" : "Go back to Checkout"}
-                    </button>
+                        <button onClick={() =>  navigate(`/tracking/${OrderId}`)} className='bg-textgreenColor hover:bg-green-500 transition duration-500 w-full rounded-full text-center text-lg text-white py-3 '>
+                            View Order Status
+                        </button>
                     ) : (
                         <p>Order ID not found</p>
                     )}

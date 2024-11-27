@@ -59,7 +59,7 @@ export default function Checkout() {
     
     //toast
     const [isCancelled, setIsCancelled] = useState(false);
-    const [remainingTime, setRemainingTime] = useState(5); // Countdown 5 seconds
+    const [remainingTime, setRemainingTime] = useState(15); // Countdown 5 seconds
     const timeoutRef = useRef(null);
     const intervalRef = useRef(null);
     const toastId = useRef(null);
@@ -98,9 +98,15 @@ export default function Checkout() {
 
     };
 
+    const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+
+    const handleOpenCancel = () => setIsCancelModalOpen(true);
+    const handleCloseCancel = () => setIsCancelModalOpen(false);
+
+
     const notifyAndProceed = () => {
         setIsCancelled(false);
-        setRemainingTime(5); // Reset countdown
+        setRemainingTime(15); // Reset countdown
 
     toastId.current = toast.success(
         <>
@@ -112,7 +118,7 @@ export default function Checkout() {
                 </div>
                 <div className="flex flex-wrap justify-center gap-4">
                 <button 
-                onClick={handleCloseModal}
+                onClick={handleOpenCancel}
                 type="button"
                 class="px-5 py-2.5 text-sm font-medium text-white bg-red-600 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">
                         Cancel
@@ -126,6 +132,7 @@ export default function Checkout() {
         closeOnClick: true, 
         pauseOnHover: false,
         draggable: false,
+        closeButton: false,
         onClose: () => {
           setIsCancelled(true);
           clearTimeout(timeoutRef.current); // Stop checkout process on close
@@ -142,6 +149,7 @@ export default function Checkout() {
             maxWidth: '90vw', 
             height: 'auto', 
             textAlign: 'center',
+            zIndex: 999,
             boxShadow: '5px 5px 15px #888888',
         },
       }
@@ -157,7 +165,7 @@ export default function Checkout() {
         toast.update(toastId.current, {
           render: (
             <>
-              <div className="text-center mb-4 text-sm sm:text-md md:text-lg font-semibold tracking-wide">
+            <div className="text-center mb-4 text-sm sm:text-md md:text-lg font-semibold tracking-wide">
                 Are you sure about your order?
             </div>
             <div className="text-center my-4 text-sm sm:text-md md:text-lg">
@@ -165,7 +173,7 @@ export default function Checkout() {
             </div>
             <div className="w-full flex flex-wrap justify-center items-center gap-4">
                 <button
-                    onClick={handleCloseModal}
+                    onClick={handleOpenCancel}
                     className="flex-1 min-w-[120px] sm:w-auto cursor-pointer py-3 px-5 bg-red-600 hover:bg-red-500 font-semibold tracking-wide text-white rounded-md text-center"
                 >
                     Cancel
@@ -451,7 +459,6 @@ export default function Checkout() {
                                     />
                                     <div className='flex flex-col py-4 overflow-hidden'>
                                         <label htmlFor="add1" class="w-full ms-3 text-sm font-medium text-gray-900 tracking-wide">{profile.address}</label>
-                                        {/* <label htmlFor="add1" class="w-full ms-3 text-sm font-normal text-gray-700 tracking-wide">Imus, Cavite, 1401, Phillipines</label> */}
                                     </div>
                                 </label>
                                 {profile.secondary_address &&
@@ -467,7 +474,6 @@ export default function Checkout() {
                                         />
                                         <div className='flex flex-col py-4 overflow-hidden'>
                                             <label htmlFor="add2" class="w-full ms-3 text-sm font-medium text-gray-900 tracking-wide">{profile.secondary_address}</label>
-                                            {/* <label htmlFor="add1" class="w-full ms-3 text-sm font-normal text-gray-700 tracking-wide">Imus, Cavite, 1401, Phillipines</label> */}
                                         </div>
                                     </label>)}
                                 
@@ -531,90 +537,108 @@ export default function Checkout() {
 
                 {/* Payment */}
                 <div className='my-10'>
-                    <h1 className='text-2xl text-black'>
-                        Payment
-                    </h1>
-                    <p className='text-md text-gray-600'>
-                        All transactions are secure and encrypted.
-                    </p>
+                    <h1 className='text-2xl text-black'>Payment</h1>
+                    <p className='text-md text-gray-600'>All transactions are secure and encrypted.</p>
 
-                    <div className='space-y-2' > {/* Main container */}
-                        <div class="group"> {/* Gcash option */}
-                            <label htmlFor="gcash" class="inline-flex px-4 py-3 justify-between items-center w-full text-white bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor hover:bg-gray-100 ">
+                    <div className='space-y-2'> {/* Main container */}
+                        <div className="group"> {/* Gcash option */}
+                            <label htmlFor="gcash" className="inline-flex px-4 py-3 justify-between items-center w-full text-white bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor hover:bg-gray-100">
                                 <div className='inline-flex items-center'>
-                                    <input type="radio" 
-                                    id="gcash" 
-                                    name="payment" 
-                                    value="gcash" 
-                                    class="peer text-textgreenColor focus:ring-textgreenColor " 
-                                    onChange={handlePaymentChange} 
-                                    checked={selectedPayment === 'gcash'}
-                                    required
+                                    <input
+                                        type="radio"
+                                        id="gcash"
+                                        name="payment"
+                                        value="gcash"
+                                        className="peer text-textgreenColor focus:ring-textgreenColor"
+                                        onChange={handlePaymentChange}
+                                        checked={selectedPayment === 'gcash'}
+                                        required
                                     />
                                     <h1 className='text-black px-3'>Gcash</h1>
-                                    <a data-tooltip-id="my-tooltip" data-tooltip-content="Hello to you too!" title='After clicking "Pay with GCash", you will be redirected to GCash to complete your
-purchase securely.'>
-                                        <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="blue" viewBox="0 0 20 20">
+                                    <a
+                                        data-tooltip-id="my-tooltip"
+                                        data-tooltip-content="Hello to you too!"
+                                        title='After clicking "Pay with GCash", you will be redirected to GCash to complete your purchase securely.'
+                                    >
+                                        <svg className="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="blue" viewBox="0 0 20 20">
                                             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
                                         </svg>
                                     </a>
                                 </div>
                                 <div className='hidden md:inline-flex justify-center items-center text-md bg-blue-800 rounded-lg px-9 py-2 cursor-auto'>
-                                    <img src={gcash} className='me-2 '></img>Gcash 
+                                    <img src={gcash} className='me-2' alt="Gcash Logo"/>Gcash
                                 </div>
                             </label>
                         </div>
 
-                        {/* old Cash option */}
-                        {/* <div class="group"> 
-                            <label htmlFor="cash" class="inline-flex px-4 py-5 justify-between items-center w-full text-white bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor hover:bg-gray-100 ">
-                                <div className='inline-flex items-center'>
-                                    <input type="radio" 
-                                    id="cash" 
-                                    name="payment" 
-                                    value="cash" 
-                                    class="peer text-textgreenColor focus:ring-textgreenColor " 
-                                    onChange={handlePaymentChange}
-                                    checked={selectedPayment === 'cash'}
-                                    required/>
-                                    {riderNote?.option === 'pickup' ? <h1 className='text-black ps-3'>Cash</h1> : <h1 className='text-black ps-3'>Cash on Delivery</h1>}
-                                </div>
-                            </label>
-                        </div> */}
-
-                        {/* niremove ko yung cash button option kapag pick up */}
+                        {/* Remove the cash button option if pickup */}
                         {riderNote?.option !== 'pickup' && (
                             <div className="group"> {/* Cash on Delivery option */}
                                 <label htmlFor="cash" className="inline-flex px-4 py-5 justify-between items-center w-full text-white bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor hover:bg-gray-100">
-                                <div className="inline-flex items-center">
-                                    <input
-                                    type="radio"
-                                    id="cash"
-                                    name="payment"
-                                    value="cash"
-                                    className="peer text-textgreenColor focus:ring-textgreenColor"
-                                    onChange={handlePaymentChange}
-                                    checked={selectedPayment === 'cash'}
-                                    required
-                                    />
-                                    <h1 className="text-black ps-3">Cash on Delivery (COD)</h1>
-                                </div>
+                                    <div className="inline-flex items-center">
+                                        <input
+                                            type="radio"
+                                            id="cash"
+                                            name="payment"
+                                            value="cash"
+                                            className="peer text-textgreenColor focus:ring-textgreenColor"
+                                            onChange={handlePaymentChange}
+                                            checked={selectedPayment === 'cash'}
+                                            required
+                                        />
+                                        <h1 className="text-black ps-3">Cash on Delivery (COD)</h1>
+                                    </div>
                                 </label>
                             </div>
                         )}
                     </div>
+
                     <div className='inline-flex items-center justify-center py-4'>
-                        <img src={lock} className=' filter grayscale'></img> <h1 className='text-sm text-gray-500'>Secure and encrypted</h1>
+                        <img src={lock} className='filter grayscale' alt="Lock Icon"/> 
+                        <h1 className='text-sm text-gray-500'>Secure and encrypted</h1>
                     </div>
-                    {/*  onClick={()=> handleCheckout()}  */}
+
+                    {/* Checkout Button */}
                     <div>
-                        <button onClick={notifyAndProceed} className='bg-gradient-to-r from-[#1f4d29] via-[#2b6b36] to-[#1f4d29] hover:scale-105 duration-300 rounded-xl text-white w-full py-5 font-semibold text-lg'>
+                        <button
+                            onClick={notifyAndProceed}
+                            disabled={!selectedPayment} // Disable the button if no payment is selected
+                            className={`${
+                                selectedPayment ? "hover:scale-105" : "cursor-not-allowed opacity-50"
+                            } bg-gradient-to-r from-[#1f4d29] via-[#2b6b36] to-[#1f4d29] duration-300 rounded-xl text-white w-full py-5 font-semibold text-lg`}
+                        >
                             Pay Now
                         </button>
                         <ToastContainer />
                     </div>
                 </div>
             </div>
+
+            {/* Cancel Modal */}
+            {isCancelModalOpen && (
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 mx-2 px-2">
+                    <div className="bg-white rounded-lg shadow-lg max-w-sm w-full p-6">
+                        <h2 className="text-2xl font-semibold text-gray-800">Confirm Cancel</h2>
+                        <p className="mt-2 text-gray-600">
+                            Are you sure you want to cancel? This action cannot be undone.
+                        </p>
+                        <div className="mt-6 flex justify-center space-x-4">
+                            <button
+                                onClick={handleCloseCancel}
+                                className="px-4 py-2 bg-greenColor hover:bg-green-600 text-white rounded-md"
+                            >
+                                No, go back
+                            </button>
+                            <button
+                                onClick={handleCloseModal}
+                                className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-md"
+                            >
+                                Yes, cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* right side */}
             <div className='w-full px-5 lg:px-16 bg-gray-100'>
