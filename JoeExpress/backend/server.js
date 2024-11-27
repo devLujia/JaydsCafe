@@ -779,17 +779,16 @@ app.post('/order', (req, res) => {
                 SET times_used = times_used + 1
                 WHERE id = ?;
             `;
+
             db.query(updateUsage, [discount.id], (err) => {
                 if (err) {
                     return res.json({ success: false, err: "Error updating discount code usage" });
                 }
 
-                // Proceed to process the order after applying the discount
                 processOrder();
             });
         });
     } else {
-        // No discount code, proceed with the order
         processOrder();
     }
 });
@@ -3034,37 +3033,74 @@ ORDER BY
         });
     });
     
-    app.post("/contact", async (req, res) => {
+    app.post('/contact', async (req, res) => {
         const { firstName, lastName, email, message } = req.body;
-      
+
         if (!firstName || !lastName || !email || !message) {
-          return res.status(400).json({ error: "All fields are required." });
+            return res.status(400).json({ error: "All fields are required." });
         }
-      
+
         try {
-          const transporter = nodemailer.createTransport({
-            service: "gmail",
+            // Nodemailer transporter setup
+            const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false,
             auth: {
-              user: process.env.EMAIL,
-              pass: process.env.PASSWORD,
+                user: process.env.EMAIL,
+                pass: process.env.PASSWORD,
             },
-          });
-      
-          // Email details
-          const mailOptions = {
-            from: `"${firstName} ${lastName}" <${email}>`,
-            to: process.env.EMAIL,
+            });
+
+            const mailGenerator = new MailGen({
+            theme: 'default',
+            product: {
+                name: "Jayd's Cafe",
+                link: 'https://jaydscafe.com',
+            },
+            });
+
+            // Email template for sender acknowledgment
+            const acknowledgmentEmailContent = mailGenerator.generate({
+            body: {
+                name: `${firstName}`,
+                intro: "Thank you for reaching out to Jayd's Cafe!",
+                action: {
+                instructions: 'We have received your message and will respond shortly.',
+                button: {
+                    color: '#017242',
+                    text: 'Visit our website',
+                    link: 'https://jaydscafe.com',
+                },
+                },
+                outro: 'Thank you for choosing Jayd’s Cafe!',
+            },
+            });
+
+            // Owner email options
+            const ownerMessage = {
+            from: email,
+            to: process.env.EMAIL, // Your admin email address
             subject: `New Message from ${firstName} ${lastName}`,
             text: `Message from ${firstName} ${lastName} (${email}):\n\n${message}`,
-          };
-      
-          // Send the email
-          await transporter.sendMail(mailOptions);
-      
-          res.status(200).json({ message: "Email sent successfully!" });
+            };
+
+            const senderMessage = {
+            from: process.env.EMAIL,
+            to: email,
+            subject: "Thank You for Contacting Jayd's Cafe",
+            html: acknowledgmentEmailContent,
+            };
+
+            await transporter.sendMail(ownerMessage);
+
+            await transporter.sendMail(senderMessage);
+
+            return res.status(201).json({ success: true, msg: 'Emails sent successfully.' });
         } catch (error) {
-          console.error("Error sending email:", error);
-          res.status(500).json({ error: "Failed to send email. Please try again later." });
+            console.error('Email Sending Error:', error);
+            return res.status(500).json({ error: 'Failed to send email. Please try again later.' });
         }
     });
 
@@ -3134,22 +3170,50 @@ ORDER BY
     });
       
 
-      app.post('/sendMessage', async (req, res) => {
-
-
+    app.post('/sendMessage', async (req, res) => {
         const { recipient, subject, body } = req.body;
     
         // Validate the required fields
         if (!recipient || !subject || !body) {
             return res.status(400).json({ error: 'Recipient, subject, and body are required' });
         }
+
+        const mailGenerator = new MailGen({
+            theme: 'default', // You can choose other themes like 'default', 'cerberus', etc.
+            product: {
+                name: "Jayd's Cafe",
+                link: 'https://jaydscafe.com',
+            },
+        });
     
-        // Set up the mail options
+        // Generate the email content using MailGen
+        const acknowledgmentEmailContent = mailGenerator.generate({
+            body: {
+                name: recipient.split('@')[0],  // You can use the recipient's name or another custom name
+                intro: "Thank you for reaching out to Jayd's Cafe!",
+                action: {
+                    instructions: 'Thank you for reaching out! We’ll be in touch again if any further action is needed.',
+                    button: {
+                        color: '#017242', // Button color
+                        text: 'Visit our website',
+                        link: 'https://jaydscafe.com',
+                    },
+                },
+                outro: 'Thank you for choosing Jayd’s Cafe!',
+                table: {
+                    data: [
+                        { message: body }, // Include the message body in the table
+                    ],
+                },
+            },
+        });
+    
+        // Set up the mail options with the HTML content generated by MailGen
         const mailOptions = {
-            from: EMAIL,
+            from: process.env.EMAIL, // Your email
             to: recipient,
-            subject: subject,        
-            text: body,        
+            subject: subject,
+            html: acknowledgmentEmailContent,  // Use the generated HTML content
         };
     
         try {

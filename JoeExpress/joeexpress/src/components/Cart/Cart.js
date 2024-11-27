@@ -549,7 +549,10 @@ function Cart() {
                         {/* Modal body */}
                         <div className="p-4 md:p-5 space-y-4">
                           <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                            Local Delivery is currently available only within Salawag, Dasmariñas, Cavite. Please confirm your delivery address before proceeding.
+                            Please be advised that local delivery is currently available only within Salawag, Dasmariñas, Cavite and delivery fees are included.
+                          </p>
+                          <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                            Please confirm your delivery address before proceeding.
                           </p>
                         </div>
 
