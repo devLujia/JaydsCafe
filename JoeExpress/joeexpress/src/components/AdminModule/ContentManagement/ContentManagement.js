@@ -6,10 +6,7 @@ import ig from '../../image/ig.svg'
 import location from '../../image/location.svg'
 import user from '../../image/UserAcc.svg'
 import links from '../../image/links.svg'
-import coffee from '../../image/americano.png'
 import jaydsLogo from '../../image/jayds cafe Logo.svg';
-import snack from '../../image/menu-burger.jpg'
-import milktea from '../../image/orderPage(Image).png'
 import EditCms from '../AdminModal/EditCms/EditCms'
 import axios from 'axios'
 
