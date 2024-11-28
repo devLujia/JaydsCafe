@@ -294,9 +294,9 @@ function OrderTracking() {
                 </h1>
             </div>
 
-            <div id="fm-series">
-    <div className="container p-4 mt-4 pb-10 grid items-center justify-center w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+            <div id="fm-series" className=' flex justify-center items-center'>
+                <div className="container p-4 mt-4 pb-10 grid items-center justify-center w-full">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         {randomizedFoodsSpecial.slice(0, 4).map((food) => (
                     <div
                         key={food.food_id}

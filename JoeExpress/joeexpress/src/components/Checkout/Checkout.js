@@ -58,7 +58,7 @@ export default function Checkout() {
     
     //toast
     const [isCancelled, setIsCancelled] = useState(false);
-    const [remainingTime, setRemainingTime] = useState(15); // Countdown 5 seconds
+    const [remainingTime, setRemainingTime] = useState(5); // Countdown 5 seconds
     const timeoutRef = useRef(null);
     const intervalRef = useRef(null);
     const toastId = useRef(null);
@@ -105,7 +105,7 @@ export default function Checkout() {
 
     const notifyAndProceed = () => {
         setIsCancelled(false);
-        setRemainingTime(15); // Reset countdown
+        setRemainingTime(5); // Reset countdown
 
     toastId.current = toast.success(
         <>
@@ -420,11 +420,9 @@ export default function Checkout() {
 
                 {/* ship to section */}
                 {riderNote?.option === 'delivery'? <div className='border-b-2 border-textgreenColor my-2 pb-4'>
-                    <div className='flex justify-between mb-3'>
+                    <div className='flex justify-start mb-3'>
                         <h1 className='text-gray-600 font-semibold'>Ship to</h1>
-                        <button className='p-2 bg-cards rounded-lg'>
-                            <img src={arrowUp}></img>
-                        </button>
+                       
                     </div>
                      <div > {/* For option ng address */}
                         <div className='space-y-2'> {/* Main container */}
@@ -608,15 +606,15 @@ export default function Checkout() {
                         <div className="mt-6 flex justify-center space-x-4">
                             <button
                                 onClick={handleCloseCancel}
-                                className="px-4 py-2 bg-greenColor hover:bg-green-600 text-white rounded-md"
+                                className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-md"
                             >
-                                No, go back
+                                No
                             </button>
                             <button
                                 onClick={handleCloseModal}
-                                className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-md"
+                                className="px-4 py-2 bg-greenColor hover:bg-green-600 text-white rounded-md"
                             >
-                                Yes, cancel
+                                Yes
                             </button>
                         </div>
                     </div>
