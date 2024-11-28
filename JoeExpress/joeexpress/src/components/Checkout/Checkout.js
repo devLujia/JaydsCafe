@@ -27,8 +27,7 @@ export default function Checkout() {
     const [totalBill, setTotalBill] = useState(0);
     const [discount, setDiscount] = useState(0);
     const [code, setCode] = useState('');
-    const [checkoutUrl, setCheckoutUrl] = useState(null);
-    const [profile, setProfile] = useState([])
+    const [profile, setProfile] = useState([]);
     const [selectedPayment, setSelectedPayment] = useState('');
     const { riderNote } = location.state || {};
     const [loading, setLoading] = useState(false);
@@ -36,9 +35,9 @@ export default function Checkout() {
     const [news, setNew] = useState(false);
     const [deliveryAddress, setDeliveryAddress] = useState('');
     const [altAddress, setAltAddress] = useState('');
-
-
     const [cmsName,setCmsName] = useState('');
+    const [amount, setAmount] = useState(0)
+    
 
     useEffect(()=>{
 
@@ -228,7 +227,6 @@ export default function Checkout() {
                 const res = await axios.post('http://localhost:8081/itemGetter', { userId });
                 setItems(res.data.items);
 
-                // Calculate total bill directly after getting the new items
                 const total = res.data.items.reduce((sum, item) => sum + item.food_price, 0);
                 setTotalBill(total);
             } catch (error) {
@@ -240,6 +238,11 @@ export default function Checkout() {
             fetchItems();
         }
     }, [userId]);  // Dependency array only includes userId
+
+    useEffect(() => {
+        const computedAmount = riderNote?.option === 'delivery' ? totalBill + 15 : totalBill;
+        setAmount(computedAmount);
+    }, [riderNote, totalBill]);
     
     useEffect(() => {
         const fetchProfile = async () => {
@@ -270,7 +273,7 @@ export default function Checkout() {
 
             const res = await axios.post('http://localhost:8081/order',{
                 userId, 
-                amount: totalBill, 
+                amount: amount, 
                 deliveryMethod: riderNote?.option || '' ,
                 paymentMethod: selectedPayment,
                 code,
@@ -297,7 +300,7 @@ export default function Checkout() {
             console.error('Error during checkout:', error);
         }
 
-    }
+    };
 
     const handlePaymentChange = (event) => {
         setSelectedPayment(event.target.value);
@@ -354,13 +357,14 @@ export default function Checkout() {
     },[items]);
 
     const handlePayment = async (orderId) => {
-        console.log(profile?.pnum);
+
+        
+        const amount = riderNote?.option === 'delivery' ? totalBill + 15 : totalBill;
         const phone = profile?.pnum;
-        const amount = totalBill;
         const description = 'Order Payment for Jayd’s Cafe';
       
         try {
-          // Call backend API to create the payment flow
+
           const response = await axios.post('http://localhost:8081/create-payment-flow', {
             phone,
             amount,
@@ -370,7 +374,6 @@ export default function Checkout() {
           });
       
           if (response.data.success) {
-            // Redirect user to PayMongo payment page
             window.location.href = response.data.redirectUrl;
           } else {
             console.error('Error:', response.data.message);
@@ -380,29 +383,9 @@ export default function Checkout() {
         }
       };
 
-    //     try {
-    //       const response = await axios.post('http://localhost:3000/api/create-payment-method', {
-    //         phone, // Customer's phone number
-    //       });
-      
-    //       if (response.data.success) {
-    //         console.log('Payment Method ID:', response.data.paymentMethodId);
-    //         return response.data.paymentMethodId;
-    //       } else {
-    //         console.error('Failed to create Payment Method:', response.data.message);
-    //       }
-    //     } catch (error) {
-    //       console.error('Error creating payment method:', error);
-    //     }
-
-    // };
-
-
   return (
 
-
     <div className='bg-white'>
-
 
         {/* <!-- nav --> */}
         <nav class="w-full top-0 fixed bg-white z-20 shadow-lg flex justify-evenly">
@@ -726,7 +709,7 @@ export default function Checkout() {
                             Shipping
                         </h1>
                         <p className='text-md font-semibold'>
-                            ₱0.00
+                            {riderNote?.option === "delivery" ? "₱15.00" : "₱0.00"}
                         </p>
                     </div>
                     <div className='text-sm text-gray-900 flex justify-between'>
@@ -743,7 +726,7 @@ export default function Checkout() {
                             Total
                         </h1>
                         <p className='text-xl font-bold'>
-                            <span className='text-black me-2 text-xl'></span>₱{totalBill}.00
+                            <span className='text-black me-2 text-xl'></span>₱{amount}.00
                         </p>
                     </div>
                 </div>

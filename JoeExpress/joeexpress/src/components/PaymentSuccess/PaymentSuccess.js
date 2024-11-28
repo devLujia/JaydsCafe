@@ -89,7 +89,6 @@ export default function PaymentSuccess() {
               );
 
               if (response.data.success) {
-                  alert(response.data.message);
                   setSuccess('success');
               } else {
                   alert('Failed to update order status.');

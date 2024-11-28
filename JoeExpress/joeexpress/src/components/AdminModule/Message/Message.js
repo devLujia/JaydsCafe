@@ -742,7 +742,7 @@ export default function Message() {
                               <div className="flex">
                               <h1 className="font-semibold text-md">{email.subject}</h1>
                               <span className="font-semibold mx-2">-</span>
-                              <p className="text-gray-400 text-[13px]">{email.body.substring(0, 50)}...</p>
+                              <p className="text-gray-400 text-[13px]">{email.body && email.body.length > 0 ? email.body.substring(0, 50) + "..." : "No message"}...</p>
                               </div>
                            </td>
                            <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
