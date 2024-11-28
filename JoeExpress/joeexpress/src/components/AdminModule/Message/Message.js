@@ -720,53 +720,65 @@ export default function Message() {
                         </thead>
 
                         <tbody className="divide-y divide-gray-300 relative">
-                        {emails.map((email,index) => (
-                        <tr
-                           key={index}
-                           className="bg-white transition-all duration-500 hover:bg-gray-200 cursor-pointer group relative"
-                           onClick={() => handleRowClick(email.from.split("<")[0].trim(), email.subject, email.body, email.date)}
-                        >
-                           <td>
-                              <span className="flex w-3 h-3 me-3 bg-red-500 rounded-full absolute left-2 top-1/2 transform -translate-y-1/2 z-10"></span>
-                           </td>
-                           <td className="px-5 py-3">
-                              <div className="w-48 flex items-center gap-3 ps-2">
-                              
-                              <div className="data">
-                                 <p className="font-semibold text-sm text-gray-900">{email.from.split("<")[0].trim()}</p>
-                                 <p className="font-normal text-xs leading-5 text-gray-400">{email.from.match(/<(.+)>/)?.[1]}</p>
-                              </div>
-                              </div>
-                           </td>
-                           <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
-                              <div className="flex">
-                              <h1 className="font-semibold text-md">{email.subject}</h1>
-                              <span className="font-semibold mx-2">-</span>
-                              <p className="text-gray-400 text-[13px]">{email.body && email.body.length > 0 ? email.body.substring(0, 50) + "..." : "No message"}...</p>
-                              </div>
-                           </td>
-                           <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
-                              <div className="flex items-center justify-end relative">
-                              <span className="text-gray-500 text-sm absolute right-5 top-1/2 transform -translate-y-1/2 group-hover:hidden">
-                                 <span className="text-gray-400 text-[10px] me-2">{new Date(email.date).toLocaleDateString()}</span>
-                                 {new Date(email.date).toLocaleTimeString()}
-                              </span>
+                        {emails
+                              .filter(email =>
+                                       email.subject.toUpperCase() !== "REGISTRATION" &&
+                                       email.from.split("<")[0].trim() !== "Mail Delivery Subsystem")
+                              .sort((a, b) => new Date(b.date) - new Date(a.date))
+                              .map((email, index) => (
+                                 <tr
+                                    key={index}
+                                    className="bg-white transition-all duration-500 hover:bg-gray-200 cursor-pointer group relative"
+                                    onClick={() =>
+                                       handleRowClick(
+                                          email.from.split("<")[0].trim(),
+                                          email.subject,
+                                          email.body,
+                                          email.date
+                                       )
+                                    }
+                                 >
+                                    <td>
+                                       <span className="flex w-3 h-3 me-3 bg-red-500 rounded-full absolute left-2 top-1/2 transform -translate-y-1/2 z-10"></span>
+                                    </td>
+                                    <td className="px-5 py-3">
+                                       <div className="w-48 flex items-center gap-3 ps-2">
+                                          <div className="data">
+                                             <p className="font-semibold text-sm text-gray-900">
+                                                {email.from.split("<")[0].trim()}
+                                             </p>
+                                             <p className="font-normal text-xs leading-5 text-gray-400">
+                                                {email.from.match(/<(.+)>/)?.[1]}
+                                             </p>
+                                          </div>
+                                       </div>
+                                    </td>
+                                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
+                                       <div className="flex">
+                                          <h1 className="font-semibold text-md">{email.subject}</h1>
+                                          <span className="font-semibold mx-2">-</span>
+                                          <p className="text-gray-400 text-[13px]">
+                                             {email.body && email.body.length > 0
+                                                ? email.body.substring(0, 50) + "..."
+                                                : "No message"}
+                                          </p>
+                                       </div>
+                                    </td>
+                                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
+                                       <div className="flex items-center justify-end relative">
+                                          <span className="text-gray-500 text-sm absolute right-5 top-1/2 transform -translate-y-1/2 group-hover:hidden">
+                                             <span className="text-gray-400 text-[10px] me-2">
+                                                {new Date(email.date).toLocaleDateString()}
+                                             </span>
+                                             {new Date(email.date).toLocaleTimeString()}
+                                          </span>
+                                          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute right-5 top-1/2 transform -translate-y-1/2"></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              ))}
 
-                              <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute right-5 top-1/2 transform -translate-y-1/2">
-                                 {/* <button className="rounded-lg transition-all duration-500 hover:bg-gray-400 flex items-center justify-center w-8 h-8 hover:text-white" title="Mark as read">
-                                    <BsEnvelopePaperFill />
-                                 </button>
-                                 <button className="rounded-lg transition-all duration-500 hover:bg-gray-400 flex items-center justify-center w-8 h-8 hover:text-white" title="Delete">
-                                    <RiDeleteBin6Fill />
-                                 </button>
-                                 <button className="rounded-lg transition-all duration-500 hover:bg-gray-400 flex items-center justify-center w-8 h-8 hover:text-white" title="">
-                                    <FaEllipsisVertical />
-                                 </button> */}
-                              </div>
-                              </div>
-                           </td>
-                        </tr>
-                        ))}
+
                      </tbody>
 
                      {isMessageOpen && (
