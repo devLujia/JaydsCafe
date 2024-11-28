@@ -8,6 +8,8 @@ import lock from '../../image/lock.svg';
 import jaydsLogo from '../../image/jayds cafe Logo.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Settings() {
   
@@ -161,7 +163,13 @@ const submitPersonalInfo = async () => {
      });
  
          if (response?.data?.success) {
-           alert("Update successfully");
+            toast.success("Update successfully!", {
+                autoClose: 3000, 
+                hideProgressBar: true, 
+                closeOnClick: true, 
+                pauseOnHover: true, 
+                draggable: false, 
+            });
            setNew(true);
          } else {
            alert("Failed to update. Please try again.");
@@ -194,6 +202,8 @@ const submitPersonalInfo = async () => {
   
    return (
     <div>
+      <ToastContainer position="top-center" autoClose={3000} />
+
         {/* <!-- Nav --> */}
         <nav class="sticky top-0 bg-jaydsBg z-20 shadow-lg flex justify-between dark:bg-[#282828]">
             <div class="font-extrabold text-2xl flex items-center">
