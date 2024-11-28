@@ -64,6 +64,7 @@ export default function Sales() {
             data: weeklyData?.map(item => item?.total_revenue), // Default to weekly data
         },
     ]);
+
     const getStartDateOfWeek = (year, week) => {
         const date = new Date(year, 0, 1); // Start from January 1st of the year
         const days = date.getDay(); // Get the day of the week (0 = Sunday, 6 = Saturday)
@@ -219,10 +220,7 @@ export default function Sales() {
         },
         series: chartSeries2, // Use chartSeries2 for data
         xaxis: {
-            categories: weeklyData?.map(item => {
-                const startDateOfWeek = getStartDateOfWeek(new Date().getFullYear(), item.week_number); // Get start date of the week
-                return getWeekDay(startDateOfWeek); // Convert it to the weekday (e.g., "Monday")
-            }) || [], // Fallback to an empty array if no data is available
+            categories: weeklyData?.map(item => item.week_number) || [],
         },
         title: {
             text: 'Weekly Sales',
@@ -349,13 +347,6 @@ export default function Sales() {
     };
     
     
-    
-    
-    
-    
-    
-    
-    
     useEffect(() => {
         if (weeklyData && weeklyData.length > 0) {
             const year = new Date().getFullYear(); // Current year
@@ -406,8 +397,10 @@ export default function Sales() {
                     console.error('Error fetching data:', error);
                 }
             };
+
             fetchMonthlyData();
-        }, [monthlyData]);
+
+        }, []);
         
         
         function stripHtmlTags(html) {
@@ -457,7 +450,7 @@ export default function Sales() {
                     <img src={jaydsLogo} alt="Logo"/> 
                     <span 
                         className="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2" 
-                        dangerouslySetInnerHTML={{ __html: cmsName }}>
+                        dangerouslySetInnerHTML={{ __html: cmsName || "Business name"  }}>
                     </span>          
                 </a>
                     <ul class="space-y-2 font-medium ">
@@ -558,12 +551,12 @@ export default function Sales() {
                         <span class="ms-1">Settings</span>
                     </a>
                 </li>
-                <li> {/* <!-- Sign Out --> */}
+                <li onClick={handleLogout}> {/* <!-- Sign Out --> */}
                     <a href="/public/Html_Admin/adminLogin.html" class="flex items-center p-2 text-gray-600 transition duration-75 rounded-lg hover:bg-greenColor  group hover:text-white dark:text-white">
                         <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75  group-hover:text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"/>
                         </svg>
-                        <span onClick={handleLogout}  class="ms-3">Sign Out</span>
+                        <span class="ms-3">Sign Out</span>
                     </a>
                 </li>
                 </ul>

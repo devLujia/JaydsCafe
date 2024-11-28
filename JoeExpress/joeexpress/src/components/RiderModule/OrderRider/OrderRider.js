@@ -219,12 +219,12 @@ export default function OrderRider() {
                                 <span class="ms-1">Settings</span>
                             </a>
                         </li> */}
-                        <li> {/* <!-- Sign Out --> */}
+                        <li onClick={handleLogout}> {/* <!-- Sign Out --> */}
                             <a href="#" class="flex items-center p-2 text-gray-600 transition duration-75 rounded-lg hover:bg-greenColor  group hover:text-white">
                                 <svg class="flex-shrink-0 w-5 h-5 text-gray-600 transition duration-75  group-hover:text-white " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"/>
                                 </svg>
-                                <span onClick={handleLogout} class="ms-3">Sign Out</span>
+                                <span  class="ms-3">Sign Out</span>
                             </a>
                         </li>
                     </ul>
@@ -274,8 +274,15 @@ export default function OrderRider() {
                                         <div class="grid gap-1">
                                             <h5 class="text-gray-900 font-semibold transition-all duration-500 dark:text-gray-100 text-2xl ">{order?.name}</h5>
                                             <div className='flex flex-row shrink-0 gap-2'>
-                                                <img src={loc} className='dark:filter dark:invert'></img>
-                                                <span class="text-sm leading-6 text-gray-500 dark:text-gray-100"> {order?.address} </span>
+                                                <img src={loc} className='dark:filter dark:invert' alt="Location Icon" />
+                                                <a 
+                                                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(order?.address)}`}
+                                                    target="_blank" 
+                                                    rel="noopener noreferrer"
+                                                    className="text-sm leading-6 text-gray-500 dark:text-gray-100 hover:underline"
+                                                >
+                                                    {order?.address}
+                                                </a>
                                             </div>
                                         </div>
             
