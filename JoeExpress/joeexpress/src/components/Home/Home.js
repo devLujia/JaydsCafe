@@ -16,7 +16,7 @@ import 'aos/dist/aos.css';
 import Terms from '../UserModal/TermsAndCondition/Terms'
 import ChatComponent from '../UserModal/ChatService/ChatComponent'
 import socket from '../AdminModule/Message/socketService';
-import { Alert } from '@mui/material';
+import Alert from "@mui/material/Alert";
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap" rel="stylesheet"></link>
 
 
@@ -64,7 +64,8 @@ function Home() {
       }
     ];
 
-    const [openIndex, setOpenIndex] = useState(null);
+    const [openIndex, setOpenIndex] = useState(null);  
+    const [alert, setAlert] = useState(null);
 
     const faqs = [
         {
@@ -440,21 +441,26 @@ function Home() {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+  const [alertVisible, setAlertVisible] = useState(false);
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
+    setAlert(null);
+    setAlertVisible(false); // Reset visibility for the alert
   
     try {
-
-      e.preventDefault();
-      setStatusMessage("");
-
       const response = await axios.post("http://localhost:8081/contact", formData);
-      alert("Message sent successfully!");
+      setAlert({ severity: "success", message: "Message sent successfully!" });
+      setAlertVisible(true); 
+      setTimeout(() => setAlertVisible(false), 1800); 
+      setTimeout(() => setAlert(null), 2000); 
       setFormData({ firstName: "", lastName: "", email: "", message: "" });
     } catch (error) {
-      setStatusMessage("Failed to send the message. Please try again.");
-    } 
-
+      setAlert({ severity: "error", message: "Failed to send the message. Please try again." });
+      setAlertVisible(true);
+      setTimeout(() => setAlertVisible(false), 1800);
+      setTimeout(() => setAlert(null), 2000);
+    }
   };
 
   const handleSend = () => {
@@ -1711,7 +1717,7 @@ useEffect(() => {
         <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4 animate-wave glow-animation">Contact Us!</h2>
         <p className="mt-4 text-lg leading-8 text-gray-600">We'd love to hear from you! Reach out for inquiries, feedback, or support.</p>
       </div>
-      <form onSubmit={handleSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">
+      <form onSubmit={handleSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20 relative">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div>
             <label htmlFor="firstName" className="block text-sm font-semibold leading-6 text-gray-900">First name</label>
@@ -1762,7 +1768,25 @@ useEffect(() => {
         <div className="mt-10">
           <button type="submit" className="block w-full rounded-md bg-[#067741] px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#067741]">Submit</button>
         </div>
+
+        {/* Alert */}
+        {alert && (
+          <div
+            className={`absolute inset-0 flex items-center justify-center z-50 transition-opacity duration-500 ${
+              alertVisible ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <Alert
+              variant="filled"
+              severity={alert.severity}
+              className="mb-4 max-w-sm text-xl font-extrabold"
+            >
+              {alert.message}
+            </Alert>
+          </div>
+        )}
       </form>
+      
     <div className="px-4 mx-auto sm:px-4 md:px-6 lg:px-8 max-w-full sm:max-w-xl md:max-w-3xl lg:max-w-7xl pt-8 sm:pt-12 md:pt-16 lg:pt-20 mt-6 sm:mt-8 md:mt-12 lg:mt-16 bg-gray-50">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-y-12 lg:gap-x-8 xl:gap-x-20">
             {/* Call Us */}
