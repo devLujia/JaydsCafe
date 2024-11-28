@@ -2113,7 +2113,7 @@ app.post('/removeProduct',  async (req, res) =>{
                 o.status,
                 o.deliveryMethod
             ORDER BY 
-                o.order_date ASC;
+                o.order_date DESC;
             `
 
         db.query(query, (err, result) => {
@@ -2186,44 +2186,44 @@ app.post('/removeProduct',  async (req, res) =>{
 
         const query = 
         `
-        SELECT 
-    o.order_id, 
-    u.name,
-    u.address,
-    o.customer_id, 
-    o.order_date,
-    o.update_order_date, 
-    o.status,
-    o.totalPrice,
-    o.rider_id,
-    GROUP_CONCAT(
-        CONCAT('Food Name: ',
-            f.name, ' ( Size: ', 
-            ofd.size, ', Quantity: ', 
-            ofd.quantity, ', Addons: ', 
-            IFNULL(ofd.addons, ''), ')'
-        ) ORDER BY f.name SEPARATOR ', '
-    ) AS food_details
-FROM 
-    orders o
-JOIN 
-    orders_food ofd ON ofd.order_id = o.order_id
-JOIN 
-    foods f ON f.id = ofd.food_id
-JOIN 
-    user u ON u.id = o.customer_id
-WHERE o.status IN ('completed', 'cancelled' , 'on delivery' , 'pending rider') AND o.rider_id = ?
-GROUP BY 
-    o.order_id, 
-    u.name,
-    u.address,
-    o.customer_id, 
-    o.order_date,
-    o.update_order_date, 
-    o.status,
-    o.rider_id
-ORDER BY 
-    o.update_order_date DESC;
+                SELECT 
+            o.order_id, 
+            u.name,
+            u.address,
+            o.customer_id, 
+            o.order_date,
+            o.update_order_date, 
+            o.status,
+            o.totalPrice,
+            o.rider_id,
+            GROUP_CONCAT(
+                CONCAT('Food Name: ',
+                    f.name, ' ( Size: ', 
+                    ofd.size, ', Quantity: ', 
+                    ofd.quantity, ', Addons: ', 
+                    IFNULL(ofd.addons, ''), ')'
+                ) ORDER BY f.name SEPARATOR ', '
+            ) AS food_details
+        FROM 
+            orders o
+        JOIN 
+            orders_food ofd ON ofd.order_id = o.order_id
+        JOIN 
+            foods f ON f.id = ofd.food_id
+        JOIN 
+            user u ON u.id = o.customer_id
+        WHERE o.status IN ('completed', 'cancelled' , 'on delivery' , 'pending rider') AND o.rider_id = ?
+        GROUP BY 
+            o.order_id, 
+            u.name,
+            u.address,
+            o.customer_id, 
+            o.order_date,
+            o.update_order_date, 
+            o.status,
+            o.rider_id
+        ORDER BY 
+            o.update_order_date DESC;
 
              
         `

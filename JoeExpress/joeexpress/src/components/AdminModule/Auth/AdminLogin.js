@@ -125,20 +125,22 @@ function AdminLogin() {
                 </button>
 
                 <div class="text-center text-base text-gray-700 mt-5">
-                    <p>
+                    
+                    {/* <p>
                         Forgot Password? 
                         <a href="/public/Html_Admin/adminForgotPass.html" 
                             class="text-blue-600 font-semibold hover:underline ml-1">
                             Click Here
                         </a>
-                    </p>
-                    <p class="mt-3">
+                    </p> */}
+
+                    {/* <p class="mt-3">
                         Don't have an account? 
                         <a href="/adminregistration" 
                             class="text-blue-600 font-semibold hover:underline ml-1">
                             Register Here
                         </a>
-                    </p>
+                    </p> */}
                 </div>
             </form>
         </div>

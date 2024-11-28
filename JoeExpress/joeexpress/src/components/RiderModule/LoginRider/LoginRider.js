@@ -149,12 +149,12 @@ export default function LoginRider() {
 
                             {/* Forgot password and Signup links */}
                             <div className="text-center mt-12 space-y-6">
-                                <p className="mb-4">
+                                {/* <p className="mb-4">
                                     Forgot password? 
                                     <span className="text-blue-500 cursor-pointer font-semibold">
                                         <a href="/RiderForgot"> Click Here</a>
                                     </span>
-                                </p>
+                                </p> */}
                             </div>
                         </form>
                     </div>
