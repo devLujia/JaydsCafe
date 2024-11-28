@@ -211,7 +211,7 @@ export default function ContentManagement() {
                 <img src={jaydsLogo} alt="Logo"/>           
                 <span 
                     className="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2" 
-                    dangerouslySetInnerHTML={{ __html: cmsName }}>
+                    dangerouslySetInnerHTML={{ __html: cmsName || "Business name"  }}>
                 </span>
             </a>
                 <ul class="space-y-2 font-medium ">
@@ -347,7 +347,7 @@ export default function ContentManagement() {
                         {/* Render the content as raw HTML, styled like an input */}
                         <div
                             className="w-full max-w-[220px] max-h-[40px] px-2 rounded-lg bg-jaydsBg overflow-hidden text-center text-nowrap"
-                            dangerouslySetInnerHTML={{ __html: cms.content }}
+                            dangerouslySetInnerHTML={{ __html: cms.content || "Content"  }}
                             style={{ border: '1px solid #ddd', padding: '0.5rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                         ></div>
                         

@@ -286,7 +286,7 @@ export default function CustomerAccount() {
                 <img src={jaydsLogo} alt="Logo"/>    
                 <span 
                     className="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2" 
-                    dangerouslySetInnerHTML={{ __html: cmsName }}>
+                    dangerouslySetInnerHTML={{ __html: cmsName || "Business name"  }}>
                 </span>       
             </a>
                 <ul class="space-y-2 font-medium ">

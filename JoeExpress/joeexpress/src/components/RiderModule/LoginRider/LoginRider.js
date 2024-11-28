@@ -102,7 +102,7 @@ export default function LoginRider() {
                         <h2
                             className="text-3xl font-bold text-center mb-5 lg:mb-10"
                             dangerouslySetInnerHTML={{
-                                __html: `${cmsName} Rider Account`,
+                                __html: `${cmsName || "Business Name"} Rider Account` ,
                             }}
                         ></h2>
                         <p className="text-gray-600 text-center max-w-md mb-5 lg:mb-10">Manage your rides efficiently and stay updated with your account information.</p>

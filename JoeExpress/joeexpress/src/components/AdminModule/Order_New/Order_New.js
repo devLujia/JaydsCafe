@@ -427,7 +427,7 @@ export default function Order_New() {
                 <img src={jaydsLogo} alt="Logo"/>  
                 <span 
                     className="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2" 
-                    dangerouslySetInnerHTML={{ __html: cmsName }}>
+                    dangerouslySetInnerHTML={{ __html: cmsName || "Business name"  }}>
                 </span>         
             </a>
                 <ul class="space-y-2 font-medium ">
@@ -655,7 +655,16 @@ export default function Order_New() {
                                                                         <div className="text-base font-semibold">ORDR#{order?.order_id}</div>
                                                                     </td>
                                                                     <td className="px-6 py-4 text-center">{order?.name}</td>
-                                                                    <td className="px-6 py-4 text-center">{order?.address}</td>
+                                                                    <td className="px-6 py-4 text-center">
+                                                                        <a 
+                                                                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(order?.address)}`}
+                                                                            target="_blank" 
+                                                                            rel="noopener noreferrer"
+                                                                            className="text-blue-500 hover:underline"
+                                                                        >
+                                                                            {order?.address}
+                                                                        </a>
+                                                                    </td>
                                                                     <td className="px-6 py-4 text-center">{order?.pnum}</td>
                                                                     <td className="px-6 py-4 text-center">
                                                                         {new Date(order?.order_date).toLocaleString('en-US', {

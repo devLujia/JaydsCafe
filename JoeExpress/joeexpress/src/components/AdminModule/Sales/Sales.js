@@ -64,6 +64,7 @@ export default function Sales() {
             data: weeklyData?.map(item => item?.total_revenue), // Default to weekly data
         },
     ]);
+
     const getStartDateOfWeek = (year, week) => {
         const date = new Date(year, 0, 1); // Start from January 1st of the year
         const days = date.getDay(); // Get the day of the week (0 = Sunday, 6 = Saturday)
@@ -219,10 +220,7 @@ export default function Sales() {
         },
         series: chartSeries2, // Use chartSeries2 for data
         xaxis: {
-            categories: weeklyData?.map(item => {
-                const startDateOfWeek = getStartDateOfWeek(new Date().getFullYear(), item.week_number); // Get start date of the week
-                return getWeekDay(startDateOfWeek); // Convert it to the weekday (e.g., "Monday")
-            }) || [], // Fallback to an empty array if no data is available
+            categories: weeklyData?.map(item => item.week_number) || [],
         },
         title: {
             text: 'Weekly Sales',
@@ -349,13 +347,6 @@ export default function Sales() {
     };
     
     
-    
-    
-    
-    
-    
-    
-    
     useEffect(() => {
         if (weeklyData && weeklyData.length > 0) {
             const year = new Date().getFullYear(); // Current year
@@ -406,8 +397,10 @@ export default function Sales() {
                     console.error('Error fetching data:', error);
                 }
             };
+
             fetchMonthlyData();
-        }, [monthlyData]);
+
+        }, []);
         
         
         function stripHtmlTags(html) {
@@ -457,7 +450,7 @@ export default function Sales() {
                     <img src={jaydsLogo} alt="Logo"/> 
                     <span 
                         className="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2" 
-                        dangerouslySetInnerHTML={{ __html: cmsName }}>
+                        dangerouslySetInnerHTML={{ __html: cmsName || "Business name"  }}>
                     </span>          
                 </a>
                     <ul class="space-y-2 font-medium ">

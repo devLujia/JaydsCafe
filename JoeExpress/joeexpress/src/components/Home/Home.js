@@ -965,10 +965,11 @@ useEffect(() => {
       <div class="font-extrabold text-2xl flex items-center">
         {/* <!-- Logo/Title in Navbar --> */}
         <a 
-          href="#" 
-          className="flex items-center text-greenColor ms-2 md:ms-5 text-lg md:text-2xl tracking-wide" 
-          dangerouslySetInnerHTML={{ __html: cmsName }}>
+            href="#" 
+            className="flex items-center text-greenColor ms-2 md:ms-5 text-lg md:text-2xl tracking-wide" 
+            dangerouslySetInnerHTML={{ __html: cmsName || "Business name" }}>
         </a>
+
       </div>
       
       <span className="menu">
@@ -1255,7 +1256,7 @@ useEffect(() => {
         </p>
 
         {/* CMS Name Heading */}
-        <h1 className="text-textgreenColor text-4xl md:text-6xl lg:text-7xl font-extrabold pb-2 drop-shadow-lg text-center lg:text-left font-baloo" id="name" dangerouslySetInnerHTML={{ __html: cmsName }}>
+        <h1 className="text-textgreenColor text-4xl md:text-6xl lg:text-7xl font-extrabold pb-2 drop-shadow-lg text-center lg:text-left font-baloo" id="name" dangerouslySetInnerHTML={{ __html: cmsName || "Business name"  }}>
           
         </h1>
 

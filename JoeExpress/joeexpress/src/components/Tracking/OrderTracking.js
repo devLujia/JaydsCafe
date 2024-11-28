@@ -162,7 +162,7 @@ function OrderTracking() {
         <nav class="w-full top-0 fixed bg-white z-20 shadow-lg flex justify-between">
             <div class="font-extrabold text-2xl flex items-center">
                 {/* <!-- Logo/Title in Navbar --> */}
-                <Link to="/" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide" dangerouslySetInnerHTML={{ __html: cmsName }}></Link>
+                <Link to="/" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide" dangerouslySetInnerHTML={{ __html: cmsName || "Business name"  }}></Link>
             </div>
             <div></div>
             {/* <!-- Button for Login or Sign Up --> */}
@@ -353,7 +353,7 @@ function OrderTracking() {
             <div class="border-y-2 border-gray-400 w-4/5 p-10">
             {/* <!-- container footer--> */}
             <div class="flex justify-between w-full">
-                <h1 class="text-white text-3xl sm:text-4xl font-bold"dangerouslySetInnerHTML={{ __html: cmsName }}></h1>
+                <h1 class="text-white text-3xl sm:text-4xl font-bold"dangerouslySetInnerHTML={{ __html: cmsName || "Business name"  }}></h1>
                 <div class="flex gap-2">
                 <button type='button' class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">
                     <img src={fb} alt=""></img>
