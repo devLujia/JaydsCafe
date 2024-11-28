@@ -352,7 +352,7 @@ useEffect(() => {
         
           
   return (
-    <div>
+    <div className='dark:bg-white'>
       
       {mapModal && <MapModal closeModal ={() => setMapModal(!mapModal)} />}
       {TermsModal && <Terms closeModal={setTermsModal}/>}
@@ -374,7 +374,7 @@ useEffect(() => {
 
           {authenticated ? 
           (
-            <div class="inline-flex w-fit h-fit space-x-2">
+            <div class="inline-flex w-fit h-fit space-x-2 ">
             <button onClick={toggleDropdown} className="focus:outline-none">
               <img src={userIcon} alt="user" className="mr-3" />
             </button>
