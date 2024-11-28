@@ -394,7 +394,7 @@ useEffect(() => {
                 </ul>
               </div>
             )}
-            <Link to={'/cart'} className="relative inline-block">
+            <Link to={'/cart'} className="relative inline-block"onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
               <img src={bagIcon} alt="bag" className="w-8 h-8" /> {/* Adjust size as needed */}
               {orderNotif.totalOrders > 0 && (
 
@@ -601,20 +601,40 @@ useEffect(() => {
 
             {/* Pagination controls */}
             <div className="flex justify-center items-center space-x-4 mt-10 text-sm">
-              <div className='px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 inline-flex gap-2'onClick={goToPreviousPage}>
-                <img src={left}></img>
-                <button className={`${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={currentPage === 1}>
+              <div
+                className={`px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 inline-flex gap-2 ${
+                  currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                onClick={() => {
+                  if (currentPage > 1) {
+                    goToPreviousPage();
+                    window.scrollTo({ top: 200, behavior: 'smooth' });
+                  }
+                }}
+              >
+                <img src={left} alt="Previous" />
+                <button disabled={currentPage === 1}>
                   Previous
                 </button>
               </div>
 
               <span className="text-lg font-semibold">{`Page ${currentPage} of ${totalPages}`}</span>
 
-              <div className='px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 inline-flex gap-2' onClick={goToNextPage}>
-                <button className={`${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={currentPage === totalPages} >
+              <div
+                className={`px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 inline-flex gap-2 ${
+                  currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                onClick={() => {
+                  if (currentPage < totalPages) {
+                    goToNextPage();
+                    window.scrollTo({ top: 200, behavior: 'smooth' });
+                  }
+                }}
+              >
+                <button disabled={currentPage === totalPages}>
                   Next
                 </button>
-                <img src={right}></img>
+                <img src={right} alt="Next" />
               </div>
             </div>
           </div>

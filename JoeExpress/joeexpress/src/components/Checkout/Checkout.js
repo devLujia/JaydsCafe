@@ -13,7 +13,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-// toast.configure();
 
 export default function Checkout() {
  
@@ -286,8 +285,19 @@ export default function Checkout() {
             }
 
             else if (res.data.success && selectedPayment === 'cash') {
-                alert("Ordered Successfully Placed");
-                navigate(`/paymentSuccess/${res.data.lastOrderId}`)
+                toast.success("Payment Successful!", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            
+                setTimeout(() => {
+                    navigate(`/paymentSuccess/${res.data.lastOrderId}`);
+                }, 3000);
             }
 
             else{
@@ -386,6 +396,7 @@ export default function Checkout() {
   return (
 
     <div className='bg-white'>
+    <ToastContainer position="top-center" autoClose={3000} />
 
         {/* <!-- nav --> */}
         <nav class="w-full top-0 fixed bg-white z-20 shadow-lg flex justify-evenly">

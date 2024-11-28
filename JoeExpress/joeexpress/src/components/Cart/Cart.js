@@ -94,6 +94,7 @@ function Cart() {
         if (selectedOption === 'delivery' && !isWithinSalawag) {
           openDeliveryModal(); // If delivery is selected but not in Salawag, open modal
         } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
           navigate('/checkout', { state: { riderNote } }); // Proceed to checkout
         }
       };
