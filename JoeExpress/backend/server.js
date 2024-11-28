@@ -2320,7 +2320,7 @@ GROUP BY
     o.order_date, 
     o.status
 ORDER BY 
-    o.order_date ASC;
+    o.order_date DESC;
 
                         
                     `

@@ -1584,7 +1584,7 @@ useEffect(() => {
           <h2 className="font-extrabold text-3xl md:text-4xl mb-4 md:mb-6 text-black">
             Let Us Introduce Ourselves
           </h2>
-          <p className="max-w-lg mb-6 text-base md:text-lg leading-relaxed text-black italic" dangerouslySetInnerHTML={{ __html: cmsAboutUs}}>
+          <p className="max-w-lg mb-6 text-base md:text-lg leading-relaxed text-black italic" dangerouslySetInnerHTML={{ __html: cmsAboutUs || "About us..." }}>
             
           </p>
           <div className="pt-4">
@@ -1851,7 +1851,7 @@ useEffect(() => {
       <div class="border-y-2 border-gray-400 w-4/5 p-10">
         {/* <!-- container footer--> */}
         <div class="flex justify-between w-full">
-        <h1 class="text-white text-3xl sm:text-4xl font-bold" dangerouslySetInnerHTML={{ __html: cmsName }}>
+        <h1 class="text-white text-3xl sm:text-4xl font-bold" dangerouslySetInnerHTML={{ __html: cmsName || "Business name"  }}>
         </h1>
           <div class="flex gap-2">
             <button type='button' 
