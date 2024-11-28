@@ -158,6 +158,15 @@ function Home() {
   const [ChatModal,setChatModal] = useState(false); //modal
   const [statusMessage, setStatusMessage] = useState("");
   const [userInput, setUserInput] = useState("");
+  const [authenticated, setAuthenticated] = useState(false);
+  const [foods, setFoods] = useState([]);
+  const [foodsSpecial, setFoodsSpecial] = useState([]);
+  const [randomizedFoodsSpecial, setRandomizedFoodsSpecial] = useState([]);
+  const [ordered, setOrdered] = useState(false);
+  const [category, setCategory] = useState([]);
+  const [menu, setMenu] = useState([]);
+  const [profile, setProfile] = useState([]);
+  const navigate = useNavigate();
 
 
   const [formData, setFormData] = useState({
@@ -729,15 +738,7 @@ function Home() {
     };
   }, []);
 
-  const [authenticated, setAuthenticated] = useState(false);
-  const [foods, setFoods] = useState([]);
-  const [foodsSpecial, setFoodsSpecial] = useState([]);
-  const [randomizedFoodsSpecial, setRandomizedFoodsSpecial] = useState([]);
-  const [ordered, setOrdered] = useState(false);
-  const [category, setCategory] = useState([]);
-  const [menu, setMenu] = useState([]);
-  const [profile, setProfile] = useState([]);
-  const navigate = useNavigate();
+  
   
   const handleNavigate = () => {
     navigate('/menu')
@@ -773,27 +774,30 @@ function Home() {
 
 }, []);  
   
-  useEffect(() => {
-    const fetchFoodsSpecial = async () => {
-      try {
-        const response = await axios.post('http://localhost:8081/foodsSpecial', { userId });
-        const { ordered, results } = response.data;
+    useEffect(() => {
+        const fetchFoodsSpecial = async () => {
+          try {
+            const response = await axios.post('http://localhost:8081/foodsSpecial', { userId });
+            const { success, foods } = response.data; // Corrected to use 'foods'
 
-        if (ordered) {
-          setFoodsSpecial(results);
-          setOrdered(true);
-        } else {
-          setFoodsSpecial(foods)
+            console.log("Ordered foods found:", foods);
+
+            if (success && foods.length > 0) {
+              setFoodsSpecial(foods);
+            } else {
+              setFoodsSpecial([]);
+            }
+
+          } catch (error) {
+            console.error("Error fetching foods:", error);
+          }
+        };
+
+        if (userId) {
+          fetchFoodsSpecial(); // Only call if userId is available
         }
-        
-      } catch (error) {
-        console.error("Error fetching foods:", error);
-      }
-    };
 
-    if (userId) {
-      fetchFoodsSpecial()};
-  }, [userId,foods]);
+    }, [userId]);
 
   useEffect(() => {
 
@@ -802,16 +806,16 @@ function Home() {
     
     const existingNames = new Set(newRandomized.map(food => food?.name));
 
-    setRandomizedFoodsSpecial(shuffled)
+    setRandomizedFoodsSpecial(newRandomized)
 
     if (newRandomized.length < 4) {
       foods.forEach(food => {
         if (!existingNames.has(food?.name) && newRandomized.length < 4) {
           newRandomized.push(food);
-          existingNames.add(food?.name); 
+          existingNames.add(food?.name); // Ensure uniqueness by name
         }
       });
-      setRandomizedFoodsSpecial(newRandomized);
+      setRandomizedFoodsSpecial(newRandomized); // Update the state with the final list
     }
 
   }, [foodsSpecial, foods]);
@@ -1398,9 +1402,9 @@ useEffect(() => {
                 
                 : 
 
-                (randomizedFoodsSpecial.slice(0,4).map((foods) => (
+                (randomizedFoodsSpecial.slice(0, 4).map((foods) => (
                   <div
-                    key={foods.id}
+                    key={foods.food_id} // Updated to use food_id
                     className="relative flex flex-col p-4 rounded-2xl bg-white text-black shadow-lg hover:shadow-2xl hover:scale-105 group border-2 border-[#067741] before:content-[''] before:absolute before:inset-0 before:rounded-2xl before:border-2 before:border-solid before:border-[#E5F5EE] before:-z-10 transition duration-300 overflow-visible"
                     data-aos="zoom-in"
                     data-aos-duration="1000"
@@ -1410,18 +1414,20 @@ useEffect(() => {
                     <div className="relative mx-auto w-full max-w-xs sm:max-w-sm md:max-w-md bg-gradient-to-t from-[#ece0c8] to-[#f5f2e4] rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-110">
                       <img src={foods.image_url} alt={foods.name} className="object-contain w-full h-28 sm:h-36 md:h-40 transition-transform duration-300 " />
                     </div>
-  
+          
                     {/* Food Info */}
                     <div className="mt-4 text-center">
                       <h2 className="text-lg sm:text-xl font-semibold mb-2 transition-colors duration-300 group-hover:text-white">
                         {foods.name}
                       </h2>
-                      <p className="text-sm text-gray-600 transition-opacity duration-300 group-hover:text-gray-300 group-hover:opacity-75">{foods.description}</p>
+                      <p className="text-sm text-gray-600 transition-opacity duration-300 group-hover:text-gray-300 group-hover:opacity-75">
+                        {foods.description}
+                      </p>
                       <div className="flex justify-between items-center mt-4">
                         <span className="text-sm font-bold transition-colors duration-300 group-hover:text-white">16oz</span>
                       </div>
                     </div>
-  
+          
                     {/* Buy Now Button */}
                     <div className="flex justify-between items-center mt-4">
                       <p className="text-2xl font-bold transition-colors duration-300 group-hover:text-white">₱ {foods.price}.00</p>
@@ -1434,7 +1440,7 @@ useEffect(() => {
                       </button>
                     </div>
                   </div>
-                  )))}
+                )))}
             </div>
           </div>  
         </div>

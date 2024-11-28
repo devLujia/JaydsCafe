@@ -236,39 +236,67 @@ app.post('/foodsSpecial', (req, res) => {
 
     const { userId } = req.body;
 
+    if (!userId) {
+        return res.status(400).json({ success: false, message: "User ID is required." });
+    }
+
     const order = `
                     SELECT 
-                        c.title AS category_title,
-                        f.id AS food_id, 
-                        f.name, 
-                        f.description, 
-                        f.image_url, 
-                        fs.price, 
-                        COUNT(o.order_id) AS total_orders_per_category
-            FROM category c
-            JOIN foods f ON c.id = f.category_id
-            JOIN food_sizes fs ON f.id = fs.food_id
-            LEFT JOIN orders_food ofd ON ofd.food_id = fs.food_id
-            LEFT JOIN orders o ON o.order_id = ofd.order_id
-            LEFT JOIN user u ON o.customer_id = u.id
-            WHERE f.visible = 1
-            AND u.id = ?
-            GROUP BY c.title, f.id
-            ORDER BY total_orders_per_category DESC, c.title, f.name;
+                        c.title AS category_title
+                    FROM category c
+                    JOIN foods f ON c.id = f.category_id
+                    LEFT JOIN orders_food ofd ON ofd.food_id = f.id
+                    LEFT JOIN orders o ON o.order_id = ofd.order_id
+                    WHERE f.visible = 1
+                    AND o.customer_id = ?
+                    GROUP BY c.title
+                    ORDER BY COUNT(o.order_id) DESC;
 
     `;
 
-    db.query(order, [userId], (err, results) => {
+    db.query(order, [userId], (err, categories) => {
         if (err) {
-            return res.json({ err: "error" });
+            return res.status(500).json({ success: false, error: err.message });
         }
 
-        if (results.length === 0) {
-            return res.json({ ordered: false });
+        if (categories.length === 0) {
+            return res.json({ success: true, categories: [], foods: [] });
         }
 
-        res.json({ ordered: true, results });
+        // Extract category titles
+        const categoryTitles = categories.map(category => category.category_title);
+
+        // Query to get all foods for the extracted categories
+        const foodQuery = `
+            SELECT 
+                f.name,
+                c.title AS category_title,
+                f.id AS food_id,
+                f.description,
+                f.image_url,
+                MIN(fs.price) AS price
+            FROM category c
+            JOIN foods f ON c.id = f.category_id
+            JOIN food_sizes fs ON f.id = fs.food_id
+            WHERE c.title IN (?)
+            AND f.visible = 1
+            GROUP BY f.name, c.title, f.id, f.description, f.image_url
+            ORDER BY c.title, f.name;
+        `;
+
+        db.query(foodQuery, [categoryTitles], (foodErr, foods) => {
+            if (foodErr) {
+                return res.status(500).json({ success: false, error: foodErr.message });
+            }
+
+            res.json({
+                success: true,
+                categories,
+                foods
+            });
+        });
     });
+
 });
 
 app.post('/signup', async (req, res) => {
@@ -3202,7 +3230,7 @@ ORDER BY
                 outro: 'Thank you for choosing Jayd’s Cafe!',
                 table: {
                     data: [
-                        { message: body }, // Include the message body in the table
+                        { message: body },
                     ],
                 },
             },

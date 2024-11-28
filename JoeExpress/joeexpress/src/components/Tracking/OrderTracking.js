@@ -38,30 +38,51 @@ function OrderTracking() {
         return shuffledArray;
       };
 
+      axios.defaults.withCredentials = true;
 
-    useEffect(() => {
+      useEffect(() => {
+        const checkAuthentication = async () => {
+            try {
+                const res = await axios.get('http://localhost:8081/');
+                if (res.data.valid) {
+                    setAuthenticated(true);
+                    setUserId(res.data.userId);
+                } else {
+                    navigate('/');
+                }
+            } catch (err) {
+                console.error('Error during authentication check:', err);
+            }
+        };
+
+        checkAuthentication();  // Call the async function
+    }, [navigate]);
+
+
+      useEffect(() => {
         const fetchFoodsSpecial = async () => {
           try {
             const response = await axios.post('http://localhost:8081/foodsSpecial', { userId });
-            const { ordered, results } = response.data;
-    
-            if (ordered) {
-              setFoodsSpecial(results);
-              setOrdered(true);
+            const { success, foods } = response.data; // Corrected to use 'foods'
+
+            console.log("Ordered foods found:", foods);
+
+            if (success && foods.length > 0) {
+              setFoodsSpecial(foods);
             } else {
-              setFoodsSpecial(foods)
+              setFoodsSpecial([]);
             }
-            
+
           } catch (error) {
             console.error("Error fetching foods:", error);
           }
         };
-    
+
         if (userId) {
-            fetchFoodsSpecial()
-        };
-        
-      }, [userId,foods]);
+          fetchFoodsSpecial(); // Only call if userId is available
+        }
+
+    }, [userId]);
 
 
     useEffect(() => {
@@ -75,7 +96,10 @@ function OrderTracking() {
             }
         };
 
-        fetchOrderDetails();
+        if(OrdrID){
+            fetchOrderDetails();
+        }
+
     }, [OrdrID]);
 
 
@@ -98,17 +122,17 @@ function OrderTracking() {
         let newRandomized = shuffled.slice(0, 4);
         
         const existingNames = new Set(newRandomized.map(food => food?.name));
-    
-        setRandomizedFoodsSpecial(shuffled)
-    
+
+        setRandomizedFoodsSpecial(newRandomized)
+
         if (newRandomized.length < 4) {
-          foods.forEach(food => {
+        foods.forEach(food => {
             if (!existingNames.has(food?.name) && newRandomized.length < 4) {
-              newRandomized.push(food);
-              existingNames.add(food?.name); 
+            newRandomized.push(food);
+            existingNames.add(food?.name);
             }
-          });
-          setRandomizedFoodsSpecial(newRandomized);
+        });
+        setRandomizedFoodsSpecial(newRandomized);
         }
     
       }, [foodsSpecial, foods]);
@@ -273,51 +297,49 @@ function OrderTracking() {
             <div id="fm-series">
     <div className="container p-4 mt-4 pb-10 grid items-center justify-center w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-            {randomizedFoodsSpecial.slice(0, 4).map((foods) => (
-                <div
-                    key={foods.id}
-                    className="relative overflow-hidden bg-gradient-to-b from-[#E5F5EE] to-white border-2 border-[#067741] rounded-3xl w-full max-w-[370px] shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-300 flex flex-col"
-                >
-                    {/* Image Container with 3D Effect */}
-                    <div className="relative bg-gradient-to-t from-[#ece0c8] to-[#f5f2e4] p-6 rounded-t-xl">
-                        <div className="w-full h-[160px] flex justify-center items-center">
-                            <div className="p-2 overflow-hidden transform hover:rotate-2 hover:scale-105 transition-transform duration-300">
-                                <img
-                                    className="max-w-none max-h-full object-contain"
-                                    src={foods.image_url}
-                                    alt={foods.name}
-                                />
+        {randomizedFoodsSpecial.slice(0, 4).map((food) => (
+                    <div
+                        key={food.food_id}
+                        className="relative overflow-hidden bg-gradient-to-b from-[#E5F5EE] to-white border-2 border-[#067741] rounded-3xl w-full max-w-[370px] shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-300 flex flex-col"
+                    >
+                        {/* Image Container with 3D Effect */}
+                        <div className="relative bg-gradient-to-t from-[#ece0c8] to-[#f5f2e4] p-6 rounded-t-xl">
+                            <div className="w-full h-[160px] flex justify-center items-center">
+                                <div className="p-2 overflow-hidden transform hover:rotate-2 hover:scale-105 transition-transform duration-300">
+                                    <img
+                                        className="max-w-none max-h-full object-contain"
+                                        src={food.image_url}
+                                        alt={food.name}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Info Section */}
+                        <div className="relative text-gray-800 px-4 pb-4 mt-2 flex-grow">
+                            <div className="flex justify-between items-start mb-2">
+                                <span className="font-bold text-lg text-gray-900 w-3/4 overflow-hidden text-ellipsis whitespace-normal">
+                                    {food.name}
+                                </span>
+                                <span className="bg-gray-200 rounded-full text-gray-800 text-md font-semibold px-2 py-1 shadow-sm transform transition-transform duration-300 hover:shadow-md hover:scale-105 whitespace-nowrap">
+                                    <strong>₱ </strong>{food.price}.00
+                                </span>
+                            </div>
+
+                            {/* Add to Cart Button */}
+                            <div className="mt-auto">
+                                <button
+                                    onClick={() => navigate('/cart')}
+                                    className="relative overflow-hidden text-white p-3 rounded-lg w-full text-center bg-gradient-to-r from-[#067741] via-[#45A64B] to-[#067741] shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl group"
+                                >
+                                    <span className="absolute inset-0 bg-gradient-to-r from-[#1f4d29] via-[#2b6b36] to-[#1f4d29] transition-transform duration-500 transform group-hover:scale-150 group-hover:rotate-45 opacity-25"></span>
+                                    <span className="relative">Add to Cart</span>
+                                </button>
                             </div>
                         </div>
                     </div>
+                ))}
 
-                    {/* Info Section */}
-                    <div className="relative text-gray-800 px-4 pb-4 mt-2 flex-grow">
-                        <div className="flex justify-between items-start mb-2">
-                            <span className="font-bold text-lg text-gray-900 w-3/4 overflow-hidden text-ellipsis whitespace-normal">
-                                {foods.name}
-                            </span>
-                            <span className="bg-gray-200 rounded-full text--800 text-md font-semibold px-2 py-1 shadow-sm transform transition-transform duration-300 hover:shadow-md hover:scale-105 whitespace-nowrap">
-                                <strong>₱ </strong>{foods.price}.00
-                            </span>
-                        </div>
-                        <span className="block text-sm opacity-75 text-gray-700 mb-3">
-                            Medium (22oz)
-                        </span>
-
-                        {/* Add to Cart Button */}
-                        <div className="mt-auto">
-                            <button
-                                onClick={() => navigate('/cart')}
-                                className="relative overflow-hidden text-white p-3 rounded-lg w-full text-center bg-gradient-to-r from-[#067741] via-[#45A64B] to-[#067741] shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl group"
-                            >
-                                <span className="absolute inset-0 bg-gradient-to-r from-[#1f4d29] via-[#2b6b36] to-[#1f4d29] transition-transform duration-500 transform group-hover:scale-150 group-hover:rotate-45 opacity-25"></span>
-                                <span className="relative">Add to Cart</span>
-                            </button>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
                     </div>
                 </div>
             </div>
