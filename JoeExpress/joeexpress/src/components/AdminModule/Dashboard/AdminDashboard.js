@@ -598,11 +598,13 @@ function AdminDashboard() {
 
                         </div>
                         <div class="flex-1">
-                           <h2 class="text-lg font-semibold">{ticket?.ticket_id || 'NO TICKET ID'}</h2>
-                           <p class="text-gray-600">{ticket?.subject || "No Subject"}</p>
+                           <h2 class="text-lg font-semibold">Ticket Id: {ticket?.ticket_id || 'NO TICKET ID'}</h2>
+                           <p class="text-gray-600">From: {ticket?.name || "No user name"}</p>
+                           <p class="text-gray-600">Subject: {ticket?.subject || "No Subject"}</p>
+                           
                         </div>
 
-                        <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full top-5 end-0 dark:border-gray-900">8</div>
+                        <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full top-5 end-0 dark:border-gray-900">{ticket?.message_count}</div>
 
                      </div> ))}
  

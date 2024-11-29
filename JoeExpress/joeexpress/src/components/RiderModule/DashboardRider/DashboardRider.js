@@ -417,7 +417,7 @@ export default function DashboardRider() {
                                 {/* <button className='border-2 border-textgreenColor hover:bg-textgreenColor hover:text-white transition-all duration-300 py-2 px-3 font-semibold text-sm text-textgreenColor rounded-lg'>
                                     View
                                 </button> */}
-                                 <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full top-5 end-20 dark:border-gray-900">8</div>
+                                 {messages.message_count > 0 && <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full top-5 end-20 dark:border-gray-900">{messages.message_count}</div>}
                             
                             </div> ))}
                             

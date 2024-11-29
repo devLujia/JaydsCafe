@@ -2646,7 +2646,7 @@ ORDER BY
                 o.status,
                 o.deliveryMethod
             ORDER BY 
-                o.order_date ASC;
+                o.order_date DESC;
                         
                     `
 
@@ -2904,11 +2904,18 @@ ORDER BY
       app.post('/getOrderId', (req, res) => {
         const {userId} = req.body;
 
-        const sql = `SELECT o.order_id, u.name 
-                        FROM orders o
-                        JOIN user u ON o.customer_id = u.id
-                        WHERE o.rider_id = ? 
-                        ORDER BY o.order_date DESC; `;
+        const sql = `SELECT 
+                        o.order_id, 
+                        u.name, 
+                        COUNT(om.id) AS message_count
+                    FROM orders o
+                    JOIN user u 
+                        ON o.customer_id = u.id
+                    LEFT JOIN order_msg om 
+                        ON om.order_id = o.order_id
+                    WHERE o.rider_id = ? 
+                    GROUP BY o.order_id, u.name
+                    ORDER BY o.order_date DESC;`;
 
         db.query(sql,[userId], (err, results) => {
             if (err) {
@@ -2933,16 +2940,22 @@ ORDER BY
                         t.status, 
                         t.ticket_id, 
                         t.updated_at, 
-                        u.name
+                        u.name,
+                        COUNT(m.id) AS message_count
                     FROM 
                         tickets t
                     JOIN 
-                        user u
-                    ON 
-                        t.ticket_id = u.verification_token
+                        user u 
+                        ON t.ticket_id = u.verification_token
+                    LEFT JOIN 
+                        messages m 
+                        ON m.ticket_id = t.ticket_id
+                    GROUP BY 
+                        t.id, t.subject, t.status, t.ticket_id, t.updated_at, u.name
                     ORDER BY 
                         t.status = 'closed' ASC, 
                         t.updated_at DESC;
+
                    `;
 
         db.query(sql, (err, results) => {
