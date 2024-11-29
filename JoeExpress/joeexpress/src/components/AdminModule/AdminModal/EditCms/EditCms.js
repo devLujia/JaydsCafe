@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import ConfirmSubmitModal from './ConfirmSubmitModal';
 
 function EditCms({ closeModal, id }) {
   const [cmsData, setCmsData] = useState({});
@@ -42,20 +43,25 @@ function EditCms({ closeModal, id }) {
     }));
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
     formData.append('id', cmsData.id);
     formData.append('content', cmsData.content);
-
+    setIsModalOpen(false);
+    closeModal(false);
     try {
       const res = await axios.post('http://localhost:8081/editCms', formData);
       alert('Content updated successfully');
-      closeModal(false);
     } catch (err) {
       console.error('Error updating content:', err);
+    } finally {
+      setIsModalOpen(false); // Close the modal
     }
+    closeModal(false);
   };
 
   return (
@@ -104,11 +110,22 @@ function EditCms({ closeModal, id }) {
             </div>
 
             <button
-              type="submit"
+              type="button"
+              onClick={() => setIsModalOpen(true)}
               className="bg-textgreenColor hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-full"
             >
               Edit {cmsData.title}
             </button>
+
+            <ConfirmSubmitModal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)} // Close modal without action
+              onConfirm={handleSubmit} // Trigger the submit action
+              title="Confirm Edit"
+              message={`Are you sure you want to edit the content "${cmsData.title}"?`}
+              confirmText="Confirm"
+              cancelText="Cancel"
+            />
           </form>
         </div>
       </div>

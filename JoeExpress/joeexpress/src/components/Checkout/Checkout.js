@@ -9,8 +9,8 @@ import gcash from '../image/gcash_logo.svg';
 import plus from '../image/plus.svg';
 import lock from '../image/lock.svg';
 import axios from 'axios';
-import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 
@@ -100,7 +100,11 @@ export default function Checkout() {
 
     const handleOpenCancel = () => setIsCancelModalOpen(true);
     const handleCloseCancel = () => setIsCancelModalOpen(false);
+    const isModalOpenRef = useRef(isCancelModalOpen);
 
+    useEffect(() => {
+        isModalOpenRef.current = isCancelModalOpen;
+      }, [isCancelModalOpen]);
 
     const notifyAndProceed = () => {
         setIsCancelled(false);
@@ -116,7 +120,7 @@ export default function Checkout() {
                 </div>
                 <div className="flex flex-wrap justify-center gap-4">
                 <button 
-                onClick={handleOpenCancel}
+                onClick={handleCloseModal}
                 type="button"
                 class="px-5 py-2.5 text-sm font-medium text-white bg-red-600 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">
                         Cancel
@@ -138,7 +142,7 @@ export default function Checkout() {
         },
         
         style: {
-            position: 'fixed',
+            position: "fixed",
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
@@ -153,52 +157,56 @@ export default function Checkout() {
       }
     );
 
-    // Start an interval to update the countdown timer
     intervalRef.current = setInterval(() => {
-      setRemainingTime((prevTime) => {
-        const newTime = prevTime - 1;
-        
-
-        // Update the toast with the new countdown time
-        toast.update(toastId.current, {
-          render: (
-            <>
-            <div className="text-center mb-4 text-sm sm:text-md md:text-lg font-semibold tracking-wide">
-                Are you sure about your order?
-            </div>
-            <div className="text-center my-4 text-sm sm:text-md md:text-lg">
-                You can cancel your order within:
-            </div>
-            <div className="w-full flex flex-wrap justify-center items-center gap-4">
-                <button
+        setRemainingTime((prevTime) => {
+          if (isModalOpenRef.current) return prevTime; // Pause the timer if the modal is open
+      
+          const newTime = prevTime - 1;
+      
+          // Update the toast with the new countdown time
+          toast.update(toastId.current, {
+            render: (
+              <>
+                <div className="text-center mb-4 text-sm sm:text-md md:text-lg font-semibold tracking-wide">
+                  Are you sure about your order?
+                </div>
+                <div className="text-center my-4 text-sm sm:text-md md:text-lg">
+                  You can cancel your order within:
+                </div>
+                <div className="w-full flex flex-wrap justify-center items-center gap-4">
+                  <button
                     onClick={handleOpenCancel}
                     className="flex-1 min-w-[120px] sm:w-auto cursor-pointer py-3 px-5 bg-red-600 hover:bg-red-500 font-semibold tracking-wide text-white rounded-md text-center"
-                >
+                  >
                     Cancel
-                </button>
-                <button
+                  </button>
+                  <button
                     onClick={handleCheckout}
                     className="flex-1 min-w-[220px] sm:w-auto cursor-pointer py-3 px-[10px] bg-textgreenColor hover:bg-green-500 font-semibold tracking-wide text-white rounded-md text-center"
-                >
+                  >
                     Proceed({newTime}s remaining)
-                </button>
-            </div>
-            </>
-          ),
-        });
-
-        // If time reaches zero, clear the interval and proceed to checkout
-        if (newTime === 0) {
-          clearInterval(intervalRef.current); // Stop the timer at 0
-          if (!isCancelled) {
-            handleCheckout(); // Proceed to checkout if not cancelled
+                  </button>
+                </div>
+              </>
+            ),
+          });
+      
+          if (newTime <= 0) {
+            clearInterval(intervalRef.current);
+            toast.dismiss(toastId.current);
+            console.log("Time expired");
+            if (!isCancelled) {
+              handleCheckout(); 
+            }
+            return 0; 
           }
-        }
+      
+          return newTime; 
+        });
+      }, 1000);
 
-        return newTime;
-      });
-    }, 1000);
-  };
+      return () => clearInterval(intervalRef.current);
+      };
     
   useEffect(() => {
     const checkAuthentication = async () => {
@@ -261,7 +269,7 @@ export default function Checkout() {
 
     const handleCloseModal = () => {
         setShowModal(false);
-        navigate('/cart'); 
+        navigate('/checkout'); 
     };
 
     const handleCheckout = async () =>{
