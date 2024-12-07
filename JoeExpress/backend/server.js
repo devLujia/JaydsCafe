@@ -1180,55 +1180,51 @@ app.post('/updateAcc', async (req, res) => {
 // ADMIN
 // dashboard
 
-app.post('/adminlogin',async (req, res) => {
-
-    const {email,password} = req.body
+app.post('/adminlogin', async (req, res) => {
+    const { email, password } = req.body;
 
     const sql = 'SELECT * FROM user WHERE email = ?';
 
-    db.query(sql, [email, password], (err, data) => {
-        const isMatch = bcrypt.compare(req.body.password,data[0].password);
+    db.query(sql, [email], async (err, data) => {
         if (err) {
             return res.json("Error");
         }
-        
-        if (data.length == 0) {
+
+        if (data.length === 0) {
             return res.json({ Login: false, Message: "NO RECORD EXISTED" });
-        } 
-        
-        const userData = data[0];
-        
-        if (isMatch && data[0].role === 1){
-            req.session.userId = userData.id;
-            const name = data[0].name;
-            req.session.name = name;
-            req.session.role = 1;          
-            return res.json({ Login: 1 });
         }
 
-        else if (isMatch && data[0].role === 2){
-            req.session.userId = userData.id;
-            const name = data[0].name;
-            req.session.name = name;
-            req.session.role = 2;          
-            return res.json({ Login: 2 });
-        }
-        
-        else if (isMatch && data[0].role === 4){
-            req.session.userId = userData.id;
-            const name = data[0].name;
-            req.session.name = name;
-            req.session.role = 4;          
-            return res.json({ Login: 4});
-        }
+        try {
+            const userData = data[0];
 
-        else{
-            res.send("Wrong Password");
-             return
-        }
+            // Compare the provided password with the hashed password in the database
+            const isMatch = await bcrypt.compare(password, userData.password);
 
+            if (isMatch) {
+                req.session.userId = userData.id;
+                const name = userData.name;
+                req.session.name = name;
+
+                if (userData.role === 1) {
+                    req.session.role = 1;
+                    return res.json({ Login: 1 });
+                } else if (userData.role === 2) {
+                    req.session.role = 2;
+                    return res.json({ Login: 2 });
+                } else if (userData.role === 4) {
+                    req.session.role = 4;
+                    return res.json({ Login: 4 });
+                }
+            } else {
+                return res.send("Wrong Password");
+            }
+        } catch (error) {
+            console.error(error);
+            return res.json("Error");
+        }
     });
 });
+
 
 app.post('/updateOrders', async (req,res)=>{
 
@@ -1396,30 +1392,43 @@ app.post('/fetchSpecificUserData', (req, res) => {
     });
 });
 
-app.post('/deleteUserData',(req,res)=>{
+app.post('/deleteUserData', (req, res) => {
+    const { id } = req.body;
 
-    const {id} = req.body;
+    if (!id) {
+        return res.status(400).json({ error: 'ID is required' });
+    }
 
-    const query = `DELETE FROM cart WHERE user_id = ?`
+    const deleteFromOrderMsgSql = 'DELETE FROM order_msg WHERE sender_id = ?';
+    const deleteFromCartSql = 'DELETE FROM cart WHERE user_id = ?';
+    const deleteUserSql = 'DELETE FROM user WHERE id = ?';
 
-    db.query(query,[id],(irror,result)=>{
-        if(irror){
-            result.json({irror: "Unable to delete from cart"})
+    // Delete from order_msg first
+    db.query(deleteFromOrderMsgSql, [id], (orderErr, orderResult) => {
+        if (orderErr) {
+            console.error('Error deleting from order_msg:', orderErr);
+            return res.status(500).json({ error: 'Error deleting from order_msg' });
         }
-        
-        const deleteQuery = `DELETE FROM user WHERE id = ? `
-        
-        db.query(deleteQuery,[id], (deleteErr, deleteRes)=> {
-            if(deleteErr){
-                deleteRes.json({err: "Unable to delete user"})
+
+        // Then delete from cart
+        db.query(deleteFromCartSql, [id], (cartErr, cartResult) => {
+            if (cartErr) {
+                console.error('Error deleting from cart:', cartErr);
+                return res.status(500).json({ error: 'Error deleting from cart' });
             }
-            res.json({Sucess:true})
-            
-        })
 
-    })
+            // Finally delete the user
+            db.query(deleteUserSql, [id], (userErr, userResult) => {
+                if (userErr) {
+                    console.error('Error deleting user:', userErr);
+                    return res.status(500).json({ error: 'Error deleting user' });
+                }
 
-})
+                return res.json({ message: 'User and associated data deleted successfully' });
+            });
+        });
+    });
+});
 
 
 app.post('/productResult', (req,res)=>{
@@ -2084,6 +2093,7 @@ app.post('/removeProduct',  async (req, res) =>{
                 o.customer_id, 
                 o.order_date, 
                 o.deliveryMethod,
+                o.delivery_address,
                 o.status,
                 o.totalPrice, 
                 GROUP_CONCAT(
@@ -2111,6 +2121,7 @@ app.post('/removeProduct',  async (req, res) =>{
                 o.customer_id, 
                 o.order_date, 
                 o.status,
+                o.delivery_address,
                 o.deliveryMethod
             ORDER BY 
                 o.order_date DESC;
@@ -2137,6 +2148,7 @@ app.post('/removeProduct',  async (req, res) =>{
                 o.order_date,
                 o.update_order_date, 
                 o.status,
+                o.delivery_address,
                 o.deliveryMethod,
                 o.totalPrice, 
                 GROUP_CONCAT(
@@ -2164,6 +2176,7 @@ app.post('/removeProduct',  async (req, res) =>{
                 o.order_date,
                 o.update_order_date, 
                 o.status,
+                o.delivery_address,
                 o.deliveryMethod
             ORDER BY 
                 o.update_order_date DESC;
@@ -2617,6 +2630,7 @@ ORDER BY
                 o.customer_id, 
                 o.order_date, 
                 o.deliveryMethod,
+                o.delivery_address,
                 o.status,
                 o.totalPrice, 
                 GROUP_CONCAT(
@@ -2644,6 +2658,7 @@ ORDER BY
                 o.customer_id, 
                 o.order_date, 
                 o.status,
+                o.delivery_address,
                 o.deliveryMethod
             ORDER BY 
                 o.order_date DESC;

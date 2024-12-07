@@ -10,6 +10,7 @@ import bagIcon from '../image/bag.svg';
 import image11 from '../image/menu.png';
 import chat from '../image/chat.svg';
 import MapModal from '../Map/Map';
+import NewProducts from '../UserModal/NewProducts/NewProducts';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 //import { io } from 'socket.io-client';
@@ -949,11 +950,11 @@ useEffect(() => {
   return (
   
     <div class="bg-jaydsBg">
+    <NewProducts className=' w-full'/>
 
     {mapModal && <MapModal closeModal ={() => setMapModal(!mapModal)} />}
     {TermsModal && <Terms closeModal={setTermsModal}/>}
     {TermsModal && <Terms closeModal={setTermsModal}/>}
-
 
       {/* <!-- Thesis Disclaimer --> */}
       <div className="fixed top-0 w-full bg-gray-200 text-center text-xs md:text-sm font-medium py-1 md:py-2 text-black z-30">

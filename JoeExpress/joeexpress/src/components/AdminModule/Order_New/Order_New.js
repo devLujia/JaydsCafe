@@ -392,7 +392,7 @@ export default function Order_New() {
             setIsModalOpen(true);
         };
   return (
-    <div className=' bg-jaydsBg h-screen'>
+    <div className=''>
          {/* <!-- nav --> */}
          <nav class="sticky top-0 bg-jaydsBg z-20 shadow-lg flex justify-between dark:bg-[#282828]">
             <div class="font-extrabold text-2xl flex items-center">
@@ -561,7 +561,7 @@ export default function Order_New() {
             </div>
         </aside>
         
-        <div class="p-4 sm:ml-72 hidden sm:block">
+        <div class="p-4 sm:ml-72 hidden sm:block bg-jaydsBg h-screen">
             <div class="mb-4 border-b-2  border-gray-300"> {/* <!-- Tabs below--> */}
                 <ul class="flex flex-wrap -mb-px text-md font-semibold text-center " id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">    
                     <li class="me-2" role="presentation">
@@ -673,12 +673,12 @@ export default function Order_New() {
                                                                     <td className="px-6 py-4 text-center">{order?.name}</td>
                                                                     <td className="px-6 py-4 text-center">
                                                                         <a 
-                                                                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(order?.address)}`}
+                                                                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(order?.delivery_address)}`}
                                                                             target="_blank" 
                                                                             rel="noopener noreferrer"
                                                                             className="text-blue-500 hover:underline"
                                                                         >
-                                                                            {order?.address}
+                                                                            {order?.delivery_address}
                                                                         </a>
                                                                     </td>
                                                                     <td className="px-6 py-4 text-center">{order?.pnum}</td>
@@ -943,7 +943,7 @@ export default function Order_New() {
                                                                     {order?.name}
                                                                 </td>
                                                                 <td className="px-6 py-4 text-center">
-                                                                    {order?.address}
+                                                                    {order?.delivery_address}
                                                                 </td>
                                                                 <td className="px-6 py-4 text-center">
                                                                     {order?.pnum}
@@ -1008,25 +1008,25 @@ export default function Order_New() {
                                             </div>                
                                         </div>
 
-                                        <div className="flex justify-between items-center px-6 py-4 font-semibold">
-                                        <button
-                                            onClick={handleNextPendingPage}
-                                            disabled={currentPendingPage === 1}
-                                            className={`px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-slate-200 ${currentPendingPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                        >
-                                            Previous
-                                        </button>
-                                        <span className="text-gray-700">
-                                            Page {currentPendingPage} of {totalPendingPages}
-                                        </span>
-                                        <button
-                                            onClick={handlePrevPendingPage}
-                                            disabled={currentPendingPage === totalPendingPages}
-                                            className={`px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-slate-200 ${currentPendingPage === totalPendingPages ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                        >
-                                            Next
-                                        </button>
-                                    </div>
+                                        {/* <div className="flex justify-between items-center px-6 py-4 font-semibold">
+                                            <button
+                                                onClick={handleNextPendingPage}
+                                                disabled={currentPendingPage === 1}
+                                                className={`px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-slate-200 ${currentPendingPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                            >
+                                                Previous
+                                            </button>
+                                            <span className="text-gray-700">
+                                                burat {currentPendingPage} of {totalPendingPages}
+                                            </span>
+                                            <button
+                                                onClick={handlePrevPendingPage}
+                                                disabled={currentPendingPage === totalPendingPages}
+                                                className={`px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-slate-200 ${currentPendingPage === totalPendingPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                            >
+                                                Next
+                                            </button>
+                                        </div> */}
                                     </div>
                                 </div>
                         </div>

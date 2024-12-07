@@ -72,7 +72,7 @@ export default function Checkout() {
     };
 
     const handleAddressChange = (e) => {
-        setDeliveryAddress(e.target.value); // Update delivery address based on radio button selection
+        setDeliveryAddress(e.target.value);
     };
 
     const openModal = () => {
@@ -269,7 +269,7 @@ export default function Checkout() {
 
     const handleCloseModal = () => {
         setShowModal(false);
-        navigate('/checkout'); 
+        navigate('/cart'); 
     };
 
     const handleCheckout = async () =>{
@@ -284,7 +284,7 @@ export default function Checkout() {
                 deliveryMethod: riderNote?.option || '' ,
                 paymentMethod: selectedPayment,
                 code,
-                deliveryAddress : deliveryAddress || altAddress
+                deliveryAddress : deliveryAddress
             });
 
             if (res.data.success && selectedPayment === 'gcash' ){
@@ -447,54 +447,56 @@ export default function Checkout() {
                         <div className='space-y-2'> {/* Main container */}
                             <div class="gap-y-2 flex flex-col"> {/* First option */}
 
-                                <label htmlFor="add1"  class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
-                                    <input 
+                            <label htmlFor="add1" class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
+                                <input 
                                     type="radio" 
                                     id="add1" 
                                     name="hosting" 
                                     value={profile.address} 
                                     checked={deliveryAddress === profile.address} 
-                                    onChange={handleAddressChange} class="peer text-textgreenColor focus:ring-textgreenColor" 
+                                    onChange={handleAddressChange} 
+                                    class="peer text-textgreenColor focus:ring-textgreenColor" 
                                     defaultChecked
-                                    />
-                                    <div className='flex flex-col py-4 overflow-hidden'>
-                                        <label htmlFor="add1" class="w-full ms-3 text-sm font-medium text-gray-900 tracking-wide">{profile.address}</label>
-                                    </div>
-                                </label>
-                                {profile.secondary_address &&
-                                    (<label htmlFor="add2"  class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
-                                        <input 
+                                />
+                                <div className="flex flex-col py-4 overflow-hidden">
+                                    <label htmlFor="add1" class="w-full ms-3 text-sm font-medium text-gray-900 tracking-wide">{profile.address}</label>
+                                </div>
+                            </label>
+
+                            {profile.secondary_address && (
+                                <label htmlFor="add2" class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
+                                    <input 
                                         type="radio" 
                                         id="add2" 
-                                        name="hostinge" 
+                                        name="hosting"
                                         value={profile.secondary_address} 
-                                        checked={altAddress === profile.secondary_address}
-                                        onChange={handleAddressChange}
+                                        checked={deliveryAddress === profile.secondary_address}
+                                        onChange={handleAddressChange} 
                                         class="peer text-textgreenColor focus:ring-textgreenColor"
-                                        />
-                                        <div className='flex flex-col py-4 overflow-hidden'>
-                                            <label htmlFor="add2" class="w-full ms-3 text-sm font-medium text-gray-900 tracking-wide">{profile.secondary_address}</label>
-                                        </div>
-                                    </label>)}
-                                
-                                
-                                {news ? 
-                                
-                                <label htmlFor="new"  class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
-                                    <input 
-                                    type="radio" 
-                                    id="new" 
-                                    name="hosting" 
-                                    value={altAddress} 
-                                    checked = {altAddress !== (profile.secondary_address || profile.address)}
-                                    // onChange={handleAddressChange}
-                                    class="peer text-textgreenColor focus:ring-textgreenColor"
                                     />
-                                    <div className='flex flex-col py-4 overflow-hidden'>
+                                    <div className="flex flex-col py-4 overflow-hidden">
+                                        <label htmlFor="add2" class="w-full ms-3 text-sm font-medium text-gray-900 tracking-wide">{profile.secondary_address}</label>
+                                    </div>
+                                </label>
+                            )}
+
+                            {news && (
+                                <label htmlFor="new" class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
+                                    <input 
+                                        type="radio" 
+                                        id="new" 
+                                        name="hosting"
+                                        value={altAddress} 
+                                        checked={deliveryAddress === altAddress}
+                                        onChange={handleAddressChange} 
+                                        class="peer text-textgreenColor focus:ring-textgreenColor"
+                                    />
+                                    <div className="flex flex-col py-4 overflow-hidden">
                                         <label htmlFor="new" class="w-full ms-3 text-sm font-medium text-gray-900 tracking-wide">{altAddress}</label>
                                     </div>
+                                </label>
+                            )}
 
-                                </label> : "" }
 
                                 {isModalOpen ? (
                                         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">

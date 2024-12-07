@@ -517,9 +517,9 @@ function AdminDashboard() {
                <div class="p-4 bg-white rounded-xl h-full w-full dark:bg-[#282828] dark:text-white">
                   <div class="flex relative justify-between">
                      <h1 class="font-bold text-3xl tracking-wide mb-3">Overview</h1>
-                     <button className="px-4 py-2 bg-transparent text-black border border-black rounded-lg hover:bg-green-800 hover:text-white transition ease-in-out duration-300 shadow-md">
-                  View Statistics
-                  </button>
+                     <button onClick={()=>navigate('/Sales')} className="px-4 py-2 bg-transparent text-black border border-black rounded-lg hover:bg-green-800 hover:text-white transition ease-in-out duration-300 shadow-md">
+                        View Statistics
+                     </button>
                   </div>
                   <p class="mb-16">Sales Summary</p>
 

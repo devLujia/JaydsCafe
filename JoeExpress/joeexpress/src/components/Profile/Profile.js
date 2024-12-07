@@ -481,6 +481,7 @@ export default function Profile() {
       setSelectedOrderId(id)
       setIsChatOpen(true)
     };
+    
     const closeChat = () => {
       setIsChatOpen(false);
       setSelectedOrderId(null);
@@ -529,11 +530,11 @@ export default function Profile() {
       }
     };
 
-
   return (
 
     <div className='bg-jaydsBg'>
       <ToastContainer position="top-center" autoClose={3000} />
+      {isChatOpen && <ChatWithRider onClose={closeChat} id={selectedOrderId} userId={userId} />}
 
       {/* <!-- Nav --> */}
       <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">

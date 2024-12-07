@@ -327,33 +327,33 @@ export default function ContentManagement() {
         
         <div class="p-4 sm:ml-72 bg-slate-100 hidden sm:block dark:bg-[#3f3f3f] dark:text-white">
             <div class="relative  sm:rounded-lg">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2">
+            <div className="flex flex-wrap justify-evenly gap-y-3">
                     {cmsContent.filter(cms => cms.category === "About Us" || cms.category === "Header").map(cms => (
-                        <div key={cms.id} className='relative border-2 border-gray-500 rounded-xl text-center shadow-xl min-w-fit p-2'>
-                        <h1 className='mt-2 text-xl text-left font-semibold mb-2'>{cms.title}</h1>
+                        <div key={cms.id} className='relative border-2 border-gray-500 rounded-xl text-center shadow-xl min-w-[220px] max-w-[220px] p-2'>
+                            <h1 className='mt-2 text-xl text-left font-semibold mb-2'>{cms.title}</h1>
 
-                        <h1 className='mt-5 text-md font-normal mb-2'>
-                            <span className='block'>Date Updated:</span>
-                            {new Date(cms.updated_at).toLocaleString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            second: '2-digit'
-                            })}
-                        </h1>
+                            <h1 className='mt-5 text-md font-normal mb-2'>
+                                <span className='block'>Date Updated:</span>
+                                {new Date(cms.updated_at).toLocaleString('en-US', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                second: '2-digit'
+                                })}
+                            </h1>
 
-                        {/* Render the content as raw HTML, styled like an input */}
-                        <div
-                            className="w-full max-w-[220px] max-h-[40px] px-2 rounded-lg bg-jaydsBg overflow-hidden text-center text-nowrap"
-                            dangerouslySetInnerHTML={{ __html: cms.content || "Content"  }}
-                            style={{ border: '1px solid #ddd', padding: '0.5rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                        ></div>
-                        
-                        <button onClick={() => handleEditCms(cms.id)} className='absolute top-3 right-3 p-1 bg-textgreenColor rounded-lg' title={`Edit ${cms.title}`}>
-                            <img src={edit} className='filter invert' alt="Edit" />
-                        </button>
+                            {/* Render the content as raw HTML, styled like an input */}
+                            <div
+                                className="w-full max-w-[220px] max-h-[40px] px-2 rounded-lg bg-jaydsBg overflow-hidden text-center text-nowrap"
+                                dangerouslySetInnerHTML={{ __html: cms.content || "Content"  }}
+                                style={{ border: '1px solid #ddd', padding: '0.5rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                            ></div>
+                            
+                            <button onClick={() => handleEditCms(cms.id)} className='absolute top-3 right-3 p-1 bg-textgreenColor rounded-lg' title={`Edit ${cms.title}`}>
+                                <img src={edit} className='filter invert' alt="Edit" />
+                            </button>
                         </div>
                     ))}
                 </div>
