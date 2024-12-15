@@ -387,7 +387,7 @@ export default function ContentManagement() {
                     ))}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
                     {cmsContent.filter(cms => cms.category === "image").map(cms => (
                         <div key={cms.category} className='relative border-2 border-gray-500 rounded-xl w-full flex flex-col items-center text-center justify-center p-4 shadow-xl'>
                             <h1 className='mt-2 text-lg font-semibold mb-2'>{cms.title}</h1>

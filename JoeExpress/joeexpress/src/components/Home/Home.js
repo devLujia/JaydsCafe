@@ -8,6 +8,7 @@ import ig from '../image/ig.svg';
 import userIcon from '../image/UserAcc.svg';
 import bagIcon from '../image/bag.svg';
 import image11 from '../image/menu.png';
+import logo from '../image/momo.jpg';
 import chat from '../image/chat.svg';
 import MapModal from '../Map/Map';
 import NewProducts from '../UserModal/NewProducts/NewProducts';
@@ -964,6 +965,10 @@ useEffect(() => {
     {/* <!-- nav --> */}
     <nav class="sticky top-8 bg-white z-20 shadow-lg">
       <div class="font-extrabold text-2xl flex items-center">
+        {/* Added business logo here! */}
+        <div className='w-7 h-7 ml-5'>
+          <img src={logo} alt="" />
+        </div>
         {/* <!-- Logo/Title in Navbar --> */}
         <a 
             href="#" 

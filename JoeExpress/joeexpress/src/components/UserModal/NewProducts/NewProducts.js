@@ -77,34 +77,32 @@ function NewProducts() {
 
   return (
     <div
-    style={{
-      position: 'fixed',
-      top: position.y,
-      left: position.x,
-      width: `${divWidth}px`,
-      height: `${divHeight}px`,
-      backgroundColor: '#e3ded6',
-      color: 'white',
-      fontWeight: 'bold',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      cursor: 'pointer',
-      zIndex: 1000,
-      borderRadius: '20px',
-      border: '2px solid #067741',
-      boxShadow: '5px 10px 18px #888888',
-    }}
-    onMouseDown={handleMouseDown}
-    onMouseMove={handleMouseMove}
-    onMouseUp={(e) => {
-      handleMouseUp(); 
-      if (isClick) {
-        handleNavigate(); 
-      }
-    }}
-    onMouseLeave={handleMouseUp}
-  >
+  style={{
+    position: 'fixed',
+    top: position.y,
+    left: position.x,
+    width: `${divWidth}px`,
+    height: `${divHeight}px`,
+    backgroundColor: '#e3ded6',
+    color: 'white',
+    fontWeight: 'bold',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    cursor: 'pointer',
+    zIndex: 1000,
+    borderRadius: '20px',
+    border: '2px solid #067741',
+    boxShadow: '5px 10px 18px #888888',
+  }}
+  onMouseDown={handleMouseDown}
+  onMouseMove={handleMouseMove}
+  onMouseUp={(e) => {
+    if (!dragging) return; // Only snap if dragging is active
+    handleMouseUp();
+  }}
+  onMouseLeave={handleMouseUp}
+>
     <div className="absolute -top-10 -left-10 hover:rotate-45 transition-transform duration-300">
       <div className="relative">
         <TiStarburst className="w-28 h-28 text-greenColor drop-shadow-xl" />
@@ -144,7 +142,10 @@ function NewProducts() {
   
     {/* Close Button */}
     <button
-      onClick={handleClose}
+      onClick={(e) => {
+        e.stopPropagation(); // Prevent the click event from affecting parent handlers
+        handleClose(); // Trigger the close functionality
+      }}
       style={{
         position: 'absolute',
         top: 5,
