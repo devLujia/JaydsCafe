@@ -49,7 +49,6 @@ function NewProducts() {
     if (dragging) {
       setDragging(false);
 
-      // Snap to the closest edge
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
 
@@ -102,6 +101,7 @@ function NewProducts() {
     handleMouseUp();
   }}
   onMouseLeave={handleMouseUp}
+  onClick={handleNavigate}
 >
     <div className="absolute -top-10 -left-10 hover:rotate-45 transition-transform duration-300">
       <div className="relative">
