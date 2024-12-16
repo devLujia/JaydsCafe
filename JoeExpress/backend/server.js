@@ -2131,6 +2131,7 @@ app.post('/api/removeProduct', async (req, res) => {
                 o.order_date, 
                 o.delivery_address,
                 o.status,
+                o.delivery_address,
                 o.deliveryMethod
             ORDER BY 
                 o.order_date DESC;
@@ -2158,6 +2159,7 @@ app.post('/api/removeProduct', async (req, res) => {
                 o.order_date,
                 o.update_order_date, 
                 o.status,
+                o.delivery_address,
                 o.deliveryMethod,
                 o.delivery_address,
                 o.totalPrice, 
@@ -2188,6 +2190,7 @@ app.post('/api/removeProduct', async (req, res) => {
                 o.update_order_date, 
                 o.delivery_address,
                 o.status,
+                o.delivery_address,
                 o.deliveryMethod
             ORDER BY 
                 o.update_order_date ASC;

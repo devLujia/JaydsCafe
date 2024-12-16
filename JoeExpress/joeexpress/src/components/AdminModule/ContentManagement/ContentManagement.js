@@ -332,17 +332,17 @@ export default function ContentManagement() {
                         <div key={cms.id} className='relative border-2 border-gray-500 rounded-xl text-center shadow-xl min-w-[220px] max-w-[220px] p-2'>
                         <h1 className='mt-2 text-xl text-left font-semibold mb-2'>{cms.title}</h1>
 
-                        <h1 className='mt-5 text-md font-normal mb-2'>
-                            <span className='block'>Date Updated:</span>
-                            {new Date(cms.updated_at).toLocaleString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            second: '2-digit'
-                            })}
-                        </h1>
+                            <h1 className='mt-5 text-md font-normal mb-2'>
+                                <span className='block'>Date Updated:</span>
+                                {new Date(cms.updated_at).toLocaleString('en-US', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                second: '2-digit'
+                                })}
+                            </h1>
 
                         {/* Render the content as raw HTML, styled like an input */}
                         <div
@@ -387,7 +387,7 @@ export default function ContentManagement() {
                     ))}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
                     {cmsContent.filter(cms => cms.category === "image").map(cms => (
                         <div key={cms.category} className='relative border-2 border-gray-500 rounded-xl w-full flex flex-col items-center text-center justify-center p-4 shadow-xl'>
                             <h1 className='mt-2 text-lg font-semibold mb-2'>{cms.title}</h1>

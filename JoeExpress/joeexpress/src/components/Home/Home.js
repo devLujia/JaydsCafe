@@ -8,8 +8,10 @@ import ig from '../image/ig.svg';
 import userIcon from '../image/UserAcc.svg';
 import bagIcon from '../image/bag.svg';
 import image11 from '../image/menu.png';
+import logo from '../image/jaydslogo.svg';
 import chat from '../image/chat.svg';
 import MapModal from '../Map/Map';
+import NewProducts from '../UserModal/NewProducts/NewProducts';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 //import { io } from 'socket.io-client';
@@ -949,11 +951,11 @@ useEffect(() => {
   return (
   
     <div class="bg-jaydsBg">
+    <NewProducts className=' w-full'/>
 
     {mapModal && <MapModal closeModal ={() => setMapModal(!mapModal)} />}
     {TermsModal && <Terms closeModal={setTermsModal}/>}
     {TermsModal && <Terms closeModal={setTermsModal}/>}
-
 
       {/* <!-- Thesis Disclaimer --> */}
       <div className="fixed top-0 w-full bg-gray-200 text-center text-xs md:text-sm font-medium py-1 md:py-2 text-black z-30">
@@ -963,11 +965,15 @@ useEffect(() => {
     {/* <!-- nav --> */}
     <nav class="sticky top-8 bg-white z-20 shadow-lg">
       <div class="font-extrabold text-2xl flex items-center">
+        {/* Added business logo here! */}
+        <div className="w-10 h-10 ml-2 rounded-full overflow-hidden">
+          <img src={logo} alt="Logo" className="w-full h-full object-cover" />
+        </div>
         {/* <!-- Logo/Title in Navbar --> */}
         <a 
             href="#" 
             className="flex items-center text-greenColor ms-2 md:ms-5 text-lg md:text-2xl tracking-wide" 
-            dangerouslySetInnerHTML={{ __html: cmsName}}>
+            dangerouslySetInnerHTML={{ __html: cmsName || "Business name" }}>
         </a>
 
       </div>
