@@ -5,7 +5,7 @@ function RemoveProduct({ closeModal, id }) {
 
     const handleRemoveProduct = async () => {
         try {
-          const res = await axios.post('http://localhost:8081/removeProduct', { id });
+          const res = await axios.post('https://jaydscafe.com/api/removeProduct', { id });
           if (res.data.success) {
             closeModal(false);
           }

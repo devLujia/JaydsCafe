@@ -64,7 +64,7 @@ function ProductManagement() {
     useEffect(() => {
       const fetchNameData = async () => {
           try {
-              const response = await axios.post('http://localhost:8081/cms', { title: 'Business Name' });
+              const response = await axios.post('https://jaydscafe.com/api/cms', { title: 'Business Name' });
               setCmsName(response.data.content || '');
           } catch (error) {
               console.error('Error fetching data:', error);
@@ -145,7 +145,7 @@ function ProductManagement() {
     };
 
     useEffect(() => {
-      axios.post('http://localhost:8081/roleSetup')
+      axios.post('https://jaydscafe.com/api/roleSetup')
         .then(response => {
           setTier(response.data);  // Set the response data to the state
         })
@@ -159,7 +159,7 @@ function ProductManagement() {
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await axios.post('http://localhost:8081/productResult');
+          const response = await axios.post('https://jaydscafe.com/api/productResult');
           setFoods(response.data);
         } catch (error) {
           console.error('Error fetching food details:', error);
@@ -176,7 +176,7 @@ function ProductManagement() {
               const updatedSizes = {};
   
               for (const food of foods) {
-                  const response = await axios.post('http://localhost:8081/sizes', { foodId: food?.id });
+                  const response = await axios.post('https://jaydscafe.com/api/sizes', { foodId: food?.id });
                   updatedSizes[food?.id] = response.data;
               }
   
@@ -202,7 +202,7 @@ function ProductManagement() {
 
   const handleLogout = async () => {
     try {
-      const res = await axios.post('http://localhost:8081/logout');
+      const res = await axios.post('https://jaydscafe.com/api/logout');
       if (res.data.success) {
         // eslint-disable-next-line no-restricted-globals
         location.reload();
@@ -218,7 +218,7 @@ function ProductManagement() {
   useEffect(() => {
     const fetchAddons = async () => {
       try {
-        const response = await axios.post('http://localhost:8081/AdminAddons');
+        const response = await axios.post('https://jaydscafe.com/api/AdminAddons');
         setAddons(response.data);
       } catch (error) {
         console.error('Error fetching addons details:', error);
@@ -232,7 +232,7 @@ function ProductManagement() {
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const response = await axios.post('http://localhost:8081/fetchCategory');
+        const response = await axios.post('https://jaydscafe.com/api/fetchCategory');
         setCategories(response.data);
       } catch (error) {
         console.error('Error fetching category details:', error);
@@ -246,7 +246,7 @@ function ProductManagement() {
     useEffect(() => {
       const fetchData = async () => {
       try {
-         const res = await axios.get('http://localhost:8081/admin');
+         const res = await axios.get('https://jaydscafe.com/api/admin');
          if (res.data.valid) {
          setAuthenticated(true);
          setUserId(res.data.userId);
@@ -270,7 +270,7 @@ function ProductManagement() {
       useEffect(() => {
         const fetchProfile = async () => {
           try {
-            const response = await axios.post('http://localhost:8081/profile', { userId });
+            const response = await axios.post('https://jaydscafe.com/api/profile', { userId });
             setProfile(response.data);
           } catch (error) {
             console.error('Error fetching profile details:', error);
@@ -287,7 +287,7 @@ function ProductManagement() {
     useEffect(() => {
       const fetchDiscounts = async () => {
           try {
-              const response = await axios.get('http://localhost:8081/fetchDiscount');
+              const response = await axios.get('https://jaydscafe.com/api/fetchDiscount');
               setDiscounts(response.data);
           } catch (error) {
               console.error('Error fetching discount codes:', error);
@@ -303,7 +303,7 @@ function ProductManagement() {
         if (window.confirm('Are you sure you want to delete this discount code?')) {
           try {
             console.log(id);
-            const response = await axios.delete(`http://localhost:8081/removeDiscount/${id}`);
+            const response = await axios.delete(`https://jaydscafe.com/api/removeDiscount/${id}`);
             alert(response.data.message);
             setDiscounts((prevDiscounts) => prevDiscounts.filter(discount => discount.id !== id));
           } catch (error) {
@@ -320,7 +320,7 @@ function ProductManagement() {
 
       const handleRemoveProduct = async (id) => {
         try {
-            await axios.post('http://localhost:8081/removeProduct', { id });
+            await axios.post('https://jaydscafe.com/api/removeProduct', { id });
             const updatedFoods = foods.filter((food) => food?.id !== id);
             setFoods(updatedFoods);
         } catch (error) {
@@ -330,7 +330,7 @@ function ProductManagement() {
     
     const handleRemoveAddons = async (id) => {
       try {
-          const res = await axios.post('http://localhost:8081/removeAddons', { id });
+          const res = await axios.post('https://jaydscafe.com/api/removeAddons', { id });
           
           if (res.data.Success) {
               const updatedAddons = addons.filter((addon) => addon.id !== id);
@@ -350,7 +350,7 @@ function ProductManagement() {
       }
 
       try {
-        const res = await axios.post('http://localhost:8081/removeCategory', { id });
+        const res = await axios.post('https://jaydscafe.com/api/removeCategory', { id });
         
         if (res.data.success) {
           const updatedCategory = categories.filter((category) => category.id !== id);
@@ -366,7 +366,7 @@ function ProductManagement() {
 
     const handleHide = async (id) => {
       try {
-          const result = await axios.post('http://localhost:8081/hideProduct', { id });
+          const result = await axios.post('https://jaydscafe.com/api/hideProduct', { id });
           if (result.data.success) {
               alert(result.data.message);
               setFoods((prevFoods) =>
@@ -382,7 +382,7 @@ function ProductManagement() {
   
   const handleHideAddons = async (id) => {
     try {
-        const result = await axios.post('http://localhost:8081/setAddonsVisibility', { id });
+        const result = await axios.post('https://jaydscafe.com/api/setAddonsVisibility', { id });
         if (result.data.success) {
             alert(`Update successfully`);
             setAddons((prevAddons) =>
@@ -511,7 +511,7 @@ function ProductManagement() {
             <img src={jaydsLogo} alt="Logo"/>
             <span 
                className="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2" 
-               dangerouslySetInnerHTML={{ __html: cmsName || "Business name"  }}>
+               dangerouslySetInnerHTML={{ __html: cmsName }}>
             </span>       
          </a>
             <ul class="space-y-2 font-medium ">

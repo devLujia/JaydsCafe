@@ -22,7 +22,7 @@ export default function LoginRider() {
 
         const fetchNameData = async () => {
           try {
-            const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
+            const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Business Name'});
             setCmsName(response.data.content || '');
           } 
           catch (error) {
@@ -54,7 +54,7 @@ export default function LoginRider() {
     
         try {
             // Await the result of the axios call
-            const res = await axios.post('http://localhost:8081/adminlogin', values);
+            const res = await axios.post('https://jaydscafe.com/api/adminlogin', values);
     
             if (res.data.Login === 4) {
                 navigation('/riderDashboard');
@@ -72,7 +72,7 @@ export default function LoginRider() {
     useEffect(() => {
         const checkAuthentication = async () => {
             try {
-                const res = await axios.get('http://localhost:8081/');
+                const res = await axios.get('https://jaydscafe.com/api/');
                 
                 if (res.data.valid) {
                     navigation('/riderDashboard');

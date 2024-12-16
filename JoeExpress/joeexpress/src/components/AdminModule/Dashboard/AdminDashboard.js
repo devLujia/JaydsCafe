@@ -17,6 +17,7 @@ function AdminDashboard() {
    const [totalOrder,setTotalOrder] = useState(0);
    const [totalRevenue,setTotalRevenue] = useState(0);
    const [totalCustomer,setTotalCustomer] = useState(0);
+   const [totalProductSold,setProductSold] = useState(0);
    const [foods,setFoods] = useState([]);
    const [orders, setOrders] = useState([])
    const [expandedOrderId, setExpandedOrderId] = useState(null);
@@ -36,7 +37,7 @@ function AdminDashboard() {
    useEffect(() => {
       const fetchRoleSetup = async () => {
           try {
-              const response = await axios.post('http://localhost:8081/roleSetup');
+              const response = await axios.post('https://jaydscafe.com/api/roleSetup');
               setTier(response.data);
           } catch (error) {
               console.error('Error fetching role setup details:', error);
@@ -76,7 +77,7 @@ function AdminDashboard() {
 
         const fetchNameData = async () => {
           try {
-            const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
+            const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Business Name'});
             setCmsName(response.data.content || '');
           } 
           catch (error) {
@@ -99,7 +100,7 @@ function AdminDashboard() {
    useEffect(() => {
       const fetchAdminTable = async () => {
           try {
-              const response = await axios.post('http://localhost:8081/adminTable');
+              const response = await axios.post('https://jaydscafe.com/api/adminTable');
               setFoods(response.data);
           } catch (error) {
               console.error('Error fetching food details:', error);
@@ -112,7 +113,7 @@ function AdminDashboard() {
   useEffect(() => {
    const fetchTotalOrder = async () => {
        try {
-           const response = await axios.post('http://localhost:8081/totalOrder');
+           const response = await axios.post('https://jaydscafe.com/api/totalOrder');
            setTotalOrder(response.data.totalOrders);
        } catch (error) {
            console.error('Error fetching totalOrder details:', error);
@@ -140,7 +141,7 @@ function AdminDashboard() {
    useEffect(() => {
       const getTicketNumber = async () => {
         try {
-          const response = await axios.post('http://localhost:8081/getTicketId');
+          const response = await axios.post('https://jaydscafe.com/api/getTicketId');
           setTicketId(response.data); 
           
         } 
@@ -166,7 +167,7 @@ function AdminDashboard() {
 
     const handleLogout = async () => {
       try {
-        const res = await axios.post('http://localhost:8081/logout');
+        const res = await axios.post('https://jaydscafe.com/api/logout');
         if (res.data.success) {
           // eslint-disable-next-line no-restricted-globals
           location.reload();
@@ -182,7 +183,7 @@ function AdminDashboard() {
     useEffect(() => {
       const fetchTotalRevenue = async () => {
           try {
-              const response = await axios.post('http://localhost:8081/totalRevenue');
+              const response = await axios.post('https://jaydscafe.com/api/totalRevenue');
               setTotalRevenue(response.data.total_revenue);
           } catch (error) {
               console.error('Error fetching total revenue details:', error);
@@ -191,12 +192,26 @@ function AdminDashboard() {
   
       fetchTotalRevenue();
   }, []);
+
+
+  useEffect(() => {
+   const fetchTotalProductSold = async () => {
+       try {
+           const response = await axios.post('https://jaydscafe.com/api/totalProductSold');
+           setProductSold(response.data.total_product_sold);
+       } catch (error) {
+           console.error('Error fetching total revenue details:', error);
+       }
+   };
+
+   fetchTotalProductSold();
+}, []);
   
     
    useEffect(() => {
       const fetchCustomerCount = async () => {
          try {
-            const response = await axios.post('http://localhost:8081/users');
+            const response = await axios.post('https://jaydscafe.com/api/users');
             setTotalCustomer(response.data.customer_count);
          } catch (error) {
             console.error('Error fetching customer count details:', error);
@@ -216,7 +231,7 @@ function AdminDashboard() {
     useEffect(() => {
       const fetchCmsData = async () => {
           try {
-              const response = await axios.post('http://localhost:8081/cms_backend');
+              const response = await axios.post('https://jaydscafe.com/api/cms_backend');
               setCms(response.data);
           } catch (error) {
               console.error('Error fetching CMS data:', error);
@@ -230,7 +245,7 @@ function AdminDashboard() {
       useEffect(() => {
       const fetchData = async () => {
       try {
-         const res = await axios.get('http://localhost:8081/admin');
+         const res = await axios.get('https://jaydscafe.com/api/admin');
          if (res.data.valid) {
          setAuthenticated(true);
          setUserId(res.data.userId);
@@ -255,7 +270,7 @@ function AdminDashboard() {
          const fetchProfile = async () => {
              try {
                  if (userId) {
-                     const response = await axios.post('http://localhost:8081/profile', { userId: userId });
+                     const response = await axios.post('https://jaydscafe.com/api/profile', { userId: userId });
                      
                      if (response.data) {
                          setProfile(response.data);
@@ -277,7 +292,7 @@ function AdminDashboard() {
    useEffect(() => {
       const fetchOrders = async () => {
           try {
-              const res = await axios.post('http://localhost:8081/orderTracking');
+              const res = await axios.post('https://jaydscafe.com/api/orderTracking');
               setOrders(res.data);
           } catch (error) {
               console.error('Error fetching orders:', error);
@@ -310,7 +325,7 @@ function AdminDashboard() {
       );
   
       try {
-          const res = await axios.post('http://localhost:8081/updateOrders', {
+          const res = await axios.post('https://jaydscafe.com/api/updateOrders', {
               order_id: id,
               status: newStatus
           });
@@ -393,7 +408,7 @@ function AdminDashboard() {
             <img src={jaydsLogo} alt="Logo"/>           
             <span 
                className="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2" 
-               dangerouslySetInnerHTML={{ __html: cmsName || "Business name"  }}>
+               dangerouslySetInnerHTML={{ __html: cmsName }}>
             </span>
          </a>
             <ul class="space-y-2 font-medium ">
@@ -517,8 +532,8 @@ function AdminDashboard() {
                <div class="p-4 bg-white rounded-xl h-full w-full dark:bg-[#282828] dark:text-white">
                   <div class="flex relative justify-between">
                      <h1 class="font-bold text-3xl tracking-wide mb-3">Overview</h1>
-                     <button className="px-4 py-2 bg-transparent text-black border border-black rounded-lg hover:bg-green-800 hover:text-white transition ease-in-out duration-300 shadow-md">
-                  View Statistics
+                     <button onClick={()=> navigate('/Sales')} className="px-4 py-2 bg-transparent text-black border border-black rounded-lg hover:bg-green-800 hover:text-white transition ease-in-out duration-300 shadow-md">
+                     View Statistics
                   </button>
                   </div>
                   <p class="mb-16">Sales Summary</p>
@@ -528,11 +543,11 @@ function AdminDashboard() {
                         <div class= "w-10 h-10 mb-6 bg-red-400 rounded-full justify-center flex items-center flex-shrink-0">
                            <img src={sales}></img>
                         </div>
-                        <h1 class="font-bold text-lg text-gray-700 mb-1"><span>₱</span>134</h1>
+                        <h1 class="font-bold text-lg text-gray-700 mb-1"><span>₱</span>{totalRevenue}</h1>
                         <div class="inline-flex justify-between font-normal text-gray-600 mb-1">
                            <p>Total Sales</p>
                         </div>
-                        <p className='font-semibold text-blue-500 pb-2'>Per Month</p>
+                        {/* <p className='font-semibold text-blue-500 pb-2'>Per Month</p> */}
                      </div>
 
                      <div class="px-4 py-4 flex flex-col h-fit rounded-xl bg-yellow-100 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="200">
@@ -543,18 +558,18 @@ function AdminDashboard() {
                         <div class="inline-flex justify-between font-normal text-gray-600 mb-1">
                            <p>Total Order</p>
                         </div>
-                        <p className='font-semibold text-blue-500 pb-2'>This Week</p>
+                        {/* <p className='font-semibold text-blue-500 pb-2'>This Week</p> */}
                      </div>
 
                      <div class="px-4 py-4 flex flex-col h-fit rounded-xl bg-green-100 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="300">
                         <div class= "w-10 h-10 mb-6 bg-green-400 rounded-full justify-center flex items-center flex-shrink-0">
                            <img src={product}></img>
                         </div>
-                        <h1 class="font-bold text-lg text-gray-700 mb-1">{totalRevenue} </h1>
+                        <h1 class="font-bold text-lg text-gray-700 mb-1">{totalProductSold} </h1>
                         <div class="font-normal text-gray-600 mb-1">
                            <p>Product Sold</p>
                         </div>
-                        <p className='font-semibold text-blue-500 pb-2'>Per Month</p>
+                        {/* <p className='font-semibold text-blue-500 pb-2'>Per Month</p> */}
                      </div>
 
                      <div class="px-4 py-4 flex flex-col h-fit rounded-xl bg-violet-100 shadow-lg" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="400">
@@ -565,7 +580,7 @@ function AdminDashboard() {
                         <div class="inline-flex justify-between font-normal text-gray-600 mb-1">
                            <p>New Customer</p>
                         </div>
-                        <p className='font-semibold text-blue-500 pb-2'>Per Week</p>
+                        {/* <p className='font-semibold text-blue-500 pb-2'>Per Week</p> */}
                      </div>
 
                   </div>

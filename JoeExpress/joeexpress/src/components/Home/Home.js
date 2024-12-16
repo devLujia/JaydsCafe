@@ -226,7 +226,7 @@ function Home() {
 
     const fetchNameData = async () => {
       try {
-        const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
+        const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Business Name'});
         setCmsName(response.data?.content || '');
       } 
       catch (error) {
@@ -237,7 +237,7 @@ function Home() {
     
     const fetchReview1Data = async () => {
       try {
-        const response = await axios.post('http://localhost:8081/cms', {title: 'Review1'});
+        const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Review1'});
         setReview1(response.data?.content || '');
       } 
       catch (error) {
@@ -248,7 +248,7 @@ function Home() {
     
     const fetchReview2Data = async () => {
       try {
-        const response = await axios.post('http://localhost:8081/cms', {title: 'Review2'});
+        const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Review2'});
         setReview2(response.data?.content || '');
         
       } 
@@ -260,7 +260,7 @@ function Home() {
     
     const fetchReview3Data = async () => {
       try {
-        const response = await axios.post('http://localhost:8081/cms', {title: 'Review3'});
+        const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Review3'});
         setReview3(response.data?.content || '');
       } 
       catch (error) {
@@ -272,7 +272,7 @@ function Home() {
     const fetchaboutusData = async () => {
 
       try{
-        const response = await axios.post ('http://localhost:8081/cms', {title: 'About Us'});
+        const response = await axios.post ('https://jaydscafe.com/api/cms', {title: 'About Us'});
         setAboutUs(response.data?.content || '')
       }
       catch (error) {
@@ -284,7 +284,7 @@ function Home() {
     const fetchOperationHoursData = async () => {
 
       try{
-        const response = await axios.post ('http://localhost:8081/cms', {title: 'Operation hours'});
+        const response = await axios.post ('https://jaydscafe.com/api/cms', {title: 'Operation hours'});
         setOperationHour(response.data?.content || '')
       }
       catch (error) {
@@ -296,7 +296,7 @@ function Home() {
     const fetchLink = async () => {
 
       try{
-        const response = await axios.post ('http://localhost:8081/cms', {title: 'Link'});
+        const response = await axios.post ('https://jaydscafe.com/api/cms', {title: 'Link'});
         setCmsLink(response.data?.content || '')
       }
       catch (error) {
@@ -308,7 +308,7 @@ function Home() {
     const fetchOperationDaysData = async () => {
 
       try{
-        const response = await axios.post ('http://localhost:8081/cms', {title: 'Operation Days'});
+        const response = await axios.post ('https://jaydscafe.com/api/cms', {title: 'Operation Days'});
         setOperationDays(response.data?.content || '')
       }
       catch (error) {
@@ -320,7 +320,7 @@ function Home() {
     const fetchSmallLogo = async () => {
 
       try{
-        const response = await axios.post ('http://localhost:8081/cms', {title: 'Small Logo'});
+        const response = await axios.post ('https://jaydscafe.com/api/cms', {title: 'Small Logo'});
         setSmallLogo(response.data?.content || '')
       }
       catch (error) {
@@ -331,7 +331,7 @@ function Home() {
 
     const fetchBigLogo = async () => {
       try {
-        const response = await axios.post('http://localhost:8081/cms', {title: 'Big Logo'});
+        const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Big Logo'});
         setBigLogo(response.data?.content || '');
       } 
       catch (error) {
@@ -342,7 +342,7 @@ function Home() {
     
     const fetchAboutUsImage = async () => {
       try {
-        const response = await axios.post('http://localhost:8081/cms', {title: 'Store Image'});
+        const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Store Image'});
         setAboutUsImage(response.data?.content || '');
       } 
       catch (error) {
@@ -353,7 +353,7 @@ function Home() {
 
     const fetchFacebookLinkData = async () => {
       try {
-        const response = await axios.post('http://localhost:8081/cms', {title: 'Facebook'});
+        const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Facebook'});
         setCmsFacebook(response.data?.content || '');
       } 
       catch (error) {
@@ -364,7 +364,7 @@ function Home() {
 
     const fetchInstagramLinkData = async () => {
       try {
-        const response = await axios.post('http://localhost:8081/cms', {title: 'Instagram'});
+        const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Instagram'});
         setCmsInstagram(response.data?.content || '');
       } 
       catch (error) {
@@ -376,7 +376,7 @@ function Home() {
     const fetchLocationPage = async () => {
 
       try{
-        const response = await axios.post ('http://localhost:8081/cms', {title: 'Location Page'});
+        const response = await axios.post ('https://jaydscafe.com/api/cms', {title: 'Location Page'});
         setLocationPage(response.data?.content || '')
       }
       catch (error) {
@@ -388,7 +388,7 @@ function Home() {
     const fetchLocation = async () => {
 
       try{
-        const response = await axios.post ('http://localhost:8081/cms', {title: 'Location'});
+        const response = await axios.post ('https://jaydscafe.com/api/cms', {title: 'Location'});
         setLocation(response.data?.content || '')
       }
       catch (error) {
@@ -399,7 +399,7 @@ function Home() {
 
     const fetchPhoneData = async () => {
       try {
-        const response = await axios.post('http://localhost:8081/cms', {title: 'Phone Number'});
+        const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Phone Number'});
         setCmsPhone(response.data?.content || '');
       } 
       catch (error) {
@@ -410,7 +410,7 @@ function Home() {
 
     const fetchTelData = async () => {
       try {
-        const response = await axios.post('http://localhost:8081/cms', {title: 'Tel Number'});
+        const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Tel Number'});
         setCmsTel(response.data?.content || '');
       } 
       catch (error) {
@@ -458,7 +458,7 @@ function Home() {
     setAlertVisible(false); // Reset visibility for the alert
   
     try {
-      const response = await axios.post("http://localhost:8081/contact", formData);
+      const response = await axios.post("https://jaydscafe.com/api/contact", formData);
       setAlert({ severity: "success", message: "Message sent successfully!" });
       setAlertVisible(true); 
       setTimeout(() => setAlertVisible(false), 1800); 
@@ -749,7 +749,7 @@ function Home() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.post('http://localhost:8081/profile', { userId });
+        const response = await axios.post('https://jaydscafe.com/api/profile', { userId });
         setProfile(response.data);
       } catch (error) {
         console.error('Error fetching profile details:', error);
@@ -763,7 +763,7 @@ function Home() {
   useEffect(() => {
     const fetchFoods = async () => {
         try {
-            const response = await axios.get('http://localhost:8081/foods');
+            const response = await axios.get('https://jaydscafe.com/api/foods');
             setFoods(response.data);
         } catch (error) {
             console.error('Error fetching food details:', error.response || error.message);
@@ -777,7 +777,7 @@ function Home() {
     useEffect(() => {
         const fetchFoodsSpecial = async () => {
           try {
-            const response = await axios.post('http://localhost:8081/foodsSpecial', { userId });
+            const response = await axios.post('https://jaydscafe.com/api/foodsSpecial', { userId });
             const { success, foods } = response.data; // Corrected to use 'foods'
 
             console.log("Ordered foods found:", foods);
@@ -825,7 +825,7 @@ function Home() {
   useEffect(() => {
     const fetchCategory = async () => {
         try {
-            const response = await axios.post('http://localhost:8081/fetchCategory');
+            const response = await axios.post('https://jaydscafe.com/api/fetchCategory');
             setCategory(response.data);
         } catch (error) {
             console.error('Error fetching category details:', error);
@@ -839,7 +839,7 @@ function Home() {
   useEffect(() => {
       const fetchMenu = async () => {
           try {
-              const response = await axios.get('http://localhost:8081/menu');
+              const response = await axios.get('https://jaydscafe.com/api/menu');
               setMenu(response.data);
           } catch (error) {
               console.error('Error fetching menu details:', error);
@@ -883,7 +883,7 @@ useEffect(() => {
     useEffect(() => {
         const checkAuthentication = async () => {
             try {
-                const res = await axios.get('http://localhost:8081/');
+                const res = await axios.get('https://jaydscafe.com/api/');
                 if (res.data.valid) {
                     setAuthenticated(true);
                     setUserId(res.data.userId);
@@ -904,7 +904,7 @@ useEffect(() => {
 
   const handleLogout = async () => {
     try {
-      const res = await axios.post('http://localhost:8081/logout');
+      const res = await axios.post('https://jaydscafe.com/api/logout');
       if (res.data.success) {
         // eslint-disable-next-line no-restricted-globals
         location.reload();
@@ -967,7 +967,7 @@ useEffect(() => {
         <a 
             href="#" 
             className="flex items-center text-greenColor ms-2 md:ms-5 text-lg md:text-2xl tracking-wide" 
-            dangerouslySetInnerHTML={{ __html: cmsName || "Business name" }}>
+            dangerouslySetInnerHTML={{ __html: cmsName}}>
         </a>
 
       </div>
@@ -1256,7 +1256,7 @@ useEffect(() => {
         </p>
 
         {/* CMS Name Heading */}
-        <h1 className="text-textgreenColor text-4xl md:text-6xl lg:text-7xl font-extrabold pb-2 drop-shadow-lg text-center lg:text-left font-baloo" id="name" dangerouslySetInnerHTML={{ __html: cmsName || "Business name"  }}>
+        <h1 className="text-textgreenColor text-4xl md:text-6xl lg:text-7xl font-extrabold pb-2 drop-shadow-lg text-center lg:text-left font-baloo" id="name" dangerouslySetInnerHTML={{ __html: cmsName }}>
           
         </h1>
 
@@ -1851,7 +1851,7 @@ useEffect(() => {
       <div class="border-y-2 border-gray-400 w-4/5 p-10">
         {/* <!-- container footer--> */}
         <div class="flex justify-between w-full">
-        <h1 class="text-white text-3xl sm:text-4xl font-bold" dangerouslySetInnerHTML={{ __html: cmsName || "Business name"  }}>
+        <h1 class="text-white text-3xl sm:text-4xl font-bold" dangerouslySetInnerHTML={{ __html: cmsName }}>
         </h1>
           <div class="flex gap-2">
             <button type='button' 

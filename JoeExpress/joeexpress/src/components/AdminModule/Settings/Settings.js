@@ -35,7 +35,7 @@ export default function Settings() {
    useEffect(() => {
       const fetchRoleSetup = async () => {
           try {
-              const response = await axios.post('http://localhost:8081/roleSetup');
+              const response = await axios.post('https://jaydscafe.com/api/roleSetup');
               setTier(response.data);
           } catch (error) {
               console.error('Error fetching role setup details:', error);
@@ -48,7 +48,7 @@ export default function Settings() {
 
       const fetchNameData = async () => {
             try {
-            const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
+            const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Business Name'});
             setCmsName(response.data.content || '');
             } 
             catch (error) {
@@ -83,7 +83,7 @@ export default function Settings() {
    useEffect(() => {
       const fetchData = async () => {
       try {
-         const res = await axios.get('http://localhost:8081/admin');
+         const res = await axios.get('https://jaydscafe.com/api/admin');
          if (res.data.valid) {
          setAuthenticated(true);
          setUserId(res.data.userId);
@@ -116,7 +116,7 @@ export default function Settings() {
   useEffect(() => {
    const fetchProfile = async () => {
        try {
-           const response = await axios.post('http://localhost:8081/profile', { userId });
+           const response = await axios.post('https://jaydscafe.com/api/profile', { userId });
            setProfile(response.data);
        } catch (error) {
            console.error('Error fetching profile details:', error);
@@ -152,7 +152,7 @@ const submitPersonalInfo = async () => {
 
 
    try {
-     const response = await axios.post('http://localhost:8081/updateAdminInfo', {
+     const response = await axios.post('https://jaydscafe.com/api/updateAdminInfo', {
        value: {
          fullName: value.fullName || profile?.name,
          email: value.email || profile?.email,
@@ -187,7 +187,7 @@ const submitPersonalInfo = async () => {
 
   const handleLogout = async () => {
     try {
-    const res = await axios.post('http://localhost:8081/logout');
+    const res = await axios.post('https://jaydscafe.com/api/logout');
     if (res.data.success) {
         // eslint-disable-next-line no-restricted-globals
         location.reload();
@@ -235,7 +235,7 @@ const submitPersonalInfo = async () => {
                     <img src={jaydsLogo} alt="Logo"/>   
                     <span 
                         className="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2" 
-                        dangerouslySetInnerHTML={{ __html: cmsName || "Business name"  }}>
+                        dangerouslySetInnerHTML={{ __html: cmsName }}>
                     </span>        
                 </a>
                     <ul class="space-y-2 font-medium ">

@@ -35,7 +35,7 @@ export default function DashboardRider() {
 
         const fetchNameData = async () => {
           try {
-            const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
+            const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Business Name'});
             setCmsName(response.data.content || '');
           } 
           catch (error) {
@@ -55,7 +55,7 @@ export default function DashboardRider() {
     useEffect(() => {
         const fetchData = async () => {
         try {
-           const res = await axios.get('http://localhost:8081/admin');
+           const res = await axios.get('https://jaydscafe.com/api/admin');
            if (res.data.valid) {
            setAuthenticated(true);
            setUserId(res.data.userId);
@@ -79,7 +79,7 @@ export default function DashboardRider() {
         useEffect(() => {
             const fetchProfile = async () => {
               try {
-                const response = await axios.post('http://localhost:8081/profile', { userId });
+                const response = await axios.post('https://jaydscafe.com/api/profile', { userId });
                 setProfile(response.data);
               } catch (error) {
                 console.error('Error fetching profile details:', error);
@@ -93,7 +93,7 @@ export default function DashboardRider() {
         useEffect(() => {
             const fetchTotalOrder = async () => {
                 try {
-                const response = await axios.post('http://localhost:8081/ridertotalOrder', { userId });
+                const response = await axios.post('https://jaydscafe.com/api/ridertotalOrder', { userId });
                 setTotalOrder(response.data);
                 } catch (error) {
                 console.error('Error fetching total order details:', error);
@@ -110,7 +110,7 @@ export default function DashboardRider() {
         useEffect(() => {
             const fetchWeeklyTotalOrder = async () => {
               try {
-                const response = await axios.post('http://localhost:8081/weeklyridertotalOrder', { userId });
+                const response = await axios.post('https://jaydscafe.com/api/weeklyridertotalOrder', { userId });
                 setWeeklyTotalOrder(response.data);
               } catch (error) {
                 console.error('Error fetching weekly total order details:', error);
@@ -125,7 +125,7 @@ export default function DashboardRider() {
           useEffect(()=>{
             const fetchOrderHistory = async () => {
                 try {
-                    const response = await axios.post('http://localhost:8081/riderOrderHistory', { userId });
+                    const response = await axios.post('https://jaydscafe.com/api/riderOrderHistory', { userId });
                     setOrders(response.data);
                 } catch (err) {
                     console.error('Error fetching rider order history:', err);
@@ -141,7 +141,7 @@ export default function DashboardRider() {
         useEffect(() => {
             const getOrderId = async () => {
                 try {
-                    const response = await axios.post('http://localhost:8081/getOrderId', { userId });
+                    const response = await axios.post('https://jaydscafe.com/api/getOrderId', { userId });
                   setOrderId(response.data);
                     
                 } catch (error) {
@@ -158,7 +158,7 @@ export default function DashboardRider() {
 
     const handleLogout = async () => {
         try {
-          const res = await axios.post('http://localhost:8081/logout');
+          const res = await axios.post('https://jaydscafe.com/api/logout');
           if (res.data.success) {
             // eslint-disable-next-line no-restricted-globals
             location.reload();
@@ -315,12 +315,12 @@ export default function DashboardRider() {
                                         <div className='flex flex-row shrink-0 gap-2'>
                                                 <img src={loc} className='dark:filter dark:invert' alt="Location Icon" />
                                                 <a 
-                                                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(order?.address)}`}
+                                                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(order?.delivery_address)}`}
                                                     target="_blank" 
                                                     rel="noopener noreferrer"
                                                     className="text-sm leading-6 text-gray-500 dark:text-gray-100 hover:underline"
                                                 >
-                                                    {order?.address}
+                                                    {order?.delivery_address}
                                                 </a>
                                             </div>
                                     </div>

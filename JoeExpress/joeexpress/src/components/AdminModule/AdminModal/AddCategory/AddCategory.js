@@ -37,7 +37,7 @@ function AddCategory({closeModal}) {
       });
     
       try {
-        const res = await axios.post('http://localhost:8081/addCategory', formData);
+        const res = await axios.post('https://jaydscafe.com/api/addCategory', formData);
         alert('Category added successfully');
         closeModal(false);
       } catch (err) {

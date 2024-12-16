@@ -96,7 +96,7 @@ export default function InboxRider() {
    useEffect(() => {
       const getOrderId = async () => {
           try {
-              const response = await axios.post('http://localhost:8081/getOrderId', { userId });
+              const response = await axios.post('https://jaydscafe.com/api/getOrderId', { userId });
             setOrderId(response.data);
               
           } catch (error) {
@@ -123,7 +123,7 @@ export default function InboxRider() {
          try {
             setSpecificOrderId(order);
 
-            const response = await axios.post('http://localhost:8081/getRiderMessages', { ticketId: order });
+            const response = await axios.post('https://jaydscafe.com/api/getRiderMessages', { ticketId: order });
             setMessages(response.data);
 
             socket.emit('join_room_rider', order);
@@ -136,7 +136,7 @@ export default function InboxRider() {
    useEffect(() => {
       const fetchProfile = async () => {
         try {
-          const response = await axios.post('http://localhost:8081/profile', { userId });
+          const response = await axios.post('https://jaydscafe.com/api/profile', { userId });
           setProfile(response.data);
         } catch (error) {
           console.error('Error fetching profile details:', error);
@@ -152,7 +152,7 @@ export default function InboxRider() {
 useEffect(() => {
    const fetchData = async () => {
    try {
-      const res = await axios.get('http://localhost:8081/admin');
+      const res = await axios.get('https://jaydscafe.com/api/admin');
       if (res.data.valid) {
       setAuthenticated(true);
       setUserId(res.data.userId);
@@ -181,7 +181,7 @@ useEffect(() => {
 
     const handleLogout = async () => {
       try {
-      const res = await axios.post('http://localhost:8081/logout');
+      const res = await axios.post('https://jaydscafe.com/api/logout');
       if (res.data.success) {
           // eslint-disable-next-line no-restricted-globals
           location.reload();

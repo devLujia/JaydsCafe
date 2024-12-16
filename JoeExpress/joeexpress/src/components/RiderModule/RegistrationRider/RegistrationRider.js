@@ -22,7 +22,7 @@ export default function RegistrationRider() {
     useEffect(() => {
         const fetchNameData = async () => {
             try {
-                const response = await axios.post('http://localhost:8081/cms', { title: 'Business Name' });
+                const response = await axios.post('https://jaydscafe.com/api/cms', { title: 'Business Name' });
                 setCmsName(response.data.content || '');
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -46,7 +46,7 @@ export default function RegistrationRider() {
         // Check if email and password are valid
         if (err.email === "" && err.password === "") {
             try {
-                const res = await axios.post('http://localhost:8081/adminlogin', values);
+                const res = await axios.post('https://jaydscafe.com/api/adminlogin', values);
     
                 // Check if login is successful and the role is 'rider'
                 if (res.data.Login === 'rider') {
@@ -63,7 +63,7 @@ export default function RegistrationRider() {
     useEffect(() => {
         const checkUserValidity = async () => {
             try {
-                const res = await axios.get('http://localhost:8081/');
+                const res = await axios.get('https://jaydscafe.com/api/');
                 
                 if (res.data.valid) {
                     navigation('/riderDashboard');

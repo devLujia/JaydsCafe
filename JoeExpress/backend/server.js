@@ -33,7 +33,7 @@ const db_name = process.env.DB_NAME;
 const db_port = process.env.DB_PORT;
 
 app.use(cors({
-    origin:"http://localhost:3000",
+    origin:"https://jaydscafe.com",
     methods: ["POST","GET","DELETE"],
     credentials: true 
 }));
@@ -63,25 +63,28 @@ const config = {
     },
   };
 
-
-const storage = multer.diskStorage({
-    destination:(req, file, cb)=>{
-        cb(null, '../joeexpress/public/images')
+  const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        // Update the path to match your cloud server structure
+        cb(null, '/home/jaydscafe/htdocs/jaydscafe.com/images');
     },
-    filename:(req, file, cb)=>{
-        cb(null, file.fieldname + "_" + Date.now()+ path.extname(file.originalname));
+    filename: (req, file, cb) => {
+        // Maintain your existing filename logic
+        cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname));
     }
-})
+});
 
 const upload = multer({
     storage: storage
 })
 
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "testreact",
+const db = mysql.createPool({
+    connectionLimit: 10,
+    host: db_host,
+    user: db_user,
+    password: db_password,
+    database: db_name,
+    port: db_port,
     multipleStatements: true
 });
 
@@ -89,7 +92,7 @@ function generateToken() {
     return Math.random().toString(36).substr(2, 10);
 }
 
-app.get('/',(req,res)=>{
+app.get('/api/',(req,res)=>{
     
     if(req.session.name && req.session.role === 3){
         return res.json({valid:true, name: req.session.name, userId: req.session.userId})
@@ -100,7 +103,7 @@ app.get('/',(req,res)=>{
 
 })
 
-app.get('/admin',(req,res)=>{
+app.get('/api/admin',(req,res)=>{
     
     if(req.session.name && req.session.role === 1){
         return res.json({
@@ -123,7 +126,7 @@ app.get('/admin',(req,res)=>{
 
 }) 
 
-app.post('/cms', (req, res) => {
+app.post('/api/cms', (req, res) => {
     const { title } = req.body;
   
     const query = 'SELECT content FROM cms_pages WHERE title = ?';
@@ -142,7 +145,7 @@ app.post('/cms', (req, res) => {
     });
 });
   
-  app.post('/data', async (req, res) => {
+  app.post('/api/data', async (req, res) => {
     try {
 
         const weeklyResults = `
@@ -171,7 +174,7 @@ app.post('/cms', (req, res) => {
     }
 });
 
-app.post('/dataMonthly', async (req, res) => {
+app.post('/api/dataMonthly', async (req, res) => {
     try {
 
         const montlyResult = `
@@ -201,7 +204,7 @@ app.post('/dataMonthly', async (req, res) => {
 });
 
 
-app.get('/foods', (req,res)=>{
+app.get('/api/foods', (req,res)=>{
     
     try {
         const order = `
@@ -232,7 +235,7 @@ app.get('/foods', (req,res)=>{
 });
 
 
-app.post('/foodsSpecial', (req, res) => {
+app.post('/api/foodsSpecial', (req, res) => {
 
     const { userId } = req.body;
 
@@ -299,7 +302,7 @@ app.post('/foodsSpecial', (req, res) => {
 
 });
 
-app.post('/signup', async (req, res) => {
+app.post('/api/signup', async (req, res) => {
     const { pnum, name, email, password, address } = req.body;
 
     try {
@@ -374,7 +377,7 @@ app.post('/signup', async (req, res) => {
                                     button: {
                                         color: '#22BC66',
                                         text: 'Verify your account',
-                                        link: `http://localhost:3000/verify/${verificationToken}`
+                                        link: `https://jaydscafe.com/api/verify/${verificationToken}`
                                     }
                                 }
                             }
@@ -414,7 +417,7 @@ app.post('/signup', async (req, res) => {
     }
 });
     
-app.post('/addAdmin', async (req, res) => {
+app.post('/api/addAdmin', async (req, res) => {
     const { pnum, name, email, role, password, address } = req.body;
 
     try {
@@ -453,7 +456,7 @@ app.post('/addAdmin', async (req, res) => {
 });
     
 
-app.get('/menu', (req ,res )=>{
+app.get('/api/menu', (req ,res )=>{
     const query = 
     `SELECT
         f.id,
@@ -481,7 +484,7 @@ app.get('/menu', (req ,res )=>{
 });
 
 
-app.post('/itemGetter', (req, res) => {
+app.post('/api/itemGetter', (req, res) => {
     const userId = req.body.userId;
 
     const query = `
@@ -516,7 +519,7 @@ app.post('/itemGetter', (req, res) => {
 });
 
 
-app.get('/items/:foodId', (req, res) => {
+app.get('/api/items/:foodId', (req, res) => {
     const { foodId } = req.params;
   
     const query = `
@@ -553,7 +556,7 @@ app.get('/items/:foodId', (req, res) => {
     
   });
 
-app.get('/tracking/:OrdrId',(req,res)=>{
+app.get('/api/tracking/:OrdrId',(req,res)=>{
 
 const { OrdrId } = req.params
 
@@ -574,7 +577,7 @@ db.query(query, [OrdrId], (err, results) => {
 
 })
 
-app.post('/cart_items', (req, res) => {
+app.post('/api/cart_items', (req, res) => {
 const { foodId, size, price, addons, quantity, sugar } = req.body;
 const userId = req.session.userId;
 
@@ -591,7 +594,7 @@ db.query(query, [userId, foodId, size, price, addons, quantity, sugar], (err, re
 });
 });
 
-app.post('/update_items', (req, res) => {
+app.post('/api/update_items', (req, res) => {
     const { quantity, id } = req.body;
 
     const query = 'UPDATE cart_items SET quantity = ? WHERE id = ?';
@@ -605,7 +608,7 @@ app.post('/update_items', (req, res) => {
     });
 });
 
-app.post('/fetchAddons', (req,res) =>{
+app.post('/api/fetchAddons', (req,res) =>{
 
     const {id} = req.body
 
@@ -620,7 +623,7 @@ app.post('/fetchAddons', (req,res) =>{
 
 })
 
-app.post('/menuOption', (req, res) => {
+app.post('/api/menuOption', (req, res) => {
     
   const query = `
     SELECT 
@@ -645,7 +648,7 @@ app.post('/menuOption', (req, res) => {
     });
 });
 
-app.post('/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
 
   const sql = 'SELECT * FROM user WHERE email = ?';
@@ -684,7 +687,7 @@ app.post('/login', async (req, res) => {
   });
 });
 
-app.post('/logout', (req, res) => {
+app.post('/api/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) {
             return res.json({ success: false, message: 'Logout failed!' });
@@ -694,7 +697,7 @@ app.post('/logout', (req, res) => {
     });
 });
 
-app.get('/verify/:token', (req, res) => {
+app.get('/api/verify/:token', (req, res) => {
     const token = req.params.token;
 
     const sql = 'SELECT * FROM user WHERE verification_token = ?';
@@ -724,7 +727,7 @@ app.get('/verify/:token', (req, res) => {
     });
 });
 
-app.post('/order', (req, res) => {
+app.post('/api/order', (req, res) => {
     const { userId, amount, deliveryMethod, deliveryAddress ,paymentMethod , code } = req.body;
 
     let finalAmount = amount;
@@ -821,7 +824,7 @@ app.post('/order', (req, res) => {
     }
 });
 
-app.post('/removeCartItems', (req,res)=>{
+app.post('/api/removeCartItems', (req,res)=>{
     
     const {id} = req.body
 
@@ -841,7 +844,7 @@ app.post('/removeCartItems', (req,res)=>{
 })
 
 // Webhook route to handle payment success
-app.post('/webhook', (req, res) => {
+app.post('/api/webhook', (req, res) => {
     console.log('Webhook received:', req.body);
     const event = req.body;
 
@@ -888,7 +891,7 @@ app.post('/webhook', (req, res) => {
             };
 
             // Call the /order route to place the order
-            axios.post('http://localhost:3000/order', orderData)
+            axios.post('https://jaydscafe.com/order', orderData)
                 .then(() => {
                     res.status(200).json({ success: true, message: 'Order placed successfully after payment.' });
                 })
@@ -904,7 +907,7 @@ app.post('/webhook', (req, res) => {
     });
 });
   
-app.post('/create-payment-intent/:id', async (req, res) => {
+app.post('/api/create-payment-intent/:id', async (req, res) => {
     const { amount, description, userId } = req.body;
     const orderId = req.params.id;
 
@@ -944,8 +947,8 @@ app.post('/create-payment-intent/:id', async (req, res) => {
                     attributes: {
                         amount: amount * 100, // Amount in cents
                         redirect: {
-                            success: `http://localhost:3000/paymentSuccess/${orderId}`, // Use the orderId from params
-                            failed: 'http://localhost:3000/checkout', // Redirect on failure
+                            success: `https://jaydscafe.com/paymentSuccess/${orderId}`, // Use the orderId from params
+                            failed: 'https://jaydscafe.com/checkout', // Redirect on failure
                         },
                         type: 'gcash', // Payment type
                         currency: 'PHP', // Currency
@@ -972,7 +975,7 @@ app.post('/create-payment-intent/:id', async (req, res) => {
     }
 });
 
-app.post('/create-payment-flow', async (req, res) => {
+app.post('/api/create-payment-flow', async (req, res) => {
     try {
       const { phone, amount, description, orderId } = req.body;
   
@@ -986,7 +989,7 @@ app.post('/create-payment-flow', async (req, res) => {
       const redirectUrl = await attachPaymentMethod(
         paymentIntentId,
         paymentMethodId,
-        `http://localhost:3000/paymentSuccess/${orderId}`
+        `https://jaydscafe.com/paymentSuccess/${orderId}`
       );
   
       // Return redirect URL to the frontend
@@ -997,7 +1000,7 @@ app.post('/create-payment-flow', async (req, res) => {
     }
   });
 
-app.post('/check-payment-status', async (req, res) => {
+app.post('/api/check-payment-status', async (req, res) => {
     const { paymentIntentId } = req.body; // Or use req.query if preferred
   
     if (!paymentIntentId) {
@@ -1093,7 +1096,7 @@ const attachPaymentMethod = async (paymentIntentId, paymentMethodId, returnUrl) 
 
 
 
-app.post('/setTopaid', async (req, res) => {
+app.post('/api/setTopaid', async (req, res) => {
     const { OrderId, userId, paymentIntentId } = req.body;
     // const { paymentIntentId } = req.query;
 
@@ -1148,7 +1151,7 @@ app.post('/setTopaid', async (req, res) => {
     }
 });
 
-app.post('/updateAcc', async (req, res) => {
+app.post('/api/updateAcc', async (req, res) => {
     const { id, name, email, password, address } = req.body;
 
     const query = `
@@ -1180,57 +1183,51 @@ app.post('/updateAcc', async (req, res) => {
 // ADMIN
 // dashboard
 
-app.post('/adminlogin',async (req, res) => {
-
-    const {email,password} = req.body
+app.post('/api/adminlogin', async (req, res) => {
+    const { email, password } = req.body;
 
     const sql = 'SELECT * FROM user WHERE email = ?';
 
-    db.query(sql, [email, password], (err, data) => {
-        const isMatch = bcrypt.compare(req.body.password,data[0].password);
+    db.query(sql, [email], async (err, data) => {
         if (err) {
             return res.json("Error");
         }
-        
-        if (data.length == 0) {
+
+        if (data.length === 0) {
             return res.json({ Login: false, Message: "NO RECORD EXISTED" });
-        } 
-        
-        const userData = data[0];
-        
-        if (isMatch && data[0].role === 1){
-            req.session.userId = userData.id;
-            const name = data[0].name;
-            req.session.name = name;
-            req.session.role = 1;          
-            return res.json({ Login: 1 });
         }
 
-        else if (isMatch && data[0].role === 2){
-            req.session.userId = userData.id;
-            const name = data[0].name;
-            req.session.name = name;
-            req.session.role = 2;          
-            return res.json({ Login: 2 });
-        }
-        
-        else if (isMatch && data[0].role === 4){
-            req.session.userId = userData.id;
-            const name = data[0].name;
-            req.session.name = name;
-            req.session.role = 4;          
-            return res.json({ Login: 4});
-        }
+        try {
+            const userData = data[0];
 
-        else{
-            res.send("Wrong Password");
-             return
-        }
+            const isMatch = await bcrypt.compare(password, userData.password);
 
+            if (isMatch) {
+                req.session.userId = userData.id;
+                const name = userData.name;
+                req.session.name = name;
+
+                if (userData.role === 1) {
+                    req.session.role = 1;
+                    return res.json({ Login: 1 });
+                } else if (userData.role === 2) {
+                    req.session.role = 2;
+                    return res.json({ Login: 2 });
+                } else if (userData.role === 4) {
+                    req.session.role = 4;
+                    return res.json({ Login: 4 });
+                }
+            } else {
+                return res.send("Wrong Password");
+            }
+        } catch (error) {
+            console.error(error);
+            return res.json("Error");
+        }
     });
 });
 
-app.post('/updateOrders', async (req,res)=>{
+app.post('/api/updateOrders', async (req,res)=>{
 
     const {order_id, status, riderId} = req.body
 
@@ -1253,7 +1250,7 @@ app.post('/updateOrders', async (req,res)=>{
 })
 
 
-app.post('/adminTable', async (req,res) => {
+app.post('/api/adminTable', async (req,res) => {
 
     const query = 
                                 `SELECT 
@@ -1290,7 +1287,7 @@ app.post('/adminTable', async (req,res) => {
       })
 })
 
-app.post('/roleSetup', (req,res)=>{
+app.post('/api/roleSetup', (req,res)=>{
 
     const query = `SELECT * from role`
 
@@ -1305,7 +1302,7 @@ app.post('/roleSetup', (req,res)=>{
 
 })
 
-app.post('/adminsignup', async (req, res) => {
+app.post('/api/adminsignup', async (req, res) => {
     
     const { fullname, email, password } = req.body;
 
@@ -1345,7 +1342,7 @@ app.post('/adminsignup', async (req, res) => {
     }
 });
 
-app.post('/fetchUserData', (req,res)=>{
+app.post('/api/fetchUserData', (req,res)=>{
 
     const query = `SELECT 
                         user.id, 
@@ -1373,7 +1370,7 @@ app.post('/fetchUserData', (req,res)=>{
 
 })
 
-app.post('/fetchSpecificUserData', (req, res) => {
+app.post('/api/fetchSpecificUserData', (req, res) => {
     const { id } = req.body;
 
     const query =
@@ -1396,33 +1393,40 @@ app.post('/fetchSpecificUserData', (req, res) => {
     });
 });
 
-app.post('/deleteUserData',(req,res)=>{
+app.post('/api/deleteUserData', (req, res) => {
+    const { id } = req.body;
 
-    const {id} = req.body;
+    if (!id) {
+        return res.status(400).json({ error: 'ID is required' });
+    }
 
-    const query = `DELETE FROM cart WHERE user_id = ?`
+    const deleteFromOrderMsgSql = 'DELETE FROM order_msg WHERE sender_id = ?';
+    const deleteFromCartSql = 'DELETE FROM cart WHERE user_id = ?';
+    const deleteUserSql = 'DELETE FROM user WHERE id = ?';
 
-    db.query(query,[id],(irror,result)=>{
-        if(irror){
-            result.json({irror: "Unable to delete from cart"})
+    db.query(deleteFromOrderMsgSql, [id], (orderErr, orderResult) => {
+        if (orderErr) {
+            return res.status(500).json({ error: 'Error deleting from order_msg' });
         }
-        
-        const deleteQuery = `DELETE FROM user WHERE id = ? `
-        
-        db.query(deleteQuery,[id], (deleteErr, deleteRes)=> {
-            if(deleteErr){
-                deleteRes.json({err: "Unable to delete user"})
+        db.query(deleteFromCartSql, [id], (cartErr, cartResult) => {
+            if (cartErr) {
+                return res.status(500).json({ error: 'Error deleting from cart' });
             }
-            res.json({Sucess:true})
-            
-        })
 
-    })
+            // Finally delete the user
+            db.query(deleteUserSql, [id], (userErr, userResult) => {
+                if (userErr) {
+                    return res.status(500).json({ error: 'Error deleting user' });
+                }
 
-})
+                return res.json({ message: 'User and associated data deleted successfully' });
+            });
+        });
+    });
+});
 
 
-app.post('/productResult', (req,res)=>{
+app.post('/api/productResult', (req,res)=>{
     
     const query = ` SELECT 
                     f.id,
@@ -1460,7 +1464,7 @@ app.post('/productResult', (req,res)=>{
 
 })
 
-app.post('/fetchAddons', (req,res) =>{
+app.post('/api/fetchAddons', (req,res) =>{
 
     const query = 'Select * from addons';
 
@@ -1475,7 +1479,7 @@ app.post('/fetchAddons', (req,res) =>{
 })
 
 
-app.post('/addProduct', upload.single('image_url') , (req, res) =>{
+app.post('/api/addProduct', upload.single('image_url') , (req, res) =>{
 
     const { name, description, category_id, sizeName , price } = req.body;
     const image_url = req.file ? `/images/${req.file.filename}` : '/images/americano.png';
@@ -1508,10 +1512,17 @@ app.post('/addProduct', upload.single('image_url') , (req, res) =>{
 })
 
 
+const dbQuery = (query, params) => {
+    return new Promise((resolve, reject) => {
+        db.query(query, params, (err, result) => {
+            if (err) return reject(err);
+            resolve(result);
+        });
+    });
+};
 
 
-
-app.post('/addSize',(req,res)=>{
+app.post('/api/addSize',(req,res)=>{
     
     const {id,size,price} = req.body;
 
@@ -1532,51 +1543,40 @@ app.post('/addSize',(req,res)=>{
 
 
 
-app.post('/removeProduct',  async (req, res) =>{
+app.post('/api/removeProduct', async (req, res) => {
+    const { id } = req.body;
 
-    const {id} = req.body;
-
-    let foodId;
-
-    const rows = db.query(`Select id from foods where id = ?;`, [id], (error,result)=>{
-        if(error){
-           return res.json({error: "Unable to Select Id into foods"});
-        }
-
-        foodId = rows[0];
-
-        if (rows.length === 0) {
-            return res.json({ error: 'Food item not found' });
-        }
-    });
-    
-    try{
-        const query = `Delete from foods where id = ? `
-        await db.query (query,[id], (err,result) =>{
-            if(err){
-               return res.json({err: "Unable to delete into foods"});
-            }
-    
-            const sizeQuery = `Delete from food_sizes where id = ?`
-    
-            db.query(sizeQuery, [foodId], (sizeDelErr, sizeResult)=> {
-                if(sizeDelErr){
-                    return res.json({sizeDelErr: "Unable to delete into food_sizes"});
-                }
-                res.json({success: true})
-                
-            })
-
-            
-    
-        })
-    }catch(error){
-        res.json(error)
+    if (!id) {
+        return res.status(400).json({ error: "ID is required" });
     }
 
-    })
+    try {
+        // Start a transaction for atomic operation
+        await dbQuery('START TRANSACTION');
 
-    app.post('/removeAddons',(req,res)=>{
+        // Step 1: Delete from orders_food (child table)
+        await dbQuery('DELETE FROM orders_food WHERE food_id = ?', [id]);
+
+        // Step 2: Delete from food_sizes (dependent table)
+        await dbQuery('DELETE FROM food_sizes WHERE id = ?', [id]);
+
+        // Step 3: Delete from foods (parent table)
+        await dbQuery('DELETE FROM foods WHERE id = ?', [id]);
+
+        // Commit transaction
+        await dbQuery('COMMIT');
+
+        // Success response
+        res.json({ success: true });
+    } catch (error) {
+        // Rollback transaction in case of error
+        await dbQuery('ROLLBACK');
+        console.error('Error removing product:', error);
+        res.status(500).json({ error: 'An error occurred while removing the product' });
+    }
+});
+
+    app.post('/api/removeAddons',(req,res)=>{
         const {id} = req.body
 
         const query = `Delete from addons where id = ?`
@@ -1586,24 +1586,30 @@ app.post('/removeProduct',  async (req, res) =>{
                 return res.json({err: "Unable to delete into addons"});
             }
         })
+        
         res.json({Success:true})
     })
     
-    app.post('/removeCategory',(req,res)=>{
-        const {id} = req.body
-
-        const query = `Delete from Category where id = ?`
-
-        db.query(query, [id], (err, result)=> {
-            if(err){
-                return res.json({err: "Unable to delete into addons"});
+    app.post('/api/removeCategory', (req, res) => {
+        const { id } = req.body;
+    
+        const query = `DELETE FROM category WHERE id = ?`;
+    
+        db.query(query, [id], (err, result) => {
+            if (err) {
+                console.error("Error deleting category:", err);
+                return res.status(500).json({ error: "Unable to delete category. It might be referenced by other records." });
             }
-            res.json({success: true})
-            
-        })
-    })
+    
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ error: "Category not found" });
+            }
+    
+            res.json({ success: true });
+        });
+    });
 
-    app.post('/fetchProduct',(req,res) =>{
+    app.post('/api/fetchProduct',(req,res) =>{
         const {id} = req.body
 
         const query = 
@@ -1642,7 +1648,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
     })
 
-    app.post('/updateProduct', upload.single('image_url') ,(req,res) => {
+    app.post('/api/updateProduct', upload.single('image_url') ,(req,res) => {
 
         const {name ,description ,category_id , foodId } = req.body;
         const image_url = req.file ? `/images/${req.file.filename}` : null;
@@ -1692,7 +1698,7 @@ app.post('/removeProduct',  async (req, res) =>{
  
     })
         
-    app.post('/updateAddons', (req, res) => {
+    app.post('/api/updateAddons', (req, res) => {
         const { name, price, AddonsId } = req.body;
     
         const query = `
@@ -1712,7 +1718,7 @@ app.post('/removeProduct',  async (req, res) =>{
     });
 
 
-    app.post('/setAddonsVisibility',(req,res)=>{
+    app.post('/api/setAddonsVisibility',(req,res)=>{
         const {id} = req.body
         
         const query = `Update addons set visible = !visible where id = ?`
@@ -1729,7 +1735,7 @@ app.post('/removeProduct',  async (req, res) =>{
     })
     
         
-    app.post('/updateCategory' , (req,res) => {
+    app.post('/api/updateCategory' , (req,res) => {
 
     const { title, id  } = req.body;
 
@@ -1752,7 +1758,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
     })
 
-    app.post('/users', (req, res) => {
+    app.post('/api/users', (req, res) => {
         const query = `SELECT COUNT(DISTINCT customer_id) AS customer_count FROM orders;`;
         
         try {
@@ -1768,7 +1774,7 @@ app.post('/removeProduct',  async (req, res) =>{
         }
     });
     
-    app.post('/totalRevenue', (req,res) =>{
+    app.post('/api/totalRevenue', (req,res) =>{
         const query = `SELECT SUM(totalPrice) AS total_revenue FROM orders`;
     
         db.query(query,(err,result)=>{
@@ -1779,8 +1785,20 @@ app.post('/removeProduct',  async (req, res) =>{
         })
         
     });
+
+    app.post('/api/totalProductSold', (req,res) =>{
+        const query = `SELECT COUNT(food_id) as total_product_sold from orders_food`;
     
-    app.post('/totalOrder', (req,res)=>{
+        db.query(query,(err,result)=>{
+            if(err){
+                return res.json({err: "error"});
+            }
+            res.json(result[0]);
+        })
+        
+    });
+    
+    app.post('/api/totalOrder', (req,res)=>{
         const query = `SELECT Count(*) as totalOrders FROM orders`;
 
         db.query(query,(err,result)=>{
@@ -1793,7 +1811,7 @@ app.post('/removeProduct',  async (req, res) =>{
         })
     });
 
-    app.post('/ridertotalOrder', (req,res)=>{
+    app.post('/api/ridertotalOrder', (req,res)=>{
 
         const {userId} = req.body
 
@@ -1809,7 +1827,7 @@ app.post('/removeProduct',  async (req, res) =>{
         })
     }); 
     
-    app.post('/ridertotalOrder', (req,res)=>{
+    app.post('/api/ridertotalOrder', (req,res)=>{
 
         const {userId} = req.body
 
@@ -1825,7 +1843,7 @@ app.post('/removeProduct',  async (req, res) =>{
         })
     });
 
-    app.post('/weeklyridertotalOrder', (req,res)=>{
+    app.post('/api/weeklyridertotalOrder', (req,res)=>{
         
         const {userId} = req.body
 
@@ -1844,7 +1862,7 @@ app.post('/removeProduct',  async (req, res) =>{
         })
     });
 
-    app.post('/pendingRiderOrder', (req,res)=>{
+    app.post('/api/pendingRiderOrder', (req,res)=>{
         const {userId} = req.body;
 
         const query = `SELECT * FROM orders 
@@ -1861,7 +1879,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
     
     
-    app.post('/recentorder', async (req,res)=>{
+    app.post('/api/recentorder', async (req,res)=>{
         const query = 'SELECT id, user_id, food_id, quantity, total_price, order_date FROM orders ORDER BY order_date DESC LIMIT 10;';
             
             try{
@@ -1877,7 +1895,7 @@ app.post('/removeProduct',  async (req, res) =>{
             }
         });
 
-    app.post('/addCategory', upload.single('image_url'), (req,res)=>{
+    app.post('/api/addCategory', upload.single('image_url'), (req,res)=>{
         const {title} = req.body;
         const image_url = req.file ? req.file.filename : null;
 
@@ -1894,7 +1912,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
     })
 
-    // app.post('/deleteCategory',(req,res)=>{
+    // app.post('/api/deleteCategory',(req,res)=>{
     //     const {id} = req.body;
 
     //     const query = 
@@ -1909,7 +1927,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
     // })
 
-    app.post('/addAddress', (req,res)=>{
+    app.post('/api/addAddress', (req,res)=>{
 
         const {second_address, userId} = req.body
 
@@ -1924,7 +1942,7 @@ app.post('/removeProduct',  async (req, res) =>{
         })
     })
     
-    app.post('/editSecondaryAddress', (req,res)=>{
+    app.post('/api/editSecondaryAddress', (req,res)=>{
 
         const {newAddress, userId} = req.body
 
@@ -1939,7 +1957,7 @@ app.post('/removeProduct',  async (req, res) =>{
         })
     })
 
-    app.post('/editAddress', (req,res)=>{
+    app.post('/api/editAddress', (req,res)=>{
 
         const {newAddress, userId} = req.body
 
@@ -1955,7 +1973,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
     })
 
-    app.post('/fetchCategory', (req,res)=>{
+    app.post('/api/fetchCategory', (req,res)=>{
         const query = "Select * from category"
             
             db.query(query, (err,result)=>{
@@ -1968,7 +1986,7 @@ app.post('/removeProduct',  async (req, res) =>{
         
     })
 
-    app.post('/addAddons',(req,res)=>{
+    app.post('/api/addAddons',(req,res)=>{
 
         const {name, price, category_id} = req.body.values;
         
@@ -1986,7 +2004,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
     })
 
-    app.post('/cms_backend', (req, res) => {
+    app.post('/api/cms_backend', (req, res) => {
         const { title } = req.body;
       
         const query = 'SELECT * FROM cms_pages order by category desc';
@@ -2003,7 +2021,7 @@ app.post('/removeProduct',  async (req, res) =>{
         });
       });
 
-      app.post('/cms_specific', (req, res) => {
+      app.post('/api/cms_specific', (req, res) => {
 
         const { id } = req.body;
 
@@ -2029,7 +2047,7 @@ app.post('/removeProduct',  async (req, res) =>{
       });
 
 
-    app.post('/editCms', upload.single('content'), (req, res) =>{
+    app.post('/api/editCms', upload.single('content'), (req, res) =>{
 
         const { id } = req.body;
         let content = req.body.content;
@@ -2056,7 +2074,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
     })
 
-    app.post('/hideProduct',(req, res) =>{
+    app.post('/api/hideProduct',(req, res) =>{
         
         const {id} = req.body;
 
@@ -2073,7 +2091,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
     })
 
-    app.post('/orderTracking', (req,res) =>{
+    app.post('/api/orderTracking', (req,res) =>{
 
         const query = 
                     `SELECT 
@@ -2084,6 +2102,7 @@ app.post('/removeProduct',  async (req, res) =>{
                 o.customer_id, 
                 o.order_date, 
                 o.deliveryMethod,
+                o.delivery_address,
                 o.status,
                 o.totalPrice, 
                 GROUP_CONCAT(
@@ -2110,6 +2129,7 @@ app.post('/removeProduct',  async (req, res) =>{
                 u.pnum,
                 o.customer_id, 
                 o.order_date, 
+                o.delivery_address,
                 o.status,
                 o.deliveryMethod
             ORDER BY 
@@ -2125,19 +2145,21 @@ app.post('/removeProduct',  async (req, res) =>{
 
     })
      
-    app.post('/orderHistory', (req,res) =>{
+    app.post('/api/orderHistory', (req,res) =>{
 
         const query = 
         `
                     SELECT 
                 o.order_id, 
                 u.name,
+                u.pnum,
                 u.address,
                 o.customer_id, 
                 o.order_date,
                 o.update_order_date, 
                 o.status,
                 o.deliveryMethod,
+                o.delivery_address,
                 o.totalPrice, 
                 GROUP_CONCAT(
                     CONCAT('Food Name: ',
@@ -2160,13 +2182,15 @@ app.post('/removeProduct',  async (req, res) =>{
                 o.order_id, 
                 u.name,
                 u.address,
+                u.pnum,
                 o.customer_id, 
                 o.order_date,
                 o.update_order_date, 
+                o.delivery_address,
                 o.status,
                 o.deliveryMethod
             ORDER BY 
-                o.update_order_date DESC;
+                o.update_order_date ASC;
 
              
         `
@@ -2180,7 +2204,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
     })
 
-    app.post('/riderOrderHistory', (req,res) =>{
+    app.post('/api/riderOrderHistory', (req,res) =>{
 
         const {userId} = req.body
 
@@ -2193,6 +2217,7 @@ app.post('/removeProduct',  async (req, res) =>{
             o.customer_id, 
             o.order_date,
             o.update_order_date, 
+            o.delivery_address,
             o.status,
             o.totalPrice,
             o.rider_id,
@@ -2220,6 +2245,7 @@ app.post('/removeProduct',  async (req, res) =>{
             o.customer_id, 
             o.order_date,
             o.update_order_date, 
+            o.delivery_address,
             o.status,
             o.rider_id
         ORDER BY 
@@ -2237,7 +2263,7 @@ app.post('/removeProduct',  async (req, res) =>{
 
     })
 
-    app.post('/cancelOrder',(req,res)=>{
+    app.post('/api/cancelOrder',(req,res)=>{
         const {order_id} = req.body
 
         const query = `Update orders 
@@ -2254,7 +2280,7 @@ app.post('/removeProduct',  async (req, res) =>{
           })
     })
 
-    app.post('/updateOrders', async (req,res)=>{
+    app.post('/api/updateOrders', async (req,res)=>{
 
         const {order_id, status} = req.body
     
@@ -2277,7 +2303,7 @@ app.post('/removeProduct',  async (req, res) =>{
     })
     
     
-    app.post('/personalOrder', (req,res) =>{
+    app.post('/api/personalOrder', (req,res) =>{
         
         const {userId} = req.body
 
@@ -2292,6 +2318,7 @@ app.post('/removeProduct',  async (req, res) =>{
     o.customer_id, 
     o.order_date, 
     o.deliveryMethod,
+    o.delivery_address,
     o.status,
     o.totalPrice, 
     GROUP_CONCAT(
@@ -2316,7 +2343,9 @@ GROUP BY
     u.name,
     u.address,
     u.pnum,
-    o.customer_id, 
+    o.customer_id,
+    o.deliveryMethod,
+    o.delivery_address, 
     o.order_date, 
     o.status
 ORDER BY 
@@ -2335,7 +2364,7 @@ ORDER BY
     })
     
     
-    app.post('/updatePersonalInfo', (req,res) =>{
+    app.post('/api/updatePersonalInfo', (req,res) =>{
         
         const {pnum, fullName} = req.body.value;
         const {userId} = req.body;
@@ -2352,7 +2381,7 @@ ORDER BY
     })
     
         
-    app.post('/updateAdminInfo', async (req, res) => {
+    app.post('/api/updateAdminInfo', async (req, res) => {
         try {
             const { fullName, email, password } = req.body.value;
             const { userId } = req.body;
@@ -2383,7 +2412,7 @@ ORDER BY
     });
 
 
-    app.post('/profile',(req,res) =>{
+    app.post('/api/profile',(req,res) =>{
 
         const {userId} = req.body
 
@@ -2417,7 +2446,7 @@ ORDER BY
 
     })
 
-    app.post('/setRoles', (req, res) => {
+    app.post('/api/setRoles', (req, res) => {
         const { roles, user_Id } = req.body;
     
         // Validate input
@@ -2442,7 +2471,7 @@ ORDER BY
     });
     
     
-    app.post('/getRider',(req,res)=>{
+    app.post('/api/getRider',(req,res)=>{
 
 
         const query = `Select * from user where role = 4`
@@ -2457,7 +2486,7 @@ ORDER BY
 
     })
     
-    app.post('/getRole',(req,res)=>{
+    app.post('/api/getRole',(req,res)=>{
 
 
         const query = `Select * from role`
@@ -2472,7 +2501,7 @@ ORDER BY
 
     })
     
-    app.post('/addRole',(req,res)=>{
+    app.post('/api/addRole',(req,res)=>{
 
         const {title, administer} = req.body
 
@@ -2488,7 +2517,7 @@ ORDER BY
 
     })
 
-    app.post('/Addons',(req,res)=>{
+    app.post('/api/Addons',(req,res)=>{
 
         const query = `Select a.id, a.name, a.price, a.category_id, c.title as category from addons a JOIN category c ON c.id = a.category_id where a.visible = 1 `
 
@@ -2502,7 +2531,7 @@ ORDER BY
 
     })
     
-    app.post('/AdminAddons',(req,res)=>{
+    app.post('/api/AdminAddons',(req,res)=>{
 
         const query = `Select a.id, a.name, a.price, a.category_id, a.visible , c.title as category from addons a JOIN category c ON c.id = a.category_id `
 
@@ -2516,7 +2545,7 @@ ORDER BY
 
     })
     
-    app.post('/sizes',(req,res)=>{
+    app.post('/api/sizes',(req,res)=>{
 
         const {foodId} = req.body
 
@@ -2533,7 +2562,7 @@ ORDER BY
 
     })
 
-    app.post('/fetchSizes',(req,res)=>{
+    app.post('/api/fetchSizes',(req,res)=>{
 
         const {foodId} = req.body
 
@@ -2550,7 +2579,7 @@ ORDER BY
 
     })
 
-    app.post('/orderNotif', (req,res) =>{
+    app.post('/api/orderNotif', (req,res) =>{
 
         const {userId} = req.body;
 
@@ -2617,6 +2646,7 @@ ORDER BY
                 o.customer_id, 
                 o.order_date, 
                 o.deliveryMethod,
+                o.delivery_address,
                 o.status,
                 o.totalPrice, 
                 GROUP_CONCAT(
@@ -2644,6 +2674,7 @@ ORDER BY
                 o.customer_id, 
                 o.order_date, 
                 o.status,
+                o.delivery_address,
                 o.deliveryMethod
             ORDER BY 
                 o.order_date DESC;
@@ -2721,7 +2752,7 @@ ORDER BY
         });
     });
 
-    app.post('/ChangeEmail', (req, res) => {
+    app.post('/api/ChangeEmail', (req, res) => {
         const { newEmail, userId } = req.body;
       
         if (!newEmail || !userId) {
@@ -2744,7 +2775,7 @@ ORDER BY
         });
       });
       
-    app.post('/ChangePassword', async (req, res) => {
+    app.post('/api/ChangePassword', async (req, res) => {
     const { password, newPassword, userId } = req.body;
     
     if (!password || !newPassword || !userId) {
@@ -2796,7 +2827,7 @@ ORDER BY
     }
     });
 
-      app.post('/closeTicket', (req, res) =>{
+      app.post('/api/closeTicket', (req, res) =>{
 
         const {status, ticketId} = req.body
 
@@ -2811,7 +2842,7 @@ ORDER BY
 
       })
 
-      app.post('/createTicket', (req, res) => {
+      app.post('/api/createTicket', (req, res) => {
         const { ticketId, userId, subject } = req.body;
       
         const checkTicketSql = 'SELECT * FROM tickets WHERE ticket_id = ? ';
@@ -2852,7 +2883,7 @@ ORDER BY
           
       });
 
-      app.post('/getMessages', (req, res) => {
+      app.post('/api/getMessages', (req, res) => {
         const { ticketId } = req.body;
       
         const sql = `
@@ -2876,7 +2907,7 @@ ORDER BY
       });
       
       
-      app.post('/getRiderMessages', (req, res) => {
+      app.post('/api/getRiderMessages', (req, res) => {
         
         const { ticketId } = req.body;
 
@@ -2901,7 +2932,7 @@ ORDER BY
 
       
 
-      app.post('/getOrderId', (req, res) => {
+      app.post('/api/getOrderId', (req, res) => {
         const {userId} = req.body;
 
         const sql = `SELECT 
@@ -2931,7 +2962,7 @@ ORDER BY
         
     });
       
-    app.post('/getTicketId', (req, res) => {
+    app.post('/api/getTicketId', (req, res) => {
 
         const sql = `
                     SELECT 
@@ -2972,7 +3003,7 @@ ORDER BY
         
     });
     
-    app.post('/validateDiscount', (req, res) => {
+    app.post('/api/validateDiscount', (req, res) => {
         const { code, totalBill } = req.body;
 
         const sql = 
@@ -3024,7 +3055,7 @@ ORDER BY
         });
     });
 
-    app.post('/addDiscount', (req,res)=>{
+    app.post('/api/addDiscount', (req,res)=>{
         const {code,type,value,min_order,max_discount_value,limit, valid_from, valid_until} = req.body.discount;
 
         const sql = 
@@ -3042,7 +3073,7 @@ ORDER BY
         });
     })
 
-    app.get('/fetchDiscount', (req, res) => {
+    app.get('/api/fetchDiscount', (req, res) => {
         const sql = `SELECT * FROM discount_codes`;
     
         db.query(sql, (err, result) => {
@@ -3054,7 +3085,7 @@ ORDER BY
         });
     });
 
-    app.delete('/removeDiscount/:id', (req, res) => {
+    app.delete('/api/removeDiscount/:id', (req, res) => {
         const { id } = req.params;
     
         // SQL query to delete the discount code by ID
@@ -3074,7 +3105,7 @@ ORDER BY
         });
     });
     
-    app.post('/contact', async (req, res) => {
+    app.post('/api/contact', async (req, res) => {
         const { firstName, lastName, email, message } = req.body;
 
         if (!firstName || !lastName || !email || !message) {
@@ -3193,7 +3224,7 @@ ORDER BY
       
       
       // REST API Endpoint to Fetch Emails
-      app.get('/emails', async (req, res) => {
+      app.get('/api/emails', async (req, res) => {
         try {
           const emails = await fetchEmails();
           res.json(emails);
@@ -3211,7 +3242,7 @@ ORDER BY
     });
       
 
-    app.post('/sendMessage', async (req, res) => {
+    app.post('/api/sendMessage', async (req, res) => {
         const { recipient, subject, body } = req.body;
     
         // Validate the required fields
@@ -3267,6 +3298,6 @@ ORDER BY
         }
     });
 
-server.listen(8081, () => {
+server.listen(process.env.PORT || 3000, () => {
     console.log("Connected");
 });

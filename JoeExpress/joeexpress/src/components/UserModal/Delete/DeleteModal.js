@@ -6,7 +6,7 @@ function DeleteModal({closeModal, id}) {
   const handleDelete = async () => {
     if (id) {
       try {
-        const res = await axios.post('http://localhost:8081/removeCartItems', { id });
+        const res = await axios.post('https://jaydscafe.com/api/removeCartItems', { id });
         if (res.data.success === true) {
           closeModal(false);
         }

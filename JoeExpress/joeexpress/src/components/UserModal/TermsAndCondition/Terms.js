@@ -10,7 +10,7 @@ function Terms({closeModal}) {
 
         const fetchTerms = async () => {
           try {
-            const response = await axios.post('http://localhost:8081/cms', {title: 'Terms'});
+            const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Terms'});
             setTerms(response.data.content || '');
           } 
           catch (error) {

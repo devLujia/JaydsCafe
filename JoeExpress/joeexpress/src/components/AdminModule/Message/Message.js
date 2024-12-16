@@ -45,7 +45,7 @@ export default function Message() {
    const [cmsName,setCmsName] = useState('');
 
     useEffect(()=>{
-        axios.post('http://localhost:8081/roleSetup')
+        axios.post('https://jaydscafe.com/api/roleSetup')
         .then(response=>{
             setTier(response.data)
         })
@@ -57,7 +57,7 @@ export default function Message() {
     useEffect(() => {
       const fetchEmails = async () => {
         try {
-          const response = await axios.get('http://localhost:8081/emails');
+          const response = await axios.get('https://jaydscafe.com/api/emails');
           setEmails(response.data);
         } catch (err) {
           setError('Error fetching emails');
@@ -72,7 +72,7 @@ export default function Message() {
     useEffect(() => {
       const fetchNameData = async () => {
           try {
-              const response = await axios.post('http://localhost:8081/cms', { title: 'Business Name' });
+              const response = await axios.post('https://jaydscafe.com/api/cms', { title: 'Business Name' });
               setCmsName(response.data.content || '');
           } catch (error) {
               console.error('Error fetching data:', error);
@@ -105,7 +105,7 @@ export default function Message() {
    useEffect(() => {
       const getTicketNumber = async () => {
         try {
-          const response = await axios.post('http://localhost:8081/getTicketId');
+          const response = await axios.post('https://jaydscafe.com/api/getTicketId');
           setTicketId(response.data); 
           
         } 
@@ -131,7 +131,7 @@ export default function Message() {
             try {
             setSpecificTicketId(ticket)
 
-            const response = await axios.post('http://localhost:8081/getMessages',  {ticketId: ticket} );
+            const response = await axios.post('https://jaydscafe.com/api/getMessages',  {ticketId: ticket} );
 
             setMessages(response.data);
             socket.emit('join_room', ticket);
@@ -183,7 +183,7 @@ export default function Message() {
              };
      
              // Sending the message via an API (you can replace the URL with your actual API endpoint)
-             const response = await axios.post('http://localhost:8081/sendMessage', messageData);
+             const response = await axios.post('https://jaydscafe.com/api/sendMessage', messageData);
      
              if (response.status === 200) { 
                  setIsMessageOpen(false);
@@ -208,7 +208,7 @@ export default function Message() {
        useEffect(() => {
          const fetchProfileData = async () => {
              try {
-                 const response = await axios.post('http://localhost:8081/profile', { userId });
+                 const response = await axios.post('https://jaydscafe.com/api/profile', { userId });
                  setProfile(response.data);
              } catch (error) {
                  console.error('Error fetching profile details:', error);
@@ -223,7 +223,7 @@ export default function Message() {
    useEffect(() => {
       const fetchData = async () => {
       try {
-         const res = await axios.get('http://localhost:8081/admin');
+         const res = await axios.get('https://jaydscafe.com/api/admin');
          if (res.data.valid) {
             setAuthenticated(true);
             setUserId(res.data.userId);
@@ -292,10 +292,10 @@ export default function Message() {
                room : specificTicketId,
                userId: userId,
                message: currentMessage,
-               time:
-               new Date(Date.now()).getHours()+
-               ":" +
-               new Date(Date.now()).getMinutes(),
+               time: new Date(Date.now()).toLocaleTimeString([], {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                }),
             }
       
             // Emit message to the server
@@ -313,7 +313,7 @@ export default function Message() {
 
   const handleLogout = async () => {
       try {
-      const res = await axios.post('http://localhost:8081/logout');
+      const res = await axios.post('https://jaydscafe.com/api/logout');
       if (res.data.success) {
           // eslint-disable-next-line no-restricted-globals
           location.reload();
@@ -328,7 +328,7 @@ export default function Message() {
   
   const closeTicket = async (status, ticket) => {
    try {
-       const res = await axios.post('http://localhost:8081/closeTicket', {
+       const res = await axios.post('https://jaydscafe.com/api/closeTicket', {
            status: status,
            ticketId: ticket
        });
@@ -430,7 +430,7 @@ export default function Message() {
                   <img src={jaydsLogo} alt="Logo"/>           
                   <span 
                      className="self-center text-2xl font-extrabold tracking-wider whitespace-nowrap text-greenColor ms-2" 
-                     dangerouslySetInnerHTML={{ __html: cmsName || "Business name"  }}>
+                     dangerouslySetInnerHTML={{ __html: cmsName }}>
                   </span>
                </a>
                <ul class="space-y-2 font-medium ">

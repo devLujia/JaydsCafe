@@ -47,7 +47,7 @@ function Signup() {
         
         const fetchNameData = async () => {
             try {
-              const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
+              const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Business Name'});
               setCmsName(response.data.content || '');
             } 
             catch (error) {
@@ -59,7 +59,7 @@ function Signup() {
           const fetchSmallLogo = async () => {
 
             try{
-              const response = await axios.post ('http://localhost:8081/cms', {title: 'Small Logo'});
+              const response = await axios.post ('https://jaydscafe.com/api/cms', {title: 'Small Logo'});
               setSmallLogo(response.data.content || '')
             }
             catch (error) {
@@ -70,7 +70,7 @@ function Signup() {
 
           const fetchLocationData = async () => {
             try {
-              const response = await axios.post('http://localhost:8081/cms', {title: 'Location'});
+              const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Location'});
               setCmsLocation(response.data.content || '');
             } 
             catch (error) {
@@ -81,7 +81,7 @@ function Signup() {
 
           const fetchFacebookLinkData = async () => {
             try {
-              const response = await axios.post('http://localhost:8081/cms', {title: 'Facebook'});
+              const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Facebook'});
               setCmsFacebook(response.data.content || '');
             } 
             catch (error) {
@@ -92,7 +92,7 @@ function Signup() {
 
           const fetchInstagramLinkData = async () => {
             try {
-              const response = await axios.post('http://localhost:8081/cms', {title: 'Instagram'});
+              const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Instagram'});
               setCmsInstagram(response.data.content || '');
             } 
             catch (error) {
@@ -103,7 +103,7 @@ function Signup() {
 
           const fetchPhoneData = async () => {
             try {
-              const response = await axios.post('http://localhost:8081/cms', {title: 'Phone Number'});
+              const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Phone Number'});
               setCmsPhone(response.data.content || '');
             } 
             catch (error) {
@@ -114,7 +114,7 @@ function Signup() {
 
           const fetchTelData = async () => {
             try {
-              const response = await axios.post('http://localhost:8081/cms', {title: 'Tel Number'});
+              const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Tel Number'});
               setCmsTel(response.data.content || '');
             } 
             catch (error) {
@@ -163,7 +163,7 @@ function Signup() {
       // If no validation errors, proceed with form submission
       if (!err.pnum && !err.name && !err.email && !err.password && !err.address) {
           try {
-              const res = await axios.post('http://localhost:8081/signup', trimmedValues);
+              const res = await axios.post('https://jaydscafe.com/api/signup', trimmedValues);
               if (res.data.success === true) {
                   setAlertMessage({ severity: "success", message: "Message sent successfully!" });
                   setAlertVisible(true); 
@@ -222,7 +222,7 @@ function Signup() {
       <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">
         <div class="font-extrabold text-2xl flex items-center">
           {/* <!-- Logo/Title in Navbar --> */}
-          <a href="/" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide"dangerouslySetInnerHTML={{ __html: cmsName || "Business name"  }}></a>
+          <a href="/" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide"dangerouslySetInnerHTML={{ __html: cmsName }}></a>
         </div>
 
         <div class="inline-flex items-center justify-center me-2">
@@ -327,7 +327,7 @@ function Signup() {
         <div class="border-y-2 border-gray-400 w-4/5 p-10">
           {/* <!-- container footer--> */}
           <div class="flex justify-between w-full">
-          <h1 class="text-white text-4xl font-bold"dangerouslySetInnerHTML={{ __html: cmsName || "Business name"  }}></h1>
+          <h1 class="text-white text-4xl font-bold"dangerouslySetInnerHTML={{ __html: cmsName }}></h1>
           <div class="flex gap-2">
             <button type='button' 
             class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">

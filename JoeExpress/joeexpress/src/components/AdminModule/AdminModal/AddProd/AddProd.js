@@ -81,7 +81,7 @@ function AddProd({ closeModal }) {
       
         try {
           // API request
-          const res = await axios.post('http://localhost:8081/addProduct', formData);
+          const res = await axios.post('https://jaydscafe.com/api/addProduct', formData);
           
           if (res.status === 200) {
             alert("Successfully added!");
@@ -100,7 +100,7 @@ function AddProd({ closeModal }) {
 
         useEffect(()=>{
           
-          axios.post('http://localhost:8081/fetchCategory')
+          axios.post('https://jaydscafe.com/api/fetchCategory')
           .then(res => {
             setCategory(res.data)
         })

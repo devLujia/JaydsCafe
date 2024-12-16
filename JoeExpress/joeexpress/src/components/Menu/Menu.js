@@ -82,7 +82,7 @@ const rightNav = () => {
 
     const fetchNameData = async () => {
       try {
-        const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
+        const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Business Name'});
         setCmsName(response.data?.content || '');
       } 
       catch (error) {
@@ -94,7 +94,7 @@ const rightNav = () => {
     const fetchSmallLogo = async () => {
 
       try{
-        const response = await axios.post ('http://localhost:8081/cms', {title: 'Small Logo'});
+        const response = await axios.post ('https://jaydscafe.com/api/cms', {title: 'Small Logo'});
         setSmallLogo(response.data?.content || '')
       }
       catch (error) {
@@ -110,7 +110,7 @@ const rightNav = () => {
   useEffect(() => {
     const fetchMenu = async () => {
         try {
-            const response = await axios.get('http://localhost:8081/menu');
+            const response = await axios.get('https://jaydscafe.com/api/menu');
             setFoods(response.data);
         } catch (error) {
             console.error('Error fetching food details:', error);
@@ -123,7 +123,7 @@ const rightNav = () => {
 useEffect(() => {
   const checkAuthentication = async () => {
       try {
-          const res = await axios.get('http://localhost:8081/');
+          const res = await axios.get('https://jaydscafe.com/api/');
           if (res.data.valid) {
               setAuthenticated(true);
               setUserId(res.data.userId);
@@ -148,7 +148,7 @@ useEffect(() => {
 
   const handleLogout = async () => {
     try {
-      const res = await axios.post('http://localhost:8081/logout');
+      const res = await axios.post('https://jaydscafe.com/api/logout');
       if (res.data.success) {
         // eslint-disable-next-line no-restricted-globals
         location.reload();
@@ -167,7 +167,7 @@ useEffect(() => {
 
   const addToCartApi = async (food, userId) => {
     try {
-      const response = await axios.post('http://localhost:8081/cart_items', {
+      const response = await axios.post('https://jaydscafe.com/api/cart_items', {
         userId,
         foodId: food?.id,
         size: food?.getSize,
@@ -183,7 +183,7 @@ useEffect(() => {
   useEffect(() => {
     const fetchCategory = async () => {
         try {
-            const response = await axios.post('http://localhost:8081/fetchCategory');
+            const response = await axios.post('https://jaydscafe.com/api/fetchCategory');
             setCategory(response.data);
         } catch (error) {
             console.error('Error fetching category details:', error);
@@ -208,7 +208,7 @@ useEffect(() => {
   //CMS FB/IG/LOC
   const fetchFacebookLinkData = async () => {
     try {
-      const response = await axios.post('http://localhost:8081/cms', {title: 'Facebook'});
+      const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Facebook'});
       setCmsFacebook(response.data?.content || '');
     } 
     catch (error) {
@@ -219,7 +219,7 @@ useEffect(() => {
 
   const fetchInstagramLinkData = async () => {
     try {
-      const response = await axios.post('http://localhost:8081/cms', {title: 'Instagram'});
+      const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Instagram'});
       setCmsInstagram(response.data?.content || '');
     } 
     catch (error) {
@@ -230,7 +230,7 @@ useEffect(() => {
 
   const fetchLinkData = async () => {
     try {
-      const response = await axios.post('http://localhost:8081/cms', {title: 'Link'});
+      const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Link'});
       setCmsLink(response.data?.content || '');
     } 
     catch (error) {
@@ -242,7 +242,7 @@ useEffect(() => {
   const fetchLocation = async () => {
 
     try{
-      const response = await axios.post ('http://localhost:8081/cms', {title: 'Location'});
+      const response = await axios.post ('https://jaydscafe.com/api/cms', {title: 'Location'});
       setLocation(response.data?.content || '')
     }
     catch (error) {

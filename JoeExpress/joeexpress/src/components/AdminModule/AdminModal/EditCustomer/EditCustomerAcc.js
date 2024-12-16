@@ -14,7 +14,7 @@ function EditCustomerAcc( {closeModal, id} ) {
     useEffect(() => {
         const fetchUserData = async () => {
           try {
-            const res = await axios.post('http://localhost:8081/fetchSpecificUserData', { id });
+            const res = await axios.post('https://jaydscafe.com/api/fetchSpecificUserData', { id });
             setUserData(res.data);
           } catch (err) {
             console.error('Error fetching user data:', err);
@@ -30,7 +30,7 @@ function EditCustomerAcc( {closeModal, id} ) {
 
     const handleSubmit = async () => {
         try {
-          await axios.post('http://localhost:8081/updateAcc', {
+          await axios.post('https://jaydscafe.com/api/updateAcc', {
             id: userdata.id,
             name: userdata.name,
             email: userdata.email,

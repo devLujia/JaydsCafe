@@ -10,7 +10,7 @@ function EditCms({ closeModal, id }) {
   useEffect(() => {
     const fetchCmsData = async () => {
       try {
-        const res = await axios.post('http://localhost:8081/cms_specific', { id });
+        const res = await axios.post('https://jaydscafe.com/api/cms_specific', { id });
         setCmsData(res.data);
       } catch (err) {
         console.error('Error fetching CMS data:', err);
@@ -54,7 +54,7 @@ function EditCms({ closeModal, id }) {
     setIsModalOpen(false);
     closeModal(false);
     try {
-      const res = await axios.post('http://localhost:8081/editCms', formData);
+      const res = await axios.post('https://jaydscafe.com/api/editCms', formData);
       alert('Content updated successfully');
     } catch (err) {
       console.error('Error updating content:', err);

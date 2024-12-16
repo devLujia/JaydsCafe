@@ -24,7 +24,7 @@ export default function Editpage() {
     useEffect(() => {
         const fetchFood = async () => {
             try {
-                const res = await axios.get(`http://localhost:8081/items/${foodId}`);
+                const res = await axios.get(`https://jaydscafe.com/api/items/${foodId}`);
                 setFood(res.data.data);
             } catch (err) {
                 console.log('Error fetching food details:', err);
@@ -40,7 +40,7 @@ export default function Editpage() {
     useEffect(() => {
         const fetchOrderNotif = async () => {
             try {
-                const response = await axios.post('http://localhost:8081/orderNotif', { userId });
+                const response = await axios.post('https://jaydscafe.com/api/orderNotif', { userId });
                 setOrderNotif(response.data);
             } catch (error) {
                 console.error('Error fetching orderNotif details:', error);
@@ -76,7 +76,7 @@ export default function Editpage() {
         const fetchSizes = async () => {
             if (foodId) {
                 try {
-                    const res = await axios.post('http://localhost:8081/sizes', { foodId });
+                    const res = await axios.post('https://jaydscafe.com/api/sizes', { foodId });
                     setSizes(res.data);
                 } catch (err) {
                     console.error('Error fetching sizes:', err);
@@ -93,7 +93,7 @@ export default function Editpage() {
     useEffect(() => {
         const fetchAddons = async () => {
             try {
-                const res = await axios.post('http://localhost:8081/Addons');
+                const res = await axios.post('https://jaydscafe.com/api/Addons');
                 setAddons(res.data);
             } catch (error) {
                 console.error('Error fetching addons details:', error);
@@ -107,7 +107,7 @@ export default function Editpage() {
         const fetchCartItems = async () => {
             if (userId) {
                 try {
-                    const res = await axios.post('http://localhost:8081/itemGetter', { userId });
+                    const res = await axios.post('https://jaydscafe.com/api/itemGetter', { userId });
                     setCart(res.data.items);
     
                     // Calculate the total price
@@ -132,7 +132,7 @@ export default function Editpage() {
             // Create a string with add-on names and their prices
             const addonsDetails = selectedAddons.map(addon => `${addon.name} (₱${addon.price})`).join(',');
     
-            const response = await axios.post('http://localhost:8081/cart_items', {
+            const response = await axios.post('https://jaydscafe.com/api/cart_items', {
                 userId,
                 foodId: food?.id,
                 size: selectedSize,

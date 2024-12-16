@@ -43,7 +43,7 @@ const ChatComponent = ({ name, userId, ticketId }) => {
   useEffect(() => {
     const joinRoom = async () => {
       if (name !== '' && ticketId !== '') {
-        const response = await axios.post('http://localhost:8081/getMessages',  {ticketId} );
+        const response = await axios.post('https://jaydscafe.com/api/getMessages',  {ticketId} );
         setMessages(response.data);
         await socket.emit("join_room", ticketId);
       }
@@ -62,7 +62,7 @@ const ChatComponent = ({ name, userId, ticketId }) => {
     try {
       // setTicketId(ticket);
   
-      const response = await axios.post('http://localhost:8081/createTicket', {
+      const response = await axios.post('https://jaydscafe.com/api/createTicket', {
         ticketId: ticketId,  
         userId: userId,
         subject: subject,
@@ -112,10 +112,10 @@ const ChatComponent = ({ name, userId, ticketId }) => {
              room : ticketId,
              userId: userId,
              message: currentMessage,
-             time:
-             new Date(Date.now()).getHours()+
-             ":" +
-             new Date(Date.now()).getMinutes(),
+             time: new Date(Date.now()).toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+            }),
           }
     
           // Emit message to the server

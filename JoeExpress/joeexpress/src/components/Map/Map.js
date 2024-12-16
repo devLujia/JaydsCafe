@@ -10,7 +10,7 @@ function Map({closeModal}) {
     const fetchLocation = async () => {
 
       try{
-        const response = await axios.post ('http://localhost:8081/cms', {title: 'Location'});
+        const response = await axios.post ('https://jaydscafe.com/api/cms', {title: 'Location'});
         setLocation(response.data.content || '')
       }
       catch (error) {

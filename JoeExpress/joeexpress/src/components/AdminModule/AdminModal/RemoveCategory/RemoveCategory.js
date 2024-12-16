@@ -14,7 +14,7 @@ function RemoveCategory({ closeModal }) {
       e.preventDefault();
     
       try {
-        const res = await axios.post('http://localhost:8081/removeCategory', { id });
+        const res = await axios.post('https://jaydscafe.com/api/removeCategory', { id });
     
         closeModal(false);
       } catch (error) {
@@ -26,7 +26,7 @@ function RemoveCategory({ closeModal }) {
     useEffect(() => {
       const fetchCategory = async () => {
         try {
-          const res = await axios.post('http://localhost:8081/fetchCategory');
+          const res = await axios.post('https://jaydscafe.com/api/fetchCategory');
           setCategories(res.data);
         } catch (error) {
           console.log("There was an error on fetching the category details!", error);

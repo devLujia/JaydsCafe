@@ -11,7 +11,7 @@ function AddRole({ closeModal }) {
         e.preventDefault();
       
         try {
-          const res = await axios.post('http://localhost:8081/addRole', values);
+          const res = await axios.post('https://jaydscafe.com/api/addRole', values);
           alert(res.data);
           closeModal(false);
         } catch (err) {

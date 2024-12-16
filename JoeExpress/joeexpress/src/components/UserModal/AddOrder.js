@@ -38,7 +38,7 @@ function AddOrder({closeModal, foodId}) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get('http://localhost:8081/');
+                const res = await axios.get('https://jaydscafe.com/api/');
                 if (res.data.valid) {
                     setUserId(res.data.userId);
                 } else {
@@ -55,7 +55,7 @@ function AddOrder({closeModal, foodId}) {
 
     const handleSubmit = async () => {
         try {
-            const res = await axios.post('http://localhost:8081/menu', values);
+            const res = await axios.post('https://jaydscafe.com/api/menu', values);
             closeModal(false);
         } catch (error) {
             console.error('Error adding menu:', error);
@@ -95,7 +95,7 @@ function AddOrder({closeModal, foodId}) {
     useEffect(() => {
         const fetchFoodData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8081/items/${foodId}`);
+                const response = await axios.get(`https://jaydscafe.com/api/items/${foodId}`);
                 setFood(response.data.data);
             } catch (error) {
                 console.error('Error fetching food data:', error);
@@ -111,7 +111,7 @@ function AddOrder({closeModal, foodId}) {
         const fetchSizes = async () => {
             try {
                 if (foodId) {
-                    const response = await axios.post('http://localhost:8081/sizes', { foodId });
+                    const response = await axios.post('https://jaydscafe.com/api/sizes', { foodId });
                     const fetchedSizes = response.data;
                     setSizes(fetchedSizes);
     
@@ -135,7 +135,7 @@ function AddOrder({closeModal, foodId}) {
 
         const fetchAddons = async () => {
             try {
-                const res = await axios.post('http://localhost:8081/Addons');
+                const res = await axios.post('https://jaydscafe.com/api/Addons');
                 setFetchAddons(res.data);
             } catch (error) {
                 console.error('Error fetching addons details:', error);
@@ -151,7 +151,7 @@ function AddOrder({closeModal, foodId}) {
             // Create a string with add-on names and their prices
             const addonsDetails = selectedAddons.map(addon => `${addon.name} (₱${addon.price})`).join(',');
     
-            const response = await axios.post('http://localhost:8081/cart_items', {
+            const response = await axios.post('https://jaydscafe.com/api/cart_items', {
                 userId,
                 foodId: food?.id,
                 size: selectedSize,

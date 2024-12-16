@@ -32,7 +32,7 @@ function AdminRegistration() {
     
         if (!err.fullname && !err.email && !err.password) {
             try {
-                const res = await axios.post('http://localhost:8081/adminsignup', values);
+                const res = await axios.post('https://jaydscafe.com/api/adminsignup', values);
                 if (res.data.success) {
                     alert('Registered Successfully');
                     navigation('/admin');

@@ -20,6 +20,7 @@ export default function Order_New() {
     const [authenticated, setAuthenticated] = useState(false);
     const [userId, setUserId] = useState(null);
     const [profile, setProfile] = useState([]);
+    const [search, setSearch] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const [role, setRole] = useState(null);
     const [riders, setRiders] = useState([]);
@@ -39,7 +40,7 @@ export default function Order_New() {
     useEffect(() => {
       const fetchNameData = async () => {
           try {
-              const response = await axios.post('http://localhost:8081/cms', { title: 'Business Name' });
+              const response = await axios.post('https://jaydscafe.com/api/cms', { title: 'Business Name' });
               setCmsName(response.data.content || '');
           } catch (error) {
               console.error('Error fetching data:', error);
@@ -52,7 +53,7 @@ export default function Order_New() {
     useEffect(() => {
         const fetchRoleSetup = async () => {
             try {
-                const response = await axios.post('http://localhost:8081/roleSetup');
+                const response = await axios.post('https://jaydscafe.com/api/roleSetup');
                 setTier(response.data);
             } catch (error) {
                 console.error('Error fetching role setup details:', error);
@@ -84,7 +85,7 @@ export default function Order_New() {
     useEffect(() => {
         const fetchData = async () => {
         try {
-           const res = await axios.get('http://localhost:8081/admin');
+           const res = await axios.get('https://jaydscafe.com/api/admin');
            if (res.data.valid) {
            setAuthenticated(true);
            setUserId(res.data.userId);
@@ -108,7 +109,7 @@ export default function Order_New() {
         useEffect(() => {
             const fetchProfile = async () => {
                 try {
-                    const response = await axios.post('http://localhost:8081/profile', { userId });
+                    const response = await axios.post('https://jaydscafe.com/api/profile', { userId });
                     setProfile(response.data);
                 } catch (error) {
                     console.error('Error fetching profile details:', error);
@@ -124,7 +125,7 @@ export default function Order_New() {
         useEffect(() => {
             const fetchRiders = async () => {
                 try {
-                    const response = await axios.post('http://localhost:8081/getRider');
+                    const response = await axios.post('https://jaydscafe.com/api/getRider');
                     setRiders(response.data);
                 } catch (error) {
                     console.error('Error fetching rider details:', error);
@@ -142,7 +143,7 @@ export default function Order_New() {
   
       const handleLogout = async () => {
         try {
-          const res = await axios.post('http://localhost:8081/logout');
+          const res = await axios.post('https://jaydscafe.com/api/logout');
           if (res.data.success) {
             // eslint-disable-next-line no-restricted-globals
             location.reload();
@@ -181,7 +182,7 @@ export default function Order_New() {
 
         const orderHistoria = async()=>{
             try{
-                const response = await axios.post('http://localhost:8081/orderHistory')
+                const response = await axios.post('https://jaydscafe.com/api/orderHistory')
                 setOrderHistory(response.data);
             }
             catch (error) {
@@ -215,7 +216,7 @@ export default function Order_New() {
 
     const handleConfirmDelete = async () => {
         try {
-            await axios.post('http://localhost:8081/cancelOrder', { order_id});
+            await axios.post('https://jaydscafe.com/api/cancelOrder', { order_id});
             console.log('Order cancelled successfully');
             setOrderid(null);
         } catch (error) {
@@ -260,7 +261,7 @@ export default function Order_New() {
          );
          
   
-        axios.post('http://localhost:8081/updateOrders', {
+        axios.post('https://jaydscafe.com/api/updateOrders', {
             status: newStatus,
             order_id: id,
             riderId: 0
@@ -291,7 +292,7 @@ export default function Order_New() {
            }))
          );
          
-        axios.post('http://localhost:8081/updateOrders', {
+        axios.post('https://jaydscafe.com/api/updateOrders', {
             status: newStatus,
             order_id: id,
             riderId: riderId
@@ -312,6 +313,7 @@ export default function Order_New() {
 
         const handleTabClick = (tab) => {
         setActiveTab(tab);
+        setSearch('');
         };
 
          // for pagination in tracking order
@@ -392,7 +394,7 @@ export default function Order_New() {
             setIsModalOpen(true);
         };
   return (
-    <div className=' bg-jaydsBg h-screen'>
+    <div className=''>
          {/* <!-- nav --> */}
          <nav class="sticky top-0 bg-jaydsBg z-20 shadow-lg flex justify-between dark:bg-[#282828]">
             <div class="font-extrabold text-2xl flex items-center">
@@ -561,7 +563,7 @@ export default function Order_New() {
             </div>
         </aside>
         
-        <div class="p-4 sm:ml-72 hidden sm:block">
+        <div class="p-4 sm:ml-72 hidden sm:block bg-jaydsBg h-screen">
             <div class="mb-4 border-b-2  border-gray-300"> {/* <!-- Tabs below--> */}
                 <ul class="flex flex-wrap -mb-px text-md font-semibold text-center " id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">    
                     <li class="me-2" role="presentation">
@@ -618,7 +620,7 @@ export default function Order_New() {
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                     </svg>
                                 </div>
-                                <input type="text" id="table-search-users"
+                                <input type="text" onChange={(e)=> setSearch(e.target.value)} id="table-search-users"
                                 class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Search for Product"/>
                             </div>
@@ -664,7 +666,11 @@ export default function Order_New() {
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                        {currentOrders.map(order => (
+                                                        {currentOrders.filter((order)=>{
+                                                            return search.toLowerCase() === '' 
+                                                            ? true 
+                                                            : order?.name.toLowerCase().includes(search);    
+                                                        }).map(order => (
                                                             <React.Fragment key={order?.order_id}>
                                                                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-white">
                                                                     <td className="px-6 py-4 text-center text-gray-900 cursor-pointer dark:text-white" onClick={() => toggleOrderDetails(order?.order_id)} title="View Order(s)">
@@ -673,12 +679,12 @@ export default function Order_New() {
                                                                     <td className="px-6 py-4 text-center">{order?.name}</td>
                                                                     <td className="px-6 py-4 text-center">
                                                                         <a 
-                                                                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(order?.address)}`}
+                                                                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(order?.delivery_address)}`}
                                                                             target="_blank" 
                                                                             rel="noopener noreferrer"
                                                                             className="text-blue-500 hover:underline"
                                                                         >
-                                                                            {order?.address}
+                                                                            {order?.delivery_address || order?.address}
                                                                         </a>
                                                                     </td>
                                                                     <td className="px-6 py-4 text-center">{order?.pnum}</td>
@@ -887,7 +893,7 @@ export default function Order_New() {
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                     </svg>
                                 </div>
-                                <input type="text" id="table-search-users" 
+                                <input type="text" onChange={(e)=> setSearch(e.target.value)} id="table-search-users" 
                                 class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                                 placeholder="Search for Product"/>
                             </div>
@@ -925,9 +931,9 @@ export default function Order_New() {
                                                                 <th scope="col" class="px-6 py-3">
                                                                     Status
                                                                 </th>
-                                                                <th scope="col" class="px-6 py-3">
+                                                                {/* <th scope="col" class="px-6 py-3">
                                                                     Action
-                                                                </th>
+                                                                </th> */}
                                                                 
                                                             </tr>
                                                         </thead>
@@ -943,7 +949,7 @@ export default function Order_New() {
                                                                     {order?.name}
                                                                 </td>
                                                                 <td className="px-6 py-4 text-center">
-                                                                    {order?.address}
+                                                                    {order?.delivery_address}
                                                                 </td>
                                                                 <td className="px-6 py-4 text-center">
                                                                     {order?.pnum}
@@ -969,12 +975,12 @@ export default function Order_New() {
                                                                     :''}
                                                                     
                                                                 </td>
-                                                                <td className=" px-6 py-4 ">
+                                                                {/* <td className=" px-6 py-4 ">
                                                                 
-                                                                <button onClick={()=> cancelOrder(order?.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title='Delete'>
+                                                                <button onClick={()=> handleOpenDeleteModal(order?.order_id)} className="hover:underline hover:decoration-blue-500 me-2" title='Delete'>
                                                                         <img src={del} alt="trash" />
                                                                     </button>
-                                                                </td>
+                                                                </td> */}
 
                                                                 <td></td>
 
@@ -1048,7 +1054,7 @@ export default function Order_New() {
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                     </svg>
                                 </div>
-                                <input type="text" id="table-search-users" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for Product"/>
+                                <input type="text" onChange={(e)=> setSearch(e.target.value)} id="table-search-users" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search orders"/>
                             </div>
                         </div>
 
@@ -1095,7 +1101,7 @@ export default function Order_New() {
                                                                         <div className="text-base font-semibold">ORDR#{orderh.order_id}</div>
                                                                     </th>
                                                                     <td className="px-6 py-4 text-center">{orderh?.name}</td>
-                                                                    <td className="px-6 py-4 text-center">{orderh?.address}</td>
+                                                                    <td className="px-6 py-4 text-center">{orderh?.delivery_address}</td>
                                                                     <td className="px-6 py-4 text-center text-yellow-500 font-medium">{orderh?.pnum}</td>
                                                                     <td className="px-6 py-4 text-center">
                                                                         {new Date(orderh.update_order_date).toLocaleString('en-US', {

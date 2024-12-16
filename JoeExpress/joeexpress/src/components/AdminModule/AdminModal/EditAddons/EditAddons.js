@@ -22,7 +22,7 @@ function EditAddons({closeModal, id}) {
         if (id) {
           setValues(prevValues => ({ ...prevValues, AddonsId: id }));
           try {
-            const result = await axios.post('http://localhost:8081/fetchAddons', { id });
+            const result = await axios.post('https://jaydscafe.com/api/fetchAddons', { id });
             setValues(prevValues => ({
               ...prevValues,
               name: result.data.name,
@@ -62,7 +62,7 @@ function EditAddons({closeModal, id}) {
     
         try {
             // API call to update addons
-              const res = await axios.post('http://localhost:8081/updateAddons', {
+              const res = await axios.post('https://jaydscafe.com/api/updateAddons', {
                   name: values.name,
                   price: values.price,
                   AddonsId: values.AddonsId,

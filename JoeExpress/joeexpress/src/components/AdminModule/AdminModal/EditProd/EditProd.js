@@ -21,7 +21,7 @@ function EditProd({closeModal, id}) {
         useEffect(() => {
           const fetchAddons = async () => {
             try {
-              const res = await axios.post('http://localhost:8081/addons');
+              const res = await axios.post('https://jaydscafe.com/api/addons');
               setAddons(res.data);
             } catch (err) {
               console.error('Error fetching addons:', err);
@@ -39,7 +39,7 @@ function EditProd({closeModal, id}) {
               try {
                 setValues(prevValues => ({ ...prevValues, foodId: id }));
                 
-                const result = await axios.post('http://localhost:8081/fetchProduct', { id });
+                const result = await axios.post('https://jaydscafe.com/api/fetchProduct', { id });
                 
                 setValues(prevValues => ({
                   ...prevValues,
@@ -57,7 +57,7 @@ function EditProd({closeModal, id}) {
         useEffect(() => {
           const fetchCategoryData = async () => {
             try {
-              const res = await axios.post('http://localhost:8081/fetchCategory');
+              const res = await axios.post('https://jaydscafe.com/api/fetchCategory');
               setCategory(res.data);
             } catch (err) {
               console.error('Error fetching categories:', err);
@@ -101,7 +101,7 @@ function EditProd({closeModal, id}) {
     useEffect(() => {
       const fetchFoodDetails = async () => {
         try {
-          const response = await axios.post('http://localhost:8081/sizes', { foodId: id });
+          const response = await axios.post('https://jaydscafe.com/api/sizes', { foodId: id });
           
           const formattedSizes = response.data.map(size => ({
             size: size.size,
@@ -128,9 +128,7 @@ function EditProd({closeModal, id}) {
         if (!values.image_url) return "Image URL is required.";
         if (!values.category_id) return "Category ID is required.";
         if (!values.foodId) return "Food ID is required.";
-        if (!values.sizes || !Array.isArray(values.sizes) || values.sizes.length === 0) {
-          return "At least one size must be provided.";
-        }
+        
         return null;
       };
     
@@ -152,7 +150,7 @@ function EditProd({closeModal, id}) {
     
       try {
         // Submit the form data using axios
-        const res = await axios.post('http://localhost:8081/updateProduct', formData);
+        const res = await axios.post('https://jaydscafe.com/api/updateProduct', formData);
     
         if (res.data.success) {
           alert('Product updated successfully');

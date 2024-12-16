@@ -32,7 +32,7 @@ export default function PaymentManagement() {
 
     const handleLogout = async () => {
         try {
-          const res = await axios.post('http://localhost:8081/logout');
+          const res = await axios.post('https://jaydscafe.com/api/logout');
           if (res.data.success) {
             // eslint-disable-next-line no-restricted-globals
             location.reload();

@@ -40,7 +40,7 @@ function Cart() {
 
     const fetchNameData = async () => {
         try {
-          const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
+          const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Business Name'});
           setCmsName(response.data.content || '');
         } 
         catch (error) {
@@ -51,7 +51,7 @@ function Cart() {
 
       const fetchFacebookLinkData = async () => {
         try {
-          const response = await axios.post('http://localhost:8081/cms', {title: 'Facebook'});
+          const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Facebook'});
           setCmsFacebook(response.data.content || '');
         } 
         catch (error) {
@@ -62,7 +62,7 @@ function Cart() {
   
       const fetchInstagramLinkData = async () => {
         try {
-          const response = await axios.post('http://localhost:8081/cms', {title: 'Instagram'});
+          const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Instagram'});
           setCmsInstagram(response.data.content || '');
         } 
         catch (error) {
@@ -122,7 +122,7 @@ function Cart() {
     useEffect(() => {
       const checkAuthentication = async () => {
           try {
-              const res = await axios.get('http://localhost:8081/');
+              const res = await axios.get('https://jaydscafe.com/api/');
               if (res.data.valid) {
                   setAuthenticated(true);
                   setUserId(res.data.userId);
@@ -142,7 +142,7 @@ function Cart() {
   useEffect(() => {
     const fetchItems = async () => {
         try {
-            const res = await axios.post('http://localhost:8081/itemGetter', { userId });
+            const res = await axios.post('https://jaydscafe.com/api/itemGetter', { userId });
             setItems(res.data.items);
         } catch (error) {
             console.error('Error fetching item details:', error);
@@ -166,7 +166,7 @@ function Cart() {
           // Send the updated quantity to the server in an asynchronous manner
           const updateQuantity = async () => {
               try {
-                  const res = await axios.post('http://localhost:8081/update_items', { quantity: newQuantity, id: itemId });
+                  const res = await axios.post('https://jaydscafe.com/api/update_items', { quantity: newQuantity, id: itemId });
                   if (res.data.success) {
                       console.log('Quantity updated successfully');
                   } else {
@@ -196,7 +196,7 @@ function Cart() {
           // Send the updated quantity to the server in an async function
           const updateQuantity = async () => {
               try {
-                  const res = await axios.post('http://localhost:8081/update_items', { quantity: newQuantity, id: itemId });
+                  const res = await axios.post('https://jaydscafe.com/api/update_items', { quantity: newQuantity, id: itemId });
                   if (res.data.success) {
                       console.log('Quantity updated successfully');
                   } else {
@@ -217,23 +217,6 @@ function Cart() {
       });
     };
 
-
-    const handleCheckout = async () => {
-
-        navigate('/checkout');
-        try {
-            const res = await axios.post('http://localhost:8081/order', { userId, totalBill });
-            if (res.data.success) {
-                navigate('/checkout');
-            }
-            else {
-                console.log('Checkout Failed')
-            }
-        } catch (error) {
-            console.error('Error during checkout:', error);
-        }
-    }
-
     const handleInput = async (e, itemId) => {
         const value = parseInt(e.target.value, 10);
 
@@ -243,7 +226,7 @@ function Cart() {
         }));
 
         try {
-            const res = await axios.post('http://localhost:8081/update_items', { quantity: value, id: itemId });
+            const res = await axios.post('https://jaydscafe.com/api/update_items', { quantity: value, id: itemId });
             if (res.data.success) {
                 console.log('Quantity updated successfully');
 
@@ -283,7 +266,7 @@ function Cart() {
 
         const fetchTerms = async () => {
           try {
-            const response = await axios.post('http://localhost:8081/cms', {title: 'Terms'});
+            const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Terms'});
             setTerms(response.data.content || '');
           } 
           catch (error) {

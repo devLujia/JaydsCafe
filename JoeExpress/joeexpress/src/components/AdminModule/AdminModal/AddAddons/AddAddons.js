@@ -47,7 +47,7 @@ function AddAddons({closeModal}) {
     }
   
     try {
-      const res = await axios.post('http://localhost:8081/addAddons', {values});
+      const res = await axios.post('https://jaydscafe.com/api/addAddons', {values});
       if (res.data.Success) {
           closeModal(false);
       }
@@ -60,7 +60,7 @@ function AddAddons({closeModal}) {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.post('http://localhost:8081/fetchCategory');
+        const res = await axios.post('https://jaydscafe.com/api/fetchCategory');
         setCategory(res.data);
       } catch (err) {
         console.error('Error fetching categories:', err);

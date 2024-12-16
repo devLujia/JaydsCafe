@@ -30,7 +30,7 @@ function AddDiscount({ closeModal }) {
     };
 
     try {
-      const response = await axios.post('http://localhost:8081/addDiscount', { discount: formattedDiscount });
+      const response = await axios.post('https://jaydscafe.com/api/addDiscount', { discount: formattedDiscount });
 
       if (response.status === 201) {
         alert(response.data.message); // Success message

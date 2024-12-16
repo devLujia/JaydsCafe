@@ -35,13 +35,14 @@ export default function PaymentSuccess() {
   useEffect(() => {
     const checkAuthentication = async () => {
         try {
-            const res = await axios.get('http://localhost:8081/');
+            const res = await axios.get('https://jaydscafe.com/api/');
             if (res.data.valid) {
                 setAuthenticated(true);
                 setUserId(res.data.userId);
             } else {
                 navigate('/');
             }
+            
         } catch (err) {
             console.error('Error during authentication check:', err);
         }
@@ -53,7 +54,7 @@ export default function PaymentSuccess() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.post('http://localhost:8081/profile', { userId });
+        const response = await axios.post('https://jaydscafe.com/api/profile', { userId });
         setProfile(response.data);
       } catch (error) {
         console.error('Error fetching profile details:', error);
@@ -84,7 +85,7 @@ export default function PaymentSuccess() {
 
           try {
               const response = await axios.post(
-                  `http://localhost:8081/setTopaid`,
+                  `https://jaydscafe.com/api/setTopaid`,
                   { OrderId, userId, paymentIntentId }
               );
 
@@ -110,7 +111,7 @@ export default function PaymentSuccess() {
 
     const fetchNameData = async () => {
       try {
-        const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
+        const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Business Name'});
         setCmsName(response.data.content || '');
       } 
       catch (error) {
@@ -121,7 +122,7 @@ export default function PaymentSuccess() {
 
     const fetchFacebookLinkData = async () => {
         try {
-          const response = await axios.post('http://localhost:8081/cms', {title: 'Facebook'});
+          const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Facebook'});
           setCmsFacebook(response.data.content || '');
         } 
         catch (error) {
@@ -132,7 +133,7 @@ export default function PaymentSuccess() {
   
       const fetchInstagramLinkData = async () => {
         try {
-          const response = await axios.post('http://localhost:8081/cms', {title: 'Instagram'});
+          const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Instagram'});
           setCmsInstagram(response.data.content || '');
         } 
         catch (error) {
@@ -143,7 +144,7 @@ export default function PaymentSuccess() {
 
       const fetchLinkData = async () => {
         try {
-          const response = await axios.post('http://localhost:8081/cms', {title: 'Link'});
+          const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Link'});
           setCmsLink(response.data.content || '');
         } 
         catch (error) {

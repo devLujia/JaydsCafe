@@ -45,7 +45,7 @@ function AddSize({closeModal,id}) {
   
       try {
           // If all validations pass, proceed with the API call
-          const res = await axios.post('http://localhost:8081/addSize', values);
+          const res = await axios.post('https://jaydscafe.com/api/addSize', values);
           alert("Size added successfully!");
           closeModal(false);
       } catch (err) {

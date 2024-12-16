@@ -42,7 +42,7 @@ export default function Checkout() {
 
         const fetchNameData = async () => {
           try {
-            const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
+            const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Business Name'});
             setCmsName(response.data.content || '');
           } 
           catch (error) {
@@ -211,7 +211,7 @@ export default function Checkout() {
   useEffect(() => {
     const checkAuthentication = async () => {
         try {
-            const res = await axios.get('http://localhost:8081/');
+            const res = await axios.get('https://jaydscafe.com/api/');
             if (res.data.valid) {
                 setAuthenticated(true);
                 setUserId(res.data.userId);
@@ -231,7 +231,7 @@ export default function Checkout() {
     useEffect(() => {
         const fetchItems = async () => {
             try {
-                const res = await axios.post('http://localhost:8081/itemGetter', { userId });
+                const res = await axios.post('https://jaydscafe.com/api/itemGetter', { userId });
                 setItems(res.data.items);
 
                 const total = res.data.items.reduce((sum, item) => sum + item.food_price, 0);
@@ -254,7 +254,7 @@ export default function Checkout() {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const res = await axios.post('http://localhost:8081/profile', { userId });
+                const res = await axios.post('https://jaydscafe.com/api/profile', { userId });
                 setProfile(res.data);
             } catch (error) {
                 console.error('Error fetching profile details:', error);
@@ -269,7 +269,7 @@ export default function Checkout() {
 
     const handleCloseModal = () => {
         setShowModal(false);
-        navigate('/checkout'); 
+        navigate('/cart'); 
     };
 
     const handleCheckout = async () =>{
@@ -278,13 +278,13 @@ export default function Checkout() {
             
             if(selectedPayment !== ''){
 
-            const res = await axios.post('http://localhost:8081/order',{
+            const res = await axios.post('https://jaydscafe.com/api/order',{
                 userId, 
                 amount: amount, 
                 deliveryMethod: riderNote?.option || '' ,
                 paymentMethod: selectedPayment,
                 code,
-                deliveryAddress : deliveryAddress || altAddress
+                deliveryAddress : deliveryAddress
             });
 
             if (res.data.success && selectedPayment === 'gcash' ){
@@ -293,15 +293,15 @@ export default function Checkout() {
             }
 
             else if (res.data.success && selectedPayment === 'cash') {
-                toast.success("Payment Successful!", {
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                // toast.success("Payment Successful!", {
+                //     position: "top-center",
+                //     autoClose: 3000,
+                //     hideProgressBar: true,
+                //     closeOnClick: true,
+                //     pauseOnHover: true,
+                //     draggable: true,
+                //     progress: undefined,
+                // });
             
                 setTimeout(() => {
                     navigate(`/paymentSuccess/${res.data.lastOrderId}`);
@@ -332,7 +332,7 @@ export default function Checkout() {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:8081/validateDiscount', {
+            const response = await axios.post('https://jaydscafe.com/api/validateDiscount', {
                 code,
                 totalBill,
             });
@@ -349,7 +349,7 @@ export default function Checkout() {
     // const handleCreatePaymentIntent = async (id) => {
     //     try {
                 
-    //         const response = await axios.post(`http://localhost:8081/create-payment-intent/${id}`, {
+    //         const response = await axios.post(`https://jaydscafe.com/api/create-payment-intent/${id}`, {
     //             amount: totalBill,
     //             description: `Order Payment for ${cmsName}`,
     //             userId: userId,
@@ -383,7 +383,7 @@ export default function Checkout() {
       
         try {
 
-          const response = await axios.post('http://localhost:8081/create-payment-flow', {
+          const response = await axios.post('https://jaydscafe.com/api/create-payment-flow', {
             phone,
             amount,
             description,
@@ -466,9 +466,9 @@ export default function Checkout() {
                                         <input 
                                         type="radio" 
                                         id="add2" 
-                                        name="hostinge" 
+                                        name="hosting" 
                                         value={profile.secondary_address} 
-                                        checked={altAddress === profile.secondary_address}
+                                        checked={deliveryAddress === profile.secondary_address}
                                         onChange={handleAddressChange}
                                         class="peer text-textgreenColor focus:ring-textgreenColor"
                                         />
@@ -478,23 +478,23 @@ export default function Checkout() {
                                     </label>)}
                                 
                                 
-                                {news ? 
+                                {news &&
                                 
-                                <label htmlFor="new"  class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
+                                (<label htmlFor="new"  class="inline-flex ps-4 items-center w-full text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer group-focus-within:bg-cards group-hover:border-textgreenColor group-hover:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
                                     <input 
                                     type="radio" 
                                     id="new" 
                                     name="hosting" 
                                     value={altAddress} 
-                                    checked = {altAddress !== (profile.secondary_address || profile.address)}
-                                    // onChange={handleAddressChange}
+                                    checked = {deliveryAddress === altAddress}
+                                    onChange={handleAddressChange}
                                     class="peer text-textgreenColor focus:ring-textgreenColor"
                                     />
                                     <div className='flex flex-col py-4 overflow-hidden'>
                                         <label htmlFor="new" class="w-full ms-3 text-sm font-medium text-gray-900 tracking-wide">{altAddress}</label>
                                     </div>
 
-                                </label> : "" }
+                                </label> )}
 
                                 {isModalOpen ? (
                                         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
@@ -743,7 +743,7 @@ export default function Checkout() {
                             Total
                         </h1>
                         <p className='text-xl font-bold'>
-                            <span className='text-black me-2 text-xl'></span>₱{amount}.00
+                            <span className='text-black me-2 text-xl'></span>₱{amount.toFixed(2)}
                         </p>
                     </div>
                 </div>

@@ -9,7 +9,7 @@ function AddCustomerAcc({ closeModal }) {
     useEffect(() => {
         const fetchRoleData = async () => {
             try {
-                const response = await axios.post('http://localhost:8081/getRole');
+                const response = await axios.post('https://jaydscafe.com/api/getRole');
                 setgetRole(response.data);
             } catch (error) {
                 console.error('Error fetching role data:', error);
@@ -42,7 +42,7 @@ function AddCustomerAcc({ closeModal }) {
       
         if (!err.pnum && !err.name && !err.email && !err.password && !err.address) {
           try {
-            const res = await axios.post('http://localhost:8081/addAdmin', values);
+            const res = await axios.post('https://jaydscafe.com/api/addAdmin', values);
             closeModal(false);
             if(res.data.success){
                 alert("Success");

@@ -20,7 +20,7 @@ function OrderPage() {
     useEffect(() => {
         const fetchFood = async () => {
             try {
-                const res = await axios.get(`http://localhost:8081/items/${foodId}`);
+                const res = await axios.get(`https://jaydscafe.com/api/items/${foodId}`);
                 setFood(res.data.data);
             } catch (err) {
                 console.error('Error fetching food details:', err);
@@ -35,7 +35,7 @@ function OrderPage() {
     useEffect(() => {
         const checkAuthentication = async () => {
             try {
-                const res = await axios.get('http://localhost:8081/');
+                const res = await axios.get('https://jaydscafe.com/api/');
                 if (res.data.valid) {
                     setAuthenticated(true);
                     setUserId(res.data.userId);

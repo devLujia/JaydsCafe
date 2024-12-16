@@ -59,7 +59,7 @@ const ChatWithRider = ({ onClose, id, userId }) => {
     const fetchMessages = async () => {
       if (id) {
         try {
-          const response = await axios.post('http://localhost:8081/getRiderMessages', { ticketId: id });
+          const response = await axios.post('https://jaydscafe.com/api/getRiderMessages', { ticketId: id });
           setMessageList(response.data);
   
           // Emit the socket event to join the room

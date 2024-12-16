@@ -61,7 +61,7 @@ const Login = () => {
         
         const fetchNameData = async () => {
             try {
-              const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
+              const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Business Name'});
               setCmsName(response.data.content || '');
             } 
             catch (error) {
@@ -73,7 +73,7 @@ const Login = () => {
           const fetchSmallLogo = async () => {
 
             try{
-              const response = await axios.post ('http://localhost:8081/cms', {title: 'Small Logo'});
+              const response = await axios.post ('https://jaydscafe.com/api/cms', {title: 'Small Logo'});
               setSmallLogo(response.data.content || '')
             }
             catch (error) {
@@ -84,7 +84,7 @@ const Login = () => {
           const fetchBigLogo = async () => {
 
             try{
-              const response = await axios.post ('http://localhost:8081/cms', {title: 'Big Logo'});
+              const response = await axios.post ('https://jaydscafe.com/api/cms', {title: 'Big Logo'});
               setBigLogo(response.data.content || '')
             }
             catch (error) {
@@ -95,7 +95,7 @@ const Login = () => {
 
           const fetchLocationData = async () => {
             try {
-              const response = await axios.post('http://localhost:8081/cms', {title: 'Location'});
+              const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Location'});
               setCmsLocation(response.data.content || '');
             } 
             catch (error) {
@@ -106,7 +106,7 @@ const Login = () => {
 
           const fetchFacebookLinkData = async () => {
             try {
-              const response = await axios.post('http://localhost:8081/cms', {title: 'Facebook'});
+              const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Facebook'});
               setCmsFacebook(response.data.content || '');
             } 
             catch (error) {
@@ -117,7 +117,7 @@ const Login = () => {
 
           const fetchInstagramLinkData = async () => {
             try {
-              const response = await axios.post('http://localhost:8081/cms', {title: 'Instagram'});
+              const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Instagram'});
               setCmsInstagram(response.data.content || '');
             } 
             catch (error) {
@@ -137,7 +137,7 @@ const Login = () => {
     useEffect(() => {
         const checkAuthentication = async () => {
             try {
-                const res = await axios.get('http://localhost:8081/');
+                const res = await axios.get('https://jaydscafe.com/api/');
                 if (res.data.valid) {
                     navigation('/');
                 } else {
@@ -159,7 +159,7 @@ const Login = () => {
     
         if (err.email === "" && err.password === "") {
             try {
-                const res = await axios.post('http://localhost:8081/login', values);
+                const res = await axios.post('https://jaydscafe.com/api/login', values);
                 if (res.data.Login) {
                     navigation('/');
                 } else {
@@ -186,7 +186,7 @@ const Login = () => {
       <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">
         <div class="font-extrabold text-2xl flex items-center">
           {/* <!-- Logo/Title in Navbar --> */}
-          <a href="/" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide"dangerouslySetInnerHTML={{ __html: cmsName || "Business name"  }}></a>
+          <a href="/" class="flex items-center text-greenColor ms-5 text-2xl tracking-wide"dangerouslySetInnerHTML={{ __html: cmsName }}></a>
         </div>
       </nav>
 
@@ -195,7 +195,7 @@ const Login = () => {
       {/* Image and Welcome Text */}
       <div className="flex flex-col items-center mb-8">
         <p className="text-lg md:text-xl font-semibold tracking-wide text-gray-700 mb-2">WELCOME TO</p>
-        <h1 className="font-extrabold text-4xl md:text-5xl text-green-700 text-center"dangerouslySetInnerHTML={{ __html: cmsName || "Business name"  }}></h1>
+        <h1 className="font-extrabold text-4xl md:text-5xl text-green-700 text-center"dangerouslySetInnerHTML={{ __html: cmsName }}></h1>
       </div>
 
       {/* Login Heading */}
@@ -268,7 +268,7 @@ const Login = () => {
         <div class="border-y-2 border-gray-400 w-4/5 p-10">
           {/* <!-- container footer--> */}
           <div class="flex justify-between w-full">
-          <h1 class="text-white text-4xl font-bold"dangerouslySetInnerHTML={{ __html: cmsName || "Business name"  }}></h1>
+          <h1 class="text-white text-4xl font-bold"dangerouslySetInnerHTML={{ __html: cmsName }}></h1>
           <div class="flex gap-2">
             <button type='button' 
             class='w-11 h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500  hover:bg-green-700' id="viewloc">

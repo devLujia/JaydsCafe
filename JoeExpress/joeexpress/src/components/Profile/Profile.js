@@ -116,7 +116,7 @@ export default function Profile() {
   useEffect(() => {
     const checkAuthentication = async () => {
         try {
-            const res = await axios.get('http://localhost:8081/');
+            const res = await axios.get('https://jaydscafe.com/api/');
             if (res.data.valid) {
                 setAuthenticated(true);
                 setUserId(res.data.userId);
@@ -135,7 +135,7 @@ export default function Profile() {
   useEffect(() => {
     const fetchOrders = async () => {
         try {
-            const res = await axios.post('http://localhost:8081/personalOrder', { userId });
+            const res = await axios.post('https://jaydscafe.com/api/personalOrder', { userId });
             setOrders(res.data);
         } catch (error) {
             console.error('Error fetching orders:', error);
@@ -150,7 +150,7 @@ export default function Profile() {
   useEffect(() => {
     const fetchProfile = async () => {
         try {
-            const res = await axios.post('http://localhost:8081/profile', { userId });
+            const res = await axios.post('https://jaydscafe.com/api/profile', { userId });
             setProfile(res.data);
         } catch (error) {
             console.error('Error fetching profile:', error);
@@ -173,7 +173,7 @@ export default function Profile() {
   const addAddress = async () => {
     try {
         if (newAddress !== profile.address && newAddress !== '') {
-            const res = await axios.post('http://localhost:8081/addAddress', {
+            const res = await axios.post('https://jaydscafe.com/api/addAddress', {
                 second_address: newAddress,
                 userId: userId
             });
@@ -215,6 +215,7 @@ export default function Profile() {
           draggable: false, 
       });
     }
+
 };
 
 
@@ -222,7 +223,7 @@ export default function Profile() {
     try {
         // Check if the new address is different from the current address and not empty
         if (editAddress !== profile.address && editAddress !== '') {
-            const res = await axios.post('http://localhost:8081/editAddress', {
+            const res = await axios.post('https://jaydscafe.com/api/editAddress', {
                 newAddress: editAddress,
                 userId: userId,
                 oldAddress: profile.address // Ensure `oldAddress` is correctly passed
@@ -272,7 +273,7 @@ export default function Profile() {
     try {
         // Check if the new address is different from the current second address and not empty
         if (editAddress !== profile.second_address && editAddress !== '') {
-            const res = await axios.post('http://localhost:8081/editSecondaryAddress', {
+            const res = await axios.post('https://jaydscafe.com/api/editSecondaryAddress', {
                 newAddress: editAddress,
                 userId: userId,
                 oldAddress: profile.second_address 
@@ -327,7 +328,7 @@ export default function Profile() {
     
 
     try {
-      const response = await axios.post('http://localhost:8081/updatePersonalInfo', {
+      const response = await axios.post('https://jaydscafe.com/api/updatePersonalInfo', {
         value: {
           fullName: value.fullName || profile.name,
           pnum: value.pnum || profile.pnum    
@@ -402,7 +403,7 @@ export default function Profile() {
     }
   
     try {
-      const response = await axios.post('http://localhost:8081/ChangeEmail', { newEmail, userId });
+      const response = await axios.post('https://jaydscafe.com/api/ChangeEmail', { newEmail, userId });
       
       if (response.data.success) {
         toast.success("Email Change Successfully!", {
@@ -437,7 +438,7 @@ export default function Profile() {
     }
   
     try {
-      const response = await axios.post('http://localhost:8081/ChangePassword', {password, newPassword, userId });
+      const response = await axios.post('https://jaydscafe.com/api/ChangePassword', {password, newPassword, userId });
       
       if (response.data.success) {
          toast.success("Password changed successfully!", {
@@ -461,7 +462,7 @@ export default function Profile() {
 
   const handleLogout = async () => {
     try {
-      const res = await axios.post('http://localhost:8081/logout');
+      const res = await axios.post('https://jaydscafe.com/api/logout');
       if (res.data.success) {
         // eslint-disable-next-line no-restricted-globals
         location.reload();
@@ -481,6 +482,7 @@ export default function Profile() {
       setSelectedOrderId(id)
       setIsChatOpen(true)
     };
+    
     const closeChat = () => {
       setIsChatOpen(false);
       setSelectedOrderId(null);
@@ -492,7 +494,7 @@ export default function Profile() {
 
         const fetchNameData = async () => {
           try {
-            const response = await axios.post('http://localhost:8081/cms', {title: 'Business Name'});
+            const response = await axios.post('https://jaydscafe.com/api/cms', {title: 'Business Name'});
             setCmsName(response.data.content || '');
           } 
           catch (error) {
@@ -534,6 +536,7 @@ export default function Profile() {
 
     <div className='bg-jaydsBg'>
       <ToastContainer position="top-center" autoClose={3000} />
+      {isChatOpen && <ChatWithRider onClose={closeChat} id={selectedOrderId} userId={userId} />}
 
       {/* <!-- Nav --> */}
       <nav class="sticky top-0 bg-white z-20 shadow-lg flex justify-between">
@@ -685,7 +688,7 @@ export default function Profile() {
                                   <div className="text-base font-semibold">ORDR#{order?.order_id}</div>
                                 </th>
                                 <td className="px-2 md:px-4 py-2 md:py-4 text-center">{order?.name}</td>
-                                <td className="px-2 md:px-4 py-2 md:py-4 text-center">{order?.address}</td>
+                                <td className="px-2 md:px-4 py-2 md:py-4 text-center">{order?.delivery_address || order?.address}</td>
                                 <td className="px-2 md:px-4 py-2 md:py-4 text-center">{order?.pnum}</td>
                                 <td className="px-2 md:px-4 py-2 md:py-4 text-center">{new Date(order?.order_date).toLocaleString('en-US', {
                                   year: 'numeric',
@@ -698,9 +701,15 @@ export default function Profile() {
                                 <td className="px-2 md:px-4 py-2 md:py-4 text-center text-green-600 font-semibold">₱{order?.totalPrice.toFixed(2)}</td>
                                 <td className="px-2 md:px-4 py-2 md:py-4 text-center">
                                   {/* Status Display */}
+                                  {order?.status === 'unpaid' && <div className="bg-red-100 text-red-600 font-semibold w-fit py-1 px-3 rounded-full">Unpaid</div>}
                                   {order?.status === 'paid' && <div className="bg-green-100 text-green-600 font-semibold w-fit py-1 px-3 rounded-full">Paid</div>}
                                   {order?.status === 'on process' && <div className="bg-yellow-100 text-yellow-600 font-semibold w-fit py-1 px-3 rounded-full">On process</div>}
-                                  {order?.status === 'pending rider' && <div className="bg-red-100 text-red-600 font-semibold w-fit py-1 px-3 rounded-full">Waiting for rider</div>}
+                                  {order?.status === 'pending rider' && <div className="bg-orange-100 text-orange-600 font-semibold w-fit py-1 px-3 rounded-full">Waiting for rider</div>}
+                                  {order?.status === 'order ready' && <div className="bg-orange-100 text-orange-600 font-semibold w-fit py-1 px-3 rounded-full">Order made</div>}
+                                  {order?.status === 'on delivery' && <div className="bg-orange-100 text-orange-600 font-semibold w-fit py-1 px-3 rounded-full">Rider are on his way</div>}
+                                  {order?.status === 'completed' && <div className="bg-green-100 text-green-600 font-semibold w-fit py-1 px-3 rounded-full">Order Completed</div>}
+                                  {order?.status === 'cancelled' && <div className="bg-red-100 text-red-600 font-semibold w-fit py-1 px-3 rounded-full">Canceled</div>}
+
                                 </td>
                                 <td className="flex items-center px-2 md:px-4 py-2 md:py-4 space-x-2 justify-center gap-2">
                                   <button onClick={() => toggleOrderDetails(order?.order_id)} title="View Order">
