@@ -6,7 +6,7 @@ import image from '../../image/caramel.png'
 import './NewProducts.css';
 
 function NewProducts() {
-  const [position, setPosition] = useState({ x: 100, y: 100 });
+  const [position, setPosition] = useState({ x: 30, y: 450 });
   const [dragging, setDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(true);
